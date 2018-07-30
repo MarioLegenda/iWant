@@ -18,9 +18,18 @@ services:
                             # fetching services directly from the container via $container->get() won't work.
                             # The best practice is to be explicit about your dependencies anyway.
 
-    App\:
-        resource: '../src'
-        exclude: '../src/Library/{Http/Request}'
+    App\Ebay\:
+        resource: '../src/Ebay/*'
+        exclude: '../src/Ebay/{Library}'
+
+    App\Library\:
+        resource: '../src/Library'
+        exclude: '../src/Library'
+
+    App\Ebay\Library\RequestBase:
+        arguments:
+            $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

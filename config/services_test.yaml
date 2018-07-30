@@ -11,6 +11,7 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
+        exclude: '../src/Ebay/{Library}'
 
     App\Library\:
         resource: '../src/Library'
