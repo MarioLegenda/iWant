@@ -137,7 +137,12 @@ class Util
     {
         return 'Y-m-d H:m:s';
     }
-
+    /**
+     * @param \Closure $closure
+     * @param int $currentIteration
+     * @param int $maxIterations
+     * @return mixed
+     */
     public static function recursiveClosureExecution(
         \Closure $closure,
         int $currentIteration = 0,
@@ -159,5 +164,34 @@ class Util
         }
 
         return $product;
+    }
+
+    public static function recursiveArrayClosureExecution(
+        \Closure $validationClosure,
+        \Closure $executionClosure,
+        array $data,
+        int $currentIteration = 0,
+        int $maxIterations = 1000
+    ) {
+        if ($currentIteration === $maxIterations) {
+            $message = sprintf(
+                'Maximum number of %d iterations occurred. Use Util::recursiveClosureExecution() with caution because it only implements recursion for you, not the logic behind the recursion.',
+                $maxIterations
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $validProduct = $validationClosure($data);
+
+        if (!is_null($validProduct)) {
+            $executionClosure($validProduct);
+
+            Util::recursiveArrayClosureExecution(
+                $validationClosure,
+                $executionClosure,
+                $validProduct
+            );
+        }
     }
 }

@@ -28,7 +28,17 @@ class LockedImmutableHashSet implements CollectionInterface
     {
         $this->validate($data);
 
-        $this->data = $data;
+        $lockedData = [];
+
+        foreach ($data as $key => $item) {
+            if (is_array($item)) {
+                $lockedData[$key] = LockedImmutableHashSet::create($item);
+            } else {
+                $lockedData[$key] = $item;
+            }
+        }
+
+        $this->data = $lockedData;
     }
     /**
      * @inheritdoc
@@ -49,14 +59,14 @@ class LockedImmutableHashSet implements CollectionInterface
      */
     public function offsetExists($offset): bool
     {
-        $this->throwUsageException();
+        return array_key_exists($offset, $this->data);
     }
     /**
      * @inheritdoc
      */
     public function offsetGet($offset)
     {
-        $this->throwUsageException();
+        return $this->data[$offset];
     }
     /**
      * @inheritdoc
@@ -115,10 +125,32 @@ class LockedImmutableHashSet implements CollectionInterface
      */
     private function validate(array $data)
     {
-        if (empty($this->data)) {
+        if (empty($data)) {
             $message = sprintf('Locked immutable hash set does not accept empty values');
 
             throw new \RuntimeException($message);
         }
+
+        $dataGen = Util::createGenerator($data);
+
+        foreach ($dataGen as $entry) {
+            $key = $entry['key'];
+
+            if (!is_string($key)) {
+                $message = sprintf(
+                    'Locked immutable hashed set accepts only string array keys',
+                    $key
+                );
+
+                throw new \RuntimeException($message);
+            }
+        }
+    }
+    /**
+     * @param array $data
+     * @return mixed
+     */
+    private function assignRecursivly(array $data)
+    {
     }
 }
