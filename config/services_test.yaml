@@ -1,0 +1,22 @@
+parameters:
+    ebay_finding_api_metadata:
+        base_url: http://svcs.ebay.com/services/search/FindingService/v1
+        security_appname_name: SECURITY-APPNAME
+        security_appname: MarioSkr-iwant-SBX-2b0f69f57-865f416d
+
+services:
+    _defaults:
+        autowire: true
+        public: true
+
+    App\Ebay\:
+        resource: '../src/Ebay/*'
+
+    App\Library\:
+        resource: '../src/Library'
+        exclude: '../src/Library'
+
+    App\Ebay\Library\RequestBase:
+        arguments:
+            $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
+
