@@ -1,8 +1,7 @@
 <?php
 
-namespace Ebay\Library\Dynamic;
+namespace App\Ebay\Library\Dynamic;
 
-use App\Ebay\Library\Dynamic\ProcessorInterface;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Library\Tools\UrlifyInterface;
@@ -14,13 +13,13 @@ class ItemFiltersProcessor implements ProcessorInterface
      */
     private $processed = '';
     /**
-     * @var TypedArray $itemFilterStorage
+     * @var TypedArray $itemFilters
      */
     private $itemFilters;
 
-    public function __construct(TypedArray $itemFilterStorage)
+    public function __construct(TypedArray $itemFilters)
     {
-        $this->itemFilters = $itemFilterStorage;
+        $this->itemFilters = $itemFilters;
     }
     /**
      * @return ProcessorInterface
@@ -39,7 +38,7 @@ class ItemFiltersProcessor implements ProcessorInterface
             $count++;
         }
 
-        $this->processed = $finalProduct.'&';
+        $this->processed = $finalProduct;
 
         return $this;
     }
@@ -48,6 +47,6 @@ class ItemFiltersProcessor implements ProcessorInterface
      */
     public function getProcessed() : string
     {
-        return $this->processed;
+        return rtrim($this->processed, '&');
     }
 }

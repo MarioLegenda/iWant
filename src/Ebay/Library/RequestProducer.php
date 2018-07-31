@@ -27,7 +27,9 @@ class RequestProducer
         $this->requestBase = $requestBase;
         $this->processors = $processors;
     }
-
+    /**
+     * @return string
+     */
     public function produce(): string
     {
         $processed = '';

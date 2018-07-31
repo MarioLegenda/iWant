@@ -61,6 +61,10 @@ class TypedArray implements \Countable, \ArrayAccess, \IteratorAggregate, ArrayN
         $this->keyType = $keyType;
         $this->valueType = $valueType;
         $this->data = $data;
+
+        foreach ($data as $item) {
+            $this[] = $item;
+        }
     }
     /**
      * @inheritdoc

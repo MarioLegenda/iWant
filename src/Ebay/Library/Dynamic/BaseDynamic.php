@@ -4,10 +4,11 @@ namespace App\Ebay\Library\Dynamic;
 
 use App\Ebay\Library\Dynamic\DynamicConfiguration;
 use App\Ebay\Library\Dynamic\DynamicErrors;
+use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Ebay\Library\Tools\UrlifyInterface;
 use App\Library\Helper;
 
-class BaseDynamic implements UrlifyInterface
+class BaseDynamic implements UrlifyInterface, ItemFilterInterface
 {
     /**
      * @var DynamicMetadata $dynamicMetadata

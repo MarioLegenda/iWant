@@ -3,11 +3,13 @@ parameters:
         base_url: http://svcs.ebay.com/services/search/FindingService/v1?
         names:
             operation_name: OPERATION-NAME
-            service_version: SERVICE-VERSION
             security_appname: SECURITY-APPNAME
             response_data_format: RESPONSE-DATA-FORMAT
             rest_payload: REST-PAYLOAD
+            service_version: SERVICE-VERSION
         params:
+            response_data_format: 'XML'
+            service_version: '1.0.0'
             rest_payload: null
             security_appname: MarioSkr-iwant-SBX-2b0f69f57-865f416d
 
@@ -18,7 +20,7 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/RequestProducer.php}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/RequestProducer.php,Presentation/Model}'
 
     App\Library\:
         resource: '../src/Library'
@@ -28,3 +30,12 @@ services:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
 
+    # Data providers
+
+    App\Tests\FindingApi\DataProvider\:
+        resource: '../tests/FindingApi/DataProvider'
+        exclude: '../tests/FindingApi/DataProvider/*'
+
+    data_provider.finding_api:
+        class: App\Tests\FindingApi\DataProvider\DataProvider
+        autowire: false

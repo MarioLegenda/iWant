@@ -3,6 +3,7 @@
 namespace App\Ebay\Presentation\EntryPoint;
 
 use App\Ebay\Business\Finder;
+use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 
 class FindingApiEntryPoint
 {
@@ -18,5 +19,12 @@ class FindingApiEntryPoint
         Finder $finder
     ) {
         $this->finder = $finder;
+    }
+    /**
+     * @param FindingApiRequestModelInterface $model
+     */
+    public function query(FindingApiRequestModelInterface $model)
+    {
+        $this->finder->query($model);
     }
 }
