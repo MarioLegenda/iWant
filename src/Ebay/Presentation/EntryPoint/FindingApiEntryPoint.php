@@ -25,6 +25,6 @@ class FindingApiEntryPoint
      */
     public function query(FindingApiRequestModelInterface $model)
     {
-        $this->finder->query($model);
+        $xmlResponseModel = $this->finder->query($model);
     }
 }

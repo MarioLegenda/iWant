@@ -2,7 +2,9 @@
 
 namespace App\Tests\Library;
 
-class DummyObject
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class DummyObject implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -12,6 +14,10 @@ class DummyObject
      * @var string $name
      */
     private $name;
+    /**
+     * @var DummyObject $innerDummy
+     */
+    private $innerDummy;
     /**
      * @return int
      */
@@ -40,5 +46,29 @@ class DummyObject
     {
         $this->name = $name;
     }
-
+    /**
+     * @param DummyObject $object
+     */
+    public function setInnerDummy(DummyObject $object)
+    {
+        $this->innerDummy = $object;
+    }
+    /**
+     * @return DummyObject
+     */
+    public function getInnerDummy(): DummyObject
+    {
+        return $this->innerDummy;
+    }
+    /**
+     * @inheritdoc
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'innerDummy' => ($this->innerDummy instanceof DummyObject) ? $this->getInnerDummy()->toArray() : null,
+        ];
+    }
 }

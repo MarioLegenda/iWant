@@ -8,23 +8,16 @@ use App\Library\Infrastructure\Helper\TypedArray;
 class RequestProducer
 {
     /**
-     * @var RequestBase $requestBase
-     */
-    private $requestBase;
-    /**
      * @var TypedArray|ProcessorInterface[] $processors
      */
     private $processors;
     /**
      * RequestProducer constructor.
-     * @param RequestBase $requestBase
      * @param TypedArray $processors
      */
     public function __construct(
-        RequestBase $requestBase,
         TypedArray $processors
     ) {
-        $this->requestBase = $requestBase;
         $this->processors = $processors;
     }
     /**
@@ -35,9 +28,9 @@ class RequestProducer
         $processed = '';
 
         foreach ($this->processors as $processor) {
-            $processed.= $processor->process()->getProcessed();
+            $processed.= $processor->process()->getProcessed().'&';
         }
 
-
+        return $processed;
     }
 }

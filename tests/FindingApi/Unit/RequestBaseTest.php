@@ -2,7 +2,7 @@
 
 namespace App\Tests\FindingApi\Unit;
 
-use App\Ebay\Library\RequestBase;
+use App\Ebay\Library\RequestBaseProcessor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Library\Type\ResponseDataFormatType;
@@ -12,8 +12,8 @@ class RequestBaseTest extends BasicSetup
 {
     public function test_request_base()
     {
-        /** @var RequestBase $requestBase */
-        $requestBase = $this->locator->get(RequestBase::class);
+        /** @var RequestBaseProcessor $requestBase */
+        $requestBase = $this->locator->get(RequestBaseProcessor::class);
 
         $params = [
             'operation_name' => (string) OperationType::fromKey('FindItemsByKeywords'),
@@ -23,7 +23,10 @@ class RequestBaseTest extends BasicSetup
 
         $userParams = LockedImmutableHashSet::create($params);
 
-        $baseUrl = $requestBase->getBaseUrl($userParams);
+        $baseUrl = $requestBase
+            ->setOptions($userParams)
+            ->process()
+            ->getProcessed();
 
         static::assertInternalType('string', $baseUrl);
         static::assertNotEmpty($baseUrl);

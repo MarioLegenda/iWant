@@ -3,17 +3,18 @@
 namespace App\Ebay\Business;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
-use App\Ebay\Library\ItemFilter\ItemFilterInterface;
-use App\Ebay\Presentation\Model\ItemFilter as ItemFilterModel;
-use App\Ebay\Library\ItemFilter\ItemFilterClassFactory;
+use App\Ebay\Library\Dynamic\CallTypeProcessor;
+use App\Ebay\Library\Dynamic\ProcessorInterface;
+use App\Ebay\Library\RequestProducer;
+use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
+use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
-use App\Ebay\Library\RequestBase;
+use App\Ebay\Library\RequestBaseProcessor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Source\FinderSource;
-use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterDynamic;
 use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Util\Util;
 use App\Ebay\Library\Dynamic\ItemFiltersProcessor;
 
 class Finder
@@ -23,35 +24,70 @@ class Finder
      */
     private $finderSource;
     /**
-     * @var RequestBase $requestBase
+     * @var RequestBaseProcessor $requestBase
      */
     private $requestBase;
     /**
      * Finder constructor.
      * @param FinderSource $finderSource
-     * @param RequestBase $requestBase
+     * @param RequestBaseProcessor $requestBase
      */
     public function __construct(
         FinderSource $finderSource,
-        RequestBase $requestBase
+        RequestBaseProcessor $requestBase
     ) {
         $this->finderSource = $finderSource;
         $this->requestBase = $requestBase;
     }
     /**
+     * @return FindingApiResponseModelInterface
      * @param FindingApiRequestModelInterface $model
      */
-    public function query(FindingApiRequestModelInterface $model)
+    public function query(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
+        $resource = $this->getRawResource($model);
+
+        return $this->createModelResponse($resource);
+    }
+    /**
+     * @param string $resource
+     * @return FindingApiResponseModelInterface
+     */
+    private function createModelResponse(string $resource): FindingApiResponseModelInterface
+    {
+        return new XmlFindingApiResponseModel($resource);
+    }
+    /**
+     * @param FindingApiRequestModelInterface $model
+     * @return string
+     */
+    private function getRawResource(FindingApiRequestModelInterface $model): string
+    {
+        $requestProducer = new RequestProducer($this->createProcessors($model));
+
+        return $this->finderSource->getFindingApiResource($requestProducer->produce());
+    }
+    /**
+     * @param FindingApiRequestModelInterface $model
+     * @return TypedArray
+     */
+    private function createProcessors(FindingApiRequestModelInterface $model): TypedArray
+    {        /** @var CallTypeInterface $callType */
+        $callType = $model->getCallType();
+
         $userParams = LockedImmutableHashSet::create([
-            'operation_name' => (string) OperationType::fromValue($model->getCallType()->getOperationName()),
+            'operation_name' => (string) OperationType::fromValue($callType->getOperationName()),
         ]);
 
-        $mainUrl = $this->requestBase->getBaseUrl($userParams);
+        $this->requestBase->setOptions($userParams);
+        $itemFiltersProcessor = new ItemFiltersProcessor($this->createItemFilters($model));
+        $callTypeProcessor = new CallTypeProcessor($callType);
 
-        $processor = new ItemFiltersProcessor($this->createItemFilters($model));
-
-        $processedItemFilterString = $processor->process()->getProcessed();
+        return TypedArray::create('integer', ProcessorInterface::class, [
+            $this->requestBase,
+            $itemFiltersProcessor,
+            $callTypeProcessor
+        ]);
     }
     /**
      * @param FindingApiRequestModelInterface $model
@@ -60,16 +96,7 @@ class Finder
     private function createItemFilters(FindingApiRequestModelInterface $model): TypedArray
     {
         $itemFilterFactory = new ItemFilterFactory();
-        $itemFiltersGen = Util::createGenerator($model->getItemFilters()->toArray());
 
-        $itemFilters = TypedArray::create('integer', ItemFilterInterface::class);
-        foreach ($itemFiltersGen as $item) {
-            /** @var ItemFilterModel $itemFilterModel */
-            $itemFilterModel = $item['item'];
-            /** @var ItemFilterDynamic $itemFilter */
-            $itemFilters[] = $itemFilterFactory->create($itemFilterModel->getItemFilterMetadata()->toArray());
-        }
-
-        return $itemFilters;
+        return $itemFilterFactory->createFromMetadataIterable($model->getItemFilters()->toArray());
     }
 }

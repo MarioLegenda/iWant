@@ -165,9 +165,13 @@ class Util
 
         return $product;
     }
-
-    public static function recursiveArrayClosureExecution(
-        \Closure $validationClosure,
+    /**
+     * @param \Closure $executionClosure
+     * @param array $data
+     * @param int $currentIteration
+     * @param int $maxIterations
+     */
+    public static function nonStopRecursiveExecution(
         \Closure $executionClosure,
         array $data,
         int $currentIteration = 0,
@@ -182,16 +186,6 @@ class Util
             throw new \RuntimeException($message);
         }
 
-        $validProduct = $validationClosure($data);
-
-        if (!is_null($validProduct)) {
-            $executionClosure($validProduct);
-
-            Util::recursiveArrayClosureExecution(
-                $validationClosure,
-                $executionClosure,
-                $validProduct
-            );
-        }
+        $executionClosure($executionClosure, $data);
     }
 }

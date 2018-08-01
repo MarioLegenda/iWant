@@ -15,7 +15,7 @@ class FindingApiTest extends BasicSetup
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.finding_api');
 
-        $model = $dataProvider->getFindItemsByKeywordsData();
+        $model = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
 
         $findingApiEntryPoint->query($model);
     }

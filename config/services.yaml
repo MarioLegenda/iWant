@@ -5,30 +5,45 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     ebay_finding_api_metadata:
-        base_url: http://svcs.ebay.com/services/search/FindingService/v1
-        security_appname_name: SECURITY-APPNAME
-        security_appname: MarioSkr-iwant-SBX-2b0f69f57-865f416d
+        base_url: http://svcs.ebay.com/services/search/FindingService/v1?
+        names:
+            operation_name: OPERATION-NAME
+            security_appname: SECURITY-APPNAME
+            response_data_format: RESPONSE-DATA-FORMAT
+            rest_payload: REST-PAYLOAD
+            service_version: SERVICE-VERSION
+        params:
+            response_data_format: 'XML'
+            service_version: '1.0.0'
+            rest_payload: null
+            security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
 
 services:
-    # default configuration for services in *this* file
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-        public: false       # Allows optimizing the container by removing unused services; this also means
-                            # fetching services directly from the container via $container->get() won't work.
-                            # The best practice is to be explicit about your dependencies anyway.
+        autowire: true
+        public: true
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/RequestProducer.php,Presentation/Model}'
 
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
 
-    App\Ebay\Library\RequestBase:
+    App\Ebay\Library\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
+
+    # Data providers
+
+    App\Tests\FindingApi\DataProvider\:
+        resource: '../tests/FindingApi/DataProvider'
+        exclude: '../tests/FindingApi/DataProvider/*'
+
+    data_provider.finding_api:
+        class: App\Tests\FindingApi\DataProvider\DataProvider
+        autowire: false
 
 
     # add more service definitions when explicit configuration is needed

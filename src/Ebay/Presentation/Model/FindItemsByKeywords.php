@@ -3,8 +3,9 @@
 namespace App\Ebay\Presentation\Model;
 
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class FindItemsByKeywords implements CallTypeInterface
+class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
 {
     /**
      * @var string $operationName
@@ -53,5 +54,16 @@ class FindItemsByKeywords implements CallTypeInterface
     public function getQueryValues(): TypedArray
     {
         return $this->queryValues;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'operationName' => $this->getOperationName(),
+            'queryName' => $this->getQueryName(),
+            'queryValues' => $this->getQueryValues(),
+        ];
     }
 }

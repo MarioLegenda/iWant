@@ -2,16 +2,25 @@
 
 namespace App\Ebay\Library;
 
+use App\Ebay\Library\Dynamic\ProcessorInterface;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 
-class RequestBase
+class RequestBaseProcessor implements ProcessorInterface
 {
+    /**
+     * @param LockedImmutableHashSet $options
+     */
+    private $options;
+    /**
+     * @var string $processed
+     */
+    private $processed;
     /**
      * @var LockedImmutableHashSet $ebayFindingApiMetadata
      */
     private $ebayFindingApiMetadata;
     /**
-     * RequestBase constructor.
+     * RequestBaseProcessor constructor.
      * @param iterable $ebayFindingApiMetadata
      */
     public function __construct(
@@ -20,14 +29,23 @@ class RequestBase
         $this->ebayFindingApiMetadata = LockedImmutableHashSet::create($ebayFindingApiMetadata);
     }
     /**
-     * @param LockedImmutableHashSet $userParams
-     * @return string
+     * @return ProcessorInterface
      */
-    public function getBaseUrl(LockedImmutableHashSet $userParams): string {
+    public function process(): ProcessorInterface
+    {
+        if (!$this->options instanceof LockedImmutableHashSet) {
+            $message = sprintf(
+                'Options have to be set for %s',
+                RequestBaseProcessor::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
         $baseUrl = $this->ebayFindingApiMetadata['base_url'];
         $names = $this->ebayFindingApiMetadata['names'];
         $configParams = $this->ebayFindingApiMetadata['params']->toArray();
-        $userParams = $userParams->toArray();
+        $userParams = $this->options->toArray();
 
         foreach ($names as $key => $name) {
             $currentProduct = '';
@@ -62,6 +80,25 @@ class RequestBase
             $baseUrl.=$currentProduct.'&';
         }
 
-        return rtrim($baseUrl, '&');
+        $this->processed =  rtrim($baseUrl, '&');
+
+        return $this;
+    }
+    /**
+     * @inheritdoc
+     */
+    public function setOptions(LockedImmutableHashSet $options): ProcessorInterface
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProcessed(): string
+    {
+        return $this->processed;
     }
 }

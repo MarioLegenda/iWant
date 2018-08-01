@@ -11,7 +11,7 @@ parameters:
             response_data_format: 'XML'
             service_version: '1.0.0'
             rest_payload: null
-            security_appname: MarioSkr-iwant-SBX-2b0f69f57-865f416d
+            security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
 
 services:
     _defaults:
@@ -20,18 +20,22 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/RequestProducer.php,Presentation/Model}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/RequestProducer.php,Presentation/Model}'
 
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
 
-    App\Ebay\Library\RequestBase:
+    App\Ebay\Library\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
 
-    # Data providers
+    App\Ebay\Source\Repository\FindingApiRepository:
+        arguments:
+            $env: '%env(APP_ENV)%'
+            $communicator: '@App\Ebay\Source\GenericHttpCommunicator'
 
+    # Data providers
     App\Tests\FindingApi\DataProvider\:
         resource: '../tests/FindingApi/DataProvider'
         exclude: '../tests/FindingApi/DataProvider/*'

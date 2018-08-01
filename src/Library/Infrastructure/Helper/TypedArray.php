@@ -60,7 +60,7 @@ class TypedArray implements \Countable, \ArrayAccess, \IteratorAggregate, ArrayN
     ) {
         $this->keyType = $keyType;
         $this->valueType = $valueType;
-        $this->data = $data;
+        $this->data = [];
 
         foreach ($data as $item) {
             $this[] = $item;

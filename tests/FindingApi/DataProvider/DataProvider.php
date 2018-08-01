@@ -11,12 +11,9 @@ use App\Library\Infrastructure\Helper\TypedArray;
 
 class DataProvider
 {
-    public function getFindItemsByKeywordsData(): FindingApiRequestModelInterface
+    public function getFindItemsByKeywordsData(array $keywords): FindingApiRequestModelInterface
     {
-        $keywords = TypedArray::create('integer', 'string', [
-            'boots',
-            'mountain',
-        ]);
+        $keywords = TypedArray::create('integer', 'string', $keywords);
 
         $findItemsByKeywords = new FindItemsByKeywords(
             'findItemsByKeywords',

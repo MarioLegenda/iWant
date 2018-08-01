@@ -7,9 +7,31 @@ use App\Ebay\Library\Dynamic\DynamicErrors;
 use App\Ebay\Library\Dynamic\DynamicMetadata;
 use App\Ebay\Library\ItemFilter\ItemFilterClassFactory;
 use App\Ebay\Library\ItemFilter\ItemFilterInterface;
+use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\Util;
+use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterDynamic;
+use App\Ebay\Presentation\Model\ItemFilter as ItemFilterModel;
 
 class ItemFilterFactory
 {
+    /**
+     * @param iterable $metadataIterable
+     * @return TypedArray
+     */
+    public function createFromMetadataIterable(iterable $metadataIterable): TypedArray
+    {
+        $itemFiltersGen = Util::createGenerator($metadataIterable);
+
+        $itemFilters = TypedArray::create('integer', ItemFilterInterface::class);
+        foreach ($itemFiltersGen as $item) {
+            /** @var ItemFilterModel $itemFilterModel */
+            $itemFilterModel = $item['item'];
+            /** @var ItemFilterDynamic $itemFilter */
+            $itemFilters[] = $this->create($itemFilterModel->getItemFilterMetadata()->toArray());
+        }
+
+        return $itemFilters;
+    }
     /**
      * @param array $metadata
      * @return ItemFilterInterface
