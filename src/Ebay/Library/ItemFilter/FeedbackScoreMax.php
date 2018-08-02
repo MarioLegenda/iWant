@@ -11,26 +11,45 @@ class FeedbackScoreMax extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s has to be an array argument with only one value',
+                $dynamicName
+            );
+
+            $this->errors->add($message);
+
+            throw new \RuntimeException($message);
         }
 
-        if (count($this->dynamicValue) !== 1) {
-            $this->exceptionMessages[] = $this->name.' can only have one value in the argument array';
+        if (count($dynamicValue) !== 1) {
+            $message = sprintf(
+                '\'%s\' can only have one value in the argument array',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
-        if (is_bool($this->dynamicValue[0])) {
-            $this->exceptionMessages[] = $this->name.' accepts only actual numbers as arguments, not boolean';
+        if (is_bool($dynamicValue[0])) {
+            $message = sprintf(
+                '\'%s\' accepts only actual numbers as arguments, not boolean',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
-        if (!is_int($this->dynamicValue[0]) or $this->dynamicValue[0] < 0) {
-            $this->exceptionMessages[] = $this->name.' accepts only numbers (not numeric strings) greater than or equal to zero';
+        if (!is_int($dynamicValue[0]) or $dynamicValue[0] < 0) {
+            $message = sprintf(
+                '\'%s\' accepts only numbers (not numeric strings) greater than or equal to zero',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

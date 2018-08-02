@@ -11,10 +11,29 @@ class FeaturedOnly extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s has to be an array argument with only one value',
+                $dynamicName
+            );
+
+            $this->errors->add($message);
+
+            throw new \RuntimeException($message);
         }
 
-        return parent::checkBoolean($this->dynamicValue[0]);
+        if (parent::checkBoolean($dynamicValue[0]) === false) {
+            $message = sprintf(
+                '%s can have only one value, true or false. Non boolean value given',
+                CharityOnly::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return true;
     }
 }

@@ -11,17 +11,26 @@ class ExcludeSeller extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (count($this->dynamicValue) > 100) {
-            $this->exceptionMessages[] = 'ExcludeSeller item filter can accept up to 100 seller names';
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
 
-            return false;
+        if (count($dynamicValue) > 100) {
+            $message = sprintf(
+                '\'%s\' item filter can accept up to 100 seller names',
+                $dynamicName
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        foreach ($this->dynamicValue as $value) {
+        foreach ($dynamicValue as $value) {
             if (!is_string($value)) {
-                $this->exceptionMessages[] = 'ExcludeSeller accepts an array of seller names as a string';
+                $message = sprintf(
+                    '\'%s\' accepts an array of seller names as a string',
+                    $dynamicName
+                );
 
-                return false;
+                throw new \RuntimeException($message);
             }
         }
 

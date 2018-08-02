@@ -11,24 +11,42 @@ class ExpeditedShippingType extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s has to be an array argument with only one value',
+                $dynamicName
+            );
+
+            $this->errors->add($message);
+
+            throw new \RuntimeException($message);
         }
 
         $validValues = array('Expedited', 'OneDayShipping');
 
-        if (count($this->dynamicValue) > 1) {
-            $this->exceptionMessages[] = $this->name.' can have an array with only one argument: '.implode(', ', $validValues);
+        if (count($dynamicValue) > 1) {
+            $message = sprintf(
+                '\'%s\' can have an array with only one argument: %s',
+                $dynamicName,
+                implode(', ', $validValues)
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
-        $value = $this->dynamicValue[0];
+        $value = $dynamicValue[0];
 
         if (in_array($value, $validValues) === false) {
-            $this->exceptionMessages[] = $this->name.' can only accept values '.implode(', ', $validValues);
+            $message = sprintf(
+                '\'%s\' can only accept values %s',
+                $dynamicName,
+                implode(', ', $validValues)
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

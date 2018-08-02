@@ -17,6 +17,11 @@ use App\Ebay\Library\ItemFilter\EndTimeFrom;
 use App\Ebay\Library\ItemFilter\EndTimeTo;
 use App\Ebay\Library\ItemFilter\ExcludeAutoPay;
 use App\Ebay\Library\ItemFilter\ExcludeCategory;
+use App\Ebay\Library\ItemFilter\ExcludeSeller;
+use App\Ebay\Library\ItemFilter\ExpeditedShippingType;
+use App\Ebay\Library\ItemFilter\FeaturedOnly;
+use App\Ebay\Library\ItemFilter\FeedbackScoreMax;
+use App\Ebay\Library\ItemFilter\FeedbackScoreMin;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
@@ -358,18 +363,18 @@ class ItemFiltersTest extends TestCase
 
         foreach ($values as $value) {
             $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_AUTO_PAY, $value);
-            $charityOnly = new ExcludeAutoPay(
+            $excludeAutoPay = new ExcludeAutoPay(
                 $dynamicMetadata,
                 $dynamicConfiguration,
                 $dynamicErrors
             );
 
-            static::assertTrue($charityOnly->validateDynamic());
+            static::assertTrue($excludeAutoPay->validateDynamic());
         }
 
         $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_AUTO_PAY, ['invalid']);
 
-        $charityOnly = new ExcludeAutoPay(
+        $excludeAutoPay = new ExcludeAutoPay(
             $dynamicMetadata,
             $dynamicConfiguration,
             $dynamicErrors
@@ -377,7 +382,7 @@ class ItemFiltersTest extends TestCase
 
         $entersInvalidException = false;
         try {
-            $charityOnly->validateDynamic();
+            $excludeAutoPay->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }
@@ -397,18 +402,18 @@ class ItemFiltersTest extends TestCase
 
         foreach ($values as $value) {
             $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_CATEGORY, $value);
-            $charityOnly = new ExcludeCategory(
+            $excludeCategory = new ExcludeCategory(
                 $dynamicMetadata,
                 $dynamicConfiguration,
                 $dynamicErrors
             );
 
-            static::assertTrue($charityOnly->validateDynamic());
+            static::assertTrue($excludeCategory->validateDynamic());
         }
 
         $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_CATEGORY, ['invalid']);
 
-        $charityOnly = new ExcludeCategory(
+        $excludeCategory = new ExcludeCategory(
             $dynamicMetadata,
             $dynamicConfiguration,
             $dynamicErrors
@@ -416,7 +421,196 @@ class ItemFiltersTest extends TestCase
 
         $entersInvalidException = false;
         try {
-            $charityOnly->validateDynamic();
+            $excludeCategory->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_exclude_seller()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            ['seller', 'seller', 'seller'],
+            ['seller', 'seller', 'seller'],
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_SELLER, $value);
+            $excludeSeller = new ExcludeSeller(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($excludeSeller->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_SELLER, [0]);
+
+        $excludeSeller = new ExcludeSeller(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $excludeSeller->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_expedited_shipping_type()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = ['Expedited', 'OneDayShipping'];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXPEDITED_SHIPPING_TYPE, [$value]);
+            $expeditedShippingType = new ExpeditedShippingType(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($expeditedShippingType->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXPEDITED_SHIPPING_TYPE, ['invalid']);
+
+        $expeditedShippingType = new ExpeditedShippingType(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $expeditedShippingType->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_featured_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FEATURED_ONLY, $value);
+
+            $featuredOnly = new FeaturedOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($featuredOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FEATURED_ONLY, ['invalid']);
+
+        $featuredOnly = new FeaturedOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $featuredOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_feedback_score_max()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [1, 2, 3];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FEEDBACK_SCORE_MAX, [$value]);
+
+            $feedbackScoreMax = new FeedbackScoreMax(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($feedbackScoreMax->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FEEDBACK_SCORE_MAX, ['invalid']);
+
+        $feedbackScoreMax = new FeedbackScoreMax(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $feedbackScoreMax->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_feedback_score_min()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [1, 2, 3];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FEEDBACK_SCORE_MIN, [$value]);
+
+            $feedbackScoreMin = new FeedbackScoreMin(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($feedbackScoreMin->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FEEDBACK_SCORE_MIN, ['invalid']);
+
+        $feedbackScoreMin = new FeedbackScoreMin(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $feedbackScoreMin->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }
