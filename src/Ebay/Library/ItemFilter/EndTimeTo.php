@@ -6,9 +6,7 @@ use App\Ebay\Library\Dynamic\BaseDynamic;
 
 class EndTimeTo extends BaseDynamic
 {
-    /**
-     * @throws ItemFilterException
-     */
+
     public function validateDynamic() : bool
     {
         if (!$this->genericValidation($this->dynamicValue, 1)) {

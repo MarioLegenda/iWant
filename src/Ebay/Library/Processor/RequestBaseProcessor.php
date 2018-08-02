@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Ebay\Library;
+namespace App\Ebay\Library\Processor;
 
-use App\Ebay\Library\Dynamic\ProcessorInterface;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 
 class RequestBaseProcessor implements ProcessorInterface

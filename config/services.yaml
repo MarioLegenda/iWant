@@ -25,26 +25,17 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/RequestProducer.php,Presentation/Model}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model}'
 
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
 
-    App\Ebay\Library\RequestBaseProcessor:
+    App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
 
-    # Data providers
-
-    App\Tests\FindingApi\DataProvider\:
-        resource: '../tests/FindingApi/DataProvider'
-        exclude: '../tests/FindingApi/DataProvider/*'
-
-    data_provider.finding_api:
-        class: App\Tests\FindingApi\DataProvider\DataProvider
-        autowire: false
-
-
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    App\Ebay\Source\Repository\FindingApiRepository:
+        arguments:
+            $env: '%env(APP_ENV)%'
+            $communicator: '@App\Ebay\Source\GenericHttpCommunicator'

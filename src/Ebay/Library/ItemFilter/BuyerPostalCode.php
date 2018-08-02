@@ -11,6 +11,16 @@ class BuyerPostalCode extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        return true;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!is_string($dynamicValue)) {
+            $message = sprintf(
+                '%s has to be a string',
+                $dynamicName
+            );
+
+            throw new \RuntimeException($message);
+        }
     }
 }

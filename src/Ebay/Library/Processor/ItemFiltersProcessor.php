@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Ebay\Library\Dynamic;
+namespace App\Ebay\Library\Processor;
 
-use App\Ebay\Library\ItemFilter\ItemFilter;
+use App\Ebay\Library\ItemFilter\Validation\GlobalItemFiltersValidator;
+use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Library\Tools\UrlifyInterface;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
@@ -30,9 +31,15 @@ class ItemFiltersProcessor implements ProcessorInterface
         $finalProduct = '';
         $count = 0;
 
-        /** @var ItemFilter $itemFilter */
+        $globalItemsFiltersValidator = new GlobalItemFiltersValidator();
+
+        //$globalItemsFiltersValidator->validate($this->itemFilters);
+
+        /** @var ItemFilterInterface|DynamicInterface $itemFilter */
         foreach ($this->itemFilters as $itemFilter) {
             if ($itemFilter instanceof UrlifyInterface) {
+                $itemFilter->validateDynamic();
+
                 $finalProduct.=$itemFilter->urlify($count);
             }
 

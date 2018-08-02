@@ -2,13 +2,13 @@
 
 namespace App\Tests\FindingApi\Unit;
 
-use App\Ebay\Library\RequestBaseProcessor;
+use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Library\Type\ResponseDataFormatType;
 use App\Tests\Library\BasicSetup;
 
-class RequestBaseTest extends BasicSetup
+class RequestBaseProcessorTest extends BasicSetup
 {
     public function test_request_base()
     {

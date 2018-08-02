@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ebay\Library\Dynamic;
+namespace App\Ebay\Library\Processor;
 
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 

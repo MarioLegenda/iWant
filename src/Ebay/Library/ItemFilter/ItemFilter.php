@@ -7,6 +7,7 @@ class ItemFilter
     const AUTHORIZED_SELLER_ONLY = 'AuthorizedSellerOnly';
     const AVAILABLE_TO = 'AvailableTo';
     const BEST_OFFER_ONLY = 'BestOfferOnly';
+    const BUYER_POSTAL_CODE = 'BuyerPostalCode';
     const CHARITY_ONLY = 'CharityOnly';
     const CONDITION = 'Condition';
     const CURRENCY = 'Currency';
@@ -38,11 +39,13 @@ class ItemFilter
     const MIN_QUANTITY = 'MinQuantity';
     const MOD_TIME_FROM = 'ModTimeFrom';
     const OUTLET_SELLER_ONLY = 'OutletSellerOnly';
+    const OUTPUT_SELECTOR = 'OutputSelector';
     const PAYMENT_METHOD = 'PaymentMethod';
     const RETURNS_ACCEPTED_ONLY = 'ReturnsAcceptedOnly';
     const SELLER = 'Seller';
     const SELLER_BUSINESS_TYPE = 'SellerBusinessType';
     const SOLD_ITEMS_ONLY = 'SoldItemsOnly';
+    const SORT_ORDER = 'SortOrder';
     const START_TIME_FROM = 'StartTimeFrom';
     const START_TIME_TO = 'StartTimeTo';
     const TOP_RATED_SELLER_ONLY = 'TopRatedSellerOnly';

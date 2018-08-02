@@ -12,16 +12,21 @@ class Currency extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
+        if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
             return false;
         }
 
         $allowedCurrencies = CurrencyInformation::instance()->getAll();
 
-        $currency = strtoupper($this->dynamicValue[0]);
+        $currency = strtoupper($this->getDynamicMetadata()->getDynamicValue()[0]);
 
         if (in_array($currency, $allowedCurrencies) === false) {
-            $this->exceptionMessages[] = 'Invalid Currency item filter value supplied. Allowed currencies are '.implode(',', $allowedCurrencies);
+            $message = sprintf(
+                'Invalid Currency item filter value supplied. Allowed currencies are %s',
+                implode(',', $allowedCurrencies)
+            );
+
+            $this->errors->add($message);
 
             return false;
         }

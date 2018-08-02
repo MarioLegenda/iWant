@@ -12,16 +12,29 @@ class AvailableTo extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (count($this->dynamicValue) !== 1) {
-            $this->exceptionMessages[] = $this->name.' has to be an array argument with only one value';
+        $dynamicValue = $this->dynamicMetadata->getDynamicValue();
+        $dynamicName = $this->dynamicMetadata->getName();
+
+        if (count($dynamicValue) !== 1) {
+            $message = sprintf(
+                '%s has to be an array argument with only one value',
+                $dynamicName
+            );
+
+            $this->errors->add($message);
 
             return false;
         }
 
-        $userCode = $this->dynamicValue[0];
+        $userCode = $dynamicValue[0];
 
         if (ISO3166CountryCodeInformation::instance()->has($userCode) === false) {
-            $this->exceptionMessages[] = $this->name.' has to receive an array with one value. Also, AvailableTo has to be a valid ISO 3166 country name. Please, refer to https://www.iso.org/obp/ui/#search\'';
+            $message = sprintf(
+                '%s  has to receive an array with one value. Also, AvailableTo has to be a valid ISO 3166 country name. Please, refer to https://www.iso.org/obp/ui/#search\'',
+                $dynamicName
+            );
+
+            $this->errors->add($message);
 
             return false;
         }

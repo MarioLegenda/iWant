@@ -12,26 +12,29 @@ class Condition extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue)) {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+
+        if (!$this->genericValidation($dynamicValue)) {
             return false;
         }
 
-        $allowedValues = new ArrayType(array(
-            'text-values' => array('New', 'Used', 'Unspecified'),
-            'id-values' => array(1000, 1500, 1750, 2000, 2500, 3000, 4000, 5000, 6000, 7000),
-        ));
+        $allowedValues = [
+            'text-values' => ['New', 'Used', 'Unspecified'],
+            'id-values' => [1000, 1500, 1750, 2000, 2500, 3000, 4000, 5000, 6000, 7000],
+        ];
 
-        $uniques = array_unique($this->filter);
+        $uniques = array_unique($dynamicValue);
 
         foreach ($uniques as $val) {
-            if (!$allowedValues->inArray($val, 'text-values') and !$allowedValues->inArray($val, 'id-values')) {
-                $this->exceptionMessages['Invalid argument for item filter '.$this->name.'. Please, refer to http://developer.ebay.com/devzone/finding/callref/types/ItemFilterType.html'];
+            if (!in_array($val, $allowedValues['text-values']) and !in_array($val, $allowedValues['id-values'])) {
+                $message = sprintf(
+                    'Invalid argument for item filter \'%s\'. Please, refer to http://developer.ebay.com/devzone/finding/callref/types/ItemFilterType.html',
+                    $this->getDynamicMetadata()->getName()
+                );
 
-                return false;
+                throw new \RuntimeException($message);
             }
         }
-
-        $this->dynamicValue = $uniques;
 
         return true;
     }

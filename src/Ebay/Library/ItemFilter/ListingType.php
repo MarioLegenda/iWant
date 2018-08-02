@@ -12,11 +12,20 @@ class ListingType extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        $filter = $this->dynamicValue[0];
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        $filter = $dynamicValue[0];
         $validFilters = ListingTypeInformation::instance()->getAll();
 
         if (in_array($filter, $validFilters) === false) {
-            $this->exceptionMessages[] = $this->name.' accepts only '.implode(', ', $validFilters).' values';
+            $message = sprintf(
+                '%s accepts only \'%s\' values',
+                $dynamicName,
+                implode(', ', $validFilters)
+            );
+
+            $this->errors->add($message);
 
             return false;
         }

@@ -7,28 +7,37 @@ use App\Ebay\Library\Dynamic\BaseDynamic;
 class EndTimeFrom extends BaseDynamic
 {
     /**
-     * @throws ItemFilterException
+     * @inheritdoc
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
             return false;
         }
 
-        $filter = $this->dynamicValue[0];
+        $filter = $dynamicValue[0];
 
         if (!$filter instanceof \DateTime) {
-            $this->exceptionMessages[] = 'Invalid value supplied for '.$this->name.' Value has to be a DateTime instance in the future';
+            $message = sprintf(
+                'Invalid value supplied for \'%s\' Value has to be a DateTime instance in the future',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         $currentDateTime = new \DateTime();
 
         if ($filter->getTimestamp() <= $currentDateTime->getTimestamp()) {
-            $this->exceptionMessages[] = 'You have to specify a date in the future for '.$this->name.' item filter';
+            $message = sprintf(
+                'You have to specify a date in the future for \'%s\' item filter',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

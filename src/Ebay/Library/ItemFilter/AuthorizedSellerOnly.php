@@ -12,11 +12,21 @@ class AuthorizedSellerOnly extends BaseDynamic
     public function validateDynamic() : bool
     {
         if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
-            return false;
+            $message = sprintf(
+                '%s can have only one value, true or false',
+                AuthorizedSellerOnly::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
         if (parent::checkBoolean($this->getDynamicMetadata()->getDynamicValue()[0]) === false) {
-            return false;
+            $message = sprintf(
+                '%s can have only one value, true or false. Non boolean value given',
+                AuthorizedSellerOnly::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
         return true;

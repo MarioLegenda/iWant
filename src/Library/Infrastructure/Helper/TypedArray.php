@@ -2,10 +2,16 @@
 
 namespace App\Library\Infrastructure\Helper;
 
+use App\Library\Infrastructure\ServiceFilterInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class TypedArray implements \Countable, \ArrayAccess, \IteratorAggregate, ArrayNotationInterface
+class TypedArray implements
+    \Countable,
+    \ArrayAccess,
+    \IteratorAggregate,
+    ArrayNotationInterface,
+    ServiceFilterInterface
 {
     /**
      * @var string $keyType
@@ -66,6 +72,15 @@ class TypedArray implements \Countable, \ArrayAccess, \IteratorAggregate, ArrayN
             $this[] = $item;
         }
     }
+    /**
+     * @param \Closure $filter
+     * @return mixed
+     */
+    public function filter(\Closure $filter)
+    {
+        return $filter($this->data);
+    }
+
     /**
      * @inheritdoc
      */

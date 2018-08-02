@@ -20,13 +20,13 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/RequestProducer.php,Presentation/Model}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model}'
 
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
 
-    App\Ebay\Library\RequestBaseProcessor:
+    App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
 

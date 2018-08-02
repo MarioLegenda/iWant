@@ -3,19 +3,19 @@
 namespace App\Ebay\Business;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
-use App\Ebay\Library\Dynamic\CallTypeProcessor;
-use App\Ebay\Library\Dynamic\ProcessorInterface;
+use App\Ebay\Library\Processor\CallTypeProcessor;
+use App\Ebay\Library\Processor\ProcessorInterface;
 use App\Ebay\Library\RequestProducer;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
-use App\Ebay\Library\RequestBaseProcessor;
+use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Source\FinderSource;
 use App\Library\Infrastructure\Helper\TypedArray;
-use App\Ebay\Library\Dynamic\ItemFiltersProcessor;
+use App\Ebay\Library\Processor\ItemFiltersProcessor;
 
 class Finder
 {

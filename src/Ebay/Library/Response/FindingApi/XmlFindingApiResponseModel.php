@@ -80,6 +80,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
     }
     /**
      * @return SearchResultsContainer
+     * @param mixed $default
      */
     public function getSearchResults($default = null)
     {
@@ -100,7 +101,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
         return $this->responseItems['searchResult'];
     }
     /**
-     * @param null $default
+     * @param mixed $default
      * @return mixed
      */
     public function getConditionHistogramContainer($default = null)
@@ -122,7 +123,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
         return $this->responseItems['conditionHistogramContainer'];
     }
     /**
-     * @param null $default
+     * @param mixed $default
      * @return mixed|null
      */
     public function getPaginationOutput($default = null)
@@ -144,7 +145,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
         return $this->responseItems['paginationOutput'];
     }
     /**
-     * @param null $default
+     * @param mixed $default
      * @return mixed|null
      */
     public function getCategoryHistogramContainer($default = null)
@@ -166,7 +167,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
         return $this->responseItems['categoryHistogram'];
     }
     /**
-     * @param null $default
+     * @param mixed $default
      * @return mixed|null
      */
     public function getErrors($default = null)
@@ -241,8 +242,10 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
     {
         return $this->toArray();
     }
-
-    private function lazyLoadSimpleXml($xmlString)
+    /**
+     * @param string $xmlString
+     */
+    private function lazyLoadSimpleXml(string $xmlString)
     {
         if ($this->simpleXmlBase instanceof \SimpleXMLElement) {
             return;
