@@ -12,9 +12,23 @@ class BestOfferOnly extends BaseDynamic
     public function validateDynamic() : bool
     {
         if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
-            return false;
+            $message = sprintf(
+                '%s can have only one value, true or false',
+                BestOfferOnly::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        return parent::checkBoolean($this->getDynamicMetadata()->getDynamicValue()[0]);
+        if (parent::checkBoolean($this->getDynamicMetadata()->getDynamicValue()[0]) === false) {
+            $message = sprintf(
+                '%s can have only one value, true or false. Non boolean value given',
+                BestOfferOnly::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return true;
     }
 }

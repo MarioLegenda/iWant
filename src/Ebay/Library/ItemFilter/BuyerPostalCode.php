@@ -22,5 +22,7 @@ class BuyerPostalCode extends BaseDynamic
 
             throw new \RuntimeException($message);
         }
+
+        return true;
     }
 }

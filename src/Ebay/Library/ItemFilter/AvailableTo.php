@@ -23,20 +23,18 @@ class AvailableTo extends BaseDynamic
 
             $this->errors->add($message);
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         $userCode = $dynamicValue[0];
 
         if (ISO3166CountryCodeInformation::instance()->has($userCode) === false) {
             $message = sprintf(
-                '%s  has to receive an array with one value. Also, AvailableTo has to be a valid ISO 3166 country name. Please, refer to https://www.iso.org/obp/ui/#search\'',
+                '%s has to receive an array with one value. Also, AvailableTo has to be a valid ISO 3166 country name. Please, refer to https://www.iso.org/obp/ui/#search\'',
                 $dynamicName
             );
 
-            $this->errors->add($message);
-
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;
