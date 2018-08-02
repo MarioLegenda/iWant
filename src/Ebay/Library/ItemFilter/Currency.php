@@ -28,7 +28,7 @@ class Currency extends BaseDynamic
 
             $this->errors->add($message);
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

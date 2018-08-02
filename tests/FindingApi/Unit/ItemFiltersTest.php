@@ -5,13 +5,20 @@ namespace App\Tests\FindingApi\Unit;
 use App\Ebay\Library\Dynamic\DynamicConfiguration;
 use App\Ebay\Library\Dynamic\DynamicErrors;
 use App\Ebay\Library\Dynamic\DynamicMetadata;
+use App\Ebay\Library\Information\CurrencyInformation;
 use App\Ebay\Library\Information\ISO3166CountryCodeInformation;
 use App\Ebay\Library\ItemFilter\AuthorizedSellerOnly;
 use App\Ebay\Library\ItemFilter\AvailableTo;
 use App\Ebay\Library\ItemFilter\BestOfferOnly;
 use App\Ebay\Library\ItemFilter\CharityOnly;
 use App\Ebay\Library\ItemFilter\Condition;
+use App\Ebay\Library\ItemFilter\Currency;
+use App\Ebay\Library\ItemFilter\EndTimeFrom;
+use App\Ebay\Library\ItemFilter\EndTimeTo;
+use App\Ebay\Library\ItemFilter\ExcludeAutoPay;
+use App\Ebay\Library\ItemFilter\ExcludeCategory;
 use App\Ebay\Library\ItemFilter\ItemFilter;
+use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
 class ItemFiltersTest extends TestCase
@@ -199,6 +206,217 @@ class ItemFiltersTest extends TestCase
         $entersInvalidException = false;
         try {
             $condition->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_currency()
+    {
+        $value = CurrencyInformation::AUSTRALIAN;
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::CURRENCY, [$value]);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $currency = new Currency(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($currency->validateDynamic());
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::CURRENCY, ['invalid']);
+
+        $entersInvalidException = false;
+        try {
+            $currency = new Currency(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $currency->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_end_time_from()
+    {
+        $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+        $currentDate->modify('+1 day');
+
+        $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::END_TIME_FROM, $value);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $endTimeFrom = new EndTimeFrom(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($endTimeFrom->validateDynamic());
+
+        $entersInvalidException = false;
+        try {
+            $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+
+            $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::END_TIME_FROM, $value);
+
+            $endTimeFrom = new EndTimeFrom(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $endTimeFrom->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_end_time_to()
+    {
+        $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+
+        $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::END_TIME_TO, $value);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $endTimeFrom = new EndTimeTo(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($endTimeFrom->validateDynamic());
+
+        $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+        $currentDate->modify('+1 day');
+
+        $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::END_TIME_TO, $value);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $endTimeFrom = new EndTimeTo(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($endTimeFrom->validateDynamic());
+
+        $entersInvalidException = false;
+        try {
+            $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+            $currentDate->modify('-1 day');
+
+            $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::END_TIME_TO, $value);
+
+            $endTimeFrom = new EndTimeTo(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $endTimeFrom->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_exclude_auto_pay()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_AUTO_PAY, $value);
+            $charityOnly = new ExcludeAutoPay(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($charityOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_AUTO_PAY, ['invalid']);
+
+        $charityOnly = new ExcludeAutoPay(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $charityOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_exclude_category()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [1, 2, 3, 4, 5],
+            [5, 6, 6, 7, 8]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_CATEGORY, $value);
+            $charityOnly = new ExcludeCategory(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($charityOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::EXCLUDE_CATEGORY, ['invalid']);
+
+        $charityOnly = new ExcludeCategory(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $charityOnly->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }

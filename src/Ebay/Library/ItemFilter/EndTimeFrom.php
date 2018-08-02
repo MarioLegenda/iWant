@@ -3,6 +3,7 @@
 namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
+use App\Library\Util\Util;
 
 class EndTimeFrom extends BaseDynamic
 {
@@ -18,7 +19,16 @@ class EndTimeFrom extends BaseDynamic
             return false;
         }
 
-        $filter = $dynamicValue[0];
+        if (!Util::isValidDate($dynamicValue[0])) {
+            $message = sprintf(
+                'Invalid format supplied for %s',
+                EndTimeFrom::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $filter = Util::toDateTime($dynamicValue[0]);
 
         if (!$filter instanceof \DateTime) {
             $message = sprintf(
@@ -31,7 +41,13 @@ class EndTimeFrom extends BaseDynamic
 
         $currentDateTime = new \DateTime();
 
-        if ($filter->getTimestamp() <= $currentDateTime->getTimestamp()) {
+        $filter->setTimezone(new \DateTimeZone('UTC'));
+        $currentDateTime->setTimezone(new \DateTimeZone('UTC'));
+
+        $filterDateTime = new \DateTime($filter->format('Y-m-d'));
+        $currentDT = new \DateTime($currentDateTime->format('Y-m-d'));
+
+        if ($filterDateTime->getTimestamp() <= $currentDT->getTimestamp()) {
             $message = sprintf(
                 'You have to specify a date in the future for \'%s\' item filter',
                 $dynamicName

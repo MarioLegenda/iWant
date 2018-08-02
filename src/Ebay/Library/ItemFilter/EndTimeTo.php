@@ -3,22 +3,40 @@
 namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
+use App\Library\Util\Util;
 
 class EndTimeTo extends BaseDynamic
 {
-
+    /**
+     * @return bool
+     */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
             return false;
         }
 
-        $filter = $this->dynamicValue[0];
+        if (!Util::isValidDate($dynamicValue[0])) {
+            $message = sprintf(
+                'Invalid format supplied for %s',
+                EndTimeFrom::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $filter = Util::toDateTime($dynamicValue[0]);
 
         if (!$filter instanceof \DateTime) {
-            $this->exceptionMessages[] = 'Invalid value supplied for '.$this->name.' Value has to be a DateTime instance in the future';
+            $message = sprintf(
+                'Invalid value supplied for \'%s\'. Value has to be a DateTime instance in the past or equal to this day',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         $currentDateTime = new \DateTime();
@@ -26,10 +44,16 @@ class EndTimeTo extends BaseDynamic
         $filter->setTimezone(new \DateTimeZone('UTC'));
         $currentDateTime->setTimezone(new \DateTimeZone('UTC'));
 
-        if ($filter->getTimestamp() <= $currentDateTime->getTimestamp()) {
-            $this->exceptionMessages[] = 'You have to specify a date in the future for '.$this->name.' item filter';
+        $filterDateTime = new \DateTime($filter->format('Y-m-d'));
+        $currentDT = new \DateTime($currentDateTime->format('Y-m-d'));
 
-            return false;
+        if ($filterDateTime->getTimestamp() < $currentDT->getTimestamp()) {
+            $message = sprintf(
+                'You have to specify a date in the future or equal to this day for \'%s\' item filter',
+                $dynamicName
+            );
+
+            throw new \RuntimeException($message);
         }
 
         return true;

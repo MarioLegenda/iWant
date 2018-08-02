@@ -61,13 +61,15 @@ class Util
     }
     /**
      * @param string $dateTime
+     * @param string|null $format
      * @return bool
      */
-    public static function isValidDate(string $dateTime): bool
+    public static function isValidDate(string $dateTime, string $format = null): bool
     {
-        $d = \DateTime::createFromFormat(Util::getDateTimeApplicationFormat(), $dateTime);
+        $format = (is_null($format)) ? Util::getDateTimeApplicationFormat() : $format;
+        $d = \DateTime::createFromFormat($format, $dateTime);
 
-        return $d && $d->format(Util::getDateTimeApplicationFormat()) === $dateTime;
+        return $d && $d->format($format) === $dateTime;
     }
     /**
      * @param \DateTime $dateTime

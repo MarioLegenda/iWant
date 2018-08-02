@@ -11,17 +11,26 @@ class ExcludeCategory extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (count($this->dynamicValue) > 25) {
-            $this->exceptionMessages[] = 'ExcludeCategory item filter can accept up to 25 category ids';
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
 
-            return false;
+        if (count($dynamicValue) > 25) {
+            $message = sprintf(
+                '\'%s\' item filter can accept up to 25 category ids',
+                $dynamicName
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        foreach ($this->dynamicValue as $value) {
+        foreach ($dynamicValue as $value) {
             if (!is_numeric($value)) {
-                $this->exceptionMessages['Value '.$value.' has to be a valid category number or a numeric string'];
+                $message = sprintf(
+                    'Value \'%s\' has to be a valid category number or a numeric string',
+                    $value
+                );
 
-                return false;
+                throw new \RuntimeException($message);
             }
         }
 
