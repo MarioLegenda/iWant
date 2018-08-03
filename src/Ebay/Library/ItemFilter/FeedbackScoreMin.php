@@ -16,18 +16,16 @@ class FeedbackScoreMin extends BaseDynamic
 
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
-                '%s has to be an array argument with only one value',
+                '%s has to be an array argument with only one value and it has to be an integer',
                 $dynamicName
             );
-
-            $this->errors->add($message);
 
             throw new \RuntimeException($message);
         }
 
         if (count($dynamicValue) !== 1) {
             $message = sprintf(
-                '\'%s\' can only have one value in the argument array',
+                '\'%s\' can only have one value in the argument array and it has to be an integer',
                 $dynamicName
             );
 

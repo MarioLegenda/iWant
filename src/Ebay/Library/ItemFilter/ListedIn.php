@@ -17,7 +17,13 @@ class ListedIn extends BaseDynamic
         $dynamicName = $this->getDynamicMetadata()->getName();
 
         if (!$this->genericValidation($dynamicValue, 1)) {
-            return false;
+            $message = sprintf(
+                '%s can have only one value and it has to be a valid global id. Refer to %s',
+                EndTimeFrom::class,
+                GlobalIdInformation::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
         $filter = $dynamicValue[0];

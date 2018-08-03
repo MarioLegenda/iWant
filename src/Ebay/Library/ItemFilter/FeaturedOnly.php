@@ -16,7 +16,7 @@ class FeaturedOnly extends BaseDynamic
 
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
-                '%s has to be an array argument with only one value',
+                '%s can be only one value, true or false',
                 $dynamicName
             );
 

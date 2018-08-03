@@ -39,6 +39,7 @@ use App\Ebay\Library\ItemFilter\MaxDistance;
 use App\Ebay\Library\ItemFilter\MaxHandlingTime;
 use App\Ebay\Library\ItemFilter\MaxPrice;
 use App\Ebay\Library\ItemFilter\MaxQuantity;
+use App\Ebay\Library\ItemFilter\MinBids;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -1336,6 +1337,60 @@ class ItemFiltersTest extends TestCase
         $entersInvalidException = false;
         try {
             $maxQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_min_bids()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [0, 5, 6, 24, 56];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_BIDS, [$value]);
+
+            $minBids = new MinBids(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($minBids->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_BIDS, ['invalid']);
+
+        $minBids = new MinBids(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minBids->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_BIDS, [-1]);
+
+        $minBids = new MinBids(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minBids->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }

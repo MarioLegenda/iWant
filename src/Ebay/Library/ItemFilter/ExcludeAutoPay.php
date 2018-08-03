@@ -16,7 +16,7 @@ class ExcludeAutoPay extends BaseDynamic
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
                 '%s can have only one value, true or false',
-                CharityOnly::class
+                ExcludeAutoPay::class
             );
 
             throw new \RuntimeException($message);
@@ -25,7 +25,7 @@ class ExcludeAutoPay extends BaseDynamic
         if (parent::checkBoolean($dynamicValue[0]) === false) {
             $message = sprintf(
                 '%s can have only one value, true or false. Non boolean value given',
-                CharityOnly::class
+                ExcludeAutoPay::class
             );
 
             throw new \RuntimeException($message);

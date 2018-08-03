@@ -14,14 +14,19 @@ class Condition extends BaseDynamic
     {
         $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
 
-        if (!$this->genericValidation($dynamicValue)) {
-            return false;
-        }
-
         $allowedValues = [
             'text-values' => ['New', 'Used', 'Unspecified'],
             'id-values' => [1000, 1500, 1750, 2000, 2500, 3000, 4000, 5000, 6000, 7000],
         ];
+
+        if (!$this->genericValidation($dynamicValue)) {
+            $message = sprintf(
+                'Invalid argument for item filter \'%s\'. Please, refer to http://developer.ebay.com/devzone/finding/callref/types/ItemFilterType.html',
+                $this->getDynamicMetadata()->getName()
+            );
+
+            throw new \RuntimeException($message);
+        }
 
         $uniques = array_unique($dynamicValue);
 

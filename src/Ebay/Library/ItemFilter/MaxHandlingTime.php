@@ -16,7 +16,7 @@ class MaxHandlingTime extends BaseDynamic
 
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
-                '%s can have only one value, true or false',
+                '%s can have only one value and it has to be an integer greater that or equal to 1',
                 MaxHandlingTime::class
             );
 
@@ -25,7 +25,7 @@ class MaxHandlingTime extends BaseDynamic
 
         $filter = $dynamicValue[0];
 
-        if ($filter <= 1 or !is_int($filter)) {
+        if (!is_int($filter) or $filter <= 1) {
             $message = sprintf(
                 '\'%s\' has to be an integer greater that or equal to 1',
                 $dynamicName

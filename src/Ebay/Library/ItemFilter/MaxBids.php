@@ -16,7 +16,7 @@ class MaxBids extends BaseDynamic
 
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
-                '%s can have only one value, true or false',
+                '%s can have only one value and it has to be an integer greater or equal to 0',
                 MaxBids::class
             );
 
@@ -25,9 +25,9 @@ class MaxBids extends BaseDynamic
 
         $filter = $dynamicValue[0];
 
-        if ($filter < 0 or !is_int($filter)) {
+        if (!is_int($filter) or $filter < 0) {
             $message = sprintf(
-                '\'%s\' has to be an integer greater that or equal to 1',
+                '\'%s\' has to be an integer greater that or equal to 0',
                 $dynamicName
             );
 

@@ -14,7 +14,7 @@ class LocalSearchOnly extends BaseDynamic
         if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
             $message = sprintf(
                 '%s can have only one value, true or false',
-                LocalPickupOnly::class
+                LocalSearchOnly::class
             );
 
             throw new \RuntimeException($message);
@@ -23,7 +23,7 @@ class LocalSearchOnly extends BaseDynamic
         if (parent::checkBoolean($this->getDynamicMetadata()->getDynamicValue()[0]) === false) {
             $message = sprintf(
                 '%s can have only one value, true or false. Non boolean value given',
-                LocalPickupOnly::class
+                LocalSearchOnly::class
             );
 
             throw new \RuntimeException($message);

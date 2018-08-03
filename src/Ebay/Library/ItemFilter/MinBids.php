@@ -11,16 +11,26 @@ class MinBids extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s can have only one value and it has to be an integer greater than or equal to 0',
+                MinBids::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        $filter = $this->dynamicValue[0];
+        $filter = $dynamicValue[0];
 
-        if ($filter < 0) {
-            $this->exceptionMessages[] = $this->name.' has to be an integer greater than or equal to 0';
+        if (!is_int($filter) or $filter < 0) {
+            $message = sprintf(
+                '\'%s\' has to be an integer greater than or equal to 0',
+                $filter
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

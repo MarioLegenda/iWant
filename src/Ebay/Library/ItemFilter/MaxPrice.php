@@ -52,7 +52,7 @@ class MaxPrice extends BaseDynamic
 
         if (!is_float($toValidate)) {
             $message = sprintf(
-                '%s has to be an decimal greater than or equal to 0.0. %f given',
+                '%s has to be an decimal greater than or equal to \'0.0\'. %f given',
                 $dynamicName,
                 $toValidate
             );
@@ -62,7 +62,7 @@ class MaxPrice extends BaseDynamic
 
         if (Helper::compareFloatNumbers($toValidate, 0.0, '<')) {
             $message = sprintf(
-                '%s has to be an decimal greater than or equal to 0.0. %f given',
+                '%s has to be an decimal greater than or equal to \'0.0\'. %f given',
                 $dynamicName,
                 $toValidate
             );

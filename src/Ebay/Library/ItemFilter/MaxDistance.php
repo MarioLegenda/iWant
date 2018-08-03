@@ -16,7 +16,7 @@ class MaxDistance extends BaseDynamic
 
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
-                '%s can have only one value, true or false',
+                '%s can have only one value and it has to be an integer greater or equal to 5',
                 MaxDistance::class
             );
 
@@ -25,7 +25,7 @@ class MaxDistance extends BaseDynamic
 
         $filter = $dynamicValue[0];
 
-        if ($filter < 5) {
+        if (!is_int($filter) or $filter < 5) {
             $message = sprintf(
                 '\'%s\' has to be a number greater than or equal to 5',
                 $dynamicName

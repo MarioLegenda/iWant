@@ -16,7 +16,12 @@ class EndTimeTo extends BaseDynamic
         $dynamicName = $this->getDynamicMetadata()->getName();
 
         if (!$this->genericValidation($dynamicValue, 1)) {
-            return false;
+            $message = sprintf(
+                '%s can have only one value and it has to be a valid DateTime',
+                EndTimeTo::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
         if (!Util::isValidDate($dynamicValue[0])) {
