@@ -9,6 +9,7 @@ use App\Ebay\Library\Information\CurrencyInformation;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Information\ISO3166CountryCodeInformation;
 use App\Ebay\Library\Information\ListingTypeInformation;
+use App\Ebay\Library\Information\SortOrderInformation;
 use App\Ebay\Library\ItemFilter\AuthorizedSellerOnly;
 use App\Ebay\Library\ItemFilter\AvailableTo;
 use App\Ebay\Library\ItemFilter\BestOfferOnly;
@@ -50,6 +51,11 @@ use App\Ebay\Library\ItemFilter\ReturnsAcceptedOnly;
 use App\Ebay\Library\ItemFilter\Seller;
 use App\Ebay\Library\ItemFilter\SellerBusinessType;
 use App\Ebay\Library\ItemFilter\SoldItemsOnly;
+use App\Ebay\Library\ItemFilter\SortOrder;
+use App\Ebay\Library\ItemFilter\StartTimeFrom;
+use App\Ebay\Library\ItemFilter\StartTimeTo;
+use App\Ebay\Library\ItemFilter\TopRatedSellerOnly;
+use App\Ebay\Library\ItemFilter\WorldOfGoodOnly;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -2024,6 +2030,211 @@ class ItemFiltersTest extends TestCase
         $entersInvalidException = false;
         try {
             $soldItemsOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_sort_order()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $sortOrder = SortOrderInformation::instance()->getAll();
+
+        foreach ($sortOrder as $item) {
+            $dynamicMetadata = $this->getDynamicMetadata(
+                ItemFilter::SORT_ORDER,
+                [$item]
+            );
+
+            $sortOrder = new SortOrder(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($sortOrder->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::SORT_ORDER,
+            ['invalid']
+        );
+
+        $sortOrder = new SortOrder(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $sortOrder->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_start_time_from()
+    {
+        $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+        $currentDate->modify('+1 day');
+
+        $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::START_TIME_FROM, $value);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $startTimeFrom = new StartTimeFrom(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($startTimeFrom->validateDynamic());
+
+        $entersInvalidException = false;
+        try {
+            $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+
+            $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::START_TIME_FROM, $value);
+
+            $startTimeFrom = new StartTimeFrom(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $startTimeFrom->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_start_time_to()
+    {
+        $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+        $currentDate->modify('+1 day');
+
+        $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::START_TIME_TO, $value);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $startTimeTo = new StartTimeTo(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($startTimeTo->validateDynamic());
+
+        $entersInvalidException = false;
+        try {
+            $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+
+            $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::START_TIME_TO, $value);
+
+            $startTimeTo = new StartTimeTo(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $startTimeTo->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_top_rated_seller_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::TOP_RATED_SELLER_ONLY, $value);
+
+            $topRatedSellerOnly = new TopRatedSellerOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($topRatedSellerOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::TOP_RATED_SELLER_ONLY, ['invalid']);
+
+        $topRatedSellerOnly = new TopRatedSellerOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $topRatedSellerOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_world_of_goods_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::WORLD_OF_GOOD_ONLY, $value);
+
+            $worldOfGoodOnly = new WorldOfGoodOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($worldOfGoodOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::WORLD_OF_GOOD_ONLY, ['invalid']);
+
+        $worldOfGoodOnly = new WorldOfGoodOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $worldOfGoodOnly->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }

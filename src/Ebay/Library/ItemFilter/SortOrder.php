@@ -12,18 +12,25 @@ class SortOrder extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!empty($this->filter)) {
-            if (!$this->genericValidation($this->filter, 1)) {
-                return false;
-            }
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
 
-            $filter = $this->filter[0];
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s has to be an array with one value',
+                SortOrder::class
+            );
 
-            if (!SortOrderInformation::instance()->has($filter)) {
-                $this->exceptionMessages[] = 'Invalid value for sortOrder. Please, refer to http://developer.ebay.com/devzone/finding/CallRef/extra/fndItmsByKywrds.Rqst.srtOrdr.html';
+            throw new \RuntimeException($message);
+        }
 
-                return false;
-            }
+        $filter = $dynamicValue[0];
+
+        if (!SortOrderInformation::instance()->has($filter)) {
+            $message = sprintf(
+                'Invalid value for sortOrder. Please, refer to http://developer.ebay.com/devzone/finding/CallRef/extra/fndItmsByKywrds.Rqst.srtOrdr.html'
+            );
+
+            throw new \RuntimeException($message);
         }
 
         return true;
@@ -34,6 +41,8 @@ class SortOrder extends BaseDynamic
      */
     public function urlify(int $counter): string
     {
-        return 'sortOrder='.$this->dynamicValue[0].'&';
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue()[0];
+
+        return 'sortOrder='.$dynamicValue.'&';
     }
 }
