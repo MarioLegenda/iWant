@@ -133,6 +133,20 @@ class BaseDynamic implements UrlifyInterface, ItemFilterInterface
             }
         }
 
+        if (count($value) === 1) {
+            $key = array_keys($value)[0];
+
+            if (!is_int($key)) {
+                $message = sprintf(
+                    'Every item filter argument has to be in an array with either one or multiple integer entries'
+                );
+
+                $this->errors->add($message);
+
+                return false;
+            }
+        }
+
         return true;
     }
     /**

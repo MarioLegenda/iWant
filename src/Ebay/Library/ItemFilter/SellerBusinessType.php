@@ -12,8 +12,16 @@ class SellerBusinessType extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 2)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s can only be an array with one array as its value',
+                SellerBusinessType::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
         $validSites = array(
@@ -30,32 +38,59 @@ class SellerBusinessType extends BaseDynamic
             'EBAY-GB',
         );
 
-        $filter = $this->dynamicValue[0];
-        $siteId = $this->dynamicValue[1];
+        $validBusinessTypes = [
+            'Business',
+            'Private'
+        ];
+
+        $filter = $dynamicValue[0];
+
+        if (!array_key_exists('siteId', $filter) or !array_key_exists('businessType', $filter)) {
+            $message = sprintf(
+                '%s accepts an array with keys \'siteId\' that has to be either one of %s and \'businessType\' that can be either one of %s',
+                $dynamicName,
+                implode(', ', $validSites),
+                implode(', ', $validBusinessTypes)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $siteId = $filter['siteId'];
+        $businessType = $filter['businessType'];
 
         if (!GlobalIdInformation::instance()->has($siteId)) {
-            $this->exceptionMessages[] = $this->name.' item filter can be used only on '.implode(', ', $validSites).' ebay sites. '.$siteId.' given';
+            $message = sprintf(
+                '%s item filter can be used only on %s ebay sites. %s given',
+                $dynamicName,
+                implode(', ', $validSites),
+                $siteId
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
-        foreach ($validSites as $validSiteId) {
-            if (!GlobalIdInformation::instance()->has($validSiteId)) {
-                $this->exceptionMessages[] = $this->name.' item filter can be used only on '.implode(', ', $validSites).' ebay sites. '.$validSiteId.' given';
+        if (in_array($siteId, $validSites) === false) {
+            $message = sprintf(
+                '%s item filter can be used only on %s ebay sites. %s given',
+                $dynamicName,
+                implode(', ', $validSites),
+                $siteId
+            );
 
-                return false;
-            }
+            throw new \RuntimeException($message);
         }
 
-        $validFilters = array('Business', 'Private');
+        if (in_array($businessType, $validBusinessTypes) === false) {
+            $message = sprintf(
+                '%s accepts an array with keys \'siteId\' that has to be either one of %s and \'businessType\' that can be either one of %s',
+                $dynamicName,
+                implode(', ', $validSites),
+                implode(', ', $validBusinessTypes)
+            );
 
-        if (in_array($filter, $validFilters) === false) {
-            $this->exceptionMessages[] = $this->name.' item filter can only accept '.implode(', ', $validFilters);
-
-            return false;
+            throw new \RuntimeException($message);
         }
-
-        $this->dynamicValue = array($this->dynamicValue[0]);
 
         return true;
 

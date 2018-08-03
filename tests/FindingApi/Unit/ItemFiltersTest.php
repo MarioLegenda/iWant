@@ -45,6 +45,11 @@ use App\Ebay\Library\ItemFilter\MinQuantity;
 use App\Ebay\Library\ItemFilter\ModTimeFrom;
 use App\Ebay\Library\ItemFilter\OutletSellerOnly;
 use App\Ebay\Library\ItemFilter\PaginationInput;
+use App\Ebay\Library\ItemFilter\PaymentMethod;
+use App\Ebay\Library\ItemFilter\ReturnsAcceptedOnly;
+use App\Ebay\Library\ItemFilter\Seller;
+use App\Ebay\Library\ItemFilter\SellerBusinessType;
+use App\Ebay\Library\ItemFilter\SoldItemsOnly;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -1708,6 +1713,317 @@ class ItemFiltersTest extends TestCase
         $entersInvalidException = false;
         try {
             $paginationInput->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_payment_method()
+    {
+        $value = [
+            'PayPal',
+            'PaisaPal',
+            'PaisaPayEMI',
+        ];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        foreach ($value as $item) {
+            $dynamicMetadata = $this->getDynamicMetadata(
+                ItemFilter::PAYMENT_METHOD,
+                [$item]
+            );
+
+            $paymentMethod = new PaymentMethod(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($paymentMethod->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::PAYMENT_METHOD,
+            ['invalid']
+        );
+
+        $paymentMethod = new PaymentMethod(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $paymentMethod->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_returns_accepted_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::RETURNS_ACCEPTED_ONLY, $value);
+
+            $returnsAcceptedOnly = new ReturnsAcceptedOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($returnsAcceptedOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::RETURNS_ACCEPTED_ONLY, ['invalid']);
+
+        $returnsAcceptedOnly = new ReturnsAcceptedOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $returnsAcceptedOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_seller()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            ['seller1', 'seller2', 'seller3'],
+            ['seller', 'seller', 'seller']
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::SELLER, [$value]);
+
+            $seller = new Seller(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($seller->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::SELLER, [0]);
+
+        $seller = new Seller(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $seller->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_seller_business_type()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $validSites = array(
+            'EBAY-AT',
+            'EBAY-NLBE',
+            'EBAY-NLBE',
+            'EBAY-FR',
+            'EBAY-DE',
+            'EBAY-IE',
+            'EBAY-IT',
+            'EBAY-PL',
+            'EBAY-ES',
+            'EBAY-CH',
+            'EBAY-GB',
+        );
+
+        $validBusinessTypes = [
+            'Business',
+            'Private'
+        ];
+
+        $values = [];
+
+        foreach ($validSites as $site) {
+            $values[] = [
+                'siteId' => $site,
+                'businessType' => $validBusinessTypes[rand(0, 1)],
+            ];
+        }
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::SELLER_BUSINESS_TYPE, [$value]);
+
+            $sellerBusinessType = new SellerBusinessType(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($sellerBusinessType->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::SELLER_BUSINESS_TYPE,
+            [
+                [
+                    'siteId' => 'invalid'
+                ]
+            ]
+        );
+
+        $sellerBusinessType = new SellerBusinessType(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $sellerBusinessType->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::SELLER_BUSINESS_TYPE,
+            [
+                [
+                    'businessType' => 'invalid'
+                ]
+            ]
+        );
+
+        $sellerBusinessType = new SellerBusinessType(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $sellerBusinessType->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::SELLER_BUSINESS_TYPE,
+            [
+                [
+                    'businessType' => 'invalid',
+                    'siteId' => 'EBAY-AT',
+                ]
+            ]
+        );
+
+        $sellerBusinessType = new SellerBusinessType(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $sellerBusinessType->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::SELLER_BUSINESS_TYPE,
+            [
+                [
+                    'businessType' => 'Private',
+                    'siteId' => 'EBAY-invalid',
+                ]
+            ]
+        );
+
+        $sellerBusinessType = new SellerBusinessType(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $sellerBusinessType->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_sold_items_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::SOLD_ITEMS_ONLY, $value);
+
+            $soldItemsOnly = new SoldItemsOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($soldItemsOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::SOLD_ITEMS_ONLY, ['invalid']);
+
+        $soldItemsOnly = new SoldItemsOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $soldItemsOnly->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }

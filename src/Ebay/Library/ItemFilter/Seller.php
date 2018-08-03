@@ -11,14 +11,44 @@ class Seller extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue)) {
+            $message = sprintf(
+                '%s item filter is either empty or not a valid data type. It has to be an array data type',
+                Seller::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        if (count($this->dynamicValue) > 100) {
-            $this->exceptionMessages[] = $this->name.' has to be a valid seller name. Up to a 100 sellers can be specified';
+        if (count($dynamicValue) > 100) {
+            $message = sprintf(
+                '%s has to be a valid seller name. Up to a 100 sellers can be specified',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
+        }
+
+        $filter = array_unique($dynamicValue[0]);
+
+        $invalidItems = [];
+        foreach ($filter as $item) {
+            if (!is_string($item)) {
+                $invalidItems[] = $item;
+            }
+        }
+
+        if (!empty($invalidItems)) {
+            $message = sprintf(
+                '%s accepts an array of valid seller names. A seller name has to be a string. Invalid values are %s',
+                $dynamicName,
+                implode(', ', $invalidItems)
+            );
+
+            throw new \RuntimeException($message);
         }
 
         return true;
