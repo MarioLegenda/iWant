@@ -16,9 +16,9 @@ class PaginationInput extends BaseDynamic
 
         $validValues = ['entriesPerPage', 'pageNumber'];
 
-        if (!$this->genericValidation($dynamicValue, 2)) {
+        if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
-                '%s can have accept an array with two values; %s',
+                '%s can have accept an array with one value; an array with values %s',
                 PaginationInput::class,
                 implode(', ', $validValues)
             );
@@ -27,6 +27,30 @@ class PaginationInput extends BaseDynamic
         }
 
         $filter = $dynamicValue[0];
+
+        if (!is_array($filter)) {
+            $message = sprintf(
+                '%s can have accept an array with one value; an array with values %s',
+                PaginationInput::class,
+                implode(', ', $validValues)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $validDiff = array_diff(array_keys($filter), $validValues);
+
+        if (!empty($validDiff)) {
+            $message = sprintf(
+                '%s can have accept an array with one value; an array with values %s. Invalid entries are: %s',
+                PaginationInput::class,
+                implode(', ', $validValues),
+                implode(', ', $validDiff)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
         foreach ($filter as $key => $f) {
             if (in_array($key, $validValues) === false) {
                 $message = sprintf(
@@ -40,7 +64,7 @@ class PaginationInput extends BaseDynamic
 
             if (!is_int($f)) {
                 $message = sprintf(
-                    '%s can contain only %s and their arguments have to be integers. %s given for %s',
+                    '%s can contain only %s and their arguments have to be integers. Value \'%s\' given for %s',
                     $dynamicName,
                     implode(', ', $validValues),
                     $f,

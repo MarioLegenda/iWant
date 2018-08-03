@@ -12,16 +12,28 @@ class PaymentMethod extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+
+        if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
+            $message = sprintf(
+                '%s can have only one value and it has to be a valid payment method. Allowed payment methods are %s',
+                PaymentMethod::class,
+                implode(', ', PaymentMethodInformation::instance()->getAll())
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        $filter = $this->dynamicValue[0];
+        $filter = $dynamicValue[0];
 
         if (!PaymentMethodInformation::instance()->has($filter)) {
-            $this->exceptionMessages[] = $this->name.' has no payment method '.$filter.'. Allowed payment methods are '.implode(', ', PaymentMethodInformation::instance()->getAll());
+            $message = sprintf(
+                '%s can have only one value and it has to be a valid payment method. Allowed payment methods are %s',
+                PaymentMethod::class,
+                implode(', ', PaymentMethodInformation::instance()->getAll())
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

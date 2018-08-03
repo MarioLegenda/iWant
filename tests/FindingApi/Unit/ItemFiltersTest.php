@@ -1648,7 +1648,7 @@ class ItemFiltersTest extends TestCase
 
     public function test_pagination_input()
     {
-        $value =             [
+        $value = [
             'entriesPerPage' => 1,
             'pageNumber' => 4
         ];
@@ -1669,7 +1669,50 @@ class ItemFiltersTest extends TestCase
 
         static::assertTrue($paginationInput->validateDynamic());
 
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::PAGINATION_INPUT,
+            ['invalid']
+        );
 
+        $paginationInput = new PaginationInput(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $paginationInput->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::PAGINATION_INPUT,
+            [
+                [
+                    'entriesPerPage' => 1,
+                    'pageNumber' => 'invalid'
+                ]
+            ]
+        );
+
+        $paginationInput = new PaginationInput(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $paginationInput->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
     }
     /**
      * @param string $name
