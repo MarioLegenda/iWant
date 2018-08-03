@@ -12,13 +12,19 @@ class OutputSelector extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+
         $validSelectors = OutputSelectorInformation::instance()->getAll();
 
-        foreach ($this->dynamicValue as $filter) {
+        foreach ($dynamicValue as $filter) {
             if (in_array($filter, $validSelectors) === false) {
-                $this->exceptionMessages[] = 'Invalid output selector '.$filter.'. Valid outputSelector types are '.implode(', ', $validSelectors);
+                $message = sprintf(
+                    'Invalid output selector \'%s\'. Valid outputSelector types are %s',
+                    $filter,
+                    implode(', ', $validSelectors)
+                );
 
-                return false;
+                throw new \RuntimeException($message);
             }
         }
 
@@ -30,9 +36,11 @@ class OutputSelector extends BaseDynamic
      */
     public function urlify(int $counter) : string
     {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+
         $counter = 0;
         $final = '';
-        foreach ($this->dynamicValue as $filter) {
+        foreach ($dynamicValue as $filter) {
             $final.='outputSelector('.$counter.')='.$filter.'&';
 
             $counter++;

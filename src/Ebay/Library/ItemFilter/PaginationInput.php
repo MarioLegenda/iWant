@@ -11,18 +11,43 @@ class PaginationInput extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        $validValues = ['entriesPerPage', 'pageNumber'];
+
+        if (!$this->genericValidation($dynamicValue, 2)) {
+            $message = sprintf(
+                '%s can have accept an array with two values; %s',
+                PaginationInput::class,
+                implode(', ', $validValues)
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        $validValues = array('entriesPerPage', 'pageNumber');
-
-        $filter = $this->dynamicValue[0];
+        $filter = $dynamicValue[0];
         foreach ($filter as $key => $f) {
             if (in_array($key, $validValues) === false) {
-                $this->exceptionMessages[] = 'Invalid paginationInput entry \''.$key.'\'. Valid entries are '.implode(', ', $validValues);
+                $message = sprintf(
+                    'Invalid paginationInput entry \'%s\'. Valid entries are %s',
+                    $key,
+                    implode(', ', $validValues)
+                );
 
-                return false;
+                throw new \RuntimeException($message);
+            }
+
+            if (!is_int($f)) {
+                $message = sprintf(
+                    '%s can contain only %s and their arguments have to be integers. %s given for %s',
+                    $dynamicName,
+                    implode(', ', $validValues),
+                    $f,
+                    $key
+                );
+
+                throw new \RuntimeException($message);
             }
         }
 
@@ -34,9 +59,10 @@ class PaginationInput extends BaseDynamic
      */
     public function urlify(int $counter): string
     {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
         $finalEntry = '';
 
-        foreach ($this->dynamicValue[0] as $key => $f) {
+        foreach ($dynamicValue[0] as $key => $f) {
             $finalEntry.='paginationInput.'.$key.'='.$f.'&';
         }
 

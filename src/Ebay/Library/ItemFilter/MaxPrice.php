@@ -30,7 +30,6 @@ class MaxPrice extends BaseDynamic
 
         return $itemFilterString;
     }
-
     /**
      * @return bool
      */

@@ -41,6 +41,7 @@ class ItemFilter
     const OUTLET_SELLER_ONLY = 'OutletSellerOnly';
     const OUTPUT_SELECTOR = 'OutputSelector';
     const PAYMENT_METHOD = 'PaymentMethod';
+    const PAGINATION_INPUT = 'PaginationInput';
     const RETURNS_ACCEPTED_ONLY = 'ReturnsAcceptedOnly';
     const SELLER = 'Seller';
     const SELLER_BUSINESS_TYPE = 'SellerBusinessType';

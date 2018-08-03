@@ -3,32 +3,68 @@
 namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
-
-use FindingAPI\Core\Helper;
+use App\Ebay\Library\Helper;
 
 class MinPrice extends BaseDynamic
 {
+    /**
+     * @param int $counter
+     * @return string
+     */
+    public function urlify(int $counter): string
+    {
+        $itemFilterString = parent::urlify($counter);
+
+        if ($this->getDynamicMetadata()->hasParamOption()) {
+            $paramName = $this->getDynamicMetadata()->getParamName();
+            $paramValue = $this->getDynamicMetadata()->getParamValue();
+
+            $itemFilterString.=sprintf(
+                'itemFilter(%d).paramName=%s&itemFilter(%d).paramValue=%s&',
+                $counter,
+                $paramName,
+                $counter,
+                $paramValue
+            );
+        }
+
+        return $itemFilterString;
+    }
     /**
      * @return bool
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 2)) {
-            return false;
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
+            $message = sprintf(
+                '%s can have only one value and it has to be a float greater than or equal to 0.0',
+                MinBids::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        $toValidate = $this->dynamicValue[0];
+        $toValidate = $dynamicValue[0];
 
         if (!is_float($toValidate)) {
-            $this->exceptionMessages[] = $this->name.' has to be an decimal greater than or equal to 0.0';
+            $message = sprintf(
+                '\'%s\' has to be an decimal greater than or equal to 0.0',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         if (Helper::compareFloatNumbers($toValidate, 0.0, '<')) {
-            $this->exceptionMessages[] = $this->name.' has to be an decimal greater than or equal to 0.0';
+            $message = sprintf(
+                '\'%s\' has to be an decimal greater than or equal to 0.0',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

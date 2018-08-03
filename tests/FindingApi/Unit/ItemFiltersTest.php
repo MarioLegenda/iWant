@@ -40,6 +40,11 @@ use App\Ebay\Library\ItemFilter\MaxHandlingTime;
 use App\Ebay\Library\ItemFilter\MaxPrice;
 use App\Ebay\Library\ItemFilter\MaxQuantity;
 use App\Ebay\Library\ItemFilter\MinBids;
+use App\Ebay\Library\ItemFilter\MinPrice;
+use App\Ebay\Library\ItemFilter\MinQuantity;
+use App\Ebay\Library\ItemFilter\ModTimeFrom;
+use App\Ebay\Library\ItemFilter\OutletSellerOnly;
+use App\Ebay\Library\ItemFilter\PaginationInput;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -1396,6 +1401,275 @@ class ItemFiltersTest extends TestCase
         }
 
         static::assertTrue($entersInvalidException);
+    }
+
+    public function test_min_price()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [0.1, 0.2, 1.02, 3.4];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(
+                ItemFilter::MIN_PRICE,
+                [$value],
+                'Currency',
+                'USD'
+            );
+
+            $minPrice = new MinPrice(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($minPrice->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::MIN_PRICE,
+            ['invalid'],
+            'Currency',
+            'USD'
+        );
+
+        $minPrice = new MinPrice(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minPrice->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::MIN_PRICE,
+            [0],
+            'Currency',
+            'USD'
+        );
+
+        $minPrice = new MinPrice(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minPrice->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::MIN_PRICE,
+            [-1],
+            'Currency',
+            'USD'
+        );
+
+        $minPrice = new MinPrice(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minPrice->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_min_quantity()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [1, 5, 6, 24, 56];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_QUANTITY, [$value]);
+
+            $minQuantity = new MinQuantity(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($minQuantity->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_QUANTITY, ['invalid']);
+
+        $minQuantity = new MinQuantity(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_QUANTITY, [0]);
+
+        $minQuantity = new MinQuantity(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MIN_QUANTITY, [-1]);
+
+        $minQuantity = new MinQuantity(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $minQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_mod_time_from()
+    {
+        $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+        $currentDate->modify('+1 day');
+
+        $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MOD_TIME_FROM, $value);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $modTimeFrom = new ModTimeFrom(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($modTimeFrom->validateDynamic());
+
+        $entersInvalidException = false;
+        try {
+            $currentDate = new \DateTime(Util::formatFromDate(new \DateTime()));
+
+            $value = [$currentDate->format(Util::getDateTimeApplicationFormat())];
+
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MOD_TIME_FROM, $value);
+
+            $modTimeFrom = new ModTimeFrom(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $modTimeFrom->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_outlet_seller_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::OUTLET_SELLER_ONLY, $value);
+
+            $outletSellerOnly = new OutletSellerOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($outletSellerOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::OUTLET_SELLER_ONLY, ['invalid']);
+
+        $outletSellerOnly = new OutletSellerOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $outletSellerOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_pagination_input()
+    {
+        $value =             [
+            'entriesPerPage' => 1,
+            'pageNumber' => 4
+        ];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::PAGINATION_INPUT,
+            [$value]
+        );
+
+        $paginationInput = new PaginationInput(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($paginationInput->validateDynamic());
+
+
     }
     /**
      * @param string $name
