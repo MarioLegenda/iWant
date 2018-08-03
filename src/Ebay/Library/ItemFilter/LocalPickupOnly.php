@@ -11,10 +11,24 @@ class LocalPickupOnly extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
-            return false;
+        if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
+            $message = sprintf(
+                '%s can have only one value, true or false',
+                LocalPickupOnly::class
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        return parent::checkBoolean($this->dynamicValue[0]);
+        if (parent::checkBoolean($this->getDynamicMetadata()->getDynamicValue()[0]) === false) {
+            $message = sprintf(
+                '%s can have only one value, true or false. Non boolean value given',
+                LocalPickupOnly::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return true;
     }
 }

@@ -12,17 +12,27 @@ class LocatedIn extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (count($this->dynamicValue) > 25) {
-            $this->exceptionMessages[] = $this->name.' can specify up to 25 countries. '.count($this->dynamicValue).' given';
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
 
-            return false;
+        if (count($dynamicValue) > 25) {
+            $message = sprintf(
+                '\'%s\' can specify up to 25 countries. %d given',
+                $dynamicName,
+                count($dynamicValue)
+            );
+
+            throw new \RuntimeException($message);
         }
 
-        foreach ($this->dynamicValue as $code) {
+        foreach ($dynamicValue as $code) {
             if (!ISO3166CountryCodeInformation::instance()->has($code)) {
-                $this->exceptionMessages[] = 'Unknown ISO31566 country code '.$code.'. Please, refere to https://www.iso.org/obp/ui/#search';
+                $message = sprintf(
+                    'Unknown ISO31566 country code %s. Please, refere to https://www.iso.org/obp/ui/#search',
+                    $code
+                );
 
-                return false;
+                throw new \RuntimeException($message);
             }
         }
 

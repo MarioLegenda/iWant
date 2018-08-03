@@ -30,6 +30,11 @@ use App\Ebay\Library\ItemFilter\HideDuplicateItems;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Ebay\Library\ItemFilter\ListedIn;
 use App\Ebay\Library\ItemFilter\ListingType;
+use App\Ebay\Library\ItemFilter\LocalPickupOnly;
+use App\Ebay\Library\ItemFilter\LocalSearchOnly;
+use App\Ebay\Library\ItemFilter\LocatedIn;
+use App\Ebay\Library\ItemFilter\LotsOnly;
+use App\Ebay\Library\ItemFilter\MaxBids;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -812,6 +817,217 @@ class ItemFiltersTest extends TestCase
         $entersInvalidException = false;
         try {
             $listingType->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_local_pickup_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOCAL_PICKUP_ONLY, $value);
+
+            $localPickupOnly = new LocalPickupOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($localPickupOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOCAL_PICKUP_ONLY, ['invalid']);
+
+        $localPickupOnly = new LocalPickupOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $localPickupOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_local_search_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOCAL_SEARCH_ONLY, $value);
+
+            $localSearchOnly = new LocalSearchOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($localSearchOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOCAL_SEARCH_ONLY, ['invalid']);
+
+        $localSearchOnly = new LocalSearchOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $localSearchOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_located_in()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = ISO3166CountryCodeInformation::instance()->getAll();
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOCATED_IN, [$value['alpha2']]);
+
+            $locatedIn = new LocatedIn(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($locatedIn->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOCATED_IN, ['invalid']);
+
+        $locatedIn = new LocatedIn(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $locatedIn->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_lots_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOTS_ONLY, $value);
+
+            $lotsOnly = new LotsOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($lotsOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LOTS_ONLY, ['invalid']);
+
+        $lotsOnly = new LocalSearchOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $lotsOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_max_bids()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [0, 1, 24, 56];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_BIDS, [$value]);
+
+            $maxBids = new MaxBids(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($maxBids->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_BIDS, ['invalid']);
+
+        $maxBids = new MaxBids(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxBids->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_BIDS, [-1]);
+
+        $maxBids = new MaxBids(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxBids->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }
