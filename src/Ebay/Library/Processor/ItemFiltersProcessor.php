@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Library\Processor;
 
+use App\Ebay\Library\Dynamic\DynamicInterface;
 use App\Ebay\Library\ItemFilter\Validation\GlobalItemFiltersValidator;
 use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -33,7 +34,7 @@ class ItemFiltersProcessor implements ProcessorInterface
 
         $globalItemsFiltersValidator = new GlobalItemFiltersValidator();
 
-        //$globalItemsFiltersValidator->validate($this->itemFilters);
+        $globalItemsFiltersValidator->validate($this->itemFilters);
 
         /** @var ItemFilterInterface|DynamicInterface $itemFilter */
         foreach ($this->itemFilters as $itemFilter) {

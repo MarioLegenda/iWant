@@ -22,12 +22,15 @@ class ItemFilterFactory
     {
         $itemFiltersGen = Util::createGenerator($metadataIterable);
 
-        $itemFilters = TypedArray::create('integer', ItemFilterInterface::class);
+        $itemFilters = TypedArray::create('string', ItemFilterInterface::class);
         foreach ($itemFiltersGen as $item) {
             /** @var ItemFilterModel $itemFilterModel */
             $itemFilterModel = $item['item'];
+
+            $itemFilterMetadata = $itemFilterModel->getItemFilterMetadata();
+
             /** @var ItemFilterDynamic $itemFilter */
-            $itemFilters[] = $this->create($itemFilterModel->getItemFilterMetadata()->toArray());
+            $itemFilters[$itemFilterMetadata->getNameValue()] = $this->create($itemFilterModel->getItemFilterMetadata()->toArray());
         }
 
         return $itemFilters;
