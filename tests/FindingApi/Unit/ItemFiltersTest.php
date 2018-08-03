@@ -6,7 +6,9 @@ use App\Ebay\Library\Dynamic\DynamicConfiguration;
 use App\Ebay\Library\Dynamic\DynamicErrors;
 use App\Ebay\Library\Dynamic\DynamicMetadata;
 use App\Ebay\Library\Information\CurrencyInformation;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Information\ISO3166CountryCodeInformation;
+use App\Ebay\Library\Information\ListingTypeInformation;
 use App\Ebay\Library\ItemFilter\AuthorizedSellerOnly;
 use App\Ebay\Library\ItemFilter\AvailableTo;
 use App\Ebay\Library\ItemFilter\BestOfferOnly;
@@ -22,7 +24,12 @@ use App\Ebay\Library\ItemFilter\ExpeditedShippingType;
 use App\Ebay\Library\ItemFilter\FeaturedOnly;
 use App\Ebay\Library\ItemFilter\FeedbackScoreMax;
 use App\Ebay\Library\ItemFilter\FeedbackScoreMin;
+use App\Ebay\Library\ItemFilter\FreeShippingOnly;
+use App\Ebay\Library\ItemFilter\GetItFastOnly;
+use App\Ebay\Library\ItemFilter\HideDuplicateItems;
 use App\Ebay\Library\ItemFilter\ItemFilter;
+use App\Ebay\Library\ItemFilter\ListedIn;
+use App\Ebay\Library\ItemFilter\ListingType;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -611,6 +618,200 @@ class ItemFiltersTest extends TestCase
         $entersInvalidException = false;
         try {
             $feedbackScoreMin->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_free_shipping_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FREE_SHIPPING_ONLY, $value);
+
+            $freeShippingOnly = new FreeShippingOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($freeShippingOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::FREE_SHIPPING_ONLY, ['invalid']);
+
+        $freeShippingOnly = new FreeShippingOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $freeShippingOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_get_it_fast_only()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::GET_IT_FAST_ONLY, $value);
+
+            $getItFastOnly = new GetItFastOnly(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($getItFastOnly->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::GET_IT_FAST_ONLY, ['invalid']);
+
+        $getItFastOnly = new GetItFastOnly(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $getItFastOnly->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_hide_duplicate_items()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [
+            [true],
+            [false]
+        ];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::HIDE_DUPLICATE_ITEMS, $value);
+
+            $hideDuplicateItems = new HideDuplicateItems(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($hideDuplicateItems->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::HIDE_DUPLICATE_ITEMS, ['invalid']);
+
+        $hideDuplicateItems = new HideDuplicateItems(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $hideDuplicateItems->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_listed_in()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $globalIds = GlobalIdInformation::instance()->getAll();
+
+        foreach ($globalIds as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LISTED_IN, [$value['global-id']]);
+
+            $listedIn = new ListedIn(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($listedIn->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LISTED_IN, ['invalid']);
+
+        $listedIn = new ListedIn(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $listedIn->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_listing_type()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $listingTypes = ListingTypeInformation::instance()->getAll();
+
+        foreach ($listingTypes as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LISTING_TYPE, [$value]);
+
+            $listingType = new ListingType(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($listingType->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LISTING_TYPE, ['invalid']);
+
+        $listingType = new ListingType(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $listingType->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }

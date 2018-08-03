@@ -13,16 +13,22 @@ class ListedIn extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        if (!$this->genericValidation($this->dynamicValue, 1)) {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        if (!$this->genericValidation($dynamicValue, 1)) {
             return false;
         }
 
-        $filter = $this->dynamicValue[0];
+        $filter = $dynamicValue[0];
 
         if (!GlobalIdInformation::instance()->has($filter)) {
-            $this->exceptionMessages[] = $this->name.' has to have a valid global id. Please, refer to http://developer.ebay.com/devzone/finding/callref/Enums/GlobalIdList.html or use FindingAPI\Core\ItemFilter\GlobalId object';
+            $message = sprintf(
+                '\'%s\' has to have a valid global id. Please, refer to http://developer.ebay.com/devzone/finding/callref/Enums/GlobalIdList.html or use FindingAPI\Core\ItemFilter\GlobalId object',
+                $dynamicName
+            );
 
-            return false;
+            throw new \RuntimeException($message);
         }
 
         return true;

@@ -11,12 +11,24 @@ class FreeShippingOnly extends BaseDynamic
      */
     public function validateDynamic() : bool
     {
-        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
+            $message = sprintf(
+                '%s can have only one value, true or false',
+                FreeShippingOnly::class
+            );
 
-        if (!$this->genericValidation($dynamicValue, 1)) {
-            return false;
+            throw new \RuntimeException($message);
         }
 
-        return parent::checkBoolean($dynamicValue[0]);
+        if (parent::checkBoolean($this->getDynamicMetadata()->getDynamicValue()[0]) === false) {
+            $message = sprintf(
+                '%s can have only one value, true or false. Non boolean value given',
+                FreeShippingOnly::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return true;
     }
 }
