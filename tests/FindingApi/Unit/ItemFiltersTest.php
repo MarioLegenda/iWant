@@ -35,6 +35,10 @@ use App\Ebay\Library\ItemFilter\LocalSearchOnly;
 use App\Ebay\Library\ItemFilter\LocatedIn;
 use App\Ebay\Library\ItemFilter\LotsOnly;
 use App\Ebay\Library\ItemFilter\MaxBids;
+use App\Ebay\Library\ItemFilter\MaxDistance;
+use App\Ebay\Library\ItemFilter\MaxHandlingTime;
+use App\Ebay\Library\ItemFilter\MaxPrice;
+use App\Ebay\Library\ItemFilter\MaxQuantity;
 use App\Library\Util\Util;
 use PHPUnit\Framework\TestCase;
 
@@ -1034,18 +1038,328 @@ class ItemFiltersTest extends TestCase
 
         static::assertTrue($entersInvalidException);
     }
+
+    public function test_max_distance()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [5, 6, 24, 56];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_DISTANCE, [$value]);
+
+            $maxDistance = new MaxDistance(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($maxDistance->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_DISTANCE, ['invalid']);
+
+        $maxDistance = new MaxDistance(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxDistance->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_DISTANCE, [-1]);
+
+        $maxDistance = new MaxDistance(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxDistance->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_DISTANCE, [4]);
+
+        $maxDistance = new MaxDistance(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxDistance->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_max_handling_time()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [5, 6, 24, 56];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_HANDLING_TIME, [$value]);
+
+            $maxHandlingTime = new MaxHandlingTime(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($maxHandlingTime->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_HANDLING_TIME, ['invalid']);
+
+        $maxHandlingTime = new MaxHandlingTime(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxHandlingTime->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_HANDLING_TIME, [0]);
+
+        $maxHandlingTime = new MaxHandlingTime(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxHandlingTime->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_DISTANCE, [-1]);
+
+        $maxHandlingTime = new MaxHandlingTime(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxHandlingTime->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_max_price()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [0.1, 0.2, 1.02, 3.4];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(
+                ItemFilter::MAX_PRICE,
+                [$value],
+                'Currency',
+                'USD'
+            );
+
+            $maxPrice = new MaxPrice(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($maxPrice->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::MAX_PRICE,
+            ['invalid'],
+            'Currency',
+            'USD'
+        );
+
+        $maxPrice = new MaxPrice(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxPrice->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::MAX_PRICE,
+            [0],
+            'Currency',
+            'USD'
+        );
+
+        $maxPrice = new MaxPrice(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxPrice->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::MAX_PRICE,
+            [-1],
+            'Currency',
+            'USD'
+        );
+
+        $maxPrice = new MaxPrice(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxPrice->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_max_quantity()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $values = [1, 5, 6, 24, 56];
+
+        foreach ($values as $value) {
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_QUANTITY, [$value]);
+
+            $maxQuantity = new MaxQuantity(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($maxQuantity->validateDynamic());
+        }
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_QUANTITY, ['invalid']);
+
+        $maxQuantity = new MaxQuantity(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_QUANTITY, [0]);
+
+        $maxQuantity = new MaxQuantity(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+
+        $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::MAX_QUANTITY, [-1]);
+
+        $maxQuantity = new MaxQuantity(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $maxQuantity->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
     /**
      * @param string $name
      * @param array $value
+     * @param string|null $paramName
+     * @param string|null $paramValue
      * @return DynamicMetadata
      */
     private function getDynamicMetadata(
         string $name,
-        array $value
+        array $value,
+        string $paramName = null,
+        string $paramValue = null
     ): DynamicMetadata {
         return new DynamicMetadata(
             $name,
-            $value
+            $value,
+            $paramName,
+            $paramValue
         );
     }
     /**

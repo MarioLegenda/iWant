@@ -17,7 +17,7 @@ class MaxBids extends BaseDynamic
         if (!$this->genericValidation($dynamicValue, 1)) {
             $message = sprintf(
                 '%s can have only one value, true or false',
-                LotsOnly::class
+                MaxBids::class
             );
 
             throw new \RuntimeException($message);

@@ -27,7 +27,7 @@ class DataProvider
             'name',
             'value',
             'MaxPrice',
-            [25]
+            [56.7]
         ));
 
         $freeShippingOnly = new ItemFilter(new ItemFilterMetadata(
