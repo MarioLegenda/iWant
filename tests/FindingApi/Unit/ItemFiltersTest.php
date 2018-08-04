@@ -27,6 +27,7 @@ use App\Ebay\Library\ItemFilter\FeedbackScoreMax;
 use App\Ebay\Library\ItemFilter\FeedbackScoreMin;
 use App\Ebay\Library\ItemFilter\FreeShippingOnly;
 use App\Ebay\Library\ItemFilter\GetItFastOnly;
+use App\Ebay\Library\ItemFilter\GlobalId;
 use App\Ebay\Library\ItemFilter\HideDuplicateItems;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Ebay\Library\ItemFilter\ListedIn;
@@ -2240,6 +2241,31 @@ class ItemFiltersTest extends TestCase
         }
 
         static::assertTrue($entersInvalidException);
+    }
+
+    public function test_global_id()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $globalIds = GlobalIdInformation::instance()->getAll();
+
+        foreach ($globalIds as $globalId) {
+            $dynamicMetadata = $this->getDynamicMetadata(
+                ItemFilter::GLOBAL_ID,
+                [$globalId['global-id']]
+            );
+
+            $globalId = new GlobalId(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            static::assertTrue($globalId->validateDynamic());
+        }
+
+
     }
     /**
      * @param string $name

@@ -22,6 +22,7 @@ class ItemFilter
     const FEEDBACK_SCORE_MIN = 'FeedbackScoreMin';
     const FREE_SHIPPING_ONLY = 'FreeShippingOnly';
     const GET_IT_FAST_ONLY = 'GetItFastOnly';
+    const GLOBAL_ID = 'GLOBAL-ID';
     const HIDE_DUPLICATE_ITEMS = 'HideDuplicateItems';
     const LISTED_IN = 'ListedIn';
     const LISTING_TYPE = 'ListingType';
