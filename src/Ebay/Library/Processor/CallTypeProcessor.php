@@ -5,6 +5,7 @@ namespace App\Ebay\Library\Processor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Processor\ProcessorInterface;
 
 class CallTypeProcessor implements ProcessorInterface
 {

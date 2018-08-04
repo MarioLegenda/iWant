@@ -48,6 +48,13 @@ class LockedImmutableHashSet implements CollectionInterface
         return count($this->data);
     }
     /**
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return empty($this->data);
+    }
+    /**
      * @return \ArrayIterator
      */
     public function getIterator(): \ArrayIterator
@@ -145,12 +152,5 @@ class LockedImmutableHashSet implements CollectionInterface
                 throw new \RuntimeException($message);
             }
         }
-    }
-    /**
-     * @param array $data
-     * @return mixed
-     */
-    private function assignRecursivly(array $data)
-    {
     }
 }

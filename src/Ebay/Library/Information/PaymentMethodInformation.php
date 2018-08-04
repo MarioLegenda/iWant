@@ -2,6 +2,8 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Information\InformationInterface;
+
 class PaymentMethodInformation implements InformationInterface
 {
     const PAY_PAL = 'PayPal';

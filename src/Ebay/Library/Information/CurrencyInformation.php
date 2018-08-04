@@ -2,6 +2,8 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Information\InformationInterface;
+
 class CurrencyInformation implements InformationInterface
 {
     const AUSTRALIAN = 'AUD';

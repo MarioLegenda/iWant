@@ -2,6 +2,8 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Information\InformationInterface;
+
 class SortOrderInformation implements InformationInterface
 {
     const BEST_MATCH = 'BestMatch';

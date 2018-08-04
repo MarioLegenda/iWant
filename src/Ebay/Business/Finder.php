@@ -4,7 +4,7 @@ namespace App\Ebay\Business;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
 use App\Ebay\Library\Processor\CallTypeProcessor;
-use App\Ebay\Library\Processor\ProcessorInterface;
+use App\Library\Processor\ProcessorInterface;
 use App\Ebay\Library\RequestProducer;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;

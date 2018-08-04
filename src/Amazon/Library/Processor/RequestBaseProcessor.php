@@ -1,14 +1,19 @@
 <?php
 
-namespace App\Ebay\Library\Processor;
+namespace App\Amazon\Library\Processor;
 
-use App\Library\Processor\ProcessorInterface;
+use App\Amazon\Library\Information\SiteIdInformation;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Processor\ProcessorInterface;
 
 class RequestBaseProcessor implements ProcessorInterface
 {
     /**
-     * @param LockedImmutableHashSet $options
+     * @var LockedImmutableHashSet $amazonProductAdvertisingApiMetadata
+     */
+    private $amazonProductAdvertisingApiMetadata;
+    /**
+     * @var LockedImmutableHashSet $options
      */
     private $options;
     /**
@@ -16,17 +21,13 @@ class RequestBaseProcessor implements ProcessorInterface
      */
     private $processed;
     /**
-     * @var LockedImmutableHashSet $ebayFindingApiMetadata
-     */
-    private $ebayFindingApiMetadata;
-    /**
      * RequestBaseProcessor constructor.
-     * @param iterable $ebayFindingApiMetadata
+     * @param iterable $amazonProductAdvertisingApiMetadata
      */
     public function __construct(
-        iterable $ebayFindingApiMetadata
+        iterable $amazonProductAdvertisingApiMetadata
     ) {
-        $this->ebayFindingApiMetadata = LockedImmutableHashSet::create($ebayFindingApiMetadata);
+        $this->amazonProductAdvertisingApiMetadata = LockedImmutableHashSet::create($amazonProductAdvertisingApiMetadata);
     }
     /**
      * @return ProcessorInterface
@@ -42,15 +43,30 @@ class RequestBaseProcessor implements ProcessorInterface
             throw new \RuntimeException($message);
         }
 
-        $baseUrl = $this->ebayFindingApiMetadata['base_url'];
-        $names = $this->ebayFindingApiMetadata['names'];
-        $configParams = $this->ebayFindingApiMetadata['params']->toArray();
+        $siteId = $this->options['siteId'];
+
+        if (!SiteIdInformation::instance()->has($siteId)) {
+            $message = sprintf(
+                'Non existent site id \'%s\' given for Amazon api',
+                $siteId
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $siteId = SiteIdInformation::instance()->get($siteId);
+        $baseUrl = $this->amazonProductAdvertisingApiMetadata['base_url'];
+        $names = $this->amazonProductAdvertisingApiMetadata['names'];
+        $configParams = $this->amazonProductAdvertisingApiMetadata['params']->toArray();
         $userParams = $this->options->toArray();
+
+        /** Prepend the locale to base url. Call will not work because the url is in an invalid state without it */
+        $baseUrl.=$siteId.'/onca/xml?';
 
         foreach ($names as $key => $name) {
             $currentProduct = '';
             if (array_key_exists($key, $configParams) and is_string($configParams[$key])) {
-                $currentProduct=sprintf(
+                $currentProduct.=sprintf(
                     '%s=%s',
                     $name,
                     $configParams[$key]
@@ -87,7 +103,8 @@ class RequestBaseProcessor implements ProcessorInterface
         return $this;
     }
     /**
-     * @inheritdoc
+     * @param LockedImmutableHashSet $options
+     * @return ProcessorInterface
      */
     public function setOptions(LockedImmutableHashSet $options): ProcessorInterface
     {
@@ -104,7 +121,6 @@ class RequestBaseProcessor implements ProcessorInterface
 
         return $this;
     }
-
     /**
      * @return string
      */

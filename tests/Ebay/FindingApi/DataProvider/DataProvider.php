@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\FindingApi\DataProvider;
+namespace App\Tests\Ebay\FindingApi\DataProvider;
 
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\Model\FindingApiModel;

@@ -2,6 +2,8 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Information\InformationInterface;
+
 class OutputSelectorInformation implements InformationInterface
 {
     const ASPECT_HISTOGRAM = 'AspectHistogram';

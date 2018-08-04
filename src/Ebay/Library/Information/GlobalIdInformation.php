@@ -2,6 +2,8 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Information\InformationInterface;
+
 class GlobalIdInformation implements InformationInterface
 {
     const EBAY_AT = 'ebay-at';

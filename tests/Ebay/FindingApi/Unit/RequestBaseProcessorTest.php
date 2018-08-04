@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Tests\FindingApi\Unit;
+namespace App\Tests\Ebay\FindingApi\Unit;
 
 use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;

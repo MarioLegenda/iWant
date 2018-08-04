@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Tests\FindingApi;
+namespace App\Tests\Ebay\FindingApi;
 
 use App\Ebay\Presentation\EntryPoint\FindingApiEntryPoint;
-use App\Tests\FindingApi\DataProvider\DataProvider;
+use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 
 class FindingApiTest extends BasicSetup

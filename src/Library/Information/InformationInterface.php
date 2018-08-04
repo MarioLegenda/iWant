@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ebay\Library\Information;
+namespace App\Library\Information;
 
 interface InformationInterface
 {

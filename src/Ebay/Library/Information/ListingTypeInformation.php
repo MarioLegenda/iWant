@@ -2,6 +2,8 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Information\InformationInterface;
+
 class ListingTypeInformation implements InformationInterface
 {
     const ALL = 'All';
