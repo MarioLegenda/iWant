@@ -1,32 +1,15 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: macbook
+ * Date: 05/08/2018
+ * Time: 13:53
+ */
 
 namespace App\Amazon\Presentation\ProductAdvertising\Model;
 
-use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Infrastructure\Type\TypeInterface;
 
 class ProductAdvertisingApiModel
 {
-    /**
-     * @var TypeInterface
-     */
-    private $operationType;
-    /**
-     * @var TypedArray $itemFilters
-     */
-    private $itemFilters;
-    /**
-     * ProductAdvertisingApiModel constructor.
-     * @param TypeInterface $operationType
-     * @param TypedArray $itemFilters
-     */
-    public function __construct(
-        TypeInterface $operationType,
-        TypedArray $itemFilters
-    ) {
-        $this->operationType = $operationType;
-        $this->itemFilters = $itemFilters;
-    }
-
 
 }
