@@ -2,9 +2,28 @@
 
 namespace App\Amazon\Presentation\ProductAdvertising\EntryPoint;
 
-class ItemSearchEntryPoint
+use App\Amazon\Business\Finder;
+use App\Amazon\Presentation\ProductAdvertising\Model\ProductAdvertisingApiModel;
+
+class ProductAdvertisingEntryPoint
 {
-    public function itemSearch()
+    /**
+     * @var Finder $finder
+     */
+    private $finder;
+    /**
+     * ProductAdvertisingEntryPoint constructor.
+     * @param Finder $finder
+     */
+    public function __construct(
+        Finder $finder
+    ) {
+        $this->finder = $finder;
+    }
+    /**
+     * @param ProductAdvertisingApiModel $model
+     */
+    public function search(ProductAdvertisingApiModel $model)
     {
 
     }

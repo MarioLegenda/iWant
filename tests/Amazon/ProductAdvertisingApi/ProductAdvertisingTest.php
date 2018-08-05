@@ -1,15 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: macbook
- * Date: 05/08/2018
- * Time: 13:58
- */
 
 namespace App\Tests\Amazon\ProductAdvertisingApi;
 
+use App\Amazon\Presentation\ProductAdvertising\EntryPoint\ProductAdvertisingEntryPoint;
+use App\Tests\Library\BasicSetup;
 
-class ProductAdvertisingTest
+class ProductAdvertisingTest extends BasicSetup
 {
+    public function test_search()
+    {
+        $productAdvertisinEntryPoint = $this->locator->get(ProductAdvertisingEntryPoint::class);
 
+        
+    }
 }

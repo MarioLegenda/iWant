@@ -31,6 +31,10 @@ services:
         autowire: true
         public: true
 
+    App\Amazon\:
+        resource: '../src/Amazon/*'
+        exclude: '../src/Amazon/{Library/*,Presentation/ProductAdvertising/Model/*}'
+
     App\Ebay\:
         resource: '../src/Ebay/*'
         exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/FindingApi/Model}'
