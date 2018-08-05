@@ -15,19 +15,25 @@ class Util
         }
     }
     /**
+     * @return string
+     */
+    public static function toGmDateAmazonTimestamp(): string
+    {
+        return gmdate("Y-m-d\TH:i:s\Z");
+    }
+    /**
      * @param \DateTime|string|null $dateTime
+     * @param string|null $format
      * @throws \RuntimeException
      * @return \DateTime
      */
-    public static function toDateTime($dateTime = null): \DateTime
+    public static function toDateTime($dateTime = null, string $format = null): \DateTime
     {
         if (is_null($dateTime)) {
             $temp = new \DateTime();
+            $format = (is_string($format)) ? $format : Util::getDateTimeApplicationFormat();
 
-            return \DateTime::createFromFormat(
-                Util::getDateTimeApplicationFormat(),
-                $temp->format(Util::getDateTimeApplicationFormat())
-            );
+            return new \DateTime($temp->format($format));
         }
 
         if ($dateTime instanceof \DateTime) {

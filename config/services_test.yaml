@@ -20,6 +20,7 @@ parameters:
             aws_access_key: AWSAccessKeyId
             associate_tag: AssociateTag
             search_index: SearchIndex
+            timestamp: Timestamp
         params:
             service: AWSECommerceService
             aws_access_key: 'access_key_stub_to_be_replaced'
