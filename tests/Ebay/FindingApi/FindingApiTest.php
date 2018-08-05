@@ -2,7 +2,7 @@
 
 namespace App\Tests\Ebay\FindingApi;
 
-use App\Ebay\Presentation\EntryPoint\FindingApiEntryPoint;
+use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 

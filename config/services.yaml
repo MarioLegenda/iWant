@@ -17,6 +17,19 @@ parameters:
             service_version: '1.0.0'
             rest_payload: null
             security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
+    amazon_product_advertising_api_metadata:
+        base_url: http://webservices.amazon
+        names:
+            service: Service
+            operation: Operation
+            aws_access_key: AWSAccessKeyId
+            associate_tag: AssociateTag
+            search_index: SearchIndex
+            timestamp: Timestamp
+        params:
+            service: AWSECommerceService
+            aws_access_key: 'access_key_stub_to_be_replaced'
+            associate_tag: 'aws_associate_id_to_be_replaced'
 
 services:
     _defaults:
@@ -25,7 +38,7 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/FindingApi/Model}'
 
     App\Library\:
         resource: '../src/Library'
@@ -34,6 +47,10 @@ services:
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
+
+    App\Amazon\Library\Processor\RequestBaseProcessor:
+        arguments:
+            $amazonProductAdvertisingApiMetadata: '%amazon_product_advertising_api_metadata%'
 
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:

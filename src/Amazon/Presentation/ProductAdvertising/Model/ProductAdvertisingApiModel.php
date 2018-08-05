@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Amazon\Presentation\Model;
+namespace App\Amazon\Presentation\ProductAdvertising\Model;
 
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Type\TypeInterface;

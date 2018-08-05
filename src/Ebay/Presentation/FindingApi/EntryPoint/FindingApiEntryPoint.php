@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ebay\Presentation\EntryPoint;
+namespace App\Ebay\Presentation\FindingApi\EntryPoint;
 
 use App\Ebay\Business\Finder;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;

@@ -8,7 +8,7 @@ use App\Library\Processor\ProcessorInterface;
 use App\Ebay\Library\RequestProducer;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
-use App\Ebay\Presentation\Model\CallTypeInterface;
+use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\Tools\LockedImmutableHashSet;

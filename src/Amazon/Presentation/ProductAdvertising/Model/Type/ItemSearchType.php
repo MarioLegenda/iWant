@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Amazon\Presentation\Model\Type;
+namespace App\Amazon\Presentation\ProductAdvertising\Model\Type;
 
 use App\Library\Infrastructure\Type\BaseType;
 
