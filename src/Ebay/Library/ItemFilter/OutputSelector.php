@@ -34,7 +34,7 @@ class OutputSelector extends BaseDynamic
      * @param int $counter
      * @return string
      */
-    public function urlify(int $counter) : string
+    public function urlify(int $counter = null) : string
     {
         $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
 

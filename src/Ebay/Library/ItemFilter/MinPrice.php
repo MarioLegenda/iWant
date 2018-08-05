@@ -11,7 +11,7 @@ class MinPrice extends BaseDynamic
      * @param int $counter
      * @return string
      */
-    public function urlify(int $counter): string
+    public function urlify(int $counter = null): string
     {
         $itemFilterString = parent::urlify($counter);
 

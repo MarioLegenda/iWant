@@ -39,7 +39,7 @@ class BaseDynamic implements UrlifyInterface, ItemFilterInterface
      * @param int $counter
      * @return string
      */
-    public function urlify(int $counter) : string
+    public function urlify(int $counter = null) : string
     {
         $multipleValues = $this->dynamicConfiguration->isMultipleValues();
         $dateTime = $this->dynamicConfiguration->isDateTime();
