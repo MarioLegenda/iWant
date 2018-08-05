@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Ebay\Library;
+namespace App\Amazon\Library;
 
-use App\Library\Processor\ProcessorInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Processor\ProcessorInterface;
 
 class RequestProducer
 {

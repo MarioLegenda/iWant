@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ebay\Library\Tools;
+namespace App\Library;
 
 interface UrlifyInterface
 {
@@ -8,5 +8,5 @@ interface UrlifyInterface
      * @param int $counter
      * @return mixed
      */
-    public function urlify(int $counter);
+    public function urlify(int $counter = null);
 }
