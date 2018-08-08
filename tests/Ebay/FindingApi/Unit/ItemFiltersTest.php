@@ -6,6 +6,7 @@ use App\Ebay\Library\Dynamic\DynamicConfiguration;
 use App\Ebay\Library\Dynamic\DynamicErrors;
 use App\Ebay\Library\Dynamic\DynamicMetadata;
 use App\Ebay\Library\Information\CurrencyInformation;
+use App\Ebay\Library\Information\SortOnInformation;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Information\ISO3166CountryCodeInformation;
 use App\Ebay\Library\Information\ListingTypeInformation;

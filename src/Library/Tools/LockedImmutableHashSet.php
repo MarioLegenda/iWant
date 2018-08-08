@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ebay\Library\Tools;
+namespace App\Library\Tools;
 
 use App\Library\Infrastructure\CollectionInterface;
 use App\Library\Util\TypedRecursion;
@@ -11,7 +11,7 @@ class LockedImmutableHashSet implements CollectionInterface
     /**
      * @var array $data
      */
-    private $data;
+    protected $data;
     /**
      * @param array $data
      * @return LockedImmutableHashSet
@@ -130,7 +130,7 @@ class LockedImmutableHashSet implements CollectionInterface
      * @param array $data
      * @throws \RuntimeException
      */
-    private function validate(array $data)
+    protected function validate(array $data)
     {
         if (empty($data)) {
             $message = sprintf('Locked immutable hash set does not accept empty values');

@@ -5,7 +5,7 @@ namespace App\Amazon\Library\Processor;
 use App\Amazon\Library\Processor\Signature\FinalProcessor;
 use App\Amazon\Library\Processor\Signature\SignatureData;
 use App\Amazon\Library\Processor\Signature\SignatureProcessorInterface;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Library\Processor\ProcessorInterface;
 
 class CascadingSignatureProcessor implements ProcessorInterface
@@ -77,5 +77,10 @@ class CascadingSignatureProcessor implements ProcessorInterface
         );
 
         throw new \RuntimeException($message);
+    }
+
+    public function getDelimiter(): string
+    {
+        // TODO: Implement getDelimiter() method.
     }
 }

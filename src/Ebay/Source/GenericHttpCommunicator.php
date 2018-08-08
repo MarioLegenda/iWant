@@ -2,9 +2,10 @@
 
 namespace App\Ebay\Source;
 
+use App\Library\Http\GenericHttpCommunicatorInterface;
 use GuzzleHttp\Client;
 
-class GenericHttpCommunicator
+class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 {
     /**
      * @var Client $client

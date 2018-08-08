@@ -5,10 +5,10 @@ namespace App\Amazon\Library\Processor\Signature;
 class ParametersSplitProcessor implements SignatureProcessorInterface
 {
     /**
-     * @param $data
-     * @return array
+     * @param SignatureData $data
+     * @return SignatureData
      */
-    public function process(SignatureData $data)
+    public function process(SignatureData $data): SignatureData
     {
         $encoded = $data->get(UrlEncodeProcessor::class);
 

@@ -40,11 +40,11 @@ class CurrencyInformation implements InformationInterface
         'USD',
     );
     /**
-     * @var CurrencyInformation $instance
+     * @var SortOnInformation $instance
      */
     private static $instance;
     /**
-     * @return CurrencyInformation
+     * @return SortOnInformation
      */
     public static function instance()
     {

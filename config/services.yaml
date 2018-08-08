@@ -1,8 +1,3 @@
-# This file is the entry point to configure your own services.
-# Files in the packages/ subdirectory configure your dependencies.
-
-# Put parameters here that don't need to change on each machine where the app is deployed
-# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     ebay_finding_api_metadata:
         base_url: http://svcs.ebay.com/services/search/FindingService/v1?
@@ -19,6 +14,7 @@ parameters:
             security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
     amazon_product_advertising_api_metadata:
         base_url: http://webservices.amazon
+        private_key: '1234567890'
         names:
             service: Service
             operation: Operation
@@ -26,10 +22,17 @@ parameters:
             associate_tag: AssociateTag
             search_index: SearchIndex
             timestamp: Timestamp
+            version: Version
         params:
             service: AWSECommerceService
             aws_access_key: 'access_key_stub_to_be_replaced'
-            associate_tag: 'aws_associate_id_to_be_replaced'
+            associate_tag: 'iwouldlike855-21'
+            version: '2013-08-01'
+    etsy_api:
+        base_url: https://openapi.etsy.com/v2
+        api_key: 'etsy_api_key'
+        names:
+            api_key: api_key
 
 services:
     _defaults:
@@ -44,10 +47,16 @@ services:
         resource: '../src/Ebay/*'
         exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/FindingApi/Model}'
 
+    App\Etsy\:
+        resource: '../src/Etsy/*'
+        exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*,Library/Response/*}'
+
+
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
 
+    # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
@@ -56,7 +65,29 @@ services:
         arguments:
             $amazonProductAdvertisingApiMetadata: '%amazon_product_advertising_api_metadata%'
 
+    App\Etsy\Library\Processor\RequestBaseProcessor:
+        arguments:
+            $etsyApi: '%etsy_api%'
+
+    App\Etsy\Library\Processor\ApiKeyProcessor:
+        arguments:
+            $etsyApi: '%etsy_api%'
+
+    # REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Ebay\Source\GenericHttpCommunicator'
+
+    # Data providers
+    App\Tests\Ebay\FindingApi\DataProvider\:
+        resource: '../tests/Ebay/FindingApi/DataProvider'
+        exclude: '../tests/Ebay/FindingApi/DataProvider/*'
+
+    data_provider.finding_api:
+        class: App\Tests\Ebay\FindingApi\DataProvider\DataProvider
+        autowire: false
+
+    data_provider.etsy_api:
+        class: App\Tests\Etsy\DataProvider\DataProvider
+        autowire: false

@@ -3,7 +3,7 @@
 namespace App\Ebay\Library\Processor;
 
 use App\Library\Processor\ProcessorInterface;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 
 class RequestBaseProcessor implements ProcessorInterface
 {
@@ -104,7 +104,13 @@ class RequestBaseProcessor implements ProcessorInterface
 
         return $this;
     }
-
+    /**
+     * @return string
+     */
+    public function getDelimiter(): string
+    {
+        return '&';
+    }
     /**
      * @return string
      */

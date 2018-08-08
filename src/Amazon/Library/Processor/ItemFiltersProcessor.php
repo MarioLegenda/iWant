@@ -3,7 +3,7 @@
 namespace App\Amazon\Library\Processor;
 
 use App\Amazon\Library\Dynamic\DynamicInterface;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\UrlifyInterface;
@@ -38,7 +38,7 @@ class ItemFiltersProcessor implements ProcessorInterface
             if ($itemFilter instanceof UrlifyInterface) {
                 $itemFilter->validateDynamic();
 
-                $finalProduct.=$itemFilter->urlify();
+                $finalProduct.=$itemFilter->urlify().'&';
             }
         }
 
@@ -46,14 +46,21 @@ class ItemFiltersProcessor implements ProcessorInterface
 
         return $this;
     }
-
+    /**
+     * @return string
+     */
     public function getProcessed(): string
     {
-        // TODO: Implement getProcessed() method.
+        return $this->processed;
     }
 
     public function setOptions(LockedImmutableHashSet $options): ProcessorInterface
     {
         // TODO: Implement setOptions() method.
+    }
+
+    public function getDelimiter(): string
+    {
+        // TODO: Implement getDelimiter() method.
     }
 }

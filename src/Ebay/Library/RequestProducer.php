@@ -28,7 +28,7 @@ class RequestProducer
         $processed = '';
 
         foreach ($this->processors as $processor) {
-            $processed.= $processor->process()->getProcessed().'&';
+            $processed.= $processor->process()->getProcessed().$processor->getDelimiter();
         }
 
         return $processed;

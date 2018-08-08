@@ -3,7 +3,7 @@
 namespace App\Amazon\Library\Processor;
 
 use App\Amazon\Library\Information\SiteIdInformation;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Library\Processor\ProcessorInterface;
 
 class RequestBaseProcessor implements ProcessorInterface
@@ -28,6 +28,13 @@ class RequestBaseProcessor implements ProcessorInterface
         iterable $amazonProductAdvertisingApiMetadata
     ) {
         $this->amazonProductAdvertisingApiMetadata = LockedImmutableHashSet::create($amazonProductAdvertisingApiMetadata);
+    }
+    /**
+     * @return string
+     */
+    public function getPrivateKey(): string
+    {
+        return $this->amazonProductAdvertisingApiMetadata['private_key'];
     }
     /**
      * @return ProcessorInterface
@@ -127,5 +134,9 @@ class RequestBaseProcessor implements ProcessorInterface
     public function getProcessed(): string
     {
         return $this->processed;
+    }
+
+    public function getDelimiter(): string
+    {
     }
 }

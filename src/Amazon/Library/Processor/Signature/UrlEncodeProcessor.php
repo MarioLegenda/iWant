@@ -18,15 +18,16 @@ class UrlEncodeProcessor implements SignatureProcessorInterface
     }
     /**
      * @param SignatureData $data
-     * @return string
+     * @return SignatureData
      */
-    public function process(SignatureData $data)
+    public function process(SignatureData $data): SignatureData
     {
         $url = $data->get('url');
 
         $splitted = explode('?', $url);
         $host = $splitted[0];
         $withoutHost = $splitted[1];
+
         $splitted = explode('&', $withoutHost);
 
         $params = [];

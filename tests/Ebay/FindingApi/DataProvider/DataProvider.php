@@ -52,20 +52,4 @@ class DataProvider
 
         return $model;
     }
-    /**
-     * @return TypedArray
-     */
-    private function getDiverseItemFilters(): TypedArray
-    {
-        $itemFilters = TypedArray::create('integer', ItemFilter::class);
-
-        for ($i = 0; $i < 5; $i++) {
-            $metadata = new ItemFilterMetadata(
-                'name',
-                'value',
-                'MaxPrice',
-                [25]
-            );
-        }
-    }
 }

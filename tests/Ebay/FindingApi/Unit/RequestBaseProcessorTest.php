@@ -3,7 +3,7 @@
 namespace App\Tests\Ebay\FindingApi\Unit;
 
 use App\Ebay\Library\Processor\RequestBaseProcessor;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Library\Type\ResponseDataFormatType;
 use App\Tests\Library\BasicSetup;

@@ -5,10 +5,10 @@ namespace App\Amazon\Library\Processor\Signature;
 class SortProcessor implements SignatureProcessorInterface
 {
     /**
-     * @param $data
-     * @return array
+     * @param SignatureData $data
+     * @return SignatureData
      */
-    public function process(SignatureData $data)
+    public function process(SignatureData $data): SignatureData
     {
         $previous = $data->get(ParametersSplitProcessor::class);
 

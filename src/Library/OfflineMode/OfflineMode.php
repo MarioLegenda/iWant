@@ -3,6 +3,7 @@
 namespace App\Library\OfflineMode;
 
 use App\Ebay\Source\GenericHttpCommunicator;
+use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\OfflineMode\OfflineModeMetadata;
 
 class OfflineMode
@@ -24,36 +25,37 @@ class OfflineMode
      */
     private $requestHandle;
     /**
-     * @param string $url
      * @return OfflineMode
      */
-    public static function inst(string $url)
+    public static function inst()
     {
-        static::$instance = (!static::$instance instanceof static) ? new OfflineMode($url) : static::$instance;
+        static::$instance = (!static::$instance instanceof static) ? new OfflineMode() : static::$instance;
 
         return static::$instance;
     }
     /**
      * EbayOfflineMode constructor.
-     * @param string $url
      */
-    private function __construct(string $url)
+    private function __construct()
     {
-        $this->url = $url;
         $this->offlineModeDir = OfflineModeMetadata::getOfflineModeDirectory();
-
-        $this->requestHandle = fopen($this->offlineModeDir.'/requests.csv', 'a+');
 
         if (!file_exists($this->offlineModeDir.'/responses')) {
             mkdir($this->offlineModeDir.'/responses');
         }
     }
     /**
-     * @param GenericHttpCommunicator $communicator
+     * @param GenericHttpCommunicatorInterface $communicator
+     * @param string $url
      * @return string
      */
-    public function getResponse(GenericHttpCommunicator $communicator): string
-    {
+    public function getResponse(
+        GenericHttpCommunicatorInterface $communicator,
+        string $url
+    ): string {
+        $this->url = $url;
+        $this->requestHandle = fopen($this->offlineModeDir.'/requests.csv', 'a+');
+
         if (!$this->isResponseStored()) {
             $requests = file($this->offlineModeDir.'/requests.csv');
 
@@ -68,7 +70,7 @@ class OfflineMode
                 $stringResponse = $communicator->get($this->url);
                 file_put_contents($responseFile, $stringResponse);
 
-                fclose($this->requestHandle);
+                $this->closeRequestHandle();
 
                 return $stringResponse;
             }
@@ -85,7 +87,7 @@ class OfflineMode
             $stringResponse = $communicator->get($this->url);
             file_put_contents($responseFile, $stringResponse);
 
-            fclose($this->requestHandle);
+            $this->closeRequestHandle();
 
             return $stringResponse;
         }
@@ -101,7 +103,7 @@ class OfflineMode
 
                     $stringResponse = file_get_contents($responseFile);
 
-                    fclose($this->requestHandle);
+                    $this->closeRequestHandle();
 
                     return $stringResponse;
                 }
@@ -130,5 +132,12 @@ class OfflineMode
         }
 
         return false;
+    }
+
+    private function closeRequestHandle(): void
+    {
+        if (is_resource($this->requestHandle)) {
+            fclose($this->requestHandle);
+        }
     }
 }

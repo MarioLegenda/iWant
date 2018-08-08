@@ -6,7 +6,7 @@ use App\Ebay\Library\Dynamic\DynamicInterface;
 use App\Ebay\Library\ItemFilter\Validation\GlobalItemFiltersValidator;
 use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\UrlifyInterface;
 
@@ -70,5 +70,12 @@ class ItemFiltersProcessor implements ProcessorInterface
     public function getProcessed() : string
     {
         return rtrim($this->processed, '&');
+    }
+    /**
+     * @return string
+     */
+    public function getDelimiter(): string
+    {
+        return '&';
     }
 }

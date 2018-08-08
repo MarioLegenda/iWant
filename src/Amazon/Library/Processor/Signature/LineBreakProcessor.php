@@ -5,10 +5,10 @@ namespace App\Amazon\Library\Processor\Signature;
 class LineBreakProcessor implements SignatureProcessorInterface
 {
     /**
-     * @param string $data
-     * @return mixed|string
+     * @param SignatureData $data
+     * @return SignatureData
      */
-    public function process(SignatureData $data)
+    public function process(SignatureData $data): SignatureData
     {
         $rejoinedAmpersand = $data->get(RejoinAmpersandProcessor::class);
         $parsedUrl = parse_url($data->get('url'));

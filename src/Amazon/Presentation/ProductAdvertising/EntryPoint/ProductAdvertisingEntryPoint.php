@@ -25,6 +25,6 @@ class ProductAdvertisingEntryPoint
      */
     public function search(ProductAdvertisingApiModel $model)
     {
-
+        $this->finder->search($model);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Ebay\Library\Processor;
 
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
@@ -49,6 +49,14 @@ class CallTypeProcessor implements ProcessorInterface
     {
         return $this->processed;
     }
+    /**
+     * @return string
+     */
+    public function getDelimiter(): string
+    {
+        return '&';
+    }
+
     /**
      * @inheritdoc
      */

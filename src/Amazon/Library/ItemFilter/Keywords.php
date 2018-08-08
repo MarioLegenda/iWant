@@ -4,7 +4,7 @@ namespace App\Amazon\Library\ItemFilter;
 
 use App\Amazon\Library\Dynamic\BaseDynamic;
 
-class Keywords extends BaseDynamic
+class Keywords extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

@@ -4,7 +4,7 @@ namespace App\Amazon\Library\Dynamic;
 
 use App\Library\UrlifyInterface;
 
-class BaseDynamic implements UrlifyInterface
+abstract class BaseDynamic implements UrlifyInterface
 {
     /**
      * @var DynamicMetadata $dynamicMetadata
@@ -46,13 +46,15 @@ class BaseDynamic implements UrlifyInterface
     public function urlify(int $counter = null) : string
     {
         $name = $this->dynamicMetadata->getName();
-        $dynamicValue = $this->dynamicMetadata->getDynamicValue()[0];
+        $dynamicValue = urlencode($this->dynamicMetadata->getDynamicValue()[0]);
 
-        return sprintf(
+        $createdValue = sprintf(
             '%s=%s',
             $name,
-            $dynamicValue
+            preg_replace('#\s+#', '', $dynamicValue)
         );
+
+        return $createdValue;
     }
     /**
      * @return DynamicMetadata

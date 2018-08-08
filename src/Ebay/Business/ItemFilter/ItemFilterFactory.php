@@ -10,7 +10,7 @@ use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Util;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterDynamic;
-use App\Ebay\Presentation\Model\ItemFilter as ItemFilterModel;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilter as ItemFilterModel;
 
 class ItemFilterFactory
 {

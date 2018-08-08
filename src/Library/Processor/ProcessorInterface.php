@@ -2,7 +2,7 @@
 
 namespace App\Library\Processor;
 
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 
 interface ProcessorInterface
 {
@@ -19,4 +19,8 @@ interface ProcessorInterface
      * @return string
      */
     public function getProcessed(): string;
+    /**
+     * @return string
+     */
+    public function getDelimiter(): string;
 }

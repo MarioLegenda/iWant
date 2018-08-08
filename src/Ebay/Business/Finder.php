@@ -11,7 +11,7 @@ use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\RequestBaseProcessor;
-use App\Ebay\Library\Tools\LockedImmutableHashSet;
+use App\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Source\FinderSource;
 use App\Library\Infrastructure\Helper\TypedArray;

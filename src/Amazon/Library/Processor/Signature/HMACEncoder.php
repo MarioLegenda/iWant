@@ -18,9 +18,9 @@ class HMACEncoder implements SignatureProcessorInterface
     }
     /**
      * @param $data
-     * @return mixed|string
+     * @return SignatureData
      */
-    public function process(SignatureData $data)
+    public function process(SignatureData $data): SignatureData
     {
         $lineBreakData = $data->get(LineBreakProcessor::class);
         $privateKey = $data->get('private_key');

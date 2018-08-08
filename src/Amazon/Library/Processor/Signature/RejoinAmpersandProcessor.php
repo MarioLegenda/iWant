@@ -5,10 +5,10 @@ namespace App\Amazon\Library\Processor\Signature;
 class RejoinAmpersandProcessor implements SignatureProcessorInterface
 {
     /**
-     * @param $data
-     * @return string
+     * @param SignatureData $data
+     * @return SignatureData
      */
-    public function process(SignatureData $data)
+    public function process(SignatureData $data): SignatureData
     {
         $previous = $data->get(SortProcessor::class);
 

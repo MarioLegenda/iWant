@@ -34,7 +34,10 @@ class FindingApiRepository
     public function getResource(string $url): string
     {
         if ($this->env === 'dev' or $this->env === 'test') {
-            return OfflineMode::inst($url)->getResponse($this->communicator);
+            return OfflineMode::inst()->getResponse(
+                $this->communicator,
+                $url
+            );
         }
 
         return $this->communicator->get($url);
