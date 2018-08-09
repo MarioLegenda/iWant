@@ -53,7 +53,7 @@ services:
 
     App\Bonanza\:
         resource: '../src/Bonanza/*'
-        exclude: '../src/Bonanza/{Library/*}'
+        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*}'
 
     App\Library\:
         resource: '../src/Library'

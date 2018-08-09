@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Ebay\Business\ItemFilter;
+namespace App\Bonanza\Business\ItemFilter;
 
-use App\Ebay\Library\Dynamic\DynamicConfiguration;
-use App\Ebay\Library\Dynamic\DynamicErrors;
-use App\Ebay\Library\Dynamic\DynamicMetadata;
-use App\Ebay\Library\ItemFilter\ItemFilterClassFactory;
-use App\Ebay\Library\ItemFilter\ItemFilterInterface;
+use App\Amazon\Library\Dynamic\DynamicConfiguration;
+use App\Bonanza\Library\Dynamic\DynamicErrors;
+use App\Bonanza\Library\Dynamic\DynamicInterface;
+use App\Bonanza\Library\Dynamic\DynamicMetadata;
+use App\Bonanza\Library\ItemFilter\ItemFilterClassFactory;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Util;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilter as ItemFilterModel;
+use App\Bonanza\Presentation\Model\ItemFilter as ItemFilterModel;
 
 class ItemFilterFactory
 {
@@ -21,7 +21,7 @@ class ItemFilterFactory
     {
         $itemFiltersGen = Util::createGenerator($metadataIterable);
 
-        $itemFilters = TypedArray::create('string', ItemFilterInterface::class);
+        $itemFilters = TypedArray::create('string', DynamicInterface::class);
         foreach ($itemFiltersGen as $item) {
             /** @var ItemFilterModel $itemFilterModel */
             $itemFilterModel = $item['item'];
@@ -35,11 +35,11 @@ class ItemFilterFactory
     }
     /**
      * @param array $metadata
-     * @return ItemFilterInterface
+     * @return DynamicInterface
      */
-    public function create(array $metadata): ItemFilterInterface
+    public function create(array $metadata): DynamicInterface
     {
-        $class = ItemFilterClassFactory::create('App\Ebay\Library')
+        $class = ItemFilterClassFactory::create('App\Bonanza\Library')
             ->getItemFilterClass($metadata['name']);
 
         $dynamicMetadata = $this->createDynamicMetadata(
