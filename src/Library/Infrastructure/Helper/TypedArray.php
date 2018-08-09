@@ -150,7 +150,7 @@ class TypedArray implements
     /**
      * @inheritdoc
      */
-    public function toArray(): iterable
+    public function toArray(int $mode = TypedRecursion::RESPECT_ARRAY_NOTATION): iterable
     {
         if (empty($this->data)) {
             return [];
@@ -158,7 +158,7 @@ class TypedArray implements
 
         $typedRecursion = new TypedRecursion($this->data);
 
-        return $typedRecursion->iterate();
+        return $typedRecursion->iterate($mode);
     }
     /**
      * @return bool

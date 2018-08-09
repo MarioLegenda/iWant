@@ -16,6 +16,7 @@ use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Source\FinderSource;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Library\Processor\ItemFiltersProcessor;
+use App\Library\Util\TypedRecursion;
 
 class Finder
 {
@@ -97,6 +98,8 @@ class Finder
     {
         $itemFilterFactory = new ItemFilterFactory();
 
-        return $itemFilterFactory->createFromMetadataIterable($model->getItemFilters()->toArray());
+        return $itemFilterFactory->createFromMetadataIterable(
+            $model->getItemFilters()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION)
+        );
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Etsy\Presentation\EntryPoint;
 
 use App\Etsy\Business\Finder;
+use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Presentation\Model\EtsyApiModel;
 
 class EtsyApiEntryPoint
@@ -20,9 +21,12 @@ class EtsyApiEntryPoint
     ) {
         $this->finder = $finder;
     }
-
-    public function search(EtsyApiModel $model)
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     */
+    public function search(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
-        $this->finder->search($model);
+        return $this->finder->search($model);
     }
 }

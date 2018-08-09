@@ -2,8 +2,8 @@
 
 namespace App\Etsy\Business;
 
+use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Library\Tools\LockedImmutableGenericHashSet;
-use App\Library\Tools\LockedImmutableHashSet;
 use App\Etsy\Business\ItemFilter\ItemFilterFactory;
 use App\Etsy\Library\Method\MethodProcessorFactory;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
@@ -47,8 +47,9 @@ class Finder
     }
     /**
      * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
      */
-    public function search(EtsyApiModel $model)
+    public function search(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         $processors = $this->createProcessors($model);
 
@@ -58,7 +59,10 @@ class Finder
             $this->finderSource->get($requestProducer->produce())
         );
     }
-
+    /**
+     * @param string $responseString
+     * @return EtsyApiResponseModel
+     */
     private function createResponseModel(string $responseString)
     {
         $responseData = json_decode($responseString, true);

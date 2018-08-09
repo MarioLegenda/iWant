@@ -4,6 +4,7 @@ namespace App\Etsy\Source\Repository;
 
 use App\Etsy\Source\GenericHttpCommunicator;
 use App\Library\OfflineMode\OfflineMode;
+use App\Library\Tools\MemcachedWrapper;
 
 class EtsyRepository
 {

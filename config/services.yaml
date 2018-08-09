@@ -30,7 +30,7 @@ parameters:
             version: '2013-08-01'
     etsy_api:
         base_url: https://openapi.etsy.com/v2
-        api_key: 'etsy_api_key'
+        api_key: 'arz83jklcrhy8o1b2wfrbzuj'
         names:
             api_key: api_key
 
@@ -56,6 +56,8 @@ services:
         resource: '../src/Library'
         exclude: '../src/Library'
 
+    App\Library\Tools\MemcachedWrapper:
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
@@ -78,6 +80,11 @@ services:
         arguments:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Ebay\Source\GenericHttpCommunicator'
+
+    App\Etsy\Source\Repository\EtsyRepository:
+        arguments:
+            $env: '%env(APP_ENV)%'
+            $communicator: '@App\Etsy\Source\GenericHttpCommunicator'
 
     # Data providers
     App\Tests\Ebay\FindingApi\DataProvider\:

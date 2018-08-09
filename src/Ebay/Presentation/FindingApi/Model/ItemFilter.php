@@ -2,7 +2,9 @@
 
 namespace App\Ebay\Presentation\FindingApi\Model;
 
-class ItemFilter
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class ItemFilter implements ArrayNotationInterface
 {
     /**
      * @var ItemFilterMetadata $metadata
@@ -23,5 +25,12 @@ class ItemFilter
     public function getItemFilterMetadata(): ItemFilterMetadata
     {
         return $this->metadata;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return $this->getItemFilterMetadata()->toArray();
     }
 }

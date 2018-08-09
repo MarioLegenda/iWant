@@ -6,39 +6,33 @@ use App\Library\Infrastructure\CollectionInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 
-class LockedImmutableHashSet implements CollectionInterface
+class UnlockedImmutableHashSet implements CollectionInterface
 {
+    /**
+     * @var array $validKeys
+     */
+    private $validKeys;
     /**
      * @var array $data
      */
-    protected $data;
+    private $data;
     /**
-     * @param array $data
-     * @return LockedImmutableHashSet
+     * @param array $validKeys
+     * @return UnlockedImmutableHashSet
      */
-    public static function create(array $data)
+    public static function create(array $validKeys)
     {
-        return new LockedImmutableHashSet($data);
+        return new UnlockedImmutableHashSet($validKeys);
     }
     /**
-     * LockedImmutableHashSet constructor.
-     * @param array $data
+     * UnlockedImmutableHashSet constructor.
+     * @param array $validKeys
      */
-    private function __construct(array $data)
+    private function __construct(array $validKeys)
     {
-        $this->validate($data);
+        $this->validate($validKeys);
 
-        $lockedData = [];
-
-        foreach ($data as $key => $item) {
-            if (is_array($item)) {
-                $lockedData[$key] = LockedImmutableHashSet::create($item);
-            } else {
-                $lockedData[$key] = $item;
-            }
-        }
-
-        $this->data = $lockedData;
+        $this->validKeys = $validKeys;
     }
     /**
      * @inheritdoc
@@ -66,6 +60,10 @@ class LockedImmutableHashSet implements CollectionInterface
      */
     public function offsetExists($offset): bool
     {
+        if (is_null($this->data) or empty($this->data)) {
+            return false;
+        }
+
         return array_key_exists($offset, $this->data);
     }
     /**
@@ -80,7 +78,20 @@ class LockedImmutableHashSet implements CollectionInterface
      */
     public function offsetSet($offset, $value)
     {
-        $this->throwUsageException();
+        if (is_array($value)) {
+            $this->data[$offset] = UnlockedImmutableHashSet::create(array_keys($value));
+        }
+
+        if (isset($this->data[$offset])) {
+            $message = sprintf(
+                '%s values can only be set once and cannot be changed later',
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $this->data[$offset] = $value;
     }
     /**
      * @inheritdoc
@@ -90,7 +101,14 @@ class LockedImmutableHashSet implements CollectionInterface
         $this->throwUsageException();
     }
     /**
-     * @inheritdoc
+     * @return \Generator
+     */
+    public function createGenerator(): \Generator
+    {
+        return Util::createGenerator($this->data);
+    }
+    /**
+     * @return iterable
      */
     public function toArray(): iterable
     {
@@ -111,11 +129,18 @@ class LockedImmutableHashSet implements CollectionInterface
         return $filter->__invoke($this->data);
     }
     /**
-     * @return \Generator
+     * @param array $validKeys
      */
-    public function createGenerator(): \Generator
+    protected function validate(array $validKeys)
     {
-        return Util::createGenerator($this->data);
+        if (empty($validKeys)) {
+            $message = sprintf(
+                '%s does not permit empty valid keys',
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
     }
     /**
      * @throws \RuntimeException
@@ -128,32 +153,5 @@ class LockedImmutableHashSet implements CollectionInterface
         );
 
         throw new \RuntimeException($message);
-    }
-    /**
-     * @param array $data
-     * @throws \RuntimeException
-     */
-    protected function validate(array $data)
-    {
-        if (empty($data)) {
-            $message = sprintf('Locked immutable hash set does not accept empty values');
-
-            throw new \RuntimeException($message);
-        }
-
-        $dataGen = Util::createGenerator($data);
-
-        foreach ($dataGen as $entry) {
-            $key = $entry['key'];
-
-            if (!is_string($key)) {
-                $message = sprintf(
-                    'Locked immutable hashed set accepts only string array keys',
-                    $key
-                );
-
-                throw new \RuntimeException($message);
-            }
-        }
     }
 }

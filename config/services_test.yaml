@@ -56,6 +56,8 @@ services:
         resource: '../src/Library'
         exclude: '../src/Library'
 
+    App\Library\Tools\MemcachedWrapper:
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:

@@ -2,6 +2,8 @@
 
 namespace App\Library\Tools;
 
+use App\Library\Util\TypedRecursion;
+
 class LockedImmutableGenericHashSet extends LockedImmutableHashSet
 {
     /**
@@ -32,17 +34,25 @@ class LockedImmutableGenericHashSet extends LockedImmutableHashSet
 
         $this->data = $lockedData;
     }
-
     /**
      * @param array $data
      * @throws \RuntimeException
      */
     protected function validate(array $data)
     {
-        if (empty($data)) {
-            $message = sprintf('Locked immutable hash set does not accept empty values');
 
-            throw new \RuntimeException($message);
+    }
+    /**
+     * @inheritdoc
+     */
+    public function toArray(): iterable
+    {
+        if (is_array($this->data) and empty($this->data)) {
+            return [];
         }
+
+        $typedRecursion = new TypedRecursion($this->data);
+
+        return $typedRecursion->iterate();
     }
 }
