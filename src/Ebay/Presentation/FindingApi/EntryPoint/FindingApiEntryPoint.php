@@ -4,6 +4,7 @@ namespace App\Ebay\Presentation\FindingApi\EntryPoint;
 
 use App\Ebay\Business\Finder;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
+use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 
 class FindingApiEntryPoint
 {
@@ -22,9 +23,10 @@ class FindingApiEntryPoint
     }
     /**
      * @param FindingApiRequestModelInterface $model
+     * @return FindingApiResponseModelInterface
      */
-    public function query(FindingApiRequestModelInterface $model)
+    public function query(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
-        $xmlResponseModel = $this->finder->query($model);
+        return $this->finder->query($model);
     }
 }

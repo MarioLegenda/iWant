@@ -51,6 +51,9 @@ services:
         resource: '../src/Etsy/*'
         exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*,Library/Response/*}'
 
+    App\Bonanza\:
+        resource: '../src/Bonanza/*'
+        exclude: '../src/Bonanza/{Library/*}'
 
     App\Library\:
         resource: '../src/Library'
@@ -85,6 +88,11 @@ services:
         arguments:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Etsy\Source\GenericHttpCommunicator'
+
+    App\Bonanza\Source\Repository\BonanzaRepository:
+        arguments:
+            $env: '%env(APP_ENV)%'
+            $communicator: '@App\Bonanza\Source\GenericHttpCommunicator'
 
     # Data providers
     App\Tests\Ebay\FindingApi\DataProvider\:

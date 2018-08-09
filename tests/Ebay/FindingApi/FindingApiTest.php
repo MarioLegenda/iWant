@@ -2,6 +2,7 @@
 
 namespace App\Tests\Ebay\FindingApi;
 
+use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
@@ -17,6 +18,8 @@ class FindingApiTest extends BasicSetup
 
         $model = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
 
-        $findingApiEntryPoint->query($model);
+        $responseModel = $findingApiEntryPoint->query($model);
+
+        static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
     }
 }
