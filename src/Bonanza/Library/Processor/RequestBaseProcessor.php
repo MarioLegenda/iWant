@@ -43,8 +43,8 @@ class RequestBaseProcessor implements ProcessorInterface
         }
 
         $baseUrl = $this->bonanzaApi['base_url'];
-        $names = $this->ebayFindingApiMetadata['names'];
-        $configParams = $this->ebayFindingApiMetadata['params']->toArray();
+        $names = $this->bonanzaApi['names'];
+        $configParams = $this->bonanzaApi['params']->toArray();
         $userParams = $this->options->toArray();
 
         foreach ($names as $key => $name) {

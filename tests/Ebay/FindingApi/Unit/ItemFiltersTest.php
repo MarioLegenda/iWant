@@ -14,6 +14,7 @@ use App\Ebay\Library\Information\SortOrderInformation;
 use App\Ebay\Library\ItemFilter\AuthorizedSellerOnly;
 use App\Ebay\Library\ItemFilter\AvailableTo;
 use App\Ebay\Library\ItemFilter\BestOfferOnly;
+use App\Ebay\Library\ItemFilter\BuyerPostalCode;
 use App\Ebay\Library\ItemFilter\CharityOnly;
 use App\Ebay\Library\ItemFilter\Condition;
 use App\Ebay\Library\ItemFilter\Currency;
@@ -2265,6 +2266,47 @@ class ItemFiltersTest extends TestCase
 
             static::assertTrue($globalId->validateDynamic());
         }
+    }
+
+    public function test_buyer_postal_code_item_filter()
+    {
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $value = '34F';
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::BUYER_POSTAL_CODE,
+            [$value]
+        );
+
+        $itemFilter = new BuyerPostalCode(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($itemFilter->validateDynamic());
+
+        $entersInvalidException = false;
+        try {
+            $dynamicMetadata = $this->getDynamicMetadata(
+                ItemFilter::BUYER_POSTAL_CODE,
+                [13]
+            );
+
+            $itemFilter = new BuyerPostalCode(
+                $dynamicMetadata,
+                $dynamicConfiguration,
+                $dynamicErrors
+            );
+
+            $itemFilter->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
     }
     /**
      * @param string $name

@@ -7,30 +7,16 @@ use App\Library\Information\InformationInterface;
 class SortOrderInformation implements InformationInterface
 {
     const BEST_MATCH = 'BestMatch';
-    const BID_COUNT_FEWEST = 'BidCountFewest';
-    const BID_COUNT_MOST = 'BidCountMost';
-    const COUNTRY_ASCENDING = 'CountryAscending';
-    const COUNTRY_DESCENDING = 'CountryDescending';
     const CURRENT_PRICE_HIGHEST = 'CurrentPriceHighest';
-    const DISTANCE_NEAREST = 'DistanceNearest';
-    const END_TIME_SOONEST = 'EndTimeSoonest';
-    const PRICE_PLUS_SHIPPING_HIGHEST = 'PricePlusShippingHighest';
-    const PRICE_PLUS_SHIPPING_LOWEST = 'PricePlusShippingLowest';
+    const CURRENT_PRICE_LOWEST = 'CurrentPriceLowest';
     const START_TIME_NEWEST = 'StartTimeNewest';
     /**
      * @var array $sortOrders
      */
     private $sortOrders = array(
         'BestMatch',
-        'BidCountFewest',
-        'BidCountMost',
-        'CountryAscending',
-        'CountryDescending',
         'CurrentPriceHighest',
-        'DistanceNearest',
-        'EndTimeSoonest',
-        'PricePlusShippingHighest',
-        'PricePlusShippingLowest',
+        'CurrentPriceLowest',
         'StartTimeNewest',
     );
     /**

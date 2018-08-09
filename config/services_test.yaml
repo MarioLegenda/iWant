@@ -35,11 +35,11 @@ parameters:
             api_key: api_key
 
     bonanza_api:
-        base_url: https://api.bonanza.com/api_requests/standard_request
-            names:
-                dev_name: 'X-BONANZLE-API-DEV-NAME'
-            params:
-                dev_name: 'my_name_dev'
+        base_url: 'https://api.bonanza.com/api_requests/standard_request'
+        names:
+            dev_name: 'X-BONANZLE-API-DEV-NAME'
+        params:
+            dev_name: 'my_name_dev'
 
 services:
     _defaults:
@@ -60,7 +60,7 @@ services:
 
     App\Bonanza\:
         resource: '../src/Bonanza/*'
-        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*}'
+        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*}'
 
     App\Library\:
         resource: '../src/Library'
@@ -106,10 +106,19 @@ services:
         resource: '../tests/Ebay/FindingApi/DataProvider'
         exclude: '../tests/Ebay/FindingApi/DataProvider/*'
 
+    # Data providers
+    App\Tests\Bonanza\DataProvider\:
+        resource: '../tests/Bonanza/DataProvider'
+        exclude: '../tests/Bonanza/DataProvider/*'
+
     data_provider.finding_api:
         class: App\Tests\Ebay\FindingApi\DataProvider\DataProvider
         autowire: false
 
     data_provider.etsy_api:
         class: App\Tests\Etsy\DataProvider\DataProvider
+        autowire: false
+
+    data_provider.bonanza_api:
+        class: App\Tests\Bonanza\DataProvider\DataProvider
         autowire: false

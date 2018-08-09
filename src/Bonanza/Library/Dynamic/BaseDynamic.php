@@ -2,11 +2,10 @@
 
 namespace App\Bonanza\Library\Dynamic;
 
-use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Library\Helper;
 use App\Library\UrlifyInterface;
 
-class BaseDynamic implements UrlifyInterface, ItemFilterInterface
+class BaseDynamic implements UrlifyInterface
 {
     /**
      * @var DynamicMetadata $dynamicMetadata

@@ -2,10 +2,9 @@
 
 namespace App\Bonanza\Presentation\Model;
 
-use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
 
-class BonanzaApiModel implements FindingApiRequestModelInterface
+class BonanzaApiModel implements BonanzaApiModelInterface
 {
     /**
      * @var CallTypeInterface $callType
