@@ -3,6 +3,7 @@
 namespace App\Etsy\Business;
 
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
+use App\Library\Http\Request;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Etsy\Business\ItemFilter\ItemFilterFactory;
 use App\Etsy\Library\Method\MethodProcessorFactory;
@@ -55,8 +56,10 @@ class Finder
 
         $requestProducer = new RequestProducer($processors);
 
+        $request = new Request($requestProducer->produce());
+
         return $this->createResponseModel(
-            $this->finderSource->get($requestProducer->produce())
+            $this->finderSource->getResource($request)
         );
     }
     /**

@@ -6,14 +6,12 @@ use App\Bonanza\Business\ItemFilter\ItemFilterFactory;
 use App\Bonanza\Library\Processor\ApiKeyPostHeaderProcessor;
 use App\Bonanza\Library\Processor\ItemFiltersProcessor;
 use App\Bonanza\Library\Processor\RequestBaseProcessor;
-use App\Bonanza\Library\Request;
-use App\Bonanza\Library\RequestProducer;
 use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 use App\Bonanza\Source\FinderSource;
 use App\Bonanza\Library\Processor\CallTypeProcessor;
-use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Util\TypedRecursion;
+use App\Library\Http\Request;
 
 class Finder
 {
@@ -44,7 +42,9 @@ class Finder
         $this->apiKeyPostHeaderProcessor = $apiKeyPostHeaderProcessor;
         $this->requestBaseProcessor = $requestBaseProcessor;
     }
-
+    /**
+     * @param BonanzaApiModelInterface $model
+     */
     public function search(BonanzaApiModelInterface $model)
     {
         $callTypeProcessor = new CallTypeProcessor($model->getCallType());
@@ -55,7 +55,7 @@ class Finder
             $itemFiltersProcessor
         );
 
-        $this->finderSource->search($request);
+        $this->finderSource->getResource($request);
     }
     /**
      * @param ProcessorInterface $callTypeProcessor

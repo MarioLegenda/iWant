@@ -2,9 +2,9 @@
 
 namespace App\Ebay\Source;
 
-use App\Bonanza\Library\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use GuzzleHttp\Client;
+use App\Library\Http\Request;
 
 class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 {
@@ -13,27 +13,36 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
      */
     private $client;
     /**
-     * @param string $url
+     * @param Request $request
      * @return string
      */
-    public function get(string $url): string
+    public function get(Request $request): string
     {
-        return $this->tryGet($url);
+        return $this->tryGet($request);
     }
-
-    public function post(Request $request)
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function post(Request $request): string
     {
+        $message = sprintf(
+            '%s does not implement %s:post() method',
+            get_class($this),
+            get_class($this)
+        );
 
+        throw new \RuntimeException($message);
     }
 
     /**
-     * @param string $url
+     * @param Request $request
      * @return string
      */
-    private function tryGet(string $url): string
+    private function tryGet(Request $request): string
     {
         try {
-            $response = (string) $this->createClient()->get($url)->getBody();
+            $response = (string) $this->createClient()->get($request->getBaseUrl())->getBody();
         } catch (\Exception $e) {
             $response = (string) $e->getResponse()->getBody()->getContents();
         }

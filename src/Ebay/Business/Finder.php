@@ -4,6 +4,7 @@ namespace App\Ebay\Business;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
 use App\Ebay\Library\Processor\CallTypeProcessor;
+use App\Library\Http\Request;
 use App\Library\Processor\ProcessorInterface;
 use App\Ebay\Library\RequestProducer;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -66,7 +67,9 @@ class Finder
     {
         $requestProducer = new RequestProducer($this->createProcessors($model));
 
-        return $this->finderSource->getFindingApiResource($requestProducer->produce());
+        $request = new Request($requestProducer->produce());
+
+        return $this->finderSource->getFindingApiListing($request);
     }
     /**
      * @param FindingApiRequestModelInterface $model

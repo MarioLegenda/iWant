@@ -2,7 +2,7 @@
 
 namespace App\Bonanza\Source\Repository;
 
-use App\Bonanza\Library\Request;
+use App\Library\Http\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 
 class BonanzaRepository
@@ -30,7 +30,7 @@ class BonanzaRepository
     /**
      * @param Request $request
      */
-    public function search(Request $request)
+    public function getResource(Request $request)
     {
         $this->communicator->post($request);
     }

@@ -2,11 +2,16 @@
 
 namespace App\Library\Http;
 
-
-use App\Bonanza\Library\Request;
-
 interface GenericHttpCommunicatorInterface
 {
-    public function get(string $url): string;
-    public function post(Request $request);
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function get(Request $request): string;
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function post(Request $request): string;
 }

@@ -3,6 +3,7 @@
 namespace App\Etsy\Source\Repository;
 
 use App\Etsy\Source\GenericHttpCommunicator;
+use App\Library\Http\Request;
 use App\Library\OfflineMode\OfflineMode;
 use App\Library\Tools\MemcachedWrapper;
 
@@ -29,18 +30,18 @@ class EtsyRepository
         $this->env = $env;
     }
     /**
-     * @param string $url
+     * @param Request $request
      * @return string
      */
-    public function get(string $url): string
+    public function getResource(Request $request): string
     {
         if ($this->env === 'dev' or $this->env === 'test') {
             return OfflineMode::inst()->getResponse(
                 $this->communicator,
-                $url
+                $request->getBaseUrl()
             );
         }
 
-        return $this->communicator->get($url);
+        return $this->communicator->get($request);
     }
 }

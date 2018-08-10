@@ -3,6 +3,7 @@
 namespace App\Ebay\Source\Repository;
 
 use App\Ebay\Source\GenericHttpCommunicator;
+use App\Library\Http\Request;
 use App\Library\OfflineMode\OfflineMode;
 use App\Library\Tools\MemcachedWrapper;
 
@@ -36,18 +37,18 @@ class FindingApiRepository
         $this->env = $env;
     }
     /**
-     * @param string $url
+     * @param Request $request
      * @return string
      */
-    public function getResource(string $url): string
+    public function getResource(Request $request): string
     {
         if ($this->env === 'dev' or $this->env === 'test') {
             return OfflineMode::inst()->getResponse(
                 $this->communicator,
-                $url
+                $request->getBaseUrl()
             );
         }
 
-        return $this->communicator->get($url);
+        return $this->communicator->get($request);
     }
 }

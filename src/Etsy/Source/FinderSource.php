@@ -3,6 +3,7 @@
 namespace App\Etsy\Source;
 
 use App\Etsy\Source\Repository\EtsyRepository;
+use App\Library\Http\Request;
 
 class FinderSource
 {
@@ -19,9 +20,12 @@ class FinderSource
     ) {
         $this->etsyRepository = $etsyRepository;
     }
-
-    public function get(string $url): string
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function getResource(Request $request): string
     {
-        return $this->etsyRepository->get($url);
+        return $this->etsyRepository->getResource($request);
     }
 }
