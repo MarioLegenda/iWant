@@ -37,7 +37,7 @@ class ItemFilterFactory
      * @param array $metadata
      * @return ItemFilterInterface
      */
-    public function create(array $metadata): ItemFilterInterface
+    private function create(array $metadata): ItemFilterInterface
     {
         $class = ItemFilterClassFactory::create('App\Ebay\Library')
             ->getItemFilterClass($metadata['name']);

@@ -2,7 +2,7 @@
 
 namespace App\Bonanza\Business\ItemFilter;
 
-use App\Amazon\Library\Dynamic\DynamicConfiguration;
+use App\Bonanza\Library\Dynamic\DynamicConfiguration;
 use App\Bonanza\Library\Dynamic\DynamicErrors;
 use App\Bonanza\Library\Dynamic\DynamicInterface;
 use App\Bonanza\Library\Dynamic\DynamicMetadata;
@@ -37,7 +37,7 @@ class ItemFilterFactory
      * @param array $metadata
      * @return DynamicInterface
      */
-    public function create(array $metadata): DynamicInterface
+    private function create(array $metadata): DynamicInterface
     {
         $class = ItemFilterClassFactory::create('App\Bonanza\Library')
             ->getItemFilterClass($metadata['name']);

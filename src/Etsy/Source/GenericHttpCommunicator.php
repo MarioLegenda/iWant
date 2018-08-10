@@ -2,6 +2,7 @@
 
 namespace App\Etsy\Source;
 
+use App\Bonanza\Library\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use GuzzleHttp\Client;
 
@@ -18,6 +19,16 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
     public function get(string $url): string
     {
         return $this->tryGet($url);
+    }
+
+    public function post(Request $request)
+    {
+        $message = sprintf(
+            'This method is not implemented well because it uses %s on Etsy domain. Needs to be fixed',
+            get_class($this)
+        );
+
+        throw new \RuntimeException($message);
     }
     /**
      * @param string $url

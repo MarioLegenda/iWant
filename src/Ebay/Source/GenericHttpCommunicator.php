@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Source;
 
+use App\Bonanza\Library\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use GuzzleHttp\Client;
 
@@ -19,6 +20,12 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
     {
         return $this->tryGet($url);
     }
+
+    public function post(Request $request)
+    {
+
+    }
+
     /**
      * @param string $url
      * @return string

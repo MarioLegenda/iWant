@@ -30,15 +30,7 @@ class CallTypeProcessor implements ProcessorInterface
      */
     public function process(): ProcessorInterface
     {
-        $queryName = $this->callType->getQueryName();
-
-        $normalizedQueryValues = $this->normalizeQueryValues($this->callType->getQueryValues());
-
-        $this->processed = sprintf(
-            '%s=%s',
-            $queryName,
-            $normalizedQueryValues
-        );
+        $this->processed = $this->callType->getOperationName().$this->getDelimiter();
 
         return $this;
     }
@@ -54,7 +46,7 @@ class CallTypeProcessor implements ProcessorInterface
      */
     public function getDelimiter(): string
     {
-        return '&';
+        return '=';
     }
 
     /**

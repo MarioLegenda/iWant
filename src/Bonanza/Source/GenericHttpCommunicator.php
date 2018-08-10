@@ -2,6 +2,7 @@
 
 namespace App\Bonanza\Source;
 
+use App\Bonanza\Library\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use GuzzleHttp\Client;
 
@@ -18,6 +19,21 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
     public function get(string $url): string
     {
         return $this->tryGet($url);
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function post(Request $request)
+    {
+        $baseUrl = $request->getBaseUrl();
+        $headers = $request->getHeaders();
+        $data = $request->getData();
+
+        $response = $this->createClient()->post($baseUrl, [
+            'body' => $data,
+            'headers' => $headers,
+        ]);
     }
     /**
      * @param string $url

@@ -8,6 +8,7 @@ use App\Bonanza\Library\Dynamic\DynamicMetadata;
 use App\Bonanza\Library\Information\SortOrderInformation;
 use App\Bonanza\Library\ItemFilter\BuyerPostalCode;
 use App\Bonanza\Library\ItemFilter\ItemFilter;
+use App\Bonanza\Library\ItemFilter\Keywords;
 use App\Bonanza\Library\ItemFilter\PaginationInput;
 use App\Bonanza\Library\ItemFilter\SortOrder;
 use App\Tests\Library\BasicSetup;
@@ -160,6 +161,49 @@ class ItemFiltersTest extends BasicSetup
         $entersInvalidException = false;
         try {
             $paginationInput->validateDynamic();
+        } catch (\RuntimeException $e) {
+            $entersInvalidException = true;
+        }
+
+        static::assertTrue($entersInvalidException);
+    }
+
+    public function test_keywords_item_filter()
+    {
+        $value = [
+            'keywords' => 'boots, mountain'
+        ];
+
+        $dynamicConfiguration = $this->getDynamicConfiguration(false, false);
+        $dynamicErrors = $this->getDynamicErrors();
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::KEYWORDS,
+            [$value]
+        );
+
+        $keywords = new Keywords(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        static::assertTrue($keywords->validateDynamic());
+
+        $dynamicMetadata = $this->getDynamicMetadata(
+            ItemFilter::KEYWORDS,
+            [5]
+        );
+
+        $keywords = new Keywords(
+            $dynamicMetadata,
+            $dynamicConfiguration,
+            $dynamicErrors
+        );
+
+        $entersInvalidException = false;
+        try {
+            $keywords->validateDynamic();
         } catch (\RuntimeException $e) {
             $entersInvalidException = true;
         }

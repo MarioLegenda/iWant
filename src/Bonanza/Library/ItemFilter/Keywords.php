@@ -3,9 +3,8 @@
 namespace App\Bonanza\Library\ItemFilter;
 
 use App\Bonanza\Library\Dynamic\BaseDynamic;
-use App\Bonanza\Library\Information\SortOrderInformation;
 
-class SortOrder extends BaseDynamic
+class Keywords extends BaseDynamic
 {
     /**
      * @return bool
@@ -25,9 +24,28 @@ class SortOrder extends BaseDynamic
 
         $filter = $dynamicValue[0];
 
-        if (!SortOrderInformation::instance()->has($filter)) {
+        if (!is_array($filter)) {
             $message = sprintf(
-                'Invalid value for sortOrder. Please, refer to http://developer.ebay.com/devzone/finding/CallRef/extra/fndItmsByKywrds.Rqst.srtOrdr.html'
+                'Bonanza API %s has to be an array with \'keywords\' key and a string in that key',
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        if (!array_key_exists('keywords', $filter)) {
+            $message = sprintf(
+                'Bonanza API %s has to be an array with \'keywords\' key and a string in that key',
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        if (!is_string($filter['keywords'])) {
+            $message = sprintf(
+                'Bonanza API %s has to be an array with \'keywords\' key and a string in that key',
+                get_class($this)
             );
 
             throw new \RuntimeException($message);

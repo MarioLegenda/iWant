@@ -2,6 +2,7 @@
 
 namespace App\Bonanza\Source;
 
+use App\Bonanza\Library\Request;
 use App\Bonanza\Source\Repository\BonanzaRepository;
 
 class FinderSource
@@ -18,5 +19,10 @@ class FinderSource
         BonanzaRepository $bonanzaRepository
     ) {
         $this->bonanzaRepository = $bonanzaRepository;
+    }
+
+    public function search(Request $request)
+    {
+        $this->bonanzaRepository->search($request);
     }
 }

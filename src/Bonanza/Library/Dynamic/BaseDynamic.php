@@ -5,7 +5,7 @@ namespace App\Bonanza\Library\Dynamic;
 use App\Library\Helper;
 use App\Library\UrlifyInterface;
 
-class BaseDynamic implements UrlifyInterface
+abstract class BaseDynamic implements UrlifyInterface, DynamicInterface
 {
     /**
      * @var DynamicMetadata $dynamicMetadata
@@ -33,65 +33,6 @@ class BaseDynamic implements UrlifyInterface
         $this->dynamicMetadata = $dynamicMetadata;
         $this->dynamicConfiguration = $dynamicConfiguration;
         $this->errors = $dynamicErrors;
-    }
-    /**
-     * @param int $counter
-     * @return string
-     */
-    public function urlify(int $counter = null) : string
-    {
-        $multipleValues = $this->dynamicConfiguration->isMultipleValues();
-        $dateTime = $this->dynamicConfiguration->isDateTime();
-
-        $dynamicValue = $this->dynamicMetadata->getDynamicValue();
-        $name = $this->dynamicMetadata->getName();
-
-        if ($multipleValues === false and $dateTime === false) {
-            $dynamicValue = $this->refactorDynamicValue($dynamicValue);
-
-            return 'itemFilter('.$counter.').name='.$name.'&itemFilter('.$counter.').value='.$dynamicValue[0].'&';
-        }
-
-        if ($multipleValues === true and $dateTime === false) {
-            $toBeAppended = 'itemFilter('.$counter.').name='.$name;
-
-            $internalCounter = 0;
-            foreach ($dynamicValue as $dynamic) {
-                $dynamicValue = $this->refactorDynamicValue((is_array($dynamic)) ? $dynamic : array($dynamic));
-
-                $toBeAppended.='&itemFilter('.$counter.').value('.$internalCounter.')='.$dynamicValue[0];
-
-                $internalCounter++;
-            }
-
-            return $toBeAppended.'&';
-        }
-
-        if ($multipleValues === false and $dateTime === true) {
-            $dateTime = $dynamicValue[0];
-
-            return 'itemFilter('.$counter.').name='.$name.'&itemFilter('.$counter.').value='.Helper::convertToGMT($dateTime).'&';
-        }
-
-        if ($multipleValues === true and $dateTime === true) {
-            $toBeAppended = 'itemFilter('.$counter.').name='.$name;
-
-            $internalCounter = 0;
-            foreach ($dynamicValue as $dynamic) {
-                $dynamicValue = '';
-                if ($dynamic instanceof \DateTime) {
-                    $dynamicValue = Helper::convertToGMT($dynamic);
-                } else {
-                    $dynamicValue = $this->refactorDynamicValue($dynamic);
-                }
-
-                $toBeAppended.='&itemFilter('.$counter.').value('.$internalCounter.')='.$dynamicValue[0];
-
-                $internalCounter++;
-            }
-
-            return $toBeAppended.'&';
-        }
     }
     /**
      * @return DynamicMetadata

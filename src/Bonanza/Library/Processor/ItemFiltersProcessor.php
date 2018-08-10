@@ -13,7 +13,7 @@ class ItemFiltersProcessor implements ProcessorInterface
     /**
      * @var string $processed
      */
-    private $processed = '';
+    private $processed;
     /**
      * @var TypedArray $itemFilters
      */
@@ -28,21 +28,19 @@ class ItemFiltersProcessor implements ProcessorInterface
      */
     public function process() : ProcessorInterface
     {
-        $finalProduct = '';
         $count = 0;
 
+        $processedItemFilters = [];
         /** @var DynamicInterface|DynamicInterface $itemFilter */
         foreach ($this->itemFilters as $itemFilter) {
             if ($itemFilter instanceof UrlifyInterface) {
-                $itemFilter->validateDynamic();
-
-                $finalProduct.=$itemFilter->urlify($count);
+                $processedItemFilters[$itemFilter->getDynamicMetadata()->getName()] = $itemFilter->urlify();
             }
 
             $count++;
         }
 
-        $this->processed = $finalProduct;
+        $this->processed = json_encode($processedItemFilters);
 
         return $this;
     }
@@ -61,9 +59,9 @@ class ItemFiltersProcessor implements ProcessorInterface
     /**
      * @return string
      */
-    public function getProcessed() : string
+    public function getProcessed()
     {
-        return rtrim($this->processed, '&');
+        return $this->processed;
     }
     /**
      * @return string

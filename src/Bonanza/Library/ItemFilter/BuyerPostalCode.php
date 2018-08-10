@@ -34,4 +34,12 @@ class BuyerPostalCode extends BaseDynamic
 
         return true;
     }
+    /**
+     * @param int|null $counter
+     * @return mixed
+     */
+    public function urlify(int $counter = null)
+    {
+        return $this->getDynamicMetadata()->getDynamicValue()[0];
+    }
 }

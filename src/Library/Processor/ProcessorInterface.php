@@ -16,9 +16,9 @@ interface ProcessorInterface
      */
     public function setOptions(LockedImmutableHashSet $options): ProcessorInterface;
     /**
-     * @return string
+     * @return mixed
      */
-    public function getProcessed(): string;
+    public function getProcessed();
     /**
      * @return string
      */

@@ -21,7 +21,7 @@ class RequestProducer
         $this->processors = $processors;
     }
     /**
-     * @return string
+     * @return Request
      */
     public function produce(): string
     {

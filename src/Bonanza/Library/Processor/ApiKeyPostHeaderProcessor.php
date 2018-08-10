@@ -5,10 +5,14 @@ namespace App\Bonanza\Library\Processor;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Tools\LockedImmutableHashSet;
 
-class RequestBaseProcessor implements ProcessorInterface
+class ApiKeyPostHeaderProcessor implements ProcessorInterface
 {
     /**
-     * @var string $processed
+     * @param LockedImmutableHashSet $options
+     */
+    private $options;
+    /**
+     * @var array $processed
      */
     private $processed;
     /**
@@ -25,18 +29,20 @@ class RequestBaseProcessor implements ProcessorInterface
         $this->bonanzaApi = LockedImmutableHashSet::create($bonanzaApi);
     }
     /**
-     * @inheritdoc
-     */
-    public function getProcessed(): string
-    {
-        return $this->processed;
-    }
-    /**
-     * @inheritdoc
+     * @return ProcessorInterface
      */
     public function process(): ProcessorInterface
     {
-        $this->processed = $this->bonanzaApi['base_url'];
+        $names = $this->bonanzaApi['names'];
+        $configParams = $this->bonanzaApi['params']->toArray();
+        $headers = [];
+        foreach ($names as $key => $name) {
+            if (array_key_exists($key, $configParams) and is_string($configParams[$key])) {
+                $headers[$name] = $configParams[$key];
+            }
+        }
+
+        $this->processed = $headers;
 
         return $this;
     }
@@ -53,10 +59,22 @@ class RequestBaseProcessor implements ProcessorInterface
         throw new \RuntimeException($message);
     }
     /**
-     * @inheritdoc
+     * @return string
      */
     public function getDelimiter(): string
     {
-        return '?';
+        $message = sprintf(
+            '%s is used for constructing header values for POST method and cannot be used for GET methods',
+            get_class($this)
+        );
+
+        throw new \RuntimeException($message);
+    }
+    /**
+     * @return array
+     */
+    public function getProcessed(): array
+    {
+        return $this->processed;
     }
 }

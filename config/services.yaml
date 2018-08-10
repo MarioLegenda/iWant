@@ -33,6 +33,12 @@ parameters:
         api_key: 'arz83jklcrhy8o1b2wfrbzuj'
         names:
             api_key: api_key
+    bonanza_api:
+        base_url: 'https://api.bonanza.com/api_requests/standard_request'
+        names:
+            dev_name: 'X-BONANZLE-API-DEV-NAME'
+        params:
+            dev_name: 'my_name_dev'
 
 services:
     _defaults:
@@ -49,11 +55,11 @@ services:
 
     App\Etsy\:
         resource: '../src/Etsy/*'
-        exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*,Library/Response/*}'
+        exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Request.php,Presentation/Model/*,Library/Response/*}'
 
     App\Bonanza\:
         resource: '../src/Bonanza/*'
-        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*}'
+        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Library/Request.php,Presentation/Model/*}'
 
     App\Library\:
         resource: '../src/Library'
@@ -78,6 +84,10 @@ services:
         arguments:
             $etsyApi: '%etsy_api%'
 
+    App\Bonanza\Library\Processor\RequestBaseProcessor:
+        arguments:
+            $bonanzaApi: '%bonanza_api%'
+
     # REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
@@ -93,16 +103,3 @@ services:
         arguments:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Bonanza\Source\GenericHttpCommunicator'
-
-    # Data providers
-    App\Tests\Ebay\FindingApi\DataProvider\:
-        resource: '../tests/Ebay/FindingApi/DataProvider'
-        exclude: '../tests/Ebay/FindingApi/DataProvider/*'
-
-    data_provider.finding_api:
-        class: App\Tests\Ebay\FindingApi\DataProvider\DataProvider
-        autowire: false
-
-    data_provider.etsy_api:
-        class: App\Tests\Etsy\DataProvider\DataProvider
-        autowire: false

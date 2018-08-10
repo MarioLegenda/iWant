@@ -3,6 +3,7 @@
 namespace App\Bonanza\Presentation;
 
 use App\Bonanza\Business\Finder;
+use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 
 class BonanzaApiEntryPoint
 {
@@ -18,5 +19,10 @@ class BonanzaApiEntryPoint
         Finder $finder
     ) {
         $this->finder = $finder;
+    }
+
+    public function search(BonanzaApiModelInterface $model)
+    {
+        $this->finder->search($model);
     }
 }

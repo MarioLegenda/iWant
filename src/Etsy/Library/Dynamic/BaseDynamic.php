@@ -4,7 +4,7 @@ namespace App\Etsy\Library\Dynamic;
 
 use App\Library\UrlifyInterface;
 
-abstract class BaseDynamic implements UrlifyInterface
+abstract class BaseDynamic implements UrlifyInterface, DynamicInterface
 {
     /**
      * @var DynamicMetadata $dynamicMetadata
@@ -33,11 +33,6 @@ abstract class BaseDynamic implements UrlifyInterface
         $this->dynamicConfiguration = $dynamicConfiguration;
         $this->errors = $dynamicErrors;
     }
-    /**
-     * @throws \RuntimeException
-     * @return bool
-     */
-    abstract public function validateDynamic(): bool;
     /**
      * @param int $counter
      * @return string

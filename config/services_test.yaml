@@ -39,7 +39,7 @@ parameters:
         names:
             dev_name: 'X-BONANZLE-API-DEV-NAME'
         params:
-            dev_name: 'my_name_dev'
+            dev_name: 'Nx901rIYSgvm2po'
 
 services:
     _defaults:
@@ -56,11 +56,11 @@ services:
 
     App\Etsy\:
         resource: '../src/Etsy/*'
-        exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*,Library/Response/*}'
+        exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Request.php,Presentation/Model/*,Library/Response/*}'
 
     App\Bonanza\:
         resource: '../src/Bonanza/*'
-        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Presentation/Model/*}'
+        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Library/Request.php,Presentation/Model/*}'
 
     App\Library\:
         resource: '../src/Library'
@@ -84,6 +84,14 @@ services:
     App\Etsy\Library\Processor\ApiKeyProcessor:
         arguments:
             $etsyApi: '%etsy_api%'
+
+    App\Bonanza\Library\Processor\RequestBaseProcessor:
+        arguments:
+            $bonanzaApi: '%bonanza_api%'
+
+    App\Bonanza\Library\Processor\ApiKeyPostHeaderProcessor:
+        arguments:
+            $bonanzaApi: '%bonanza_api%'
 
     # REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:

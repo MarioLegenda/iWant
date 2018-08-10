@@ -79,17 +79,10 @@ class PaginationInput extends BaseDynamic
     }
     /**
      * @param int $counter
-     * @return string
+     * @return array
      */
-    public function urlify(int $counter = null): string
+    public function urlify(int $counter = null): array
     {
-        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
-        $finalEntry = '';
-
-        foreach ($dynamicValue[0] as $key => $f) {
-            $finalEntry.='paginationInput.'.$key.'='.$f.'&';
-        }
-
-        return $finalEntry;
+        return $this->getDynamicMetadata()->getDynamicValue()[0];
     }
 }

@@ -6,7 +6,7 @@ use App\Ebay\Library\ItemFilter\ItemFilterInterface;
 use App\Library\Helper;
 use App\Library\UrlifyInterface;
 
-class BaseDynamic implements UrlifyInterface, ItemFilterInterface
+abstract class BaseDynamic implements UrlifyInterface, ItemFilterInterface, DynamicInterface
 {
     /**
      * @var DynamicMetadata $dynamicMetadata

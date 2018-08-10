@@ -7,7 +7,10 @@ use App\Ebay\Library\Information\GlobalIdInformation;
 
 class GlobalId extends BaseDynamic
 {
-    public function validateDynamic()
+    /**
+     * @return bool
+     */
+    public function validateDynamic(): bool
     {
         if (!$this->genericValidation($this->getDynamicMetadata()->getDynamicValue(), 1)) {
             $message = sprintf(
