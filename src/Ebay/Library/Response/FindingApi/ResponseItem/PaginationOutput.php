@@ -27,7 +27,7 @@ class PaginationOutput extends AbstractItem implements ArrayNotationInterface
      * @param null $default
      * @return int|null
      */
-    public function getEntriesPerPage($default = null)
+    public function getEntriesPerPage($default = null): int
     {
         if ($this->entriesPerPage === null) {
             if (isset($this->simpleXml->entriesPerPage)) {
@@ -45,7 +45,7 @@ class PaginationOutput extends AbstractItem implements ArrayNotationInterface
      * @param null $default
      * @return int|null
      */
-    public function getPageNumber($default = null)
+    public function getPageNumber($default = null): int
     {
         if ($this->pageNumber === null) {
             if (isset($this->simpleXml->pageNumber)) {
@@ -63,7 +63,7 @@ class PaginationOutput extends AbstractItem implements ArrayNotationInterface
      * @param null $default
      * @return int|null
      */
-    public function getTotalEntries($default = null)
+    public function getTotalEntries($default = null): int
     {
         if ($this->totalEntries === null) {
             if (isset($this->simpleXml->totalEntries)) {
@@ -81,7 +81,7 @@ class PaginationOutput extends AbstractItem implements ArrayNotationInterface
      * @param null $default
      * @return int|null
      */
-    public function getTotalPages($default = null)
+    public function getTotalPages($default = null): int
     {
         if ($this->totalPages === null) {
             if (isset($this->simpleXml->totalPages)) {
@@ -107,28 +107,40 @@ class PaginationOutput extends AbstractItem implements ArrayNotationInterface
             'totalPages' => $this->getTotalPages(),
         );
     }
-
+    /**
+     * @param int $totalEntries
+     * @return PaginationOutput
+     */
     private function setTotalEntries(int $totalEntries) : PaginationOutput
     {
         $this->totalEntries = $totalEntries;
 
         return $this;
     }
-
+    /**
+     * @param int $pageNumber
+     * @return PaginationOutput
+     */
     private function setPageNumber(int $pageNumber) : PaginationOutput
     {
         $this->pageNumber = $pageNumber;
 
         return $this;
     }
-
+    /**
+     * @param int $entriesPerPage
+     * @return PaginationOutput
+     */
     private function setEntriesPerPage(int $entriesPerPage) : PaginationOutput
     {
         $this->entriesPerPage = $entriesPerPage;
 
         return $this;
     }
-
+    /**
+     * @param int $totalPages
+     * @return PaginationOutput
+     */
     private function setTotalPages(int $totalPages) : PaginationOutput
     {
         $this->totalPages = $totalPages;

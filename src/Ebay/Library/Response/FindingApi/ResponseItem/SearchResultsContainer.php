@@ -43,7 +43,9 @@ class SearchResultsContainer extends AbstractItemIterator implements ArrayNotati
 
         return null;
     }
-
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         $toArray = array();
@@ -54,7 +56,9 @@ class SearchResultsContainer extends AbstractItemIterator implements ArrayNotati
 
         return $toArray;
     }
-
+    /**
+     * @param \SimpleXMLElement $simpleXml
+     */
     private function loadItems(\SimpleXMLElement $simpleXml)
     {
         $items = $simpleXml->children();

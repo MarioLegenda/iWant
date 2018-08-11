@@ -201,35 +201,51 @@ class ListingInfo extends AbstractItem implements ArrayNotationInterface
             'startTime' => $this->getStartTime(),
         );
     }
-
+    /**
+     * @param string $startTime
+     * @return ListingInfo
+     */
     private function setStartTime(string $startTime) : ListingInfo
     {
         $this->startTime = $startTime;
 
         return $this;
     }
-
+    /**
+     * @param string $listingType
+     * @return ListingInfo
+     */
     private function setListingType(string $listingType) : ListingInfo
     {
         $this->listingType = $listingType;
 
         return $this;
     }
-
+    /**
+     * @param bool $gift
+     * @return ListingInfo
+     */
     private function setGift(bool $gift) : ListingInfo
     {
         $this->gift = $gift;
 
         return $this;
     }
-
+    /**
+     * @param string $endTime
+     * @return ListingInfo
+     */
     private function setEndTime(string $endTime) : ListingInfo
     {
         $this->endTime = $endTime;
 
         return $this;
     }
-
+    /**
+     * @param string $currencyId
+     * @param float $amount
+     * @return ListingInfo
+     */
     private function setConvertedBuyItNowPrice(string $currencyId, float $amount) : ListingInfo
     {
         $this->convertedBuyItNowPrice = array(
@@ -239,7 +255,11 @@ class ListingInfo extends AbstractItem implements ArrayNotationInterface
 
         return $this;
     }
-
+    /**
+     * @param string $currencyId
+     * @param float $amount
+     * @return ListingInfo
+     */
     private function setBuyItNowPrice(string $currencyId, float $amount) : ListingInfo
     {
         $this->buyItNowPrice = array(
@@ -249,15 +269,20 @@ class ListingInfo extends AbstractItem implements ArrayNotationInterface
 
         return $this;
     }
-
-
+    /**
+     * @param $buyItNowAvailable
+     * @return ListingInfo
+     */
     private function setBuyItNowAvailable($buyItNowAvailable) : ListingInfo
     {
         $this->buyItNowAvailable = $buyItNowAvailable;
 
         return $this;
     }
-
+    /**
+     * @param $bestOfferEnabled
+     * @return ListingInfo
+     */
     private function setBestOfferEnabled($bestOfferEnabled) : ListingInfo
     {
         $this->bestOfferEnabled = $bestOfferEnabled;

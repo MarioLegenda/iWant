@@ -30,7 +30,9 @@ class ConditionHistogramContainer extends AbstractItemIterator implements ArrayN
 
         return $toArray;
     }
-
+    /**
+     * @param \SimpleXMLElement $simpleXMLElement
+     */
     private function loadContainer(\SimpleXMLElement $simpleXMLElement)
     {
         foreach ($simpleXMLElement->conditionHistogram as $conditionHistogram) {

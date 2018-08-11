@@ -157,7 +157,10 @@ class ShippingInfo extends AbstractItem implements ArrayNotationInterface
             'shippingType' => $this->getShippingType(),
         );
     }
-
+    /**
+     * @param $locations
+     * @return ShippingInfo
+     */
     private function setShipToLocations($locations) : ShippingInfo
     {
         foreach ($locations as $location) {
@@ -166,28 +169,41 @@ class ShippingInfo extends AbstractItem implements ArrayNotationInterface
 
         return $this;
     }
-
+    /**
+     * @param string $shippingType
+     * @return ShippingInfo
+     */
     private function setShippingType(string $shippingType) : ShippingInfo
     {
         $this->shippingType = $shippingType;
 
         return $this;
     }
-
+    /**
+     * @param bool $oneDayShippingAvailable
+     * @return ShippingInfo
+     */
     private function setOneDayShippingAvailable(bool $oneDayShippingAvailable) : ShippingInfo
     {
         $this->oneDayShippingAvailable = $oneDayShippingAvailable;
 
         return $this;
     }
-
+    /**
+     * @param int $handlingTime
+     * @return ShippingInfo
+     */
     private function setHandlingTime(int $handlingTime) : ShippingInfo
     {
         $this->handlingTime = $handlingTime;
 
         return $this;
     }
-
+    /**
+     * @param string $currencyId
+     * @param float $amount
+     * @return ShippingInfo
+     */
     private function setShippingServiceCost(string $currencyId, float $amount) : ShippingInfo
     {
         $this->shippingServiceCost = array(
@@ -197,7 +213,10 @@ class ShippingInfo extends AbstractItem implements ArrayNotationInterface
 
         return $this;
     }
-
+    /**
+     * @param bool $expeditedShipping
+     * @return ShippingInfo
+     */
     private function setExpeditedShipping(bool $expeditedShipping) : ShippingInfo
     {
         $this->expeditedShipping = $expeditedShipping;

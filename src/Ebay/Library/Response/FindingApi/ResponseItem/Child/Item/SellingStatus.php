@@ -82,7 +82,6 @@ class SellingStatus extends AbstractItem implements ArrayNotationInterface
 
         return $this->currentPrice;
     }
-
     /**
      * @param mixed $default
      * @return string
@@ -132,21 +131,31 @@ class SellingStatus extends AbstractItem implements ArrayNotationInterface
             'timeLeft' => $this->getTimeLeft(),
         );
     }
-
+    /**
+     * @param $timeLeft
+     * @return SellingStatus
+     */
     private function setTimeLeft($timeLeft) : SellingStatus
     {
         $this->timeLeft = $timeLeft;
 
         return $this;
     }
-
+    /**
+     * @param $sellingState
+     * @return SellingStatus
+     */
     private function setSellingState($sellingState) : SellingStatus
     {
         $this->sellingState = $sellingState;
 
         return $this;
     }
-
+    /**
+     * @param string $currencyId
+     * @param float $currentPrice
+     * @return SellingStatus
+     */
     private function setCurrentPrice(string $currencyId, float $currentPrice) : SellingStatus
     {
         $this->currentPrice = array(
@@ -156,7 +165,11 @@ class SellingStatus extends AbstractItem implements ArrayNotationInterface
 
         return $this;
     }
-
+    /**
+     * @param $currencyId
+     * @param $convertedCurrentPrice
+     * @return $this
+     */
     private function setConvertedCurrentPrice($currencyId, $convertedCurrentPrice)
     {
         $this->convertedCurrentPrice = array(
@@ -166,7 +179,10 @@ class SellingStatus extends AbstractItem implements ArrayNotationInterface
 
         return $this;
     }
-
+    /**
+     * @param $bidCount
+     * @return SellingStatus
+     */
     private function setBidCount($bidCount) : SellingStatus
     {
         $this->bidCount = $bidCount;

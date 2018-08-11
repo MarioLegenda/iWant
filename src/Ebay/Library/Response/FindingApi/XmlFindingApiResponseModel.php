@@ -60,7 +60,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
      * @param mixed $default
      * @return null|AspectHistogramContainer
      */
-    public function getAspectHistogramContainer($default = null)
+    public function getAspectHistogramContainer($default = null): ?AspectHistogramContainer
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -82,7 +82,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
      * @return SearchResultsContainer
      * @param mixed $default
      */
-    public function getSearchResults($default = null)
+    public function getSearchResults($default = null): ?SearchResultsContainer
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -104,7 +104,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
      * @param mixed $default
      * @return mixed
      */
-    public function getConditionHistogramContainer($default = null)
+    public function getConditionHistogramContainer($default = null): ?ConditionHistogramContainer
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -126,7 +126,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
      * @param mixed $default
      * @return mixed|null
      */
-    public function getPaginationOutput($default = null)
+    public function getPaginationOutput($default = null): ?PaginationOutput
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -148,7 +148,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
      * @param mixed $default
      * @return mixed|null
      */
-    public function getCategoryHistogramContainer($default = null)
+    public function getCategoryHistogramContainer($default = null): ?CategoryHistogramContainer
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -170,7 +170,7 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
      * @param mixed $default
      * @return mixed|null
      */
-    public function getErrors($default = null)
+    public function getErrors($default = null): ?ErrorContainer
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 

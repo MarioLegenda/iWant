@@ -3,7 +3,7 @@
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem\Child\ConditionHistogram;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
-use App\Ebay\Library\Response\ResponseItem\AbstractItem;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\AbstractItem;
 
 class ConditionHistogram extends AbstractItem implements ArrayNotationInterface
 {
@@ -84,21 +84,30 @@ class ConditionHistogram extends AbstractItem implements ArrayNotationInterface
             'count' => $this->getCount(),
         );
     }
-
+    /**
+     * @param int $count
+     * @return ConditionHistogram
+     */
     private function setCount(int $count) : ConditionHistogram
     {
         $this->count = $count;
 
         return $this;
     }
-
+    /**
+     * @param int $conditionId
+     * @return ConditionHistogram
+     */
     private function setConditionId(int $conditionId) : ConditionHistogram
     {
         $this->conditionId = $conditionId;
 
         return $this;
     }
-
+    /**
+     * @param string $conditionDisplayName
+     * @return ConditionHistogram
+     */
     private function setConditionDisplayName(string $conditionDisplayName) : ConditionHistogram
     {
         $this->conditionDisplayName = $conditionDisplayName;

@@ -149,7 +149,7 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
     /**
      * @return string
      */
-    public function getItemId()
+    public function getItemId(): string
     {
         if ($this->itemId === null) {
             $this->setItemId((string)$this->simpleXml->itemId);
@@ -157,7 +157,6 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
 
         return $this->itemId;
     }
-
     /**
      * @return string
      */
@@ -169,7 +168,6 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
 
         return $this->title;
     }
-
     /**
      * @return string
      */
@@ -319,7 +317,7 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
      * @param $default
      * @return mixed/Category
      */
-    public function getPrimaryCategory($default = null)
+    public function getPrimaryCategory($default = null): Category
     {
         if (!$this->primaryCategory instanceof Category) {
             if (!empty($this->simpleXml->primaryCategory)) {
@@ -354,9 +352,9 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
     }
     /**
      * @param $default
-     * @return ShippingInfo
+     * @return ShippingInfo|null
      */
-    public function getShippingInfo($default = null) : ShippingInfo
+    public function getShippingInfo($default = null) : ?ShippingInfo
     {
         if (!$this->shippingInfo instanceof ShippingInfo) {
             if (!empty($this->simpleXml->shippingInfo)) {
@@ -373,9 +371,9 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
 
     /**
      * @param null $default
-     * @return \FindingAPI\Core\ResponseParser\ResponseItem\Child\Item\SellingStatus
+     * @return SellingStatus|null
      */
-    public function getSellingStatus($default = null)
+    public function getSellingStatus($default = null): ?SellingStatus
     {
         if ($this->sellingStatus === null) {
             if (!empty($this->simpleXml->sellingStatus)) {
@@ -393,7 +391,7 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
      * @param null $default
      * @return SellerInfo|null
      */
-    public function getSellerInfo($default = null)
+    public function getSellerInfo($default = null): ?SellerInfo
     {
         if (!$this->sellerInfo instanceof SellerInfo) {
             if (!empty($this->simpleXml->sellerInfo)) {
@@ -409,9 +407,9 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
     }
     /**
      * @param mixed $default
-     * @return ListingInfo
+     * @return ListingInfo|null
      */
-    public function getListingInfo($default = null)
+    public function getListingInfo($default = null): ?ListingInfo
     {
         if ($this->listingInfo === null) {
             if (!empty($this->simpleXml->listingInfo)) {
@@ -463,7 +461,7 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
     }
     /**
      * @param mixed $default
-     * @return \FindingAPI\Core\ResponseParser\ResponseItem\Child\Item\Condition|null
+     * @return Condition|null
      */
     public function getCondition($default = null)
     {

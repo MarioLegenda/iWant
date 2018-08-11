@@ -2,10 +2,10 @@
 
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem\Child\CategoryHistogram;
 
-use FindingAPI\Core\Response\ArrayConvertableInterface;
-use FindingAPI\Core\ResponseParser\ResponseItem\AbstractItemIterator;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\AbstractItemIterator;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class CategoryHistogram extends AbstractItemIterator implements ArrayConvertableInterface
+class CategoryHistogram extends AbstractItemIterator implements ArrayNotationInterface
 {
     /**
      * @var int $depth

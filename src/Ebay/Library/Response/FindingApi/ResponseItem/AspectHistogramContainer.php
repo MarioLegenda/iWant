@@ -25,7 +25,7 @@ class AspectHistogramContainer extends AbstractItemIterator implements ArrayNota
      * @param null $default
      * @return null|string
      */
-    public function getDomainDisplayName($default = null)
+    public function getDomainDisplayName($default = null): ?string
     {
         if ($this->domainDisplayName === null) {
             if (!empty($this->simpleXml->domainDisplayName)) {
@@ -63,12 +63,16 @@ class AspectHistogramContainer extends AbstractItemIterator implements ArrayNota
     {
         return $this->toArray();
     }
-
+    /**
+     * @param string $domainDisplayName
+     */
     private function setDomainDisplayName(string $domainDisplayName)
     {
         $this->domainDisplayName = $domainDisplayName;
     }
-
+    /**
+     * @param \SimpleXMLElement $simpleXml
+     */
     private function loadAspects(\SimpleXMLElement $simpleXml)
     {
         if (!empty($simpleXml->aspect)) {
