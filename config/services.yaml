@@ -59,7 +59,7 @@ services:
 
     App\Bonanza\:
         resource: '../src/Bonanza/*'
-        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Library/Request.php,Presentation/Model/*}'
+        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Library/Request.php,Presentation/Model/*,Library/Response/*}'
 
     App\Library\:
         resource: '../src/Library'

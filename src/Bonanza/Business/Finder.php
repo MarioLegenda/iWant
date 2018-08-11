@@ -6,6 +6,7 @@ use App\Bonanza\Business\ItemFilter\ItemFilterFactory;
 use App\Bonanza\Library\Processor\ApiKeyPostHeaderProcessor;
 use App\Bonanza\Library\Processor\ItemFiltersProcessor;
 use App\Bonanza\Library\Processor\RequestBaseProcessor;
+use App\Bonanza\Library\Response\BonanzaApiResponseModel;
 use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 use App\Bonanza\Source\FinderSource;
 use App\Bonanza\Library\Processor\CallTypeProcessor;
@@ -44,8 +45,9 @@ class Finder
     }
     /**
      * @param BonanzaApiModelInterface $model
+     * @return BonanzaApiResponseModel
      */
-    public function search(BonanzaApiModelInterface $model)
+    public function search(BonanzaApiModelInterface $model): BonanzaApiResponseModel
     {
         $callTypeProcessor = new CallTypeProcessor($model->getCallType());
         $itemFiltersProcessor = $this->createItemFiltersProcessor($model);
@@ -55,7 +57,17 @@ class Finder
             $itemFiltersProcessor
         );
 
-        $this->finderSource->getResource($request);
+        $resource = $this->finderSource->getResource($request);
+
+        return $this->createModelFromResource($resource);
+    }
+    /**
+     * @param string $resource
+     * @return BonanzaApiResponseModel
+     */
+    private function createModelFromResource(string $resource): BonanzaApiResponseModel
+    {
+        return new BonanzaApiResponseModel(json_decode($resource, true));
     }
     /**
      * @param ProcessorInterface $callTypeProcessor

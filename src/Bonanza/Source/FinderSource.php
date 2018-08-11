@@ -20,9 +20,12 @@ class FinderSource
     ) {
         $this->bonanzaRepository = $bonanzaRepository;
     }
-
-    public function getResource(Request $request)
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function getResource(Request $request): string
     {
-        $this->bonanzaRepository->getResource($request);
+        return $this->bonanzaRepository->getResource($request);
     }
 }
