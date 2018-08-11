@@ -4,6 +4,7 @@ namespace App\Library\OfflineMode;
 
 use App\Ebay\Source\GenericHttpCommunicator;
 use App\Library\Http\GenericHttpCommunicatorInterface;
+use App\Library\Http\Request;
 use App\Library\OfflineMode\OfflineModeMetadata;
 
 class OfflineMode
@@ -46,17 +47,17 @@ class OfflineMode
     }
     /**
      * @param GenericHttpCommunicatorInterface $communicator
-     * @param string $url
+     * @param Request $request
      * @return string
      */
     public function getResponse(
         GenericHttpCommunicatorInterface $communicator,
-        string $url
+        Request $request
     ): string {
-        $this->url = $url;
+        $this->url = $request->getBaseUrl();
         $this->requestHandle = fopen($this->offlineModeDir.'/requests.csv', 'a+');
 
-        if (!$this->isResponseStored()) {
+        if (!$this->isResponseStored($this->url)) {
             $requests = file($this->offlineModeDir.'/requests.csv');
 
             // if requests.csv is empty, fill it with first request
@@ -67,7 +68,7 @@ class OfflineMode
                 fclose(fopen($this->offlineModeDir.'/responses/1.txt', 'a+'));
 
                 // makes a request and adds the response to newly created response file
-                $stringResponse = $communicator->get($this->url);
+                $stringResponse = $communicator->get($request);
                 file_put_contents($responseFile, $stringResponse);
 
                 $this->closeRequestHandle();
@@ -84,7 +85,7 @@ class OfflineMode
             $responseFile = $this->offlineModeDir.'/responses/'.$nextResponse.'.txt';
             fclose(fopen($responseFile, 'a+'));
 
-            $stringResponse = $communicator->get($this->url);
+            $stringResponse = $communicator->get($request);
             file_put_contents($responseFile, $stringResponse);
 
             $this->closeRequestHandle();
@@ -92,7 +93,7 @@ class OfflineMode
             return $stringResponse;
         }
 
-        if ($this->isResponseStored() === true) {
+        if ($this->isResponseStored($this->url) === true) {
             $requests = file($this->offlineModeDir.'/requests.csv');
 
             foreach ($requests as $line) {
@@ -116,17 +117,87 @@ class OfflineMode
 
         throw new \RuntimeException($message);
     }
+
+    public function getPostResponse(
+        Request $request,
+        string $uniqueSaveValue,
+        GenericHttpCommunicatorInterface $communicator
+    ) {
+        $this->url = $request->getBaseUrl();
+        $this->requestHandle = fopen($this->offlineModeDir.'/requests.csv', 'a+');
+
+        if (!$this->isResponseStored($uniqueSaveValue)) {
+            $requests = file($this->offlineModeDir.'/requests.csv');
+
+            // if requests.csv is empty, fill it with first request
+            if (empty($requests)) {
+                // add a request to requests.csv
+                fputcsv($this->requestHandle, array(1, $uniqueSaveValue), ';');
+                $responseFile = $this->offlineModeDir.'/responses/1.txt';
+                fclose(fopen($this->offlineModeDir.'/responses/1.txt', 'a+'));
+
+                // makes a request and adds the response to newly created response file
+                $stringResponse = $communicator->post($request);
+                file_put_contents($responseFile, $stringResponse);
+
+                $this->closeRequestHandle();
+
+                return $stringResponse;
+            }
+
+            $lastRequest = preg_split('#;#', array_pop($requests));
+
+            $nextResponse = (int) ++$lastRequest[0];
+
+            fputcsv($this->requestHandle, array($nextResponse, $uniqueSaveValue), ';');
+
+            $responseFile = $this->offlineModeDir.'/responses/'.$nextResponse.'.txt';
+            fclose(fopen($responseFile, 'a+'));
+
+            $stringResponse = $communicator->post($request);
+            file_put_contents($responseFile, $stringResponse);
+
+            $this->closeRequestHandle();
+
+            return $stringResponse;
+        }
+
+        if ($this->isResponseStored($uniqueSaveValue) === true) {
+            $requests = file($this->offlineModeDir.'/requests.csv');
+
+            foreach ($requests as $line) {
+                $requestLine = preg_split('#;#', $line);
+
+                if (trim($requestLine[1]) === $uniqueSaveValue) {
+                    $responseFile = $this->offlineModeDir.'/responses/'.$requestLine[0].'.txt';
+
+                    $stringResponse = file_get_contents($responseFile);
+
+                    $this->closeRequestHandle();
+
+                    return $stringResponse;
+                }
+            }
+        }
+
+        $message = sprintf(
+            'There is a possible bug in EbayOfflineMode. Please, fix it'
+        );
+
+        throw new \RuntimeException($message);
+    }
     /**
+     * @param string $uniqueValue
      * @return bool
      */
-    public function isResponseStored() : bool
+    public function isResponseStored(string $uniqueValue) : bool
     {
         $requests = file($this->offlineModeDir.'/requests.csv');
 
         foreach ($requests as $line) {
             $requestLine = preg_split('#;#', $line);
 
-            if (trim($requestLine[1]) === $this->url) {
+            if (trim($requestLine[1]) === $uniqueValue) {
                 return true;
             }
         }

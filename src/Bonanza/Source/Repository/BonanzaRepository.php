@@ -4,6 +4,7 @@ namespace App\Bonanza\Source\Repository;
 
 use App\Library\Http\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
+use App\Library\OfflineMode\OfflineMode;
 
 class BonanzaRepository
 {
@@ -29,9 +30,58 @@ class BonanzaRepository
     }
     /**
      * @param Request $request
+     * @return string
      */
-    public function getResource(Request $request)
+    public function getResource(Request $request): string
     {
-        $this->communicator->post($request);
+        if ($this->env === 'dev' or $this->env === 'test') {
+            return OfflineMode::inst()->getPostResponse(
+                $request,
+                $this->createUniqueValueForOfflineModeFromRequest($request),
+                $this->communicator
+            );
+        }
+
+        return $this->communicator->post($request);
+    }
+    /**
+     * @param Request $request
+     * @return string
+     */
+    private function createUniqueValueForOfflineModeFromRequest(Request $request): string
+    {
+        $baseUrl = $request->getBaseUrl();
+        $headers = $request->getHeaders();
+
+        foreach ($headers as $headerName => $header) {
+            $baseUrl.=$headerName.$header;
+        }
+
+        $normalizedData = explode('=', $request->getData());
+
+        $normalizedDataString = '';
+        if ($normalizedData[0] === 'findItemsByKeywords') {
+            $decodedData = json_decode($normalizedData[1], true);
+
+            foreach ($decodedData as $name => $value) {
+                if (is_array($value)) {
+                    foreach ($value as $valueName => $valueValue) {
+                        $normalizedDataString.=$valueName.$valueValue;
+                    }
+
+                    continue;
+                }
+
+                if (is_string($value)) {
+                    $normalizedDataString.=$name.$value;
+                }
+            }
+        }
+
+        $normalizedDataString = preg_replace('#\s+#','', $normalizedDataString);
+        $normalizedDataString = preg_replace('#,#', '', $normalizedDataString);
+        $baseUrl.=$normalizedDataString;
+
+        return $baseUrl;
     }
 }

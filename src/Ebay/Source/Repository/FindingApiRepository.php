@@ -45,7 +45,7 @@ class FindingApiRepository
         if ($this->env === 'dev' or $this->env === 'test') {
             return OfflineMode::inst()->getResponse(
                 $this->communicator,
-                $request->getBaseUrl()
+                $request
             );
         }
 
