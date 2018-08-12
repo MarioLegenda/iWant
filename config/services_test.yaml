@@ -130,3 +130,11 @@ services:
     data_provider.bonanza_api:
         class: App\Tests\Bonanza\DataProvider\DataProvider
         autowire: false
+
+    data_provider.uniformed_request:
+        class: App\Tests\Web\DataProvider\DataProvider
+        autowire: false
+        arguments:
+            $etsyDataProvider: '@data_provider.etsy_api'
+            $ebayDataProvider: '@data_provider.finding_api'
+            $bonanzaDataProvider: '@data_provider.bonanza_api'

@@ -25,8 +25,8 @@ class FindingApiEntryPoint
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
      */
-    public function query(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
-        return $this->finder->query($model);
+        return $this->finder->findItemsByKeywords($model);
     }
 }

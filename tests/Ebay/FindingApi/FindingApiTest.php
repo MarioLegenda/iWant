@@ -31,7 +31,7 @@ class FindingApiTest extends BasicSetup
 
         $model = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
 
-        $responseModel = $findingApiEntryPoint->query($model);
+        $responseModel = $findingApiEntryPoint->findItemsByKeywords($model);
 
         static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
 

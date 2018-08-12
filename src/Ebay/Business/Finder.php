@@ -45,7 +45,7 @@ class Finder
      * @return FindingApiResponseModelInterface
      * @param FindingApiRequestModelInterface $model
      */
-    public function query(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
         $resource = $this->getRawResource($model);
 

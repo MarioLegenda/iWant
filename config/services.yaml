@@ -33,12 +33,13 @@ parameters:
         api_key: 'arz83jklcrhy8o1b2wfrbzuj'
         names:
             api_key: api_key
+
     bonanza_api:
         base_url: 'https://api.bonanza.com/api_requests/standard_request'
         names:
             dev_name: 'X-BONANZLE-API-DEV-NAME'
         params:
-            dev_name: 'my_name_dev'
+            dev_name: 'Nx901rIYSgvm2po'
 
 services:
     _defaults:
@@ -85,6 +86,10 @@ services:
             $etsyApi: '%etsy_api%'
 
     App\Bonanza\Library\Processor\RequestBaseProcessor:
+        arguments:
+            $bonanzaApi: '%bonanza_api%'
+
+    App\Bonanza\Library\Processor\ApiKeyPostHeaderProcessor:
         arguments:
             $bonanzaApi: '%bonanza_api%'
 
