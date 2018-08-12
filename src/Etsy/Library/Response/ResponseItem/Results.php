@@ -5,7 +5,7 @@ namespace App\Etsy\Library\Response\ResponseItem;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\Util;
 
-class Results implements ArrayNotationInterface
+class Results implements ArrayNotationInterface, \Countable, \IteratorAggregate
 {
     /**
      * @var Result[] $results
@@ -36,6 +36,21 @@ class Results implements ArrayNotationInterface
 
         return $results;
     }
+    /**
+     * @return int
+     */
+    public function count(): int
+    {
+        return count($this->results);
+    }
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->results);
+    }
+
     /**
      * @param array $results
      * @return iterable

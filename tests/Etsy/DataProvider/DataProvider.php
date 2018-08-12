@@ -25,10 +25,31 @@ class DataProvider
 
         return $model;
     }
+
     /**
+     * @param int $limit
+     * @return EtsyApiModel
+     */
+    public function getEtsyApiModelWithLimit(int $limit): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('findAllListingActive');
+
+        $model = new EtsyApiModel(
+            $methodType,
+            $this->createItemFilters(
+                $limit
+            )
+        );
+
+        return $model;
+    }
+    /**
+     * @param int $limit
      * @return TypedArray
      */
-    private function createItemFilters(): TypedArray
+    private function createItemFilters(
+        $limit = 5
+    ): TypedArray
     {
         $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
 
@@ -39,7 +60,7 @@ class DataProvider
 
         $limitMetadata = new ItemFilterMetadata(
             ItemFilterType::fromKey('Limit'),
-            [1]
+            [$limit]
         );
 
         $minPriceMetadata = new ItemFilterMetadata(

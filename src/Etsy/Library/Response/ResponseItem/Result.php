@@ -96,9 +96,9 @@ class Result implements ArrayNotationInterface
         return $this->resultItem['views'];
     }
     /**
-     * @return int
+     * @return int|null
      */
-    public function getShippingTemplateId(): int
+    public function getShippingTemplateId(): ?int
     {
         return $this->resultItem['shipping_template_id'];
     }
