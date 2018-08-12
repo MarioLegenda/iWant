@@ -12,6 +12,6 @@ class UniformedSearchTest extends BasicSetup
         /** @var UniformedRequestDataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.uniformed_request');
 
-        
+
     }
 }

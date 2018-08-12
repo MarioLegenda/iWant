@@ -6,7 +6,7 @@ use App\Bonanza\Library\Response\ResponseItem\FindItemsByKeywordsResponse;
 use App\Bonanza\Library\Response\ResponseItem\RootItem;
 use App\Library\Infrastructure\Type\TypeInterface;
 
-class BonanzaApiResponseModel
+class BonanzaApiResponseModel implements BonanzaApiResponseModelInterface
 {
     /**
      * @var iterable $response

@@ -4,6 +4,7 @@ namespace App\Bonanza\Presentation;
 
 use App\Bonanza\Business\Finder;
 use App\Bonanza\Library\Response\BonanzaApiResponseModel;
+use App\Bonanza\Library\Response\BonanzaApiResponseModelInterface;
 use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 
 class BonanzaApiEntryPoint
@@ -23,9 +24,9 @@ class BonanzaApiEntryPoint
     }
     /**
      * @param BonanzaApiModelInterface $model
-     * @return BonanzaApiResponseModel
+     * @return BonanzaApiResponseModelInterface
      */
-    public function search(BonanzaApiModelInterface $model): BonanzaApiResponseModel
+    public function search(BonanzaApiModelInterface $model): BonanzaApiResponseModelInterface
     {
         return $this->finder->search($model);
     }

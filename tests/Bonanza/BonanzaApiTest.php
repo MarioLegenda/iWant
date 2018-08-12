@@ -2,7 +2,7 @@
 
 namespace App\Tests\Bonanza;
 
-use App\Bonanza\Library\Response\BonanzaApiResponseModel;
+use App\Bonanza\Library\Response\BonanzaApiResponseModelInterface;
 use App\Bonanza\Library\Response\ResponseItem\FindItemsByKeywordsResponse;
 use App\Bonanza\Library\Response\ResponseItem\Item;
 use App\Bonanza\Library\Response\ResponseItem\ListingInfo;
@@ -28,7 +28,7 @@ class BonanzaApiTest extends BasicSetup
 
         $bonanzaApiModel = $bonanzaEntryPoint->search($model);
 
-        static::assertInstanceOf(BonanzaApiResponseModel::class, $bonanzaApiModel);
+        static::assertInstanceOf(BonanzaApiResponseModelInterface::class, $bonanzaApiModel);
 
         static::assertInstanceOf(RootItem::class, $bonanzaApiModel->getRootItem());
 
