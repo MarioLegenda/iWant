@@ -35,4 +35,25 @@ class DataProvider
         $this->ebayDataProvider = $ebayDataProvider;
         $this->bonanzaDataProvider = $bonanzaDataProvider;
     }
+    /**
+     * @return EtsyDataProvider
+     */
+    public function getEtsyDataProvider(): EtsyDataProvider
+    {
+        return $this->etsyDataProvider;
+    }
+    /**
+     * @return EbayDataProvider
+     */
+    public function getEbayDataProvider(): EbayDataProvider
+    {
+        return $this->ebayDataProvider;
+    }
+    /**
+     * @return BonanzaDataProvider
+     */
+    public function getBonanzaDataProvider(): BonanzaDataProvider
+    {
+        return $this->bonanzaDataProvider;
+    }
 }

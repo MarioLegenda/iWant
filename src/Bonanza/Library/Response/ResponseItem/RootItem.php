@@ -3,9 +3,10 @@
 namespace App\Bonanza\Library\Response\ResponseItem;
 
 use App\Bonanza\Library\Response\Type\ResponseType;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 
-class RootItem
+class RootItem implements ArrayNotationInterface
 {
     /**
      * @var iterable $response
@@ -47,10 +48,22 @@ class RootItem
     {
         $types = ResponseType::fromKey('findItemsByKeywordsResponse')->toArray();
 
-        foreach ($types as $type) {
-            if (array_key_exists($type, $this->response)) {
-                return ResponseType::fromKey($type);
+        foreach ($types as $typeName => $type) {
+            if (array_key_exists($typeName, $this->response)) {
+                return ResponseType::fromKey($typeName);
             }
         }
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'ack' => $this->getAck(),
+            'version' => $this->getVersion(),
+            'timestamp' => $this->getTimestamp(),
+            'responseType' => $this->getResponseType()->getKey(),
+        ];
     }
 }

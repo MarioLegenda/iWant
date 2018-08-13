@@ -2,7 +2,9 @@
 
 namespace App\Bonanza\Library\Response\ResponseItem;
 
-class Item
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class Item implements ArrayNotationInterface
 {
     /**
      * @var iterable $item
@@ -67,5 +69,19 @@ class Item
         }
 
         return $this->responseObjects['listingInfo'];
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'itemId' => $this->getItemId(),
+            'title' => $this->getTitle(),
+            'viewItemUrl' => $this->getViewItemUrl(),
+            'description' => $this->getDescription(),
+            'galleryUrl' => $this->getGalleryUrl(),
+            'listingInfo' => $this->getListingInfo()->toArray()
+        ];
     }
 }

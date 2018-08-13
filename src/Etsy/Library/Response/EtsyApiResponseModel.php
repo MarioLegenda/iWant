@@ -3,10 +3,11 @@
 namespace App\Etsy\Library\Response;
 
 use App\Etsy\Library\Response\ResponseItem\Results;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Library\Tools\UnlockedImmutableHashSet;
 
-class EtsyApiResponseModel implements EtsyApiResponseModelInterface
+class EtsyApiResponseModel implements EtsyApiResponseModelInterface, ArrayNotationInterface
 {
     /**
      * @var LockedImmutableGenericHashSet $responseData
@@ -47,5 +48,15 @@ class EtsyApiResponseModel implements EtsyApiResponseModelInterface
         }
 
         return $this->responseObjects['results'];
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'count' => $this->getCount(),
+            'results' => $this->getResults()->toArray(),
+        ];
     }
 }

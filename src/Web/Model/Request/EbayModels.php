@@ -2,29 +2,31 @@
 
 namespace App\Web\Model\Request;
 
+use App\Ebay\Library\Model\FindingApiRequestModelInterface;
+use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 
 class EbayModels
 {
     /**
-     * @var FindingApiModel $findingApiModel
+     * @var FindingApiResponseModelInterface $findingApiModel
      */
-    private $findingApiModel;
+    private $findingApiRequestModel;
     /**
      * EbayModels constructor.
-     * @param FindingApiModel $findingApiModel
+     * @param FindingApiRequestModelInterface $findingApiRequestModel
      */
     public function __construct(
-        FindingApiModel $findingApiModel
+        FindingApiRequestModelInterface $findingApiRequestModel
     ) {
-        $this->findingApiModel = $findingApiModel;
+        $this->findingApiRequestModel = $findingApiRequestModel;
     }
     /**
-     * @return FindingApiModel
+     * @return FindingApiRequestModelInterface
      */
-    public function getFindingApiModel(): FindingApiModel
+    public function getFindingApiModel(): FindingApiRequestModelInterface
     {
-        return $this->findingApiModel;
+        return $this->findingApiRequestModel;
     }
 
 }

@@ -3,10 +3,12 @@
 namespace App\Bonanza\Library\Response;
 
 use App\Bonanza\Library\Response\ResponseItem\FindItemsByKeywordsResponse;
+use App\Bonanza\Library\Response\ResponseItem\ResponseItemsInterface;
 use App\Bonanza\Library\Response\ResponseItem\RootItem;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 
-class BonanzaApiResponseModel implements BonanzaApiResponseModelInterface
+class BonanzaApiResponseModel implements BonanzaApiResponseModelInterface, ArrayNotationInterface
 {
     /**
      * @var iterable $response
@@ -64,5 +66,29 @@ class BonanzaApiResponseModel implements BonanzaApiResponseModelInterface
         }
 
         return $this->responseObjects['findItemsByKeywordsResponse'];
+    }
+    /**
+     * @return ResponseItemsInterface
+     */
+    public function getResponseByResponseType(): ResponseItemsInterface
+    {
+        $rootItem = $this->getRootItem();
+        /** @var TypeInterface $responseType */
+        $responseType = $rootItem->getResponseType();
+
+        $method = sprintf('get%s', $responseType->getValue());
+
+        return $this->{$method}();
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        $responseType = $this->getRootItem()->getResponseType()->getKey();
+        return [
+            'rootItem' => $this->getRootItem()->toArray(),
+            $responseType => $this->getResponseByResponseType()->toArray()
+        ];
     }
 }

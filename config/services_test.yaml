@@ -138,3 +138,10 @@ services:
             $etsyDataProvider: '@data_provider.etsy_api'
             $ebayDataProvider: '@data_provider.finding_api'
             $bonanzaDataProvider: '@data_provider.bonanza_api'
+
+    # CONTROLLER
+    App\Web\:
+        resource: '../src/Web'
+        exclude: '../src/Web/{Model/*}'
+
+

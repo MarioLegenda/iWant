@@ -10,6 +10,6 @@ class ResponseType extends BaseType
      * @var array $types
      */
     protected static $types = [
-        'findItemsByKeywordsResponse' => 'findItemsByKeywordsResponse',
+        'findItemsByKeywordsResponse' => 'FindItemsByKeywordsResponse',
     ];
 }

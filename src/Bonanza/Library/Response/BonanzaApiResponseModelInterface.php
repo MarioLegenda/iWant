@@ -3,6 +3,7 @@
 namespace App\Bonanza\Library\Response;
 
 use App\Bonanza\Library\Response\ResponseItem\FindItemsByKeywordsResponse;
+use App\Bonanza\Library\Response\ResponseItem\ResponseItemsInterface;
 use App\Bonanza\Library\Response\ResponseItem\RootItem;
 
 interface BonanzaApiResponseModelInterface
@@ -15,4 +16,8 @@ interface BonanzaApiResponseModelInterface
      * @return FindItemsByKeywordsResponse|null
      */
     public function getFindItemsByKeywordsResponse(): ?FindItemsByKeywordsResponse;
+    /**
+     * @return ResponseItemsInterface
+     */
+    public function getResponseByResponseType(): ResponseItemsInterface;
 }

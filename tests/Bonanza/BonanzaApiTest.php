@@ -63,7 +63,7 @@ class BonanzaApiTest extends BasicSetup
             static::assertInstanceOf(ListingInfo::class, $listingInfo);
 
             static::assertInternalType('string', $listingInfo->getPrice());
-            static::assertInternalType('string', $listingInfo->getByItNowPrice());
+            static::assertInternalType('string', $listingInfo->getBuyItNowPrice());
             static::assertInternalType('string', $listingInfo->getLastChangeTime());
             static::assertInternalType('string', $listingInfo->getListingType());
             static::assertInternalType('string', $listingInfo->getStartTime());

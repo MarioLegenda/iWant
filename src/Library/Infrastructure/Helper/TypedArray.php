@@ -22,6 +22,10 @@ class TypedArray implements
      */
     private $valueType;
     /**
+     * @var int $currentIntegerCount
+     */
+    private $currentIntegerCount = 0;
+    /**
      * @var array $possibleTypes
      */
     private $possibleTypes = [
@@ -127,10 +131,11 @@ class TypedArray implements
                 throw new \RuntimeException($message);
             }
 
-            $integerKeys = array_keys($this->data);
-            sort($integerKeys);
-
-            $offset = (int) end($integerKeys) + 1;
+            if ($this->currentIntegerCount === 0) {
+                $offset = $this->currentIntegerCount++;
+            } else {
+                $offset = $this->currentIntegerCount++;
+            }
         }
 
         $this->validateOffset($offset);

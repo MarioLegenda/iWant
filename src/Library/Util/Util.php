@@ -8,7 +8,7 @@ class Util
      * @param array $toGenerate
      * @return \Generator
      */
-    public static function createGenerator(array $toGenerate): \Generator
+    public static function createGenerator(iterable $toGenerate): \Generator
     {
         foreach ($toGenerate as $key => $item) {
             yield ['key' => $key, 'item' => $item];

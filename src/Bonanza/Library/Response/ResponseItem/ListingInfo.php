@@ -2,7 +2,9 @@
 
 namespace App\Bonanza\Library\Response\ResponseItem;
 
-class ListingInfo
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class ListingInfo implements ArrayNotationInterface
 {
     /**
      * @var array $response
@@ -19,7 +21,7 @@ class ListingInfo
     /**
      * @return string
      */
-    public function getByItNowPrice(): string
+    public function getBuyItNowPrice(): string
     {
         return $this->response['buyItNowPrice'];
     }
@@ -50,5 +52,18 @@ class ListingInfo
     public function getLastChangeTime(): string
     {
         return $this->response['lastChangeTime'];
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'buyItNowPrice' => $this->getBuyItNowPrice(),
+            'listingType' => $this->getListingType(),
+            'price' => $this->getPrice(),
+            'startTime' => $this->getStartTime(),
+            'lastChangeTime' => $this->getLastChangeTime(),
+        ];
     }
 }

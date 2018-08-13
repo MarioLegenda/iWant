@@ -3,8 +3,9 @@
 namespace App\Bonanza\Library\Response\ResponseItem;
 
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class FindItemsByKeywordsResponse
+class FindItemsByKeywordsResponse implements ResponseItemsInterface, ArrayNotationInterface
 {
     /**
      * @var iterable $findItemsByKeywordsResponse
@@ -21,7 +22,7 @@ class FindItemsByKeywordsResponse
      * @param iterable $findItemsByKeywordsResponse
      */
     public function __construct(
-        Iterable $findItemsByKeywordsResponse
+        iterable $findItemsByKeywordsResponse
     ) {
         $this->findItemsByKeywordsResponse = $findItemsByKeywordsResponse;
     }
@@ -46,6 +47,16 @@ class FindItemsByKeywordsResponse
     public function getTotalEntries(): int
     {
         return $this->findItemsByKeywordsResponse['paginationOutput']['totalEntries'];
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'totalEntries' => $this->getTotalEntries(),
+            'items' => $this->getItems()->toArray(),
+        ];
     }
     /**
      * @param iterable $items
