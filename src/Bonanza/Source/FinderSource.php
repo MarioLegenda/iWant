@@ -4,6 +4,13 @@ namespace App\Bonanza\Source;
 
 use App\Library\Http\Request;
 use App\Bonanza\Source\Repository\BonanzaRepository;
+use App\Library\Response;
+use App\Symfony\Exception\HttpException;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ServerException;
 
 class FinderSource
 {
@@ -20,12 +27,12 @@ class FinderSource
     ) {
         $this->bonanzaRepository = $bonanzaRepository;
     }
-    /**
-     * @param Request $request
-     * @return string
-     */
+
     public function getResource(Request $request): string
     {
-        return $this->bonanzaRepository->getResource($request);
+        /** @var Response $response */
+        $response = $this->bonanzaRepository->getResource($request);
+
+        return $response->getResponseString();
     }
 }

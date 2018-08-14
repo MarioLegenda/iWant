@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Etsy\Library\Method;
+namespace App\Etsy\Library\MethodProcessor;
 
 use App\Library\Processor\ProcessorInterface;
 

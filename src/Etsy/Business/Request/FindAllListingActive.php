@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Etsy\Business;
+namespace App\Etsy\Business\Request;
 
-use App\Etsy\Business\Request\FindAllListingActive;
-use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
-use App\Library\Http\Request;
-use App\Library\Tools\LockedImmutableGenericHashSet;
+use App\Etsy\Library\Processor\ItemFiltersProcessor;
 use App\Etsy\Business\ItemFilter\ItemFilterFactory;
 use App\Etsy\Library\MethodProcessor\MethodProcessorFactory;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
-use App\Etsy\Library\Processor\ItemFiltersProcessor;
 use App\Etsy\Library\Processor\RequestBaseProcessor;
 use App\Etsy\Library\RequestProducer;
-use App\Etsy\Library\Response\EtsyApiResponseModel;
 use App\Etsy\Presentation\Model\EtsyApiModel;
-use App\Etsy\Source\FinderSource;
+use App\Library\Http\Request;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
 
-class Finder
+class FindAllListingActive
 {
+    /**
+     * @var EtsyApiModel $model
+     */
+    private $model;
     /**
      * @var RequestBaseProcessor $requestBaseProcessor
      */
@@ -29,54 +28,30 @@ class Finder
      */
     private $apiKeyProcessor;
     /**
-     * @var FinderSource $finderSource
-     */
-    private $finderSource;
-    /**
-     * Finder constructor.
+     * FindAllListingActive constructor.
+     * @param EtsyApiModel $model
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor
-     * @param FinderSource $finderSource
      */
     public function __construct(
+        EtsyApiModel $model,
         RequestBaseProcessor $requestBaseProcessor,
-        ApiKeyProcessor $apiKeyProcessor,
-        FinderSource $finderSource
+        ApiKeyProcessor $apiKeyProcessor
     ) {
+        $this->model = $model;
         $this->requestBaseProcessor = $requestBaseProcessor;
         $this->apiKeyProcessor = $apiKeyProcessor;
-        $this->finderSource = $finderSource;
     }
     /**
-     * @param EtsyApiModel $model
-     * @return EtsyApiResponseModelInterface
+     * @return Request
      */
-    public function search(EtsyApiModel $model): EtsyApiResponseModelInterface
+    public function getRequest(): Request
     {
-        $findAllListingActive = new FindAllListingActive(
-            $model,
-            $this->requestBaseProcessor,
-            $this->apiKeyProcessor
-        );
+        $processors = $this->createProcessors($this->model);
 
-        return $this->createResponseModel(
-            $this->finderSource->getResource($findAllListingActive->getRequest())
-        );
-    }
+        $requestProducer = new RequestProducer($processors);
 
-    public function getShippingInfoByListingId(EtsyApiModel $model)
-    {
-
-    }
-    /**
-     * @param string $responseString
-     * @return EtsyApiResponseModel
-     */
-    private function createResponseModel(string $responseString)
-    {
-        $responseData = json_decode($responseString, true);
-
-        return new EtsyApiResponseModel(LockedImmutableGenericHashSet::create($responseData));
+        return new Request($requestProducer->produce());
     }
     /**
      * @param EtsyApiModel $model
@@ -102,7 +77,7 @@ class Finder
      */
     private function createMethodProcessor(EtsyApiModel $model): ProcessorInterface
     {
-        return MethodProcessorFactory::create('App\Etsy\Library\Method')
+        return MethodProcessorFactory::create('App\Etsy\Library\MethodProcessor')
             ->getItemFilterMethodProcessor($model->getMethodType()->getValue());
     }
     /**

@@ -6,6 +6,7 @@ use App\Ebay\Source\GenericHttpCommunicator;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\Http\Request;
 use App\Library\OfflineMode\OfflineModeMetadata;
+use App\Library\Response;
 
 class OfflineMode
 {
@@ -67,13 +68,14 @@ class OfflineMode
                 $responseFile = $this->offlineModeDir.'/responses/1.txt';
                 fclose(fopen($this->offlineModeDir.'/responses/1.txt', 'a+'));
 
+                /** @var Response $response */
                 // makes a request and adds the response to newly created response file
-                $stringResponse = $communicator->get($request);
-                file_put_contents($responseFile, $stringResponse);
+                $response = $communicator->get($request);
+                file_put_contents($responseFile, $response->getResponseString());
 
                 $this->closeRequestHandle();
 
-                return $stringResponse;
+                return $response->getResponseString();
             }
 
             $lastRequest = preg_split('#;#', array_pop($requests));
@@ -85,12 +87,13 @@ class OfflineMode
             $responseFile = $this->offlineModeDir.'/responses/'.$nextResponse.'.txt';
             fclose(fopen($responseFile, 'a+'));
 
-            $stringResponse = $communicator->get($request);
-            file_put_contents($responseFile, $stringResponse);
+            /** @var Response $response */
+            $response = $communicator->get($request);
+            file_put_contents($responseFile, $response->getResponseString());
 
             $this->closeRequestHandle();
 
-            return $stringResponse;
+            return $response->getResponseString();
         }
 
         if ($this->isResponseStored($this->url) === true) {
@@ -136,13 +139,14 @@ class OfflineMode
                 $responseFile = $this->offlineModeDir.'/responses/1.txt';
                 fclose(fopen($this->offlineModeDir.'/responses/1.txt', 'a+'));
 
+                /** @var Response $response */
                 // makes a request and adds the response to newly created response file
-                $stringResponse = $communicator->post($request);
-                file_put_contents($responseFile, $stringResponse);
+                $response = $communicator->post($request);
+                file_put_contents($responseFile, $response->getResponseString());
 
                 $this->closeRequestHandle();
 
-                return $stringResponse;
+                return $response->getResponseString();
             }
 
             $lastRequest = preg_split('#;#', array_pop($requests));
@@ -154,12 +158,13 @@ class OfflineMode
             $responseFile = $this->offlineModeDir.'/responses/'.$nextResponse.'.txt';
             fclose(fopen($responseFile, 'a+'));
 
-            $stringResponse = $communicator->post($request);
-            file_put_contents($responseFile, $stringResponse);
+            /** @var Response $response */
+            $response = $communicator->post($request);
+            file_put_contents($responseFile, $response->getResponseString());
 
             $this->closeRequestHandle();
 
-            return $stringResponse;
+            return $response->getResponseString();
         }
 
         if ($this->isResponseStored($uniqueSaveValue) === true) {

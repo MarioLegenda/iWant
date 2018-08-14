@@ -5,6 +5,7 @@ namespace App\Bonanza\Source\Repository;
 use App\Library\Http\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\OfflineMode\OfflineMode;
+use App\Library\Response;
 
 class BonanzaRepository
 {
@@ -30,15 +31,21 @@ class BonanzaRepository
     }
     /**
      * @param Request $request
-     * @return string
+     * @return Response
      */
-    public function getResource(Request $request): string
+    public function getResource(Request $request): Response
     {
         if ($this->env === 'dev' or $this->env === 'test') {
-            return OfflineMode::inst()->getPostResponse(
+            $responseString = OfflineMode::inst()->getPostResponse(
                 $request,
                 $this->createUniqueValueForOfflineModeFromRequest($request),
                 $this->communicator
+            );
+
+            return new Response(
+                $request,
+                $responseString,
+                200
             );
         }
 

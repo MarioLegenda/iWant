@@ -2,34 +2,31 @@
 
 namespace App\Tests\Web\Unit;
 
-use App\Bonanza\Library\Response\BonanzaApiResponseModelInterface;
-use App\Bonanza\Presentation\BonanzaApiEntryPoint;
+use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
+use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
+use App\Etsy\Presentation\Model\EtsyApiModel;
+use App\Tests\Etsy\DataProvider\DataProvider as EtsyDataProvider;
 use App\Tests\Library\BasicSetup;
-use App\Web\Factory\BonanzaModelFactory;
-use App\Tests\Bonanza\DataProvider\DataProvider as BonanzaDataProvider;
-use App\Web\Model\Response\UniformedResponseModel;
+use App\Web\Factory\EtsyModelFactory;
 
 class PresentationModelTest extends BasicSetup
 {
-    public function test_ebay_presentation_creation()
+    public function test_etsy_presentation_creation()
     {
-        /** @var BonanzaModelFactory $bonanzaModelFactory */
-        $bonanzaModelFactory = $this->locator->get(BonanzaModelFactory::class);
-        /** @var BonanzaDataProvider $bonanzaDataProvider */
-        $bonanzaDataProvider = $this->locator->get('data_provider.bonanza_api');
-        /** @var BonanzaApiEntryPoint $bonanzaEntryPoint */
-        $bonanzaEntryPoint = $this->locator->get(BonanzaApiEntryPoint::class);
-        /** @var BonanzaApiResponseModelInterface $responseModel */
-        $bonanzaApiModel = $bonanzaDataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
-        /** @var BonanzaModelFactory $bonanzaModelFactory */
-        $bonanzaModelFactory = $this->locator->get(BonanzaModelFactory::class);
+        /** @var EtsyModelFactory $etsyModelFactory */
+        $etsyModelFactory = $this->locator->get(EtsyModelFactory::class);
+        /** @var EtsyDataProvider $etsyModelProvider */
+        $etsyModelProvider = $this->locator->get('data_provider.etsy_api');
+        /** @var EtsyApiEntryPoint $etsyEntryPoint */
+        $etsyEntryPoint = $this->locator->get(EtsyApiEntryPoint::class);
+        /** @var EtsyApiModel $etsyApiModel */
+        $etsyApiModel = $etsyModelProvider->getEtsyApiModel();
 
-        /** @var BonanzaApiResponseModelInterface $responseModel */
-        $responseModel = $bonanzaEntryPoint->search($bonanzaApiModel);
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $etsyEntryPoint->search($etsyApiModel);
 
-        static::assertInstanceOf(BonanzaApiResponseModelInterface::class, $responseModel);
+        static::assertInstanceOf(EtsyApiResponseModelInterface::class, $responseModel);
 
-        /** @var UniformedResponseModel $presentationModels */
-        $presentationModels = $bonanzaModelFactory->createModels($responseModel);
+
     }
 }

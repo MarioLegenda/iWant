@@ -14,6 +14,8 @@ use App\Bonanza\Library\Processor\CallTypeProcessor;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Http\Request;
+use GuzzleHttp\Exception\BadResponseException;
+use GuzzleHttp\Exception\ConnectException;
 
 class Finder
 {

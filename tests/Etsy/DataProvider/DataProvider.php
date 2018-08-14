@@ -3,7 +3,7 @@
 namespace App\Tests\Etsy\DataProvider;
 
 use App\Etsy\Library\ItemFilter\ItemFilterType;
-use App\Etsy\Library\Method\Type\MethodType;
+use App\Etsy\Library\MethodProcessor\Type\MethodType;
 use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Etsy\Presentation\Model\ItemFilterMetadata;
 use App\Etsy\Presentation\Model\ItemFilterModel;
