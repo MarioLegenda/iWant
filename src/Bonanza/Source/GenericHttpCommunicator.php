@@ -112,12 +112,14 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
     private function createResponse(
         GuzzleResponse $response,
         Request $request
-    ): HttpResponse
-    {
+    ): HttpResponse {
+        $responseContent = (string) $response->getBody();
+        $statusCode = $response->getStatusCode();
+
         return new HttpResponse(
             $request,
-            (string) $response->getBody(),
-            $response->getStatusCode(),
+            $responseContent,
+            $statusCode,
             $response
         );
     }

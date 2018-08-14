@@ -15,6 +15,7 @@ class Item implements ArrayNotationInterface
      */
     private $responseObjects = [
         'listingInfo' => null,
+        'sellerInfo' => null,
     ];
     /**
      * Item constructor.
@@ -71,6 +72,17 @@ class Item implements ArrayNotationInterface
         return $this->responseObjects['listingInfo'];
     }
     /**
+     * @return SellerInfo
+     */
+    public function getSellerInfo(): SellerInfo
+    {
+        if (!$this->responseObjects instanceof SellerInfo) {
+            $this->responseObjects['sellerInfo'] = new SellerInfo($this->item['sellerInfo']);
+        }
+
+        return $this->responseObjects['sellerInfo'];
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -81,7 +93,8 @@ class Item implements ArrayNotationInterface
             'viewItemUrl' => $this->getViewItemUrl(),
             'description' => $this->getDescription(),
             'galleryUrl' => $this->getGalleryUrl(),
-            'listingInfo' => $this->getListingInfo()->toArray()
+            'listingInfo' => $this->getListingInfo()->toArray(),
+            'sellerInfo' => $this->getSellerInfo()->toArray(),
         ];
     }
 }

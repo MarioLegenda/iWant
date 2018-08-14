@@ -48,7 +48,7 @@ class BonanzaModelFactory implements ModelFactoryInterface
         $description = $singleItem->getDescription();
         $price = to_float($singleItem->getListingInfo()->getPrice());
         $shippingInfo = new ShippingInfo();
-        $sellerInfo = new SellerInfo();
+        $sellerInfo = $this->createSellerInfo($model, $singleItem);
         $imageGallery = $this->createImageGallery($model, $singleItem);
         $viewItemUrl = $singleItem->getViewItemUrl();
         $availableInYourCountry = true;
@@ -64,6 +64,19 @@ class BonanzaModelFactory implements ModelFactoryInterface
             $imageGallery,
             $viewItemUrl,
             $availableInYourCountry
+        );
+    }
+    /**
+     * @param BonanzaApiResponseModelInterface $model
+     * @param Item $singleItem
+     * @return SellerInfo
+     */
+    private function createSellerInfo(
+        BonanzaApiResponseModelInterface $model,
+        Item $singleItem
+    ): SellerInfo {
+        return new SellerInfo(
+            $singleItem->getSellerInfo()->getSellerUserName()
         );
     }
     /**
