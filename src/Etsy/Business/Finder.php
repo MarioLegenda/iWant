@@ -78,46 +78,4 @@ class Finder
 
         return new EtsyApiResponseModel(LockedImmutableGenericHashSet::create($responseData));
     }
-    /**
-     * @param EtsyApiModel $model
-     * @return TypedArray
-     */
-    private function createProcessors(EtsyApiModel $model): TypedArray
-    {
-        $methodProcessor = $this->createMethodProcessor($model);
-        $itemFiltersProcessor = $this->createItemFiltersProcessor($model);
-
-        $processors = TypedArray::create('integer', ProcessorInterface::class);
-
-        $processors[] = $this->requestBaseProcessor;
-        $processors[] = $methodProcessor;
-        $processors[] = $itemFiltersProcessor;
-        $processors[] = $this->apiKeyProcessor;
-
-        return $processors;
-    }
-    /**
-     * @param EtsyApiModel $model
-     * @return ProcessorInterface
-     */
-    private function createMethodProcessor(EtsyApiModel $model): ProcessorInterface
-    {
-        return MethodProcessorFactory::create('App\Etsy\Library\Method')
-            ->getItemFilterMethodProcessor($model->getMethodType()->getValue());
-    }
-    /**
-     * @param EtsyApiModel $model
-     * @return ProcessorInterface
-     */
-    private function createItemFiltersProcessor(EtsyApiModel $model): ProcessorInterface
-    {
-        $itemFiltersFactory = ItemFilterFactory::create(
-            'App\Etsy\Library\ItemFilter',
-            $model->getItemFilters()
-        );
-
-        $itemFilters = $itemFiltersFactory->createItemFilters();
-
-        return  new ItemFiltersProcessor($itemFilters);
-    }
 }

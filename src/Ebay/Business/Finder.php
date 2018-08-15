@@ -3,6 +3,7 @@
 namespace App\Ebay\Business;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
+use App\Ebay\Business\Request\FindItemsByKeywords;
 use App\Ebay\Library\Processor\CallTypeProcessor;
 use App\Library\Http\Request;
 use App\Library\Processor\ProcessorInterface;
@@ -47,9 +48,14 @@ class Finder
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
-        $resource = $this->getRawResource($model);
+        $findItemsByKeywords = new FindItemsByKeywords(
+            $model,
+            $this->requestBase
+        );
 
-        return $this->createModelResponse($resource);
+        return $this->createModelResponse(
+            $this->finderSource->getFindingApiListing($findItemsByKeywords->getRequest())
+        );
     }
     /**
      * @param string $resource
@@ -58,51 +64,5 @@ class Finder
     private function createModelResponse(string $resource): FindingApiResponseModelInterface
     {
         return new XmlFindingApiResponseModel($resource);
-    }
-    /**
-     * @param FindingApiRequestModelInterface $model
-     * @return string
-     */
-    private function getRawResource(FindingApiRequestModelInterface $model): string
-    {
-        $requestProducer = new RequestProducer($this->createProcessors($model));
-
-        $request = new Request($requestProducer->produce());
-
-        return $this->finderSource->getFindingApiListing($request);
-    }
-    /**
-     * @param FindingApiRequestModelInterface $model
-     * @return TypedArray
-     */
-    private function createProcessors(FindingApiRequestModelInterface $model): TypedArray
-    {        /** @var CallTypeInterface $callType */
-        $callType = $model->getCallType();
-
-        $userParams = LockedImmutableHashSet::create([
-            'operation_name' => (string) OperationType::fromValue($callType->getOperationName()),
-        ]);
-
-        $this->requestBase->setOptions($userParams);
-        $itemFiltersProcessor = new ItemFiltersProcessor($this->createItemFilters($model));
-        $callTypeProcessor = new CallTypeProcessor($callType);
-
-        return TypedArray::create('integer', ProcessorInterface::class, [
-            $this->requestBase,
-            $itemFiltersProcessor,
-            $callTypeProcessor
-        ]);
-    }
-    /**
-     * @param FindingApiRequestModelInterface $model
-     * @return TypedArray
-     */
-    private function createItemFilters(FindingApiRequestModelInterface $model): TypedArray
-    {
-        $itemFilterFactory = new ItemFilterFactory();
-
-        return $itemFilterFactory->createFromMetadataIterable(
-            $model->getItemFilters()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION)
-        );
     }
 }

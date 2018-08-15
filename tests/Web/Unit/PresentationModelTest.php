@@ -22,6 +22,11 @@ use App\Web\Model\Response\UniformedResponseModel;
 
 class PresentationModelTest extends BasicSetup
 {
+    public function test_ebay_presentation_creation()
+    {
+
+    }
+
     public function test_etsy_presentation_creation()
     {
         /** @var EtsyModelFactory $etsyModelFactory */
