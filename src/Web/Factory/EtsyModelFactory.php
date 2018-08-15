@@ -14,7 +14,7 @@ class EtsyModelFactory implements ModelFactoryInterface
      */
     public function createModels($model): TypedArray
     {
-
+        
     }
     /**
      * @param $model

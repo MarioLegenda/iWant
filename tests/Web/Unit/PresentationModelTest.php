@@ -13,6 +13,10 @@ use App\Tests\Bonanza\DataProvider\DataProvider as BonanzaDataProvider;
 use App\Tests\Library\BasicSetup;
 use App\Web\Factory\BonanzaModelFactory;
 use App\Web\Factory\EtsyModelFactory;
+use App\Web\Model\Response\ImageGallery;
+use App\Web\Model\Response\SellerInfo;
+use App\Web\Model\Response\ShippingInfo;
+use App\Web\Model\Response\UniformedResponseModel;
 
 class PresentationModelTest extends BasicSetup
 {
@@ -49,9 +53,29 @@ class PresentationModelTest extends BasicSetup
 
         static::assertInstanceOf(BonanzaApiResponseModelInterface::class, $responseModel);
 
+        /** @var UniformedResponseModel $presentationModels */
         $presentationModels = $modelFactory->createModels($responseModel);
 
-        dump($presentationModels);
-        die();
+        /** @var UniformedResponseModel $presentationModel */
+        foreach ($presentationModels as $presentationModel) {
+            static::assertInternalType('string', $presentationModel->getItemId());
+            static::assertInternalType('float', $presentationModel->getPrice());
+            static::assertInternalType('string', $presentationModel->getDescription());
+            static::assertInternalType('string', $presentationModel->getViewItemUrl());
+            static::assertInternalType('string', $presentationModel->getTitle());
+            static::assertInstanceOf(ShippingInfo::class, $presentationModel->getShippingInfo());
+            static::assertInstanceOf(SellerInfo::class, $presentationModel->getSellerInfo());
+            static::assertInstanceOf(ImageGallery::class, $presentationModel->getImageGallery());
+            static::assertInternalType('bool', $presentationModel->isAvailableInYourCountry());
+
+            $shippingInfo = $presentationModel->getShippingInfo();
+
+            static::assertInternalTypeOrNull('array', $shippingInfo->getLocations());
+            static::assertInternalTypeOrNull('float', $shippingInfo->getShippingCost());
+
+            $sellerInfo = $presentationModel->getSellerInfo();
+
+            static::assertInternalType('string', $sellerInfo->getUserName());
+        }
     }
 }

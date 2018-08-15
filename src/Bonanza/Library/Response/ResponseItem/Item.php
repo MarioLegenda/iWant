@@ -16,6 +16,7 @@ class Item implements ArrayNotationInterface
     private $responseObjects = [
         'listingInfo' => null,
         'sellerInfo' => null,
+        'shippingInfo' => null,
     ];
     /**
      * Item constructor.
@@ -81,6 +82,17 @@ class Item implements ArrayNotationInterface
         }
 
         return $this->responseObjects['sellerInfo'];
+    }
+    /**
+     * @return ShippingInfo
+     */
+    public function getShippingInfo(): ShippingInfo
+    {
+        if (!$this->responseObjects instanceof ShippingInfo) {
+            $this->responseObjects['shippingInfo'] = new ShippingInfo($this->item['shippingInfo']);
+        }
+
+        return $this->responseObjects['shippingInfo'];
     }
     /**
      * @return iterable

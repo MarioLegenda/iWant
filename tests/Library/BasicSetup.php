@@ -23,4 +23,27 @@ class BasicSetup extends WebTestCase
 
         $this->locator = $this->client->getContainer();
     }
+    /**
+     * @param $expected
+     * @param $value
+     * @param string $message
+     */
+    protected function assertInternalTypeOrNull($expected, $value, $message = '')
+    {
+        $method = sprintf ('is_%s', $expected);
+
+        $result = call_user_func($method, $value);
+
+        if ($result === false) {
+            if (!is_null($value)) {
+                $message = sprintf(
+                    'Failed asserting that %s is of type %s or null',
+                    gettype($value),
+                    gettype($expected)
+                );
+
+                $this->fail($message);
+            }
+        }
+    }
 }

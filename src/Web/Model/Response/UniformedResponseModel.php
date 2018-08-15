@@ -83,4 +83,67 @@ class UniformedResponseModel
         $this->viewItemUrl = $viewItemUrl;
         $this->availableInYourCountry = $availableInYourCountry;
     }
+    /**
+     * @return string
+     */
+    public function getItemId(): string
+    {
+        return $this->itemId;
+    }
+    /**
+     * @return string
+     */
+    public function getTitle(): string
+    {
+        return $this->title;
+    }
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+    /**
+     * @return float
+     */
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+    /**
+     * @return ShippingInfo
+     */
+    public function getShippingInfo(): ShippingInfo
+    {
+        return $this->shippingInfo;
+    }
+    /**
+     * @return SellerInfo
+     */
+    public function getSellerInfo(): SellerInfo
+    {
+        return $this->sellerInfo;
+    }
+    /**
+     * @return ImageGallery
+     */
+    public function getImageGallery(): ImageGallery
+    {
+        return $this->imageGallery;
+    }
+    /**
+     * @return string
+     */
+    public function getViewItemUrl(): string
+    {
+        return $this->viewItemUrl;
+    }
+    /**
+     * @return bool
+     */
+    public function isAvailableInYourCountry(): bool
+    {
+        return $this->availableInYourCountry;
+    }
 }
