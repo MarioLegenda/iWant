@@ -13,9 +13,11 @@ use App\Tests\Bonanza\DataProvider\DataProvider as BonanzaDataProvider;
 use App\Tests\Library\BasicSetup;
 use App\Web\Factory\BonanzaModelFactory;
 use App\Web\Factory\EtsyModelFactory;
+use App\Web\Model\Response\DeferrableHttpDataObject;
 use App\Web\Model\Response\ImageGallery;
 use App\Web\Model\Response\SellerInfo;
 use App\Web\Model\Response\ShippingInfo;
+use App\Web\Model\Response\Type\DeferrableType;
 use App\Web\Model\Response\UniformedResponseModel;
 
 class PresentationModelTest extends BasicSetup
@@ -35,6 +37,67 @@ class PresentationModelTest extends BasicSetup
         $responseModel = $etsyEntryPoint->search($etsyApiModel);
 
         static::assertInstanceOf(EtsyApiResponseModelInterface::class, $responseModel);
+
+        /** @var UniformedResponseModel[] $presentationModels */
+        $presentationModels = $etsyModelFactory->createModels($responseModel);
+
+        /** @var UniformedResponseModel $presentationModel */
+        foreach ($presentationModels as $presentationModel) {
+            static::assertInternalType('string', $presentationModel->getItemId());
+            static::assertInternalType('float', $presentationModel->getPrice());
+            static::assertInternalType('string', $presentationModel->getDescription());
+            static::assertInternalType('string', $presentationModel->getViewItemUrl());
+            static::assertInternalType('string', $presentationModel->getTitle());
+            static::assertInstanceOf(DeferrableHttpDataObject::class, $presentationModel->getShippingInfo());
+            static::assertInstanceOf(DeferrableHttpDataObject::class, $presentationModel->getSellerInfo());
+            static::assertInstanceOf(DeferrableHttpDataObject::class, $presentationModel->getImageGallery());
+            static::assertInternalType('bool', $presentationModel->isAvailableInYourCountry());
+
+            /** @var DeferrableHttpDataObject $shippingInfo */
+            $shippingInfo = $presentationModel->getShippingInfo();
+
+            static::assertInstanceOf(DeferrableHttpDataObject::class, $shippingInfo);
+            static::assertInstanceOf(DeferrableType::class, $shippingInfo->getDeferrableType());
+
+            static::assertEquals($shippingInfo->getDeferrableType()->getValue(), DeferrableType::fromValue('http_deferrable')->getValue());
+
+            $deferrableData = $shippingInfo->getDeferrableData();
+
+            static::assertInternalType('array', $deferrableData);
+            static::assertNotEmpty($deferrableData);
+            static::assertInternalType('string', $deferrableData['listingId']);
+            static::assertNotEmpty($deferrableData['listingId']);
+
+            /** @var DeferrableHttpDataObject $sellerInfo */
+            $sellerInfo = $presentationModel->getSellerInfo();
+
+            static::assertInstanceOf(DeferrableHttpDataObject::class, $sellerInfo);
+            static::assertInstanceOf(DeferrableType::class, $sellerInfo->getDeferrableType());
+
+            static::assertEquals($sellerInfo->getDeferrableType()->getValue(), DeferrableType::fromValue('http_deferrable')->getValue());
+
+            $deferrableData = $sellerInfo->getDeferrableData();
+
+            static::assertInternalType('array', $deferrableData);
+            static::assertNotEmpty($deferrableData);
+            static::assertInternalType('string', $deferrableData['userId']);
+            static::assertNotEmpty($deferrableData['userId']);
+
+            /** @var DeferrableHttpDataObject $imageGallery */
+            $imageGallery = $presentationModel->getImageGallery();
+
+            static::assertInstanceOf(DeferrableHttpDataObject::class, $imageGallery);
+            static::assertInstanceOf(DeferrableType::class, $imageGallery->getDeferrableType());
+
+            static::assertEquals($imageGallery->getDeferrableType()->getValue(), DeferrableType::fromValue('http_deferrable')->getValue());
+
+            $deferrableData = $imageGallery->getDeferrableData();
+
+            static::assertInternalType('array', $deferrableData);
+            static::assertNotEmpty($deferrableData);
+            static::assertInternalType('string', $deferrableData['listingId']);
+            static::assertNotEmpty($deferrableData['listingId']);
+        }
     }
 
     public function test_bonanza_presentation_creation()
@@ -53,7 +116,7 @@ class PresentationModelTest extends BasicSetup
 
         static::assertInstanceOf(BonanzaApiResponseModelInterface::class, $responseModel);
 
-        /** @var UniformedResponseModel $presentationModels */
+        /** @var UniformedResponseModel[] $presentationModels */
         $presentationModels = $modelFactory->createModels($responseModel);
 
         /** @var UniformedResponseModel $presentationModel */
@@ -76,6 +139,9 @@ class PresentationModelTest extends BasicSetup
             $sellerInfo = $presentationModel->getSellerInfo();
 
             static::assertInternalType('string', $sellerInfo->getUserName());
+
+            static::assertEquals(DeferrableType::fromValue('concrete_object')->getValue(), $shippingInfo->getDeferrableType()->getValue());
+            static::assertEquals(DeferrableType::fromValue('concrete_object')->getValue(), $sellerInfo->getDeferrableType()->getValue());
         }
     }
 }

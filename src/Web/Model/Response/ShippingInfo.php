@@ -2,7 +2,10 @@
 
 namespace App\Web\Model\Response;
 
-class ShippingInfo
+use App\Library\Infrastructure\Type\TypeInterface;
+use App\Web\Model\Response\Type\DeferrableType;
+
+class ShippingInfo implements DeferrableHttpDataObjectInterface
 {
     /**
      * @var iterable $locations
@@ -18,11 +21,31 @@ class ShippingInfo
      * @param iterable $locations
      */
     public function __construct(
-        float $shippingCost,
-        iterable $locations
+        float $shippingCost = null,
+        iterable $locations = null
     ) {
         $this->shippingCost = $shippingCost;
         $this->locations = $locations;
+    }
+    /**
+     * @return TypeInterface
+     */
+    public function getDeferrableType(): TypeInterface
+    {
+        return DeferrableType::fromValue('concrete_object');
+    }
+    /**
+     * @return iterable
+     */
+    public function getDeferrableData(): iterable
+    {
+        $message = sprintf(
+            '%s already has all necessary data and does not have to be deferred therefor, %s::getDeferrableData() cannot be used',
+            get_class($this),
+            get_class($this)
+        );
+
+        throw new \RuntimeException($message);
     }
     /**
      * @return iterable

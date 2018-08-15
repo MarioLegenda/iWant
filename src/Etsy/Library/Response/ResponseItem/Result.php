@@ -26,6 +26,13 @@ class Result implements ArrayNotationInterface
         return $this->resultItem['listing_id'];
     }
     /**
+     * @return int
+     */
+    public function getUserId(): int
+    {
+        return $this->resultItem['user_id'];
+    }
+    /**
      * @return string
      */
     public function getState(): string

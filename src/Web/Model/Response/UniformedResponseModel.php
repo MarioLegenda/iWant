@@ -55,9 +55,9 @@ class UniformedResponseModel
      * @param string $title
      * @param string $description
      * @param float $price
-     * @param ShippingInfo $shippingInfo
-     * @param SellerInfo $sellerInfo
-     * @param ImageGallery $imageGallery
+     * @param DeferrableHttpDataObjectInterface|ShippingInfo $shippingInfo
+     * @param SellerInfo|DeferrableHttpDataObjectInterface $sellerInfo
+     * @param ImageGallery|DeferrableHttpDataObjectInterface $imageGallery
      * @param string $viewItemUrl
      * @param bool $availableInYourCountry
      */
@@ -67,12 +67,13 @@ class UniformedResponseModel
         string $title,
         string $description,
         float $price,
-        ShippingInfo $shippingInfo,
-        SellerInfo $sellerInfo,
-        ImageGallery $imageGallery,
+        DeferrableHttpDataObjectInterface $shippingInfo,
+        DeferrableHttpDataObjectInterface $sellerInfo,
+        DeferrableHttpDataObjectInterface $imageGallery,
         string $viewItemUrl,
         bool $availableInYourCountry
     ) {
+        $this->shopType = $shopType;
         $this->itemId = $itemId;
         $this->title = $title;
         $this->description = $description;
@@ -112,23 +113,23 @@ class UniformedResponseModel
         return $this->price;
     }
     /**
-     * @return ShippingInfo
+     * @return ShippingInfo|DeferrableHttpDataObjectInterface
      */
-    public function getShippingInfo(): ShippingInfo
+    public function getShippingInfo(): DeferrableHttpDataObjectInterface
     {
         return $this->shippingInfo;
     }
     /**
-     * @return SellerInfo
+     * @return SellerInfo|DeferrableHttpDataObjectInterface
      */
-    public function getSellerInfo(): SellerInfo
+    public function getSellerInfo(): DeferrableHttpDataObjectInterface
     {
         return $this->sellerInfo;
     }
     /**
-     * @return ImageGallery
+     * @return ImageGallery|DeferrableHttpDataObjectInterface
      */
-    public function getImageGallery(): ImageGallery
+    public function getImageGallery(): DeferrableHttpDataObjectInterface
     {
         return $this->imageGallery;
     }
