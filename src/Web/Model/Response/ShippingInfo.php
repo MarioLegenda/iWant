@@ -21,8 +21,8 @@ class ShippingInfo implements DeferrableHttpDataObjectInterface
      * @param iterable $locations
      */
     public function __construct(
-        float $shippingCost = null,
-        iterable $locations = null
+        float $shippingCost,
+        iterable $locations
     ) {
         $this->shippingCost = $shippingCost;
         $this->locations = $locations;

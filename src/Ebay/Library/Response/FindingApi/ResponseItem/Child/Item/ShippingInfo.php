@@ -33,7 +33,7 @@ class ShippingInfo extends AbstractItem implements ArrayNotationInterface
     private $shipToLocations;
     /**
      * @param mixed $default
-     * @return array
+     * @return float
      */
     public function getShippingServiceCost($default = null)
     {
