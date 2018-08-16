@@ -4,7 +4,6 @@ namespace App\Tests\Web;
 
 use App\Tests\Library\BasicSetup;
 use App\Tests\Web\DataProvider\DataProvider as UniformedRequestDataProvider;
-use App\Web\Controller\UniformedRequestController;
 
 class UniformedSearchTest extends BasicSetup
 {

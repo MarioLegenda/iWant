@@ -3,8 +3,10 @@
 namespace App\Web\Model\Response;
 
 use App\Library\Infrastructure\Type\TypeInterface;
+use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 
-class UniformedResponseModel
+class UniformedResponseModel implements
+    PriceGroupingInterface
 {
     /**
      * @var string $itemId
@@ -146,5 +148,10 @@ class UniformedResponseModel
     public function isAvailableInYourCountry(): bool
     {
         return $this->availableInYourCountry;
+    }
+
+    public function getPriceForGrouping(): float
+    {
+        return $this->getPrice();
     }
 }

@@ -46,4 +46,30 @@ class BasicSetup extends WebTestCase
             }
         }
     }
+    /**
+     * @param $v1
+     * @param $v2
+     * @param string $message
+     */
+    protected function assertLowerThanOrEquals($v1, $v2, string $message = '%s  is not lower than %s')
+    {
+        if ($v1 >= $v2) {
+            return;
+        }
+
+        $this->fail(sprintf($message, $v1, $v2));
+    }
+    /**
+     * @param $v1
+     * @param $v2
+     * @param string $message
+     */
+    protected function assertGreaterThanOrEquals($v1, $v2, string $message = '%s  is not lower than %s')
+    {
+        if ($v1 <= $v2) {
+            return;
+        }
+
+        $this->fail(sprintf($message, $v1, $v2));
+    }
 }
