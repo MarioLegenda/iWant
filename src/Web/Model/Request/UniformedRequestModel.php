@@ -20,19 +20,26 @@ class UniformedRequestModel
      */
     private $bonanzaModel;
     /**
+     * @var string $groupBy
+     */
+    private $groupBy;
+    /**
      * UniformedRequestModel constructor.
      * @param EtsyApiModel $etsyApiModel
      * @param EbayModels $ebayModels
      * @param BonanzaApiModel $bonanzaApiModel
+     * @param string $groupingType
      */
     public function __construct(
         EtsyApiModel $etsyApiModel,
         EbayModels $ebayModels,
-        BonanzaApiModel $bonanzaApiModel
+        BonanzaApiModel $bonanzaApiModel,
+        string $groupingType
     ) {
         $this->etsyModel = $etsyApiModel;
         $this->ebayModels = $ebayModels;
         $this->bonanzaModel = $bonanzaApiModel;
+        $this->groupBy = $groupingType;
     }
     /**
      * @return EtsyApiModel
@@ -54,5 +61,12 @@ class UniformedRequestModel
     public function getBonanzaModel(): BonanzaApiModel
     {
         return $this->bonanzaModel;
+    }
+    /**
+     * @return string
+     */
+    public function getGroupBy(): string
+    {
+        return $this->groupBy;
     }
 }
