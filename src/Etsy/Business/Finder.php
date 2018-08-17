@@ -2,6 +2,7 @@
 
 namespace App\Etsy\Business;
 
+use App\Cache\CacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Library\Http\Request;
@@ -33,23 +34,31 @@ class Finder
      */
     private $finderSource;
     /**
+     * @var CacheImplementation $cacheImplementation
+     */
+    private $cacheImplementation;
+    /**
      * Finder constructor.
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor
      * @param FinderSource $finderSource
+     * @param CacheImplementation $cacheImplementation
      */
     public function __construct(
         RequestBaseProcessor $requestBaseProcessor,
         ApiKeyProcessor $apiKeyProcessor,
-        FinderSource $finderSource
+        FinderSource $finderSource,
+        CacheImplementation $cacheImplementation
     ) {
         $this->requestBaseProcessor = $requestBaseProcessor;
         $this->apiKeyProcessor = $apiKeyProcessor;
         $this->finderSource = $finderSource;
+        $this->cacheImplementation = $cacheImplementation;
     }
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function search(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -59,8 +68,19 @@ class Finder
             $this->apiKeyProcessor
         );
 
+        /** @var Request $request */
+        $request = $findAllListingActive->getRequest();
+
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $resource = $this->finderSource->getResource($request);
+
+            $resource = $this->cacheImplementation->store($request, $resource);
+
+            return $this->createResponseModel($resource);
+        }
+
         return $this->createResponseModel(
-            $this->finderSource->getResource($findAllListingActive->getRequest())
+            $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
 
