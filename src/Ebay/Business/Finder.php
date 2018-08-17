@@ -2,7 +2,7 @@
 
 namespace App\Ebay\Business;
 
-use App\Cache\CacheImplementation;
+use App\Cache\Implementation\RequestCacheImplementation;
 use App\Ebay\Business\Request\FindItemsByKeywords;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -22,19 +22,19 @@ class Finder
      */
     private $requestBase;
     /**
-     * @var CacheImplementation $cacheImplementation
+     * @var RequestCacheImplementation $cacheImplementation
      */
     private $cacheImplementation;
     /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBase
-     * @param CacheImplementation $cacheImplementation
+     * @param RequestCacheImplementation $cacheImplementation
      */
     public function __construct(
         FinderSource $finderSource,
         RequestBaseProcessor $requestBase,
-        CacheImplementation $cacheImplementation
+        RequestCacheImplementation $cacheImplementation
     ) {
         $this->finderSource = $finderSource;
         $this->requestBase = $requestBase;

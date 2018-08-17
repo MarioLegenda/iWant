@@ -2,22 +2,16 @@
 
 namespace App\Etsy\Business;
 
-use App\Cache\CacheImplementation;
+use App\Cache\Implementation\RequestCacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Library\Http\Request;
 use App\Library\Tools\LockedImmutableGenericHashSet;
-use App\Etsy\Business\ItemFilter\ItemFilterFactory;
-use App\Etsy\Library\MethodProcessor\MethodProcessorFactory;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
-use App\Etsy\Library\Processor\ItemFiltersProcessor;
 use App\Etsy\Library\Processor\RequestBaseProcessor;
-use App\Etsy\Library\RequestProducer;
 use App\Etsy\Library\Response\EtsyApiResponseModel;
 use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Etsy\Source\FinderSource;
-use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Processor\ProcessorInterface;
 
 class Finder
 {
@@ -34,7 +28,7 @@ class Finder
      */
     private $finderSource;
     /**
-     * @var CacheImplementation $cacheImplementation
+     * @var RequestCacheImplementation $cacheImplementation
      */
     private $cacheImplementation;
     /**
@@ -42,13 +36,13 @@ class Finder
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor
      * @param FinderSource $finderSource
-     * @param CacheImplementation $cacheImplementation
+     * @param RequestCacheImplementation $cacheImplementation
      */
     public function __construct(
         RequestBaseProcessor $requestBaseProcessor,
         ApiKeyProcessor $apiKeyProcessor,
         FinderSource $finderSource,
-        CacheImplementation $cacheImplementation
+        RequestCacheImplementation $cacheImplementation
     ) {
         $this->requestBaseProcessor = $requestBaseProcessor;
         $this->apiKeyProcessor = $apiKeyProcessor;

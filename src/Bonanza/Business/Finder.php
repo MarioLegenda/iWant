@@ -11,12 +11,10 @@ use App\Bonanza\Library\Response\BonanzaApiResponseModelInterface;
 use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 use App\Bonanza\Source\FinderSource;
 use App\Bonanza\Library\Processor\CallTypeProcessor;
-use App\Cache\CacheImplementation;
+use App\Cache\Implementation\RequestCacheImplementation;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Http\Request;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\ConnectException;
 
 class Finder
 {
@@ -33,7 +31,7 @@ class Finder
      */
     private $apiKeyPostHeaderProcessor;
     /**
-     * @var CacheImplementation $cacheImplementation
+     * @var RequestCacheImplementation $cacheImplementation
      */
     private $cacheImplementation;
     /**
@@ -41,13 +39,13 @@ class Finder
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor
-     * @param CacheImplementation $cacheImplementation
+     * @param RequestCacheImplementation $cacheImplementation
      */
     public function __construct(
         FinderSource $finderSource,
         RequestBaseProcessor $requestBaseProcessor,
         ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor,
-        CacheImplementation $cacheImplementation
+        RequestCacheImplementation $cacheImplementation
     ) {
         $this->finderSource = $finderSource;
         $this->apiKeyPostHeaderProcessor = $apiKeyPostHeaderProcessor;

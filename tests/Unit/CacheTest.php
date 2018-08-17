@@ -7,7 +7,7 @@ use App\Ebay\Business\Finder as EbayFinder;
 use App\Etsy\Business\Finder as EtsyFinder;
 use App\Bonanza\Presentation\Model\BonanzaApiModel;
 use App\Cache\Cache\ApiRequestCache;
-use App\Cache\CacheImplementation;
+use App\Cache\Implementation\RequestCacheImplementation;
 use App\Doctrine\Entity\RequestCache;
 use App\Doctrine\Repository\RequestCacheRepository;
 use App\Library\Util\Util;
@@ -29,8 +29,8 @@ class CacheTest extends BasicSetup
 
     public function test_bonanza_cache()
     {
-        /** @var CacheImplementation $cacheImplementation */
-        $cacheImplementation = $this->locator->get(CacheImplementation::class);
+        /** @var RequestCacheImplementation $cacheImplementation */
+        $cacheImplementation = $this->locator->get(RequestCacheImplementation::class);
         /** @var RequestCacheRepository $requestCacheRepository */
         $requestCacheRepository = $this->locator->get(RequestCacheRepository::class);
         /** @var BonanzaDataProvider $dataProvider */
@@ -78,8 +78,8 @@ class CacheTest extends BasicSetup
 
     public function test_ebay_cache()
     {
-        /** @var CacheImplementation $cacheImplementation */
-        $cacheImplementation = $this->locator->get(CacheImplementation::class);
+        /** @var RequestCacheImplementation $cacheImplementation */
+        $cacheImplementation = $this->locator->get(RequestCacheImplementation::class);
         /** @var RequestCacheRepository $requestCacheRepository */
         $requestCacheRepository = $this->locator->get(RequestCacheRepository::class);
         /** @var EbayFindingApiProvider $dataProvider */
@@ -127,8 +127,8 @@ class CacheTest extends BasicSetup
 
     public function test_etsy_cache()
     {
-        /** @var CacheImplementation $cacheImplementation */
-        $cacheImplementation = $this->locator->get(CacheImplementation::class);
+        /** @var RequestCacheImplementation $cacheImplementation */
+        $cacheImplementation = $this->locator->get(RequestCacheImplementation::class);
         /** @var RequestCacheRepository $requestCacheRepository */
         $requestCacheRepository = $this->locator->get(RequestCacheRepository::class);
         /** @var EtsyDataProvider $dataProvider */

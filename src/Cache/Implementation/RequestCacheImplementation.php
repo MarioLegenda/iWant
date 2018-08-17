@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Cache;
+namespace App\Cache\Implementation;
 
 use App\Cache\Cache\ApiRequestCache;
 use App\Doctrine\Entity\RequestCache;
 use App\Library\Http\Request;
 use App\Library\Util\Util;
 
-class CacheImplementation
+class RequestCacheImplementation
 {
     /**
      * @var ApiRequestCache $apiRequestCache
