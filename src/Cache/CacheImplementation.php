@@ -89,8 +89,10 @@ class CacheImplementation
         $baseUrl = $request->getBaseUrl();
         $headers = $request->getHeaders();
 
-        foreach ($headers as $headerName => $header) {
-            $baseUrl.=$headerName.$header;
+        if (is_array($headers)) {
+            foreach ($headers as $headerName => $header) {
+                $baseUrl.=$headerName.$header;
+            }
         }
 
         $serializedData = serialize($request->getData());

@@ -2,23 +2,14 @@
 
 namespace App\Ebay\Business;
 
-use App\Ebay\Business\ItemFilter\ItemFilterFactory;
+use App\Cache\CacheImplementation;
 use App\Ebay\Business\Request\FindItemsByKeywords;
-use App\Ebay\Library\Processor\CallTypeProcessor;
 use App\Library\Http\Request;
-use App\Library\Processor\ProcessorInterface;
-use App\Ebay\Library\RequestProducer;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
-use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\RequestBaseProcessor;
-use App\Library\Tools\LockedImmutableHashSet;
-use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Source\FinderSource;
-use App\Library\Infrastructure\Helper\TypedArray;
-use App\Ebay\Library\Processor\ItemFiltersProcessor;
-use App\Library\Util\TypedRecursion;
 
 class Finder
 {
@@ -31,20 +22,28 @@ class Finder
      */
     private $requestBase;
     /**
+     * @var CacheImplementation $cacheImplementation
+     */
+    private $cacheImplementation;
+    /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBase
+     * @param CacheImplementation $cacheImplementation
      */
     public function __construct(
         FinderSource $finderSource,
-        RequestBaseProcessor $requestBase
+        RequestBaseProcessor $requestBase,
+        CacheImplementation $cacheImplementation
     ) {
         $this->finderSource = $finderSource;
         $this->requestBase = $requestBase;
+        $this->cacheImplementation = $cacheImplementation;
     }
     /**
-     * @return FindingApiResponseModelInterface
      * @param FindingApiRequestModelInterface $model
+     * @return FindingApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -53,8 +52,19 @@ class Finder
             $this->requestBase
         );
 
+        /** @var Request $request */
+        $request = $findItemsByKeywords->getRequest();
+
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $resource = $this->finderSource->getFindingApiListing($request);
+
+            $resource = $this->cacheImplementation->store($request, $resource);
+
+            return $this->createModelResponse($resource);
+        }
+
         return $this->createModelResponse(
-            $this->finderSource->getFindingApiListing($findItemsByKeywords->getRequest())
+            $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
     /**
