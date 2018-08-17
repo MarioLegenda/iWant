@@ -1,0 +1,3 @@
+app_static_index:
+    path:     /
+    controller: App\Web\Controller\StaticController::getIndex

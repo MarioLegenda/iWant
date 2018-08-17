@@ -9,6 +9,5 @@ class HttpExceptionListener
 {
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        die("mile");
     }
 }

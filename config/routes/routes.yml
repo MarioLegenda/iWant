@@ -1,0 +1,9 @@
+app_static:
+    prefix: /
+    resource: 'Static/'
+    methods: [GET]
+    host: 33.33.33.10
+    schemes: [http]
+    type: directory
+    requirements:
+        _format: 'text/html'

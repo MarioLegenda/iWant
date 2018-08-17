@@ -1,0 +1,25 @@
+{% set cache = random(9999999) %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Langland{% endblock %}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset("style/application/build.css?v="~cache) }}" />
+        {% endblock %}
+
+        <link href="https://fonts.googleapis.com/css?family=Lato:300|Lobster|Old+Standard+TT&amp;subset=latin-ext" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+    </head>
+    <body>
+        <div id="vue_app">
+            {% block body %}{% endblock %}
+        </div>
+
+        {% block javascripts %}
+            {% set cacheClear = 'random'~random(999999) %}
+            <script src={{ asset("js/dist/build.js?"~cacheClear) }}></script>
+        {% endblock %}
+    </body>
+</html>

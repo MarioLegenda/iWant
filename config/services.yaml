@@ -120,6 +120,13 @@ services:
 
     # SYMFONY
 
+    # CONTROLLER
+
+    App\Web\:
+        resource: '../src/Web'
+        exclude: '../src/Web/{Model/*,Grouping/*}'
+        tags: ['controller.service_arguments']
+
     # EVENT LISTENER
 
     App\Symfony\Listener\HttpExceptionListener:
