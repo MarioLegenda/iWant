@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\Table;
+use App\Library\Util\Util;
 
 /**
  * @Entity @Table(
@@ -25,12 +26,12 @@ class RequestCache
      */
     private $id;
     /**
-     * @var \DateTime $request
+     * @var string $request
      * @Column(type="text")
      */
     private $request;
     /**
-     * @var \DateTime $response
+     * @var string $response
      * @Column(type="text")
      */
     private $response;
@@ -54,6 +55,56 @@ class RequestCache
      * @Column(type="integer")
      */
     private $storedAt;
+    /**
+     * RequestCache constructor.
+     * @param string $request
+     * @param string $response
+     * @param int $expiresAt
+     */
+    public function __construct(
+        string $request,
+        string $response,
+        int $expiresAt
+    ) {
+        $this->request = $request;
+        $this->response = $response;
+        $this->expiresAt = $expiresAt;
+    }
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    /**
+     * @return string
+     */
+    public function getRequest(): string
+    {
+        return $this->request;
+    }
+    /**
+     * @param string $request
+     */
+    public function setRequest(string $request): void
+    {
+        $this->request = $request;
+    }
+    /**
+     * @return string
+     */
+    public function getResponse(): string
+    {
+        return $this->response;
+    }
+    /**
+     * @param string $response
+     */
+    public function setResponse(string $response): void
+    {
+        $this->response = $response;
+    }
     /**
      * @return \DateTime
      */
@@ -121,6 +172,7 @@ class RequestCache
 
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
+            $this->setStoredAt($this->getCreatedAt()->getTimestamp());
         }
     }
 }

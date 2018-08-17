@@ -11,6 +11,7 @@ use App\Bonanza\Library\Response\BonanzaApiResponseModelInterface;
 use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 use App\Bonanza\Source\FinderSource;
 use App\Bonanza\Library\Processor\CallTypeProcessor;
+use App\Cache\CacheImplementation;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Http\Request;
@@ -32,23 +33,31 @@ class Finder
      */
     private $apiKeyPostHeaderProcessor;
     /**
+     * @var CacheImplementation $cacheImplementation
+     */
+    private $cacheImplementation;
+    /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor
+     * @param CacheImplementation $cacheImplementation
      */
     public function __construct(
         FinderSource $finderSource,
         RequestBaseProcessor $requestBaseProcessor,
-        ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor
+        ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor,
+        CacheImplementation $cacheImplementation
     ) {
         $this->finderSource = $finderSource;
         $this->apiKeyPostHeaderProcessor = $apiKeyPostHeaderProcessor;
         $this->requestBaseProcessor = $requestBaseProcessor;
+        $this->cacheImplementation = $cacheImplementation;
     }
     /**
      * @param BonanzaApiModelInterface $model
      * @return BonanzaApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function search(BonanzaApiModelInterface $model): BonanzaApiResponseModelInterface
     {
@@ -60,9 +69,17 @@ class Finder
             $itemFiltersProcessor
         );
 
-        $resource = $this->finderSource->getResource($request);
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $resource = $this->finderSource->getResource($request);
 
-        return $this->createModelFromResource($resource);
+            $resource = $this->cacheImplementation->store($request, $resource);
+
+            return $this->createModelFromResource($resource);
+        }
+
+        return $this->createModelFromResource(
+            $this->cacheImplementation->getFromStoreByRequest($request)
+        );
     }
     /**
      * @param string $resource

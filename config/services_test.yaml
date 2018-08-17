@@ -46,6 +46,8 @@ services:
         autowire: true
         public: true
 
+    # APPLICATION
+
     App\Amazon\:
         resource: '../src/Amazon/*'
         exclude: '../src/Amazon/{Library/*,Presentation/ProductAdvertising/Model/*}'
@@ -113,12 +115,16 @@ services:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Bonanza\Source\GenericHttpCommunicator'
 
-    # Data providers
+    # CACHE
+
+    App\Cache\:
+        resource: '../src/Cache'
+
+    # DATA PROVIDERS
     App\Tests\Ebay\FindingApi\DataProvider\:
         resource: '../tests/Ebay/FindingApi/DataProvider'
         exclude: '../tests/Ebay/FindingApi/DataProvider/*'
 
-    # Data providers
     App\Tests\Bonanza\DataProvider\:
         resource: '../tests/Bonanza/DataProvider'
         exclude: '../tests/Bonanza/DataProvider/*'
@@ -151,7 +157,6 @@ services:
         exclude: '../src/Web/{Model/*}'
 
     # EVENT LISTENER
-
     App\Symfony\Listener\HttpExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 100 }

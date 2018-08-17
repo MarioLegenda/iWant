@@ -113,6 +113,11 @@ services:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Bonanza\Source\GenericHttpCommunicator'
 
+    # CACHE
+
+    App\Cache\:
+        resource: '../src/Cache'
+
     # SYMFONY
 
     # EVENT LISTENER

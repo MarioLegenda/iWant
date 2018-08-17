@@ -31,7 +31,7 @@ class ApiRequestCache implements CacheInterface
 
         $conn = $em->getConnection();
 
-        $conn->exec('TRUNCATE TABLE request_cache');
+        $conn->exec('DELETE FROM request_cache');
     }
     /**
      * @inheritdoc
@@ -67,7 +67,7 @@ class ApiRequestCache implements CacheInterface
     /**
      * @inheritdoc
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null): ?RequestCache
     {
         $cache = $this->requestCacheRepository->findOneBy([
             'request' => $key,
@@ -101,7 +101,7 @@ class ApiRequestCache implements CacheInterface
     /**
      * @inheritdoc
      */
-    public function set($key, $value, $ttl = null)
+    public function set($key, $value, $ttl = null): bool
     {
         if (empty($ttl)) {
             $message = sprintf(
@@ -109,15 +109,49 @@ class ApiRequestCache implements CacheInterface
                 get_class($this)
             );
 
-            throw new \RuntimeException($message);
+            throw new CacheException($message);
         }
 
+        if (!is_int($ttl)) {
+            $message = sprintf(
+                'TTL has to be an timestamp integer'
+            );
 
+            throw new CacheException($message);
+        }
+
+        $requestCache = $this->createRequestCache(
+            $key,
+            $value,
+            $ttl
+        );
+
+        $this->requestCacheRepository->getManager()->persist($requestCache);
+        $this->requestCacheRepository->getManager()->flush();
+
+        return true;
     }
     /**
      * @inheritdoc
      */
     public function setMultiple($values, $ttl = null)
     {
+    }
+    /**
+     * @param string $key
+     * @param string $value
+     * @param int $ttl
+     * @return RequestCache
+     */
+    private function createRequestCache(
+        string $key,
+        string $value,
+        int $ttl
+    ): RequestCache {
+        return new RequestCache(
+            $key,
+            $value,
+            $ttl
+        );
     }
 }
