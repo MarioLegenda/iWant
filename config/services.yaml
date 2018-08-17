@@ -120,3 +120,7 @@ services:
     App\Symfony\Listener\HttpExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    App\Doctrine\Repository\RequestCacheRepository:
+        arguments:
+            $registry: '@doctrine'
