@@ -1,0 +1,106 @@
+#main_header {
+  width: 100%;
+  float: left;
+  color: $textColor;
+
+  background-color: white;
+
+  .logo {
+    display: block;
+    width: 70px;
+    float: left;
+
+    padding: 16px;
+
+    margin-right: 50px;
+
+    .logo-part {
+      display: block;
+      width: 100%;
+      margin-bottom: 2px;
+
+      font-weight: bolder;
+
+      font-family: $paytonOneFont;
+    }
+
+    .i-part {
+      color: $darkBlue;
+    }
+
+    .am-part {
+      color: #46ea25;
+    }
+
+    .buying-part {
+      color: #f78f27;
+    }
+  }
+
+  nav {
+    width: 480px;
+    margin: 0 auto;
+
+    a {
+      font-size: 0.8em;
+      position: relative;
+      display: block;
+      width: 100px;
+      float: left;
+      color: $textColor;
+
+      overflow: hidden;
+
+      margin-top: 64px;
+      margin-left: 43px;
+
+      padding-bottom: 10px;
+
+      p {
+        width: 100px;
+        position: absolute;
+
+        bottom: -60px;
+      }
+
+      span {
+        display: block;
+        width: 100%;
+        position: absolute;
+
+        bottom: 0;
+
+        height: 2px;
+
+        background-color: $lightBlue;
+
+        transition: background-color 0.5s;
+        -moz-transition: background-color 0.5s;
+        -o-transition: background-color 0.5s;
+        -webkit-transition: background-color 0.5s;
+      }
+
+      i {
+        display: block;
+        position: absolute;
+        color: $lightBlue;
+
+        top: 1px;
+        right: 1px;
+
+        transition: color 0.5s;
+        -moz-transition: color 0.5s;
+        -o-transition: color 0.5s;
+        -webkit-transition: color 0.5s;
+      }
+
+      &:hover span {
+        background: $darkBlue;
+      }
+
+      &:hover i {
+        color: $darkBlue;
+      }
+    }
+  }
+}

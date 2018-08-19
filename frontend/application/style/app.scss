@@ -1,0 +1,38 @@
+body {
+  font-size: 16px;
+  width: 100%;
+  background-color: $background;
+  font-family: $ralewayFont;
+  color: $textColor;
+}
+
+html {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  -o-box-sizing: inherit;
+}
+
+.container {
+  width: 1280px;
+  max-width: 1280px;
+
+  overflow: hidden;
+
+  margin: 0 auto;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}

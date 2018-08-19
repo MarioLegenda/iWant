@@ -1,0 +1,70 @@
+#start_page {
+  width: 100%;
+  float: left;
+
+  .the-mission {
+    width: 480px;
+    max-width: 480px;
+    overflow: hidden;
+
+    margin: 0 auto;
+
+    margin-top: 50px;
+
+    h1 {
+      width: 100%;
+      font-size: 2em;
+      border-bottom: 1px solid $textColor;
+
+      margin-bottom: 50px;
+    }
+
+    p {
+      font-size: 1.4em;
+
+      line-height: 1.5em;
+
+      a {
+        color: $lightBlue;
+
+        border-bottom: 1px dotted $lightBlue;
+
+        -webkit-transition: color 0.5s, border-bottom 0.5s;
+        -moz-transition: color 0.5s, border-bottom 0.5s;
+        -o-transition: color 0.5s, border-bottom 0.5s;
+        transition: color 0.5s, border-bottom 0.5s;
+
+        &:hover {
+          color: $darkBlue;
+          border-bottom: 1px dotted $darkBlue;
+        }
+      }
+    }
+  }
+
+  .start-experience-wrapper {
+    width: 480px;
+    max-width: 480px;
+
+    overflow: hidden;
+
+    margin: 0 auto;
+
+    margin-top: 50px;
+
+    a {
+      width: 240px;
+      display:block;
+
+      font-family: $paytonOneFont;
+      color: white;
+      font-size: 1.5em;
+      text-align: center;
+      background-color: $basicOrange;
+
+      padding: 20px;
+
+      border-radius: 100px;
+    }
+  }
+}

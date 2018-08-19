@@ -1,0 +1,229 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+
+body {
+  font-size: 16px;
+  width: 100%;
+  background-color: #EEF3F6;
+  font-family: "Raleway", sans-serif;
+  color: #5b5b5b;
+}
+
+html {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  -o-box-sizing: inherit;
+}
+
+.container {
+  width: 1280px;
+  max-width: 1280px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
+
+#main_header {
+  width: 100%;
+  float: left;
+  color: #5b5b5b;
+  background-color: white;
+}
+#main_header .logo {
+  display: block;
+  width: 70px;
+  float: left;
+  padding: 16px;
+  margin-right: 50px;
+}
+#main_header .logo .logo-part {
+  display: block;
+  width: 100%;
+  margin-bottom: 2px;
+  font-weight: bolder;
+  font-family: "Paytone One", sans-serif;
+}
+#main_header .logo .i-part {
+  color: #2E53F3;
+}
+#main_header .logo .am-part {
+  color: #46ea25;
+}
+#main_header .logo .buying-part {
+  color: #f78f27;
+}
+#main_header nav {
+  width: 480px;
+  margin: 0 auto;
+}
+#main_header nav a {
+  font-size: 0.8em;
+  position: relative;
+  display: block;
+  width: 100px;
+  float: left;
+  color: #5b5b5b;
+  overflow: hidden;
+  margin-top: 64px;
+  margin-left: 43px;
+  padding-bottom: 10px;
+}
+#main_header nav a p {
+  width: 100px;
+  position: absolute;
+  bottom: -60px;
+}
+#main_header nav a span {
+  display: block;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: #b3bff2;
+  transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
+  -o-transition: background-color 0.5s;
+  -webkit-transition: background-color 0.5s;
+}
+#main_header nav a i {
+  display: block;
+  position: absolute;
+  color: #b3bff2;
+  top: 1px;
+  right: 1px;
+  transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+}
+#main_header nav a:hover span {
+  background: #2E53F3;
+}
+#main_header nav a:hover i {
+  color: #2E53F3;
+}
+
+#start_page {
+  width: 100%;
+  float: left;
+}
+#start_page .the-mission {
+  width: 480px;
+  max-width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+#start_page .the-mission h1 {
+  width: 100%;
+  font-size: 2em;
+  border-bottom: 1px solid #5b5b5b;
+  margin-bottom: 50px;
+}
+#start_page .the-mission p {
+  font-size: 1.4em;
+  line-height: 1.5em;
+}
+#start_page .the-mission p a {
+  color: #b3bff2;
+  border-bottom: 1px dotted #b3bff2;
+  -webkit-transition: color 0.5s, border-bottom 0.5s;
+  -moz-transition: color 0.5s, border-bottom 0.5s;
+  -o-transition: color 0.5s, border-bottom 0.5s;
+  transition: color 0.5s, border-bottom 0.5s;
+}
+#start_page .the-mission p a:hover {
+  color: #2E53F3;
+  border-bottom: 1px dotted #2E53F3;
+}
+#start_page .start-experience-wrapper {
+  width: 480px;
+  max-width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+#start_page .start-experience-wrapper a {
+  width: 240px;
+  display: block;
+  font-family: "Paytone One", sans-serif;
+  color: white;
+  font-size: 1.5em;
+  text-align: center;
+  background-color: #f78f27;
+  padding: 20px;
+  border-radius: 100px;
+}
+
+/*# sourceMappingURL=build.css.map */
