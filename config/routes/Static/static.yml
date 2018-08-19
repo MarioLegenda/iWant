@@ -1,3 +1,7 @@
 app_static_index:
-    path:     /
+    path: /
     controller: App\Web\Controller\StaticController::getIndex
+
+app_static_promise:
+    path: /promise
+    controller: App\Web\Controller\StaticController::getPromise

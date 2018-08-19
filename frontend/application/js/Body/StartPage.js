@@ -6,7 +6,7 @@ export const StartPage = {
                    </div>
                    
                    <div class="start-experience-wrapper">
-                       <a href="">Start Experience</a>
+                       <router-link to="promise">Start experience</router-link>
                    </div>
                </div>`
 };
