@@ -16,9 +16,7 @@ new Vue({
     router: router,
     template: `<div>
                    <Header></Header>
-                   <div class="container">
-                       <router-view></router-view>
-                   </div>
+                   <router-view></router-view>
                </div>`,
     components: {
         Header

@@ -1,17 +1,17 @@
 export const Header = {
     template: `<div id="main_header">
                    <header>
-                       <a class="logo" href="">
+                       <router-link to="/" class="logo" exact>
                            <span class="logo-part i-part">i</span>
                            <span class="logo-part am-part">am</span>
                            <span class="logo-part buying-part">buying</span>
-                       </a>
+                       </router-link>
                        
                        <nav>
-                           <a href="/for-you">SEARCH
+                           <router-link to="/search" exact>SEARCH
                                 <i class="fas fa-search"></i>
                                 <span></span>
-                           </a>
+                           </router-link>
                            
                            <a href="/for-investors">COMPARE
                                 <i class="fas fa-clone"></i>

@@ -80,10 +80,11 @@ html {
 }
 
 .container {
-  width: 1280px;
-  max-width: 1280px;
-  overflow: hidden;
+  width: 960px;
+  max-width: 960px;
   margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid red;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -98,14 +99,15 @@ html {
   width: 100%;
   float: left;
   color: #5b5b5b;
+  position: relative;
   background-color: white;
 }
 #main_header .logo {
   display: block;
-  width: 70px;
-  float: left;
+  width: 80px;
+  position: absolute;
+  left: 0;
   padding: 16px;
-  margin-right: 50px;
 }
 #main_header .logo .logo-part {
   display: block;
@@ -125,6 +127,7 @@ html {
 }
 #main_header nav {
   width: 480px;
+  max-width: 480px;
   margin: 0 auto;
 }
 #main_header nav a {
@@ -136,7 +139,7 @@ html {
   color: #5b5b5b;
   overflow: hidden;
   margin-top: 64px;
-  margin-left: 43px;
+  margin-right: 47px;
   padding-bottom: 10px;
 }
 #main_header nav a p {
@@ -224,6 +227,78 @@ html {
   background-color: #f78f27;
   padding: 20px;
   border-radius: 100px;
+}
+
+#uniformed_search {
+  width: 100%;
+  overflow: hidden;
+}
+#uniformed_search .search-box {
+  width: 480px;
+  max-width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+#uniformed_search .search-box input[type=text] {
+  width: 275px;
+  display: block;
+  float: left;
+  font-family: "Raleway", sans-serif;
+  font-weight: lighter;
+  border: 1px solid #b3bff2;
+  font-size: 1.5em;
+  border-radius: 100px;
+  padding: 10px;
+}
+#uniformed_search .search-box input[type=text]::-webkit-input-placeholder {
+  color: #a8a8a8;
+  font-size: 0.8em;
+}
+#uniformed_search .search-box input[type=text]::-moz-placeholder {
+  color: #a8a8a8;
+  font-size: 0.8em;
+}
+#uniformed_search .search-box input[type=text]::-ms-input-placeholder {
+  color: #a8a8a8;
+  font-size: 0.8em;
+}
+#uniformed_search .search-box input[type=text]::-moz-placeholder {
+  color: #a8a8a8;
+  font-size: 0.8em;
+}
+#uniformed_search .search-box button {
+  width: 100px;
+  display: block;
+  float: left;
+  border: none;
+  font-family: "Raleway", sans-serif;
+  font-size: 1.2em;
+  color: white;
+  background-color: #b3bff2;
+  padding: 14px;
+  margin-left: 22px;
+  border-radius: 100px;
+  transition: background-color 0.5s;
+}
+#uniformed_search .search-box button:hover {
+  cursor: pointer;
+  background-color: #2E53F3;
+}
+#uniformed_search .search-box p {
+  width: 275px;
+  float: left;
+  color: #5b5b5b;
+  line-height: 1.5em;
+  font-size: 0.7em;
+  margin-left: 11px;
+  margin-top: 5px;
+}
+#uniformed_search .search-box p i {
+  color: #2E53F3;
+}
+#uniformed_search .search-box p a {
+  color: #2E53F3;
 }
 
 /*# sourceMappingURL=build.css.map */

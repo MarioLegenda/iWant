@@ -5,3 +5,7 @@ app_static_index:
 app_static_promise:
     path: /promise
     controller: App\Web\Controller\StaticController::getPromise
+
+app_static_uniformed_search:
+    path: /search
+    controller: App\Web\Controller\StaticController::getUniformedSearch
