@@ -6,11 +6,16 @@
 
   background-color: white;
 
+  border-bottom: 1px solid $lightestGray;
+
+  padding-bottom: 20px;
+
   .logo {
     display: block;
     width: 80px;
     position: absolute;
     left: 0;
+    top: 11px;
 
     padding: 16px;
 
