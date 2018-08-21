@@ -9,6 +9,8 @@
     background-color: white;
 
     padding: 20px 0 20px 0;
+
+    margin-top: 50px;
   }
 
   .search-box {
@@ -166,7 +168,22 @@
         margin-bottom: 10px;
 
         font-size: 0.7em;
-        color: $middleGray;
+
+        a {
+          color: $lightBlue;
+          border-bottom: 1px solid white;
+
+          transition: color 0.5s, border-bottom 0.5s;
+          -webkit-transition: color 0.5s, border-bottom 0.5s;
+          -moz-transition: color 0.5s, border-bottom 0.5s;
+          -o-transition: color 0.5s, border-bottom 0.5s;
+
+          &:hover {
+            color: $darkBlue;
+            border-bottom: 1px solid $darkBlue;
+          }
+        }
+
       }
 
       .price-wrapper {

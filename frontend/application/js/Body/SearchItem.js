@@ -1,5 +1,5 @@
 export const SearchItem = {
-    template: `<a href="" class="search-item">
+    template: `<div class="search-item">
                     <div class="shop-logo wrap">
                         <img src="/images/ebay-logo.jpg" />
                     </div>
@@ -15,7 +15,7 @@ export const SearchItem = {
                     </div>
                     
                     <div class="account-wrapper wrap">
-                        <h1>Account name</h1>
+                        <h1><a href="">Account name</a></h1>
                     </div>
                     
                     <div class="price-wrapper wrap">
@@ -27,5 +27,5 @@ export const SearchItem = {
                     <div class="view-item-button-wrapper wrap">
                         <a href="">View item</a>
                     </div>
-               </a>`
+               </div>`
 };

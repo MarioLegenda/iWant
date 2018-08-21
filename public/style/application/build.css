@@ -246,6 +246,7 @@ html {
   float: left;
   background-color: white;
   padding: 20px 0 20px 0;
+  margin-top: 50px;
 }
 #uniformed_search .search-box {
   width: 480px;
@@ -364,7 +365,18 @@ html {
 #uniformed_search .search-listing .search-item .account-wrapper {
   margin-bottom: 10px;
   font-size: 0.7em;
-  color: #898989;
+}
+#uniformed_search .search-listing .search-item .account-wrapper a {
+  color: #b3bff2;
+  border-bottom: 1px solid white;
+  transition: color 0.5s, border-bottom 0.5s;
+  -webkit-transition: color 0.5s, border-bottom 0.5s;
+  -moz-transition: color 0.5s, border-bottom 0.5s;
+  -o-transition: color 0.5s, border-bottom 0.5s;
+}
+#uniformed_search .search-listing .search-item .account-wrapper a:hover {
+  color: #2E53F3;
+  border-bottom: 1px solid #2E53F3;
 }
 #uniformed_search .search-listing .search-item .price-wrapper h1 {
   font-weight: bolder;
