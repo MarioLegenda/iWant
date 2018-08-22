@@ -1,10 +1,29 @@
 import Vue from 'vue';
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import {Header} from "./js/Header/Header";
 
 import {routes} from "./js/routes";
 
 Vue.use(VueRouter);
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    state: {
+        search: {
+            keywords: '',
+            filters: []
+        }
+    },
+    mutations: {
+        addKeywords (state, value) {
+            state.search.keywords = value;
+        },
+        addFilter (state, value) {
+            state.search.filters.push(value);
+        }
+    }
+});
 
 const router = new VueRouter({
     mode: 'history',
@@ -13,6 +32,7 @@ const router = new VueRouter({
 
 new Vue({
     el: '#vue_app',
+    store,
     router: router,
     template: `<div>
                    <Header></Header>

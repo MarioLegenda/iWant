@@ -1,0 +1,45 @@
+import {SearchItem} from "./SearchItem";
+import {FilterBox} from "./FilterBox";
+
+export const UniformedSearch = {
+    data: function() {
+        return {
+            errors: {
+                badSearchInput: false
+            }
+        }
+    },
+    template: `<div id="uniformed_search">
+                    <div class="search-box-wrapper wrap">
+                        <div class="search-box">
+                            <input type="text" placeholder="I would like..." id="keyword_input_search"/>
+                            <button @click="search"><i class="fas fa-search"></i></button>
+                        
+                            <p>* By clicking <i class="fas fa-search"></i> you will search products from Ebay, Amazon, Etsy and Bonanza but more marketplaces will be integrated in the future. See the <router-link to="/promise">Promise</router-link> we give to you to find out more</p>
+                        </div>
+                    </div>
+                    
+                    <filter-box></filter-box>
+
+                    <div class="search-listing-wrapper wrap">
+                        <div class="search-listing">
+                            <search-item></search-item>
+                            <search-item></search-item>
+                            <search-item></search-item>
+                            <search-item></search-item>
+                            <search-item></search-item>
+                            <search-item></search-item>
+                            <search-item></search-item>
+                        </div>
+                    </div>
+               </div>`,
+    components: {
+        'search-item': SearchItem,
+        'filter-box': FilterBox
+    },
+    methods: {
+        search: function() {
+
+        }
+    }
+};
