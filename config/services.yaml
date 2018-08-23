@@ -72,6 +72,8 @@ services:
 
     App\Library\Tools\MemcachedWrapper:
 
+    App\Library\Http\HttpCommunicator:
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
@@ -133,6 +135,19 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
+    # REPOSITORY
     App\Doctrine\Repository\RequestCacheRepository:
         arguments:
             $registry: '@doctrine'
+
+    App\Doctrine\Repository\CountryRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    # COMMANDS
+
+    App\Symfony\Command\PopulateCountries:
+        arguments:
+            $httpCommunicator: '@App\Library\Http\HttpCommunicator'
+        tags:
+            - { name: 'console.command' }
