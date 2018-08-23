@@ -1,7 +1,7 @@
 import {FilterView} from "./FilterView";
 import {AddedFiltersView} from "./AddedFiltersView";
 
-import {HIGHEST_PRICE, LOWEST_PRICE} from "../constants";
+import {HIGHEST_PRICE, LOWEST_PRICE, PRICE_RANGE} from "../constants";
 import {Processor} from "../filtersProcessor";
 
 export const FilterBox = {
@@ -29,7 +29,7 @@ export const FilterBox = {
                 {
                     'id': 3,
                     'active': true,
-                    'type': 'price',
+                    'type': PRICE_RANGE,
                 }
             ]
         }

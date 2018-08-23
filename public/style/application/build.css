@@ -330,6 +330,7 @@ html {
   margin-right: 10px;
   color: white;
   background-color: #b3bff2;
+  font-size: 0.9em;
   transition: background-color 0.5s;
   -webkit-transition: background-color 0.5s;
   -moz-transition: background-color 0.5s;
@@ -363,6 +364,23 @@ html {
   font-size: 0.9em;
   margin-top: 20px;
   line-height: 1.5em;
+}
+#uniformed_search .filter-box-fixed-width-row .add-filters-box .price-range-filter {
+  display: inline-block;
+  font-size: 0.9em;
+  color: white;
+  border-radius: 100px;
+  background-color: #b3bff2;
+  margin: 10px 10px 10px 0;
+  padding: 8px;
+}
+#uniformed_search .filter-box-fixed-width-row .add-filters-box .price-range-filter input[type=text] {
+  border: none;
+  font-family: "Raleway", sans-serif;
+  border-radius: 100px;
+  font-size: 0.9em;
+  padding: 5px;
+  width: 50px;
 }
 #uniformed_search .search-box {
   width: 480px;
