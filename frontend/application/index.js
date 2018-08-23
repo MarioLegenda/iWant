@@ -5,6 +5,13 @@ import {Header} from "./js/Header/Header";
 
 import {routes} from "./js/routes";
 
+['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'].forEach(
+    function(name) {
+        window['is' + name] = function(obj) {
+            return toString.call(obj) === '[object ' + name + ']';
+        };
+});
+
 Vue.use(VueRouter);
 Vue.use(Vuex);
 

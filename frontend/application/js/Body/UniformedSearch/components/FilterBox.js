@@ -74,7 +74,7 @@ export const FilterBox = {
     methods: {
         addFilter: function(id) {
             this.errors = [];
-            
+
             if (this.filtersProcessor.addFilter(id)) {
                 this.deactivateFilter(id);
             }
