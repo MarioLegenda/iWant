@@ -5,6 +5,7 @@ export const UniformedSearch = {
     data: function() {
         return {
             keywords: null,
+            filters: [],
             errors: {
                 badSearchInput: false
             }

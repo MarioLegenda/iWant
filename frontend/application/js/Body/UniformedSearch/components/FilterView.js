@@ -12,7 +12,7 @@ export const FilterView = {
                <price-range
                     v-else-if="filterData.type === 'PriceRange'"
                     v-bind:filterData="filterData"
-                    v-on:search-filter-filter-added="addFilter">
+                    v-on:price-range-update="priceRangeUpdate">
                </price-range>
 `,
     props: ['filterData'],
@@ -23,6 +23,9 @@ export const FilterView = {
     methods: {
         addFilter: function(id) {
             this.$emit(events.FILTER_ADDED, id);
+        },
+        priceRangeUpdate(priceRange) {
+            this.$emit('price-range-update', priceRange);
         }
     }
 };

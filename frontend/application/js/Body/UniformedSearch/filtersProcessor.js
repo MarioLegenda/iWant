@@ -22,6 +22,9 @@ export class Processor {
         return alreadyAdded.length !== 0
     }
 
+    addRangeFilter(id, value) {
+    }
+
     addFilter(id) {
         this.resetValidation();
         this.correlationValidation(id);

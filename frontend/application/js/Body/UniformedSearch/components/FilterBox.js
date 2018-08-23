@@ -9,6 +9,11 @@ export const FilterBox = {
     data: function() {
         return {
             errors: [],
+            customErrors: {
+                minPrice: false,
+                maxPrice: false,
+                priceRange: false,
+            },
             showFilters: false,
             addedFilters: [],
             filtersView: [
@@ -30,6 +35,7 @@ export const FilterBox = {
                     'id': 3,
                     'active': true,
                     'type': PRICE_RANGE,
+                    'values': {},
                 }
             ]
         }
@@ -53,10 +59,15 @@ export const FilterBox = {
                                         v-for="(filter, index) in filtersView"  
                                         :key="index"
                                         v-bind:filterData="filter"
-                                        v-on:search-filter-filter-added="addFilter">
+                                        v-on:search-filter-filter-added="addFilter"
+                                        v-on:price-range-update="priceRangeUpdate">
                                     </filter-view>
                                     
                                     <span v-for="error in errors" class="error-message wrap">{{error}}</span>
+                                    
+                                    <span v-if="customErrors.minPrice" class="error-message wrap">{{customErrors.minPrice}}</span>
+                                    <span v-if="customErrors.maxPrice" class="error-message wrap">{{customErrors.maxPrice}}</span>
+                                    <span v-if="customErrors.priceRange" class="error-message wrap">{{customErrors.priceRange}}</span>
                                 </div>
                                 
                             </template>
@@ -83,6 +94,43 @@ export const FilterBox = {
                 this.errors = this.filtersProcessor.errors;
                 this.filtersProcessor.resetValidation();
             }
+        },
+
+        priceRangeUpdate: function(priceRange) {
+            const ranges = ['minPrice', 'maxPrice'];
+            let hasErrors = false;
+
+            for (const range of ranges) {
+                const message = (range === 'minPrice') ? 'Minimum price' : 'Maximum price';
+
+                const r = priceRange[range];
+                if (isNaN(parseInteger(r)) && r !== null) {
+                    this.customErrors[range] = `${message} has to be a number`;
+                    hasErrors = true;
+                } else {
+                    priceRange[range] = parseInteger(priceRange[range]);
+                    this.customErrors[range] = false;
+                }
+            }
+
+            if (hasErrors) {
+                return false;
+            }
+
+            const minPrice = priceRange.minPrice;
+            const maxPrice = priceRange.maxPrice;
+
+            if (Number.isInteger(minPrice) && Number.isInteger(maxPrice)) {
+                if (minPrice > maxPrice) {
+                    this.customErrors.priceRange = 'Maximum price has to be greater that the minimum price';
+
+                    return false;
+                } else {
+                    this.customErrors.priceRange = false;
+                }
+            }
+
+            this.filtersProcessor.addRangeFilter(priceRange.id, priceRange);
         },
 
         removeFilter: function(id) {
