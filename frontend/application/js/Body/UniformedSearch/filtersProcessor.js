@@ -29,8 +29,8 @@ export class Processor {
             }
         });
 
-        const from = (value.minPrice !== null) ? `from ${value.minPrice}` : '';
-        const to = (value.maxPrice !== null) ? `to ${value.maxPrice}` : '';
+        const from = (value.minPrice !== null) ? `from ${value.minPrice}$` : '';
+        const to = (value.maxPrice !== null) ? `up to ${value.maxPrice}$` : '';
 
         const text = `Price ${from} ${to}`;
 
