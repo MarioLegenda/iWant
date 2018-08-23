@@ -35,7 +35,7 @@ export const FilterBox = {
                     'id': 3,
                     'active': true,
                     'type': PRICE_RANGE,
-                    'values': {},
+                    'text': '',
                 }
             ]
         }
@@ -108,7 +108,9 @@ export const FilterBox = {
                     this.customErrors[range] = `${message} has to be a number`;
                     hasErrors = true;
                 } else {
-                    priceRange[range] = parseInteger(priceRange[range]);
+                    const parsedR = parseInteger(priceRange[range]);
+
+                    priceRange[range] = (!isNaN(parsedR)) ? parsedR : null;
                     this.customErrors[range] = false;
                 }
             }
@@ -130,7 +132,7 @@ export const FilterBox = {
                 }
             }
 
-            this.filtersProcessor.addRangeFilter(priceRange.id, priceRange);
+            this.filtersProcessor.upsertRangeFilter(priceRange.id, priceRange);
         },
 
         removeFilter: function(id) {

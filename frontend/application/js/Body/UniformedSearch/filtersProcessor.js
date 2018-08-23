@@ -22,7 +22,34 @@ export class Processor {
         return alreadyAdded.length !== 0
     }
 
-    addRangeFilter(id, value) {
+    upsertRangeFilter(id, value) {
+        let entries = this.view.filter(entry => {
+            if (entry.id === id) {
+                return entry;
+            }
+        });
+
+        const from = (value.minPrice !== null) ? `from ${value.minPrice}` : '';
+        const to = (value.maxPrice !== null) ? `to ${value.maxPrice}` : '';
+
+        const text = `Price ${from} ${to}`;
+
+        let alreadyAdded = this.added.filter(entry => {
+            if (entry.id === id) {
+                return entry;
+            }
+        });
+
+        if (alreadyAdded.length !== 0) {
+            alreadyAdded[0].text = text;
+
+            return;
+        }
+
+        const rangeFilter = Object.assign({}, entries[0]);
+        rangeFilter.text = text;
+
+        this.added.push(rangeFilter);
     }
 
     addFilter(id) {
