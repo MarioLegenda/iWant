@@ -8,6 +8,7 @@ export const FilterBox = {
     filtersProcessor: null,
     data: function() {
         return {
+            errors: [],
             showFilters: false,
             addedFilters: [],
             filtersView: [
@@ -54,6 +55,8 @@ export const FilterBox = {
                                         v-bind:filterData="filter"
                                         v-on:search-filter-filter-added="addFilter">
                                     </filter-view>
+                                    
+                                    <span v-for="error in errors" class="error-message wrap">{{error}}</span>
                                 </div>
                                 
                             </template>
@@ -70,12 +73,22 @@ export const FilterBox = {
                </div>`,
     methods: {
         addFilter: function(id) {
+            this.errors = [];
+            
             if (this.filtersProcessor.addFilter(id)) {
                 this.deactivateFilter(id);
+            }
+
+            if (this.filtersProcessor.errors.length !== 0) {
+                this.errors = this.filtersProcessor.errors;
+                this.filtersProcessor.resetValidation();
             }
         },
 
         removeFilter: function(id) {
+            this.errors = [];
+            this.filtersProcessor.resetValidation();
+
             if(this.filtersProcessor.removeFilter(id)) {
                 this.activateFilter(id);
             }

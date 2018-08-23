@@ -358,6 +358,12 @@ html {
 #uniformed_search .filter-box-fixed-width-row .add-filters-box .disable-added-filter:hover {
   cursor: default;
 }
+#uniformed_search .filter-box-fixed-width-row .add-filters-box .error-message {
+  color: #f78f27;
+  font-size: 0.9em;
+  margin-top: 20px;
+  line-height: 1.5em;
+}
 #uniformed_search .search-box {
   width: 480px;
   max-width: 480px;

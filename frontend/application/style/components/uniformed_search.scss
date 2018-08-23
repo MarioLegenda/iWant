@@ -153,6 +153,15 @@
           cursor: default;
         }
       }
+
+      .error-message {
+        color: $basicOrange;
+        font-size: 0.9em;
+
+        margin-top: 20px;
+
+        line-height: 1.5em;
+      }
     }
   }
 
