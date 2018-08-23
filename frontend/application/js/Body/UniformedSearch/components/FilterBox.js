@@ -133,6 +133,7 @@ export const FilterBox = {
             }
 
             this.filtersProcessor.upsertRangeFilter(priceRange.id, priceRange);
+            this.deactivateFilter(priceRange.id);
         },
 
         removeFilter: function(id) {

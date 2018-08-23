@@ -374,6 +374,10 @@ html {
   background-color: #b3bff2;
   margin: 10px 10px 10px 0;
   padding: 8px;
+  transition: background-color 0.5s;
+  -webkit-transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
+  -o-transition: background-color 0.5s;
 }
 #uniformed_search .filter-box-fixed-width-row .add-filters-box .price-range-filter input[type=text] {
   border: none;
@@ -382,6 +386,9 @@ html {
   font-size: 0.9em;
   padding: 5px;
   width: 50px;
+}
+#uniformed_search .filter-box-fixed-width-row .add-filters-box .price-range-filter:hover {
+  background-color: #2E53F3;
 }
 #uniformed_search .search-box {
   width: 480px;

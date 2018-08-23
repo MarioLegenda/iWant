@@ -7,13 +7,21 @@ export const PriceRange = {
     },
     template: `
         <div class="price-range-filter">
-            <span>Price from </span>
-            <input type="text" v-on:input="onMinPrice"/>
+            <span v-bind:class="fakeClass">Price from </span>
+            <input type="text" v-on:input="onMinPrice" v-model="minPrice"/>
             <span>to</span>
-            <input type="text" v-on:input="onMaxPrice"/>
+            <input type="text" v-on:input="onMaxPrice" v-model="maxPrice"/>
         </div>
     `,
     props: ['filterData'],
+    computed: {
+        fakeClass: function() {
+            if (this.filterData.active === true) {
+                this.minPrice = null;
+                this.maxPrice = null;
+            }
+        }
+    },
     methods: {
         onMinPrice: function(e) {
             const val = e.target.value;
