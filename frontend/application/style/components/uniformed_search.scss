@@ -197,6 +197,35 @@
           background-color: $darkBlue;
         }
       }
+
+      .ships-to-filter {
+        display: inline-block;
+
+        font-size: 0.9em;
+        color: white;
+        border-radius: 100px;
+        background-color: $lightBlue;
+
+        margin: 10px 10px 10px 0;
+
+        padding: 13px;
+
+        transition: background-color 0.5s;
+        -webkit-transition: background-color 0.5s;
+        -moz-transition: background-color 0.5s;
+        -o-transition: background-color 0.5s;
+
+        select {
+          width: 100px;
+          font-size: 1em;
+          font-family: $ralewayFont;
+          border: none;
+        }
+
+        &:hover {
+          background-color: $darkBlue;
+        }
+      }
     }
   }
 

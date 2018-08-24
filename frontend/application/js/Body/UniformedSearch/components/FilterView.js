@@ -1,6 +1,7 @@
 import {ButtonFilter} from "./FilterType/ButtonFilter";
 import {events} from "../../../events";
 import {PriceRange} from "./FilterType/PriceRange";
+import {ShipsTo} from "./FilterType/ShipsTo";
 
 export const FilterView = {
     template: `<button-filter 
@@ -9,16 +10,24 @@ export const FilterView = {
                     v-on:search-filter-filter-added="addFilter"
                >
                </button-filter>
+               
                <price-range
                     v-else-if="filterData.type === 'PriceRange'"
                     v-bind:filterData="filterData"
                     v-on:price-range-update="priceRangeUpdate">
                </price-range>
+               
+               <ships-to
+                    v-else-if="filterData.type === 'ShipsTo'"
+                    v-bind:filterData="filterData">
+                   
+               </ships-to>
 `,
     props: ['filterData'],
     components: {
         'button-filter': ButtonFilter,
-        'price-range': PriceRange
+        'price-range': PriceRange,
+        'ships-to': ShipsTo,
     },
     methods: {
         addFilter: function(id) {
