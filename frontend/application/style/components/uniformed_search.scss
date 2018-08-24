@@ -12,6 +12,30 @@
     padding: 20px 0 20px 0;
   }
 
+  .error-message {
+    position: relative;
+
+    color: white;
+    font-size: 0.9em;
+    background-color: $lightestGray;
+
+    border-radius: 100px;
+
+    margin-bottom: 20px;
+
+    line-height: 1.5em;
+
+    padding: 5px 30px 5px 50px;
+
+    i {
+      position: absolute;
+      left: 10px;
+      top: 16px;
+
+      font-size: 1.3em;
+    }
+  }
+
   .filter-box-fixed-width-row {
     width: 480px;
     max-width: 480px;
@@ -80,7 +104,7 @@
           text-align: center;
 
           color: white;
-          font-size: 0.7em;
+          font-size: 0.9em;
 
           border-radius: 100px;
           background-color: $basicOrange;
@@ -154,15 +178,6 @@
         &:hover {
           cursor: default;
         }
-      }
-
-      .error-message {
-        color: $basicOrange;
-        font-size: 0.9em;
-
-        margin-top: 20px;
-
-        line-height: 1.5em;
       }
 
       .price-range-filter {

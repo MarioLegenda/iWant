@@ -14,12 +14,12 @@ export const UniformedSearch = {
     template: `<div id="uniformed_search">
                     <div class="search-box-wrapper wrap">
                         <div class="search-box">
-                            <input 
-                                type="text" 
-                                placeholder="I would like..." 
-                                id="keywords_input_search" 
-                                class="search-input" 
-                                v-bind:class="hasSearchError" 
+                            <input
+                                type="text"
+                                placeholder="I would like..."
+                                id="keywords_input_search"
+                                class="search-input"
+                                v-bind:class="hasSearchError"
                                 v-model="keywords"
                                 v-on:input="onKeywordsChange"
                             />

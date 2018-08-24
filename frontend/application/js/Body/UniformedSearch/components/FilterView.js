@@ -7,8 +7,7 @@ export const FilterView = {
     template: `<button-filter 
                     v-if="filterData.type === 'button'"
                     v-bind:filterData="filterData"
-                    v-on:search-filter-filter-added="addFilter"
-               >
+                    v-on:search-filter-filter-added="addFilter">
                </button-filter>
                
                <price-range
@@ -19,8 +18,8 @@ export const FilterView = {
                
                <ships-to
                     v-else-if="filterData.type === 'ShipsTo'"
-                    v-bind:filterData="filterData">
-                   
+                    v-bind:filterData="filterData"
+                    v-on:search-on-ships-to="onShipsTo">
                </ships-to>
 `,
     props: ['filterData'],
@@ -35,6 +34,9 @@ export const FilterView = {
         },
         priceRangeUpdate(priceRange) {
             this.$emit('price-range-update', priceRange);
+        },
+        onShipsTo(country) {
+            this.$emit('search-on-ships-to', country);
         }
     }
 };

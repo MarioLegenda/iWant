@@ -1,7 +1,7 @@
 import {FilterView} from "./FilterView";
 import {AddedFiltersView} from "./AddedFiltersView";
 
-import {HIGHEST_PRICE, LOWEST_PRICE, PRICE_RANGE, SHIPS_TO} from "../constants";
+import {HIGHEST_PRICE, LOWEST_PRICE, PRICE_RANGE, SHIPS_TO, BEST_QUALITY} from "../constants";
 import {Processor} from "../filtersProcessor";
 
 export const FilterBox = {
@@ -40,6 +40,13 @@ export const FilterBox = {
                 {
                     'id': 4,
                     'active': true,
+                    'type': 'button',
+                    'filterType': BEST_QUALITY,
+                    'text': 'High quality',
+                },
+                {
+                    'id': 5,
+                    'active': true,
                     'type': SHIPS_TO,
                     'text': '',
                 }
@@ -58,22 +65,25 @@ export const FilterBox = {
                                         v-bind:filters="addedFilters"
                                         v-on:search-filter-filter-remove="removeFilter">
                                     </added-filters-view>
+                                    
+                                    <span class="filter-message">*If no filters are present, the search is done by lowest price</span>
                                 </div>
                                 
                                 <div class="add-filters-box">
+                                    <span v-for="error in errors" class="error-message wrap"><i class="fas fa-info-circle"></i>{{error}}</span>
+                                    
+                                    <span v-if="customErrors.minPrice" class="error-message wrap"><i class="fas fa-info-circle"></i>{{customErrors.minPrice}}</span>
+                                    <span v-if="customErrors.maxPrice" class="error-message wrap"><i class="fas fa-info-circle"></i>{{customErrors.maxPrice}}</span>
+                                    <span v-if="customErrors.priceRange" class="error-message wrap"><i class="fas fa-info-circle"></i>{{customErrors.priceRange}}</span>
+                                    
                                     <filter-view
                                         v-for="(filter, index) in filtersView"  
                                         :key="index"
                                         v-bind:filterData="filter"
                                         v-on:search-filter-filter-added="addFilter"
-                                        v-on:price-range-update="priceRangeUpdate">
+                                        v-on:price-range-update="priceRangeUpdate"
+                                        v-on:search-on-ships-to="onShipsTo">
                                     </filter-view>
-                                    
-                                    <span v-for="error in errors" class="error-message wrap">{{error}}</span>
-                                    
-                                    <span v-if="customErrors.minPrice" class="error-message wrap">{{customErrors.minPrice}}</span>
-                                    <span v-if="customErrors.maxPrice" class="error-message wrap">{{customErrors.maxPrice}}</span>
-                                    <span v-if="customErrors.priceRange" class="error-message wrap">{{customErrors.priceRange}}</span>
                                 </div>
                                 
                             </template>
@@ -102,7 +112,17 @@ export const FilterBox = {
             }
         },
 
+        onShipsTo(country) {
+            this.errors = [];
+
+            this.filtersProcessor.upsertShipsToCountry(5, country);
+
+            this.activateFilter(5);
+        },
+
         priceRangeUpdate: function(priceRange) {
+            this.errors = [];
+
             const ranges = ['minPrice', 'maxPrice'];
             let hasErrors = false;
 
@@ -136,6 +156,8 @@ export const FilterBox = {
                 } else {
                     this.customErrors.priceRange = false;
                 }
+            } else {
+                this.customErrors.priceRange = false;
             }
 
             this.filtersProcessor.upsertRangeFilter(priceRange.id, priceRange);

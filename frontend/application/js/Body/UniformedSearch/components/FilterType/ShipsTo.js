@@ -10,7 +10,7 @@ export const ShipsTo = {
                    
                    <select v-on:change="countrySelected" v-model="selected">
                        <option disabled selected value="">Select country</option>
-                       <option v-for="country in countries" :value="country.alpha2Code">{{country.name}}</option>
+                       <option v-for="country in countries" :value="country">{{country.name}}</option>
                    </select>
                </div>`,
     created: function() {
@@ -32,7 +32,7 @@ export const ShipsTo = {
     },
     methods: {
         countrySelected: function() {
-
+            this.$emit('search-on-ships-to', this.selected);
         }
     }
 };

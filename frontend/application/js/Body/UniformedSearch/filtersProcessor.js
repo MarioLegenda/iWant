@@ -22,7 +22,37 @@ export class Processor {
         return alreadyAdded.length !== 0
     }
 
+    upsertShipsToCountry(id, country) {
+        this.resetValidation();
+
+        let alreadyAdded = this.added.filter(entry => {
+            if (entry.id === id) {
+                return entry;
+            }
+        });
+
+        if (alreadyAdded.length !== 0) {
+            alreadyAdded[0].text = `Ships to ${country.name}`;
+
+            return;
+        }
+
+        let entries = this.view.filter(entry => {
+            if (entry.id === id) {
+                return entry;
+            }
+        });
+
+        const countryView = entries[0];
+        const countryFilter = Object.assign({}, countryView);
+        countryFilter.text = `Ships to ${country.name}`;
+
+        this.added.push(countryFilter);
+    }
+
     upsertRangeFilter(id, value) {
+        this.resetValidation();
+
         let entries = this.view.filter(entry => {
             if (entry.id === id) {
                 return entry;

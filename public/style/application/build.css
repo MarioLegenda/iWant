@@ -248,6 +248,22 @@ html {
 #uniformed_search .filter-box-wrapper {
   padding: 20px 0 20px 0;
 }
+#uniformed_search .error-message {
+  position: relative;
+  color: white;
+  font-size: 0.9em;
+  background-color: #d6d6d6;
+  border-radius: 100px;
+  margin-bottom: 20px;
+  line-height: 1.5em;
+  padding: 5px 30px 5px 50px;
+}
+#uniformed_search .error-message i {
+  position: absolute;
+  left: 10px;
+  top: 16px;
+  font-size: 1.3em;
+}
 #uniformed_search .filter-box-fixed-width-row {
   width: 480px;
   max-width: 480px;
@@ -302,7 +318,7 @@ html {
   margin: 0 10px 10px 0;
   text-align: center;
   color: white;
-  font-size: 0.7em;
+  font-size: 0.9em;
   border-radius: 100px;
   background-color: #f78f27;
 }
@@ -359,12 +375,6 @@ html {
 }
 #uniformed_search .filter-box-fixed-width-row .add-filters-box .disable-added-filter:hover {
   cursor: default;
-}
-#uniformed_search .filter-box-fixed-width-row .add-filters-box .error-message {
-  color: #f78f27;
-  font-size: 0.9em;
-  margin-top: 20px;
-  line-height: 1.5em;
 }
 #uniformed_search .filter-box-fixed-width-row .add-filters-box .price-range-filter {
   display: inline-block;

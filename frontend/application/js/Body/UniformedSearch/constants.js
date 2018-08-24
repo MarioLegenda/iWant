@@ -4,3 +4,4 @@ export const MIN_PRICE = 'MinPrice';
 export const MAX_PRICE = 'MaxPrice';
 export const PRICE_RANGE = 'PriceRange';
 export const SHIPS_TO = 'ShipsTo';
+export const BEST_QUALITY = 'BestQuality';
