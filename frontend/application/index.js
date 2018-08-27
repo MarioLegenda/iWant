@@ -11,21 +11,12 @@ Tools.registerVuePlugins(Vue, [VueRouter, Vuex]);
 
 const store = new Vuex.Store({
     state: {
-        search: {
-            keywords: '',
-            filters: {}
-        }
+        uniformedSearchListing: {},
     },
     mutations: {
-        addKeywords (state, value) {
-            state.search.keywords = value;
+        uniformedSearchListing (state, value) {
+            this.state.uniformedSearchListing = value;
         },
-        addFilter (state, filter) {
-            state.search.filters[filter.id] = filter;
-        },
-        removeFilter(state, filter) {
-            delete state.search.filters[filter.id];
-        }
     }
 });
 

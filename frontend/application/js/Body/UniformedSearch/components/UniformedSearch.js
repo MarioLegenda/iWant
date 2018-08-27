@@ -1,6 +1,9 @@
-import {SearchItem} from "./SearchItem";
+import {Item} from "../../Listing/components/Item";
 import {FilterBox} from "./FilterBox";
 import {Errors} from "../error";
+import {SearchData} from "../searchData";
+import {SearchProvider} from "../../Provider/SearchProvider";
+import {UniformedSearchList} from "../../Listing/components/UniformedSearchList";
 
 export const UniformedSearch = {
     data: function() {
@@ -9,7 +12,7 @@ export const UniformedSearch = {
             filters: [],
             errors: new Errors({
                 badSearchInput: false
-            })
+            }),
         }
     },
     template: `<div id="uniformed_search">
@@ -31,23 +34,14 @@ export const UniformedSearch = {
                         </div>
                     </div>
                     
-                    <filter-box></filter-box>
-
-                    <div class="search-listing-wrapper wrap">
-                        <div class="search-listing">
-                            <search-item></search-item>
-                            <search-item></search-item>
-                            <search-item></search-item>
-                            <search-item></search-item>
-                            <search-item></search-item>
-                            <search-item></search-item>
-                            <search-item></search-item>
-                        </div>
-                    </div>
+                    <filter-box v-on:on-filter-add="addFilters"></filter-box>
+                    
+                    <uniformed-search-list></uniformed-search-list>
                </div>`,
     components: {
-        'search-item': SearchItem,
+        'search-item': Item,
         'filter-box': FilterBox,
+        'uniformed-search-list': UniformedSearchList,
     },
     computed: {
         hasSearchError: function() {
@@ -61,6 +55,9 @@ export const UniformedSearch = {
         }
     },
     methods: {
+        addFilters(filters) {
+            this.filters = filters;
+        },
         onKeywordsChange() {
             if (!isString(this.keywords) || this.keywords === '') {
                 this.errors.addError('badSearchInput', true);
@@ -70,10 +67,20 @@ export const UniformedSearch = {
         },
         onSearch: function() {
             this.errors.addError('badSearchInput', false);
+
             if (!isString(this.keywords) || this.keywords === '') {
                 this.errors.addError('badSearchInput', true);
             } else {
-                this.errors.addError('badSearchInput', true);
+                this.errors.addError('badSearchInput', false);
+
+                const searchData = new SearchData(
+                    this.keywords,
+                    this.filters
+                );
+
+                const provider = new SearchProvider(searchData);
+
+                provider.provide(this.$store);
             }
         }
     }

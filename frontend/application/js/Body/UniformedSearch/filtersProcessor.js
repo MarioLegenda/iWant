@@ -33,7 +33,13 @@ export class Processor {
         });
 
         if (alreadyAdded.length !== 0) {
-            alreadyAdded[0].text = `Ships to ${country.name}`;
+            const entry = alreadyAdded[0];
+            entry.data = {
+                filterType: entry.filterType,
+                data: country
+            };
+
+            entry.text = `Ships to ${country.name}`;
 
             return;
         }
@@ -45,7 +51,13 @@ export class Processor {
         });
 
         const countryView = entries[0];
+
         const countryFilter = Object.assign({}, countryView);
+        countryFilter.data = {
+            filterType: countryView.filterType,
+            data: country,
+        };
+
         countryFilter.text = `Ships to ${country.name}`;
 
         this.added.push(countryFilter);
@@ -72,10 +84,31 @@ export class Processor {
         });
 
         if (alreadyAdded.length !== 0) {
-            alreadyAdded[0].text = text;
+            const entry = alreadyAdded[0];
+
+            entry.data = {
+                filterType: entry.filterType,
+                data: {
+                    minPrice: value.minPrice,
+                    maxPrice: value.maxPrice,
+                }
+            };
+
+            entry.text = text;
 
             return;
         }
+
+        const entry = entries[0];
+        const filterType = entry.filterType;
+
+        entry.data = {
+            filterType: filterType,
+            data: {
+                minPrice: entry.minPrice,
+                maxPrice: entry.maxPrice,
+            }
+        };
 
         const rangeFilter = Object.assign({}, entries[0]);
         rangeFilter.text = text;
@@ -107,7 +140,14 @@ export class Processor {
         });
 
         if (entries.length === 1) {
-            this.added.push(Object.assign({}, entries[0]));
+            const entry = entries[0];
+            const filterType = entry.filterType;
+            entry.data = {
+                filterType: filterType,
+                data: []
+            };
+
+            this.added.push(Object.assign({}, entry));
 
             return true;
         }

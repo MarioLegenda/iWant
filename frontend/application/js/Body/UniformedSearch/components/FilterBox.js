@@ -1,7 +1,16 @@
 import {FilterView} from "./FilterView";
 import {AddedFiltersView} from "./AddedFiltersView";
 
-import {HIGHEST_PRICE, LOWEST_PRICE, PRICE_RANGE, SHIPS_TO, BEST_QUALITY} from "../constants";
+import {
+    HIGHEST_PRICE,
+    LOWEST_PRICE,
+    PRICE_RANGE,
+    SHIPS_TO,
+    BEST_QUALITY,
+    USED,
+    HANDMADE
+} from "../constants";
+
 import {Processor} from "../filtersProcessor";
 import {ToggleFilterButton} from "./ToggleFilterButton";
 
@@ -25,6 +34,7 @@ export const FilterBox = {
                     filterType: LOWEST_PRICE,
                     position: 1,
                     text: 'Lowest price',
+                    data: null
                 },
                 {
                     id: 2,
@@ -33,13 +43,16 @@ export const FilterBox = {
                     filterType: HIGHEST_PRICE,
                     position: 2,
                     text: 'Highest price',
+                    data: null
                 },
                 {
                     id: 3,
                     active: true,
+                    filterType: PRICE_RANGE,
                     type: PRICE_RANGE,
                     position: 3,
                     text: '',
+                    data: null,
                 },
                 {
                     id: 4,
@@ -48,27 +61,34 @@ export const FilterBox = {
                     filterType: BEST_QUALITY,
                     position: 4,
                     text: 'High quality',
+                    data: null
                 },
                 {
                     id: 5,
                     active: true,
+                    filterType: SHIPS_TO,
                     type: SHIPS_TO,
                     position: 6,
                     text: '',
+                    data: null
                 },
                 {
                     id: 6,
                     active: true,
                     type: 'button',
                     text: 'Handmade',
-                    position: 7
+                    filterType: HANDMADE,
+                    position: 7,
+                    data: null
                 },
                 {
                     id: 7,
                     active: true,
+                    filterType: USED,
                     type: 'button',
                     position: 5,
-                    text: 'Used'
+                    text: 'Used',
+                    data: null
                 }
             ]
         }
@@ -97,7 +117,11 @@ export const FilterBox = {
             }
 
             return entries;
-        }
+        },
+        addedFiltersChange: function() {
+            console.log(this.addedFilters);
+            this.$emit('on-filter-add', this.addedFilters);
+        },
     },
     created() {
         this.filtersProcessor = new Processor(
@@ -155,12 +179,16 @@ export const FilterBox = {
             if (!this.filtersProcessor.errors.hasErrors()) {
                 this.filtersProcessor.errors.reset();
 
+                this.$emit('on-filter-add', this.addedFilters);
+
                 return false;
             }
         },
 
         onShipsTo(country) {
             this.filtersProcessor.upsertShipsToCountry(5, country);
+
+            this.$emit('on-filter-add', this.addedFilters);
 
             this.activateFilter(5);
         },
@@ -209,11 +237,15 @@ export const FilterBox = {
 
             this.filtersProcessor.upsertRangeFilter(priceRange.id, priceRange);
             this.deactivateFilter(priceRange.id);
+
+            this.$emit('on-filter-add', this.addedFilters);
         },
 
         removeFilter: function(id) {
             if(this.filtersProcessor.removeFilter(id)) {
                 this.activateFilter(id);
+
+                this.$emit('on-filter-add', this.addedFilters);
             }
         },
 

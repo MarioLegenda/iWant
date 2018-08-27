@@ -1,4 +1,4 @@
-export const SearchItem = {
+export const Item = {
     template: `<div class="search-item">
                     <div class="shop-logo wrap">
                         <img src="/images/ebay-logo.jpg" />
@@ -27,5 +27,6 @@ export const SearchItem = {
                     <div class="view-item-button-wrapper wrap">
                         <a href="">View item</a>
                     </div>
-               </div>`
+               </div>`,
+    props: ['item']
 };
