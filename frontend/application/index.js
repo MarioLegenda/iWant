@@ -13,15 +13,18 @@ const store = new Vuex.Store({
     state: {
         search: {
             keywords: '',
-            filters: []
+            filters: {}
         }
     },
     mutations: {
         addKeywords (state, value) {
             state.search.keywords = value;
         },
-        addFilter (state, value) {
-            state.search.filters.push(value);
+        addFilter (state, filter) {
+            state.search.filters[filter.id] = filter;
+        },
+        removeFilter(state, filter) {
+            delete state.search.filters[filter.id];
         }
     }
 });

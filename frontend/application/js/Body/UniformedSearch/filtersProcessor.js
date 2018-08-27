@@ -1,10 +1,11 @@
 import {LOWEST_PRICE, HIGHEST_PRICE} from "./constants";
+import {Errors} from "./error";
 
 export class Processor {
-    constructor(view, added) {
+    constructor(view, added, customErrors) {
         this.view = view;
         this.added = added;
-        this.errors = [];
+        this.errors = new Errors(customErrors);
 
         this.normalizedFilters = {
             1: { type: LOWEST_PRICE, normalized: 'Lowest price'},
@@ -23,7 +24,7 @@ export class Processor {
     }
 
     upsertShipsToCountry(id, country) {
-        this.resetValidation();
+        this.errors.reset();
 
         let alreadyAdded = this.added.filter(entry => {
             if (entry.id === id) {
@@ -51,7 +52,7 @@ export class Processor {
     }
 
     upsertRangeFilter(id, value) {
-        this.resetValidation();
+        this.errors.reset();
 
         let entries = this.view.filter(entry => {
             if (entry.id === id) {
@@ -82,11 +83,10 @@ export class Processor {
         this.added.push(rangeFilter);
     }
 
-    addFilter(id) {
-        this.resetValidation();
+    addGenericFilter(id) {
         this.correlationValidation(id);
 
-        if (this.errors.length !== 0) {
+        if (this.errors.hasErrors()) {
             return false;
         }
 
@@ -116,7 +116,7 @@ export class Processor {
     }
 
     removeFilter(id) {
-        this.resetValidation();
+        this.errors.reset();
 
         for (let [index, entry] of this.added.entries()) {
             if (entry.id === id) {
@@ -127,10 +127,6 @@ export class Processor {
         }
 
         return false;
-    }
-
-    resetValidation() {
-        this.errors = [];
     }
 
     correlationValidation(id) {
@@ -146,7 +142,7 @@ export class Processor {
                 if (this.isFilterAdded(entry)) {
                     let lowestPriceNormalized = this.normalizedFilters[1].normalized;
                     let highestPriceNormalized = this.normalizedFilters[2].normalized;
-                    this.errors.push(`${lowestPriceNormalized} and ${highestPriceNormalized} filters cannot be used together`);
+                    this.errors.addError('lowestHighestPrice', `${lowestPriceNormalized} and ${highestPriceNormalized} filters cannot be used together. Use one or the other.`);
                 }
             });
         }

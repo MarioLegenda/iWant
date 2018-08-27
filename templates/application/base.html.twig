@@ -20,6 +20,7 @@
 
         {% block javascripts %}
             {% set cacheClear = 'random'~random(999999) %}
+
             <script src={{ asset("js/dist/build.js?v="~cacheClear) }}></script>
         {% endblock %}
     </body>

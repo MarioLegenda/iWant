@@ -23,7 +23,7 @@ export const ButtonFilter = {
     },
     methods: {
         addFilter: function() {
-            this.$emit(events.FILTER_ADDED, this.filterData.id);
+            this.$emit('on-lowest-highest-price', this.filterData.id);
         }
     }
 };

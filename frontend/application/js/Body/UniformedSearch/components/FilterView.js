@@ -7,7 +7,7 @@ export const FilterView = {
     template: `<button-filter 
                     v-if="filterData.type === 'button'"
                     v-bind:filterData="filterData"
-                    v-on:search-filter-filter-added="addFilter">
+                    v-on:on-lowest-highest-price="addGenericFilter">
                </button-filter>
                
                <price-range
@@ -29,8 +29,8 @@ export const FilterView = {
         'ships-to': ShipsTo,
     },
     methods: {
-        addFilter: function(id) {
-            this.$emit(events.FILTER_ADDED, id);
+        addGenericFilter: function(id) {
+            this.$emit('on-lowest-highest-price', id);
         },
         priceRangeUpdate(priceRange) {
             this.$emit('price-range-update', priceRange);

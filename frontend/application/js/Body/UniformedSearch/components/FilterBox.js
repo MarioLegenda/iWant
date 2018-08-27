@@ -3,65 +3,115 @@ import {AddedFiltersView} from "./AddedFiltersView";
 
 import {HIGHEST_PRICE, LOWEST_PRICE, PRICE_RANGE, SHIPS_TO, BEST_QUALITY} from "../constants";
 import {Processor} from "../filtersProcessor";
+import {ToggleFilterButton} from "./ToggleFilterButton";
 
 export const FilterBox = {
     filtersProcessor: null,
     data: function() {
         return {
-            errors: [],
+            showFilterBoxProp: false,
             customErrors: {
+                lowestHighestPrice: false,
                 minPrice: false,
                 maxPrice: false,
                 priceRange: false,
             },
-            showFilters: false,
             addedFilters: [],
             filtersView: [
                 {
-                    'id': 1,
-                    'active': true,
-                    'type': 'button',
-                    'filterType': LOWEST_PRICE,
-                    'text': 'Lowest price',
+                    id: 1,
+                    active: true,
+                    type: 'button',
+                    filterType: LOWEST_PRICE,
+                    position: 1,
+                    text: 'Lowest price',
                 },
                 {
-                    'id': 2,
-                    'active': true,
-                    'type': 'button',
-                    'filterType': HIGHEST_PRICE,
-                    'text': 'Highest price',
+                    id: 2,
+                    active: true,
+                    type: 'button',
+                    filterType: HIGHEST_PRICE,
+                    position: 2,
+                    text: 'Highest price',
                 },
                 {
-                    'id': 3,
-                    'active': true,
-                    'type': PRICE_RANGE,
-                    'text': '',
+                    id: 3,
+                    active: true,
+                    type: PRICE_RANGE,
+                    position: 3,
+                    text: '',
                 },
                 {
-                    'id': 4,
-                    'active': true,
-                    'type': 'button',
-                    'filterType': BEST_QUALITY,
-                    'text': 'High quality',
+                    id: 4,
+                    active: true,
+                    type: 'button',
+                    filterType: BEST_QUALITY,
+                    position: 4,
+                    text: 'High quality',
                 },
                 {
-                    'id': 5,
-                    'active': true,
-                    'type': SHIPS_TO,
-                    'text': '',
+                    id: 5,
+                    active: true,
+                    type: SHIPS_TO,
+                    position: 6,
+                    text: '',
+                },
+                {
+                    id: 6,
+                    active: true,
+                    type: 'button',
+                    text: 'Handmade',
+                    position: 7
+                },
+                {
+                    id: 7,
+                    active: true,
+                    type: 'button',
+                    position: 5,
+                    text: 'Used'
                 }
             ]
         }
     },
+    computed: {
+        toggleAnimation: function() {
+            return {
+                'animated fadeIn': this.showFilterBoxProp === true,
+                'animated fadeOut': this.showFilterBoxProp === false,
+            }
+        },
+        sortedViewFilters: function() {
+            let positions = [];
+            let entries = [];
+
+            for (const entry of this.filtersView) {
+                positions.push(entry.position);
+            }
+
+            positions.sort(function(a, b) {
+                return a - b;
+            });
+
+            for (const position of positions) {
+                entries.push(this.filtersView.filter(e => e.position === position)[0]);
+            }
+
+            return entries;
+        }
+    },
     created() {
-        this.filtersProcessor = new Processor(this.filtersView, this.addedFilters);
+        this.filtersProcessor = new Processor(
+            this.filtersView,
+            this.addedFilters,
+            this.customErrors
+        );
     },
     template: `<div class="filter-box-wrapper wrap">
-                        <div class="filter-box-fixed-width-row">
-                            <template v-if="showFilters">
-                            
+                   <transition name="fade">
+                        <div v-if="showFilterBoxProp" v-bind:class="toggleAnimation" class="filter-box-fixed-width-row">
+                            <template>
                                 <div class="added-filters-box wrap">
-                                    <added-filters-view 
+                                    <added-filters-view
                                         v-bind:filters="addedFilters"
                                         v-on:search-filter-filter-remove="removeFilter">
                                     </added-filters-view>
@@ -69,18 +119,17 @@ export const FilterBox = {
                                     <span class="filter-message">*If no filters are present, the search is done by lowest price</span>
                                 </div>
                                 
-                                <div class="add-filters-box">
-                                    <span v-for="error in errors" class="error-message wrap"><i class="fas fa-info-circle"></i>{{error}}</span>
-                                    
-                                    <span v-if="customErrors.minPrice" class="error-message wrap"><i class="fas fa-info-circle"></i>{{customErrors.minPrice}}</span>
-                                    <span v-if="customErrors.maxPrice" class="error-message wrap"><i class="fas fa-info-circle"></i>{{customErrors.maxPrice}}</span>
-                                    <span v-if="customErrors.priceRange" class="error-message wrap"><i class="fas fa-info-circle"></i>{{customErrors.priceRange}}</span>
+                                <div class="add-filters-box">              
+                                    <span v-if="customErrors.lowestHighestPrice" class="error-message wrap"><i class="info fas fa-info-circle"></i>{{customErrors.lowestHighestPrice}}<i class="close fas fa-times" v-on:click="closeErrorMessage($event, 'lowestHighestPrice')"></i></span>
+                                    <span v-if="customErrors.minPrice" class="error-message wrap"><i class="info fas fa-info-circle"></i>{{customErrors.minPrice}}<i class="close fas fa-times" v-on:click="closeErrorMessage($event, 'minPrice')"></i></span>
+                                    <span v-if="customErrors.maxPrice" class="error-message wrap"><i class="info fas fa-info-circle"></i>{{customErrors.maxPrice}}<i class="close fas fa-times" v-on:click="closeErrorMessage($event, 'maxPrice')"></i></span>
+                                    <span v-if="customErrors.priceRange" class="error-message wrap"><i class="info fas fa-info-circle"></i>{{customErrors.priceRange}}<i class="close fas fa-times" v-on:click="closeErrorMessage($event, 'priceRange')"></i></span>
                                     
                                     <filter-view
-                                        v-for="(filter, index) in filtersView"  
+                                        v-for="(filter, index) in sortedViewFilters"  
                                         :key="index"
                                         v-bind:filterData="filter"
-                                        v-on:search-filter-filter-added="addFilter"
+                                        v-on:on-lowest-highest-price="addGenericFilter"
                                         v-on:price-range-update="priceRangeUpdate"
                                         v-on:search-on-ships-to="onShipsTo">
                                     </filter-view>
@@ -88,41 +137,35 @@ export const FilterBox = {
                                 
                             </template>
                             
-                            <div class="wrap">
-                                <div class="filter-add-button-wrapper wrap">
-                                    <button v-on:click="showFilters = !showFilters">
-                                        Add filters
-                                        <i v-bind:class="toggleFilterClass"></i>
-                                    </button>
-                                </div>
-                            </div>
                         </div>
+                   </transition>
+                        
+                   <transition name="moveDown">
+                        <toggle-filter-box-button v-on:toggle-filter-box="showFilterBox"></toggle-filter-box-button>
+                   </transition>
                </div>`,
     methods: {
-        addFilter: function(id) {
-            this.errors = [];
+        addGenericFilter: function(id) {
+            this.filtersProcessor.errors.reset();
 
-            if (this.filtersProcessor.addFilter(id)) {
+            if (this.filtersProcessor.addGenericFilter(id)) {
                 this.deactivateFilter(id);
             }
 
-            if (this.filtersProcessor.errors.length !== 0) {
-                this.errors = this.filtersProcessor.errors;
-                this.filtersProcessor.resetValidation();
+            if (!this.filtersProcessor.errors.hasErrors()) {
+                this.filtersProcessor.errors.reset();
+
+                return false;
             }
         },
 
         onShipsTo(country) {
-            this.errors = [];
-
             this.filtersProcessor.upsertShipsToCountry(5, country);
 
             this.activateFilter(5);
         },
 
         priceRangeUpdate: function(priceRange) {
-            this.errors = [];
-
             const ranges = ['minPrice', 'maxPrice'];
             let hasErrors = false;
 
@@ -131,13 +174,13 @@ export const FilterBox = {
 
                 const r = priceRange[range];
                 if (isNaN(parseInteger(r)) && r !== null) {
-                    this.customErrors[range] = `${message} has to be a number`;
+                    this.filtersProcessor.errors.addError(range, `${message} has to be a number`);
                     hasErrors = true;
                 } else {
                     const parsedR = parseInteger(priceRange[range]);
 
                     priceRange[range] = (!isNaN(parsedR)) ? parsedR : null;
-                    this.customErrors[range] = false;
+                    this.filtersProcessor.errors.addError(range, false);
                 }
             }
 
@@ -150,14 +193,18 @@ export const FilterBox = {
 
             if (Number.isInteger(minPrice) && Number.isInteger(maxPrice)) {
                 if (minPrice > maxPrice) {
-                    this.customErrors.priceRange = 'Maximum price has to be greater that the minimum price';
+                    this.filtersProcessor.upsertRangeFilter(priceRange.id,
+                        Object.assign({}, priceRange, {maxPrice: null})
+                    );
+
+                    this.filtersProcessor.errors.addError('priceRange', 'Maximum price has to be greater that the minimum price');
 
                     return false;
                 } else {
-                    this.customErrors.priceRange = false;
+                    this.filtersProcessor.errors.addError('priceRange', false);
                 }
             } else {
-                this.customErrors.priceRange = false;
+                this.filtersProcessor.errors.addError('priceRange', false);
             }
 
             this.filtersProcessor.upsertRangeFilter(priceRange.id, priceRange);
@@ -165,9 +212,6 @@ export const FilterBox = {
         },
 
         removeFilter: function(id) {
-            this.errors = [];
-            this.filtersProcessor.resetValidation();
-
             if(this.filtersProcessor.removeFilter(id)) {
                 this.activateFilter(id);
             }
@@ -189,18 +233,19 @@ export const FilterBox = {
                     this.$set(this.filtersView, index, entry);
                 }
             });
-        }
-    },
-    computed: {
-        toggleFilterClass: function () {
-            return {
-                'fas fa-angle-right': this.showFilters === false,
-                'fas fa-angle-up': this.showFilters === true
-            }
-        }
+        },
+
+        closeErrorMessage($event, propName) {
+            this.filtersProcessor.errors.removeError(propName);
+        },
+
+        showFilterBox: function(showFilter) {
+            this.showFilterBoxProp = showFilter;
+        },
     },
     components: {
         'filter-view': FilterView,
-        'added-filters-view': AddedFiltersView
+        'added-filters-view': AddedFiltersView,
+        'toggle-filter-box-button': ToggleFilterButton,
     }
 };

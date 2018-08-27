@@ -1,0 +1,216 @@
+#uniformed_search {
+  width: 100%;
+  overflow: hidden;
+
+  .filter-box-wrapper {
+    padding: 20px 0 20px 0;
+
+    .filter-box-fixed-width-row {
+      width: 480px;
+      max-width: 480px;
+      overflow: hidden;
+
+      margin: 0 auto;
+
+      .filter-add-button-wrapper {
+        button {
+          position: relative;
+          width: 97px;
+          float: right;
+          color: $lightBlue;
+
+          font-size: 1em;
+          border: none;
+          font-family: $ralewayFont;
+          text-align: left;
+
+          margin-right: 86px;
+
+          transition: color 0.5s;
+          -webkit-transition: color 0.5s;
+          -moz-transition: color 0.5s;
+          -o-transition: color 0.5s;
+
+          &:hover {
+            color: $darkBlue;
+            cursor: pointer;
+          }
+        }
+
+        button i {
+          position: absolute;
+          top: 3px;
+          right: 0;
+        }
+      }
+
+      .added-filters-box {
+        width: 393px;
+        float: left;
+
+        margin: 10px 0 10px 0;
+        padding-bottom: 10px;
+
+        border-bottom: 1px solid $lightBlue;
+
+        .filter-message {
+          display: block;
+          font-size: 0.7em;
+          color: $textColor;
+        }
+
+        .added-filters {
+          width: 393px;
+          float: left;
+
+          margin-bottom: 10px;
+
+          span {
+            display: inline-block;
+            float: left;
+            padding: 10px;
+            margin: 0 10px 10px 0;
+            text-align: center;
+
+            color: white;
+            font-size: 0.9em;
+
+            border-radius: 100px;
+            background-color: $basicOrange;
+
+            i {
+              margin-left: 5px;
+            }
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+      }
+
+      .add-filters-box {
+        width: 393px;
+        float: left;
+
+        margin: 10px 0 10px 0;
+        padding-bottom: 20px;
+
+        border-bottom: 1px solid $lightBlue;
+
+        button {
+          border: none;
+          font-family: $ralewayFont;
+          padding: 10px;
+
+          border-radius: 100px;
+        }
+
+        .filter {
+          display: inline-block;
+          margin-right: 10px;
+          color: white;
+          background-color: $lightBlue;
+          font-size: 0.9em;
+
+          transition: background-color 0.5s;
+          -webkit-transition: background-color 0.5s;
+          -moz-transition: background-color 0.5s;
+          -o-transition: background-color 0.5s;
+
+          i {
+            margin-left: 5px;
+          }
+
+          &:hover {
+            cursor: pointer;
+            background-color: $darkBlue;
+          }
+        }
+
+        .disable-added-filter {
+          display: inline-block;
+          margin-right: 10px;
+          color: white;
+          background-color: $lightestGray;
+          font-size: 0.9em;
+
+          transition: none;
+          -webkit-transition: none;
+          -moz-transition: none;
+          -o-transition: none;
+
+          i {
+            margin-left: 5px;
+          }
+
+          &:hover {
+            cursor: default;
+          }
+        }
+
+        .price-range-filter {
+          display: inline-block;
+
+          font-size: 0.9em;
+          color: white;
+          border-radius: 100px;
+          background-color: $lightBlue;
+
+          margin: 10px 10px 10px 0;
+
+          padding: 8px;
+
+          transition: background-color 0.5s;
+          -webkit-transition: background-color 0.5s;
+          -moz-transition: background-color 0.5s;
+          -o-transition: background-color 0.5s;
+
+          input[type="text"] {
+            border: none;
+            font-family: $ralewayFont;
+            border-radius: 100px;
+            font-size: 0.9em;
+
+            padding: 5px;
+
+            width: 50px;
+          }
+
+          &:hover {
+            background-color: $darkBlue;
+          }
+        }
+
+        .ships-to-filter {
+          display: inline-block;
+
+          font-size: 0.9em;
+          color: white;
+          border-radius: 100px;
+          background-color: $lightBlue;
+
+          margin: 10px 10px 10px 0;
+
+          padding: 13px;
+
+          transition: background-color 0.5s;
+          -webkit-transition: background-color 0.5s;
+          -moz-transition: background-color 0.5s;
+          -o-transition: background-color 0.5s;
+
+          select {
+            width: 100px;
+            font-size: 1em;
+            font-family: $ralewayFont;
+            border: none;
+          }
+
+          &:hover {
+            background-color: $darkBlue;
+          }
+        }
+      }
+    }
+  }
+}

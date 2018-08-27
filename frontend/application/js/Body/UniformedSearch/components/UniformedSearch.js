@@ -1,14 +1,15 @@
 import {SearchItem} from "./SearchItem";
 import {FilterBox} from "./FilterBox";
+import {Errors} from "../error";
 
 export const UniformedSearch = {
     data: function() {
         return {
             keywords: null,
             filters: [],
-            errors: {
+            errors: new Errors({
                 badSearchInput: false
-            }
+            })
         }
     },
     template: `<div id="uniformed_search">
@@ -46,37 +47,33 @@ export const UniformedSearch = {
                </div>`,
     components: {
         'search-item': SearchItem,
-        'filter-box': FilterBox
+        'filter-box': FilterBox,
     },
     computed: {
         hasSearchError: function() {
-            if (this.errors.badSearchInput === true) {
-                return {
-                    'keywords-error': true
-                }
+            if (this.errors.hasError('badSearchInput')) {
+                return {'keywords-error': true}
             }
 
-            if (this.errors.badSearchInput === false) {
-                return {
-                    'keywords-error': false
-                }
+            if (!this.errors.hasError('badSearchInput')) {
+                return {'keywords-error': false}
             }
         }
     },
     methods: {
         onKeywordsChange() {
             if (!isString(this.keywords) || this.keywords === '') {
-                this.errors.badSearchInput = true;
+                this.errors.addError('badSearchInput', true);
             } else {
-                this.errors.badSearchInput = false;
+                this.errors.addError('badSearchInput', false);
             }
         },
         onSearch: function() {
-            this.errors.badSearchInput = false;
+            this.errors.addError('badSearchInput', false);
             if (!isString(this.keywords) || this.keywords === '') {
-                this.errors.badSearchInput = true;
+                this.errors.addError('badSearchInput', true);
             } else {
-                this.errors.badSearchInput = false;
+                this.errors.addError('badSearchInput', true);
             }
         }
     }

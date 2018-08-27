@@ -1,6 +1,6 @@
-@import 'reset';
-@import 'includes';
-@import 'app';
-@import 'components/header';
-@import 'components/start_page';
-@import 'components/uniformed_search';
+@import '0-vendor/reset';
+@import '2-settings/animate';
+@import '2-settings/global-settings';
+@import '1-components/header';
+@import '1-components/start_page';
+@import "1-components/entry";
