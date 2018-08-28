@@ -5,6 +5,6 @@ export class SearchProvider {
     }
 
     provide($store) {
-
+        console.log(this.keywords, this.filters);
     }
 }

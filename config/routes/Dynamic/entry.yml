@@ -1,0 +1,3 @@
+app_get_uniformed_search_result:
+  path: /uniformed-search
+  controller: App\Web\Controller\UniformedRequestController::search

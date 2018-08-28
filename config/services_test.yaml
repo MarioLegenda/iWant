@@ -70,7 +70,7 @@ services:
 
     App\Symfony\:
         resource: '../src/Symfony'
-        exclude: '../src/Symfony/{Exception/*}'
+        exclude: '../src/Symfony/{Exception/*,Resolver/*}'
 
     App\Library\Tools\MemcachedWrapper:
 

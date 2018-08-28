@@ -2,71 +2,40 @@
 
 namespace App\Web\Model\Request;
 
-use App\Bonanza\Presentation\Model\BonanzaApiModel;
-use App\Etsy\Presentation\Model\EtsyApiModel;
-
 class UniformedRequestModel
 {
     /**
-     * @var EtsyApiModel $etsyModel
+     * @var string $keywords
      */
-    private $etsyModel;
+    private $keywords;
     /**
-     * @var EbayModels $ebayModels
+     * @var iterable $itemFilters
      */
-    private $ebayModels;
-    /**
-     * @var BonanzaApiModel $bonanzaModel
-     */
-    private $bonanzaModel;
-    /**
-     * @var string $groupBy
-     */
-    private $groupBy;
+    private $itemFilters;
     /**
      * UniformedRequestModel constructor.
-     * @param EtsyApiModel $etsyApiModel
-     * @param EbayModels $ebayModels
-     * @param BonanzaApiModel $bonanzaApiModel
-     * @param string $groupingType
+     * @param string $keywords
+     * @param iterable $itemFilters
      */
     public function __construct(
-        EtsyApiModel $etsyApiModel,
-        EbayModels $ebayModels,
-        BonanzaApiModel $bonanzaApiModel,
-        string $groupingType
+        string $keywords,
+        iterable $itemFilters
     ) {
-        $this->etsyModel = $etsyApiModel;
-        $this->ebayModels = $ebayModels;
-        $this->bonanzaModel = $bonanzaApiModel;
-        $this->groupBy = $groupingType;
-    }
-    /**
-     * @return EtsyApiModel
-     */
-    public function getEtsyModel(): EtsyApiModel
-    {
-        return $this->etsyModel;
-    }
-    /**
-     * @return EbayModels
-     */
-    public function getEbayModels(): EbayModels
-    {
-        return $this->ebayModels;
-    }
-    /**
-     * @return BonanzaApiModel
-     */
-    public function getBonanzaModel(): BonanzaApiModel
-    {
-        return $this->bonanzaModel;
+        $this->keywords = $keywords;
+        $this->itemFilters = RequestItemFilterFactory::create($itemFilters);
     }
     /**
      * @return string
      */
-    public function getGroupBy(): string
+    public function getKeywords(): string
     {
-        return $this->groupBy;
+        return $this->keywords;
+    }
+    /**
+     * @return iterable
+     */
+    public function getItemFilters(): iterable
+    {
+        return $this->itemFilters;
     }
 }

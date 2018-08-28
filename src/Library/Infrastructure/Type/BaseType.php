@@ -25,6 +25,24 @@ class BaseType implements TypeInterface, ArrayNotationInterface
         $this->allTypes = $types;
     }
     /**
+     * @return string
+     */
+    public static function getUnConstructedValue(): string
+    {
+        $keys = array_keys(static::$types);
+
+        if (count($keys) > 1) {
+            $message = sprintf(
+                'Method %s::getUnConstructedValue() can only be used with single value types',
+                BaseType::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return static::$types[$keys[0]];
+    }
+    /**
      * @param mixed $value
      * @return TypeInterface
      */
