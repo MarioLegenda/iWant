@@ -25,6 +25,7 @@ class BonanzaApiEntryPoint
     /**
      * @param BonanzaApiModelInterface $model
      * @return BonanzaApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function search(BonanzaApiModelInterface $model): BonanzaApiResponseModelInterface
     {

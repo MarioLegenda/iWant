@@ -2,14 +2,12 @@
 
 namespace App\Web\Library\Converter\Ebay\Observer;
 
-use App\Ebay\Library\Dynamic\DynamicConfiguration;
-use App\Ebay\Library\Dynamic\DynamicErrors;
-use App\Ebay\Library\Dynamic\DynamicMetadata;
-use App\Ebay\Library\ItemFilter\Condition;
-use App\Ebay\Library\ItemFilter\ItemFilter;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
 use App\Web\Library\Converter\Ebay\ItemFilterObservable;
 use App\Web\Library\Converter\Ebay\ItemFilterObserver;
 use App\Web\Model\Request\RequestItemFilter;
+use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class QualityObserver implements ItemFilterObserver
 {
@@ -37,16 +35,14 @@ class QualityObserver implements ItemFilterObserver
             }
         }
 
-        $conditionItemFilter = new Condition(
-            new DynamicMetadata(
-                ItemFilter::CONDITION,
-                $conditionValues
-            ),
-            new DynamicConfiguration(false, false),
-            new DynamicErrors()
-        );
+        $condition = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::CONDITION,
+            $conditionValues
+        ));
 
-        $itemFilters[] = $conditionItemFilter;
+        $itemFilters[] = $condition;
 
         return $itemFilters;
     }

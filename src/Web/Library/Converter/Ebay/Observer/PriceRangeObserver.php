@@ -2,15 +2,12 @@
 
 namespace App\Web\Library\Converter\Ebay\Observer;
 
-use App\Ebay\Library\Dynamic\DynamicConfiguration;
-use App\Ebay\Library\Dynamic\DynamicErrors;
-use App\Ebay\Library\Dynamic\DynamicMetadata;
-use App\Ebay\Library\ItemFilter\MaxPrice;
-use App\Ebay\Library\ItemFilter\MinPrice;
-use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Web\Library\Converter\Ebay\ItemFilterObservable;
 use App\Web\Library\Converter\Ebay\ItemFilterObserver;
 use App\Web\Model\Request\RequestItemFilter;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
+use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class PriceRangeObserver implements ItemFilterObserver
 {
@@ -31,25 +28,21 @@ class PriceRangeObserver implements ItemFilterObserver
             $data = $priceRangeWebItemFilter->getData();
 
             if (!is_null($data['minPrice'])) {
-                $itemFilters[] = new MinPrice(
-                    new DynamicMetadata(
-                        ItemFilter::MIN_PRICE,
-                        [$data['minPrice']]
-                    ),
-                    new DynamicConfiguration(),
-                    new DynamicErrors()
-                );
+                $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                    'name',
+                    'value',
+                    ItemFilterConstants::MIN_PRICE,
+                    [(float) $data['minPrice']]
+                ));
             }
 
             if (!is_null($data['maxPrice'])) {
-                $itemFilters[] = new MaxPrice(
-                    new DynamicMetadata(
-                        ItemFilter::MAX_PRICE,
-                        [$data['maxPrice']]
-                    ),
-                    new DynamicConfiguration(),
-                    new DynamicErrors()
-                );
+                $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                    'name',
+                    'value',
+                    ItemFilterConstants::MAX_PRICE,
+                    [(float) $data['maxPrice']]
+                ));
             }
 
             return $itemFilters;

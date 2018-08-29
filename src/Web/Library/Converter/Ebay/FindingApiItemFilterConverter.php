@@ -92,14 +92,14 @@ class FindingApiItemFilterConverter implements ItemFilterObservable
             );
         }
 
-        $createdItemFilters = TypedArray::create('string', DynamicInterface::class);
+        $createdItemFilters = TypedArray::create('integer', DynamicInterface::class);
         $createdItemFiltersGen = Util::createGenerator($this->createdItemFilters);
 
         foreach ($createdItemFiltersGen as $item) {
             /** @var BaseDynamic|DynamicInterface $itemFilter */
             $itemFilter = $item['item'];
 
-            $createdItemFilters[$itemFilter->getDynamicMetadata()->getName()] = $itemFilter;
+            $createdItemFilters[] = $itemFilter;
         }
 
         return $createdItemFilters;

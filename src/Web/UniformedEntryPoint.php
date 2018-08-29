@@ -4,26 +4,22 @@ namespace App\Web;
 
 use App\Bonanza\Presentation\BonanzaApiEntryPoint;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
-use App\Ebay\Library\Type\OperationType;
+use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
-use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Web\Factory\BonanzaResponseModelFactory;
 use App\Web\Factory\EtsyResponseModelFactory;
+use App\Web\Factory\FindingApi\FindingApiPresentationModelFactory;
 use App\Web\Factory\FindingApi\FindingApiResponseModelFactory;
-use App\Web\Library\Converter\Ebay\FindingApiItemFilterConverter;
-use App\Web\Library\Converter\Ebay\Observer\LowestPriceObserver;
-use App\Web\Library\Converter\Ebay\Observer\PriceRangeObserver;
-use App\Web\Library\Converter\Ebay\Observer\QualityObserver;
 use App\Web\Model\Request\UniformedRequestModel;
 
 class UniformedEntryPoint
 {
     /**
-     * @var FindingApiItemFilterConverter $findingApiItemFilterConverter
+     * @var FindingApiPresentationModelFactory $findingApiPresentationModelFactory
      */
-    private $findingApiItemFilterConverter;
+    private $findingApiPresentationModelFactory;
     /**
      * @var EtsyApiEntryPoint $etsyEntryPoint
      */
@@ -50,7 +46,7 @@ class UniformedEntryPoint
     private $bonanzaModelFactory;
     /**
      * UniformedRequestController constructor.
-     * @param FindingApiItemFilterConverter $findingApiItemFilterConverter
+     * @param FindingApiPresentationModelFactory $findingApiPresentationModelFactory
      * @param EtsyApiEntryPoint $etsyApiEntryPoint
      * @param FindingApiEntryPoint $findingApiEntryPoint
      * @param BonanzaApiEntryPoint $bonanzaApiEntryPoint
@@ -59,7 +55,7 @@ class UniformedEntryPoint
      * @param BonanzaResponseModelFactory $bonanzaModelFactory
      */
     public function __construct(
-        FindingApiItemFilterConverter $findingApiItemFilterConverter,
+        FindingApiPresentationModelFactory $findingApiPresentationModelFactory,
         EtsyApiEntryPoint $etsyApiEntryPoint,
         FindingApiEntryPoint $findingApiEntryPoint,
         BonanzaApiEntryPoint $bonanzaApiEntryPoint,
@@ -75,7 +71,7 @@ class UniformedEntryPoint
         $this->findingApiEntryPoint = $findingApiEntryPoint;
         $this->bonanzaEntryPoint = $bonanzaApiEntryPoint;
 
-        $this->findingApiItemFilterConverter = $findingApiItemFilterConverter;
+        $this->findingApiPresentationModelFactory = $findingApiPresentationModelFactory;
     }
     /**
      * @param UniformedRequestModel $model
@@ -83,24 +79,17 @@ class UniformedEntryPoint
      */
     public function getPresentationModels(UniformedRequestModel $model): TypedArray
     {
-        $findingApiModel = $this->createFindingApiRequestModel($model);
+        $findingApiModel = $this->findingApiPresentationModelFactory->createFromModel($model);
 
-
+        /** @var FindingApiResponseModelInterface $findingApiResponseModel */
+        $findingApiResponseModel = $this->findingApiEntryPoint->findItemsAdvanced($findingApiModel);
     }
-
+    /**
+     * @param UniformedRequestModel $model
+     * @return FindingApiRequestModelInterface
+     */
     private function createFindingApiRequestModel(UniformedRequestModel $model): FindingApiRequestModelInterface
     {
 
-        $itemFilters = $this->findingApiItemFilterConverter
-            ->initializeWithModel($model)
-            ->attach(new LowestPriceObserver())
-            ->attach(new QualityObserver())
-            ->attach(new PriceRangeObserver())
-            ->notify();
-
-        $model = new FindingApiModel(
-            OperationType::fromKey('findItemsAdvanced'),
-            $itemFilters
-        );
     }
 }

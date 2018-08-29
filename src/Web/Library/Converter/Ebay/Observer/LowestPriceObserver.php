@@ -2,14 +2,10 @@
 
 namespace App\Web\Library\Converter\Ebay\Observer;
 
-use App\Ebay\Library\Dynamic\DynamicConfiguration;
-use App\Ebay\Library\Dynamic\DynamicErrors;
-use App\Ebay\Library\Dynamic\DynamicInterface;
-use App\Ebay\Library\Dynamic\DynamicMetadata;
 use App\Ebay\Library\Information\SortOrderInformation;
-use App\Ebay\Library\ItemFilter\FreeShippingOnly;
-use App\Ebay\Library\ItemFilter\ItemFilter;
-use App\Ebay\Library\ItemFilter\SortOrder;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
+use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
+use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 use App\Web\Library\Converter\Ebay\ItemFilterObservable;
@@ -30,17 +26,19 @@ class LowestPriceObserver implements ItemFilterObserver
         $itemFilters = TypedArray::create('string', DynamicInterface::class);
 
         if (array_key_exists('LowestPrice', $webItemFilters)) {
-            $freeShippingOnly = new FreeShippingOnly(
-                new DynamicMetadata(ItemFilter::FREE_SHIPPING_ONLY, [true]),
-                new DynamicConfiguration(false, false),
-                new DynamicErrors()
-            );
+            $freeShippingOnly = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::FREE_SHIPPING_ONLY,
+                [true]
+            ));
 
-            $sortOrder = new SortOrder(
-                new DynamicMetadata(ItemFilter::SORT_ORDER, [SortOrderInformation::PRICE_PLUS_SHIPPING_LOWEST]),
-                new DynamicConfiguration(false, false),
-                new DynamicErrors()
-            );
+            $sortOrder = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::SORT_ORDER,
+                [SortOrderInformation::PRICE_PLUS_SHIPPING_LOWEST]
+            ));
 
             $itemFilters['SortOrder'] = $sortOrder;
             $itemFilters['LowestPrice'] = $freeShippingOnly;
