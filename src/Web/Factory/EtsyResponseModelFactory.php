@@ -11,7 +11,7 @@ use App\Web\Model\Response\DeferrableHttpDataObject;
 use App\Web\Model\Response\DeferrableHttpDataObjectInterface;
 use App\Web\Model\Response\UniformedResponseModel;
 
-class EtsyModelFactory implements ModelFactoryInterface
+class EtsyResponseModelFactory implements ModelFactoryInterface
 {
     /**
      * @param EtsyApiResponseModelInterface $model

@@ -13,9 +13,9 @@ use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Tests\Etsy\DataProvider\DataProvider as EtsyDataProvider;
 use App\Tests\Bonanza\DataProvider\DataProvider as BonanzaDataProvider;
 use App\Tests\Library\BasicSetup;
-use App\Web\Factory\BonanzaModelFactory;
-use App\Web\Factory\EtsyModelFactory;
-use App\Web\Factory\FindingApi\FindingApiModelFactory;
+use App\Web\Factory\BonanzaResponseModelFactory;
+use App\Web\Factory\EtsyResponseModelFactory;
+use App\Web\Factory\FindingApi\FindingApiResponseModelFactory;
 use App\Web\Model\Response\DeferrableHttpDataObject;
 use App\Web\Model\Response\ImageGallery;
 use App\Web\Model\Response\SellerInfo;
@@ -28,8 +28,8 @@ class PresentationModelTest extends BasicSetup
 {
     public function test_ebay_presentation_creation()
     {
-        /** @var FindingApiModelFactory $findingApiModelFactory */
-        $findingApiModelFactory = $this->locator->get(FindingApiModelFactory::class);
+        /** @var FindingApiResponseModelFactory $findingApiModelFactory */
+        $findingApiModelFactory = $this->locator->get(FindingApiResponseModelFactory::class);
         /** @var FindingApiDataProvider $ebayModelProvider */
         $ebayDataProvider = $this->locator->get('data_provider.finding_api');
         /** @var FindingApiEntryPoint $findingApiEntryPoint */
@@ -63,8 +63,8 @@ class PresentationModelTest extends BasicSetup
 
     public function test_etsy_presentation_creation()
     {
-        /** @var EtsyModelFactory $etsyModelFactory */
-        $etsyModelFactory = $this->locator->get(EtsyModelFactory::class);
+        /** @var EtsyResponseModelFactory $etsyModelFactory */
+        $etsyModelFactory = $this->locator->get(EtsyResponseModelFactory::class);
         /** @var EtsyDataProvider $etsyModelProvider */
         $etsyModelProvider = $this->locator->get('data_provider.etsy_api');
         /** @var EtsyApiEntryPoint $etsyEntryPoint */
@@ -141,8 +141,8 @@ class PresentationModelTest extends BasicSetup
 
     public function test_bonanza_presentation_creation()
     {
-        /** @var BonanzaModelFactory $modelFactory */
-        $modelFactory = $this->locator->get(BonanzaModelFactory::class);
+        /** @var BonanzaResponseModelFactory $modelFactory */
+        $modelFactory = $this->locator->get(BonanzaResponseModelFactory::class);
         /** @var BonanzaDataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.bonanza_api');
         /** @var BonanzaApiEntryPoint $entryPoint */

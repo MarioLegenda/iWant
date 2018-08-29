@@ -12,7 +12,7 @@ use App\Web\Model\Response\SellerInfo;
 use App\Web\Model\Response\ShippingInfo;
 use App\Web\Model\Response\UniformedResponseModel;
 
-class BonanzaModelFactory implements ModelFactoryInterface
+class BonanzaResponseModelFactory implements ModelFactoryInterface
 {
     /**
      * @param BonanzaApiResponseModelInterface $model

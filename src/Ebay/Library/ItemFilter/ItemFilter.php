@@ -47,7 +47,7 @@ class ItemFilter
     const SELLER = 'Seller';
     const SELLER_BUSINESS_TYPE = 'SellerBusinessType';
     const SOLD_ITEMS_ONLY = 'SoldItemsOnly';
-    const SORT_ORDER = 'SortOrderInformation';
+    const SORT_ORDER = 'SortOrder';
     const START_TIME_FROM = 'StartTimeFrom';
     const START_TIME_TO = 'StartTimeTo';
     const TOP_RATED_SELLER_ONLY = 'TopRatedSellerOnly';

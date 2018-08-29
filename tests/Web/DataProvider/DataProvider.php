@@ -2,77 +2,83 @@
 
 namespace App\Tests\Web\DataProvider;
 
-use App\Tests\Etsy\DataProvider\DataProvider as EtsyDataProvider;
-use App\Tests\Bonanza\DataProvider\DataProvider as BonanzaDataProvider;
-use App\Tests\Ebay\FindingApi\DataProvider\DataProvider as EbayDataProvider;
-use App\Web\Model\Request\EbayModels;
 use App\Web\Model\Request\UniformedRequestModel;
 
 class DataProvider
 {
     /**
-     * @var EtsyDataProvider $etsyDataProvider
-     */
-    private $etsyDataProvider;
-    /**
-     * @var EbayDataProvider $ebayDataProvider
-     */
-    private $ebayDataProvider;
-    /**
-     * @var BonanzaDataProvider $bonanzaDataProvider
-     */
-    private $bonanzaDataProvider;
-    /**
-     * DataProvider constructor.
-     * @param EtsyDataProvider $etsyDataProvider
-     * @param EbayDataProvider $ebayDataProvider
-     * @param BonanzaDataProvider $bonanzaDataProvider
-     */
-    public function __construct(
-        EtsyDataProvider $etsyDataProvider,
-        EbayDataProvider $ebayDataProvider,
-        BonanzaDataProvider $bonanzaDataProvider
-    ) {
-        $this->etsyDataProvider = $etsyDataProvider;
-        $this->ebayDataProvider = $ebayDataProvider;
-        $this->bonanzaDataProvider = $bonanzaDataProvider;
-    }
-    /**
-     * @return EtsyDataProvider
-     */
-    public function getEtsyDataProvider(): EtsyDataProvider
-    {
-        return $this->etsyDataProvider;
-    }
-    /**
-     * @return EbayDataProvider
-     */
-    public function getEbayDataProvider(): EbayDataProvider
-    {
-        return $this->ebayDataProvider;
-    }
-    /**
-     * @return BonanzaDataProvider
-     */
-    public function getBonanzaDataProvider(): BonanzaDataProvider
-    {
-        return $this->bonanzaDataProvider;
-    }
-    /**
-     * @param string $groupBy
+     * @param array $requestArray
      * @return UniformedRequestModel
      */
-    public function getUniformedRequestModel(string $groupBy): UniformedRequestModel
+    public function getUniformedRequestFullModel(array $requestArray = null): UniformedRequestModel
     {
-        $etsyModel = $this->etsyDataProvider->getEtsyApiModel();
-        $ebayModel = $this->ebayDataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
-        $bonanzaModel = $this->bonanzaDataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
+        if (!is_array($requestArray)) {
+            $requestArray = $this->getRequestArray();
+        }
 
         return new UniformedRequestModel(
-            $etsyModel,
-            new EbayModels($ebayModel),
-            $bonanzaModel,
-            $groupBy
+            $requestArray['keywords'],
+            $requestArray['itemFilters']
         );
+    }
+    /**
+     * @return iterable
+     */
+    public function getRequestArray(): iterable
+    {
+        return [
+            'keywords' => 'some keyword',
+            'itemFilters' => $this->createItemFilters(),
+        ];
+    }
+    /**
+     * @return array
+     */
+    private function createItemFilters(): array
+    {
+        $itemFilters = [];
+
+        $itemFilters[] = [
+            'filterType' => 'LowestPrice',
+            'data' => [],
+        ];
+
+        $itemFilters[] = [
+            'filterType' => 'HighestPrice',
+            'data' => [],
+        ];
+
+        $itemFilters[] = [
+            'filterType' => 'Used',
+            'data' => [],
+        ];
+
+        $itemFilters[] = [
+            'filterType' => 'HighQuality',
+            'data' => [],
+        ];
+
+        $itemFilters[] = [
+            'filterType' => 'Handmade',
+            'data' => [],
+        ];
+
+        $itemFilters[] = [
+            'filterType' => 'ShipsToCountry',
+            'data' => [
+                'name' => 'Country',
+                'alpha3Code' => 'Asc'
+            ],
+        ];
+
+        $itemFilters[] = [
+            'filterType' => 'PriceRange',
+            'data' => [
+                'minPrice' => 5,
+                'maxPrice' => 10,
+            ],
+        ];
+
+        return $itemFilters;
     }
 }

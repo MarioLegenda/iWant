@@ -6,7 +6,6 @@ use App\Ebay\Library\Dynamic\BaseDynamic;
 
 class Condition extends BaseDynamic
 {
-    protected $filter;
     /**
      * @return bool
      */

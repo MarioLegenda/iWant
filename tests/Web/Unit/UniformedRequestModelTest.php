@@ -5,22 +5,16 @@ namespace App\Tests\Web\Unit;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Tests\Library\BasicSetup;
 use App\Web\Model\Request\RequestItemFilter;
-use App\Web\Model\Request\UniformedRequestModel;
 use App\Web\Model\Type\TypeMap;
 
 class UniformedRequestModelTest extends BasicSetup
 {
     public function test_uniformed_request_model_creation()
     {
-        $requestArray = [
-            'keywords' => 'some keyword',
-            'itemFilters' => $this->createItemFilters(),
-        ];
+        $dataProvider = $this->locator->get('data_provider.uniformed_request');
 
-        $uniformedRequestModel = new UniformedRequestModel(
-            $requestArray['keywords'],
-            $requestArray['itemFilters']
-        );
+        $requestArray = $dataProvider->getRequestArray();
+        $uniformedRequestModel = $dataProvider->getUniformedRequestFullModel($requestArray);
 
         $keywords = $uniformedRequestModel->getKeywords();
         $itemFilters = $uniformedRequestModel->getItemFilters();
@@ -52,55 +46,5 @@ class UniformedRequestModelTest extends BasicSetup
 
             static::assertTrue($typeFound);
         }
-    }
-    /**
-     * @return array
-     */
-    private function createItemFilters(): array
-    {
-        $itemFilters = [];
-
-        $itemFilters[] = [
-            'filterType' => 'LowestPrice',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'HighestPrice',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'Used',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'HighQuality',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'Handmade',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'ShipsToCountry',
-            'data' => [
-                'name' => 'Country',
-                'alpha3Code' => 'Asc'
-            ],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'PriceRange',
-            'data' => [
-                'minPrice' => 5,
-                'maxPrice' => 10,
-            ],
-        ];
-
-        return $itemFilters;
     }
 }

@@ -4,7 +4,7 @@ namespace App\Tests\Web\Unit;
 
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Tests\Library\BasicSetup;
-use App\Web\Factory\FindingApi\FindingApiModelFactory;
+use App\Web\Factory\FindingApi\FindingApiResponseModelFactory;
 use App\Tests\Ebay\FindingApi\DataProvider\DataProvider as FindingApiDataProvider;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -18,8 +18,8 @@ class GroupingTest extends BasicSetup
 {
     public function test_lowest_price()
     {
-        /** @var FindingApiModelFactory $findingApiModelFactory */
-        $findingApiModelFactory = $this->locator->get(FindingApiModelFactory::class);
+        /** @var FindingApiResponseModelFactory $findingApiModelFactory */
+        $findingApiModelFactory = $this->locator->get(FindingApiResponseModelFactory::class);
         /** @var FindingApiDataProvider $ebayModelProvider */
         $ebayDataProvider = $this->locator->get('data_provider.finding_api');
         /** @var FindingApiEntryPoint $findingApiEntryPoint */
@@ -57,8 +57,8 @@ class GroupingTest extends BasicSetup
 
     public function test_highest_price()
     {
-        /** @var FindingApiModelFactory $findingApiModelFactory */
-        $findingApiModelFactory = $this->locator->get(FindingApiModelFactory::class);
+        /** @var FindingApiResponseModelFactory $findingApiModelFactory */
+        $findingApiModelFactory = $this->locator->get(FindingApiResponseModelFactory::class);
         /** @var FindingApiDataProvider $ebayModelProvider */
         $ebayDataProvider = $this->locator->get('data_provider.finding_api');
         /** @var FindingApiEntryPoint $findingApiEntryPoint */

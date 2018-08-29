@@ -15,7 +15,7 @@ use App\Web\Model\Response\SellerInfo;
 use App\Web\Model\Response\ShippingInfo;
 use App\Web\Model\Response\UniformedResponseModel;
 
-class FindingApiModelFactory implements ModelFactoryInterface
+class FindingApiResponseModelFactory implements ModelFactoryInterface
 {
     /**
      * @param FindingApiResponseModelInterface $model

@@ -13,14 +13,14 @@ class RequestItemFilterFactory
      */
     public static function create(iterable $itemFilters): iterable
     {
-        $createdRequestItemFilters = TypedArray::create('integer', RequestItemFilter::class);
+        $createdRequestItemFilters = TypedArray::create('string', RequestItemFilter::class);
         foreach ($itemFilters as $itemFilter) {
             $filterType = $itemFilter['filterType'];
             $data = $itemFilter['data'];
 
             $type = TypeMap::instance()->getTypeMapFor($filterType)::fromValue($filterType);
 
-            $createdRequestItemFilters[] = new RequestItemFilter($type, $data);
+            $createdRequestItemFilters[$filterType] = new RequestItemFilter($type, $data);
         }
 
         return $createdRequestItemFilters;
