@@ -11,11 +11,7 @@ interface CallTypeInterface
      */
     public function getOperationName(): string;
     /**
-     * @return string
-     */
-    public function getQueryName(): string;
-    /**
      * @return TypedArray
      */
-    public function getQueryValues(): TypedArray;
+    public function getQueries(): TypedArray;
 }

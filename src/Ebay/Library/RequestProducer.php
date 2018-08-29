@@ -31,6 +31,6 @@ class RequestProducer
             $processed.= $processor->process()->getProcessed().$processor->getDelimiter();
         }
 
-        return $processed;
+        return rtrim($processed, '&');
     }
 }

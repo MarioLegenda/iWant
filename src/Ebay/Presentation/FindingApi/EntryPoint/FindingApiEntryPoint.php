@@ -24,9 +24,15 @@ class FindingApiEntryPoint
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
         return $this->finder->findItemsByKeywords($model);
+    }
+
+    public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    {
+        return $this->finder->findItemsAdvanced($model);
     }
 }

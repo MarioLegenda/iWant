@@ -3,6 +3,7 @@
 namespace App\Ebay\Business;
 
 use App\Cache\Implementation\RequestCacheImplementation;
+use App\Ebay\Business\Request\FindItemsAdvanced;
 use App\Ebay\Business\Request\FindItemsByKeywords;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -54,6 +55,30 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsByKeywords->getRequest();
+
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $resource = $this->finderSource->getFindingApiListing($request);
+
+            $resource = $this->cacheImplementation->store($request, $resource);
+
+            return $this->createModelResponse($resource);
+        }
+
+        return $this->createModelResponse(
+            $this->cacheImplementation->getFromStoreByRequest($request)
+        );
+    }
+    /**
+     * @param FindingApiRequestModelInterface $model
+     * @return FindingApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    {
+        $findItemsAdvanced = new FindItemsAdvanced($model, $this->requestBase);
+
+        /** @var Request $request */
+        $request = $findItemsAdvanced->getRequest();
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
             $resource = $this->finderSource->getFindingApiListing($request);

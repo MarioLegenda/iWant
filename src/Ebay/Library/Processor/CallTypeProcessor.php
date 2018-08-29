@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Library\Processor;
 
+use App\Ebay\Presentation\FindingApi\Model\Query;
 use App\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -30,15 +31,19 @@ class CallTypeProcessor implements ProcessorInterface
      */
     public function process(): ProcessorInterface
     {
-        $queryName = $this->callType->getQueryName();
+        $queries = $this->callType->getQueries();
 
-        $normalizedQueryValues = $this->normalizeQueryValues($this->callType->getQueryValues());
+        $final = '';
+        /** @var Query $query */
+        foreach ($queries as $query) {
+            $final.=sprintf(
+                '%s=%s&',
+                $query->getName(),
+                urlencode($query->getValue())
+            );
+        }
 
-        $this->processed = sprintf(
-            '%s=%s',
-            $queryName,
-            $normalizedQueryValues
-        );
+        $this->processed = rtrim($final, '&');
 
         return $this;
     }

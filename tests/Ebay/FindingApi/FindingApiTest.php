@@ -29,9 +29,37 @@ class FindingApiTest extends BasicSetup
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.finding_api');
 
-        $model = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
+        $model = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
 
         $responseModel = $findingApiEntryPoint->findItemsByKeywords($model);
+
+        static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
+
+        $rootItem = $responseModel->getRoot();
+
+        static::assertInstanceOf(RootItem::class, $rootItem);
+
+        $this->assertRootItem($rootItem);
+        $this->assertAspectHistogramContainer($responseModel->getAspectHistogramContainer());
+        $this->assertConditionHistogramContainer($responseModel->getConditionHistogramContainer());
+        $this->assertPaginationOutput($responseModel->getPaginationOutput());
+        $this->assertCategoryHistogramContainer($responseModel->getCategoryHistogramContainer());
+        $this->assertSearchResultsContainer($responseModel->getSearchResults());
+    }
+
+    public function test_finding_api_find_items_advanced()
+    {
+        /** @var FindingApiEntryPoint $findingApiEntryPoint */
+        $findingApiEntryPoint = $this->locator->get(FindingApiEntryPoint::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.finding_api');
+
+        $model = $dataProvider->getFindItemsAdvanced(
+            'Lady gaga',
+            11233
+        );
+
+        $responseModel = $findingApiEntryPoint->findItemsAdvanced($model);
 
         static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
 

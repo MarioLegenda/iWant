@@ -4,6 +4,7 @@ namespace App\Ebay\Presentation\FindingApi\Model;
 
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Util\TypedRecursion;
 
 class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
 {
@@ -12,27 +13,18 @@ class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
      */
     private $operationName;
     /**
-     * @var string $queryName
+     * @var TypedArray|iterable|Query[]
      */
-    private $queryName;
-    /**
-     * @var TypedArray $queryValues
-     */
-    private $queryValues;
+    private $queries;
     /**
      * FindItemsByKeywords constructor.
-     * @param string $operationName
-     * @param string $queryName
-     * @param TypedArray $queryValues
+     * @param TypedArray|iterable|Query[] $queries
      */
     public function __construct(
-        string $operationName,
-        string $queryName,
-        TypedArray $queryValues
+        TypedArray $queries
     ) {
-        $this->operationName = $operationName;
-        $this->queryName = $queryName;
-        $this->queryValues = $queryValues;
+        $this->operationName = 'findItemsByKeywords';
+        $this->queries = $queries;
     }
     /**
      * @return string
@@ -42,18 +34,11 @@ class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
         return $this->operationName;
     }
     /**
-     * @return string
-     */
-    public function getQueryName(): string
-    {
-        return $this->queryName;
-    }
-    /**
      * @return TypedArray
      */
-    public function getQueryValues(): TypedArray
+    public function getQueries(): TypedArray
     {
-        return $this->queryValues;
+        return $this->queries;
     }
     /**
      * @return iterable
@@ -62,8 +47,7 @@ class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
     {
         return [
             'operationName' => $this->getOperationName(),
-            'queryName' => $this->getQueryName(),
-            'queryValues' => $this->getQueryValues(),
+            'queries' => $this->queries->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION)
         ];
     }
 }

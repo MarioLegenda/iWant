@@ -85,7 +85,7 @@ class CacheTest extends BasicSetup
         /** @var EbayFindingApiProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.finding_api');
         /** @var FindingApiModel $findingApiModel */
-        $findingApiModel = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
+        $findingApiModel = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
         /** @var EbayFinder $bonanzaFinder */
         $ebayFinder = $this->locator->get(EbayFinder::class);
 

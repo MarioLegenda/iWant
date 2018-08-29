@@ -37,9 +37,7 @@ class PresentationModelTest extends BasicSetup
 
         /** @var FindingApiResponseModelInterface $findingApiResponseModel */
         $findingApiResponseModel = $findingApiRequestModel = $findingApiEntryPoint->findItemsByKeywords(
-            $ebayDataProvider->getFindItemsByKeywordsData([
-                'boots', 'mountain',
-            ])
+            $ebayDataProvider->getFindItemsByKeywordsData('boots for mountain')
         );
 
         static::assertInstanceOf(FindingApiResponseModelInterface::class, $findingApiResponseModel);
