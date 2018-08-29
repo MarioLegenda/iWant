@@ -146,7 +146,7 @@ class PresentationModelTest extends BasicSetup
         /** @var BonanzaApiEntryPoint $entryPoint */
         $entryPoint = $this->locator->get(BonanzaApiEntryPoint::class);
         /** @var BonanzaApiModel $apiModel */
-        $apiModel = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
+        $apiModel = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
 
         /** @var BonanzaApiResponseModelInterface $responseModel */
         $responseModel = $entryPoint->search($apiModel);

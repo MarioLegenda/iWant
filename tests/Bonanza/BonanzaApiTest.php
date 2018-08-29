@@ -22,9 +22,7 @@ class BonanzaApiTest extends BasicSetup
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.bonanza_api');
 
-        $model = $dataProvider->getFindItemsByKeywordsData([
-            'boots, mountain',
-        ]);
+        $model = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
 
         $bonanzaApiModel = $bonanzaEntryPoint->search($model);
 

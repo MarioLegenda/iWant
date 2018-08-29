@@ -16,23 +16,23 @@ class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
      */
     private $queryName;
     /**
-     * @var TypedArray $queryValues
+     * @var string $queryValue
      */
-    private $queryValues;
+    private $queryValue;
     /**
      * FindItemsByKeywords constructor.
      * @param string $operationName
      * @param string $queryName
-     * @param TypedArray $queryValues
+     * @param string $queryValue
      */
     public function __construct(
         string $operationName,
         string $queryName,
-        TypedArray $queryValues
+        string $queryValue
     ) {
         $this->operationName = $operationName;
         $this->queryName = $queryName;
-        $this->queryValues = $queryValues;
+        $this->queryValue = $queryValue;
     }
     /**
      * @return string
@@ -49,11 +49,11 @@ class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
         return $this->queryName;
     }
     /**
-     * @return TypedArray
+     * @return string
      */
-    public function getQueryValues(): TypedArray
+    public function getQueryValue(): string
     {
-        return $this->queryValues;
+        return $this->queryValue;
     }
     /**
      * @return iterable
@@ -63,7 +63,7 @@ class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
         return [
             'operationName' => $this->getOperationName(),
             'queryName' => $this->getQueryName(),
-            'queryValues' => $this->getQueryValues(),
+            'queryValue' => $this->getQueryValue(),
         ];
     }
 }

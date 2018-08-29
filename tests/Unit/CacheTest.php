@@ -36,7 +36,7 @@ class CacheTest extends BasicSetup
         /** @var BonanzaDataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.bonanza_api');
         /** @var BonanzaApiModel $bonanzaApiModel */
-        $bonanzaApiModel = $dataProvider->getFindItemsByKeywordsData(['boots', 'mountain']);
+        $bonanzaApiModel = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
         /** @var BonanzaFinder $bonanzaFinder */
         $bonanzaFinder = $this->locator->get(BonanzaFinder::class);
 

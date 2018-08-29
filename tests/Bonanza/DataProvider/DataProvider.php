@@ -11,10 +11,8 @@ use App\Library\Infrastructure\Helper\TypedArray;
 
 class DataProvider
 {
-    public function getFindItemsByKeywordsData(array $keywords): BonanzaApiModel
+    public function getFindItemsByKeywordsData(string $keywords): BonanzaApiModel
     {
-        $keywords = TypedArray::create('integer', 'string', $keywords);
-
         $findItemsByKeywords = new FindItemsByKeywords(
             'findItemsByKeywords',
             'keywords',

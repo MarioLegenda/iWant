@@ -2,8 +2,6 @@
 
 namespace App\Bonanza\Presentation\Model;
 
-use App\Library\Infrastructure\Helper\TypedArray;
-
 interface CallTypeInterface
 {
     /**
@@ -15,7 +13,7 @@ interface CallTypeInterface
      */
     public function getQueryName(): string;
     /**
-     * @return TypedArray
+     * @return string
      */
-    public function getQueryValues(): TypedArray;
+    public function getQueryValue(): string;
 }
