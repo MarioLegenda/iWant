@@ -5,7 +5,7 @@ namespace App\Ebay\Library\ItemFilter;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Helper;
 
-class MaxPrice extends BaseDynamic
+class MaxPrice extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @param int $counter

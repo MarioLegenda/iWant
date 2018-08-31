@@ -63,22 +63,16 @@ class DataProvider
      */
     public function getFindItemsAdvanced(
         string $keywords,
-        int $categoryId
+        int $categoryId = null
     ): FindingApiRequestModelInterface {
         $keywordsQuery = new Query(
             'keywords',
             $keywords
         );
 
-        $categoryQuery = new Query(
-            'categoryId',
-            $categoryId
-        );
-
         $queries = TypedArray::create('integer', Query::class);
 
         $queries[] = $keywordsQuery;
-        $queries[] = $categoryQuery;
 
         $findItemsAdvanced = new FindItemsAdvanced($queries);
 

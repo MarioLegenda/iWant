@@ -28,8 +28,14 @@ class UniformedRequestController
      */
     public function search(UniformedRequestModel $model): Response
     {
-        $uniformedResponse = $this->uniformedEntryPoint->getPresentationModels($model);
+        $presentationModels = $this->uniformedEntryPoint->getPresentationModels($model);
 
-        return new JsonResponse();
+        $response = new JsonResponse($presentationModels);
+
+        $response->setCache([
+            'max_age' => 60 * 60,
+        ]);
+
+        return $response;
     }
 }

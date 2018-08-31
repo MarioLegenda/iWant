@@ -6,28 +6,28 @@ use App\Library\Information\InformationInterface;
 
 class GlobalIdInformation implements InformationInterface
 {
-    const EBAY_AT = 'ebay-at';
-    const EBAY_AU = 'ebay-au';
-    const EBAY_CH = 'ebay-ch';
-    const EBAY_DE = 'ebay-de';
-    const EBAY_ENCA = 'ebay-enca';
-    const EBAY_ES = 'ebay-es';
-    const EBAY_FR = 'ebay-fr';
-    const EBAY_FRBE = 'ebay-frbe';
-    const EBAY_FRCA = 'ebay-frca';
-    const EBAY_GB = 'ebay-gb';
-    const EBAY_HK = 'ebay-hk';
-    const EBAY_IE = 'ebay-ie';
-    const EBAY_IN = 'ebay-in';
-    const EBAY_IT = 'ebay-it';
-    const EBAY_MOTOR = 'ebay-motor';
-    const EBAY_MY = 'ebay-my';
-    const EBAY_NL = 'ebay-nl';
-    const EBAY_NLBE = 'ebay-nlbe';
-    const EBAY_PH = 'ebay-ph';
-    const EBAY_PL = 'ebay-pl';
-    const EBAY_SG = 'ebay-sg';
-    const EBAY_US = 'ebay-us';
+    const EBAY_AT = 'EBAY-AT';
+    const EBAY_AU = 'EBAY-AU';
+    const EBAY_CH = 'EBAY-CH';
+    const EBAY_DE = 'EBAY-DI';
+    const EBAY_ENCA = 'EBAY-ENCA';
+    const EBAY_ES = 'EBAY-ES';
+    const EBAY_FR = 'EBAYFR';
+    const EBAY_FRBE = 'EBAY-FRBE';
+    const EBAY_FRCA = 'EBAY-FRCA';
+    const EBAY_GB = 'EBAY-GB';
+    const EBAY_HK = 'EBAY-HK';
+    const EBAY_IE = 'EBAY-IE';
+    const EBAY_IN = 'EBAY-IN';
+    const EBAY_IT = 'EBAY-IT';
+    const EBAY_MOTOR = 'EBAY-MOTOR';
+    const EBAY_MY = 'EBAY-MY';
+    const EBAY_NL = 'EBAY-NL';
+    const EBAY_NLBE = 'EBAY-NLBE';
+    const EBAY_PH = 'EBAY-PH';
+    const EBAY_PL = 'EBAY-PL';
+    const EBAY_SG = 'EBAY-SG';
+    const EBAY_US = 'EBAY-US';
     /**
      * @var array $globalIds
      */

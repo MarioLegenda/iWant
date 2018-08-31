@@ -61,14 +61,20 @@ class Condition extends AbstractItem implements ArrayNotationInterface
             'conditionDisplayName' => $this->getConditionDisplayName(),
         );
     }
-
+    /**
+     * @param int $conditionId
+     * @return Condition
+     */
     private function setConditionId(int $conditionId) : Condition
     {
         $this->conditionId = $conditionId;
 
         return $this;
     }
-
+    /**
+     * @param string $conditionDisplayName
+     * @return Condition
+     */
     private function setConditionDisplayName(string $conditionDisplayName) : Condition
     {
         $this->conditionDisplayName = $conditionDisplayName;

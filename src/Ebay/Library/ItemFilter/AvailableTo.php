@@ -5,7 +5,7 @@ namespace App\Ebay\Library\ItemFilter;
 use App\Ebay\Library\Information\ISO3166CountryCodeInformation;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 
-class AvailableTo extends BaseDynamic
+class AvailableTo extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

@@ -7,3 +7,4 @@ export const SHIPS_TO = 'ShipsTo';
 export const BEST_QUALITY = 'BestQuality';
 export const USED = 'Used';
 export const HANDMADE = 'Handmade';
+export const ENTRIES_PER_PAGE = 'EntriesPerPage';

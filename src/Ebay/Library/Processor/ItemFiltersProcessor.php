@@ -30,13 +30,18 @@ class ItemFiltersProcessor implements ProcessorInterface
      */
     public function process() : ProcessorInterface
     {
+        if ($this->itemFilters->isEmpty()) {
+            $this->processed = '';
+
+            return $this;
+        }
+
         $finalProduct = '';
         $count = 0;
 
         $globalItemsFiltersValidator = new GlobalItemFiltersValidator();
 
         $globalItemsFiltersValidator->validate($this->itemFilters);
-
         /** @var ItemFilterInterface|DynamicInterface $itemFilter */
         foreach ($this->itemFilters as $itemFilter) {
             if ($itemFilter instanceof UrlifyInterface) {
@@ -45,7 +50,9 @@ class ItemFiltersProcessor implements ProcessorInterface
                 $finalProduct.=$itemFilter->urlify($count);
             }
 
-            $count++;
+            if ($itemFilter instanceof ItemFilterInterface) {
+                $count++;
+            }
         }
 
         $this->processed = $finalProduct;

@@ -32,6 +32,7 @@ class TypeMap
             PriceRange::getUnConstructedValue() => PriceRange::class,
             ShipsToCountry::getUnConstructedValue() => ShipsToCountry::class,
             Used::getUnConstructedValue() => Used::class,
+            EntriesPerPage::getUnConstructedValue() => EntriesPerPage::class,
         ];
     }
     /**

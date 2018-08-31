@@ -2,14 +2,11 @@
 
 namespace App\Ebay\Library\Response\FindingApi;
 
-use App\Ebay\Library\Response\FindingApi\ResponseItem\RootItem;
 
-interface FindingApiResponseModelInterface
+use App\Ebay\Library\Response\ResponseModelInterface;
+
+interface FindingApiResponseModelInterface extends ResponseModelInterface
 {
-    /**
-     * @return RootItem
-     */
-    public function getRoot() : RootItem;
     /**
      * @param null $default
      * @return mixed
@@ -40,12 +37,4 @@ interface FindingApiResponseModelInterface
      * @return mixed
      */
     public function getErrors($default = null);
-    /**
-     * @return bool
-     */
-    public function isErrorResponse() : bool;
-    /**
-     * @return string
-     */
-    public function getRawResponse() : string;
 }

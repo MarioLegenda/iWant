@@ -6,7 +6,7 @@ use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Information\CurrencyInformation;
 use App\Ebay\Library\Information\SortOnInformation;
 
-class Currency extends BaseDynamic
+class Currency extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

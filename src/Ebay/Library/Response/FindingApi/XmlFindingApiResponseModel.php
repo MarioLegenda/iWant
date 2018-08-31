@@ -6,12 +6,17 @@ use App\Ebay\Library\Response\FindingApi\ResponseItem\AspectHistogramContainer;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\CategoryHistogramContainer;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\ConditionHistogramContainer;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\ErrorContainer;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\FindingApiRootItemInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\PaginationOutput;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\RootItem;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
+use App\Ebay\Library\Response\RootItemInterface;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, ArrayNotationInterface, \JsonSerializable
+class XmlFindingApiResponseModel implements
+    FindingApiResponseModelInterface,
+    ArrayNotationInterface,
+    \JsonSerializable
 {
     /**
      * @var string $xmlString
@@ -42,9 +47,9 @@ class XmlFindingApiResponseModel implements FindingApiResponseModelInterface, Ar
         $this->xmlString = $xmlString;
     }
     /**
-     * @return RootItem
+     * @return RootItemInterface
      */
-    public function getRoot() : RootItem
+    public function getRoot() : RootItemInterface
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 

@@ -22,12 +22,13 @@ class DataProvider
         );
     }
     /**
+     * @param string $keywords
      * @return iterable
      */
-    public function getRequestArray(): iterable
+    public function getRequestArray(string $keywords = 'harry potter'): iterable
     {
         return [
-            'keywords' => 'some keyword',
+            'keywords' => $keywords,
             'itemFilters' => $this->createItemFilters(),
         ];
     }
@@ -41,42 +42,6 @@ class DataProvider
         $itemFilters[] = [
             'filterType' => 'LowestPrice',
             'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'HighestPrice',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'Used',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'HighQuality',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'Handmade',
-            'data' => [],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'ShipsToCountry',
-            'data' => [
-                'name' => 'Country',
-                'alpha3Code' => 'Asc'
-            ],
-        ];
-
-        $itemFilters[] = [
-            'filterType' => 'PriceRange',
-            'data' => [
-                'minPrice' => 5,
-                'maxPrice' => 10,
-            ],
         ];
 
         return $itemFilters;

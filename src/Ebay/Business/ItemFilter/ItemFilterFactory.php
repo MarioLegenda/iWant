@@ -4,6 +4,7 @@ namespace App\Ebay\Business\ItemFilter;
 
 use App\Ebay\Library\Dynamic\DynamicConfiguration;
 use App\Ebay\Library\Dynamic\DynamicErrors;
+use App\Ebay\Library\Dynamic\DynamicInterface;
 use App\Ebay\Library\Dynamic\DynamicMetadata;
 use App\Ebay\Library\ItemFilter\ItemFilterClassFactory;
 use App\Ebay\Library\ItemFilter\ItemFilterInterface;
@@ -35,9 +36,9 @@ class ItemFilterFactory
     }
     /**
      * @param array $metadata
-     * @return ItemFilterInterface
+     * @return DynamicInterface
      */
-    private function create(array $metadata): ItemFilterInterface
+    private function create(array $metadata): DynamicInterface
     {
         $class = ItemFilterClassFactory::create('App\Ebay\Library')
             ->getItemFilterClass($metadata['name']);

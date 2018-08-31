@@ -1,4 +1,4 @@
-import {LOWEST_PRICE} from "./constants";
+import {ENTRIES_PER_PAGE, LOWEST_PRICE} from "./constants";
 
 export class SearchData {
     constructor(keywords, filters) {
@@ -7,11 +7,21 @@ export class SearchData {
     }
 
     configureFilters(filters) {
-        if (filters.length === 0) {
-            return [LOWEST_PRICE];
-        }
-
         let filterTypes = [];
+
+        if (filters.length === 0) {
+            filterTypes.push({
+                filterType: LOWEST_PRICE,
+                data: []
+            });
+
+            filterTypes.push({
+                filterType: ENTRIES_PER_PAGE,
+                data: [12]
+            });
+
+            return filterTypes;
+        }
 
         for (const filter of filters) {
             filterTypes.push(filter.data);

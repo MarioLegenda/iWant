@@ -26,7 +26,6 @@ class BonanzaApiModel implements BonanzaApiModelInterface
         $this->callType = $callType;
         $this->itemFilters = $itemFilters;
     }
-
     /**
      * @return CallTypeInterface
      */

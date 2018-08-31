@@ -4,7 +4,7 @@ namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
 
-class GetItFastOnly extends BaseDynamic
+class GetItFastOnly extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

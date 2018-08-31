@@ -5,7 +5,7 @@ namespace App\Ebay\Library\ItemFilter;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Information\ListingTypeInformation;
 
-class ListingType extends BaseDynamic
+class ListingType extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

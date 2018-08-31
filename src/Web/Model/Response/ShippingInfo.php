@@ -2,10 +2,11 @@
 
 namespace App\Web\Model\Response;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Web\Model\Response\Type\DeferrableType;
 
-class ShippingInfo implements DeferrableHttpDataObjectInterface
+class ShippingInfo implements DeferrableHttpDataObjectInterface, ArrayNotationInterface
 {
     /**
      * @var iterable $locations
@@ -60,5 +61,15 @@ class ShippingInfo implements DeferrableHttpDataObjectInterface
     public function getShippingCost(): ?float
     {
         return $this->shippingCost;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'locations' => $this->getLocations(),
+            'shippingCost' => $this->getShippingCost(),
+        ];
     }
 }

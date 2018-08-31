@@ -2,9 +2,14 @@
 
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem;
 
+use App\Ebay\Library\Response\RootItemInterface;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class RootItem extends AbstractItem implements ResponseItemInterface, ArrayNotationInterface
+class RootItem extends AbstractItem implements
+    ResponseItemInterface,
+    ArrayNotationInterface,
+    RootItemInterface,
+    FindingApiRootItemInterface
 {
     /**
      * @var string $searchResultsCount

@@ -12,5 +12,6 @@ class OperationType extends BaseType
     protected static $types = [
         'FindItemsByKeywords' => 'findItemsByKeywords',
         'FindItemsAdvanced' => 'findItemsAdvanced',
+        'FindItemsInEbayStores' => 'findItemsIneBayStores',
     ];
 }

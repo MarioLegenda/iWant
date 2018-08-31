@@ -2,6 +2,7 @@
 
 namespace App\Web\Library\Converter\Ebay;
 
+use App\Bonanza\Presentation\Model\ItemFilter;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Dynamic\DynamicInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -9,6 +10,8 @@ use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 use App\Web\Model\Request\RequestItemFilter;
 use App\Web\Model\Request\UniformedRequestModel;
+use App\Web\Library\Converter\ItemFilterObserver;
+use App\Web\Library\Converter\ItemFilterObservable;
 
 class FindingApiItemFilterConverter implements ItemFilterObservable
 {
@@ -21,7 +24,7 @@ class FindingApiItemFilterConverter implements ItemFilterObservable
      */
     private $webItemFilters;
     /**
-     * @var DynamicInterface[]|iterable $createdItemFilters
+     * @var ItemFilter[]|iterable $createdItemFilters
      */
     private $createdItemFilters = [];
     /**
@@ -45,6 +48,8 @@ class FindingApiItemFilterConverter implements ItemFilterObservable
      */
     public function attach(ItemFilterObserver $observer): ItemFilterObservable
     {
+        $this->checkInitialization();
+
         $this->observers[] = $observer;
 
         return $this;
@@ -55,6 +60,8 @@ class FindingApiItemFilterConverter implements ItemFilterObservable
      */
     public function detach(ItemFilterObserver $observer)
     {
+        $this->checkInitialization();
+
         $observerGen = Util::createGenerator($this->observers);
 
         foreach ($observerGen as $item) {
@@ -74,15 +81,7 @@ class FindingApiItemFilterConverter implements ItemFilterObservable
      */
     public function notify(): TypedArray
     {
-        if (!$this->model instanceof UniformedRequestModel) {
-            $message = sprintf(
-                '%s is not initialized properly. You have to initialize it with the call %s::initializeWithModel()',
-                get_class($this),
-                get_class($this)
-            );
-
-            throw new \RuntimeException($message);
-        }
+        $this->checkInitialization();
 
         /** @var ItemFilterObserver $observer */
         foreach ($this->observers as $observer) {
@@ -103,5 +102,20 @@ class FindingApiItemFilterConverter implements ItemFilterObservable
         }
 
         return $createdItemFilters;
+    }
+    /**
+     * @throws \RuntimeException
+     */
+    private function checkInitialization()
+    {
+        if (!$this->model instanceof UniformedRequestModel) {
+            $message = sprintf(
+                '%s is not initialized properly. You have to initialize it with the call %s::initializeWithModel()',
+                get_class($this),
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
     }
 }

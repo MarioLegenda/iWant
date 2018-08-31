@@ -28,7 +28,13 @@ class RequestProducer
         $processed = '';
 
         foreach ($this->processors as $processor) {
-            $processed.= $processor->process()->getProcessed().$processor->getDelimiter();
+            $processor->process();
+
+            if (empty($processor->getProcessed())) {
+                continue;
+            }
+
+            $processed.= $processor->getProcessed().$processor->getDelimiter();
         }
 
         return rtrim($processed, '&');

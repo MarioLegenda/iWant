@@ -66,6 +66,8 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         TooManyRedirectsException |
         TransferException $e) {
 
+            dump((string) $e->getResponse()->getBody());
+            die();
             throw new HttpException($e);
         } catch (\Exception $e) {
             throw new HttpException($e);

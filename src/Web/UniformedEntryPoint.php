@@ -8,11 +8,13 @@ use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\TypedRecursion;
 use App\Web\Factory\BonanzaResponseModelFactory;
 use App\Web\Factory\EtsyResponseModelFactory;
 use App\Web\Factory\FindingApi\FindingApiPresentationModelFactory;
 use App\Web\Factory\FindingApi\FindingApiResponseModelFactory;
 use App\Web\Model\Request\UniformedRequestModel;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class UniformedEntryPoint
 {
@@ -75,21 +77,27 @@ class UniformedEntryPoint
     }
     /**
      * @param UniformedRequestModel $model
+     * @return array
+     */
+    public function getPresentationModels(UniformedRequestModel $model): array
+    {
+        $findingApiModels = $this->createFindingApiResponseModels($model);
+
+        return [
+            'ebay' => $findingApiModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION),
+        ];
+    }
+    /**
+     * @param UniformedRequestModel $model
      * @return TypedArray
      */
-    public function getPresentationModels(UniformedRequestModel $model): TypedArray
+    private function createFindingApiResponseModels(UniformedRequestModel $model): TypedArray
     {
         $findingApiModel = $this->findingApiPresentationModelFactory->createFromModel($model);
 
         /** @var FindingApiResponseModelInterface $findingApiResponseModel */
         $findingApiResponseModel = $this->findingApiEntryPoint->findItemsAdvanced($findingApiModel);
-    }
-    /**
-     * @param UniformedRequestModel $model
-     * @return FindingApiRequestModelInterface
-     */
-    private function createFindingApiRequestModel(UniformedRequestModel $model): FindingApiRequestModelInterface
-    {
 
+        return $this->findingApiModelFactory->createModels($findingApiResponseModel);
     }
 }

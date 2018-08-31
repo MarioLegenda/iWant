@@ -4,7 +4,7 @@ namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
 
-class WorldOfGoodOnly extends BaseDynamic
+class WorldOfGoodOnly extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

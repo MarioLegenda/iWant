@@ -4,6 +4,7 @@ namespace App\Ebay\Source;
 
 use App\Ebay\Source\Repository\FindingApiRepository;
 use App\Library\Http\Request;
+use App\Library\Response;
 
 class FinderSource
 {
@@ -22,9 +23,9 @@ class FinderSource
     }
     /**
      * @param Request $request
-     * @return string
+     * @return Response
      */
-    public function getFindingApiListing(Request $request): string
+    public function getApiResource(Request $request): Response
     {
         return $this->repository->getResource($request);
     }

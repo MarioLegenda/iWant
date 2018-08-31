@@ -53,4 +53,5 @@ class ItemFilter
     const TOP_RATED_SELLER_ONLY = 'TopRatedSellerOnly';
     const VALUE_BOX_INVENTORY = 'ValueBoxInventory';
     const WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
+    const ENTRIES_PER_PAGE = 'EntriesPerPage';
 }

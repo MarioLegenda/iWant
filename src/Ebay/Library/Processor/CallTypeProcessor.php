@@ -39,7 +39,7 @@ class CallTypeProcessor implements ProcessorInterface
             $final.=sprintf(
                 '%s=%s&',
                 $query->getName(),
-                urlencode($query->getValue())
+                $query->getValue()
             );
         }
 

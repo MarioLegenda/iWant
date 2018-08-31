@@ -6,7 +6,7 @@ use App\Ebay\Library\Dynamic\BaseDynamic;
 
 use App\Ebay\Library\Information\GlobalIdInformation;
 
-class ListedIn extends BaseDynamic
+class ListedIn extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

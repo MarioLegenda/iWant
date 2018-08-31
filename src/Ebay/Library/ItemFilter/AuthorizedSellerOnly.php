@@ -4,7 +4,7 @@ namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
 
-class AuthorizedSellerOnly extends BaseDynamic
+class AuthorizedSellerOnly extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

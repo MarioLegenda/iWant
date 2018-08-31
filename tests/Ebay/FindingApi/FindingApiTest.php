@@ -55,8 +55,7 @@ class FindingApiTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.finding_api');
 
         $model = $dataProvider->getFindItemsAdvanced(
-            'Lady gaga',
-            11233
+            'Lady gaga'
         );
 
         $responseModel = $findingApiEntryPoint->findItemsAdvanced($model);
@@ -160,7 +159,10 @@ class FindingApiTest extends BasicSetup
 
             static::assertInstanceOf(ShippingInfo::class, $item->getShippingInfo());
             static::assertInstanceOf(SellingStatus::class, $item->getSellingStatus());
-            static::assertInstanceOf(Condition::class, $item->getCondition());
+
+            if (!is_null($item->getCondition())) {
+                static::assertInstanceOf(Condition::class, $item->getCondition());
+            }
         }
     }
 }

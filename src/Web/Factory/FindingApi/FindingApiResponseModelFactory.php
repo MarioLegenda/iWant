@@ -27,8 +27,11 @@ class FindingApiResponseModelFactory implements ModelFactoryInterface
 
         $models = TypedArray::create('integer', UniformedResponseModel::class);
 
-        $items = Util::createGenerator($model->getSearchResults());
+        if (is_null($model->getSearchResults())) {
+            return $models;
+        }
 
+        $items = Util::createGenerator($model->getSearchResults());
         /** @var Item $item */
         foreach ($items as $item) {
             $entry = $item['item'];

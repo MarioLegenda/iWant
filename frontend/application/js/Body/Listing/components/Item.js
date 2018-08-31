@@ -11,21 +11,21 @@ export const Item = {
                     </div>
                     
                     <div class="title-wrapper wrap">
-                        <h1>Short title</h1>
+                        <h1>{{ item.title }}</h1>
                     </div>
                     
                     <div class="account-wrapper wrap">
-                        <h1><a href="">Account name</a></h1>
+                        <h1><a href="">Seller name</a></h1>
                     </div>
                     
                     <div class="price-wrapper wrap">
                         <h1>
-                            <span class="price-info">15.95 $</span>
+                            <span class="price-info">{{ item.price }} $</span>
                         </h1>
                     </div>
                     
                     <div class="view-item-button-wrapper wrap">
-                        <a href="">View item</a>
+                        <a v-bind:href="item.viewItemUrl">View item</a>
                     </div>
                </div>`,
     props: ['item']

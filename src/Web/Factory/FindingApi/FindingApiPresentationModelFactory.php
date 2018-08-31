@@ -8,6 +8,7 @@ use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Web\Library\Converter\Ebay\FindingApiItemFilterConverter;
+use App\Web\Library\Converter\Ebay\Observer\EntriesPerPageObserver;
 use App\Web\Library\Converter\Ebay\Observer\LowestPriceObserver;
 use App\Web\Library\Converter\Ebay\Observer\PriceRangeObserver;
 use App\Web\Library\Converter\Ebay\Observer\QualityObserver;
@@ -18,15 +19,15 @@ class FindingApiPresentationModelFactory
     /**
      * @var FindingApiItemFilterConverter $converter
      */
-    private $converter;
+    private $findingApiConverter;
     /**
      * FindingApiPresentationModelFactory constructor.
-     * @param FindingApiItemFilterConverter $converter
+     * @param FindingApiItemFilterConverter $findingApiConverter
      */
     public function __construct(
-        FindingApiItemFilterConverter $converter
+        FindingApiItemFilterConverter $findingApiConverter
     ) {
-        $this->converter = $converter;
+        $this->findingApiConverter = $findingApiConverter;
     }
     /**
      * @param UniformedRequestModel $model
@@ -34,11 +35,12 @@ class FindingApiPresentationModelFactory
      */
     public function createFromModel(UniformedRequestModel $model): FindingApiRequestModelInterface
     {
-        $itemFilters = $this->converter
+        $itemFilters = $this->findingApiConverter
             ->initializeWithModel($model)
             ->attach(new LowestPriceObserver())
             ->attach(new QualityObserver())
             ->attach(new PriceRangeObserver())
+            ->attach(new EntriesPerPageObserver())
             ->notify();
 
         $keywordsQuery = new Query('keywords', $model->getKeywords());

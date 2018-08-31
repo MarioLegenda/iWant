@@ -5,7 +5,7 @@ namespace App\Ebay\Library\ItemFilter;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Information\GlobalIdInformation;
 
-class SellerBusinessType extends BaseDynamic
+class SellerBusinessType extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

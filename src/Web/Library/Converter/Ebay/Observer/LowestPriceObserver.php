@@ -8,8 +8,8 @@ use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
-use App\Web\Library\Converter\Ebay\ItemFilterObservable;
-use App\Web\Library\Converter\Ebay\ItemFilterObserver;
+use App\Web\Library\Converter\ItemFilterObservable;
+use App\Web\Library\Converter\ItemFilterObserver;
 use App\Web\Model\Request\RequestItemFilter;
 
 class LowestPriceObserver implements ItemFilterObserver
@@ -23,7 +23,7 @@ class LowestPriceObserver implements ItemFilterObserver
         ItemFilterObservable $observable,
         array $webItemFilters
     ): array {
-        $itemFilters = TypedArray::create('string', DynamicInterface::class);
+        $itemFilters = TypedArray::create('string', ItemFilter::class);
 
         if (array_key_exists('LowestPrice', $webItemFilters)) {
             $freeShippingOnly = new ItemFilter(new ItemFilterMetadata(

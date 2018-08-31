@@ -5,7 +5,7 @@ namespace App\Ebay\Library\ItemFilter;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Library\Util\Util;
 
-class ModTimeFrom extends BaseDynamic
+class ModTimeFrom extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

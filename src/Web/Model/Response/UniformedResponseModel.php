@@ -2,11 +2,13 @@
 
 namespace App\Web\Model\Response;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 
 class UniformedResponseModel implements
-    PriceGroupingInterface
+    PriceGroupingInterface,
+    ArrayNotationInterface
 {
     /**
      * @var string $itemId
@@ -153,5 +155,27 @@ class UniformedResponseModel implements
     public function getPriceForGrouping(): float
     {
         return $this->getPrice();
+    }
+    /**
+     * @return TypeInterface
+     */
+    public function getShopType(): TypeInterface
+    {
+        return $this->shopType;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'itemId' => $this->getItemId(),
+            'shopType' => (string) $this->getShopType(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'price' => $this->getPrice(),
+            'shippingInfo' => $this->getShippingInfo()->toArray(),
+            'viewItemUrl' => $this->getViewItemUrl(),
+        ];
     }
 }

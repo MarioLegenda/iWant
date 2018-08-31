@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Web\Library\Converter\Ebay;
+namespace App\Web\Library\Converter;
 
 interface ItemFilterObserver
 {

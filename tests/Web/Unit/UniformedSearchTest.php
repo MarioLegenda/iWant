@@ -2,6 +2,7 @@
 
 namespace App\Tests\Web\Unit;
 
+use App\Library\Infrastructure\Helper\TypedArray;
 use App\Tests\Library\BasicSetup;
 use App\Tests\Web\DataProvider\DataProvider;
 use App\Web\UniformedEntryPoint;
@@ -17,6 +18,8 @@ class UniformedSearchTest extends BasicSetup
 
         $uniformedRequest = $dataProvider->getUniformedRequestFullModel();
 
-        $uniformedRequestEntryPoint->getPresentationModels($uniformedRequest);
+        $models = $uniformedRequestEntryPoint->getPresentationModels($uniformedRequest);
+
+        static::assertInstanceOf(TypedArray::class, $models);
     }
 }

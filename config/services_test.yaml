@@ -7,11 +7,25 @@ parameters:
             response_data_format: RESPONSE-DATA-FORMAT
             rest_payload: REST-PAYLOAD
             service_version: SERVICE-VERSION
+            global_id: GLOBAL-ID
         params:
             response_data_format: 'XML'
             service_version: '1.0.0'
             rest_payload: null
             security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
+    ebay_shopping_api_metadata:
+        base_url: http://open.api.ebay.com/shopping?
+        names:
+            app_id: appid
+            version: version
+            response_encoding: responseencoding
+            site_id: siteid
+            global_id: GLOBAL-ID
+        params:
+            app_id: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
+            version: "1063"
+            response_encoding: XML
+            site_id: "3"
     amazon_product_advertising_api_metadata:
         base_url: http://webservices.amazon
         private_key: '1234567890'
@@ -78,6 +92,10 @@ services:
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
+
+    App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor:
+        arguments:
+            $ebayShoppingApiMetadata: '%ebay_shopping_api_metadata%'
 
     App\Amazon\Library\Processor\RequestBaseProcessor:
         arguments:

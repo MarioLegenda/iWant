@@ -5,7 +5,7 @@ namespace App\Ebay\Library\ItemFilter;
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Information\OutputSelectorInformation;
 
-class OutputSelector extends BaseDynamic
+class OutputSelector extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

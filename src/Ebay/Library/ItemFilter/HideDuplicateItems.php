@@ -4,7 +4,7 @@ namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
 
-class HideDuplicateItems extends BaseDynamic
+class HideDuplicateItems extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool

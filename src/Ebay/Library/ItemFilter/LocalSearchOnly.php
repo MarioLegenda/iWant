@@ -4,7 +4,7 @@ namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
 
-class LocalSearchOnly extends BaseDynamic
+class LocalSearchOnly extends BaseDynamic implements ItemFilterInterface
 {
     /**
      * @return bool
