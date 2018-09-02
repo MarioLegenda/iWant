@@ -5,6 +5,7 @@ namespace App\Ebay\Presentation\FindingApi\Model;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\TypedRecursion;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 
 class FindItemsByKeywords implements CallTypeInterface, ArrayNotationInterface
 {

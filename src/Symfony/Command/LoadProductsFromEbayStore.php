@@ -5,14 +5,21 @@ namespace App\Symfony\Command;
 
 use App\Bonanza\Presentation\Model\ItemFilter;
 use App\Ebay\Business\Finder;
+use App\Ebay\Library\ItemFilter\SellerBusinessType;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\PaginationOutput;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
-use App\Ebay\Presentation\FindingApi\Model\Query;
+use App\Ebay\Presentation\Model\ItemFilterMetadata;
+use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\Util;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use App\Ebay\Presentation\Model\ItemFilter as PresentationItemFilter;
 
 class LoadProductsFromEbayStore extends BaseCommand
 {
@@ -48,15 +55,55 @@ class LoadProductsFromEbayStore extends BaseCommand
     {
         $this->makeEasier($input, $output);
 
-        $findingApiModel = $this->createFindingApiRequestModel();
+        $currentPage = 1;
+        $activeListings = 0;
+
+        for (;;) {
+            /** @var FindingApiResponseModelInterface $response */
+            $response = $this->getByPage($currentPage);
+
+            $searchResultsGen = Util::createGenerator($response->getSearchResults());
+
+            foreach ($searchResultsGen as $item) {
+                /** @var Item $entry */
+                $entry = $item['item'];
+
+                if ($entry->getSellingStatus()->getSellingState() === 'Active') {
+                    $activeListings++;
+                }
+            }
+
+            /** @var PaginationOutput $paginationOutput */
+            $paginationOutput = $response->getPaginationOutput();
+
+            if ($currentPage >= $paginationOutput->getTotalPages()) {
+                break;
+            }
+
+            ++$currentPage;
+
+            $this->output->writeln(sprintf('<info>Number of active items %d</info>', $activeListings));
+        }
+    }
+    /**
+     * @param int $pageNumber
+     * @return FindingApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    private function getByPage(int $pageNumber): FindingApiResponseModelInterface
+    {
+        $findingApiModel = $this->createFindingApiRequestModel($pageNumber);
 
         /** @var FindingApiResponseModelInterface $response */
         $response = $this->finder->findItemsInEbayStores($findingApiModel);
+
+        return $response;
     }
     /**
+     * @param int $pageNumber
      * @return FindingApiRequestModelInterface
      */
-    private function createFindingApiRequestModel(): FindingApiRequestModelInterface
+    private function createFindingApiRequestModel(int $pageNumber): FindingApiRequestModelInterface
     {
         $query = new Query(
             'storeName',
@@ -68,21 +115,32 @@ class LoadProductsFromEbayStore extends BaseCommand
             100
         );
 
-        $keywordsQuery = new Query(
-            'keywords',
-            'Gaga'
+        $pageNumber = new Query(
+            'paginationInput.pageNumber',
+            $pageNumber
         );
 
         $queries = TypedArray::create('integer', Query::class);
         $queries[] = $query;
         $queries[] = $paginationInputQuery;
-        $queries[] = $keywordsQuery;
+        $queries[] = $pageNumber;
 
         $findItemsInEbayStore = new FindItemsInEbayStores($queries);
 
+        $itemFilters = TypedArray::create('integer', PresentationItemFilter::class);
+
+        $featuredOnlyItemFilter = new PresentationItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            'HideDuplicateItems',
+            [true]
+        ));
+
+        $itemFilters[] = $featuredOnlyItemFilter;
+
         $findingApiModel = new FindingApiModel(
             $findItemsInEbayStore,
-            TypedArray::create('integer', ItemFilter::class)
+            $itemFilters
         );
 
         return $findingApiModel;

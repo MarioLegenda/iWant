@@ -2,7 +2,7 @@
 
 namespace App\Ebay\Library\Model;
 
-use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
 
 interface FindingApiRequestModelInterface

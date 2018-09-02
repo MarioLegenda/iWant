@@ -3,7 +3,6 @@
 namespace App\Ebay\Source;
 
 use App\Library\Http\GenericHttpCommunicatorInterface;
-use App\Library\Response;
 use GuzzleHttp\Client;
 use App\Library\Http\Request;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
@@ -66,8 +65,6 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         TooManyRedirectsException |
         TransferException $e) {
 
-            dump((string) $e->getResponse()->getBody());
-            die();
             throw new HttpException($e);
         } catch (\Exception $e) {
             throw new HttpException($e);

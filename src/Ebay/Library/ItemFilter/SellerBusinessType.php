@@ -4,6 +4,7 @@ namespace App\Ebay\Library\ItemFilter;
 
 use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Information\GlobalIdInformation;
+use App\Library\Util\Util;
 
 class SellerBusinessType extends BaseDynamic implements ItemFilterInterface
 {
@@ -15,7 +16,7 @@ class SellerBusinessType extends BaseDynamic implements ItemFilterInterface
         $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
         $dynamicName = $this->getDynamicMetadata()->getName();
 
-        if (!$this->genericValidation($dynamicValue, 1)) {
+        if (!$this->genericValidation($dynamicValue, 2)) {
             $message = sprintf(
                 '%s can only be an array with one array as its value',
                 SellerBusinessType::class
@@ -44,6 +45,8 @@ class SellerBusinessType extends BaseDynamic implements ItemFilterInterface
         ];
 
         $filter = $dynamicValue[0];
+
+        $this->checkIsAssociative($filter);
 
         if (!array_key_exists('siteId', $filter) or !array_key_exists('businessType', $filter)) {
             $message = sprintf(
@@ -93,6 +96,25 @@ class SellerBusinessType extends BaseDynamic implements ItemFilterInterface
         }
 
         return true;
+    }
+    /**
+     * @param array $filter
+     */
+    private function checkIsAssociative(array $filter)
+    {
+        $filterGen = Util::createGenerator($filter);
 
+        foreach ($filterGen as $item) {
+            $key = $item['key'];
+
+            if (!is_string($key)) {
+                $message = sprintf(
+                    '%s value has to be an associative array with string keys',
+                    get_class($this)
+                );
+
+                throw new \RuntimeException($message);
+            }
+        }
     }
 }

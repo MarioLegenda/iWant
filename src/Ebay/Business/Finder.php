@@ -60,7 +60,7 @@ class Finder
      * @return FindingApiResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function findItemsByKeywords(FindingApiRequestModelInterface $model): GetUserProfileResponseInterface
+    public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
         $findItemsByKeywords = new FindItemsByKeywords(
             $model,

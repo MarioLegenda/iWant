@@ -9,12 +9,9 @@ use App\Ebay\Library\Processor\ItemFiltersProcessor;
 use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\RequestProducer;
-use App\Ebay\Library\Type\OperationType;
-use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
 use App\Library\Http\Request;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
-use App\Library\Tools\LockedImmutableHashSet;
 use App\Library\Util\TypedRecursion;
 
 class GetUserProfile

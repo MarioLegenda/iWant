@@ -5,7 +5,7 @@ namespace App\Web\Factory\FindingApi;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
-use App\Ebay\Presentation\FindingApi\Model\Query;
+use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Web\Library\Converter\Ebay\FindingApiItemFilterConverter;
 use App\Web\Library\Converter\Ebay\Observer\EntriesPerPageObserver;

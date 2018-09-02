@@ -6,9 +6,9 @@ use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsByKeywords;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
-use App\Ebay\Presentation\FindingApi\Model\Query;
+use App\Ebay\Presentation\Model\ItemFilter;
+use App\Ebay\Presentation\Model\ItemFilterMetadata;
+use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 
 class DataProvider

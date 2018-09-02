@@ -4,14 +4,13 @@ namespace App\Ebay\Business\Request;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
 use App\Ebay\Library\Information\GlobalIdInformation;
-use App\Ebay\Library\ItemFilter\GlobalId;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\CallTypeProcessor;
 use App\Ebay\Library\Processor\ItemFiltersProcessor;
 use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\RequestProducer;
 use App\Ebay\Library\Type\OperationType;
-use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Library\Http\Request;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;

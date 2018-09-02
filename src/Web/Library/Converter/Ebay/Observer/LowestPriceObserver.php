@@ -3,8 +3,8 @@
 namespace App\Web\Library\Converter\Ebay\Observer;
 
 use App\Ebay\Library\Information\SortOrderInformation;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
+use App\Ebay\Presentation\Model\ItemFilter;
+use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;

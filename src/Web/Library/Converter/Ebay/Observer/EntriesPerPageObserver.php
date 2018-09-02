@@ -2,8 +2,8 @@
 
 namespace App\Web\Library\Converter\Ebay\Observer;
 
-use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
+use App\Ebay\Presentation\Model\ItemFilter;
+use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 use App\Web\Library\Converter\ItemFilterObserver;

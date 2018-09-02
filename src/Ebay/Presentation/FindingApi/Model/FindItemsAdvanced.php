@@ -4,6 +4,8 @@ namespace App\Ebay\Presentation\FindingApi\Model;
 
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
+use App\Ebay\Presentation\Model\CallTypeInterface;
+use App\Ebay\Presentation\Model\Query;
 
 class FindItemsAdvanced implements CallTypeInterface
 {

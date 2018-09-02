@@ -4,6 +4,7 @@ namespace App\Ebay\Presentation\FindingApi\Model;
 
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 
 class FindingApiModel implements FindingApiRequestModelInterface
 {

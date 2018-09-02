@@ -5,6 +5,7 @@ namespace App\Ebay\Presentation\FindingApi\EntryPoint;
 use App\Ebay\Business\Finder;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
+use App\Ebay\Library\Response\ResponseModelInterface;
 
 class FindingApiEntryPoint
 {
@@ -23,15 +24,19 @@ class FindingApiEntryPoint
     }
     /**
      * @param FindingApiRequestModelInterface $model
-     * @return FindingApiResponseModelInterface
+     * @return FindingApiResponseModelInterface|ResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    public function findItemsByKeywords(FindingApiRequestModelInterface $model): ResponseModelInterface
     {
         return $this->finder->findItemsByKeywords($model);
     }
-
-    public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    /**
+     * @param FindingApiRequestModelInterface $model
+     * @return ResponseModelInterface|FindingApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findItemsAdvanced(FindingApiRequestModelInterface $model): ResponseModelInterface
     {
         return $this->finder->findItemsAdvanced($model);
     }

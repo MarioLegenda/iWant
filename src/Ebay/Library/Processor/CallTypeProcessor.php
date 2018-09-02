@@ -2,9 +2,9 @@
 
 namespace App\Ebay\Library\Processor;
 
-use App\Ebay\Presentation\FindingApi\Model\Query;
+use App\Ebay\Presentation\Model\Query;
 use App\Library\Tools\LockedImmutableHashSet;
-use App\Ebay\Presentation\FindingApi\Model\CallTypeInterface;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
 

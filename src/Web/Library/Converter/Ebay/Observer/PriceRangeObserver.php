@@ -7,8 +7,8 @@ use App\Library\Util\TypedRecursion;
 use App\Web\Library\Converter\ItemFilterObservable;
 use App\Web\Library\Converter\ItemFilterObserver;
 use App\Web\Model\Request\RequestItemFilter;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilter;
-use App\Ebay\Presentation\FindingApi\Model\ItemFilterMetadata;
+use App\Ebay\Presentation\Model\ItemFilter;
+use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class PriceRangeObserver implements ItemFilterObserver

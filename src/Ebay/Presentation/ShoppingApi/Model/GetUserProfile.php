@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Ebay\Presentation\FindingApi\Model;
+namespace App\Ebay\Presentation\ShoppingApi\Model;
 
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\TypedRecursion;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 
 class GetUserProfile implements CallTypeInterface, ArrayNotationInterface
 {

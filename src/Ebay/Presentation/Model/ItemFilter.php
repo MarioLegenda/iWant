@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Ebay\Presentation\FindingApi\Model;
+namespace App\Ebay\Presentation\Model;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
