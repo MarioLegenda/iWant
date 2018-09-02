@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import {routes} from "./routes";
 import Vue from "vue";
 import {Header} from "./Header/Header";
+import {Menu} from "./Menu/Menu";
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -49,10 +50,11 @@ export class Init {
             router: router,
             template: `<div>
                    <Header></Header>
-                   <router-view></router-view>
+                   <Categories></Categories>
                </div>`,
             components: {
-                Header
+                Header,
+                Categories: Menu
             }
         });
     }

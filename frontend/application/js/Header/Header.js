@@ -7,22 +7,10 @@ export const Header = {
                            <span class="logo-part buying-part">buying</span>
                        </router-link>
                        
-                       <nav>
-                           <router-link to="/search" exact>SEARCH
-                                <i class="fas fa-search"></i>
-                                <span></span>
-                           </router-link>
-                           
-                           <a href="/for-investors">COMPARE
-                                <i class="fas fa-clone"></i>
-                                <span></span>
-                           </a>
-                           
-                           <a href="/tickets">TICKETS
-                                <i class="fas fa-ticket-alt"></i>
-                                <span></span>
-                           </a>
-                       </nav>
+                       <div class="search-box">
+                            <input type="text" />
+                            
+                       </div>
                    </header>
                </div>`
 };
