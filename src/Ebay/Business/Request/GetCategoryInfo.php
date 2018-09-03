@@ -3,11 +3,9 @@
 namespace App\Ebay\Business\Request;
 
 use App\Ebay\Business\ItemFilter\ItemFilterFactory;
-use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Processor\CallTypeProcessor;
 use App\Ebay\Library\Processor\ItemFiltersProcessor;
-use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\RequestProducer;
 use App\Library\Http\Request;
@@ -15,14 +13,14 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Util\TypedRecursion;
 
-class GetUserProfile
+class GetCategoryInfo
 {
     /**
      * @var ShoppingApiRequestModelInterface $model
      */
     private $model;
     /**
-     * @var RequestBaseProcessor $requestBaseProcessor
+     * @var ShoppingApiRequestBaseProcessor $requestBaseProcessor
      */
     private $requestBaseProcessor;
     /**

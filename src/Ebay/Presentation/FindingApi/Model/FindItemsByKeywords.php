@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Presentation\FindingApi\Model;
 
+use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\TypedRecursion;

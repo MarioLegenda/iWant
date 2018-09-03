@@ -2,14 +2,18 @@
 
 namespace App\Ebay\Presentation\ShoppingApi\Model;
 
+use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\TypedRecursion;
-use App\Ebay\Presentation\Model\CallTypeInterface;
 
-class GetUserProfile implements CallTypeInterface, ArrayNotationInterface
+class GetCategoryInfo implements CallTypeInterface, ArrayNotationInterface
 {
+    /**
+     * @var string $operationName
+     */
+    private $operationName;
     /**
      * @var TypedArray|iterable|Query[]
      */
@@ -21,6 +25,7 @@ class GetUserProfile implements CallTypeInterface, ArrayNotationInterface
     public function __construct(
         TypedArray $queries
     ) {
+        $this->operationName = 'GetCategoryInfoResponse';
         $this->queries = $queries;
     }
     /**
@@ -28,12 +33,7 @@ class GetUserProfile implements CallTypeInterface, ArrayNotationInterface
      */
     public function getOperationName(): string
     {
-        $message = sprintf(
-            '%s::getOperationName() is not supported because it is ok to use just queries with callname query name/value type',
-            get_class($this)
-        );
-
-        throw new \RuntimeException($message);
+        return $this->operationName;
     }
     /**
      * @return TypedArray

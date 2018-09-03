@@ -6,9 +6,13 @@ use App\Cache\Implementation\RequestCacheImplementation;
 use App\Ebay\Business\Request\FindItemsAdvanced;
 use App\Ebay\Business\Request\FindItemsByKeywords;
 use App\Ebay\Business\Request\FindItemsInEbayStores;
+use App\Ebay\Business\Request\GetCategoryInfo;
 use App\Ebay\Business\Request\GetUserProfile;
+use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\Response\ResponseModelInterface;
+use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
+use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponseInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponseInterface;
 use App\Library\Http\Request;
@@ -109,11 +113,11 @@ class Finder
         );
     }
     /**
-     * @param FindingApiRequestModelInterface $model
+     * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getUserProfile(FindingApiRequestModelInterface $model): ResponseModelInterface
+    public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
         $getUserProfile = new GetUserProfile($model, $this->shoppingApiRequestBaseProcessor);
 
@@ -156,6 +160,31 @@ class Finder
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
+
+    /**
+     * @param ShoppingApiRequestModelInterface $model
+     * @return ResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        $getUserProfile = new GetCategoryInfo($model, $this->shoppingApiRequestBaseProcessor);
+
+        /** @var Request $request */
+        $request = $getUserProfile->getRequest();
+
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $resource = $this->finderSource->getApiResource($request);
+
+            $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
+
+            return $this->createUserProfileResponse($stringResource);
+        }
+
+        return $this->createCategoryInfoResponse(
+            $this->cacheImplementation->getFromStoreByRequest($request)
+        );
+    }
     /**
      * @param string $resource
      * @return FindingApiResponseModelInterface
@@ -171,5 +200,13 @@ class Finder
     private function createUserProfileResponse(string $resource): GetUserProfileResponse
     {
         return new GetUserProfileResponse($resource);
+    }
+    /**
+     * @param string $resource
+     * @return ResponseModelInterface
+     */
+    private function createCategoryInfoResponse(string $resource): ResponseModelInterface
+    {
+        return new GetCategoryInfoResponse($resource);
     }
 }
