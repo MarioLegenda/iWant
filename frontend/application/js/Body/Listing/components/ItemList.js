@@ -11,6 +11,10 @@ export const ItemList = {
             <item></item>
             <item></item>
             <item></item>
+            <item></item>
+            <item></item>
+            <item></item>
+            <item></item>
         </div>
     `,
     components: {

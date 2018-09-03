@@ -288,6 +288,7 @@ html {
 .Item .Item_ItemImage img {
   display: block;
   width: 100%;
+  height: 120px;
 }
 .Item .Item_Details {
   width: 100%;

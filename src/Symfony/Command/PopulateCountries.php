@@ -7,6 +7,7 @@ use App\Doctrine\Repository\CountryRepository;
 use App\Library\Http\HttpCommunicator;
 use App\Library\Http\Request;
 use App\Library\Util\Util;
+use App\Symfony\Exception\HttpException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -58,27 +59,54 @@ class PopulateCountries extends BaseCommand
     {
         $this->makeEasier($input, $output);
 
+        $this->output->writeln(sprintf(
+            '<info>Starting %s command</info>',
+            $this->getName()
+        ));
+
         $request = $this->createRequest();
 
-        $response = $this->httpCommunicator->get($request);
+        $this->output->writeln(sprintf(
+            '<info>Sending GET request to endpoint %s</info>',
+            $this->endpoint
+        ));
 
-        $normalizedResponse = $this->normalizeResponse(
-            json_decode($response->getResponseString(), true)
-        );
+        try {
+            $response = $this->httpCommunicator->get($request);
 
-        $responseGen = Util::createGenerator($normalizedResponse);
+            $this->output->writeln(sprintf(
+                '<info>Request to endpoint %s has succeeded. Creating a response and persisting to database</info>',
+                $this->endpoint
+            ));
 
-        foreach ($responseGen as $entry) {
-            $item = $entry['item'];
-
-            $this->countryRepository->persistAndFlushIfNotExists(
-                $this->createCountryEntity(
-                    $item['name'],
-                    $item['alpha3Code'],
-                    $item['flag'],
-                    $item['currencyCode']
-                )
+            $normalizedResponse = $this->normalizeResponse(
+                json_decode($response->getResponseString(), true)
             );
+
+            $responseGen = Util::createGenerator($normalizedResponse);
+
+            foreach ($responseGen as $entry) {
+                $item = $entry['item'];
+
+                $this->countryRepository->persistAndFlushIfNotExists(
+                    $this->createCountryEntity(
+                        $item['name'],
+                        $item['alpha3Code'],
+                        $item['flag'],
+                        $item['currencyCode']
+                    )
+                );
+            }
+
+            $this->output->writeln(sprintf(
+                '<info>Command has succeeded without problems. Exiting</info>',
+                $this->endpoint
+            ));
+        } catch (HttpException $e) {
+            $this->output->writeln(sprintf(
+                '<error>Command failed with exception error %s</error>',
+                $e->getMessage()
+            ));
         }
     }
     /**
