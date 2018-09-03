@@ -199,3 +199,7 @@ services:
             $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
         tags:
             - { name: 'console.command' }
+
+    App\Symfony\Command\LoadEbayCategories:
+        tags:
+            - { name: 'console.command' }
