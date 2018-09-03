@@ -190,16 +190,16 @@ html {
   border-top: 2px solid #f78f27;
 }
 
-#start_page {
+#StartPage {
   width: 100%;
   float: left;
   position: relative;
 }
-#start_page .background-image img {
+#StartPage .StartPage-background-image img {
   width: 100%;
   float: left;
 }
-#start_page .mission-statement {
+#StartPage .StartPage_MissionStatement {
   width: 480px;
   position: absolute;
   color: white;
@@ -209,22 +209,33 @@ html {
   top: 10%;
   left: 30%;
 }
-#start_page .mission-statement h1 {
+#StartPage .StartPage_MissionStatement .MissionStatement-header {
   font-size: 2em;
   margin-bottom: 20px;
 }
-#start_page .mission-statement p {
+#StartPage .StartPage_MissionStatement .MissionStatement_Content {
   font-size: 1.5em;
   line-height: 1.3em;
 }
-#start_page .mission-statement span {
+#StartPage .StartPage_MissionStatement .MissionStatement_Content .Content-full-element-span {
+  width: 100%;
+  display: block;
+}
+#StartPage .StartPage_MissionStatement .MissionStatement_Link {
+  color: #f78f27;
   font-family: "Paytone One", sans-serif;
-  color: #f48e5f;
+}
+#StartPage .StartPage_MissionStatement .MissionStatement_Link:hover {
+  border-bottom: 4px solid #f78f27;
 }
 
 #typed_js_sentence {
   width: 100%;
   float: left;
+  height: 30px;
+  color: #f78f27;
+  font-family: "Paytone One", sans-serif;
+  text-align: center;
 }
 
 #todays_picks {

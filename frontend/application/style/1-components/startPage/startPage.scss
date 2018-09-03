@@ -1,17 +1,17 @@
-#start_page {
+#StartPage {
   width: 100%;
   float: left;
 
   position: relative;
 
-  .background-image {
+  .StartPage-background-image {
     img {
       width: 100%;
       float: left;
     }
   }
 
-  .mission-statement {
+  .StartPage_MissionStatement {
     width: 480px;
     position: absolute;
     color: white;
@@ -23,21 +23,30 @@
     top: 10%;
     left: 30%;
 
-    h1 {
+    .MissionStatement-header {
       font-size: 2em;
 
       margin-bottom: 20px;
     }
 
-    p {
+    .MissionStatement_Content {
       font-size: 1.5em;
 
       line-height: 1.3em;
+
+      .Content-full-element-span {
+        width: 100%;
+        display: block;
+      }
     }
 
-    span {
+    .MissionStatement_Link {
+      color: $basicOrange;
       font-family: $paytonOneFont;
-      color: $lightOrange;
+
+      &:hover {
+        border-bottom: 4px solid $basicOrange;
+      }
     }
   }
 }
@@ -45,4 +54,10 @@
 #typed_js_sentence {
   width: 100%;
   float: left;
+
+  height: 30px;
+  color: $basicOrange;
+  font-family: $paytonOneFont;
+
+  text-align: center;
 }
