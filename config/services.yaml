@@ -170,6 +170,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\NormalizedCategoryRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
@@ -182,10 +186,16 @@ services:
         arguments:
             $finder: '@App\Ebay\Business\Finder'
         tags:
-        - { name: 'console.command' }
+            - { name: 'console.command' }
 
     App\Symfony\Command\GetUserProfile:
         arguments:
             $finder: '@App\Ebay\Business\Finder'
         tags:
-        - { name: 'console.command' }
+            - { name: 'console.command' }
+
+    App\Symfony\Command\UpsertNormalizedCategory:
+        arguments:
+            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+        tags:
+            - { name: 'console.command' }

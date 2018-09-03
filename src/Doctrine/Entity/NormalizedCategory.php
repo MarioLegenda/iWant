@@ -48,6 +48,15 @@ class NormalizedCategory implements ArrayNotationInterface
      */
     private $updatedAt;
     /**
+     * NormalizedCategory constructor.
+     * @param string $name
+     */
+    public function __construct(
+        string $name
+    ) {
+        $this->name = $name;
+    }
+    /**
      * @return int
      */
     public function getId()

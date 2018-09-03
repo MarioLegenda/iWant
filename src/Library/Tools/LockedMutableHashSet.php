@@ -6,39 +6,46 @@ use App\Library\Infrastructure\CollectionInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 
-class LockedImmutableHashSet implements CollectionInterface
+class LockedMutableHashSet implements CollectionInterface
 {
+    /**
+     * @var array $keys
+     */
+    private $keys;
     /**
      * @var array $data
      */
     protected $data;
     /**
+     * @param array $keys
      * @param array $data
-     * @return LockedImmutableHashSet
+     * @return LockedMutableHashSet
      */
-    public static function create(array $data): LockedImmutableHashSet
+    public static function create(array $keys, array $data = []): LockedMutableHashSet
     {
-        return new LockedImmutableHashSet($data);
+        return new LockedMutableHashSet($keys, $data);
     }
     /**
      * LockedImmutableHashSet constructor.
+     * @param array $keys
      * @param array $data
+     *
+     * Accepts only array keys that are set later
      */
-    private function __construct(array $data)
+    private function __construct(array $keys, array $data = [])
     {
-        $this->validate($data);
+        $this->validate($keys, $data);
 
-        $lockedData = [];
+        $this->keys = $keys;
 
-        foreach ($data as $key => $item) {
-            if (is_array($item)) {
-                $lockedData[$key] = LockedImmutableHashSet::create($item);
-            } else {
-                $lockedData[$key] = $item;
-            }
+        $dataGen = Util::createGenerator($data);
+
+        foreach ($dataGen as $entry) {
+            $key = $entry['key'];
+            $item = $entry['item'];
+
+            $this[$key] = $item;
         }
-
-        $this->data = $lockedData;
     }
     /**
      * @inheritdoc
@@ -80,7 +87,17 @@ class LockedImmutableHashSet implements CollectionInterface
      */
     public function offsetSet($offset, $value)
     {
-        $this->throwUsageException();
+        if (!in_array($offset, $this->keys)) {
+            $message = sprintf(
+                'Invalid offset %s. Valid offsets are %s',
+                $offset,
+                implode(', ', $this->keys)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $this->data[$offset] = $value;
     }
     /**
      * @inheritdoc
@@ -130,21 +147,22 @@ class LockedImmutableHashSet implements CollectionInterface
         throw new \RuntimeException($message);
     }
     /**
+     * @param array $keys
      * @param array $data
      * @throws \RuntimeException
      */
-    protected function validate(array $data)
+    protected function validate(array $keys, array $data)
     {
-        if (empty($data)) {
+        if (empty($keys)) {
             $message = sprintf('Locked immutable hash set does not accept empty values');
 
             throw new \RuntimeException($message);
         }
 
-        $dataGen = Util::createGenerator($data);
+        $dataGen = Util::createGenerator($keys);
 
         foreach ($dataGen as $entry) {
-            $key = $entry['key'];
+            $key = $entry['item'];
 
             if (!is_string($key)) {
                 $message = sprintf(

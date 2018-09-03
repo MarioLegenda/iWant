@@ -117,7 +117,7 @@ services:
         arguments:
             $bonanzaApi: '%bonanza_api%'
 
-    # REPOSITORY
+    # HTTP REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
             $env: '%env(APP_ENV)%'

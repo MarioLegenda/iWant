@@ -10,7 +10,7 @@ class LockedImmutableGenericHashSet extends LockedImmutableHashSet
      * @param array $data
      * @return LockedImmutableHashSet
      */
-    public static function create(array $data)
+    public static function create(array $data): LockedImmutableHashSet
     {
         return new LockedImmutableGenericHashSet($data);
     }
