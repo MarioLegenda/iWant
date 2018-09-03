@@ -21,7 +21,21 @@
         {% block javascripts %}
             {% set cacheClear = 'random'~random(999999) %}
 
+            <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+
             <script src={{ asset("js/dist/build.js?v="~cacheClear) }}></script>
+
+            <script>
+                var options = {
+                    strings: ["Ebay", "Amazon", "Etsy", "Viagogo", "the best"],
+                    typeSpeed: 200,
+                    backSpeed: 100,
+                    startDelay: 1000,
+                    showCursor: false
+                };
+
+                new Typed("#typed_js_sentence", options);
+            </script>
         {% endblock %}
     </body>
 </html>

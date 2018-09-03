@@ -10,7 +10,7 @@ export const Homepage = {
                          <div class="mission-statement">
                              <h1>Our mission</h1>
                              <p>
-                                 To provide you with a unique shopping experience with products from the best online marketplace(s). <span>Read more</span> about it.
+                                 To provide you with a unique shopping experience with products from <span id="typed_js_sentence"></span> online marketplace(s). <span>Read more</span> about it.
                              </p>
                          </div>
                      </div>

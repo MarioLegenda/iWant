@@ -222,6 +222,11 @@ html {
   color: #f48e5f;
 }
 
+#typed_js_sentence {
+  width: 100%;
+  float: left;
+}
+
 #todays_picks {
   width: 100%;
   float: left;
