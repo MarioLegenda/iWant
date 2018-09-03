@@ -1,7 +1,7 @@
-import {StartPage} from "./Body/StartPage";
-import {Promise} from "./Body/UniformedSearch/components/Promise";
-import {UniformedSearch} from "./Body/UniformedSearch/components/UniformedSearch";
+import {Homepage} from "./Body/Homepage/Homepage";
+import {TodaysPicks} from "./Body/Homepage/TodaysPicks";
 
 export const routes = [
-    { path: '/', component: StartPage},
+    { path: '/', component: Homepage},
+    { path: '/', component: TodaysPicks}
 ];

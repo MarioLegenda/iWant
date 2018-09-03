@@ -11,6 +11,7 @@ $darkBlue: #2E53F3;
 $lightBlue: #b3bff2;
 
 $basicOrange: #f78f27;
+$lightOrange: #f48e5f;
 
 body {
   font-size: 16px;
@@ -35,14 +36,12 @@ html {
 }
 
 .container {
-  width: 960px;
-  max-width: 960px;
+  width: 1280px;
+  max-width: 1280px;
 
   margin: 0 auto;
 
   overflow: hidden;
-
-  border: 1px solid red;
 }
 
 .wrap {
@@ -56,4 +55,28 @@ html {
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+.margin-top-10 {
+  margin-top: 10px;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+.margin-top-30 {
+  margin-top: 30px;
+}
+
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.margin-bottom-20 {
+  margin-bottom: 20px;
+}
+
+.margin-bottom-30 {
+  margin-bottom: 30px;
 }

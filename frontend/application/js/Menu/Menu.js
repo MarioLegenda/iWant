@@ -14,7 +14,7 @@ export const Menu = {
                         </div>
                         
                         <div class="item">
-                            <a href="#">About</a>
+                            <a href="#">Our mission</a>
                         </div>
                    </nav>
                </div>`

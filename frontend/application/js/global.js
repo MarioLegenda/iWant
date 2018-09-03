@@ -20,7 +20,20 @@ export class Init {
             }
 
             return NaN;
-        }
+        };
+
+        (function() {
+            const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+            const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+            Date.prototype.getMonthName = function() {
+                return months[ this.getMonth() ];
+            };
+            Date.prototype.getDayName = function() {
+                return days[ this.getDay() ];
+            };
+        }) ();
     }
 
     static registerVuePlugins(Vue, plugins) {
@@ -51,6 +64,8 @@ export class Init {
             template: `<div>
                    <Header></Header>
                    <Categories></Categories>
+                   
+                   <router-view></router-view>
                </div>`,
             components: {
                 Header,

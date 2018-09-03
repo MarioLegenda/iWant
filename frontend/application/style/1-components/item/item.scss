@@ -1,0 +1,76 @@
+.ItemList {
+  width: 100%;
+  float: left;
+}
+
+.Item {
+  width: 250px;
+  float: left;
+
+  margin: 0 0 40px 40px;
+
+  .ItemTitle-webshop-logo {
+    width: 100%;
+    float: left;
+
+    img {
+      display: block;
+      float: right;
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .Item_ItemTitle {
+    width: 100%;
+    float: left;
+
+    .ItemTitle-header {
+      width: 100%;
+      float: left;
+
+      line-height: 1.2em;
+    }
+  }
+
+  .Item_ItemImage {
+    width: 100%;
+    float: left;
+
+    img {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  .Item_Details {
+    width: 100%;
+    float: left;
+
+    .Item_Details-shop-name {
+      display: block;
+      color: $darkBlue;
+      font-weight: bolder;
+    }
+
+    .Item_Details-item-price {
+      color: black;
+      font-weight: bolder;
+    }
+  }
+
+  .Item_ItemLink {
+    width: 100%;
+    float: left;
+
+    .ItemLink-closer-look {
+      display: block;
+      color: white;
+
+      background-color: $basicOrange;
+      text-align: center;
+
+      padding: 10px;
+    }
+  }
+}
