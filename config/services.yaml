@@ -184,7 +184,7 @@ services:
         tags:
         - { name: 'console.command' }
 
-    App\Symfony\Command\GetUserProfileCommand:
+    App\Symfony\Command\GetUserProfile:
         arguments:
             $finder: '@App\Ebay\Business\Finder'
         tags:

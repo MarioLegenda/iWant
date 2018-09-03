@@ -8,13 +8,13 @@ use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponseInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
-use App\Ebay\Presentation\ShoppingApi\Model\GetUserProfile;
 use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use App\Ebay\Presentation\ShoppingApi\Model\GetUserProfile as GetUserProfileModel;
 
-class GetUserProfileCommand extends BaseCommand
+class GetUserProfile extends BaseCommand
 {
     /**
      * @var Finder $finder
@@ -82,7 +82,7 @@ class GetUserProfileCommand extends BaseCommand
         $queries[] = $userIdQuery;
         $queries[] = $includeSelectorQuery;
 
-        $getUserProfile = new GetUserProfile($queries);
+        $getUserProfile = new GetUserProfileModel($queries);
 
         $findingApiModel = new FindingApiModel(
             $getUserProfile,
