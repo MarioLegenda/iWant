@@ -2,6 +2,9 @@
 
 namespace App\Symfony\Command\CategoryConnection;
 
+use App\Doctrine\Entity\EbayRootCategory;
+use App\Doctrine\Entity\NormalizedCategory;
+use App\Doctrine\Repository\EbayRootCategoryRepository;
 use App\Doctrine\Repository\NormalizedCategoryRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\ItemFilter\ItemFilter;
@@ -28,13 +31,19 @@ class ConnectEbayCategories extends BaseCommand
      * @var ShoppingApiEntryPoint $shoppingApiEntryPoint
      */
     private $shoppingApiEntryPoint;
+    /**
+     * @var EbayRootCategoryRepository $ebayRootCategoryRepository
+     */
+    private $ebayRootCategoryRepository;
 
     public function __construct(
         NormalizedCategoryRepository $normalizedCategoryRepository,
+        EbayRootCategoryRepository $ebayRootCategoryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint
     ) {
         $this->normalizedCategoryRepository = $normalizedCategoryRepository;
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
+        $this->ebayRootCategoryRepository = $ebayRootCategoryRepository;
 
         parent::__construct();
     }
@@ -45,29 +54,169 @@ class ConnectEbayCategories extends BaseCommand
     {
         $this->setName('app:connect_ebay_categories');
     }
-
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|null|void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->makeEasier($input, $output);
+
         $normalizedCategories = $this->normalizedCategoryRepository->findAll();
 
-        $model = $this->createShoppingApiModel();
+        if (empty($normalizedCategories)) {
+            $message = sprintf(
+                'Normalized categories are empty. Please, use \'app:upsert_normalized_category\' command and create all the necessary categories'
+            );
 
-        /** @var GetCategoryInfoResponseInterface $response */
-        $response = $this->shoppingApiEntryPoint->getCategoryInfo($model);
-
-        $categoriesGen = Util::createGenerator($response->getCategories()->toArray());
-
-        /** @var Category $category */
-        foreach ($categoriesGen as $entry) {
-            $item = $entry['item'];
-
-            
+            throw new \RuntimeException($message);
         }
+
+        $this->output->writeln(sprintf(
+                '<info>Starting command %s</info>',
+                $this->getName()
+        ));
+
+        $globalIds = [
+            GlobalIdInformation::EBAY_GB,
+            GlobalIdInformation::EBAY_DE,
+        ];
+
+        $this->output->writeln(sprintf(
+                '<info>Starting writing ebay categories for global ids %s</info>',
+                implode(', ', $globalIds)
+        ));
+
+        foreach ($globalIds as $globalId) {
+            $this->output->writeln('');
+
+            $model = $this->createShoppingApiModel($globalId);
+
+            /** @var GetCategoryInfoResponseInterface $response */
+            $response = $this->shoppingApiEntryPoint->getCategoryInfo($model);
+
+            $normalizedCategoryInfo = $this->getNormalizedCategoryInfo();
+
+            /** @var NormalizedCategory $normalizedCategory */
+            foreach ($normalizedCategories as $normalizedCategory) {
+                $normalizedCategoryName = $normalizedCategory->getName();
+
+                $ebayCategoryIds = $normalizedCategoryInfo[$normalizedCategoryName];
+
+                $foundEbayRootCategories = $this->findCategoriesInResponse(
+                    $response,
+                    $ebayCategoryIds
+                );
+
+
+                $this->upsertEbayRootCategory(
+                    $normalizedCategory,
+                    $foundEbayRootCategories,
+                    $globalId
+                );
+            }
+        }
+
+        $this->output->writeln('');
+        $this->output->writeln(sprintf(
+            '<info>Command finished successfully. Exiting</info>'
+        ));
     }
     /**
+     * @param NormalizedCategory $normalizedCategory
+     * @param iterable $ebayRootCategories
+     * @param string $globalId
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function upsertEbayRootCategory(
+        NormalizedCategory $normalizedCategory,
+        iterable $ebayRootCategories,
+        string $globalId
+    ) {
+        /** @var Category $ebayRootCategory */
+        foreach ($ebayRootCategories as $ebayRootCategory) {
+            $existingEbayRootCategory = $this->ebayRootCategoryRepository->findOneBy([
+                'globalId' => $globalId,
+                'normalizedCategory' => $normalizedCategory,
+                'categoryId' => $ebayRootCategory['categoryId']
+            ]);
+
+            if ($existingEbayRootCategory instanceof EbayRootCategory) {
+                $message = sprintf(
+                    'Ebay root category with normalized name %s and connected ebay root category with name %s already exist and are connected. There can be only one connection between a normalized category and a single ebay root category',
+                    $normalizedCategory->getName(),
+                    $ebayRootCategory['categoryName']
+                );
+
+                throw new \RuntimeException($message);
+            }
+
+            $ebayCategory = new EbayRootCategory(
+                $globalId,
+                $ebayRootCategory['categoryId'],
+                $ebayRootCategory['categoryIdPath'],
+                $ebayRootCategory['categoryLevel'],
+                $ebayRootCategory['categoryName'],
+                $ebayRootCategory['categoryNamePath'],
+                $ebayRootCategory['categoryParentId'],
+                $ebayRootCategory['leafCategory'],
+                $normalizedCategory
+            );
+
+            $this->output->writeln(sprintf(
+                '<info>Persisted category ebay root category %s in connection with normalized category %s for global id %s</info>',
+                $ebayCategory->getCategoryName(),
+                $normalizedCategory->getName(),
+                $globalId
+            ));
+
+            $this->ebayRootCategoryRepository->getManager()->persist($ebayCategory);
+        }
+
+        $this->ebayRootCategoryRepository->getManager()->flush();
+
+        $this->output->writeln(sprintf(
+            '<info>All categories for global id %s created successfully</info>',
+            $globalId
+        ));
+    }
+    /**
+     * @param GetCategoryInfoResponseInterface $response
+     * @param iterable $ebayCategoryIds
+     * @return iterable
+     */
+    private function findCategoriesInResponse(
+        GetCategoryInfoResponseInterface $response,
+        iterable $ebayCategoryIds
+    ) {
+        $foundCategories = TypedArray::create('integer', Category::class);
+        $ebayCategories = $response->getCategories();
+
+        array_filter($ebayCategoryIds, function($categoryId) use ($ebayCategories, $foundCategories) {
+            $categoriesGen = Util::createGenerator($ebayCategories);
+
+            foreach ($categoriesGen as $entry) {
+                /** @var Category $item */
+                $item = $entry['item'];
+
+                if ($item->getCategoryId() === $categoryId) {
+                    $foundCategories[] = $item;
+                }
+            }
+        });
+
+        return $foundCategories->toArray();
+    }
+    /**
+     * @param string $globalId
      * @return ShoppingApiRequestModelInterface
      */
-    private function createShoppingApiModel(): ShoppingApiRequestModelInterface
+    private function createShoppingApiModel(string $globalId): ShoppingApiRequestModelInterface
     {
         $callname = new Query(
             'callname',
@@ -81,7 +230,7 @@ class ConnectEbayCategories extends BaseCommand
 
         $globalId = new Query(
             'GLOBAL-ID',
-            GlobalIdInformation::EBAY_GB
+            $globalId
         );
 
         $includeSelector = new Query(
@@ -101,5 +250,47 @@ class ConnectEbayCategories extends BaseCommand
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
         return new ShoppingApiModel($callType, $itemFilters);
+    }
+    /**
+     * @return iterable
+     */
+    private function getNormalizedCategoryInfo(): iterable
+    {
+        return [
+            'Books, Music & Movies' => [
+                '267',
+                '11232',
+                '11233',
+            ],
+            'Autoparts & Mechanics' => [
+                '9800',
+                '131090',
+            ],
+            'Home & Garden' => [
+                '159912',
+                '11700',
+                '20081',
+            ],
+            'Computers, Mobile & Games' => [
+                '58058',
+                '11232',
+                '15032',
+            ],
+            'Sport' => [
+                '888',
+                '64482',
+                '1',
+            ],
+            'Antiques, Art & Collectibles' => [
+                '20081',
+                '1',
+                '550',
+                '260',
+            ],
+            'Crafts & Handmade' => [
+                '14339',
+                '281',
+            ],
+        ];
     }
 }

@@ -9,7 +9,7 @@ class GlobalIdInformation implements InformationInterface
     const EBAY_AT = 'EBAY-AT';
     const EBAY_AU = 'EBAY-AU';
     const EBAY_CH = 'EBAY-CH';
-    const EBAY_DE = 'EBAY-DI';
+    const EBAY_DE = 'EBAY-DE';
     const EBAY_ENCA = 'EBAY-ENCA';
     const EBAY_ES = 'EBAY-ES';
     const EBAY_FR = 'EBAYFR';

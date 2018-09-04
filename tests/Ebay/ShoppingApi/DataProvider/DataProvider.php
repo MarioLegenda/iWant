@@ -13,9 +13,10 @@ use App\Library\Infrastructure\Helper\TypedArray;
 class DataProvider
 {
     /**
+     * @param string $globalId
      * @return ShoppingApiRequestModelInterface
      */
-    public function createGetCategoryInfoModel(): ShoppingApiRequestModelInterface
+    public function createGetCategoryInfoModel(string $globalId = GlobalIdInformation::EBAY_GB): ShoppingApiRequestModelInterface
     {
         $callname = new Query(
             'callname',
@@ -29,7 +30,7 @@ class DataProvider
 
         $globalId = new Query(
             'GLOBAL-ID',
-            GlobalIdInformation::EBAY_GB
+            $globalId
         );
 
         $includeSelector = new Query(

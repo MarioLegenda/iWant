@@ -160,7 +160,6 @@ class Finder
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
-
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
@@ -178,7 +177,7 @@ class Finder
 
             $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
 
-            return $this->createUserProfileResponse($stringResource);
+            return $this->createCategoryInfoResponse($stringResource);
         }
 
         return $this->createCategoryInfoResponse(

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Ebay\ShoppingApi;
 
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\Categories;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\Category;
@@ -44,6 +45,50 @@ class ShoppingApiTest extends BasicSetup
 
         static::assertInternalType('array', $response->toArray());
         static::assertNotEmpty($response->toArray());
+    }
+
+    public function test_get_category_info_with_multiple_global_ids()
+    {
+        $globalIds = [
+            GlobalIdInformation::EBAY_DE,
+            GlobalIdInformation::EBAY_GB,
+        ];
+
+        foreach ($globalIds as $globalId) {
+            /** @var DataProvider $dataProvider */
+            $dataProvider = $this->locator->get('data_provider.shopping_api');
+            /** @var ShoppingApiEntryPoint $shoppingApiEntryPoint */
+            $shoppingApiEntryPoint = $this->locator->get(ShoppingApiEntryPoint::class);
+
+            /** @var GetCategoryInfoResponse $response */
+            $response = $shoppingApiEntryPoint->getCategoryInfo($dataProvider->createGetCategoryInfoModel($globalId));
+
+            /** @var GetCategoryInfoResponse $response */
+            $response = $shoppingApiEntryPoint->getCategoryInfo($dataProvider->createGetCategoryInfoModel());
+
+            static::assertInstanceOf(GetCategoryInfoResponse::class, $response);
+
+            /** @var CategoryRootItem $rootItem */
+            $rootItem = $response->getRoot();
+
+            static::assertInstanceOf(CategoryRootItem::class, $rootItem);
+
+            $this->assertRootItem($rootItem);
+
+            $categories = $response->getCategories();
+
+            static::assertInstanceOf(Categories::class, $categories);
+
+            /** @var Category $category */
+            foreach ($categories as $category) {
+                static::assertInstanceOf(Category::class, $category);
+
+                $this->assertCategory($category);
+            }
+
+            static::assertInternalType('array', $response->toArray());
+            static::assertNotEmpty($response->toArray());
+        }
     }
     /**
      * @param CategoryRootItem $rootItem
