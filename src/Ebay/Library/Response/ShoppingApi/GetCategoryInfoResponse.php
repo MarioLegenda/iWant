@@ -45,8 +45,10 @@ class GetCategoryInfoResponse implements
 
         return $this->getRoot()->getAck() === 'Failure';
     }
-
-    public function getCategories()
+    /**
+     * @return Categories
+     */
+    public function getCategories(): Categories
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -128,6 +130,7 @@ class GetCategoryInfoResponse implements
         $toArray = array();
 
         $toArray['response'] = array(
+            'categories' => $this->getCategories()->toArray(),
             'rootItem' => $this->getRoot()->toArray(),
             'errors' => ($this->getErrors() instanceof ErrorContainer) ?
                 $this->getErrors()->toArray() :

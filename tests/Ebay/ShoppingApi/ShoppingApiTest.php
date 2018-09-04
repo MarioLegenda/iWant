@@ -41,6 +41,9 @@ class ShoppingApiTest extends BasicSetup
 
             $this->assertCategory($category);
         }
+
+        static::assertInternalType('array', $response->toArray());
+        static::assertNotEmpty($response->toArray());
     }
     /**
      * @param CategoryRootItem $rootItem

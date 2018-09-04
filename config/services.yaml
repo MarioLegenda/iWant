@@ -203,3 +203,9 @@ services:
     App\Symfony\Command\LoadEbayCategories:
         tags:
             - { name: 'console.command' }
+
+    App\Symfony\Command\CategoryConnection\ConnectEbayCategories:
+        arguments:
+            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+        tags:
+            - { name: 'console.command' }

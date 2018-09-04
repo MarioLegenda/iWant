@@ -21,17 +21,22 @@ class Categories extends AbstractItemIterator
     {
         $toArray = array();
 
+        /** @var Category $item */
         foreach ($this->items as $item) {
             $toArray[] = $item->toArray();
         }
 
         return $toArray;
     }
-
+    /**
+     * @param \SimpleXMLElement $simpleXml
+     */
     private function loadCategoryHistograms(\SimpleXMLElement $simpleXml)
     {
-        foreach ($simpleXml->CategoryArray as $category) {
-            $this->addItem(new Category($category->Category));
+        foreach ($simpleXml->CategoryArray->Category as $category) {
+            if ((string) $category->CategoryName !== 'Root') {
+                $this->addItem(new Category($category));
+            }
         }
     }
 }

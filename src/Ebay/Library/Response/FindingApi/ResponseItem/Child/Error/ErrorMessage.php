@@ -3,7 +3,7 @@
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Error;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
-use App\Ebay\Library\Response\ResponseItem\AbstractItemIterator;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\AbstractItemIterator;
 
 class ErrorMessage extends AbstractItemIterator implements ArrayNotationInterface
 {

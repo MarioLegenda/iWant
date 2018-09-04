@@ -2,7 +2,9 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
-class Category extends AbstractItem
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class Category extends AbstractItem implements ArrayNotationInterface
 {
     /**
      * @var string $categoryId
@@ -54,7 +56,7 @@ class Category extends AbstractItem
      * @param null $default
      * @return string
      */
-    public function getCategoryIdPath($default = null): string
+    public function getCategoryIdPath($default = null): ?string
     {
         if ($this->categoryIdPath === null) {
             if (!empty($this->simpleXml->CategoryIDPath)) {
@@ -158,6 +160,22 @@ class Category extends AbstractItem
 
         return $this->leafCategory;
     }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'categoryId' => $this->getCategoryId(),
+            'categoryIdPath' => $this->getCategoryIdPath(),
+            'categoryLevel' => $this->getCategoryLevel(),
+            'categoryName' => $this->getCategoryName(),
+            'categoryNamePath' => $this->getCategoryNamePath(),
+            'categoryParentId' => $this->getCategoryParentId(),
+            'leafCategory' => $this->getLeafCategory(),
+        ];
+    }
+
     /**
      * @param bool $value
      */

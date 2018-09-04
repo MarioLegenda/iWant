@@ -48,4 +48,16 @@ class CategoryRootItem extends RootItem
     {
         $this->categoryVersion = $value;
     }
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $parent = parent::toArray();
+
+        return array_merge($parent, [
+            'categoryCount' => $this->getCategoryCount(),
+            'categoryVersion' => $this->getCategoryVersion(),
+        ]);
+    }
 }
