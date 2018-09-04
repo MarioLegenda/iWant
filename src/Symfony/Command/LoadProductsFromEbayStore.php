@@ -5,6 +5,8 @@ namespace App\Symfony\Command;
 
 use App\Bonanza\Presentation\Model\ItemFilter;
 use App\Ebay\Business\Finder;
+use App\Ebay\Library\Information\GlobalIdInformation;
+use App\Ebay\Library\ItemFilter\GlobalId;
 use App\Ebay\Library\ItemFilter\SellerBusinessType;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -62,6 +64,9 @@ class LoadProductsFromEbayStore extends BaseCommand
             /** @var FindingApiResponseModelInterface $response */
             $response = $this->getByPage($currentPage);
 
+            dump($response->getRawResponse());
+            die();
+
             $searchResultsGen = Util::createGenerator($response->getSearchResults());
 
             foreach ($searchResultsGen as $item) {
@@ -105,9 +110,14 @@ class LoadProductsFromEbayStore extends BaseCommand
      */
     private function createFindingApiRequestModel(int $pageNumber): FindingApiRequestModelInterface
     {
+        $globalId = new Query(
+            'GLOBAL-ID',
+                GlobalIdInformation::EBAY_US
+        );
+
         $query = new Query(
             'storeName',
-            'musicMagpie Shop'
+            'matthijs_philatelie'
         );
 
         $paginationInputQuery = new Query(
@@ -121,6 +131,8 @@ class LoadProductsFromEbayStore extends BaseCommand
         );
 
         $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $globalId;
         $queries[] = $query;
         $queries[] = $paginationInputQuery;
         $queries[] = $pageNumber;

@@ -5,10 +5,12 @@ namespace App\Symfony\Command;
 use App\Ebay\Business\Finder;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
+use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponseInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\Model\Query;
+use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -48,18 +50,15 @@ class GetUserProfile extends BaseCommand
     {
         $this->makeEasier($input, $output);
 
-        $findingApiModel = $this->createFindingApiRequestModel();
+        $shoppingApiModel = $this->createFindingApiRequestModel();
 
         /** @var GetUserProfileResponseInterface|ResponseModelInterface $response */
-        $response = $this->finder->getUserProfile($findingApiModel);
-
-        dump($response->getUser()->getStoreName());
-        die();
+        $response = $this->finder->getUserProfile($shoppingApiModel);
     }
     /**
      * @return FindingApiRequestModelInterface
      */
-    private function createFindingApiRequestModel(): FindingApiRequestModelInterface
+    private function createFindingApiRequestModel(): ShoppingApiRequestModelInterface
     {
         $callnameQuery = new Query(
             'callname',
@@ -68,7 +67,7 @@ class GetUserProfile extends BaseCommand
 
         $userIdQuery = new Query(
             'UserId',
-            'musicmagpie'
+            'kayfast1'
         );
 
         $includeSelectorQuery = new Query(
@@ -84,11 +83,11 @@ class GetUserProfile extends BaseCommand
 
         $getUserProfile = new GetUserProfileModel($queries);
 
-        $findingApiModel = new FindingApiModel(
+        $shoppingApiModel = new ShoppingApiModel(
             $getUserProfile,
             TypedArray::create('integer', ItemFilter::class)
         );
 
-        return $findingApiModel;
+        return $shoppingApiModel;
     }
 }

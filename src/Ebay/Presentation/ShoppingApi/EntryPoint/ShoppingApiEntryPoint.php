@@ -30,4 +30,9 @@ class ShoppingApiEntryPoint
     {
         return $this->finder->getCategoryInfo($model);
     }
+
+    public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        return $this->finder->getUserProfile($model);
+    }
 }

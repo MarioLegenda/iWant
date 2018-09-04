@@ -18,7 +18,6 @@ parameters:
         base_url: http://open.api.ebay.com/shopping?
         names:
             app_id: appid
-            global_id: GLOBAL-ID
             version: version
             response_encoding: responseencoding
             site_id: siteiD
@@ -88,6 +87,10 @@ services:
     App\Library\Tools\MemcachedWrapper:
 
     App\Library\Http\HttpCommunicator:
+
+    App\Library\Representation\ShopsRepresentation:
+        arguments:
+            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:
@@ -178,6 +181,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\ApplicationShopRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
@@ -211,5 +218,14 @@ services:
     App\Symfony\Command\CategoryConnection\ConnectEbayCategories:
         arguments:
             $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+        tags:
+            - { name: 'console.command' }
+
+    App\Symfony\Command\CreateNativeShops:
+        arguments:
+            $shoppingApiEntryPoint: '@App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint'
+            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
+            $shopsRepresentation: '@App\Library\Representation\ShopsRepresentation'
         tags:
             - { name: 'console.command' }

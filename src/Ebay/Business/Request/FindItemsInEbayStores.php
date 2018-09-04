@@ -58,7 +58,6 @@ class FindItemsInEbayStores
 
         $userParams = LockedImmutableHashSet::create([
             'operation_name' => (string) OperationType::fromValue($callType->getOperationName()),
-            'global_id' => GlobalIdInformation::EBAY_GB,
         ]);
 
         $this->requestBaseProcessor->setOptions($userParams);
