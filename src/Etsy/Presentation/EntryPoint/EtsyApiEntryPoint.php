@@ -24,9 +24,10 @@ class EtsyApiEntryPoint
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function search(EtsyApiModel $model): EtsyApiResponseModelInterface
+    public function findAllListingActive(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
-        return $this->finder->search($model);
+        return $this->finder->findAllListingActive($model);
     }
 }

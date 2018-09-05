@@ -11,7 +11,7 @@ use App\Tests\Library\BasicSetup;
 
 class EtsyApiTest extends BasicSetup
 {
-    public function test_basic_query()
+    public function test_find_all_listing_active()
     {
         $etsyApiEntryPoint = $this->locator->get(EtsyApiEntryPoint::class);
 
@@ -19,7 +19,7 @@ class EtsyApiTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.etsy_api');
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $etsyApiEntryPoint->search($dataProvider->getEtsyApiModel());
+        $responseModel = $etsyApiEntryPoint->findAllListingActive($dataProvider->getEtsyApiModel());
 
         static::assertNotEmpty($responseModel->getCount());
         static::assertNotEmpty($responseModel->getResults());
@@ -52,7 +52,7 @@ class EtsyApiTest extends BasicSetup
         }
     }
 
-    public function test_basic_query_with_iterating_limit()
+    public function test_find_all_listing_active_paginated()
     {
         $etsyApiEntryPoint = $this->locator->get(EtsyApiEntryPoint::class);
 
@@ -63,7 +63,7 @@ class EtsyApiTest extends BasicSetup
 
         foreach ($limits as $limit) {
             /** @var EtsyApiResponseModelInterface $responseModel */
-            $responseModel = $etsyApiEntryPoint->search($dataProvider->getEtsyApiModelWithLimit($limit));
+            $responseModel = $etsyApiEntryPoint->findAllListingActive($dataProvider->getEtsyApiModelWithLimit($limit));
 
             static::assertNotEmpty($responseModel->getCount());
             static::assertNotEmpty($responseModel->getResults());

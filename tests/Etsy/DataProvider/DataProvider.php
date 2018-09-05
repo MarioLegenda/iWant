@@ -3,10 +3,11 @@
 namespace App\Tests\Etsy\DataProvider;
 
 use App\Etsy\Library\ItemFilter\ItemFilterType;
-use App\Etsy\Library\MethodProcessor\Type\MethodType;
+use App\Etsy\Library\Type\MethodType;
 use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Etsy\Presentation\Model\ItemFilterMetadata;
 use App\Etsy\Presentation\Model\ItemFilterModel;
+use App\Etsy\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 
 class DataProvider
@@ -18,9 +19,16 @@ class DataProvider
     {
         $methodType = MethodType::fromKey('findAllListingActive');
 
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingsActiveQuery = new Query('/listings/active?');
+
+        $queries[] = $listingsActiveQuery;
+
         $model = new EtsyApiModel(
             $methodType,
-            $this->createItemFilters()
+            $this->createItemFilters(),
+            $queries
         );
 
         return $model;
@@ -34,11 +42,18 @@ class DataProvider
     {
         $methodType = MethodType::fromKey('findAllListingActive');
 
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingsActiveQuery = new Query('/listings/active?');
+
+        $queries[] = $listingsActiveQuery;
+
         $model = new EtsyApiModel(
             $methodType,
             $this->createItemFilters(
                 $limit
-            )
+            ),
+            $queries
         );
 
         return $model;

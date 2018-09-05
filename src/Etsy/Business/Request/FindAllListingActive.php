@@ -6,6 +6,7 @@ use App\Etsy\Library\Processor\ItemFiltersProcessor;
 use App\Etsy\Business\ItemFilter\ItemFilterFactory;
 use App\Etsy\Library\MethodProcessor\MethodProcessorFactory;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
+use App\Etsy\Library\Processor\QueryProcessor;
 use App\Etsy\Library\Processor\RequestBaseProcessor;
 use App\Etsy\Library\RequestProducer;
 use App\Etsy\Presentation\Model\EtsyApiModel;
@@ -59,13 +60,13 @@ class FindAllListingActive
      */
     private function createProcessors(EtsyApiModel $model): TypedArray
     {
-        $methodProcessor = $this->createMethodProcessor($model);
+        $queryProcessor = $this->createQueryProcessor($model);
         $itemFiltersProcessor = $this->createItemFiltersProcessor($model);
 
         $processors = TypedArray::create('integer', ProcessorInterface::class);
 
         $processors[] = $this->requestBaseProcessor;
-        $processors[] = $methodProcessor;
+        $processors[] = $queryProcessor;
         $processors[] = $itemFiltersProcessor;
         $processors[] = $this->apiKeyProcessor;
 
@@ -73,12 +74,11 @@ class FindAllListingActive
     }
     /**
      * @param EtsyApiModel $model
-     * @return ProcessorInterface
+     * @return QueryProcessor
      */
-    private function createMethodProcessor(EtsyApiModel $model): ProcessorInterface
+    private function createQueryProcessor(EtsyApiModel $model)
     {
-        return MethodProcessorFactory::create('App\Etsy\Library\MethodProcessor')
-            ->getItemFilterMethodProcessor($model->getMethodType()->getValue());
+        return new QueryProcessor($model->getQueries());
     }
     /**
      * @param EtsyApiModel $model

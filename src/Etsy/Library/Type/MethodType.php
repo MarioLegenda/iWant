@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Etsy\Library\MethodProcessor\Type;
+namespace App\Etsy\Library\Type;
 
 use App\Library\Infrastructure\Type\BaseType;
 

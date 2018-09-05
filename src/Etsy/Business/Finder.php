@@ -54,7 +54,7 @@ class Finder
      * @return EtsyApiResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function search(EtsyApiModel $model): EtsyApiResponseModelInterface
+    public function findAllListingActive(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         $findAllListingActive = new FindAllListingActive(
             $model,
@@ -76,11 +76,6 @@ class Finder
         return $this->createResponseModel(
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
-    }
-
-    public function getShippingInfoByListingId(EtsyApiModel $model)
-    {
-
     }
     /**
      * @param string $responseString
