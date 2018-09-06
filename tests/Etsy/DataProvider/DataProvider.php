@@ -33,6 +33,29 @@ class DataProvider
 
         return $model;
     }
+    /**
+     * @return EtsyApiModel
+     */
+    public function createFindAllShopListingsFeatured(): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('findAllShopListingsFeatured');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $shopsPart = new Query('/shops/');
+        $shopId = new Query('AnnKirillartPlace/listings/featured');
+
+        $queries[] = $shopsPart;
+        $queries[] = $shopId;
+
+        $model = new EtsyApiModel(
+            $methodType,
+            $this->createItemFilters(),
+            $queries
+        );
+
+        return $model;
+    }
 
     /**
      * @param int $limit

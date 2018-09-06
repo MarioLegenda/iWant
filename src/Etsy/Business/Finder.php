@@ -4,12 +4,14 @@ namespace App\Etsy\Business;
 
 use App\Cache\Implementation\RequestCacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
+use App\Etsy\Business\Request\FindAllShopListingsFeatured;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
+use App\Etsy\Library\Response\FindAllShopListingsFeaturedResponseModel;
 use App\Library\Http\Request;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
 use App\Etsy\Library\Processor\RequestBaseProcessor;
-use App\Etsy\Library\Response\EtsyApiResponseModel;
+use App\Etsy\Library\Response\FindAllListingActiveResponseModel;
 use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Etsy\Source\FinderSource;
 
@@ -70,21 +72,55 @@ class Finder
 
             $resource = $this->cacheImplementation->store($request, $resource);
 
-            return $this->createResponseModel($resource);
+            return $this->createFindAllListingActiveResponseModel($resource);
         }
 
-        return $this->createResponseModel(
+        return $this->createFindAllListingActiveResponseModel(
+            $this->cacheImplementation->getFromStoreByRequest($request)
+        );
+    }
+
+    public function findAllShopListingsFeatured(EtsyApiModel $model)
+    {
+        $findAllListingActive = new FindAllShopListingsFeatured(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $findAllListingActive->getRequest();
+
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $resource = $this->finderSource->getResource($request);
+
+            $resource = $this->cacheImplementation->store($request, $resource);
+
+            return $this->createFindAllShopListingsFeaturedResponseModel($resource);
+        }
+
+        return $this->createFindAllShopListingsFeaturedResponseModel(
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
     /**
      * @param string $responseString
-     * @return EtsyApiResponseModel
+     * @return FindAllListingActiveResponseModel
      */
-    private function createResponseModel(string $responseString)
+    private function createFindAllListingActiveResponseModel(string $responseString): EtsyApiResponseModelInterface
     {
         $responseData = json_decode($responseString, true);
 
-        return new EtsyApiResponseModel(LockedImmutableGenericHashSet::create($responseData));
+        return new FindAllListingActiveResponseModel(LockedImmutableGenericHashSet::create($responseData));
+    }
+    /**
+     * @param string $responseString
+     * @return EtsyApiResponseModelInterface
+     */
+    private function createFindAllShopListingsFeaturedResponseModel(string $responseString): EtsyApiResponseModelInterface
+    {
+        $responseData = json_decode($responseString, true);
+
+        return new FindAllShopListingsFeaturedResponseModel(LockedImmutableGenericHashSet::create($responseData));
     }
 }

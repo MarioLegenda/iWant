@@ -3,22 +3,21 @@
 namespace App\Etsy\Library\Response;
 
 use App\Etsy\Library\Response\ResponseItem\Results;
-use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Library\Tools\UnlockedImmutableHashSet;
 
-class EtsyApiResponseModel implements EtsyApiResponseModelInterface, ArrayNotationInterface
+class FindAllShopListingsFeaturedResponseModel implements EtsyApiResponseModelInterface
 {
     /**
-     * @var LockedImmutableGenericHashSet $responseData
+     * @var iterable $responseData
      */
     private $responseData;
     /**
-     * @var UnlockedImmutableHashSet $responseData
+     * @var UnlockedImmutableHashSet $responseObjects
      */
     private $responseObjects;
     /**
-     * EtsyApiResponseModel constructor.
+     * FindAllShopListingsFeaturedResponseModel constructor.
      * @param iterable|LockedImmutableGenericHashSet $response
      */
     public function __construct(iterable $response)

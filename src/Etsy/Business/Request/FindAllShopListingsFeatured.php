@@ -13,7 +13,7 @@ use App\Library\Http\Request;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
 
-class FindAllListingActive
+class FindAllShopListingsFeatured
 {
     /**
      * @var EtsyApiModel $model

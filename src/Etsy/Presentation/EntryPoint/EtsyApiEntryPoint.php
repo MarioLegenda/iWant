@@ -30,4 +30,12 @@ class EtsyApiEntryPoint
     {
         return $this->finder->findAllListingActive($model);
     }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     */
+    public function findAllShopListingsFeatured(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        return $this->finder->findAllShopListingsFeatured($model);
+    }
 }

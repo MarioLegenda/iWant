@@ -138,7 +138,7 @@ class CacheTest extends BasicSetup
         /** @var EtsyFinder $etsyFinder */
         $etsyFinder = $this->locator->get(EtsyFinder::class);
 
-        $etsyFinder->search($etsyApiModel);
+        $etsyFinder->findAllListingActive($etsyApiModel);
 
         $allCaches = $requestCacheRepository->findAll();
 
@@ -158,7 +158,7 @@ class CacheTest extends BasicSetup
 
         sleep(2);
 
-        $etsyFinder->search($etsyApiModel);
+        $etsyFinder->findAllListingActive($etsyApiModel);
 
         $allCaches = $requestCacheRepository->findAll();
 

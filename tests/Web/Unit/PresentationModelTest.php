@@ -71,7 +71,7 @@ class PresentationModelTest extends BasicSetup
         $etsyApiModel = $etsyModelProvider->getEtsyApiModel();
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $etsyEntryPoint->search($etsyApiModel);
+        $responseModel = $etsyEntryPoint->findAllListingActive($etsyApiModel);
 
         static::assertInstanceOf(EtsyApiResponseModelInterface::class, $responseModel);
 
