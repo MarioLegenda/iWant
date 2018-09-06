@@ -229,3 +229,9 @@ services:
             $shopsRepresentation: '@App\Library\Representation\ShopsRepresentation'
         tags:
             - { name: 'console.command' }
+
+    App\Symfony\Command\InvalidateRequestCache:
+        arguments:
+            $requestCacheRepository: '@App\Doctrine\Repository\RequestCacheRepository'
+        tags:
+        - { name: 'console.command' }
