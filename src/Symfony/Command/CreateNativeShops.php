@@ -70,6 +70,12 @@ class CreateNativeShops extends BaseCommand
     {
         $this->makeEasier($input, $output);
 
+        $this->output->writeln(sprintf(
+            '<info>Starting command %s</info>',
+            $this->getName()
+        ));
+        $this->output->writeln('');
+
         $sellersGen = Util::createGenerator($this->shopsRepresentation->getRepresentation());
 
         foreach ($sellersGen as $entry) {
@@ -83,18 +89,35 @@ class CreateNativeShops extends BaseCommand
             );
 
             if ($exists) {
+                $this->output->writeln(sprintf(
+                    '<comment>Store \'%s\' of marketplace %s already exists. Continuing</comment>',
+                    $data['storeName'],
+                    (string) $data['data']['marketplace']
+                ));
+
                 continue;
             }
 
             $applicationShop = $this->createApplicationShop(
-                $item,
+                $data['data'],
                 $data['storeName']
             );
 
             $this->applicationShopRepository->getManager()->persist($applicationShop);
+
+            $this->output->writeln(sprintf(
+                '<info>Persisted store \'%s\' from the %s marketplace</info>',
+                $data['storeName'],
+                (string) $data['data']['marketplace']
+            ));
         }
 
         $this->applicationShopRepository->getManager()->flush();
+
+        $this->output->writeln('');
+        $this->output->writeln(sprintf(
+            '<info>Application shops created successfully. Existing</info>'
+        ));
     }
     /**
      * @param iterable $item
