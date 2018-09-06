@@ -2,14 +2,18 @@
 
 namespace App\Doctrine\Entity;
 
+use App\Library\MarketplaceType;
 use App\Library\Util\Util;
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\ManyToOne;
 
 /**
  * @Entity @Table(
@@ -30,6 +34,17 @@ class TodayKeyword
      * @Column(type="string")
      */
     private $name;
+    /**
+     * @var string $marketplace
+     * @Column(type="string")
+     */
+    private $marketplace;
+    /**
+     * @var NormalizedCategory $normalizedCategory
+     * @ORM\ManyToOne(targetEntity="App\Doctrine\Entity\NormalizedCategory")
+     * @JoinColumn(name="normalized_category_id", referencedColumnName="id")
+     */
+    private $normalizedCategory;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
@@ -60,6 +75,34 @@ class TodayKeyword
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+    /**
+     * @return string
+     */
+    public function getMarketplace(): string
+    {
+        return $this->marketplace;
+    }
+    /**
+     * @param string $marketplace
+     */
+    public function setMarketplace(string $marketplace): void
+    {
+        $this->marketplace = $marketplace;
+    }
+    /**
+     * @return NormalizedCategory
+     */
+    public function getNormalizedCategory(): NormalizedCategory
+    {
+        return $this->normalizedCategory;
+    }
+    /**
+     * @param NormalizedCategory $normalizedCategory
+     */
+    public function setNormalizedCategory(NormalizedCategory $normalizedCategory): void
+    {
+        $this->normalizedCategory = $normalizedCategory;
     }
     /**
      * @return \DateTime
