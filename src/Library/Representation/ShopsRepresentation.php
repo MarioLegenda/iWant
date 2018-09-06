@@ -44,6 +44,18 @@ class ShopsRepresentation
                 'category' => $allNormalizedCategories['Books, Music & Movies'],
                 'marketplace' => MarketplaceType::fromValue('Ebay'),
             ],
+            [
+                'name' => 'worldofbooks08',
+                'global_id' => GlobalIdInformation::EBAY_GB,
+                'category' => $allNormalizedCategories['Books, Music & Movies'],
+                'marketplace' => MarketplaceType::fromValue('Ebay'),
+            ],
+            [
+                'name' => 'ModernMud',
+                'global_id' => null,
+                'category' => $allNormalizedCategories['Crafts & Handmade'],
+                'marketplace' => MarketplaceType::fromValue('Etsy'),
+            ]
         ];
     }
     /**

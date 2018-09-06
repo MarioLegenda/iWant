@@ -41,7 +41,7 @@ class ApplicationShop
     private $applicationName;
     /**
      * @var string $name
-     * @Column(type="string")
+     * @Column(type="string", nullable=true)
      */
     private $globalId;
     /**
@@ -76,9 +76,9 @@ class ApplicationShop
     public function __construct(
         string $name,
         string $applicationName,
-        string $globalId,
         string $marketplace,
-        NormalizedCategory $normalizedCategory
+        NormalizedCategory $normalizedCategory,
+        string $globalId = null
     ) {
         $this->name = $name;
         $this->applicationName = $applicationName;

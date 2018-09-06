@@ -70,34 +70,26 @@ class CreateNativeShops extends BaseCommand
     {
         $this->makeEasier($input, $output);
 
-        $ebaySellersGen = Util::createGenerator($this->shopsRepresentation->getRepresentation());
+        $sellersGen = Util::createGenerator($this->shopsRepresentation->getRepresentation());
 
-        foreach ($ebaySellersGen as $entry) {
+        foreach ($sellersGen as $entry) {
             $item = $entry['item'];
 
-            /** @var UserItem $user */
-            $user = $this->getUser(
-                $item['name'],
-                $item['global_id']
+            $data = $this->resolveUserData($item);
+
+            $exists = $this->doesShopExist(
+                $data['storeName'],
+                (string) $data['data']['marketplace']
             );
 
-            if ($item['marketplace']->equals(MarketplaceType::fromValue('Ebay'))) {
-                if (!GlobalIdInformation::instance()->has($item['global_id'])) {
-                    $message = sprintf(
-                        'Invalid Ebay %s global id given',
-                        $item['global_id']
-                    );
-
-                    throw new \RuntimeException($message);
-                }
+            if ($exists) {
+                continue;
             }
 
-            $this->doesShopExist(
-                $user->getStoreName(),
-                (string) $item['marketplace']
+            $applicationShop = $this->createApplicationShop(
+                $item,
+                $data['storeName']
             );
-
-            $applicationShop = $this->createApplicationShop($item, $user);
 
             $this->applicationShopRepository->getManager()->persist($applicationShop);
         }
@@ -105,9 +97,49 @@ class CreateNativeShops extends BaseCommand
         $this->applicationShopRepository->getManager()->flush();
     }
     /**
+     * @param iterable $item
+     * @return iterable
+     */
+    private function resolveUserData(
+        iterable $item
+    ): iterable {
+        $marketplace = $item['marketplace'];
+
+        if ($marketplace->equals(MarketplaceType::fromValue('Ebay'))) {
+            if (!GlobalIdInformation::instance()->has($item['global_id'])) {
+                $message = sprintf(
+                    'Invalid Ebay %s global id given',
+                    $item['global_id']
+                );
+
+                throw new \RuntimeException($message);
+            }
+        }
+
+        if ($marketplace->equals(MarketplaceType::fromValue('Ebay'))) {
+            /** @var UserItem $user */
+            $user = $this->getEbayUser(
+                $item['name'],
+                $item['global_id']
+            );
+
+            return [
+                'storeName' => $user->getStoreName(),
+                'data' => $item,
+            ];
+        }
+
+        if ($marketplace->equals(MarketplaceType::fromValue('Etsy'))) {
+            return [
+                'storeName' => $item['name'],
+                'data' => $item,
+            ];
+        }
+    }
+    /**
      * @param string $name
      * @param string $marketplace
-     * @throws \RuntimeException
+     * @return null
      */
     private function doesShopExist(
         string $name,
@@ -119,30 +151,24 @@ class CreateNativeShops extends BaseCommand
         ]);
 
         if (!empty($existingMarketplace)) {
-            $message = sprintf(
-                'Application shop with name %s in marketplace %s already exists',
-                $name,
-                $marketplace
-            );
-
-            throw new \RuntimeException($message);
+            return true;
         }
     }
     /**
      * @param iterable $data
-     * @param UserItem $user
+     * @param string $storeName
      * @return ApplicationShop
      */
     private function createApplicationShop(
         iterable $data,
-        UserItem $user
+        string $storeName
     ): ApplicationShop {
         return new ApplicationShop(
             $data['name'],
-            $user->getStoreName(),
-            $data['global_id'],
+            $storeName,
             (string) $data['marketplace'],
-            $data['category']
+            $data['category'],
+            $data['global_id']
         );
     }
     /**
@@ -150,7 +176,7 @@ class CreateNativeShops extends BaseCommand
      * @param string|null $globalId
      * @return UserItem
      */
-    private function getUser(string $sellerName, string $globalId = null): UserItem
+    private function getEbayUser(string $sellerName, string $globalId = null): UserItem
     {
         $userProfileModel = $this->getUserProfileModel($sellerName, $globalId);
 
@@ -158,30 +184,6 @@ class CreateNativeShops extends BaseCommand
         $response = $this->shoppingApiEntryPoint->getUserProfile($userProfileModel);
 
         return $response->getUser();
-    }
-    /**
-     * @return iterable
-     */
-    private function getEbaySellerInfo(): iterable
-    {
-        return [
-            [
-                'name' => 'musicmagpie',
-                'global_id' => GlobalIdInformation::EBAY_GB,
-                'category' => $this->normalizedCategoryRepository->findOneBy([
-                    'name' => 'Books, Music & Movies',
-                ]),
-                'marketplace' => MarketplaceType::fromValue('Ebay'),
-            ],
-            [
-                'name' => 'medimops',
-                'global_id' => GlobalIdInformation::EBAY_DE,
-                'category' => $this->normalizedCategoryRepository->findOneBy([
-                    'name' => 'Books, Music & Movies',
-                ]),
-                'marketplace' => MarketplaceType::fromValue('Ebay'),
-            ],
-        ];
     }
     /**
      * @param string $userId
