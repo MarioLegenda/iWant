@@ -13,6 +13,7 @@ use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
+use App\Library\Representation\MarketplaceRepresentation;
 use App\Library\Util\Util;
 use App\Library\Representation\ShopsRepresentation;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,7 +39,13 @@ class CreateNativeShops extends BaseCommand
      * @var ShopsRepresentation $shopsRepresentation
      */
     private $shopsRepresentation;
-
+    /**
+     * CreateNativeShops constructor.
+     * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
+     * @param NormalizedCategoryRepository $normalizedCategoryRepository
+     * @param ApplicationShopRepository $applicationShopRepository
+     * @param ShopsRepresentation $shopsRepresentation
+     */
     public function __construct(
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
         NormalizedCategoryRepository $normalizedCategoryRepository,

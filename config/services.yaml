@@ -1,4 +1,11 @@
 parameters:
+    marketplaces:
+        ebay: Ebay
+        amazon: Amazon
+        etsy: Etsy
+        viagogo: Viagogo
+        ticketMaster: ticketmaster
+
     ebay_finding_api_metadata:
         base_url: http://svcs.ebay.com/services/search/FindingService/v1?
         names:
@@ -91,6 +98,11 @@ services:
     App\Library\Representation\ShopsRepresentation:
         arguments:
             $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $marketplaceRepresentation: '@App\Library\Representation\MarketplaceRepresentation'
+
+    App\Library\Representation\MarketplaceRepresentation:
+        arguments:
+            $marketplaces: '%marketplaces%'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:

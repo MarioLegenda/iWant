@@ -15,14 +15,19 @@ class ShopsRepresentation
      * @var NormalizedCategoryRepository $normalizedCategoryRepository
      */
     private $normalizedCategoryRepository;
+
+    private $marketplaceRepresentation;
     /**
      * ShopsRepresentation constructor.
      * @param NormalizedCategoryRepository $normalizedCategoryRepository
+     * @param MarketplaceRepresentation $marketplaceRepresentation
      */
     public function __construct(
-        NormalizedCategoryRepository $normalizedCategoryRepository
+        NormalizedCategoryRepository $normalizedCategoryRepository,
+        MarketplaceRepresentation $marketplaceRepresentation
     ) {
         $this->normalizedCategoryRepository = $normalizedCategoryRepository;
+        $this->marketplaceRepresentation = $marketplaceRepresentation;
     }
     /**
      * @return array
@@ -36,25 +41,25 @@ class ShopsRepresentation
                 'name' => 'musicmagpie',
                 'global_id' => GlobalIdInformation::EBAY_GB,
                 'category' => $allNormalizedCategories['Books, Music & Movies'],
-                'marketplace' => MarketplaceType::fromValue('Ebay'),
+                'marketplace' => $this->marketplaceRepresentation->ebay,
             ],
             [
                 'name' => 'medimops',
                 'global_id' => GlobalIdInformation::EBAY_DE,
                 'category' => $allNormalizedCategories['Books, Music & Movies'],
-                'marketplace' => MarketplaceType::fromValue('Ebay'),
+                'marketplace' => $this->marketplaceRepresentation->ebay,
             ],
             [
                 'name' => 'worldofbooks08',
                 'global_id' => GlobalIdInformation::EBAY_GB,
                 'category' => $allNormalizedCategories['Books, Music & Movies'],
-                'marketplace' => MarketplaceType::fromValue('Ebay'),
+                'marketplace' => $this->marketplaceRepresentation->ebay,
             ],
             [
                 'name' => 'ModernMud',
                 'global_id' => null,
                 'category' => $allNormalizedCategories['Crafts & Handmade'],
-                'marketplace' => MarketplaceType::fromValue('Etsy'),
+                'marketplace' => $this->marketplaceRepresentation->etsy,
             ]
         ];
     }
