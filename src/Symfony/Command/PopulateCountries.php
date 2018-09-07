@@ -7,7 +7,7 @@ use App\Doctrine\Repository\CountryRepository;
 use App\Library\Http\HttpCommunicator;
 use App\Library\Http\Request;
 use App\Library\Util\Util;
-use App\Symfony\Exception\HttpException;
+use App\Symfony\Exception\WrapperHttpException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -51,7 +51,7 @@ class PopulateCountries extends BaseCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int|null|void
-     * @throws \App\Symfony\Exception\HttpException
+     * @throws \App\Symfony\Exception\WrapperHttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -102,7 +102,7 @@ class PopulateCountries extends BaseCommand
                 '<info>Command has succeeded without problems. Exiting</info>',
                 $this->endpoint
             ));
-        } catch (HttpException $e) {
+        } catch (WrapperHttpException $e) {
             $this->output->writeln(sprintf(
                 '<error>Command failed with exception error %s</error>',
                 $e->getMessage()

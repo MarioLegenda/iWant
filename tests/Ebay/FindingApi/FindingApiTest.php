@@ -147,7 +147,10 @@ class FindingApiTest extends BasicSetup
             static::assertInternalType('string', $item->getItemId());
             static::assertInternalType('string', $item->getTitle());
             static::assertInternalType('string', $item->getGlobalId());
-            static::assertInternalType('string', $item->getGalleryUrl());
+            if (!empty($item->getGalleryUrl())) {
+                static::assertInternalType('string', $item->getGalleryUrl());
+            }
+
             static::assertInternalType('string', $item->getViewItemUrl());
 
             static::assertInstanceOf(Category::class, $item->getPrimaryCategory());

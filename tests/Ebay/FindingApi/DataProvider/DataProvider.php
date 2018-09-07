@@ -56,6 +56,32 @@ class DataProvider
 
         return $model;
     }
+
+    public function getInvalidRequestAsModel()
+    {
+        $query = new Query(
+            'keywords',
+            'harry potter'
+        );
+
+        $invalidQuery = new Query(
+            'invalid',
+            'value'
+        );
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $query;
+        $queries[] = $invalidQuery;
+
+        $findItemsByKeywords = new FindItemsByKeywords($queries);
+
+        $itemFilters = TypedArray::create('integer', ItemFilter::class);
+
+        $model = new FindingApiModel($findItemsByKeywords, $itemFilters);
+
+        return $model;
+    }
     /**
      * @param string $keywords
      * @param int $categoryId

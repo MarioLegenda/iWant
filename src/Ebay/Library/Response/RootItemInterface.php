@@ -20,4 +20,8 @@ interface RootItemInterface
      * @return string
      */
     public function getAck(): string;
+    /**
+     * @return bool
+     */
+    public function isSuccess(): bool;
 }

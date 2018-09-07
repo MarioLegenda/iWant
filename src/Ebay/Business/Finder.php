@@ -22,6 +22,8 @@ use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Source\FinderSource;
 use App\Library\Response;
+use App\Symfony\Exception\HttpException;
+use App\Symfony\Exception\WrapperHttpException;
 
 class Finder
 {
@@ -62,6 +64,7 @@ class Finder
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
+     * @throws HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
@@ -73,23 +76,30 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsByKeywords->getRequest();
+        /** @var Response $response */
+        $response = $this->finderSource->getApiResource($request);
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            /** @var Response $resource */
-            $resource = $this->finderSource->getApiResource($request);
+        /** @var XmlFindingApiResponseModel $responseModel */
+        $responseModel = $this->createKeywordsModelResponse($response->getResponseString());
 
-            $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
-
-            return $this->createModelResponse($stringResource);
+        if (!$responseModel->getRoot()->isSuccess()) {
+            throw new HttpException($responseModel->getRawResponse());
         }
 
-        return $this->createModelResponse(
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+
+            return $this->createKeywordsModelResponse($stringResource);
+        }
+
+        return $this->createKeywordsModelResponse(
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
+     * @throws HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
@@ -98,23 +108,30 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsAdvanced->getRequest();
+        /** @var Response $resource */
+        $response = $this->finderSource->getApiResource($request);
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            /** @var Response $resource */
-            $resource = $this->finderSource->getApiResource($request);
+        /** @var XmlFindingApiResponseModel $responseModel */
+        $responseModel = $this->createKeywordsModelResponse($response->getResponseString());
 
-            $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
-
-            return $this->createModelResponse($stringResource);
+        if (!$responseModel->getRoot()->isSuccess()) {
+            throw new HttpException($responseModel->getRawResponse());
         }
 
-        return $this->createModelResponse(
+        if (!$this->cacheImplementation->isRequestStored($request)) {
+            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+
+            return $this->createKeywordsModelResponse($stringResource);
+        }
+
+        return $this->createKeywordsModelResponse(
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
@@ -123,10 +140,16 @@ class Finder
 
         /** @var Request $request */
         $request = $getUserProfile->getRequest();
+        /** @var Response $resource */
+        $response = $this->finderSource->getApiResource($request);
+
+        $responseModel = $this->createUserProfileResponse($response->getResponseString());
+
+        if (!$responseModel->getRoot()->isSuccess()) {
+            throw new HttpException($responseModel->getRawResponse());
+        }
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
-            $resource = $this->finderSource->getApiResource($request);
-
             $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
 
             return $this->createUserProfileResponse($stringResource);
@@ -139,13 +162,23 @@ class Finder
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
+     * @throws HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsInEbayStores(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
         $findItemsInEbayStores = new FindItemsInEbayStores($model, $this->requestBase);
 
+        /** @var Request $request */
         $request = $findItemsInEbayStores->getRequest();
+        /** @var Response $resource */
+        $response = $this->finderSource->getApiResource($request);
+        /** @var FindingApiResponseModelInterface $responseModel */
+        $responseModel = $this->createKeywordsModelResponse($response->getResponseString());
+
+        if (!$responseModel->getRoot()->isSuccess()) {
+            throw new HttpException($response->getResponseString());
+        }
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
             /** @var Response $resource */
@@ -153,16 +186,17 @@ class Finder
 
             $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
 
-            return $this->createModelResponse($stringResource);
+            return $this->createKeywordsModelResponse($stringResource);
         }
 
-        return $this->createModelResponse(
+        return $this->createKeywordsModelResponse(
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
@@ -171,6 +205,14 @@ class Finder
 
         /** @var Request $request */
         $request = $getUserProfile->getRequest();
+        /** @var Response $resource */
+        $response = $this->finderSource->getApiResource($request);
+
+        $responseModel = $this->createCategoryInfoResponse($response->getResponseString());
+
+        if (!$responseModel->getRoot()->isSuccess()) {
+            throw new HttpException($response->getResponseString());
+        }
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
             $resource = $this->finderSource->getApiResource($request);
@@ -188,7 +230,7 @@ class Finder
      * @param string $resource
      * @return FindingApiResponseModelInterface
      */
-    private function createModelResponse(string $resource): FindingApiResponseModelInterface
+    private function createKeywordsModelResponse(string $resource): FindingApiResponseModelInterface
     {
         return new XmlFindingApiResponseModel($resource);
     }

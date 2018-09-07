@@ -73,6 +73,14 @@ class RootItem extends AbstractItem implements
         return $this->timestamp;
     }
     /**
+     * @return bool
+     */
+    public function isSuccess(): bool
+    {
+        return strtolower($this->getAck()) === 'success';
+    }
+
+    /**
      * @return array
      */
     public function toArray(): array

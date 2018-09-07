@@ -89,6 +89,13 @@ class RootItem extends AbstractItem implements
         return $this->searchResultsCount;
     }
     /**
+     * @return bool
+     */
+    public function isSuccess(): bool
+    {
+        return strtolower($this->getAck()) === 'success';
+    }
+    /**
      * @return array
      */
     public function toArray(): array
@@ -101,35 +108,50 @@ class RootItem extends AbstractItem implements
             'timestamp' => $this->getTimestamp(),
         );
     }
-
+    /**
+     * @param string $ack
+     * @return RootItem
+     */
     private function setAck(string $ack) : RootItem
     {
         $this->ack = $ack;
 
         return $this;
     }
-
+    /**
+     * @param string $timestamp
+     * @return RootItem
+     */
     private function setTimestamp(string $timestamp) : RootItem
     {
         $this->timestamp = $timestamp;
 
         return $this;
     }
-
+    /**
+     * @param string $count
+     * @return RootItem
+     */
     private function setSearchResultsCount(string $count) : RootItem
     {
         $this->searchResultsCount = $count;
 
         return $this;
     }
-
+    /**
+     * @param string $namespace
+     * @return RootItem
+     */
     private function setNamespace(string $namespace) : RootItem
     {
         $this->itemNamespace = $namespace;
 
         return $this;
     }
-
+    /**
+     * @param string $version
+     * @return RootItem
+     */
     private function setVersion(string $version) : RootItem
     {
         $this->version = $version;

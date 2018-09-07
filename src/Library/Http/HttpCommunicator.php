@@ -4,7 +4,7 @@ namespace App\Library\Http;
 
 
 use App\Library\Response;
-use App\Symfony\Exception\HttpException;
+use App\Symfony\Exception\WrapperHttpException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
@@ -22,7 +22,7 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
     /**
      * @param Request $request
      * @return HttpResponse
-     * @throws HttpException
+     * @throws WrapperHttpException
      */
     public function get(Request $request): Response
     {
@@ -41,9 +41,9 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
         TooManyRedirectsException |
         TransferException $e) {
 
-            throw new HttpException($e);
+            throw new WrapperHttpException($e);
         } catch (\Exception $e) {
-            throw new HttpException($e);
+            throw new WrapperHttpException($e);
         }
     }
     /**
