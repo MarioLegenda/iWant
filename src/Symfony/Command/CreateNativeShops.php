@@ -4,7 +4,7 @@ namespace App\Symfony\Command;
 
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
-use App\Doctrine\Repository\NormalizedCategoryRepository;
+use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
@@ -28,7 +28,7 @@ class CreateNativeShops extends BaseCommand
      */
     private $shoppingApiEntryPoint;
     /**
-     * @var NormalizedCategoryRepository
+     * @var NativeTaxonomyRepository
      */
     private $normalizedCategoryRepository;
     /**
@@ -42,13 +42,13 @@ class CreateNativeShops extends BaseCommand
     /**
      * CreateNativeShops constructor.
      * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
-     * @param NormalizedCategoryRepository $normalizedCategoryRepository
+     * @param NativeTaxonomyRepository $normalizedCategoryRepository
      * @param ApplicationShopRepository $applicationShopRepository
      * @param ShopsRepresentation $shopsRepresentation
      */
     public function __construct(
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
-        NormalizedCategoryRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $normalizedCategoryRepository,
         ApplicationShopRepository $applicationShopRepository,
         ShopsRepresentation $shopsRepresentation
     ) {

@@ -2,9 +2,9 @@
 
 namespace App\Symfony\Command;
 
-use App\Doctrine\Entity\NormalizedCategory;
+use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Entity\TodayKeyword;
-use App\Doctrine\Repository\NormalizedCategoryRepository;
+use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Doctrine\Repository\TodaysKeywordRepository;
 use App\Library\MarketplaceType;
 use App\Library\Representation\MarketplaceRepresentation;
@@ -22,7 +22,7 @@ class AddKeyword extends BaseCommand
      */
     private $marketplaceRepresentation;
     /**
-     * @var NormalizedCategoryRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $normalizedCategoryRepository
      */
     private $normalizedCategoryRepository;
     /**
@@ -32,12 +32,12 @@ class AddKeyword extends BaseCommand
     /**
      * AddKeyword constructor.
      * @param MarketplaceRepresentation $marketplaceRepresentation
-     * @param NormalizedCategoryRepository $normalizedCategoryRepository
+     * @param NativeTaxonomyRepository $normalizedCategoryRepository
      * @param TodaysKeywordRepository $todaysKeywordRepository
      */
     public function __construct(
         MarketplaceRepresentation $marketplaceRepresentation,
-        NormalizedCategoryRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $normalizedCategoryRepository,
         TodaysKeywordRepository $todaysKeywordRepository
     ) {
         $this->marketplaceRepresentation = $marketplaceRepresentation;
@@ -102,7 +102,7 @@ class AddKeyword extends BaseCommand
      */
     private function getAnswers(): array
     {
-        /** @var NormalizedCategory[] $allNormalizedCategories */
+        /** @var NativeTaxonomy[] $allNormalizedCategories */
         $allNormalizedCategories = $this->normalizedCategoryRepository->findAll();
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
@@ -135,17 +135,17 @@ class AddKeyword extends BaseCommand
     }
     /**
      * @param string $name
-     * @param NormalizedCategory[] $normalizedCategories
-     * @return NormalizedCategory
+     * @param NativeTaxonomy[] $normalizedCategories
+     * @return NativeTaxonomy
      */
     private function resolveCategoryToObject(
         string $name,
         array $normalizedCategories
-    ): NormalizedCategory {
+    ): NativeTaxonomy {
         $normalizedCategoriesGen = Util::createGenerator($normalizedCategories);
 
         foreach ($normalizedCategoriesGen as $entry) {
-            /** @var NormalizedCategory $category */
+            /** @var NativeTaxonomy $category */
             $category = $entry['item'];
 
             if ($category->getName() === $name) {
@@ -176,13 +176,13 @@ class AddKeyword extends BaseCommand
         return $resolved;
     }
     /**
-     * @param NormalizedCategory[] $normalizedCategories
+     * @param NativeTaxonomy[] $normalizedCategories
      * @return array
      */
     private function resolveNormalizedCategories(array $normalizedCategories): array
     {
         $categoryArray = [];
-        /** @var NormalizedCategory $normalizedCategory */
+        /** @var NativeTaxonomy $normalizedCategory */
         foreach ($normalizedCategories as $normalizedCategory) {
             $categoryArray[$normalizedCategory->getName()] = $normalizedCategory->getName();
         }

@@ -3,24 +3,24 @@
 namespace App\Symfony\Command;
 
 use App\Doctrine\Entity\NativeTaxonomy;
-use App\Doctrine\Repository\NormalizedCategoryRepository;
+use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Library\Tools\LockedMutableHashSet;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class UpsertNormalizedCategory extends BaseCommand
+class UpsertNativeTaxonomy extends BaseCommand
 {
     /**
-     * @var NormalizedCategoryRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $normalizedCategoryRepository
      */
     private $normalizedCategoryRepository;
     /**
-     * UpsertNormalizedCategory constructor.
-     * @param NormalizedCategoryRepository $normalizedCategoryRepository
+     * UpsertNativeTaxonomy constructor.
+     * @param NativeTaxonomyRepository $normalizedCategoryRepository
      */
     public function __construct(
-        NormalizedCategoryRepository $normalizedCategoryRepository
+        NativeTaxonomyRepository $normalizedCategoryRepository
     ) {
         $this->normalizedCategoryRepository = $normalizedCategoryRepository;
 
@@ -31,7 +31,7 @@ class UpsertNormalizedCategory extends BaseCommand
      */
     public function configure()
     {
-        $this->setName('app:upsert_normalized_category');
+        $this->setName('app:upsert_native_taxonomy');
 
         $this
             ->addArgument('name', InputArgument::REQUIRED)

@@ -97,7 +97,7 @@ services:
 
     App\Library\Representation\ShopsRepresentation:
         arguments:
-            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
             $marketplaceRepresentation: '@App\Library\Representation\MarketplaceRepresentation'
 
     App\Library\Representation\MarketplaceRepresentation:
@@ -193,7 +193,7 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\NormalizedCategoryRepository:
+    App\Doctrine\Repository\NativeTaxonomyRepository:
         arguments:
             $registry: '@doctrine'
 
@@ -229,7 +229,7 @@ services:
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\UpsertNormalizedCategory:
+    App\Symfony\Command\UpsertNativeTaxonomy:
         arguments:
             $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
         tags:

@@ -3,9 +3,9 @@
 namespace App\Symfony\Command\CategoryConnection;
 
 use App\Doctrine\Entity\EbayRootCategory;
-use App\Doctrine\Entity\NormalizedCategory;
+use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\EbayRootCategoryRepository;
-use App\Doctrine\Repository\NormalizedCategoryRepository;
+use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\ItemFilter\ItemFilter;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ConnectEbayCategories extends BaseCommand
 {
     /**
-     * @var NormalizedCategoryRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $normalizedCategoryRepository
      */
     private $normalizedCategoryRepository;
     /**
@@ -37,7 +37,7 @@ class ConnectEbayCategories extends BaseCommand
     private $ebayRootCategoryRepository;
 
     public function __construct(
-        NormalizedCategoryRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $normalizedCategoryRepository,
         EbayRootCategoryRepository $ebayRootCategoryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint
     ) {
@@ -101,7 +101,7 @@ class ConnectEbayCategories extends BaseCommand
 
             $normalizedCategoryInfo = $this->getNormalizedCategoryInfo();
 
-            /** @var NormalizedCategory $normalizedCategory */
+            /** @var NativeTaxonomy $normalizedCategory */
             foreach ($normalizedCategories as $normalizedCategory) {
                 $normalizedCategoryName = $normalizedCategory->getName();
 
@@ -127,14 +127,14 @@ class ConnectEbayCategories extends BaseCommand
         ));
     }
     /**
-     * @param NormalizedCategory $normalizedCategory
+     * @param NativeTaxonomy $normalizedCategory
      * @param iterable $ebayRootCategories
      * @param string $globalId
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     private function upsertEbayRootCategory(
-        NormalizedCategory $normalizedCategory,
+        NativeTaxonomy $normalizedCategory,
         iterable $ebayRootCategories,
         string $globalId
     ) {

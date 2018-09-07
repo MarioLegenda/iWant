@@ -6,7 +6,7 @@ use App\Doctrine\Entity\NativeTaxonomy;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class NormalizedCategoryRepository extends ServiceEntityRepository
+class NativeTaxonomyRepository extends ServiceEntityRepository
 {
     /**
      * CategoryRepository constructor.

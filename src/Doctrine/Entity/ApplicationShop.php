@@ -45,8 +45,8 @@ class ApplicationShop
      */
     private $globalId;
     /**
-     * @var NormalizedCategory $normalizedCategory
-     * @ORM\ManyToOne(targetEntity="App\Doctrine\Entity\NormalizedCategory")
+     * @var NativeTaxonomy $normalizedCategory
+     * @ORM\ManyToOne(targetEntity="NativeTaxonomy")
      * @JoinColumn(name="normalized_category_id", referencedColumnName="id")
      */
     private $normalizedCategory;
@@ -71,13 +71,13 @@ class ApplicationShop
      * @param string $applicationName
      * @param string $globalId
      * @param string $marketplace
-     * @param NormalizedCategory $normalizedCategory
+     * @param NativeTaxonomy $normalizedCategory
      */
     public function __construct(
         string $name,
         string $applicationName,
         string $marketplace,
-        NormalizedCategory $normalizedCategory,
+        NativeTaxonomy $normalizedCategory,
         string $globalId = null
     ) {
         $this->name = $name;
@@ -129,16 +129,16 @@ class ApplicationShop
         return $this->globalId;
     }
     /**
-     * @return NormalizedCategory
+     * @return NativeTaxonomy
      */
-    public function getNormalizedCategory(): NormalizedCategory
+    public function getNormalizedCategory(): NativeTaxonomy
     {
         return $this->normalizedCategory;
     }
     /**
-     * @param NormalizedCategory $normalizedCategory
+     * @param NativeTaxonomy $normalizedCategory
      */
-    public function setNormalizedCategory(NormalizedCategory $normalizedCategory): void
+    public function setNormalizedCategory(NativeTaxonomy $normalizedCategory): void
     {
         $this->normalizedCategory = $normalizedCategory;
     }

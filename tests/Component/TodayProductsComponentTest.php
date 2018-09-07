@@ -17,7 +17,5 @@ class TodayProductsComponentTest extends BasicSetup
     {
         /** @var TodaysKeywordRepository $todaysKeywordRepository */
         $todaysKeywordRepository = $this->locator->get(TodaysKeywordRepository::class);
-
-        $temp = new NormalizedCategoryRepresentation();
     }
 }

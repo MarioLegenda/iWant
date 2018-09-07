@@ -41,8 +41,8 @@ class TodayKeyword
      */
     private $marketplace;
     /**
-     * @var NormalizedCategory $normalizedCategory
-     * @ORM\ManyToOne(targetEntity="App\Doctrine\Entity\NormalizedCategory")
+     * @var NativeTaxonomy $normalizedCategory
+     * @ORM\ManyToOne(targetEntity="NativeTaxonomy")
      * @JoinColumn(name="normalized_category_id", referencedColumnName="id")
      */
     private $normalizedCategory;
@@ -60,12 +60,12 @@ class TodayKeyword
      * TodayKeyword constructor.
      * @param string $keyword
      * @param string $marketplace
-     * @param NormalizedCategory $category
+     * @param NativeTaxonomy $category
      */
     public function __construct(
         string $keyword,
         string $marketplace,
-        NormalizedCategory $category
+        NativeTaxonomy $category
     ) {
         $this->name = $keyword;
         $this->marketplace = $marketplace;
@@ -107,16 +107,16 @@ class TodayKeyword
         $this->marketplace = $marketplace;
     }
     /**
-     * @return NormalizedCategory
+     * @return NativeTaxonomy
      */
-    public function getNormalizedCategory(): NormalizedCategory
+    public function getNormalizedCategory(): NativeTaxonomy
     {
         return $this->normalizedCategory;
     }
     /**
-     * @param NormalizedCategory $normalizedCategory
+     * @param NativeTaxonomy $normalizedCategory
      */
-    public function setNormalizedCategory(NormalizedCategory $normalizedCategory): void
+    public function setNormalizedCategory(NativeTaxonomy $normalizedCategory): void
     {
         $this->normalizedCategory = $normalizedCategory;
     }

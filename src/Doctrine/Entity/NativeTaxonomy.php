@@ -18,13 +18,13 @@ use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
 /**
  * @Entity @Table(
- *     name="normalized_categories",
+ *     name="native_taxonomy",
  *     uniqueConstraints={ @UniqueConstraint(columns={"name"}) },
  *     indexes={ @Index(name="category_name_idx", columns={"name"}) }
  * )
  * @HasLifecycleCallbacks()
  **/
-class NormalizedCategory implements ArrayNotationInterface
+class NativeTaxonomy implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -48,7 +48,7 @@ class NormalizedCategory implements ArrayNotationInterface
      */
     private $updatedAt;
     /**
-     * NormalizedCategory constructor.
+     * NativeTaxonomy constructor.
      * @param string $name
      */
     public function __construct(

@@ -71,7 +71,7 @@ class EbayRootCategory
      */
     private $leafCategory;
     /**
-     * @ManyToOne(targetEntity="App\Doctrine\Entity\NormalizedCategory")
+     * @ManyToOne(targetEntity="NativeTaxonomy")
      * @JoinColumn(name="normalized_category_id", referencedColumnName="id")
      */
     private $normalizedCategory;
@@ -95,7 +95,7 @@ class EbayRootCategory
         string $categoryNamePath,
         string $categoryParentId,
         bool $leafCategory,
-        NormalizedCategory $normalizedCategory
+        NativeTaxonomy $normalizedCategory
     ) {
         $this->globalId = $globalId;
         $this->categoryId = $categoryId;
@@ -228,16 +228,16 @@ class EbayRootCategory
         $this->leafCategory = $leafCategory;
     }
     /**
-     * @return NormalizedCategory
+     * @return NativeTaxonomy
      */
-    public function getNormalizedCategory(): NormalizedCategory
+    public function getNormalizedCategory(): NativeTaxonomy
     {
         return $this->normalizedCategory;
     }
     /**
-     * @param NormalizedCategory $normalizedCategory
+     * @param NativeTaxonomy $normalizedCategory
      */
-    public function setNormalizedCategory(NormalizedCategory $normalizedCategory): void
+    public function setNormalizedCategory(NativeTaxonomy $normalizedCategory): void
     {
         $this->normalizedCategory = $normalizedCategory;
     }

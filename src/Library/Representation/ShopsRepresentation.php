@@ -2,8 +2,8 @@
 
 namespace App\Library\Representation;
 
-use App\Doctrine\Entity\NormalizedCategory;
-use App\Doctrine\Repository\NormalizedCategoryRepository;
+use App\Doctrine\Entity\NativeTaxonomy;
+use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
@@ -12,21 +12,23 @@ use App\Library\Util\Util;
 class ShopsRepresentation
 {
     /**
-     * @var NormalizedCategoryRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $nativeTaxonomyRepository
      */
-    private $normalizedCategoryRepository;
-
+    private $nativeTaxonomyRepository;
+    /**
+     * @var MarketplaceRepresentation $marketplaceRepresentation
+     */
     private $marketplaceRepresentation;
     /**
      * ShopsRepresentation constructor.
-     * @param NormalizedCategoryRepository $normalizedCategoryRepository
+     * @param NativeTaxonomyRepository $nativeTaxonomyRepository
      * @param MarketplaceRepresentation $marketplaceRepresentation
      */
     public function __construct(
-        NormalizedCategoryRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $nativeTaxonomyRepository,
         MarketplaceRepresentation $marketplaceRepresentation
     ) {
-        $this->normalizedCategoryRepository = $normalizedCategoryRepository;
+        $this->nativeTaxonomyRepository = $nativeTaxonomyRepository;
         $this->marketplaceRepresentation = $marketplaceRepresentation;
     }
     /**
@@ -70,9 +72,9 @@ class ShopsRepresentation
     {
         $allNormalizedCategories = Util::createGenerator($this->normalizedCategoryRepository->findAll());
 
-        $associativeNormalized = TypedArray::create('string', NormalizedCategory::class);
+        $associativeNormalized = TypedArray::create('string', NativeTaxonomy::class);
         foreach ($allNormalizedCategories as $entry) {
-            /** @var NormalizedCategory $normalizedCategory */
+            /** @var NativeTaxonomy $normalizedCategory */
             $normalizedCategory = $entry['item'];
 
             $associativeNormalized[$normalizedCategory->getName()] = $normalizedCategory;
