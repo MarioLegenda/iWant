@@ -2,6 +2,7 @@
 
 namespace App\Doctrine\Entity;
 
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,6 +57,21 @@ class TodayKeyword
      */
     private $updatedAt;
     /**
+     * TodayKeyword constructor.
+     * @param string $keyword
+     * @param string $marketplace
+     * @param NormalizedCategory $category
+     */
+    public function __construct(
+        string $keyword,
+        string $marketplace,
+        NormalizedCategory $category
+    ) {
+        $this->name = $keyword;
+        $this->marketplace = $marketplace;
+        $this->normalizedCategory = $category;
+    }
+    /**
      * @return int
      */
     public function getId(): int
@@ -77,11 +93,11 @@ class TodayKeyword
         $this->name = $name;
     }
     /**
-     * @return string
+     * @return MarketplaceType|TypeInterface
      */
-    public function getMarketplace(): string
+    public function getMarketplace(): MarketplaceType
     {
-        return $this->marketplace;
+        return MarketplaceType::fromValue($this->marketplace);
     }
     /**
      * @param string $marketplace

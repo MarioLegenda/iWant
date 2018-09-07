@@ -64,7 +64,7 @@ class CreateNativeShops extends BaseCommand
      */
     public function configure()
     {
-        $this->setName('app:create_native_shop');
+        $this->setName('app:create_native_shops');
     }
     /**
      * @param InputInterface $input

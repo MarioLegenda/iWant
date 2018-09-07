@@ -197,6 +197,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\TodaysKeywordRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
@@ -245,5 +249,12 @@ services:
     App\Symfony\Command\InvalidateRequestCache:
         arguments:
             $requestCacheRepository: '@App\Doctrine\Repository\RequestCacheRepository'
+        tags:
+        - { name: 'console.command' }
+
+    App\Symfony\Command\AddKeyword:
+        arguments:
+            $marketplaceRepresentation: '@App\Library\Representation\MarketplaceRepresentation'
+            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
         tags:
         - { name: 'console.command' }

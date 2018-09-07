@@ -2,9 +2,10 @@
 
 namespace App\Library\Representation;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\MarketplaceType;
 
-class MarketplaceRepresentation
+class MarketplaceRepresentation implements ArrayNotationInterface
 {
     /**
      * @var MarketplaceType $ebay
@@ -27,6 +28,10 @@ class MarketplaceRepresentation
      */
     public $ticketMaster;
     /**
+     * @var iterable $marketplaces
+     */
+    public $marketplaces;
+    /**
      * MarketplaceRepresentation constructor.
      * @param iterable $marketplaces
      */
@@ -34,7 +39,18 @@ class MarketplaceRepresentation
         iterable $marketplaces
     ) {
         foreach ($marketplaces as $key => $marketplace) {
-            $this->{$key} = MarketplaceType::fromValue($marketplace);
+            $marketplaceType = MarketplaceType::fromValue($marketplace);
+
+            $this->{$key} = $marketplaceType;
+
+            $this->marketplaces[$key] = $marketplaceType;
         }
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return $this->marketplaces;
     }
 }
