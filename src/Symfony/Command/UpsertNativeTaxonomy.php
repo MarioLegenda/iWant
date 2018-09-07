@@ -2,7 +2,7 @@
 
 namespace App\Symfony\Command;
 
-use App\Doctrine\Entity\NormalizedCategory;
+use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\NormalizedCategoryRepository;
 use App\Library\Tools\LockedMutableHashSet;
 use Symfony\Component\Console\Input\InputArgument;
@@ -83,12 +83,12 @@ class UpsertNormalizedCategory extends BaseCommand
      */
     private function createCategory(string $name): void
     {
-        /** @var NormalizedCategory $existingCategory */
+        /** @var NativeTaxonomy $existingCategory */
         $existingCategory = $this->normalizedCategoryRepository->findOneBy([
             'name' => $name
         ]);
 
-        if ($existingCategory instanceof NormalizedCategory) {
+        if ($existingCategory instanceof NativeTaxonomy) {
             $message = sprintf(
                 'Normalized category \'%s\' already exists',
                 $name
@@ -97,7 +97,7 @@ class UpsertNormalizedCategory extends BaseCommand
             throw new \RuntimeException($message);
         }
 
-        $normalizedCategory = new NormalizedCategory($name);
+        $normalizedCategory = new NativeTaxonomy($name);
 
         $this->normalizedCategoryRepository->persistAndFlush($normalizedCategory);
 
@@ -114,12 +114,12 @@ class UpsertNormalizedCategory extends BaseCommand
      */
     private function updateCategory(string $name, string $update): void
     {
-        /** @var NormalizedCategory $existingCategory */
+        /** @var NativeTaxonomy $existingCategory */
         $existingCategory = $this->normalizedCategoryRepository->findOneBy([
             'name' => $name
         ]);
 
-        if (!$existingCategory instanceof NormalizedCategory) {
+        if (!$existingCategory instanceof NativeTaxonomy) {
             $message = sprintf(
                 'Normalized category \'%s\' does not exist and cannot be changed',
                 $name
