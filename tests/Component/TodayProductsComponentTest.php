@@ -28,8 +28,6 @@ class TodayProductsComponentTest extends BasicSetup
     public function test_todays_products_component()
     {
         $this->loadKeywords();
-
-
     }
     /**
      * @throws \Doctrine\ORM\ORMException
