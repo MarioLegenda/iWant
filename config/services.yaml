@@ -168,7 +168,15 @@ services:
     App\Web\:
         resource: '../src/Web'
         exclude: '../src/Web/{Model/*,Grouping/*}'
+
+    App\Web\Controller\:
+        resource: '../src/Web/Controller'
         tags: ['controller.service_arguments']
+
+    # COMPONENT SYSTEM
+
+    App\Component\:
+        resource: '../src/Component'
 
     # EVENT LISTENER
 

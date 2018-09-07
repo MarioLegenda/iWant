@@ -94,6 +94,11 @@ services:
 
     App\Library\Tools\MemcachedWrapper:
 
+  # COMPONENT SYSTEM
+
+    App\Component\:
+      resource: '../src/Component'
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:
         arguments:
