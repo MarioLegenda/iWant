@@ -38,6 +38,11 @@ class NativeTaxonomy implements ArrayNotationInterface
      */
     private $name;
     /**
+     * @var string $name
+     * @Column(type="string")
+     */
+    private $internalName;
+    /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
      */
@@ -55,6 +60,8 @@ class NativeTaxonomy implements ArrayNotationInterface
         string $name
     ) {
         $this->name = $name;
+
+        $this->internalName = lcfirst(preg_replace('#\s+|&|,|\.|#', '', $this->name));
     }
     /**
      * @return int
@@ -76,6 +83,20 @@ class NativeTaxonomy implements ArrayNotationInterface
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+    /**
+     * @return string
+     */
+    public function getInternalName(): string
+    {
+        return $this->internalName;
+    }
+    /**
+     * @param string $internalName
+     */
+    public function setInternalName(string $internalName): void
+    {
+        $this->internalName = $internalName;
     }
     /**
      * @return \DateTime
@@ -126,6 +147,7 @@ class NativeTaxonomy implements ArrayNotationInterface
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'internalName' => $this->getInternalName(),
             'createdAt' => Util::formatFromDate($this->getCreatedAt()),
             'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
         ];

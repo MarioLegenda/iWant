@@ -44,6 +44,16 @@ class LockedMutableHashSet implements CollectionInterface
             $key = $entry['key'];
             $item = $entry['item'];
 
+            if (!in_array($key, $this->keys)) {
+                $message = sprintf(
+                    'Invalid offset %s. Valid offsets are %s',
+                    $key,
+                    implode(', ', $this->keys)
+                );
+
+                throw new \RuntimeException($message);
+            }
+
             $this[$key] = $item;
         }
     }

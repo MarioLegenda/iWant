@@ -231,7 +231,7 @@ services:
 
     App\Symfony\Command\UpsertNativeTaxonomy:
         arguments:
-            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
         tags:
             - { name: 'console.command' }
 
@@ -241,14 +241,14 @@ services:
 
     App\Symfony\Command\CategoryConnection\ConnectEbayCategories:
         arguments:
-            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
         tags:
             - { name: 'console.command' }
 
     App\Symfony\Command\CreateNativeShops:
         arguments:
             $shoppingApiEntryPoint: '@App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint'
-            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
             $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
             $shopsRepresentation: '@App\Library\Representation\ShopsRepresentation'
         tags:
@@ -258,11 +258,11 @@ services:
         arguments:
             $requestCacheRepository: '@App\Doctrine\Repository\RequestCacheRepository'
         tags:
-        - { name: 'console.command' }
+            - { name: 'console.command' }
 
     App\Symfony\Command\AddKeyword:
         arguments:
             $marketplaceRepresentation: '@App\Library\Representation\MarketplaceRepresentation'
-            $normalizedCategoryRepository: '@App\Doctrine\Repository\NormalizedCategoryRepository'
+            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
         tags:
-        - { name: 'console.command' }
+            - { name: 'console.command' }

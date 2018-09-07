@@ -12,17 +12,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 class UpsertNativeTaxonomy extends BaseCommand
 {
     /**
-     * @var NativeTaxonomyRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $nativeTaxonomyRepository
      */
-    private $normalizedCategoryRepository;
+    private $nativeTaxonomyRepository;
     /**
      * UpsertNativeTaxonomy constructor.
-     * @param NativeTaxonomyRepository $normalizedCategoryRepository
+     * @param NativeTaxonomyRepository $nativeTaxonomyRepository
      */
     public function __construct(
-        NativeTaxonomyRepository $normalizedCategoryRepository
+        NativeTaxonomyRepository $nativeTaxonomyRepository
     ) {
-        $this->normalizedCategoryRepository = $normalizedCategoryRepository;
+        $this->nativeTaxonomyRepository = $nativeTaxonomyRepository;
 
         parent::__construct();
     }
@@ -56,53 +56,53 @@ class UpsertNativeTaxonomy extends BaseCommand
 
         $arguments = $this->resolveArguments();
 
-        $this->upsertCategory($arguments);
+        $this->upsertTaxonomy($arguments);
     }
     /**
      * @param iterable $arguments
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function upsertCategory(iterable $arguments): void
+    private function upsertTaxonomy(iterable $arguments): void
     {
         $name = $arguments['name'];
         $update = $arguments['update'];
 
         if ($update) {
-            $this->updateCategory($name, $update);
+            $this->updateTaxonomy($name, $update);
 
             return;
         }
 
-        $this->createCategory($name);
+        $this->createTaxonomy($name);
     }
     /**
      * @param string $name
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function createCategory(string $name): void
+    private function createTaxonomy(string $name): void
     {
-        /** @var NativeTaxonomy $existingCategory */
-        $existingCategory = $this->normalizedCategoryRepository->findOneBy([
+        /** @var NativeTaxonomy $existingTaxonomy */
+        $existingTaxonomy = $this->nativeTaxonomyRepository->findOneBy([
             'name' => $name
         ]);
 
-        if ($existingCategory instanceof NativeTaxonomy) {
+        if ($existingTaxonomy instanceof NativeTaxonomy) {
             $message = sprintf(
-                'Normalized category \'%s\' already exists',
+                'Native taxonomy \'%s\' already exists',
                 $name
             );
 
             throw new \RuntimeException($message);
         }
 
-        $normalizedCategory = new NativeTaxonomy($name);
+        $nativeTaxonomy = new NativeTaxonomy($name);
 
-        $this->normalizedCategoryRepository->persistAndFlush($normalizedCategory);
+        $this->nativeTaxonomyRepository->persistAndFlush($nativeTaxonomy);
 
         $this->output->writeln(sprintf(
-            '<info>Category %s created. Exiting</info>',
+            '<info>Taxonomy %s created. Exiting</info>',
             $name
         ));
     }
@@ -112,28 +112,28 @@ class UpsertNativeTaxonomy extends BaseCommand
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function updateCategory(string $name, string $update): void
+    private function updateTaxonomy(string $name, string $update): void
     {
-        /** @var NativeTaxonomy $existingCategory */
-        $existingCategory = $this->normalizedCategoryRepository->findOneBy([
+        /** @var NativeTaxonomy $existingTaxonomy */
+        $existingTaxonomy = $this->nativeTaxonomyRepository->findOneBy([
             'name' => $name
         ]);
 
-        if (!$existingCategory instanceof NativeTaxonomy) {
+        if (!$existingTaxonomy instanceof NativeTaxonomy) {
             $message = sprintf(
-                'Normalized category \'%s\' does not exist and cannot be changed',
+                'Taxonomy \'%s\' does not exist and cannot be changed',
                 $name
             );
 
             throw new \RuntimeException($message);
         }
 
-        $existingCategory->setName($update);
+        $existingTaxonomy->setName($update);
 
-        $this->normalizedCategoryRepository->persistAndFlush($existingCategory);
+        $this->nativeTaxonomyRepository->persistAndFlush($existingTaxonomy);
 
         $this->output->writeln(sprintf(
-            '<info>Category %s updated to %s. Exiting</info>',
+            '<info>Taxonomy %s updated to %s. Exiting</info>',
             $name,
             $update
         ));

@@ -24,9 +24,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class ConnectEbayCategories extends BaseCommand
 {
     /**
-     * @var NativeTaxonomyRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $nativeTaxonomyRepository
      */
-    private $normalizedCategoryRepository;
+    private $nativeTaxonomyRepository;
     /**
      * @var ShoppingApiEntryPoint $shoppingApiEntryPoint
      */
@@ -37,11 +37,11 @@ class ConnectEbayCategories extends BaseCommand
     private $ebayRootCategoryRepository;
 
     public function __construct(
-        NativeTaxonomyRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $nativeTaxonomyRepository,
         EbayRootCategoryRepository $ebayRootCategoryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint
     ) {
-        $this->normalizedCategoryRepository = $normalizedCategoryRepository;
+        $this->nativeTaxonomyRepository = $nativeTaxonomyRepository;
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->ebayRootCategoryRepository = $ebayRootCategoryRepository;
 
@@ -66,7 +66,7 @@ class ConnectEbayCategories extends BaseCommand
     {
         $this->makeEasier($input, $output);
 
-        $normalizedCategories = $this->normalizedCategoryRepository->findAll();
+        $normalizedCategories = $this->nativeTaxonomyRepository->findAll();
 
         if (empty($normalizedCategories)) {
             $message = sprintf(

@@ -22,9 +22,9 @@ class AddKeyword extends BaseCommand
      */
     private $marketplaceRepresentation;
     /**
-     * @var NativeTaxonomyRepository $normalizedCategoryRepository
+     * @var NativeTaxonomyRepository $nativeTaxonomyRepository
      */
-    private $normalizedCategoryRepository;
+    private $nativeTaxonomyRepository;
     /**
      * @var TodaysKeywordRepository $todaysKeywordRepository
      */
@@ -32,16 +32,16 @@ class AddKeyword extends BaseCommand
     /**
      * AddKeyword constructor.
      * @param MarketplaceRepresentation $marketplaceRepresentation
-     * @param NativeTaxonomyRepository $normalizedCategoryRepository
+     * @param NativeTaxonomyRepository $nativeTaxonomyRepository
      * @param TodaysKeywordRepository $todaysKeywordRepository
      */
     public function __construct(
         MarketplaceRepresentation $marketplaceRepresentation,
-        NativeTaxonomyRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $nativeTaxonomyRepository,
         TodaysKeywordRepository $todaysKeywordRepository
     ) {
         $this->marketplaceRepresentation = $marketplaceRepresentation;
-        $this->normalizedCategoryRepository = $normalizedCategoryRepository;
+        $this->nativeTaxonomyRepository = $nativeTaxonomyRepository;
         $this->todaysKeywordRepository = $todaysKeywordRepository;
 
         parent::__construct();
@@ -103,7 +103,7 @@ class AddKeyword extends BaseCommand
     private function getAnswers(): array
     {
         /** @var NativeTaxonomy[] $allNormalizedCategories */
-        $allNormalizedCategories = $this->normalizedCategoryRepository->findAll();
+        $allNormalizedCategories = $this->nativeTaxonomyRepository->findAll();
         /** @var QuestionHelper $questionHelper */
         $questionHelper = $this->getHelper('question');
 

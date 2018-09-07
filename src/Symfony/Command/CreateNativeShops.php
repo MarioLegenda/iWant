@@ -13,7 +13,6 @@ use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
-use App\Library\Representation\MarketplaceRepresentation;
 use App\Library\Util\Util;
 use App\Library\Representation\ShopsRepresentation;
 use Symfony\Component\Console\Input\InputInterface;
@@ -28,9 +27,9 @@ class CreateNativeShops extends BaseCommand
      */
     private $shoppingApiEntryPoint;
     /**
-     * @var NativeTaxonomyRepository
+     * @var NativeTaxonomyRepository $nativeTaxonomyRepository
      */
-    private $normalizedCategoryRepository;
+    private $nativeTaxonomyRepository;
     /**
      * @var ApplicationShopRepository $applicationShopRepository
      */
@@ -42,18 +41,18 @@ class CreateNativeShops extends BaseCommand
     /**
      * CreateNativeShops constructor.
      * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
-     * @param NativeTaxonomyRepository $normalizedCategoryRepository
+     * @param NativeTaxonomyRepository $nativeTaxonomyRepository
      * @param ApplicationShopRepository $applicationShopRepository
      * @param ShopsRepresentation $shopsRepresentation
      */
     public function __construct(
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
-        NativeTaxonomyRepository $normalizedCategoryRepository,
+        NativeTaxonomyRepository $nativeTaxonomyRepository,
         ApplicationShopRepository $applicationShopRepository,
         ShopsRepresentation $shopsRepresentation
     ) {
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
-        $this->normalizedCategoryRepository = $normalizedCategoryRepository;
+        $this->nativeTaxonomyRepository = $nativeTaxonomyRepository;
         $this->applicationShopRepository = $applicationShopRepository;
         $this->shopsRepresentation = $shopsRepresentation;
 
