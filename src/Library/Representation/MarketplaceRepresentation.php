@@ -5,7 +5,7 @@ namespace App\Library\Representation;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\MarketplaceType;
 
-class MarketplaceRepresentation implements ArrayNotationInterface
+class MarketplaceRepresentation implements ArrayNotationInterface, \IteratorAggregate
 {
     /**
      * @var MarketplaceType $ebay
@@ -45,6 +45,13 @@ class MarketplaceRepresentation implements ArrayNotationInterface
 
             $this->marketplaces[$key] = $marketplaceType;
         }
+    }
+    /**
+     * @return \ArrayIterator
+     */
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->toArray());
     }
     /**
      * @return iterable

@@ -95,6 +95,8 @@ services:
 
     App\Library\Http\HttpCommunicator:
 
+    # REPRESENTATIONS
+
     App\Library\Representation\ShopsRepresentation:
         arguments:
             $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
@@ -103,6 +105,10 @@ services:
     App\Library\Representation\MarketplaceRepresentation:
         arguments:
             $marketplaces: '%marketplaces%'
+
+    App\Library\Representation\NativeTaxonomyRepresentation:
+        arguments:
+            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:

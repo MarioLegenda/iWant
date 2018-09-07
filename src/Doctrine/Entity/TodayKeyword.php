@@ -59,12 +59,12 @@ class TodayKeyword
     /**
      * TodayKeyword constructor.
      * @param string $keyword
-     * @param string $marketplace
+     * @param MarketplaceType $marketplace
      * @param NativeTaxonomy $category
      */
     public function __construct(
         string $keyword,
-        string $marketplace,
+        MarketplaceType $marketplace,
         NativeTaxonomy $category
     ) {
         $this->name = $keyword;

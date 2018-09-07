@@ -126,7 +126,7 @@ class AddKeyword extends BaseCommand
 
         return [
             'keyword' => $keyword,
-            'marketplace' => $resolvedMarketplaces[$marketplace],
+            'marketplace' => MarketplaceType::fromValue($resolvedMarketplaces[$marketplace]),
             'category' => $this->resolveCategoryToObject(
                 $normalizedCategories[$normalizedCategory],
                 $allNormalizedCategories

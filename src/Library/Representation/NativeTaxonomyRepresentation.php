@@ -5,8 +5,9 @@ namespace App\Library\Representation;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class NativeTaxonomyRepresentation
+class NativeTaxonomyRepresentation implements ArrayNotationInterface, \IteratorAggregate
 {
     /**
      * @var TypedArray|iterable $taxonomies
@@ -38,12 +39,34 @@ class NativeTaxonomyRepresentation
         return $this->taxonomies[$name];
     }
     /**
+     * @return \ArrayIterator
+     */
+    public function getIterator(): \ArrayIterator
+    {
+        return new \ArrayIterator($this->toArray());
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        $taxonomies = $this->nativeTaxonomyRepository->findAll();
+
+        /** @var NativeTaxonomy $taxonomy */
+        foreach ($taxonomies as $taxonomy) {
+            $this->taxonomies[$taxonomy->getName()] = $taxonomy;
+        }
+
+        return $taxonomies;
+    }
+
+    /**
      * @param string $name
      * @throws \RuntimeException
      */
     private function populateTaxonomy(string $name): void
     {
-        if (!array_key_exists($name, $this->taxonomies)) {
+        if (!isset($this->taxonomies[$name])) {
             $taxonomy = $this->nativeTaxonomyRepository->findOneBy([
                 'internalName' => $name,
             ]);
@@ -60,7 +83,7 @@ class NativeTaxonomyRepresentation
             $this->taxonomies[$name] = $taxonomy;
         }
 
-        if (!array_key_exists($name, $this->taxonomies)) {
+        if (!isset($this->taxonomies[$name])) {
             $message = sprintf(
                 'Failed to lazy load a native taxonomy with name \'%s\' in %s',
                 $name,

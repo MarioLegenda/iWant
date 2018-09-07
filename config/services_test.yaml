@@ -176,6 +176,9 @@ services:
     data_provider.shopping_api:
         class: App\Tests\Ebay\ShoppingApi\DataProvider\DataProvider
 
+    data_provider.component.todays_keywords:
+        class: App\Tests\Component\DataProvider\DataProvider
+
     # SYMFONY
 
     # CONTROLLER
