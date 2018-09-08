@@ -66,6 +66,10 @@ services:
         autowire: true
         public: true
 
+    BlueDot\BlueDot:
+        factory: 'App\Symfony\BlueDot\BlueDotFactory:createBlueDot'
+        arguments: ['%kernel.project_dir%', '@doctrine']
+
     # APPLICATION
 
     App\Amazon\:
@@ -98,6 +102,7 @@ services:
 
     App\Component\:
       resource: '../src/Component'
+      exclude: '../src/Component/{TodayProducts/Model/*,Request/Model/*,Selector/Ebay/Selector/*}'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:

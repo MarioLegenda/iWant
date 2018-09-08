@@ -46,11 +46,16 @@ class NativeTaxonomyRepresentation implements ArrayNotationInterface, \IteratorA
         return new \ArrayIterator($this->toArray());
     }
     /**
+     * @param \Closure $closure
      * @return iterable
      */
-    public function toArray(): iterable
+    public function toArray(\Closure $closure = null): iterable
     {
         $taxonomies = $this->nativeTaxonomyRepository->findAll();
+
+        if ($closure instanceof \Closure) {
+            return $closure->__invoke($taxonomies);
+        }
 
         /** @var NativeTaxonomy $taxonomy */
         foreach ($taxonomies as $taxonomy) {

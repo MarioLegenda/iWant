@@ -1,0 +1,8 @@
+configuration:
+    simple:
+        select:
+            get_application_shop_ids_by_marketplace:
+                sql: "SELECT id FROM application_shops WHERE marketplace = :marketplace"
+                parameters: [marketplace]
+                filter:
+                    by_column: id

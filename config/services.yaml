@@ -67,6 +67,10 @@ services:
         autowire: true
         public: true
 
+    BlueDot\BlueDot:
+        factory: 'App\Symfony\BlueDot\BlueDotFactory:createBlueDot'
+        arguments: ['%kernel.project_dir%', '@doctrine']
+
     App\Amazon\:
         resource: '../src/Amazon/*'
         exclude: '../src/Amazon/{Library/*,Presentation/ProductAdvertising/Model/*}'
@@ -183,6 +187,7 @@ services:
 
     App\Component\:
         resource: '../src/Component'
+        exclude: '../src/Component/{TodayProducts/Model/*,Request/Model/*,Selector/Ebay/Selector/*}'
 
     # EVENT LISTENER
 

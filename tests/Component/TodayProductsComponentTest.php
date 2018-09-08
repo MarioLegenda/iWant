@@ -2,7 +2,10 @@
 
 namespace App\Tests\Component;
 
+use App\Component\Request\Model\TodayProduct;
+use App\Component\TodayProducts\TodayProductsComponent;
 use App\Doctrine\Entity\NativeTaxonomy;
+use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Doctrine\Repository\TodaysKeywordRepository;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
@@ -23,17 +26,22 @@ class TodayProductsComponentTest extends BasicSetup
         $em = $todaysKeywordsRepository->getManager();
 
         $em->getConnection()->exec('TRUNCATE todays_keywords');
+        $em->getConnection()->exec('TRUNCATE application_shops');
     }
 
     public function test_todays_products_component()
     {
-        $this->loadKeywords();
+        $this->loadKeywordsAndApplicationShops();
+
+        $component = $this->locator->get(TodayProductsComponent::class);
+
+        $component->getTodaysProducts(new TodayProduct(new \DateTime()));
     }
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    private function loadKeywords(): void
+    private function loadKeywordsAndApplicationShops(): void
     {
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component.todays_keywords');
@@ -43,6 +51,8 @@ class TodayProductsComponentTest extends BasicSetup
         $nativeTaxonomyRepresentation = $this->locator->get(NativeTaxonomyRepresentation::class);
         /** @var MarketplaceRepresentation $marketplaceRepresentation */
         $marketplaceRepresentation = $this->locator->get(MarketplaceRepresentation::class);
+        /** @var ApplicationShopRepository $applicationShopRepository */
+        $applicationShopRepository = $this->locator->get(ApplicationShopRepository::class);
 
         /** @var MarketplaceType|TypeInterface $marketplace */
         foreach ($marketplaceRepresentation as $marketplace) {
@@ -51,6 +61,12 @@ class TodayProductsComponentTest extends BasicSetup
                     $marketplace,
                     $todaysKeywordsRepository,
                     $nativeTaxonomy
+                );
+
+                $dataProvider->createApplicationShops(
+                    $applicationShopRepository,
+                    $nativeTaxonomy,
+                    $marketplace
                 );
             }
         }

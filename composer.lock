@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e944e1a69f969f40c4624685d16516db",
+    "content-hash": "4d4cf8a855bc5168a85efa61fe1619bd",
     "packages": [
         {
             "name": "cache/adapter-common",
@@ -1940,6 +1940,57 @@
                 "sql"
             ],
             "time": "2014-01-12T16:20:24+00:00"
+        },
+        {
+            "name": "mario-legenda/blue-dot",
+            "version": "1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MarioLegenda/blue-dot.git",
+                "reference": "0af974b5cd0087f34903e9b93039b0e3082eda7a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MarioLegenda/blue-dot/zipball/0af974b5cd0087f34903e9b93039b0e3082eda7a",
+                "reference": "0af974b5cd0087f34903e9b93039b0e3082eda7a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0 || <=7.2",
+                "symfony/var-dumper": "^4.0",
+                "symfony/yaml": ">=2.8.0"
+            },
+            "require-dev": {
+                "fzaninotto/faker": "^1.7",
+                "phpunit/phpunit": "^7",
+                "raveren/kint": "^1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "BlueDot": "src/",
+                    "Test": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mario Skrlec",
+                    "email": "whitepostmail@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Pure Sql Database abstraction layer",
+            "keywords": [
+                "abstraction",
+                "database",
+                "mysql",
+                "sql"
+            ],
+            "time": "2018-09-08T13:18:37+00:00"
         },
         {
             "name": "ocramius/package-versions",

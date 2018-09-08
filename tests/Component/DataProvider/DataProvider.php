@@ -2,8 +2,10 @@
 
 namespace App\Tests\Component\DataProvider;
 
+use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Entity\TodayKeyword;
+use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Doctrine\Repository\TodaysKeywordRepository;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
@@ -39,6 +41,30 @@ class DataProvider
         $todaysKeywordRepository->getManager()->flush($todaysKeyword);
     }
     /**
+     * @param ApplicationShopRepository $applicationShopRepository
+     * @param NativeTaxonomy $nativeTaxonomy
+     * @param MarketplaceType $marketplaceType
+     * @param int $numOfShops
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function createApplicationShops(
+        ApplicationShopRepository $applicationShopRepository,
+        NativeTaxonomy $nativeTaxonomy,
+        MarketplaceType $marketplaceType,
+        int $numOfShops = 10
+    ): void {
+        for ($i = 0; $i < $numOfShops; $i++) {
+            $applicationShop = $this->createApplicationShop(
+                $this->faker()->name,
+                $marketplaceType,
+                $nativeTaxonomy
+            );
+
+            $applicationShopRepository->persistAndFlush($applicationShop);
+        }
+    }
+    /**
      * @param string $keyword
      * @param MarketplaceType $marketplace
      * @param NativeTaxonomy $taxonomy
@@ -52,6 +78,25 @@ class DataProvider
         return new TodayKeyword(
             $keyword,
             $marketplace,
+            $taxonomy
+        );
+    }
+    /**
+     * @param string $name
+     * @param MarketplaceType $marketplaceType
+     * @param NativeTaxonomy $taxonomy
+     * @return ApplicationShop
+     */
+    private function createApplicationShop(
+        string $name,
+        MarketplaceType $marketplaceType,
+        NativeTaxonomy $taxonomy
+    ): ApplicationShop
+    {
+        return new ApplicationShop(
+            $name,
+            $name,
+            $marketplaceType,
             $taxonomy
         );
     }

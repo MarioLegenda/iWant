@@ -24,7 +24,8 @@ class FindingApiEntryPoint
     }
     /**
      * @param FindingApiRequestModelInterface $model
-     * @return FindingApiResponseModelInterface|ResponseModelInterface
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): ResponseModelInterface
@@ -33,7 +34,8 @@ class FindingApiEntryPoint
     }
     /**
      * @param FindingApiRequestModelInterface $model
-     * @return ResponseModelInterface|FindingApiResponseModelInterface
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsAdvanced(FindingApiRequestModelInterface $model): ResponseModelInterface
