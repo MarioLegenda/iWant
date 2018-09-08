@@ -43,7 +43,6 @@ class SelectorOne implements ObserverSelectorInterface
     {
         $queries = TypedArray::create('integer', Query::class);
 
-        dump($this->applicationShop->getApplicationName());
         $queries[] = new Query(
             'storeName',
             $this->applicationShop->getApplicationName()

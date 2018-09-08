@@ -77,8 +77,5 @@ class ProductFetcher
 
             $this->productSelector->notify();
         }
-
-        dump(count($this->productSelector->getProductResponseModels()));
-        die();
     }
 }

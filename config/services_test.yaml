@@ -159,20 +159,12 @@ services:
         resource: '../tests/Ebay/FindingApi/DataProvider'
         exclude: '../tests/Ebay/FindingApi/DataProvider/*'
 
-    App\Tests\Bonanza\DataProvider\:
-        resource: '../tests/Bonanza/DataProvider'
-        exclude: '../tests/Bonanza/DataProvider/*'
-
     data_provider.finding_api:
         class: App\Tests\Ebay\FindingApi\DataProvider\DataProvider
         autowire: false
 
     data_provider.etsy_api:
         class: App\Tests\Etsy\DataProvider\DataProvider
-        autowire: false
-
-    data_provider.bonanza_api:
-        class: App\Tests\Bonanza\DataProvider\DataProvider
         autowire: false
 
     data_provider.uniformed_request:

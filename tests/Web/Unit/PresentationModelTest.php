@@ -136,49 +136,4 @@ class PresentationModelTest extends BasicSetup
             static::assertNotEmpty($deferrableData['listingId']);
         }
     }
-
-    public function test_bonanza_presentation_creation()
-    {
-        /** @var BonanzaResponseModelFactory $modelFactory */
-        $modelFactory = $this->locator->get(BonanzaResponseModelFactory::class);
-        /** @var BonanzaDataProvider $dataProvider */
-        $dataProvider = $this->locator->get('data_provider.bonanza_api');
-        /** @var BonanzaApiEntryPoint $entryPoint */
-        $entryPoint = $this->locator->get(BonanzaApiEntryPoint::class);
-        /** @var BonanzaApiModel $apiModel */
-        $apiModel = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
-
-        /** @var BonanzaApiResponseModelInterface $responseModel */
-        $responseModel = $entryPoint->search($apiModel);
-
-        static::assertInstanceOf(BonanzaApiResponseModelInterface::class, $responseModel);
-
-        /** @var UniformedResponseModel[] $presentationModels */
-        $presentationModels = $modelFactory->createModels($responseModel);
-
-        /** @var UniformedResponseModel $presentationModel */
-        foreach ($presentationModels as $presentationModel) {
-            static::assertInternalType('string', $presentationModel->getItemId());
-            static::assertInternalType('float', $presentationModel->getPrice());
-            static::assertInternalType('string', $presentationModel->getDescription());
-            static::assertInternalType('string', $presentationModel->getViewItemUrl());
-            static::assertInternalType('string', $presentationModel->getTitle());
-            static::assertInstanceOf(ShippingInfo::class, $presentationModel->getShippingInfo());
-            static::assertInstanceOf(SellerInfo::class, $presentationModel->getSellerInfo());
-            static::assertInstanceOf(ImageGallery::class, $presentationModel->getImageGallery());
-            static::assertInternalType('bool', $presentationModel->isAvailableInYourCountry());
-
-            $shippingInfo = $presentationModel->getShippingInfo();
-
-            static::assertInternalTypeOrNull('array', $shippingInfo->getLocations());
-            static::assertInternalTypeOrNull('float', $shippingInfo->getShippingCost());
-
-            $sellerInfo = $presentationModel->getSellerInfo();
-
-            static::assertInternalType('string', $sellerInfo->getUserName());
-
-            static::assertEquals(DeferrableType::fromValue('concrete_object')->getValue(), $shippingInfo->getDeferrableType()->getValue());
-            static::assertEquals(DeferrableType::fromValue('concrete_object')->getValue(), $sellerInfo->getDeferrableType()->getValue());
-        }
-    }
 }

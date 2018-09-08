@@ -25,8 +25,24 @@
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests/</directory>
+        <testsuite name="Component Test Suite">
+            <directory>tests/Component</directory>
+        </testsuite>
+
+        <testsuite name="Ebay Test Suite">
+            <directory>tests/Ebay</directory>
+        </testsuite>
+
+        <testsuite name="Etsy Test Suite">
+            <directory>tests/Etsy</directory>
+        </testsuite>
+
+        <testsuite name="Generic Unit tests Test Suite">
+            <directory>tests/Unit</directory>
+        </testsuite>
+
+        <testsuite name="Web Test Suite">
+            <directory>tests/Web</directory>
         </testsuite>
     </testsuites>
 

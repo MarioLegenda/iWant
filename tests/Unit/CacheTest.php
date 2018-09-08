@@ -27,55 +27,6 @@ class CacheTest extends BasicSetup
         $this->locator->get(ApiRequestCache::class)->clear();
     }
 
-    public function test_bonanza_cache()
-    {
-        /** @var RequestCacheImplementation $cacheImplementation */
-        $cacheImplementation = $this->locator->get(RequestCacheImplementation::class);
-        /** @var RequestCacheRepository $requestCacheRepository */
-        $requestCacheRepository = $this->locator->get(RequestCacheRepository::class);
-        /** @var BonanzaDataProvider $dataProvider */
-        $dataProvider = $this->locator->get('data_provider.bonanza_api');
-        /** @var BonanzaApiModel $bonanzaApiModel */
-        $bonanzaApiModel = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
-        /** @var BonanzaFinder $bonanzaFinder */
-        $bonanzaFinder = $this->locator->get(BonanzaFinder::class);
-
-        $bonanzaFinder->search($bonanzaApiModel);
-
-        $allCaches = $requestCacheRepository->findAll();
-
-        static::assertEquals(1, count($allCaches));
-
-        /** @var RequestCache $cache */
-        $cache = $allCaches[0];
-        $expiresAt = $cache->getExpiresAt();
-
-        /**
-         *  Set expire time in 1 second
-         */
-        $newTtl = Util::toDateTime()->getTimestamp() + 1;
-        $cache->setExpiresAt($newTtl);
-        $requestCacheRepository->getManager()->persist($cache);
-        $requestCacheRepository->getManager()->flush();
-
-        sleep(2);
-
-        $bonanzaFinder->search($bonanzaApiModel);
-
-        $allCaches = $requestCacheRepository->findAll();
-
-        static::assertEquals(1, count($allCaches));
-
-        /** @var RequestCache $cache */
-        $cache = $allCaches[0];
-        $newExpiresAt = $cache->getExpiresAt();
-
-        static::assertNotEquals($expiresAt, $newExpiresAt);
-        static::assertGreaterThan($newExpiresAt, $expiresAt);
-
-        $this->locator->get(ApiRequestCache::class)->clear();
-    }
-
     public function test_ebay_cache()
     {
         /** @var RequestCacheImplementation $cacheImplementation */

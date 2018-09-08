@@ -12,9 +12,7 @@ use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
-use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponseInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
-use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponseInterface;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
@@ -23,7 +21,6 @@ use App\Ebay\Library\Processor\RequestBaseProcessor;
 use App\Ebay\Source\FinderSource;
 use App\Library\Response;
 use App\Symfony\Exception\HttpException;
-use App\Symfony\Exception\WrapperHttpException;
 
 class Finder
 {
@@ -76,25 +73,24 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsByKeywords->getRequest();
-        /** @var Response $response */
-        $response = $this->finderSource->getApiResource($request);
 
-        /** @var XmlFindingApiResponseModel $responseModel */
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createKeywordsModelResponse(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
+        /** @var Response $resource */
+        $response = $this->finderSource->getApiResource($request);
+        /** @var FindingApiResponseModelInterface $responseModel */
         $responseModel = $this->createKeywordsModelResponse($response->getResponseString());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($responseModel->getRawResponse());
+            throw new HttpException($response->getResponseString());
         }
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
-            return $this->createKeywordsModelResponse($stringResource);
-        }
-
-        return $this->createKeywordsModelResponse(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        return $this->createKeywordsModelResponse($stringResource);
     }
     /**
      * @param FindingApiRequestModelInterface $model
@@ -108,25 +104,24 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsAdvanced->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createKeywordsModelResponse(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
-
-        /** @var XmlFindingApiResponseModel $responseModel */
+        /** @var FindingApiResponseModelInterface $responseModel */
         $responseModel = $this->createKeywordsModelResponse($response->getResponseString());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($responseModel->getRawResponse());
+            throw new HttpException($response->getResponseString());
         }
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
-            return $this->createKeywordsModelResponse($stringResource);
-        }
-
-        return $this->createKeywordsModelResponse(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        return $this->createKeywordsModelResponse($stringResource);
     }
     /**
      * @param ShoppingApiRequestModelInterface $model
@@ -140,6 +135,12 @@ class Finder
 
         /** @var Request $request */
         $request = $getUserProfile->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createUserProfileResponse(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
 
@@ -149,15 +150,9 @@ class Finder
             throw new HttpException($responseModel->getRawResponse());
         }
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
-            return $this->createUserProfileResponse($stringResource);
-        }
-
-        return $this->createUserProfileResponse(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        return $this->createUserProfileResponse($stringResource);
     }
     /**
      * @param FindingApiRequestModelInterface $model
@@ -171,6 +166,12 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsInEbayStores->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createKeywordsModelResponse(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
         /** @var FindingApiResponseModelInterface $responseModel */
@@ -180,15 +181,9 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
-            return $this->createKeywordsModelResponse($stringResource);
-        }
-
-        return $this->createKeywordsModelResponse(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        return $this->createKeywordsModelResponse($stringResource);
     }
     /**
      * @param ShoppingApiRequestModelInterface $model
@@ -198,10 +193,16 @@ class Finder
      */
     public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
-        $getUserProfile = new GetCategoryInfo($model, $this->shoppingApiRequestBaseProcessor);
+        $getCategoryInfo = new GetCategoryInfo($model, $this->shoppingApiRequestBaseProcessor);
 
         /** @var Request $request */
-        $request = $getUserProfile->getRequest();
+        $request = $getCategoryInfo->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createCategoryInfoResponse(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
 
@@ -211,15 +212,9 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
-            return $this->createCategoryInfoResponse($stringResource);
-        }
-
-        return $this->createCategoryInfoResponse(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        return $this->createCategoryInfoResponse($stringResource);
     }
     /**
      * @param string $resource
