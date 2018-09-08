@@ -246,10 +246,6 @@ services:
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\LoadEbayCategories:
-        tags:
-            - { name: 'console.command' }
-
     App\Symfony\Command\CategoryConnection\ConnectEbayCategories:
         arguments:
             $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'

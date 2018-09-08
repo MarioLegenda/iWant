@@ -2,7 +2,12 @@
 
 namespace App\Component\Selector\Ebay;
 
+use App\Component\Selector\Ebay\Selector\SelectorFive;
+use App\Component\Selector\Ebay\Selector\SelectorFour;
 use App\Component\Selector\Ebay\Selector\SelectorOne;
+use App\Component\Selector\Ebay\Selector\SelectorSix;
+use App\Component\Selector\Ebay\Selector\SelectorThree;
+use App\Component\Selector\Ebay\Selector\SelectorTwo;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -26,56 +31,54 @@ class ProductFetcher
      */
     private $productSelector;
     /**
-     * @var FindingApiEntryPoint $findingApiEntryPoint
-     */
-    private $findingApiEntryPoint;
-    /**
      * ProductFetcher constructor.
      * @param BlueDot $blueDot
      * @param ApplicationShopRepository $applicationShopRepository
      * @param ProductSelector $productSelector
-     * @param FindingApiEntryPoint $findingApiEntryPoint
      */
     public function __construct(
         BlueDot $blueDot,
         ApplicationShopRepository $applicationShopRepository,
-        ProductSelector $productSelector,
-        FindingApiEntryPoint $findingApiEntryPoint
+        ProductSelector $productSelector
     ) {
         $this->blueDot = $blueDot;
         $this->applicationShopRepository = $applicationShopRepository;
         $this->productSelector = $productSelector;
-        $this->findingApiEntryPoint = $findingApiEntryPoint;
     }
 
     public function getProducts(): iterable
     {
-        $products = TypedArray::create('integer', TodayProduct::class);
+        $products = [];
 
         $this->blueDot->useRepository('util');
 
         $promise = $this->blueDot->execute('simple.select.get_application_shop_ids_by_marketplace', [
-            'marketplace' => (string) MarketplaceType::fromValue('Amazon'),
+            'marketplace' => (string) MarketplaceType::fromValue('Ebay'),
         ]);
 
         $applicationShopIds = $promise->getResult()['data']['id'];
 
-        for (;;) {
-            if (count($products) === 4) {
-                break;
-            }
+        $randomShopIds = array_rand($applicationShopIds, 4);
 
-            $applicationShopId = $applicationShopIds[array_rand($applicationShopIds)];
+        foreach ($randomShopIds as $index) {
             /** @var ApplicationShop $applicationShop */
-            $applicationShop = $this->applicationShopRepository->find($applicationShopId);
+
+            $applicationShop = $this->applicationShopRepository->find(
+                $applicationShopIds[$index]
+            );
 
             $this->productSelector
-                ->attach(new SelectorOne($applicationShop));
+                ->attach(new SelectorOne($applicationShop))
+                ->attach(new SelectorTwo($applicationShop))
+                ->attach(new SelectorThree($applicationShop))
+                ->attach(new SelectorFour($applicationShop))
+                ->attach(new SelectorFive($applicationShop))
+                ->attach(new SelectorSix($applicationShop));
 
-            $products[] = $this->productSelector->notify();
+            $this->productSelector->notify();
         }
 
-        dump($products);
+        dump(count($this->productSelector->getProductResponseModels()));
         die();
     }
 }

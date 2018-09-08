@@ -58,11 +58,29 @@ class ShopsRepresentation
                 'marketplace' => $this->marketplaceRepresentation->ebay,
             ],
             [
+                'name' => 'am-autoparts',
+                'global_id' => GlobalIdInformation::EBAY_MOTOR,
+                'category' => $allNormalizedCategories['Autoparts & Mechanics'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'www.csl-computer.com',
+                'global_id' => GlobalIdInformation::EBAY_DE,
+                'category' => $allNormalizedCategories['Computers, Mobile & Games'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'argos',
+                'global_id' => GlobalIdInformation::EBAY_GB,
+                'category' => $allNormalizedCategories['Home & Garden'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
                 'name' => 'ModernMud',
                 'global_id' => null,
                 'category' => $allNormalizedCategories['Crafts & Handmade'],
                 'marketplace' => $this->marketplaceRepresentation->etsy,
-            ]
+            ],
         ];
     }
     /**
@@ -70,7 +88,7 @@ class ShopsRepresentation
      */
     private function createNormalizedCategoryAssociativeRepresentation(): iterable
     {
-        $allNormalizedCategories = Util::createGenerator($this->normalizedCategoryRepository->findAll());
+        $allNormalizedCategories = Util::createGenerator($this->nativeTaxonomyRepository->findAll());
 
         $associativeNormalized = TypedArray::create('string', NativeTaxonomy::class);
         foreach ($allNormalizedCategories as $entry) {

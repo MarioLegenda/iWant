@@ -42,4 +42,14 @@ class FindingApiEntryPoint
     {
         return $this->finder->findItemsAdvanced($model);
     }
+    /**
+     * @param FindingApiRequestModelInterface $model
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findItemsInEbayStores(FindingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        return $this->finder->findItemsInEbayStores($model);
+    }
 }

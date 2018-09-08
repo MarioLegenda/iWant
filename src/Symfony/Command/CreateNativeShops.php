@@ -89,14 +89,22 @@ class CreateNativeShops extends BaseCommand
 
             $data = $this->resolveUserData($item);
 
-            $exists = $this->doesShopExist(
+            $existingShop = $this->doesShopExist(
                 $data['storeName'],
                 (string) $data['data']['marketplace']
             );
 
-            if ($exists) {
+            if ($existingShop instanceof ApplicationShop) {
+                $existingShop = $this->updateApplicationShop(
+                    $existingShop,
+                    $data['data'],
+                    $data['storeName']
+                );
+
+                $this->applicationShopRepository->getManager()->persist($existingShop);
+
                 $this->output->writeln(sprintf(
-                    '<comment>Store \'%s\' of marketplace %s already exists. Continuing</comment>',
+                    '<comment>Store \'%s\' from marketplace %s has been updated</comment>',
                     $data['storeName'],
                     (string) $data['data']['marketplace']
                 ));
@@ -168,20 +176,41 @@ class CreateNativeShops extends BaseCommand
     /**
      * @param string $name
      * @param string $marketplace
-     * @return null
+     * @return ApplicationShop|null
      */
     private function doesShopExist(
         string $name,
         string $marketplace
-    ) {
-        $existingMarketplace = $this->applicationShopRepository->findBy([
+    ): ?ApplicationShop {
+        $existingShop = $this->applicationShopRepository->findOneBy([
             'applicationName' => $name,
             'marketplace' => $marketplace
         ]);
 
-        if (!empty($existingMarketplace)) {
-            return true;
+        if (!$existingShop instanceof ApplicationShop) {
+            return null;
         }
+
+        return $existingShop;
+    }
+    /**
+     * @param ApplicationShop $applicationShop
+     * @param iterable $data
+     * @param string $storeName
+     * @return ApplicationShop
+     */
+    public function updateApplicationShop(
+        ApplicationShop $applicationShop,
+        iterable $data,
+        string $storeName
+    ): ApplicationShop {
+        $applicationShop->setName($data['name']);
+        $applicationShop->setApplicationName($storeName);
+        $applicationShop->setMarketplace((string) $data['marketplace']);
+        $applicationShop->setNativeTaxonomy($data['category']);
+        $applicationShop->setGlobalId($data['global_id']);
+
+        return $applicationShop;
     }
     /**
      * @param iterable $data

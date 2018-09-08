@@ -122,6 +122,13 @@ class ApplicationShop
         $this->applicationName = $applicationName;
     }
     /**
+     * @param string|null $globalId
+     */
+    public function setGlobalId(string $globalId = null)
+    {
+        $this->globalId = $globalId;
+    }
+    /**
      * @return string
      */
     public function getGlobalId(): string

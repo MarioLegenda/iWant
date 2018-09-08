@@ -13,7 +13,7 @@ use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
-class SelectorOne implements ObserverSelectorInterface
+class SelectorTwo implements ObserverSelectorInterface
 {
     /**
      * @var ApplicationShop $applicationShop
@@ -43,7 +43,6 @@ class SelectorOne implements ObserverSelectorInterface
     {
         $queries = TypedArray::create('integer', Query::class);
 
-        dump($this->applicationShop->getApplicationName());
         $queries[] = new Query(
             'storeName',
             $this->applicationShop->getApplicationName()
@@ -68,10 +67,24 @@ class SelectorOne implements ObserverSelectorInterface
     {
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
-        $bestOfferOnly = new ItemFilter(new ItemFilterMetadata(
+        $freeShippingOnly = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
-            ItemFilterConstants::BEST_OFFER_ONLY,
+            ItemFilterConstants::FREE_SHIPPING_ONLY,
+            [true]
+        ));
+
+        $featuredOnly = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::FEATURED_ONLY,
+            [true]
+        ));
+
+        $getItFastOnly = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::GET_IT_FAST_ONLY,
             [true]
         ));
 
@@ -82,7 +95,9 @@ class SelectorOne implements ObserverSelectorInterface
             [true]
         ));
 
-        $itemFilters[] = $bestOfferOnly;
+        $itemFilters[] = $freeShippingOnly;
+        $itemFilters[] = $featuredOnly;
+        $itemFilters[] = $getItFastOnly;
         $itemFilters[] = $hideDuplicatedItems;
 
         return $itemFilters;

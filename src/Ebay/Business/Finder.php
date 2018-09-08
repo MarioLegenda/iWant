@@ -150,7 +150,7 @@ class Finder
         }
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
-            $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
+            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
             return $this->createUserProfileResponse($stringResource);
         }
@@ -181,10 +181,7 @@ class Finder
         }
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
-            /** @var Response $resource */
-            $resource = $this->finderSource->getApiResource($request);
-
-            $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
+            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
             return $this->createKeywordsModelResponse($stringResource);
         }
@@ -215,9 +212,7 @@ class Finder
         }
 
         if (!$this->cacheImplementation->isRequestStored($request)) {
-            $resource = $this->finderSource->getApiResource($request);
-
-            $stringResource = $this->cacheImplementation->store($request, $resource->getResponseString());
+            $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
 
             return $this->createCategoryInfoResponse($stringResource);
         }

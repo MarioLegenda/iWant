@@ -46,6 +46,7 @@ class FindItemsInEbayStores
     {
         $requestProducer = new RequestProducer($this->createProcessors($this->model));
 
+        dump($requestProducer->produce());
         return new Request($requestProducer->produce());
     }
     /**
