@@ -99,6 +99,7 @@ class ProductFetcher
             /** @var Result $singleModel */
             $singleModel = $model->getResults()[0];
 
+            $itemId = (string) $singleModel->getListingId();
             $title = $singleModel->getTitle();
             $imageUrl = 'NaN';
             $shopName = 'Shop name';
@@ -107,6 +108,7 @@ class ProductFetcher
             $shopType = MarketplaceType::fromValue('Etsy');
 
             $products[] = new TodayProduct(
+                $itemId,
                 $title,
                 $imageUrl,
                 $shopName,

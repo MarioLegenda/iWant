@@ -9,6 +9,10 @@ use App\Library\MarketplaceType;
 class TodayProduct implements ArrayNotationInterface
 {
     /**
+     * @var string $itemId
+     */
+    private $itemId;
+    /**
      * @var string $title
      */
     private $title;
@@ -34,6 +38,7 @@ class TodayProduct implements ArrayNotationInterface
     private $marketplace;
     /**
      * TodayProduct constructor.
+     * @param string $itemId
      * @param string $title
      * @param string $imageUrl
      * @param string $shopName
@@ -42,6 +47,7 @@ class TodayProduct implements ArrayNotationInterface
      * @param MarketplaceType|TypeInterface $marketplace
      */
     public function __construct(
+        string $itemId,
         string $title,
         string $imageUrl,
         string $shopName,
@@ -55,6 +61,13 @@ class TodayProduct implements ArrayNotationInterface
         $this->price = $price;
         $this->viewItemUrl = $viewItemUrl;
         $this->marketplace = $marketplace;
+    }
+    /**
+     * @return string
+     */
+    public function getItemId(): string
+    {
+        return $this->itemId;
     }
     /**
      * @return string
@@ -99,13 +112,6 @@ class TodayProduct implements ArrayNotationInterface
         return $this->marketplace;
     }
     /**
-     * @param MarketplaceType $marketplace
-     */
-    public function setMarketplace(MarketplaceType $marketplace): void
-    {
-        $this->marketplace = $marketplace;
-    }
-    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -116,6 +122,7 @@ class TodayProduct implements ArrayNotationInterface
             'shopName' => $this->getShopName(),
             'price' => $this->getPrice(),
             'viewItemUrl' => $this->getViewItemUrl(),
+            'marketplace' => (string) $this->getMarketplace(),
         ];
     }
 }

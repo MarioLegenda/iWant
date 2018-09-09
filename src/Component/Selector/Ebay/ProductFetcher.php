@@ -73,6 +73,7 @@ class ProductFetcher
             /** @var Item $singleItem */
             $singleItem = $responseModel->getSearchResults()[0];
 
+            $itemId = (string) $singleItem->getItemId();
             $title = $singleItem->getTitle();
             $imageUrl = $singleItem->getGalleryUrl();
             $shopName = $singleItem->getSellerInfo()->getSellerUsername();
@@ -80,6 +81,7 @@ class ProductFetcher
             $viewItemUrl = $singleItem->getViewItemUrl();
 
             $todayProductModels[] = new TodayProduct(
+                $itemId,
                 $title,
                 $imageUrl,
                 $shopName,
