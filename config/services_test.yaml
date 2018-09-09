@@ -105,7 +105,7 @@ services:
       exclude: '../src/Component/{TodayProducts/Model/*,Request/Model/*,Selector/Ebay/Selector/*,Selector/Etsy/Selector/*}'
 
     # REQUEST BASE PROCESSORS
-    App\Ebay\Library\Processor\RequestBaseProcessor:
+    App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
 

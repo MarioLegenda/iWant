@@ -16,7 +16,7 @@ class RequestBaseProcessor implements ProcessorInterface
      */
     private $bonanzaApi;
     /**
-     * RequestBaseProcessor constructor.
+     * FindingApiRequestBaseProcessor constructor.
      * @param iterable $bonanzaApi
      */
     public function __construct(

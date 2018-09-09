@@ -17,7 +17,7 @@ use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
-use App\Ebay\Library\Processor\RequestBaseProcessor;
+use App\Ebay\Library\Processor\FindingApiRequestBaseProcessor;
 use App\Ebay\Source\FinderSource;
 use App\Library\Response;
 use App\Symfony\Exception\HttpException;
@@ -29,7 +29,7 @@ class Finder
      */
     private $finderSource;
     /**
-     * @var RequestBaseProcessor $requestBase
+     * @var FindingApiRequestBaseProcessor $requestBase
      */
     private $requestBase;
     /**
@@ -43,13 +43,13 @@ class Finder
     /**
      * Finder constructor.
      * @param FinderSource $finderSource
-     * @param RequestBaseProcessor $requestBase
+     * @param FindingApiRequestBaseProcessor $requestBase
      * @param RequestCacheImplementation $cacheImplementation
      * @param ShoppingApiRequestBaseProcessor $shoppingApiRequestBaseProcessor
      */
     public function __construct(
         FinderSource $finderSource,
-        RequestBaseProcessor $requestBase,
+        FindingApiRequestBaseProcessor $requestBase,
         RequestCacheImplementation $cacheImplementation,
         ShoppingApiRequestBaseProcessor $shoppingApiRequestBaseProcessor
     ) {

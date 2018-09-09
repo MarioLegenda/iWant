@@ -21,7 +21,7 @@ class RequestBaseProcessor implements ProcessorInterface
      */
     private $processed;
     /**
-     * RequestBaseProcessor constructor.
+     * FindingApiRequestBaseProcessor constructor.
      * @param iterable $amazonProductAdvertisingApiMetadata
      */
     public function __construct(

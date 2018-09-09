@@ -16,7 +16,7 @@ class RequestBaseProcessor implements ProcessorInterface
      */
     private $etsyApi;
     /**
-     * RequestBaseProcessor constructor.
+     * FindingApiRequestBaseProcessor constructor.
      * @param iterable $etsyApi
      */
     public function __construct(iterable $etsyApi)

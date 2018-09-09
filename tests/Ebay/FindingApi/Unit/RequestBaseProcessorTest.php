@@ -2,7 +2,7 @@
 
 namespace App\Tests\Ebay\FindingApi\Unit;
 
-use App\Ebay\Library\Processor\RequestBaseProcessor;
+use App\Ebay\Library\Processor\FindingApiRequestBaseProcessor;
 use App\Library\Tools\LockedImmutableHashSet;
 use App\Ebay\Library\Type\OperationType;
 use App\Ebay\Library\Type\ResponseDataFormatType;
@@ -12,8 +12,8 @@ class RequestBaseProcessorTest extends BasicSetup
 {
     public function test_request_base()
     {
-        /** @var RequestBaseProcessor $requestBase */
-        $requestBase = $this->locator->get(RequestBaseProcessor::class);
+        /** @var FindingApiRequestBaseProcessor $requestBase */
+        $requestBase = $this->locator->get(FindingApiRequestBaseProcessor::class);
 
         $params = [
             'operation_name' => (string) OperationType::fromKey('FindItemsByKeywords'),

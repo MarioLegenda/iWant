@@ -5,7 +5,7 @@ namespace App\Ebay\Library\Processor;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Tools\LockedImmutableHashSet;
 
-class RequestBaseProcessor implements ProcessorInterface
+class FindingApiRequestBaseProcessor implements ProcessorInterface
 {
     /**
      * @param LockedImmutableHashSet $options
@@ -20,7 +20,7 @@ class RequestBaseProcessor implements ProcessorInterface
      */
     private $ebayFindingApiMetadata;
     /**
-     * RequestBaseProcessor constructor.
+     * FindingApiRequestBaseProcessor constructor.
      * @param iterable $ebayFindingApiMetadata
      */
     public function __construct(
@@ -36,7 +36,7 @@ class RequestBaseProcessor implements ProcessorInterface
         if (!$this->options instanceof LockedImmutableHashSet) {
             $message = sprintf(
                 'Options have to be set for %s',
-                RequestBaseProcessor::class
+                FindingApiRequestBaseProcessor::class
             );
 
             throw new \RuntimeException($message);
@@ -94,7 +94,7 @@ class RequestBaseProcessor implements ProcessorInterface
         if ($options->isEmpty()) {
             $message = sprintf(
                 'Options cannot be empty for class %s',
-                RequestBaseProcessor::class
+                FindingApiRequestBaseProcessor::class
             );
 
             throw new \RuntimeException($message);

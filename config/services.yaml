@@ -115,7 +115,7 @@ services:
             $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
 
     # REQUEST BASE PROCESSORS
-    App\Ebay\Library\Processor\RequestBaseProcessor:
+    App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:
             $ebayFindingApiMetadata: '%ebay_finding_api_metadata%'
 
