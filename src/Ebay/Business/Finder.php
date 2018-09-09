@@ -88,9 +88,9 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $this->cacheImplementation->store($request, $response->getResponseString());
 
-        return $this->createKeywordsModelResponse($stringResource);
+        return $responseModel;
     }
     /**
      * @param FindingApiRequestModelInterface $model
@@ -119,9 +119,9 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $this->cacheImplementation->store($request, $response->getResponseString());
 
-        return $this->createKeywordsModelResponse($stringResource);
+        return $responseModel;
     }
     /**
      * @param ShoppingApiRequestModelInterface $model
@@ -150,9 +150,9 @@ class Finder
             throw new HttpException($responseModel->getRawResponse());
         }
 
-        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $this->cacheImplementation->store($request, $response->getResponseString());
 
-        return $this->createUserProfileResponse($stringResource);
+        return $responseModel;
     }
     /**
      * @param FindingApiRequestModelInterface $model
@@ -181,9 +181,9 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $this->cacheImplementation->store($request, $response->getResponseString());
 
-        return $this->createKeywordsModelResponse($stringResource);
+        return $responseModel;
     }
     /**
      * @param ShoppingApiRequestModelInterface $model
@@ -212,9 +212,9 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        $stringResource = $this->cacheImplementation->store($request, $response->getResponseString());
+        $this->cacheImplementation->store($request, $response->getResponseString());
 
-        return $this->createCategoryInfoResponse($stringResource);
+        return $responseModel;
     }
     /**
      * @param string $resource
