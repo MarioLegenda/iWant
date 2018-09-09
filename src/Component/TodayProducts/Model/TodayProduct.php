@@ -55,6 +55,7 @@ class TodayProduct implements ArrayNotationInterface
         string $viewItemUrl,
         MarketplaceType $marketplace
     ) {
+        $this->itemId = $itemId;
         $this->title = $title;
         $this->imageUrl = $imageUrl;
         $this->shopName = $shopName;

@@ -43,10 +43,10 @@ class TodayProductsComponent
      */
     public function getTodaysProducts(TodayProduct $model): array
     {
-        return array_merge(
-            $this->createEbayProducts()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION),
-            $this->createEtsyProducts()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION)
-        );
+        return [
+            'ebay' => $this->createEbayProducts()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION),
+            'etsy' => $this->createEtsyProducts()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION),
+        ];
     }
     /**
      * @return iterable|TypedArray
