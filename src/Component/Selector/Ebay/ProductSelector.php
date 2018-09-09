@@ -80,7 +80,7 @@ class ProductSelector implements \SplSubject
         }
     }
     /**
-     * @return iterable
+     * @return iterable|TypedArray
      */
     public function getProductResponseModels(): iterable
     {

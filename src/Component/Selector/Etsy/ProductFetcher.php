@@ -2,7 +2,8 @@
 
 namespace App\Component\Selector\Etsy;
 
-use App\Component\Selector\Etsy\Selector\FindAllFeaturedListings;
+use App\Component\Selector\Etsy\Selector\FindAllShopListingsActive;
+use App\Component\Selector\Etsy\Selector\FindAllShopListingsFeatured;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -54,39 +55,6 @@ class ProductFetcher
         return $this->createTodaysProductModels($responseModels);
     }
     /**
-     * @return TypedArray
-     * @throws \BlueDot\Exception\ConfigurationException
-     * @throws \BlueDot\Exception\ConnectionException
-     * @throws \BlueDot\Exception\RepositoryException
-     */
-    private function getResponseModels(): TypedArray
-    {
-        $this->blueDot->useRepository('util');
-
-        $promise = $this->blueDot->execute('simple.select.get_application_shop_ids_by_marketplace', [
-            'marketplace' => (string) MarketplaceType::fromValue('Etsy'),
-        ]);
-
-        $applicationShopIds = $promise->getResult()['data']['id'];
-
-        $randomShopIds = array_rand($applicationShopIds, 4);
-
-        foreach ($randomShopIds as $index) {
-            /** @var ApplicationShop $applicationShop */
-
-            $applicationShop = $this->applicationShopRepository->find(
-                $applicationShopIds[$index]
-            );
-
-            $this->productSelector
-                ->attach(new FindAllFeaturedListings($applicationShop));
-
-            $this->productSelector->notify();
-        }
-
-        return $this->productSelector->getProductResponseModels();
-    }
-    /**
      * @param TypedArray $models
      * @return TypedArray
      */
@@ -119,5 +87,39 @@ class ProductFetcher
         }
 
         return $products;
+    }
+    /**
+     * @return TypedArray
+     * @throws \BlueDot\Exception\ConfigurationException
+     * @throws \BlueDot\Exception\ConnectionException
+     * @throws \BlueDot\Exception\RepositoryException
+     */
+    private function getResponseModels(): TypedArray
+    {
+        $this->blueDot->useRepository('util');
+
+        $promise = $this->blueDot->execute('simple.select.get_application_shop_ids_by_marketplace', [
+            'marketplace' => (string) MarketplaceType::fromValue('Etsy'),
+        ]);
+
+        $applicationShopIds = $promise->getResult()['data']['id'];
+
+        $randomShopIds = array_rand($applicationShopIds, 4);
+
+        foreach ($randomShopIds as $index) {
+            /** @var ApplicationShop $applicationShop */
+
+            $applicationShop = $this->applicationShopRepository->find(
+                $applicationShopIds[$index]
+            );
+
+            $this->productSelector
+                ->attach(new FindAllShopListingsFeatured($applicationShop))
+                ->attach(new FindAllShopListingsActive($applicationShop));
+
+            $this->productSelector->notify();
+        }
+
+        return $this->productSelector->getProductResponseModels();
     }
 }

@@ -28,7 +28,7 @@ class RequestMetadataProducer
      */
     protected $apiKeyProcessor;
     /**
-     * FindAllListingActive constructor.
+     * FindAllShopListingsActive constructor.
      * @param EtsyApiModel $model
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor

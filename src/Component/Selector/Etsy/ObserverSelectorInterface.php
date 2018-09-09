@@ -8,7 +8,7 @@ interface ObserverSelectorInterface extends \SplObserver
 {
     /**
      * @param \SplSubject $subject
-     * @return EtsyApiModel|null
+     * @return EtsyApiModel
      */
-    public function update(\SplSubject $subject): ?EtsyApiModel;
+    public function update(\SplSubject $subject): EtsyApiModel;
 }

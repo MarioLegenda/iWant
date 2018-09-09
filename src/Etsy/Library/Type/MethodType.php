@@ -10,7 +10,7 @@ class MethodType extends BaseType
      * @var array $types
      */
     protected static $types = [
-        'findAllListingActive' => 'FindAllListingActive',
+        'findAllListingActive' => 'FindAllShopListingsActive',
         'findAllShopListingsFeatured' => 'FindAllShopListingsFeatured',
     ];
 }

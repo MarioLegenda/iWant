@@ -64,11 +64,13 @@ class ProductSelector implements \SplSubject
                     /** @var EtsyApiResponseModelInterface $responseModel */
                     $responseModel = $this->etsyApiEntryPoint->findAllShopListingsFeatured($model);
 
-                    $this->productResponseModels[] = $responseModel;
+                    if ($responseModel->getCount() > 0) {
+                        $this->productResponseModels[] = $responseModel;
+                    }
 
                     $this->observers = [];
 
-                    break;
+                    return;
             }
         }
     }
