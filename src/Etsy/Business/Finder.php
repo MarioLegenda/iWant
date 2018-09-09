@@ -67,17 +67,20 @@ class Finder
         /** @var Request $request */
         $request = $findAllListingActive->getRequest();
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $resource = $this->finderSource->getResource($request);
-
-            $resource = $this->cacheImplementation->store($request, $resource);
-
-            return $this->createFindAllListingActiveResponseModel($resource);
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createFindAllListingActiveResponseModel(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
         }
 
-        return $this->createFindAllListingActiveResponseModel(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        $resource = $this->finderSource->getResource($request);
+
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $this->createFindAllListingActiveResponseModel($resource);
+
+        $this->cacheImplementation->store($request, $resource);
+
+        return $responseModel;
     }
     /**
      * @param EtsyApiModel $model
@@ -86,26 +89,29 @@ class Finder
      */
     public function findAllShopListingsFeatured(EtsyApiModel $model)
     {
-        $findAllListingActive = new FindAllShopListingsFeatured(
+        $findAllShopListingFeatured = new FindAllShopListingsFeatured(
             $model,
             $this->requestBaseProcessor,
             $this->apiKeyProcessor
         );
 
         /** @var Request $request */
-        $request = $findAllListingActive->getRequest();
+        $request = $findAllShopListingFeatured->getRequest();
 
-        if (!$this->cacheImplementation->isRequestStored($request)) {
-            $resource = $this->finderSource->getResource($request);
-
-            $resource = $this->cacheImplementation->store($request, $resource);
-
-            return $this->createFindAllShopListingsFeaturedResponseModel($resource);
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createFindAllShopListingsFeaturedResponseModel(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
         }
 
-        return $this->createFindAllShopListingsFeaturedResponseModel(
-            $this->cacheImplementation->getFromStoreByRequest($request)
-        );
+        $resource = $this->finderSource->getResource($request);
+
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $this->createFindAllShopListingsFeaturedResponseModel($resource);
+
+        $this->cacheImplementation->store($request, $resource);
+
+        return $responseModel;
     }
     /**
      * @param string $responseString
