@@ -117,10 +117,6 @@ class GlobalItemFiltersValidator
                     throw new \RuntimeException($message);
                 }
             }
-
-            if (in_array('ConditionHistogram', $outputSelectorValues)) {
-
-            }
         }
 
 /*        if ($itemFilterStorage->hasDynamic('OutputSelector') and $itemFilterStorage->isDynamicInRequest('OutputSelector')) {

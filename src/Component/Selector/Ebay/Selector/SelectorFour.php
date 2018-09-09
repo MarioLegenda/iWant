@@ -88,9 +88,18 @@ class SelectorFour implements ObserverSelectorInterface
             [true]
         ));
 
+        $outputSelector = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::OUTPUT_SELECTOR,
+            ['UnitPriceInfo', 'SellerInfo']
+        ));
+
         $itemFilters[] = $getItFastOnly;
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $hideDuplicatedItems;
+        $itemFilters[] = $outputSelector;
+
 
         return $itemFilters;
     }

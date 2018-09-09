@@ -102,7 +102,7 @@ services:
 
     App\Component\:
       resource: '../src/Component'
-      exclude: '../src/Component/{TodayProducts/Model/*,Request/Model/*,Selector/Ebay/Selector/*}'
+      exclude: '../src/Component/{TodayProducts/Model/*,Request/Model/*,Selector/Ebay/Selector/*,Selector/Etsy/Selector/*}'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\RequestBaseProcessor:

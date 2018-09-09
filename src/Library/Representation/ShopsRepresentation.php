@@ -81,6 +81,36 @@ class ShopsRepresentation
                 'category' => $allNormalizedCategories['Crafts & Handmade'],
                 'marketplace' => $this->marketplaceRepresentation->etsy,
             ],
+            [
+                'name' => 'Barruntando',
+                'global_id' => null,
+                'category' => $allNormalizedCategories['Crafts & Handmade'],
+                'marketplace' => $this->marketplaceRepresentation->etsy,
+            ],
+            [
+                'name' => 'cumbucachic',
+                'global_id' => null,
+                'category' => $allNormalizedCategories['Crafts & Handmade'],
+                'marketplace' => $this->marketplaceRepresentation->etsy,
+            ],
+            [
+                'name' => 'CindySearles',
+                'global_id' => null,
+                'category' => $allNormalizedCategories['Crafts & Handmade'],
+                'marketplace' => $this->marketplaceRepresentation->etsy,
+            ],
+            [
+                'name' => 'Shekhtwoman',
+                'global_id' => null,
+                'category' => $allNormalizedCategories['Crafts & Handmade'],
+                'marketplace' => $this->marketplaceRepresentation->etsy,
+            ],
+            [
+                'name' => 'PurpleFishBowl2',
+                'global_id' => null,
+                'category' => $allNormalizedCategories['Crafts & Handmade'],
+                'marketplace' => $this->marketplaceRepresentation->etsy,
+            ],
         ];
     }
     /**

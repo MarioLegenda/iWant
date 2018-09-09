@@ -81,8 +81,16 @@ class SelectorOne implements ObserverSelectorInterface
             [true]
         ));
 
+        $outputSelector = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::OUTPUT_SELECTOR,
+            ['UnitPriceInfo', 'SellerInfo']
+        ));
+
         $itemFilters[] = $bestOfferOnly;
         $itemFilters[] = $hideDuplicatedItems;
+        $itemFilters[] = $outputSelector;
 
         return $itemFilters;
     }

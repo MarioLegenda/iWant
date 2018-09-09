@@ -79,7 +79,11 @@ class Finder
             $this->cacheImplementation->getFromStoreByRequest($request)
         );
     }
-
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function findAllShopListingsFeatured(EtsyApiModel $model)
     {
         $findAllListingActive = new FindAllShopListingsFeatured(

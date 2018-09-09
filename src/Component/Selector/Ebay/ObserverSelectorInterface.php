@@ -2,7 +2,6 @@
 
 namespace App\Component\Selector\Ebay;
 
-use App\Component\Request\Model\TodayProduct;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 

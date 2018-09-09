@@ -2,7 +2,10 @@
 
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem;
 
-class AbstractItemIterator extends AbstractItem implements \IteratorAggregate, \Countable
+class AbstractItemIterator extends AbstractItem implements
+    \IteratorAggregate,
+    \Countable,
+    \ArrayAccess
 {
     /**
      * @var int $position
@@ -62,5 +65,45 @@ class AbstractItemIterator extends AbstractItem implements \IteratorAggregate, \
     public function getIterator()
     {
         return new \ArrayIterator($this->items);
+    }
+    /**
+     * @inheritdoc
+     */
+    public function offsetExists($offset): bool
+    {
+        return array_key_exists($offset, $this->items);
+    }
+    /**
+     * @inheritdoc
+     */
+    public function offsetGet($offset)
+    {
+        return $this->items[$offset];
+    }
+    /**
+     * @inheritdoc
+     */
+    public function offsetSet($offset, $value)
+    {
+        $this->throwUsageException();
+    }
+    /**
+     * @inheritdoc
+     */
+    public function offsetUnset($offset)
+    {
+        $this->throwUsageException();
+    }
+    /**
+     * @throws \RuntimeException
+     */
+    private function throwUsageException()
+    {
+        $message = sprintf(
+            '%s set cannot unset values or keys',
+            get_class($this)
+        );
+
+        throw new \RuntimeException($message);
     }
 }

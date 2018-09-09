@@ -95,10 +95,18 @@ class SelectorTwo implements ObserverSelectorInterface
             [true]
         ));
 
+        $outputSelector = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::OUTPUT_SELECTOR,
+            ['UnitPriceInfo']
+        ));
+
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $featuredOnly;
         $itemFilters[] = $getItFastOnly;
         $itemFilters[] = $hideDuplicatedItems;
+        $itemFilters[] = $outputSelector;
 
         return $itemFilters;
     }

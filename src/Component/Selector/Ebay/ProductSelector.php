@@ -6,13 +6,18 @@ use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\RootItem;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
+use App\Library\Infrastructure\Helper\TypedArray;
 
 class ProductSelector implements \SplSubject
 {
     /**
+     * @var \SplObserver[] $observers
+     */
+    private $observers;
+    /**
      * @var array $productResponseModels
      */
-    private $productResponseModels = [];
+    private $productResponseModels;
     /**
      * @var FindingApiEntryPoint $findingApiEntryPoint
      */
@@ -25,11 +30,8 @@ class ProductSelector implements \SplSubject
         FindingApiEntryPoint $findingApiEntryPoint
     ) {
         $this->findingApiEntryPoint = $findingApiEntryPoint;
+        $this->productResponseModels = TypedArray::create('integer', ResponseModelInterface::class);
     }
-    /**
-     * @var \SplObserver[] $observers
-     */
-    private $observers;
     /**
      * @param \SplObserver $observer
      */
@@ -78,9 +80,9 @@ class ProductSelector implements \SplSubject
         }
     }
     /**
-     * @return array
+     * @return iterable
      */
-    public function getProductResponseModels(): array
+    public function getProductResponseModels(): iterable
     {
         return $this->productResponseModels;
     }
