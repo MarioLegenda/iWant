@@ -13,11 +13,11 @@ use App\Library\Util\Util;
 
 /**
  * @Entity @Table(
- *     name="request_cache"
+ *     name="todays_products_cache"
  * )
  * @HasLifecycleCallbacks()
  **/
-class RequestCache
+class TodaysProductsCache
 {
     /**
      * @var int $id
@@ -26,15 +26,20 @@ class RequestCache
      */
     private $id;
     /**
-     * @var string $request
+     * @var string $productsResponse
      * @Column(type="text")
      */
-    private $request;
+    private $productsResponse;
     /**
-     * @var string $response
-     * @Column(type="text")
+     * @var \DateTime $createdAt
+     * @Column(type="datetime")
      */
-    private $response;
+    private $storedAt;
+    /**
+     * @var \DateTime $createdAt
+     * @Column(type="datetime")
+     */
+    private $expiresAt;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
@@ -46,28 +51,18 @@ class RequestCache
      */
     private $updatedAt;
     /**
-     * @var int $expiresAt
-     * @Column(type="integer", nullable=true)
-     */
-    private $expiresAt;
-    /**
-     * @var int $storedAt
-     * @Column(type="integer")
-     */
-    private $storedAt;
-    /**
-     * RequestCache constructor.
-     * @param string $request
-     * @param string $response
-     * @param int $expiresAt
+     * TodaysProductsCache constructor.
+     * @param string $productsResponse
+     * @param \DateTime $storedAt
+     * @param \DateTime $expiresAt
      */
     public function __construct(
-        string $request,
-        string $response,
-        int $expiresAt
+        string $productsResponse,
+        \DateTime $storedAt,
+        \DateTime $expiresAt
     ) {
-        $this->request = $request;
-        $this->response = $response;
+        $this->productsResponse = $productsResponse;
+        $this->storedAt = $storedAt;
         $this->expiresAt = $expiresAt;
     }
     /**
@@ -80,30 +75,44 @@ class RequestCache
     /**
      * @return string
      */
-    public function getRequest(): string
+    public function getProductsResponse(): string
     {
-        return $this->request;
+        return $this->productsResponse;
     }
     /**
-     * @param string $request
+     * @param string $productsResponse
      */
-    public function setRequest(string $request): void
+    public function setProductsResponse(string $productsResponse): void
     {
-        $this->request = $request;
+        $this->productsResponse = $productsResponse;
     }
     /**
-     * @return string
+     * @return \DateTime
      */
-    public function getResponse()
+    public function getExpiresAt(): \DateTime
     {
-        return $this->response;
+        return $this->expiresAt;
     }
     /**
-     * @param string $response
+     * @param \DateTime $expiresAt
      */
-    public function setResponse(string $response): void
+    public function setExpiresAt(\DateTime $expiresAt): void
     {
-        $this->response = $response;
+        $this->expiresAt = $expiresAt;
+    }
+    /**
+     * @return \DateTime
+     */
+    public function getStoredAt(): \DateTime
+    {
+        return $this->storedAt;
+    }
+    /**
+     * @param \DateTime $storedAt
+     */
+    public function setStoredAt(\DateTime $storedAt): void
+    {
+        $this->storedAt = $storedAt;
     }
     /**
      * @return \DateTime
@@ -120,9 +129,9 @@ class RequestCache
         $this->createdAt = $createdAt;
     }
     /**
-     * @return \DateTime|null
+     * @return \DateTime
      */
-    public function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): \DateTime
     {
         return $this->updatedAt;
     }
@@ -132,34 +141,6 @@ class RequestCache
     public function setUpdatedAt(\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-    /**
-     * @return int
-     */
-    public function getExpiresAt(): int
-    {
-        return $this->expiresAt;
-    }
-    /**
-     * @param int $expiresAt
-     */
-    public function setExpiresAt(int $expiresAt): void
-    {
-        $this->expiresAt = $expiresAt;
-    }
-    /**
-     * @return int
-     */
-    public function getStoredAt(): int
-    {
-        return $this->storedAt;
-    }
-    /**
-     * @param int $storedAt
-     */
-    public function setStoredAt(int $storedAt): void
-    {
-        $this->storedAt = $storedAt;
     }
     /**
      * @PrePersist()
@@ -172,7 +153,6 @@ class RequestCache
 
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
-            $this->setStoredAt($this->getCreatedAt()->getTimestamp());
         }
     }
 }

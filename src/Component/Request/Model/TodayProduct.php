@@ -5,16 +5,23 @@ namespace App\Component\Request\Model;
 class TodayProduct
 {
     /**
-     * @var \DateTime $dateTime
+     * @var \DateTime $storedAt
      */
-    private $todayDateTime;
+    private $storedAt;
     /**
      * TodayProduct constructor.
-     * @param \DateTime $todayDateTime
+     * @param \DateTime $storedAt
      */
     public function __construct(
-        \DateTime $todayDateTime
+        \DateTime $storedAt
     ) {
-        $this->todayDateTime = $todayDateTime;
+        $this->storedAt = $storedAt;
+    }
+    /**
+     * @return \DateTime
+     */
+    public function getStoredAt(): \DateTime
+    {
+        return $this->storedAt;
     }
 }

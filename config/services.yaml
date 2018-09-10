@@ -220,6 +220,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\TodaysProductsCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:

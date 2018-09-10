@@ -51,7 +51,11 @@ class RequestCacheImplementation
         $cache = $this->apiRequestCache->get($uniqueName);
 
         if (!$cache instanceof RequestCache) {
-            $this->apiRequestCache->set($uniqueName, $response, $this->calculateTTL());
+            $this->apiRequestCache->set(
+                $uniqueName,
+                $response,
+                $this->calculateTTL()
+            );
 
             return $response;
         }
@@ -64,7 +68,11 @@ class RequestCacheImplementation
         if (Util::toDateTime()->getTimestamp() > $expiresAt) {
             $this->apiRequestCache->delete($uniqueName);
 
-            $this->apiRequestCache->set($request, $response, $this->calculateTTL());
+            $this->apiRequestCache->set(
+                $request,
+                $response,
+                $this->calculateTTL()
+            );
         }
 
         return $response;

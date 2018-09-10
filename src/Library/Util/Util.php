@@ -246,6 +246,13 @@ class Util
         return 'Y-m-d H:m:s';
     }
     /**
+     * @return string
+     */
+    public static function getSimpleDateApplicationFormat(): string
+    {
+        return 'Y-m-d';
+    }
+    /**
      * @param \Closure $closure
      * @param int $currentIteration
      * @param int $maxIterations

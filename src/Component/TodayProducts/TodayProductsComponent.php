@@ -2,6 +2,7 @@
 
 namespace App\Component\TodayProducts;
 
+use App\Cache\Implementation\TodayProductCacheImplementation;
 use App\Component\Request\Model\TodayProduct;
 use App\Component\TodayProducts\Model\TodayProduct as TodayProductModel;
 use App\Component\Selector\Ebay\ProductFetcher as EbayProductFetcher;
@@ -20,18 +21,24 @@ class TodayProductsComponent
      */
     private $etsyProductFetcher;
     /**
+     * @var TodayProductCacheImplementation $todayProductCacheImplementation
+     */
+    private $todayProductCacheImplementation;
+    /**
      * TodayProductsComponent constructor.
      * @param EbayProductFetcher $ebayProductFetcher
      * @param EtsyProductFetcher $etsyProductFetcher
+     * @param TodayProductCacheImplementation $todayProductCacheImplementation
      */
     public function __construct(
         EbayProductFetcher $ebayProductFetcher,
-        EtsyProductFetcher $etsyProductFetcher
+        EtsyProductFetcher $etsyProductFetcher,
+        TodayProductCacheImplementation $todayProductCacheImplementation
     ) {
         $this->ebayProductFetcher = $ebayProductFetcher;
         $this->etsyProductFetcher = $etsyProductFetcher;
+        $this->todayProductCacheImplementation = $todayProductCacheImplementation;
     }
-
     /**
      * @param TodayProduct $model
      * @return array
@@ -39,14 +46,29 @@ class TodayProductsComponent
      * @throws \BlueDot\Exception\ConfigurationException
      * @throws \BlueDot\Exception\ConnectionException
      * @throws \BlueDot\Exception\RepositoryException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getTodaysProducts(TodayProduct $model): array
     {
-        return [
-            'ebay' => $this->createEbayProducts()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION),
-            'etsy' => $this->createEtsyProducts()->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION),
+        if ($this->todayProductCacheImplementation->isStored($model->getStoredAt())) {
+            $cacheResponse = $this->todayProductCacheImplementation->getStored($model->getStoredAt());
+
+            return json_decode($cacheResponse, true);
+        }
+
+        $responseData = [
+            'ebay' => $this->createEbayProducts()->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION),
+            'etsy' => $this->createEtsyProducts()->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION),
         ];
+
+        $this->todayProductCacheImplementation->store(
+            $model->getStoredAt(),
+            json_encode($responseData)
+        );
+
+        return $responseData;
     }
     /**
      * @return iterable|TypedArray

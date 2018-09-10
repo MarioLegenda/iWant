@@ -118,6 +118,7 @@ class TodayProduct implements ArrayNotationInterface
     public function toArray(): iterable
     {
         return [
+            'itemId' => $this->getItemId(),
             'title' => $this->getTitle(),
             'imageUrl' => $this->getImageUrl(),
             'shopName' => $this->getShopName(),
