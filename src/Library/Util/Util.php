@@ -144,10 +144,7 @@ class Util
         }
 
         if (is_string($dateTime)) {
-            $newDateTime = \DateTime::createFromFormat(
-                Util::getDateTimeApplicationFormat(),
-                $dateTime
-            );
+            $newDateTime = new \DateTime($dateTime);
 
             if (!$newDateTime instanceof \DateTime) {
                 $message = sprintf('Invalid date time');

@@ -43,11 +43,12 @@ export class Init {
     static createVueInstance() {
         const store = new Vuex.Store({
             state: {
-                uniformedSearchListing: {},
+                todaysProductsListing: {},
             },
             mutations: {
-                uniformedSearchListing (state, value) {
-                    this.state.uniformedSearchListing = value;
+                todaysProductsListing (state, value) {
+                    console.log(value);
+                    this.state.todaysProductsListing = value;
                 },
             }
         });

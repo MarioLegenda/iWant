@@ -1,8 +1,9 @@
 import {routes} from "../apiRoutes";
 
-class UniformedSearchRepository {
-    getUniformedSearch(data, success) {
-        const realPath = `${routes.app_get_uniformed_search_result}?data=${data}`;
+class TodaysProductsRepository {
+    getTodaysProducts(data, success) {
+        console.log(data);
+        const realPath = `${routes.app_get_todays_products}?data=${data}`;
 
         fetch(realPath)
             .then(function(response) {
@@ -19,9 +20,9 @@ class Factory {
 
     create(repoName) {
         switch (repoName) {
-            case 'uniformed-search':
+            case 'todays-products':
                 if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new UniformedSearchRepository();
+                    this.repositores[repoName] = new TodaysProductsRepository();
                 }
 
                 return this.repositores[repoName];

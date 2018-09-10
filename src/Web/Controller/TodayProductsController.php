@@ -39,9 +39,7 @@ class TodayProductsController
 
         $response = new JsonResponse($todaysProducts);
 
-        $response->setCache([
-            'max_age' => 60 * 60,
-        ]);
+        $response->headers->set('Cache-Control', 'no-cache');
 
         return $response;
     }

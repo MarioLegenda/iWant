@@ -1,4 +1,5 @@
 import {TodaysPicks} from "./TodaysPicks";
+import {RepositoryFactory} from "../../services/repositoryFactory";
 
 export const Homepage = {
     template: `<div>
@@ -18,6 +19,17 @@ export const Homepage = {
                      
                      <todays-picks></todays-picks>
                </div>`,
+    created() {
+        const todayProductsRepository = RepositoryFactory.create('todays-products');
+
+        const date = new Date();
+        todayProductsRepository.getTodaysProducts(
+            `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+            (response) => {
+                this.$store.commit('todaysProductsListing', response);
+            }
+        );
+    },
     components: {
         'todays-picks': TodaysPicks,
     }

@@ -11,12 +11,18 @@ export const TodaysPicks = {
                        . . . our {{ currentDay }} products for you . . .
                    </h1>
                    
-                   <item-list></item-list>
+                   <item-list v-bind:items="todaysProductsListing.ebay"></item-list>
+                   <item-list v-bind:items="todaysProductsListing.etsy"></item-list>
                    
                    <h1 class="todays-picks-header">
                        . . . this weeks concerts . . .
                    </h1>
                </div>`,
+    computed: {
+        todaysProductsListing: function() {
+            return this.$store.state.todaysProductsListing;
+        }
+    },
     components: {
         'item-list': ItemList,
     }

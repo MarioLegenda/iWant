@@ -1,3 +1,3 @@
-app_get_uniformed_search_result:
-  path: /uniformed-search
-  controller: App\Web\Controller\UniformedRequestController::search
+app_get_todays_products:
+  path: /get-todays-products
+  controller: App\Web\Controller\TodayProductsController::getTodaysProducts
