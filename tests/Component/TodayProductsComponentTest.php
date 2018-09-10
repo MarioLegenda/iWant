@@ -8,7 +8,7 @@ use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
 use App\Tests\Library\BasicSetup;
-use App\Component\Request\Model\TodayProduct as RequestTodayProductModel;
+use App\Web\Model\Request\TodayProductRequestModel;
 
 class TodayProductsComponentTest extends BasicSetup
 {
@@ -16,7 +16,7 @@ class TodayProductsComponentTest extends BasicSetup
     {
         $component = $this->locator->get(TodayProductsComponent::class);
 
-        $products = $component->getTodaysProducts(new RequestTodayProductModel(
+        $products = $component->getTodaysProducts(new TodayProductRequestModel(
             Util::toDateTime(null, Util::getSimpleDateApplicationFormat())
         ));
 

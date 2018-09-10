@@ -37,7 +37,7 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $marketplace;
     /**
-     * TodayProduct constructor.
+     * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $title
      * @param string $imageUrl

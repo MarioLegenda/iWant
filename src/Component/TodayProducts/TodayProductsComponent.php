@@ -3,8 +3,7 @@
 namespace App\Component\TodayProducts;
 
 use App\Cache\Implementation\TodayProductCacheImplementation;
-use App\Component\Request\Model\TodayProduct;
-use App\Component\TodayProducts\Model\TodayProduct as TodayProductModel;
+use App\Web\Model\Request\TodayProductRequestModel;
 use App\Component\Selector\Ebay\ProductFetcher as EbayProductFetcher;
 use App\Component\Selector\Etsy\ProductFetcher as EtsyProductFetcher;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -40,7 +39,7 @@ class TodayProductsComponent
         $this->todayProductCacheImplementation = $todayProductCacheImplementation;
     }
     /**
-     * @param TodayProduct $model
+     * @param TodayProductRequestModel $model
      * @return array
      * @throws \App\Symfony\Exception\HttpException
      * @throws \BlueDot\Exception\ConfigurationException
@@ -50,7 +49,7 @@ class TodayProductsComponent
      * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getTodaysProducts(TodayProduct $model): array
+    public function getTodaysProducts(TodayProductRequestModel $model): array
     {
         if ($this->todayProductCacheImplementation->isStored($model->getStoredAt())) {
             $cacheResponse = $this->todayProductCacheImplementation->getStored($model->getStoredAt());

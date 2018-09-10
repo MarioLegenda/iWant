@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Component\Request\Model;
+namespace App\Web\Model\Request;
 
-class TodayProduct
+class TodayProductRequestModel
 {
     /**
      * @var \DateTime $storedAt
