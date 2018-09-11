@@ -4,6 +4,8 @@ namespace App\Cache\Implementation;
 
 use App\Cache\Cache\ApiRequestCache;
 use App\Doctrine\Entity\RequestCache;
+use App\Doctrine\Entity\ToggleCache;
+use App\Doctrine\Repository\ToggleCacheRepository;
 use App\Library\Http\Request;
 use App\Library\Util\Util;
 
@@ -14,13 +16,20 @@ class RequestCacheImplementation
      */
     private $apiRequestCache;
     /**
+     * @var ToggleCacheRepository $toggleCacheRepository
+     */
+    private $toggleCacheRepository;
+    /**
      * CacheImplementation constructor.
      * @param ApiRequestCache $apiRequestCache
+     * @param ToggleCacheRepository $toggleCacheRepository
      */
     public function __construct(
-        ApiRequestCache $apiRequestCache
+        ApiRequestCache $apiRequestCache,
+        ToggleCacheRepository $toggleCacheRepository
     ) {
         $this->apiRequestCache = $apiRequestCache;
+        $this->toggleCacheRepository = $toggleCacheRepository;
     }
     /**
      * @param Request $request
@@ -30,6 +39,13 @@ class RequestCacheImplementation
     public function isRequestStored(
         Request $request
     ): bool {
+        /** @var ToggleCache $toggleCache */
+        $toggleCache = $this->toggleCacheRepository->findAll()[0];
+
+        if ($toggleCache->getAllRequestCache() === false) {
+            return false;
+        }
+
         $uniqueName = $this->createUniqueNameFromRequest($request);
 
         $cache = $this->apiRequestCache->get($uniqueName);
@@ -46,6 +62,13 @@ class RequestCacheImplementation
         Request $request,
         string $response
     ): string {
+        /** @var ToggleCache $toggleCache */
+        $toggleCache = $this->toggleCacheRepository->findAll()[0];
+
+        if ($toggleCache->getAllRequestCache() === false) {
+            return $response;
+        }
+
         $uniqueName = $this->createUniqueNameFromRequest($request);
 
         $cache = $this->apiRequestCache->get($uniqueName);
