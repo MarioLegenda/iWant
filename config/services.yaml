@@ -229,6 +229,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\ToggleCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
@@ -280,5 +284,17 @@ services:
         arguments:
             $marketplaceRepresentation: '@App\Library\Representation\MarketplaceRepresentation'
             $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
+        tags:
+            - { name: 'console.command' }
+
+    App\Symfony\Command\ToggleCache:
+        arguments:
+            $toggleCacheRepository: '@App\Doctrine\Repository\ToggleCacheRepository'
+        tags:
+        - { name: 'console.command' }
+
+    App\Symfony\Command\InitialCacheToggle:
+        arguments:
+            $toggleCacheRepository: '@App\Doctrine\Repository\ToggleCacheRepository'
         tags:
             - { name: 'console.command' }
