@@ -88,9 +88,17 @@ class SelectorFive implements ObserverSelectorInterface
             ['UnitPriceInfo', 'SellerInfo']
         ));
 
+        $sortOrder = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::SORT_ORDER,
+            ['BestMatch']
+        ));
+
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
+        $itemFilters[] = $sortOrder;
 
         return $itemFilters;
     }

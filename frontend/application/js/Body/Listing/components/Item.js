@@ -5,7 +5,7 @@ export const Item = {
                    </div>
                    
                    <div class="Item_ItemImage margin-bottom-10">
-                       <img src="/images/start_page_background.jpg" />
+                       <img :src="item.imageUrl" />
                    </div>
                    
                    <div class="Item_ItemTitle margin-bottom-10">

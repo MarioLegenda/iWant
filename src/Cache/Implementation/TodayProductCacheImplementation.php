@@ -3,6 +3,8 @@
 namespace App\Cache\Implementation;
 
 use App\Cache\Cache\TodaysProductsCache;
+use App\Doctrine\Entity\ToggleCache;
+use App\Doctrine\Repository\ToggleCacheRepository;
 use App\Library\Util\Util;
 use App\Doctrine\Entity\TodaysProductsCache as TodaysProductsCacheEntity;
 
@@ -13,13 +15,20 @@ class TodayProductCacheImplementation
      */
     private $todaysProductsCache;
     /**
+     * @var ToggleCacheRepository $toggleCacheRepository
+     */
+    private $toggleCacheRepository;
+    /**
      * TodayProductCacheImplementation constructor.
      * @param TodaysProductsCache $todaysProductsCache
+     * @param ToggleCacheRepository $toggleCacheRepository
      */
     public function __construct(
-        TodaysProductsCache $todaysProductsCache
+        TodaysProductsCache $todaysProductsCache,
+        ToggleCacheRepository $toggleCacheRepository
     ) {
         $this->todaysProductsCache = $todaysProductsCache;
+        $this->toggleCacheRepository = $toggleCacheRepository;
     }
     /**
      * @param \DateTime $storedAt
@@ -27,6 +36,13 @@ class TodayProductCacheImplementation
      */
     public function isStored(\DateTime $storedAt): bool
     {
+        /** @var ToggleCache $toggleCache */
+        $toggleCache = $this->toggleCacheRepository->findAll()[0];
+
+        if ($toggleCache->getTodaysKeywordsCache() === false) {
+            return false;
+        }
+
         $todayProductCache = $this->todaysProductsCache->get(Util::formatFromDate($storedAt));
 
         return $todayProductCache instanceof TodaysProductsCacheEntity;
@@ -42,6 +58,13 @@ class TodayProductCacheImplementation
         \DateTime $storedAt,
         string $value
     ): bool {
+        /** @var ToggleCache $toggleCache */
+        $toggleCache = $this->toggleCacheRepository->findAll()[0];
+
+        if ($toggleCache->getTodaysKeywordsCache() === false) {
+            return false;
+        }
+
         $this->todaysProductsCache->set(
             $this->resolveStoredAt($storedAt),
             $value,

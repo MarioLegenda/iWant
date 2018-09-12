@@ -36,7 +36,13 @@ class ToggleCache extends BaseCommand
 
         $this->addOption('toggle', '-t', InputOption::VALUE_REQUIRED, 'Enable or disable a cache');
     }
-
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|null|void
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->makeEasier($input, $output);

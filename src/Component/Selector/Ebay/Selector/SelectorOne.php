@@ -67,13 +67,6 @@ class SelectorOne implements ObserverSelectorInterface
     {
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
-        $bestOfferOnly = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::BEST_OFFER_ONLY,
-            [true]
-        ));
-
         $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
@@ -88,9 +81,16 @@ class SelectorOne implements ObserverSelectorInterface
             ['UnitPriceInfo', 'SellerInfo']
         ));
 
-        $itemFilters[] = $bestOfferOnly;
+        $sortOrder = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::SORT_ORDER,
+            ['WatchCountDecreaseSort']
+        ));
+
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
+        $itemFilters[] = $sortOrder;
 
         return $itemFilters;
     }

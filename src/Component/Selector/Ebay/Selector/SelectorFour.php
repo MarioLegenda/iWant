@@ -95,10 +95,18 @@ class SelectorFour implements ObserverSelectorInterface
             ['UnitPriceInfo', 'SellerInfo']
         ));
 
+        $sortOrder = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::SORT_ORDER,
+            ['WatchCountDecreaseSort']
+        ));
+
         $itemFilters[] = $getItFastOnly;
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
+        $itemFilters[] = $sortOrder;
 
 
         return $itemFilters;

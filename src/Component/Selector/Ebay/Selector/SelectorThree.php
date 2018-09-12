@@ -88,9 +88,17 @@ class SelectorThree implements ObserverSelectorInterface
             ['UnitPriceInfo', 'SellerInfo']
         ));
 
+        $sortOrder = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::SORT_ORDER,
+            ['WatchCountDecreaseSort']
+        ));
+
         $itemFilters[] = $featuredOnly;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
+        $itemFilters[] = $sortOrder;
 
         return $itemFilters;
     }

@@ -32,6 +32,7 @@ class SortOrderInformation implements InformationInterface
         'PricePlusShippingHighest',
         'PricePlusShippingLowest',
         'StartTimeNewest',
+        'WatchCountDecreaseSort',
     );
     /**
      * @var SortOrderInformation $instance

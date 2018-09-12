@@ -67,24 +67,10 @@ class SelectorTwo implements ObserverSelectorInterface
     {
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
-        $freeShippingOnly = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::FREE_SHIPPING_ONLY,
-            [true]
-        ));
-
         $featuredOnly = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
             ItemFilterConstants::FEATURED_ONLY,
-            [true]
-        ));
-
-        $getItFastOnly = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::GET_IT_FAST_ONLY,
             [true]
         ));
 
@@ -102,11 +88,19 @@ class SelectorTwo implements ObserverSelectorInterface
             ['UnitPriceInfo']
         ));
 
+        $sortOrder = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::SORT_ORDER,
+            ['WatchCountDecreaseSort']
+        ));
+
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $featuredOnly;
         $itemFilters[] = $getItFastOnly;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
+        $itemFilters[] = $sortOrder;
 
         return $itemFilters;
     }
