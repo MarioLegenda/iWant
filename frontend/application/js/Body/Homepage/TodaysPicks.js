@@ -15,7 +15,7 @@ export const TodaysPicks = {
                    <item-list v-bind:items="todaysProductsListing.etsy"></item-list>
                    
                    <h1 class="todays-picks-header">
-                       . . . this weeks concerts . . .
+                       . . . this weeks concert tickets . . .
                    </h1>
                </div>`,
     computed: {

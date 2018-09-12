@@ -259,8 +259,9 @@ html {
 
 .Item {
   width: 480px;
-  height: 300px;
+  height: 380px;
   float: left;
+  overflow: hidden;
   margin: 0 0 40px 80px;
 }
 .Item .ItemTitle-webshop-logo {
@@ -270,8 +271,8 @@ html {
 .Item .ItemTitle-webshop-logo img {
   display: block;
   float: right;
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
 }
 .Item .Item_ItemTitle {
   width: 100%;
