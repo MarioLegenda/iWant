@@ -6,6 +6,8 @@ use App\Component\Selector\Etsy\Selector\FindAllShopListingsActive;
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsFeatured;
 use App\Component\Selector\Type\Nan;
 use App\Component\TodayProducts\Model\Image;
+use App\Component\TodayProducts\Model\Price;
+use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -70,10 +72,13 @@ class ProductFetcher
             $singleModel = $model->getResults()[0];
 
             $itemId = (string) $singleModel->getListingId();
-            $title = $singleModel->getTitle();
+            $title = new Title($singleModel->getTitle());
             $imageUrl = new Image(Nan::fromValue());
             $shopName = 'Shop name';
-            $price = $singleModel->getPrice();
+            $price = new Price(
+                $singleModel->getCurrency(),
+                $singleModel->getPrice()
+            );
             $viewItemUrl = $singleModel->getUrl();
             $shopType = MarketplaceType::fromValue('Etsy');
 

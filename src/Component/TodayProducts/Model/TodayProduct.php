@@ -14,7 +14,7 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $itemId;
     /**
-     * @var string $title
+     * @var Title $title
      */
     private $title;
     /**
@@ -26,7 +26,7 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $shopName;
     /**
-     * @var string $price
+     * @var Price $price
      */
     private $price;
     /**
@@ -40,19 +40,19 @@ class TodayProduct implements ArrayNotationInterface
     /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
-     * @param string $title
+     * @param Title $title
      * @param Image $image
      * @param string $shopName
-     * @param string $price
+     * @param Price $price
      * @param string $viewItemUrl
      * @param MarketplaceType|TypeInterface $marketplace
      */
     public function __construct(
         string $itemId,
-        string $title,
+        Title $title,
         Image $image,
         string $shopName,
-        string $price,
+        Price $price,
         string $viewItemUrl,
         MarketplaceType $marketplace
     ) {
@@ -72,9 +72,9 @@ class TodayProduct implements ArrayNotationInterface
         return $this->itemId;
     }
     /**
-     * @return string
+     * @return Title
      */
-    public function getTitle(): string
+    public function getTitle(): Title
     {
         return $this->title;
     }
@@ -93,9 +93,9 @@ class TodayProduct implements ArrayNotationInterface
         return $this->shopName;
     }
     /**
-     * @return string
+     * @return Price
      */
-    public function getPrice(): string
+    public function getPrice(): Price
     {
         return $this->price;
     }
@@ -120,10 +120,10 @@ class TodayProduct implements ArrayNotationInterface
     {
         return [
             'itemId' => $this->getItemId(),
-            'title' => $this->getTitle(),
+            'title' => $this->getTitle()->toArray(),
             'image' => $this->getImage()->toArray(),
             'shopName' => $this->getShopName(),
-            'price' => $this->getPrice(),
+            'price' => $this->getPrice()->toArray(),
             'viewItemUrl' => $this->getViewItemUrl(),
             'marketplace' => (string) $this->getMarketplace(),
         ];

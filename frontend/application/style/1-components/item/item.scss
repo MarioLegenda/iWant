@@ -5,6 +5,7 @@
 
 .Item {
   width: 480px;
+  height: 300px;
   float: left;
 
   margin: 0 0 40px 80px;
@@ -35,12 +36,14 @@
 
   .Item_ItemImage {
     width: 100%;
+    height: 120px;
     float: left;
+
+    margin: 0 0 40px 0;
 
     img {
       display: block;
-      width: 100%;
-      height: 120px;
+      margin: 0 auto;
     }
   }
 

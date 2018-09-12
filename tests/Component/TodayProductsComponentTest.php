@@ -3,6 +3,7 @@
 namespace App\Tests\Component;
 
 use App\Component\TodayProducts\Model\Image;
+use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\TodayProduct as TodayProductModel;
 use App\Component\TodayProducts\TodayProductsComponent;
 use App\Library\Infrastructure\Type\TypeInterface;
@@ -41,10 +42,21 @@ class TodayProductsComponentTest extends BasicSetup
             static::assertInternalType('string', $product['itemId']);
 
             static::assertNotEmpty($product['title']);
-            static::assertInternalType('string', $product['title']);
+            static::assertInternalType('array', $product['title']);
+
+            $title = $product['title'];
+            static::assertInternalType('string', $title['truncated']);
+            static::assertNotEmpty($title['truncated']);
+
+            static::assertInternalType('string', $title['original']);
+            static::assertNotEmpty($title['original']);
 
             static::assertNotEmpty($product['price']);
-            static::assertInternalType('string', $product['price']);
+            static::assertInternalType('array', $product['price']);
+
+            $price = $product['price'];
+            static::assertInternalType('string', $price['currency']);
+            static::assertInternalType('string', $price['price']);
 
             static::assertNotEmpty($product['viewItemUrl']);
             static::assertInternalType('string', $product['viewItemUrl']);
