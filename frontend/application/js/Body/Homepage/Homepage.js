@@ -26,7 +26,7 @@ export const Homepage = {
         todayProductsRepository.getTodaysProducts(
             `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
             (response) => {
-                this.$store.commit('todaysProductsListing', response);
+                this.$store.commit('todaysProductsListing', response.collection.data);
             }
         );
     },

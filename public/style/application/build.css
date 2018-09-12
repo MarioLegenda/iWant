@@ -258,9 +258,9 @@ html {
 }
 
 .Item {
-  width: 250px;
+  width: 480px;
   float: left;
-  margin: 0 0 40px 40px;
+  margin: 0 0 40px 80px;
 }
 .Item .ItemTitle-webshop-logo {
   width: 100%;

@@ -99,6 +99,8 @@ services:
 
     App\Library\Http\HttpCommunicator:
 
+    App\Library\Http\Response\ApiSDK:
+
     # REPRESENTATIONS
 
     App\Library\Representation\ShopsRepresentation:

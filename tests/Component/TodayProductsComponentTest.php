@@ -2,6 +2,7 @@
 
 namespace App\Tests\Component;
 
+use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\TodayProduct as TodayProductModel;
 use App\Component\TodayProducts\TodayProductsComponent;
 use App\Library\Infrastructure\Type\TypeInterface;
@@ -51,8 +52,17 @@ class TodayProductsComponentTest extends BasicSetup
             static::assertNotEmpty($product['shopName']);
             static::assertInternalType('string', $product['shopName']);
 
-            static::assertNotEmpty($product['imageUrl']);
-            static::assertInternalType('string', $product['imageUrl']);
+            static::assertNotEmpty($product['image']);
+            static::assertInternalType('array', $product['image']);
+
+            /** @var Image $image */
+            $image = $product['image'];
+
+            if ($image['url'] !== 'NaN') {
+                static::assertNotEquals('Nan', $image['url']);
+                static::assertInternalType('string', $image['width']);
+                static::assertInternalType('string', $image['height']);
+            }
 
             static::assertNotEmpty($product['marketplace']);
             static::assertTrue($marketplace->equals(MarketplaceType::fromValue($product['marketplace'])));

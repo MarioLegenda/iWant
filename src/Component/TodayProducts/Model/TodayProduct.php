@@ -2,6 +2,7 @@
 
 namespace App\Component\TodayProducts\Model;
 
+use App\Component\Selector\Ebay\Type\Nan;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
@@ -17,9 +18,9 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $title;
     /**
-     * @var string $imageUrl
+     * @var Image $imageUrl
      */
-    private $imageUrl;
+    private $image;
     /**
      * @var string $shopName
      */
@@ -40,7 +41,7 @@ class TodayProduct implements ArrayNotationInterface
      * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $title
-     * @param string $imageUrl
+     * @param Image $image
      * @param string $shopName
      * @param string $price
      * @param string $viewItemUrl
@@ -49,7 +50,7 @@ class TodayProduct implements ArrayNotationInterface
     public function __construct(
         string $itemId,
         string $title,
-        string $imageUrl,
+        Image $image,
         string $shopName,
         string $price,
         string $viewItemUrl,
@@ -57,7 +58,7 @@ class TodayProduct implements ArrayNotationInterface
     ) {
         $this->itemId = $itemId;
         $this->title = $title;
-        $this->imageUrl = $imageUrl;
+        $this->image = $image;
         $this->shopName = $shopName;
         $this->price = $price;
         $this->viewItemUrl = $viewItemUrl;
@@ -78,11 +79,11 @@ class TodayProduct implements ArrayNotationInterface
         return $this->title;
     }
     /**
-     * @return string
+     * @return Image
      */
-    public function getImageUrl(): string
+    public function getImage(): Image
     {
-        return $this->imageUrl;
+        return $this->image;
     }
     /**
      * @return string
@@ -120,7 +121,7 @@ class TodayProduct implements ArrayNotationInterface
         return [
             'itemId' => $this->getItemId(),
             'title' => $this->getTitle(),
-            'imageUrl' => $this->getImageUrl(),
+            'image' => $this->getImage()->toArray(),
             'shopName' => $this->getShopName(),
             'price' => $this->getPrice(),
             'viewItemUrl' => $this->getViewItemUrl(),

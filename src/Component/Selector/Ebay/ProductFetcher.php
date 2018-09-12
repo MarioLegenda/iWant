@@ -2,6 +2,7 @@
 
 namespace App\Component\Selector\Ebay;
 
+use App\Component\Selector\Ebay\Factory\ProductModelFactory;
 use App\Component\Selector\Ebay\Selector\SelectorFive;
 use App\Component\Selector\Ebay\Selector\SelectorFour;
 use App\Component\Selector\Ebay\Selector\SelectorOne;
@@ -32,19 +33,26 @@ class ProductFetcher
      */
     private $productSelector;
     /**
+     * @var ProductModelFactory $productModelFactory
+     */
+    private $productModelFactory;
+    /**
      * ProductFetcher constructor.
      * @param BlueDot $blueDot
      * @param ApplicationShopRepository $applicationShopRepository
      * @param ProductSelector $productSelector
+     * @param ProductModelFactory $productModelFactory
      */
     public function __construct(
         BlueDot $blueDot,
         ApplicationShopRepository $applicationShopRepository,
-        ProductSelector $productSelector
+        ProductSelector $productSelector,
+        ProductModelFactory $productModelFactory
     ) {
         $this->blueDot = $blueDot;
         $this->applicationShopRepository = $applicationShopRepository;
         $this->productSelector = $productSelector;
+        $this->productModelFactory = $productModelFactory;
     }
     /**
      * @return iterable
@@ -73,22 +81,7 @@ class ProductFetcher
             /** @var Item $singleItem */
             $singleItem = $responseModel->getSearchResults()[0];
 
-            $itemId = (string) $singleItem->getItemId();
-            $title = $singleItem->getTitle();
-            $imageUrl = $singleItem->getGalleryUrl();
-            $shopName = $singleItem->getSellerInfo()->getSellerUsername();
-            $price = $singleItem->getSellingStatus()->getCurrentPrice();
-            $viewItemUrl = $singleItem->getViewItemUrl();
-
-            $todayProductModels[] = new TodayProduct(
-                $itemId,
-                $title,
-                $imageUrl,
-                $shopName,
-                $price['currentPrice'],
-                $viewItemUrl,
-                MarketplaceType::fromValue('Ebay')
-            );
+            $todayProductModels[] = $this->productModelFactory->createModel($singleItem);
         }
 
         return $todayProductModels;

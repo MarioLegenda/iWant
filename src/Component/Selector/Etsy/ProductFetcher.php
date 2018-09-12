@@ -4,6 +4,8 @@ namespace App\Component\Selector\Etsy;
 
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsActive;
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsFeatured;
+use App\Component\Selector\Type\Nan;
+use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -69,7 +71,7 @@ class ProductFetcher
 
             $itemId = (string) $singleModel->getListingId();
             $title = $singleModel->getTitle();
-            $imageUrl = 'NaN';
+            $imageUrl = new Image(Nan::fromValue());
             $shopName = 'Shop name';
             $price = $singleModel->getPrice();
             $viewItemUrl = $singleModel->getUrl();
