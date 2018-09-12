@@ -104,11 +104,18 @@ class ProductFetcher
 
         $applicationShopIds = $promise->getResult()['data']['id'];
 
-        $randomShopIds = array_rand($applicationShopIds, 4);
+        $shopsSuccessCount = 0;
+        $visitedShops = [];
+        for (;;) {
+            $index = array_rand($applicationShopIds, 1);
 
-        foreach ($randomShopIds as $index) {
+            if (in_array($index, $visitedShops) === true) {
+                continue;
+            }
+
+            $visitedShops[] = $index;
+
             /** @var ApplicationShop $applicationShop */
-
             $applicationShop = $this->applicationShopRepository->find(
                 $applicationShopIds[$index]
             );
@@ -117,7 +124,15 @@ class ProductFetcher
                 ->attach(new FindAllShopListingsFeatured($applicationShop))
                 ->attach(new FindAllShopListingsActive($applicationShop));
 
-            $this->productSelector->notify();
+            try {
+                $this->productSelector->notify();
+
+                $shopsSuccessCount++;
+            } catch (\Exception $e) {}
+
+            if ($shopsSuccessCount === 4) {
+                break;
+            }
         }
 
         return $this->productSelector->getProductResponseModels();
