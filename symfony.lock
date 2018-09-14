@@ -107,6 +107,9 @@
     "guzzlehttp/psr7": {
         "version": "1.4.2"
     },
+    "jbroadway/urlify": {
+        "version": "1.1.1-stable"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
