@@ -9,13 +9,23 @@ use App\Component\Selector\Ebay\Selector\SelectorOne;
 use App\Component\Selector\Ebay\Selector\SelectorSix;
 use App\Component\Selector\Ebay\Selector\SelectorThree;
 use App\Component\Selector\Ebay\Selector\SelectorTwo;
+use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
+use App\Library\Representation\LanguageTranslationsRepresentation;
+use App\Yandex\Library\Request\CallType;
+use App\Yandex\Library\Request\RequestFactory;
+use App\Yandex\Library\Response\TranslatedTextResponse;
+use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
+use App\Yandex\Presentation\Model\Query;
+use App\Yandex\Presentation\Model\YandexRequestModel;
+use App\Yandex\Presentation\Model\YandexRequestModelInterface;
 use BlueDot\BlueDot;
 
 class ProductFetcher
@@ -37,22 +47,36 @@ class ProductFetcher
      */
     private $productModelFactory;
     /**
+     * @var YandexEntryPoint $yandexEntryPoint
+     */
+    private $yandexEntryPoint;
+    /**
+     * @var LanguageTranslationsRepresentation $languageTranslationRepresentation
+     */
+    private $languageTranslationRepresentation;
+    /**
      * ProductFetcher constructor.
      * @param BlueDot $blueDot
      * @param ApplicationShopRepository $applicationShopRepository
      * @param ProductSelector $productSelector
      * @param ProductModelFactory $productModelFactory
+     * @param YandexEntryPoint $yandexEntryPoint
+     * @param LanguageTranslationsRepresentation $languageTranslationsRepresentation
      */
     public function __construct(
         BlueDot $blueDot,
         ApplicationShopRepository $applicationShopRepository,
         ProductSelector $productSelector,
-        ProductModelFactory $productModelFactory
+        ProductModelFactory $productModelFactory,
+        YandexEntryPoint $yandexEntryPoint,
+        LanguageTranslationsRepresentation $languageTranslationsRepresentation
     ) {
         $this->blueDot = $blueDot;
         $this->applicationShopRepository = $applicationShopRepository;
         $this->productSelector = $productSelector;
         $this->productModelFactory = $productModelFactory;
+        $this->yandexEntryPoint = $yandexEntryPoint;
+        $this->languageTranslationRepresentation = $languageTranslationsRepresentation;
     }
     /**
      * @return iterable
@@ -81,7 +105,12 @@ class ProductFetcher
             /** @var Item $singleItem */
             $singleItem = $responseModel->getSearchResults()[0];
 
-            $todayProductModels[] = $this->productModelFactory->createModel($singleItem);
+            /** @var TodayProduct $productModel */
+            $productModel = $this->productModelFactory->createModel($singleItem);
+
+            $this->translateProductIfNecessary($productModel);
+
+            $todayProductModels[] = $productModel;
         }
 
         return $todayProductModels;
@@ -140,5 +169,27 @@ class ProductFetcher
         }
 
         return $this->productSelector->getProductResponseModels();
+    }
+    /**
+     * @param TodayProduct $product
+     */
+    private function translateProductIfNecessary(TodayProduct $product)
+    {
+        if (GlobalIdInformation::instance()->has($product->getGlobalId())) {
+            if ($this->languageTranslationRepresentation->isMappedByGlobalId($product->getGlobalId())) {
+                /** @var Title $title */
+                $title = $product->getTitle();
+
+                $model = RequestFactory::createTranslateRequestModel(
+                    $title->getOriginal(),
+                    'en'
+                );
+
+                /** @var TranslatedTextResponse $translated */
+                $translated = $this->yandexEntryPoint->translate($model);
+
+                $product->setTitle($translated->getText());
+            }
+        }
     }
 }

@@ -24,6 +24,7 @@ class ProductModelFactory
         $price = $this->createPrice($singleItem->getSellingStatus()->getCurrentPrice());
         $viewItemUrl = $singleItem->getViewItemUrl();
         $image = $this->createImage($singleItem);
+        $globalId = $singleItem->getGlobalId();
 
         return new TodayProduct(
             $itemId,
@@ -32,7 +33,8 @@ class ProductModelFactory
             $shopName,
             $price,
             $viewItemUrl,
-            MarketplaceType::fromValue('Ebay')
+            MarketplaceType::fromValue('Ebay'),
+            $globalId
         );
     }
     /**

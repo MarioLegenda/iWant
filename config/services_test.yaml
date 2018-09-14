@@ -7,9 +7,9 @@ parameters:
         ticketMaster: ticketmaster
 
     yandex_translation_languages:
-        de: en
-        nl: en
-        fr: en
+        'EBAY-DE': en
+        'EBAY-NL': en
+        'EBAY-FR': en
 
     yandex_api:
         base_url: 'https://translate.yandex.net/api/v1.5/tr.json/'

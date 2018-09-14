@@ -13,16 +13,23 @@ class TranslatedTextResponse implements ResponseModelInterface
      */
     private $lang;
     /**
+     * @var string $text
+     */
+    private $text;
+    /**
      * TranslatedTextResponse constructor.
      * @param int $statusCode
      * @param string $lang
+     * @param array $text
      */
     public function __construct(
         int $statusCode,
-        string $lang
+        string $lang,
+        array $text
     ) {
         $this->statusCode = $statusCode;
         $this->lang = $lang;
+        $this->text = rtrim(implode(' ', $text), ' ');
     }
     /**
      * @return int
@@ -37,6 +44,13 @@ class TranslatedTextResponse implements ResponseModelInterface
     public function getLang(): string
     {
         return $this->lang;
+    }
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
     }
 
 

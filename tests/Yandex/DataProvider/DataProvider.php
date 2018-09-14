@@ -61,12 +61,18 @@ class DataProvider
             urlencode($text)
         );
 
+        $langQuery = new Query(
+            'lang',
+            'en'
+        );
+
         $queries = TypedArray::create('integer', Query::class);
 
         $queries[] = $textQuery;
+        $queries[] = $langQuery;
 
         return new YandexRequestModel(
-            CallType::fromValue('detect'),
+            CallType::fromValue('translate'),
             $queries
         );
     }

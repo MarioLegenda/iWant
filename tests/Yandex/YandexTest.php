@@ -7,6 +7,7 @@ use App\Tests\Yandex\DataProvider\DataProvider;
 use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\Language;
 use App\Yandex\Library\Response\SupportedLanguagesResponse;
+use App\Yandex\Library\Response\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
 
@@ -71,14 +72,17 @@ class YandexTest extends BasicSetup
         $response = $entryPoint->translate($model);
 
         static::assertEquals(200, $response->getStatusCode());
-        static::assertEquals('es', $response->getLang());
+        static::assertEquals('es-en', $response->getLang());
 
         $model = $dataProvider->getTextTranslate('This is english');
 
-        /** @var DetectLanguageResponse $response */
+        /** @var TranslatedTextResponse $response */
         $response = $entryPoint->translate($model);
 
         static::assertEquals(200, $response->getStatusCode());
-        static::assertEquals('en', $response->getLang());
+        static::assertEquals('en-en', $response->getLang());
+
+        static::assertNotEmpty($response->getText());
+        static::assertInternalType('string', $response->getText());
     }
 }

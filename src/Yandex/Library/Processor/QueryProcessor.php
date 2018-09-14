@@ -32,10 +32,10 @@ class QueryProcessor implements ProcessorInterface
 
         /** @var Query $query */
         foreach ($this->queries as $query) {
-            $processed.=$query->getQuery();
+            $processed.=$query->getQuery().'&';
         }
 
-        $this->processed = $processed;
+        $this->processed = rtrim($processed, '&');
 
         return $this;
     }

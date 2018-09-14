@@ -14,6 +14,10 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $itemId;
     /**
+     * @var string|null $globalId
+     */
+    private $globalId;
+    /**
      * @var Title $title
      */
     private $title;
@@ -40,6 +44,7 @@ class TodayProduct implements ArrayNotationInterface
     /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
+     * @param string $globalId
      * @param Title $title
      * @param Image $image
      * @param string $shopName
@@ -54,9 +59,11 @@ class TodayProduct implements ArrayNotationInterface
         string $shopName,
         Price $price,
         string $viewItemUrl,
-        MarketplaceType $marketplace
+        MarketplaceType $marketplace,
+        string $globalId = null
     ) {
         $this->itemId = $itemId;
+        $this->globalId = $globalId;
         $this->title = $title;
         $this->image = $image;
         $this->shopName = $shopName;
@@ -77,6 +84,13 @@ class TodayProduct implements ArrayNotationInterface
     public function getTitle(): Title
     {
         return $this->title;
+    }
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title)
+    {
+        $this->title = new Title($title);
     }
     /**
      * @return Image
@@ -114,12 +128,20 @@ class TodayProduct implements ArrayNotationInterface
         return $this->marketplace;
     }
     /**
+     * @return string|null
+     */
+    public function getGlobalId(): ?string
+    {
+        return $this->globalId;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
     {
         return [
             'itemId' => $this->getItemId(),
+            'globalId' => $this->getGlobalId(),
             'title' => $this->getTitle()->toArray(),
             'image' => $this->getImage()->toArray(),
             'shopName' => $this->getShopName(),

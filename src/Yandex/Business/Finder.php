@@ -134,7 +134,8 @@ class Finder
 
         $statusCode = $responseArray['code'];
         $lang = $responseArray['lang'];
+        $text = $responseArray['text'];
 
-        return new TranslatedTextResponse($statusCode, $lang);
+        return new TranslatedTextResponse($statusCode, $lang, $text);
     }
 }

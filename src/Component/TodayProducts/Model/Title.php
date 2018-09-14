@@ -9,7 +9,7 @@ class Title implements ArrayNotationInterface
     /**
      * @var int $truncationLimit
      */
-    private $truncationLimit = 60;
+    private $truncationLimit = 57;
     /**
      * @var string $truncated
      */
@@ -25,11 +25,11 @@ class Title implements ArrayNotationInterface
     public function __construct(
         string $original
     ) {
-        $this->truncated = (strlen($original) > $this->truncationLimit) ?
-            substr($original, 0, 57).'...' :
-            $original;
-
         $this->original = $original;
+
+        $this->truncated = (strlen($original) > $this->truncationLimit) ?
+            substr($original, 0, $this->truncationLimit).'...' :
+            $original;
     }
     /**
      * @return string

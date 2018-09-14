@@ -7,16 +7,15 @@ parameters:
         ticketMaster: ticketmaster
 
     yandex_translation_languages:
-        de: en
-        nl: en
-        fr: en
+        'EBAY-DE': en
+        'EBAY-NL': en
+        'EBAY-FR': en
 
     yandex_api:
         base_url: 'https://translate.yandex.net/api/v1.5/tr.json/'
         api_key: 'trnsl.1.1.20180912T230845Z.385e471f09d252da.72bd0b5596d99b9fd3fe319bcb1c55c0462f6bf0'
         names:
             ui: ui
-        params: []
 
     ebay_finding_api_metadata:
         base_url: http://svcs.ebay.com/services/search/FindingService/v1?
@@ -132,6 +131,10 @@ services:
         arguments:
             $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
 
+    App\Library\Representation\LanguageTranslationsRepresentation:
+        arguments:
+            $yandexTranslationLanguages: '%yandex_translation_languages%'
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:
@@ -162,6 +165,10 @@ services:
             $bonanzaApi: '%bonanza_api%'
 
     App\Yandex\Library\Processor\ApiKeyProcessor:
+        arguments:
+            $yandexApi: '%yandex_api%'
+
+    App\Yandex\Library\Processor\RequestBaseProcessor:
         arguments:
             $yandexApi: '%yandex_api%'
 

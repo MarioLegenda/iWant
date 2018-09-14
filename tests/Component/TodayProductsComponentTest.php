@@ -6,6 +6,7 @@ use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\TodayProduct as TodayProductModel;
 use App\Component\TodayProducts\TodayProductsComponent;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
@@ -78,6 +79,11 @@ class TodayProductsComponentTest extends BasicSetup
 
             static::assertNotEmpty($product['marketplace']);
             static::assertTrue($marketplace->equals(MarketplaceType::fromValue($product['marketplace'])));
+
+            if ($product['marketplace'] === 'Ebay') {
+                static::assertNotEmpty($product['globalId']);
+                static::assertTrue(GlobalIdInformation::instance()->has($product['globalId']));
+            }
         }
     }
 }
