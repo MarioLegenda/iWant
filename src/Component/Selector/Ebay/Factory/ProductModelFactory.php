@@ -8,6 +8,7 @@ use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
 class ProductModelFactory
@@ -25,6 +26,12 @@ class ProductModelFactory
         $viewItemUrl = $singleItem->getViewItemUrl();
         $image = $this->createImage($singleItem);
         $globalId = $singleItem->getGlobalId();
+        $marketplace = MarketplaceType::fromValue('Ebay');
+        $staticUrl = $this->createStaticUrl(
+            $marketplace,
+            $title->getOriginal(),
+            (string) $itemId
+        );
 
         return new TodayProduct(
             $itemId,
@@ -33,7 +40,8 @@ class ProductModelFactory
             $shopName,
             $price,
             $viewItemUrl,
-            MarketplaceType::fromValue('Ebay'),
+            $marketplace,
+            $staticUrl,
             $globalId
         );
     }
@@ -46,6 +54,25 @@ class ProductModelFactory
         return new Price(
             $priceInfo['currencyId'],
             $priceInfo['currentPrice']
+        );
+    }
+
+    /**
+     * @param MarketplaceType|TypeInterface $marketplace
+     * @param string $title
+     * @param string $itemId
+     * @return string
+     */
+    private function createStaticUrl(
+        MarketplaceType $marketplace,
+        string $title,
+        string $itemId
+    ): string {
+        return sprintf(
+            '/item/%s/%s/%s',
+            (string) $marketplace,
+            \URLify::filter($title),
+            $itemId
         );
     }
     /**

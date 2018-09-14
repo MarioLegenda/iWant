@@ -39,9 +39,9 @@ class StaticController
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function getUniformedSearch(\Twig_Environment $templating): Response
+    public function getSingleItem(\Twig_Environment $templating): Response
     {
-        $content = $templating->render('application/static/uniformed_search.html.twig');
+        $content = $templating->render('application/static/single_item.html.twig');
 
         return new Response($content);
     }

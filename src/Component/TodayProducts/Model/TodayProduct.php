@@ -2,7 +2,6 @@
 
 namespace App\Component\TodayProducts\Model;
 
-use App\Component\Selector\Ebay\Type\Nan;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
@@ -42,6 +41,10 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $marketplace;
     /**
+     * @var string $staticUrl
+     */
+    private $staticUrl;
+    /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $globalId
@@ -50,6 +53,7 @@ class TodayProduct implements ArrayNotationInterface
      * @param string $shopName
      * @param Price $price
      * @param string $viewItemUrl
+     * @param string $staticUrl
      * @param MarketplaceType|TypeInterface $marketplace
      */
     public function __construct(
@@ -60,9 +64,11 @@ class TodayProduct implements ArrayNotationInterface
         Price $price,
         string $viewItemUrl,
         MarketplaceType $marketplace,
+        string $staticUrl,
         string $globalId = null
     ) {
         $this->itemId = $itemId;
+        $this->staticUrl = $staticUrl;
         $this->globalId = $globalId;
         $this->title = $title;
         $this->image = $image;
@@ -135,6 +141,13 @@ class TodayProduct implements ArrayNotationInterface
         return $this->globalId;
     }
     /**
+     * @return string
+     */
+    public function getStaticUrl(): string
+    {
+        return $this->staticUrl;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -148,6 +161,7 @@ class TodayProduct implements ArrayNotationInterface
             'price' => $this->getPrice()->toArray(),
             'viewItemUrl' => $this->getViewItemUrl(),
             'marketplace' => (string) $this->getMarketplace(),
+            'staticUrl' => $this->getStaticUrl(),
         ];
     }
 }

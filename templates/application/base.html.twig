@@ -26,15 +26,17 @@
             <script src={{ asset("js/dist/build.js?v="~cacheClear) }}></script>
 
             <script>
-                var options = {
-                    strings: ["Ebay", "Amazon", "Etsy", "Viagogo", "Ticket master", "the best"],
-                    typeSpeed: 100,
-                    backSpeed: 100,
-                    startDelay: 1000,
-                    showCursor: false
-                };
+                if (document.getElementById('typed_js_sentence')) {
+                    var options = {
+                        strings: ["Ebay", "Amazon", "Etsy", "Viagogo", "Ticket master", "the best"],
+                        typeSpeed: 100,
+                        backSpeed: 100,
+                        startDelay: 1000,
+                        showCursor: false
+                    };
 
-                new Typed("#typed_js_sentence", options);
+                    new Typed("#typed_js_sentence", options);
+                }
             </script>
         {% endblock %}
     </body>

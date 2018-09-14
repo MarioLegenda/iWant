@@ -9,9 +9,14 @@ use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Etsy\Library\Response\ResponseItem\Result;
 use App\Library\MarketplaceType;
+use App\Library\Infrastructure\Type\TypeInterface;
 
 class ProductModelFactory
 {
+    /**
+     * @param Result $singleModel
+     * @return TodayProduct
+     */
     public function createModel(Result $singleModel)
     {
         $itemId = (string) $singleModel->getListingId();
@@ -20,7 +25,13 @@ class ProductModelFactory
         $shopName = 'Shop name';
         $price = $this->createPrice($singleModel);
         $viewItemUrl = $singleModel->getUrl();
-        $shopType = MarketplaceType::fromValue('Etsy');
+        $marketplace = MarketplaceType::fromValue('Etsy');
+
+        $staticUrl = $this->createStaticUrl(
+            $marketplace,
+            $title->getOriginal(),
+            (string) $itemId
+        );
 
         return new TodayProduct(
             $itemId,
@@ -29,7 +40,26 @@ class ProductModelFactory
             $shopName,
             $price,
             $viewItemUrl,
-            $shopType
+            $marketplace,
+            $staticUrl
+        );
+    }
+    /**
+     * @param MarketplaceType|TypeInterface $marketplace
+     * @param string $title
+     * @param string $itemId
+     * @return string
+     */
+    private function createStaticUrl(
+        MarketplaceType $marketplace,
+        string $title,
+        string $itemId
+    ): string {
+        return sprintf(
+            '/item/%s/%s/%s',
+            (string) $marketplace,
+            \URLify::filter($title),
+            $itemId
         );
     }
     /**

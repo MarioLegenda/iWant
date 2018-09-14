@@ -5,6 +5,9 @@ import Vue from "vue";
 import {Header} from "./Header/Header";
 import {Menu} from "./Menu/Menu";
 
+export const EBAY = 'Ebay';
+export const ETSY = 'Etsy';
+
 export class Init {
     static registerWindowPrototypeMethods() {
         ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'].forEach(
@@ -20,6 +23,15 @@ export class Init {
             }
 
             return NaN;
+        };
+
+        window.isObjectEmpty = function(obj) {
+            for(let prop in obj) {
+                if(obj.hasOwnProperty(prop))
+                    return false;
+            }
+
+            return JSON.stringify(obj) === JSON.stringify({});
         };
 
         (function() {

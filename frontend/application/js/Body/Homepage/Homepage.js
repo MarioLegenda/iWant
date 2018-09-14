@@ -20,15 +20,17 @@ export const Homepage = {
                      <todays-picks></todays-picks>
                </div>`,
     created() {
-        const todayProductsRepository = RepositoryFactory.create('todays-products');
+        if (isObjectEmpty(this.$store.state.todaysProductsListing)) {
+            const todayProductsRepository = RepositoryFactory.create('todays-products');
 
-        const date = new Date();
-        todayProductsRepository.getTodaysProducts(
-            `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
-            (response) => {
-                this.$store.commit('todaysProductsListing', response.collection.data);
-            }
-        );
+            const date = new Date();
+            todayProductsRepository.getTodaysProducts(
+                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
+                (response) => {
+                    this.$store.commit('todaysProductsListing', response.collection.data);
+                }
+            );
+        }
     },
     components: {
         'todays-picks': TodaysPicks,

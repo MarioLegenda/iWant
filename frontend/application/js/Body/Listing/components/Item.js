@@ -70,13 +70,10 @@ export const Item = {
                    </div>
                    
                    <div class="Item_ItemLink margin-bottom-20">
-                       <a :href="item.viewItemUrl" target="__blank" class="ItemLink-closer-look">Take a closer look</a>
+                       <router-link :to="item.staticUrl" class="ItemLink-closer-look">Take a closer look</router-link>
                    </div>
                </div>`,
     props: ['item'],
-    created() {
-        console.log(this.item);
-    },
     components: {
         'currency-item': CurrencyItem,
         'image-item': ImageItem,
