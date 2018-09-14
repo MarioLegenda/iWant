@@ -3,9 +3,11 @@
 namespace App\Yandex\Business;
 
 use App\Library\Http\Request;
+use App\Yandex\Business\Request\DetectLanguage;
 use App\Yandex\Business\Request\GetSupportedLanguages;
 use App\Yandex\Library\Processor\ApiKeyProcessor;
 use App\Yandex\Library\Processor\RequestBaseProcessor;
+use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\ResponseModelInterface;
 use App\Yandex\Library\Response\SupportedLanguagesResponse;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
@@ -57,16 +59,45 @@ class Finder
 
         $resource = $this->finderSource->getApiResource($request);
 
-        return $this->createResponse($resource);
+        return $this->createSupportedLanguagesResponse($resource);
+    }
+
+    public function detectLanguage(YandexRequestModelInterface $model): ResponseModelInterface
+    {
+        $detectLanguage = new DetectLanguage(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $detectLanguage->getRequest();
+
+        $resource = $this->finderSource->getApiResource($request);
+
+        return $this->createDetectLanguageResponse($resource);
     }
     /**
      * @param string $response
      * @return SupportedLanguagesResponse
      */
-    private function createResponse(string $response)
+    private function createSupportedLanguagesResponse(string $response): SupportedLanguagesResponse
     {
         $responseArray = json_decode($response, true);
 
         return new SupportedLanguagesResponse($responseArray['langs']);
+    }
+    /**
+     * @param string $response
+     * @return DetectLanguageResponse
+     */
+    private function createDetectLanguageResponse(string $response): DetectLanguageResponse
+    {
+        $responseArray = json_decode($response, true);
+
+        $statusCode = $responseArray['code'];
+        $lang = $responseArray['lang'];
+
+        return new DetectLanguageResponse($statusCode, $lang);
     }
 }

@@ -11,7 +11,7 @@ class SupportedLanguagesResponse implements ResponseModelInterface
      */
     private $languages;
     /**
-     * @var Language $languageObjects
+     * @var Language[] $languageObjects
      */
     private $languageObjects = [];
     /**

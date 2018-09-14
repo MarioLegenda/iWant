@@ -4,6 +4,7 @@ namespace App\Tests\Yandex;
 
 use App\Tests\Library\BasicSetup;
 use App\Tests\Yandex\DataProvider\DataProvider;
+use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\Language;
 use App\Yandex\Library\Response\SupportedLanguagesResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
@@ -31,7 +32,29 @@ class YandexTest extends BasicSetup
 
             static::assertInstanceOf(Language::class, $response->getLanguage($code));
         }
+    }
 
+    public function test_detect_language()
+    {
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component.yandex');
+        /** @var YandexEntryPoint $entryPoint */
+        $entryPoint = $this->locator->get(YandexEntryPoint::class);
 
+        $model = $dataProvider->getDetectLanguage('This is english');
+
+        /** @var DetectLanguageResponse $response */
+        $response = $entryPoint->detectLanguage($model);
+
+        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals('en', $response->getLang());
+
+        $model = $dataProvider->getDetectLanguage('Eso es espanyol');
+
+        /** @var DetectLanguageResponse $response */
+        $response = $entryPoint->detectLanguage($model);
+
+        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals('es', $response->getLang());
     }
 }
