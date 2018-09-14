@@ -2,6 +2,7 @@
 
 namespace App\Component\Selector\Etsy;
 
+use App\Component\Selector\Etsy\Factory\ProductModelFactory;
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsActive;
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsFeatured;
 use App\Component\Selector\Type\Nan;
@@ -32,19 +33,26 @@ class ProductFetcher
      */
     private $productSelector;
     /**
+     * @var ProductModelFactory $productModelFactory
+     */
+    private $productModelFactory;
+    /**
      * ProductFetcher constructor.
      * @param BlueDot $blueDot
      * @param ApplicationShopRepository $applicationShopRepository
      * @param ProductSelector $productSelector
+     * @param ProductModelFactory $productModelFactory
      */
     public function __construct(
         BlueDot $blueDot,
         ApplicationShopRepository $applicationShopRepository,
-        ProductSelector $productSelector
+        ProductSelector $productSelector,
+        ProductModelFactory $productModelFactory
     ) {
         $this->blueDot = $blueDot;
         $this->applicationShopRepository = $applicationShopRepository;
         $this->productSelector = $productSelector;
+        $this->productModelFactory = $productModelFactory;
     }
     /**
      * @return iterable
@@ -71,26 +79,7 @@ class ProductFetcher
             /** @var Result $singleModel */
             $singleModel = $model->getResults()[0];
 
-            $itemId = (string) $singleModel->getListingId();
-            $title = new Title($singleModel->getTitle());
-            $imageUrl = new Image(Nan::fromValue());
-            $shopName = 'Shop name';
-            $price = new Price(
-                $singleModel->getCurrency(),
-                $singleModel->getPrice()
-            );
-            $viewItemUrl = $singleModel->getUrl();
-            $shopType = MarketplaceType::fromValue('Etsy');
-
-            $products[] = new TodayProduct(
-                $itemId,
-                $title,
-                $imageUrl,
-                $shopName,
-                $price,
-                $viewItemUrl,
-                $shopType
-            );
+            $products[] = $this->productModelFactory->createModel($singleModel);
         }
 
         return $products;

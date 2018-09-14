@@ -6,6 +6,18 @@ parameters:
         viagogo: Viagogo
         ticketMaster: ticketmaster
 
+    yandex_translation_languages:
+        de: en
+        nl: en
+        fr: en
+
+    yandex_api:
+        base_url: 'https://translate.yandex.net/api/v1.5/tr.json/'
+        api_key: 'trnsl.1.1.20180912T230845Z.385e471f09d252da.72bd0b5596d99b9fd3fe319bcb1c55c0462f6bf0'
+        names:
+            ui: ui
+        params: []
+
     ebay_finding_api_metadata:
         base_url: http://svcs.ebay.com/services/search/FindingService/v1?
         names:
@@ -87,6 +99,10 @@ services:
         resource: '../src/Bonanza/*'
         exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Library/Request.php,Presentation/Model/*,Library/Response/*}'
 
+    App\Yandex\:
+        resource: '../src/Yandex/*'
+        exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Response/*}'
+
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
@@ -145,6 +161,10 @@ services:
         arguments:
             $bonanzaApi: '%bonanza_api%'
 
+    App\Yandex\Library\Processor\ApiKeyProcessor:
+        arguments:
+            $yandexApi: '%yandex_api%'
+
     # REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
@@ -160,6 +180,11 @@ services:
         arguments:
             $env: '%env(APP_ENV)%'
             $communicator: '@App\Bonanza\Source\GenericHttpCommunicator'
+
+    App\Yandex\Source\Repository\Repository:
+        arguments:
+            $env: '%env(APP_ENV)%'
+            $communicator: '@App\Yandex\Source\GenericHttpCommunicator'
 
     # CACHE
 

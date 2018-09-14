@@ -2,15 +2,9 @@
 
 namespace App\Bonanza\Source;
 
-use App\Library\Http\Request;
 use App\Bonanza\Source\Repository\BonanzaRepository;
+use App\Library\Http\Request;
 use App\Library\Response;
-use App\Symfony\Exception\WrapperHttpException;
-use GuzzleHttp\Exception\BadResponseException;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Exception\ServerException;
 
 class FinderSource
 {
