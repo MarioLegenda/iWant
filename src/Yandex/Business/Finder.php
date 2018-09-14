@@ -5,11 +5,13 @@ namespace App\Yandex\Business;
 use App\Library\Http\Request;
 use App\Yandex\Business\Request\DetectLanguage;
 use App\Yandex\Business\Request\GetSupportedLanguages;
+use App\Yandex\Business\Request\TranslateText;
 use App\Yandex\Library\Processor\ApiKeyProcessor;
 use App\Yandex\Library\Processor\RequestBaseProcessor;
 use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\ResponseModelInterface;
 use App\Yandex\Library\Response\SupportedLanguagesResponse;
+use App\Yandex\Library\Response\TranslatedTextResponse;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
 use App\Yandex\Source\FinderSource;
 
@@ -61,7 +63,10 @@ class Finder
 
         return $this->createSupportedLanguagesResponse($resource);
     }
-
+    /**
+     * @param YandexRequestModelInterface $model
+     * @return ResponseModelInterface
+     */
     public function detectLanguage(YandexRequestModelInterface $model): ResponseModelInterface
     {
         $detectLanguage = new DetectLanguage(
@@ -76,6 +81,25 @@ class Finder
         $resource = $this->finderSource->getApiResource($request);
 
         return $this->createDetectLanguageResponse($resource);
+    }
+    /**
+     * @param YandexRequestModelInterface $model
+     * @return ResponseModelInterface
+     */
+    public function translate(YandexRequestModelInterface $model): ResponseModelInterface
+    {
+        $translateText = new TranslateText(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $translateText->getRequest();
+
+        $resource = $this->finderSource->getApiResource($request);
+
+        return $this->createTranslationResponse($resource);
     }
     /**
      * @param string $response
@@ -99,5 +123,18 @@ class Finder
         $lang = $responseArray['lang'];
 
         return new DetectLanguageResponse($statusCode, $lang);
+    }
+    /**
+     * @param string $response
+     * @return TranslatedTextResponse
+     */
+    private function createTranslationResponse(string $response): TranslatedTextResponse
+    {
+        $responseArray = json_decode($response, true);
+
+        $statusCode = $responseArray['code'];
+        $lang = $responseArray['lang'];
+
+        return new TranslatedTextResponse($statusCode, $lang);
     }
 }

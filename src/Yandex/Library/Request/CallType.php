@@ -12,5 +12,6 @@ class CallType extends BaseType
     protected static $types = [
         'getLangs' => 'getLangs',
         'detect' => 'detect',
+        'translate' => 'translate',
     ];
 }

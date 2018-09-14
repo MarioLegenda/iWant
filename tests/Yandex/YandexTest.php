@@ -57,4 +57,28 @@ class YandexTest extends BasicSetup
         static::assertEquals(200, $response->getStatusCode());
         static::assertEquals('es', $response->getLang());
     }
+
+    public function test_translate_language()
+    {
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component.yandex');
+        /** @var YandexEntryPoint $entryPoint */
+        $entryPoint = $this->locator->get(YandexEntryPoint::class);
+
+        $model = $dataProvider->getTextTranslate('Eso es espanyol');
+
+        /** @var DetectLanguageResponse $response */
+        $response = $entryPoint->translate($model);
+
+        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals('es', $response->getLang());
+
+        $model = $dataProvider->getTextTranslate('This is english');
+
+        /** @var DetectLanguageResponse $response */
+        $response = $entryPoint->translate($model);
+
+        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals('en', $response->getLang());
+    }
 }

@@ -50,4 +50,24 @@ class DataProvider
             $queries
         );
     }
+    /**
+     * @param string $text
+     * @return YandexRequestModelInterface
+     */
+    public function getTextTranslate(string $text): YandexRequestModelInterface
+    {
+        $textQuery = new Query(
+            'text',
+            urlencode($text)
+        );
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $textQuery;
+
+        return new YandexRequestModel(
+            CallType::fromValue('detect'),
+            $queries
+        );
+    }
 }

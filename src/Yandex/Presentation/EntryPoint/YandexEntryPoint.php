@@ -37,4 +37,12 @@ class YandexEntryPoint
     {
         return $this->finder->detectLanguage($model);
     }
+    /**
+     * @param YandexRequestModelInterface $model
+     * @return ResponseModelInterface
+     */
+    public function translate(YandexRequestModelInterface $model): ResponseModelInterface
+    {
+        return $this->finder->translate($model);
+    }
 }
