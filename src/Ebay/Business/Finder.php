@@ -7,11 +7,13 @@ use App\Ebay\Business\Request\FindItemsAdvanced;
 use App\Ebay\Business\Request\FindItemsByKeywords;
 use App\Ebay\Business\Request\FindItemsInEbayStores;
 use App\Ebay\Business\Request\GetCategoryInfo;
+use App\Ebay\Business\Request\GetSingleItem;
 use App\Ebay\Business\Request\GetUserProfile;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
+use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -81,6 +83,7 @@ class Finder
         }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
+
         /** @var FindingApiResponseModelInterface $responseModel */
         $responseModel = $this->createKeywordsModelResponse($response->getResponseString());
 
@@ -217,6 +220,37 @@ class Finder
         return $responseModel;
     }
     /**
+     * @param ShoppingApiRequestModelInterface $model
+     * @return ResponseModelInterface
+     * @throws HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function getSingleItem(ShoppingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        $getSingleItem = new GetSingleItem($model, $this->shoppingApiRequestBaseProcessor);
+
+        /** @var Request $request */
+        $request = $getSingleItem->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createSingleItemResponse(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
+        /** @var Response $resource */
+        $response = $this->finderSource->getApiResource($request);
+
+        $responseModel = $this->createSingleItemResponse($response->getResponseString());
+
+        if (!$responseModel->getRoot()->isSuccess()) {
+            throw new HttpException($response->getResponseString());
+        }
+
+        $this->cacheImplementation->store($request, $response->getResponseString());
+
+        return $responseModel;
+    }
+    /**
      * @param string $resource
      * @return FindingApiResponseModelInterface
      */
@@ -239,5 +273,13 @@ class Finder
     private function createCategoryInfoResponse(string $resource): ResponseModelInterface
     {
         return new GetCategoryInfoResponse($resource);
+    }
+    /**
+     * @param string $resource
+     * @return GetSingleItemResponse
+     */
+    private function createSingleItemResponse(string $resource): GetSingleItemResponse
+    {
+        return new GetSingleItemResponse($resource);
     }
 }

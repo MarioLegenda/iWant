@@ -77,9 +77,8 @@ class RootItem extends AbstractItem implements
      */
     public function isSuccess(): bool
     {
-        return strtolower($this->getAck()) === 'success';
+        return strtolower($this->getAck()) !== 'Failure';
     }
-
     /**
      * @return array
      */

@@ -28,7 +28,24 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
      */
     public function get(Request $request): HttpResponse
     {
-        return $this->tryGet($request);
+        try {
+            /** @var GuzzleResponse $response */
+            $response = $this->createClient()->get($request->getBaseUrl());
+
+            return $this->createResponse($response, $request);
+        } catch (
+        ServerException |
+        RequestException |
+        BadResponseException |
+        ClientException  |
+        ConnectException |
+        SeekException |
+        TooManyRedirectsException |
+        TransferException $e) {
+            throw new WrapperHttpException($e);
+        } catch (\Exception $e) {
+            throw new WrapperHttpException($e);
+        }
     }
     /**
      * @inheritdoc
@@ -50,25 +67,7 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
      */
     private function tryGet(Request $request): HttpResponse
     {
-        try {
-            /** @var GuzzleResponse $response */
-            $response = $this->createClient()->get($request->getBaseUrl());
 
-            return $this->createResponse($response, $request);
-        } catch (
-        ServerException |
-        RequestException |
-        BadResponseException |
-        ClientException  |
-        ConnectException |
-        SeekException |
-        TooManyRedirectsException |
-        TransferException $e) {
-
-            throw new WrapperHttpException($e);
-        } catch (\Exception $e) {
-            throw new WrapperHttpException($e);
-        }
     }
     /**
      * @return Client

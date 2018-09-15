@@ -24,15 +24,30 @@ class ShoppingApiEntryPoint
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
         return $this->finder->getCategoryInfo($model);
     }
-
+    /**
+     * @param ShoppingApiRequestModelInterface $model
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
         return $this->finder->getUserProfile($model);
+    }
+    /**
+     * @param ShoppingApiRequestModelInterface $model
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\HttpException
+     */
+    public function getSingleItem(ShoppingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        return $this->finder->getSingleItem($model);
     }
 }
