@@ -12,5 +12,6 @@ class MethodType extends BaseType
     protected static $types = [
         'findAllListingActive' => 'FindAllShopListingsActive',
         'findAllShopListingsFeatured' => 'FindAllShopListingsFeatured',
+        'getListing' => 'GetListing',
     ];
 }

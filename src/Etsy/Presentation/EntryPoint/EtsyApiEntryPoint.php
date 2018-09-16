@@ -33,9 +33,19 @@ class EtsyApiEntryPoint
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findAllShopListingsFeatured(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         return $this->finder->findAllShopListingsFeatured($model);
+    }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function getListing(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        return $this->finder->getListing($model);
     }
 }

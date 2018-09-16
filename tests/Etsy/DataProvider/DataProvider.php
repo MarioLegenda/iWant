@@ -82,6 +82,30 @@ class DataProvider
         return $model;
     }
     /**
+     * @param string $listingId
+     * @return EtsyApiModel
+     */
+    public function getEtsyGetListingModel(string $listingId): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('getListing');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingIdQuery = new Query(sprintf('/listings/%s?', $listingId));
+
+        $queries[] = $listingIdQuery;
+
+        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
+
+        $model = new EtsyApiModel(
+            $methodType,
+            $itemFilters,
+            $queries
+        );
+
+        return $model;
+    }
+    /**
      * @param int $limit
      * @return TypedArray
      */

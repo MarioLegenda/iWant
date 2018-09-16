@@ -138,4 +138,19 @@ class EtsyApiTest extends BasicSetup
             static::assertInternalType('string', $result->getState());
         }
     }
+
+    public function test_get_listing()
+    {
+        /** @var EtsyApiEntryPoint $etsyApiEntryPoint */
+        $etsyApiEntryPoint = $this->locator->get(EtsyApiEntryPoint::class);
+
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.etsy_api');
+
+        $model = $dataProvider->getEtsyGetListingModel('550212552');
+
+        $responseModel = $etsyApiEntryPoint->getListing($model);
+
+
+    }
 }
