@@ -45,6 +45,7 @@ class ShoppingApiEntryPoint
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
      * @throws \App\Symfony\Exception\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getSingleItem(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {

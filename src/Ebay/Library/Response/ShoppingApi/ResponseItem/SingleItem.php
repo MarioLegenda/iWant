@@ -2,7 +2,9 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
-class SingleItem extends AbstractItem
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class SingleItem extends AbstractItem implements ArrayNotationInterface
 {
     /**
      * @var string $itemId
@@ -81,7 +83,7 @@ class SingleItem extends AbstractItem
      */
     private $quantitySold;
     /**
-     * @var string $shipsToLocations
+     * @var array $shipsToLocations
      */
     private $shipsToLocations;
     /**
@@ -434,13 +436,17 @@ class SingleItem extends AbstractItem
     }
     /**
      * @param null $default
-     * @return string
+     * @return array
      */
-    public function getShipsToLocations($default = null): string
+    public function getShipsToLocations($default = null): array
     {
         if ($this->shipsToLocations === null) {
             if (!empty($this->simpleXml->ShipToLocations)) {
-                $this->shipsToLocations = (string) $this->simpleXml->ShipToLocations;
+                $shipToLocations = $this->simpleXml->ShipToLocations;
+
+                foreach ($shipToLocations as $location) {
+                    $this->shipsToLocations[] = (string) $location;
+                }
             }
         }
 
@@ -539,5 +545,29 @@ class SingleItem extends AbstractItem
         }
 
         return $this->itemSpecifics;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'itemId' => $this->getItemId(),
+            'title' => $this->getTitle(),
+            'bestOfferEnabled' => $this->getBestOfferEnabled(),
+            'description' => $this->getDescription(),
+            'startTime' => $this->getStartTime(),
+            'endTime' => $this->getEndTime(),
+            'viewItemUrlForNaturalSearch' => $this->getViewItemUrlForNaturalSearch(),
+            'listingType' => $this->getListingType(),
+            'location' => $this->getLocation(),
+            'paymentMethods' => $this->getPaymentMethods(),
+            'galleryUrl' => $this->getGalleryUrl(),
+            'pictureUrl' => $this->getPictureUrl(),
+            'primaryCategoryId' => $this->getPrimaryCategoryId(),
+            'primaryCategoryName' => $this->getPrimaryCategoryName(),
+            'quantity' => $this->getQuantity(),
+            'seller' => $this->getSeller()->toArray(),
+        ];
     }
 }

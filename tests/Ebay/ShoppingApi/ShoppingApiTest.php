@@ -163,7 +163,7 @@ class ShoppingApiTest extends BasicSetup
 
         static::assertInternalType('string', $singleItem->getListingStatus());
         static::assertInternalType('string', $singleItem->getQuantitySold());
-        static::assertInternalType('string', $singleItem->getShipsToLocations());
+        static::assertInternalType('array', $singleItem->getShipsToLocations());
         static::assertInternalType('string', $singleItem->getSite());
         static::assertInternalType('string', $singleItem->getTimeLeft());
         static::assertInternalType('string', $singleItem->getTitle());

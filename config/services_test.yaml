@@ -103,6 +103,10 @@ services:
         resource: '../src/Yandex/*'
         exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Response/*}'
 
+    App\App\:
+        resource: '../src/App/*'
+        exclude: '../src/App/{Presentation/Model/*}'
+
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
@@ -199,6 +203,9 @@ services:
 
     data_provider.component.todays_keywords:
         class: App\Tests\Component\DataProvider\DataProvider
+
+    data_provider.app:
+        class: App\Tests\App\DataProvider\DataProvider
 
     data_provider.component.yandex:
         class: App\Tests\Yandex\DataProvider\DataProvider

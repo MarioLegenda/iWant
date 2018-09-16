@@ -30,8 +30,6 @@ class Finder
 
     public function getSingleItem(SingleItemRequestModel $model)
     {
-        $marketplace = $model->getMarketplace();
-
         $singleItem = $this->marketplaceFactoryFinder
             ->getSingleItem($model->getMarketplace(), $model->getItemId());
 

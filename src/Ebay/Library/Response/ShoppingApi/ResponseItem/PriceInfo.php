@@ -2,7 +2,9 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
-class PriceInfo
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class PriceInfo implements ArrayNotationInterface
 {
     /**
      * @var string|null $convertedCurrentPriceId
@@ -66,5 +68,17 @@ class PriceInfo
     public function getCurrentPrice(): ?string
     {
         return $this->currentPrice;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'convertedCurrentPriceId' => $this->getConvertedCurrentPriceId(),
+            'convertedCurrentPrice' => $this->getConvertedCurrentPrice(),
+            'currentPriceId' => $this->getCurrentPriceId(),
+            'currentPrice' => $this->getCurrentPrice(),
+        ];
     }
 }

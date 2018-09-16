@@ -2,6 +2,8 @@
 
 namespace App\App\Presentation\Model;
 
+use App\Library\Http\Request\Type\InternalTypeType;
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
 class SingleItemRequestModel
@@ -16,7 +18,7 @@ class SingleItemRequestModel
     private $itemId;
     /**
      * SingleItemRequestModel constructor.
-     * @param MarketplaceType $marketplace
+     * @param MarketplaceType|TypeInterface $marketplace
      * @param string $itemId
      */
     public function __construct(

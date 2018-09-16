@@ -102,6 +102,10 @@ services:
         resource: '../src/Yandex/*'
         exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Response/*}'
 
+    App\App\:
+        resource: '../src/App/*'
+        exclude: '../src/App/{Presentation/Model/*}'
+
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
@@ -264,6 +268,10 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\ToggleCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    App\Doctrine\Repository\SingleProductItemRepository:
         arguments:
             $registry: '@doctrine'
 

@@ -45,7 +45,7 @@ class GetSingleItemResponse implements
         return $this->getRoot()->getAck() === 'Failure';
     }
     /**
-     * @return RootItemInterface
+     * @return RootItem
      */
     public function getRoot(): RootItemInterface
     {
@@ -59,7 +59,9 @@ class GetSingleItemResponse implements
 
         return $this->responseItems['rootItem'];
     }
-
+    /**
+     * @return SingleItem
+     */
     public function getSingleItem(): SingleItem
     {
         $this->lazyLoadSimpleXml($this->xmlString);
@@ -111,5 +113,22 @@ class GetSingleItemResponse implements
         }
 
         $this->simpleXmlBase = simplexml_load_string($xmlString);
+    }
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $toArray = array();
+
+        $toArray['response'] = array(
+            'singleItem' => $this->getSingleItem()->toArray(),
+            'rootItem' => $this->getRoot()->toArray(),
+            'errors' => ($this->getErrors() instanceof ErrorContainer) ?
+                $this->getErrors()->toArray() :
+                null,
+        );
+
+        return $toArray;
     }
 }

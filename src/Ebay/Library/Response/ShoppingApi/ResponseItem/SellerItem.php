@@ -2,7 +2,9 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
-class SellerItem extends AbstractItem
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class SellerItem extends AbstractItem implements ArrayNotationInterface
 {
     /**
      * @var string $userId
@@ -91,5 +93,17 @@ class SellerItem extends AbstractItem
         }
 
         return $this->positiveFeedbackPercent;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'userId' => $this->getUserId(),
+            'feedbackRatingStar' => $this->getFeedbackRatingStart(),
+            'feedbackScore' => $this->getFeedbackScore(),
+            'positiveFeedbackPercent' => $this->getPositiveFeedbackPercent(),
+        ];
     }
 }
