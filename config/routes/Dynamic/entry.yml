@@ -2,6 +2,6 @@ app_get_todays_products:
   path: /get-todays-products
   controller: App\Web\Controller\TodayProductsController::getTodaysProducts
 
-#app_get_item:
-#  path: /item/{:marketplace}/{:itemId}
-#  controller: App\Web\Controller\TodayProductsController::getTodaysProducts
+app_get_item:
+  path: /item/{:marketplace}/{:itemId}
+  controller: App\Web\Controller\AppController::getSingleItem
