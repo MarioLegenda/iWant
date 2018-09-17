@@ -3,6 +3,8 @@
 namespace App\Tests\App;
 
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\Doctrine\Entity\SingleProductItem;
+use App\Library\MarketplaceType;
 use App\Tests\Library\BasicSetup;
 
 class AppTest extends BasicSetup
@@ -14,6 +16,11 @@ class AppTest extends BasicSetup
 
         $dataProvider = $this->locator->get('data_provider.app');
 
-        $singleItemEntryPoint->getSingleItem($dataProvider->createSingleItemRequestModel('310344125882'));
+        $singleItem = $singleItemEntryPoint->getSingleItem($dataProvider->createSingleItemRequestModel(
+            '310344125882',
+            MarketplaceType::fromValue('Ebay')
+        ));
+
+        static::assertInstanceOf(SingleProductItem::class, $singleItem);
     }
 }

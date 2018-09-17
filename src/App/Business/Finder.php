@@ -33,9 +33,7 @@ class Finder
         $singleItem = $this->marketplaceFactoryFinder
             ->getSingleItem($model->getMarketplace(), $model->getItemId());
 
-        return $this->marketplaceFactoryResponse->createSingleItemResponse(
-            $model->getMarketplace(), $singleItem
-        );
+        return $singleItem;
     }
 
 

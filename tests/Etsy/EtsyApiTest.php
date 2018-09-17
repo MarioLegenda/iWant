@@ -8,6 +8,7 @@ use App\Etsy\Library\Response\ResponseItem\Results;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
 use App\Tests\Etsy\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
+use App\Web\Factory\EtsyResponseModelFactory;
 
 class EtsyApiTest extends BasicSetup
 {
@@ -151,6 +152,6 @@ class EtsyApiTest extends BasicSetup
 
         $responseModel = $etsyApiEntryPoint->getListing($model);
 
-
+        static::assertInstanceOf(EtsyApiResponseModelInterface::class, $responseModel);
     }
 }

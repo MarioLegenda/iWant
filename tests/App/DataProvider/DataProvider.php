@@ -3,19 +3,22 @@
 namespace App\Tests\App\DataProvider;
 
 use App\App\Presentation\Model\SingleItemRequestModel;
-use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
 class DataProvider
 {
     /**
      * @param string $itemId
+     * @param MarketplaceType|TypeInterface $marketplace
      * @return SingleItemRequestModel
      */
-    public function createSingleItemRequestModel(string $itemId): SingleItemRequestModel
-    {
+    public function createSingleItemRequestModel(
+        string $itemId,
+        MarketplaceType $marketplace
+    ): SingleItemRequestModel {
         return new SingleItemRequestModel(
-            MarketplaceType::fromValue('Ebay'),
+            $marketplace,
             $itemId
         );
     }

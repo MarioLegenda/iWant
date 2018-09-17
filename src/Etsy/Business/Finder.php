@@ -117,7 +117,7 @@ class Finder
     }
     /**
      * @param EtsyApiModel $model
-     * @return EtsyApiResponseModelInterface|void
+     * @return EtsyApiResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getListing(EtsyApiModel $model)

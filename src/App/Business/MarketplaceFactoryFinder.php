@@ -6,17 +6,12 @@ use App\Doctrine\Entity\SingleProductItem;
 use App\Doctrine\Repository\SingleProductItemRepository;
 use App\Ebay\Business\Request\StaticRequestConstructor;
 use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
-use App\Ebay\Presentation\Model\ItemFilter;
-use App\Ebay\Presentation\Model\ItemFilterMetadata;
-use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
-use App\Ebay\Presentation\ShoppingApi\Model\GetSingleItem;
-use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
+use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
+use App\Etsy\Library\Response\ResponseItem\Result;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
-use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Representation\MarketplaceRepresentation;
-use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class MarketplaceFactoryFinder
 {
@@ -69,7 +64,7 @@ class MarketplaceFactoryFinder
         }
 
         if ($this->marketplaceRepresentation->ebay->equals($marketplace)) {
-            $model = StaticRequestConstructor::createSingleItemRequest($itemId);
+            $model = StaticRequestConstructor::createEbaySingleItemRequest($itemId);
 
             /** @var GetSingleItemResponse $singleResponseModel */
             $singleResponseModel = $this->shoppingApiEntryPoint->getSingleItem($model);
@@ -80,7 +75,15 @@ class MarketplaceFactoryFinder
 
             return $singleProductEntity;
         } else if ($this->marketplaceRepresentation->etsy->equals($marketplace)) {
+            $model = StaticRequestConstructor::createEtsySingleItemRequest($itemId);
 
+            $singleResponseModel = $this->etsyApiEntryPoint->getListing($model);
+
+            $singleProductEntity = $this->createEntityFromEtsyModel($marketplace, $singleResponseModel);
+
+            $this->singleProductItemRepository->persistAndFlush($singleProductEntity);
+
+            return $singleProductEntity;
         }
 
         $message = sprintf(
@@ -101,8 +104,28 @@ class MarketplaceFactoryFinder
         GetSingleItemResponse $response
     ): SingleProductItem {
         $singleProduct = $response->getSingleItem();
+
         return new SingleProductItem(
             $singleProduct->getItemId(),
+            $marketplace,
+            $singleProduct->getTitle(),
+            $singleProduct->getDescription()
+        );
+    }
+    /**
+     * @param MarketplaceType $marketplace
+     * @param EtsyApiResponseModelInterface $response
+     * @return SingleProductItem
+     */
+    private function createEntityFromEtsyModel(
+        MarketplaceType $marketplace,
+        EtsyApiResponseModelInterface $response
+    ) {
+        /** @var Result $singleProduct */
+        $singleProduct = $response->getResults()[0];
+
+        return new SingleProductItem(
+            $singleProduct->getListingId(),
             $marketplace,
             $singleProduct->getTitle(),
             $singleProduct->getDescription()
