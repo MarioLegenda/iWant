@@ -30,16 +30,16 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
      */
     public function supports(Request $request, ArgumentMetadata $argument)
     {
-        if ($argument->getType() !== SingleItemRequestModelResolver::class) {
+        if ($argument->getType() !== SingleItemRequestModel::class) {
             return false;
         }
 
-        if (!$request->query->has('marketplace') or !$request->query->has('itemId')) {
+        $marketplace = $request->get('marketplace');
+        $itemId = $request->get('itemId');
+
+        if (!is_string($marketplace) or !is_string($itemId)) {
             return false;
         }
-
-        $marketplace = $request->query->get('marketplace');
-        $itemId = (string) $request->query->get('itemId');
 
         $this->model = new SingleItemRequestModel(
             MarketplaceType::fromValue($marketplace),

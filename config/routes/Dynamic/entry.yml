@@ -3,5 +3,5 @@ app_get_todays_products:
   controller: App\Web\Controller\TodayProductsController::getTodaysProducts
 
 app_get_item:
-  path: /item/{:marketplace}/{:itemId}
+  path: /item/{marketplace}/{itemId}
   controller: App\Web\Controller\AppController::getSingleItem

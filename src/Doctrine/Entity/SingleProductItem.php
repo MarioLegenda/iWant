@@ -2,6 +2,7 @@
 
 namespace App\Doctrine\Entity;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\MarketplaceType;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -18,7 +19,7 @@ use App\Library\Util\Util;
  * )
  * @HasLifecycleCallbacks()
  **/
-class SingleProductItem
+class SingleProductItem implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -91,6 +92,13 @@ class SingleProductItem
     /**
      * @return string
      */
+    public function getItemId(): string
+    {
+        return $this->itemId;
+    }
+    /**
+     * @return string
+     */
     public function getDescription(): string
     {
         return $this->description;
@@ -135,5 +143,18 @@ class SingleProductItem
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
         }
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'itemId' => $this->getItemId(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'createdAt' => Util::formatFromDate($this->getCreatedAt()),
+            'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
+        ];
     }
 }

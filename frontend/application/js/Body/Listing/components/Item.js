@@ -70,10 +70,15 @@ export const Item = {
                    </div>
                    
                    <div class="Item_ItemLink margin-bottom-20">
-                       <router-link :to="item.staticUrl" class="ItemLink-closer-look">Take a closer look</router-link>
+                       <router-link :to="item.staticUrl" class="ItemLink-closer-look" v-on:click.native="saveItemToStore">Take a closer look</router-link>
                    </div>
                </div>`,
     props: ['item'],
+    methods: {
+        saveItemToStore: function() {
+            this.$store.commit('singleItem', this.item);
+        }
+    },
     components: {
         'currency-item': CurrencyItem,
         'image-item': ImageItem,

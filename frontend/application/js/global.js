@@ -56,12 +56,15 @@ export class Init {
         const store = new Vuex.Store({
             state: {
                 todaysProductsListing: {},
+                singleItem: null,
             },
             mutations: {
-                todaysProductsListing (state, value) {
-                    console.log(value);
+                todaysProductsListing(state, value) {
                     this.state.todaysProductsListing = value;
                 },
+                singleItem(state, value) {
+                    this.state.singleItem = value;
+                }
             }
         });
 

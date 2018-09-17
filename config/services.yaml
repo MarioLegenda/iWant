@@ -213,7 +213,7 @@ services:
     app.symfony.resolver.single_item_resolver:
         class: 'App\Symfony\Resolver\SingleItemRequestModelResolver'
         tags:
-        - { name: controller.argument_value_resolver, priority: 50 }
+            - { name: controller.argument_value_resolver, priority: 50 }
 
     # CONTROLLER
 
