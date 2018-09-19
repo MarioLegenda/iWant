@@ -69,8 +69,13 @@ export const Item = {
                    </div>
                    
                    <div class="Item_Details margin-bottom-20">
-                       <a href="" class="Item_Details-shop-name margin-bottom-10">{{ item.shopName }}</a>
-                       <p class="Item_Details-item-price margin-bottom-10"><span><currency-item v-bind:currency="item.price.currency"></currency-item></span> {{ item.price.price }}</p>
+                       
+                       <p class="Item_Details-item-price margin-bottom-10">
+                            <span>
+                                <currency-item v-bind:currency="item.price.currency"></currency-item>
+                            </span> {{ item.price.price }}
+                            from <a href="" class="Item_Details-shop-name margin-bottom-10">{{ item.shopName }}</a>
+                       </p>
                    </div>
                    
                    <div class="Item_ItemLink margin-bottom-20">

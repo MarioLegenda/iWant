@@ -303,7 +303,7 @@ html {
   float: left;
 }
 .Item .Item_Details .Item_Details-shop-name {
-  display: block;
+  display: inline-block;
   color: #2E53F3;
   font-weight: bolder;
 }
