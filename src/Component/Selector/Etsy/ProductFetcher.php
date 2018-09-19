@@ -5,6 +5,7 @@ namespace App\Component\Selector\Etsy;
 use App\Component\Selector\Etsy\Factory\ProductModelFactory;
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsActive;
 use App\Component\Selector\Etsy\Selector\FindAllShopListingsFeatured;
+use App\Component\Selector\Etsy\Selector\SearchProduct;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -63,19 +64,22 @@ class ProductFetcher
         return $this->createTodaysProductModels($responseModels);
     }
     /**
-     * @param TypedArray $models
+     * @param TypedArray $searchProducts
      * @return TypedArray
      */
-    public function createTodaysProductModels(TypedArray $models): TypedArray
+    public function createTodaysProductModels(TypedArray $searchProducts): TypedArray
     {
         $products = TypedArray::create('integer', TodayProduct::class);
 
-        /** @var EtsyApiResponseModelInterface $model */
-        foreach ($models as $model) {
+        /** @var SearchProduct $searchProduct */
+        foreach ($searchProducts as $searchProduct) {
             /** @var Result $singleModel */
-            $singleModel = $model->getResults()[0];
+            $singleModel = $searchProduct->getResponseModels()->getResults()[0];
 
-            $products[] = $this->productModelFactory->createModel($singleModel);
+            $products[] = $this->productModelFactory->createModel(
+                $singleModel,
+                $searchProduct->getApplicationShop()
+            );
         }
 
         return $products;
@@ -85,6 +89,7 @@ class ProductFetcher
      * @throws \BlueDot\Exception\ConfigurationException
      * @throws \BlueDot\Exception\ConnectionException
      * @throws \BlueDot\Exception\RepositoryException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     private function getResponseModels(): TypedArray
     {
@@ -117,7 +122,7 @@ class ProductFetcher
                 ->attach(new FindAllShopListingsActive($applicationShop));
 
             try {
-                $this->productSelector->notify();
+                $this->productSelector->notify($applicationShop);
 
                 $shopsSuccessCount++;
             } catch (\Exception $e) {}

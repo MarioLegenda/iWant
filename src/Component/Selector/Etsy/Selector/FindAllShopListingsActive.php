@@ -3,6 +3,7 @@
 namespace App\Component\Selector\Etsy\Selector;
 
 use App\Component\Selector\Etsy\ObserverSelectorInterface;
+use App\Component\Selector\Etsy\SubjectSelectorInterface;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Etsy\Library\ItemFilter\ItemFilterType;
 use App\Etsy\Library\Type\MethodType;
@@ -27,10 +28,10 @@ class FindAllShopListingsActive implements ObserverSelectorInterface
         $this->applicationShop = $applicationShop;
     }
     /**
-     * @param \SplSubject $subject
+     * @param SubjectSelectorInterface $subject
      * @return EtsyApiModel
      */
-    public function update(\SplSubject $subject): EtsyApiModel
+    public function update(SubjectSelectorInterface $subject): EtsyApiModel
     {
         return $this->createModel();
     }

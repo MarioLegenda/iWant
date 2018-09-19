@@ -3,7 +3,7 @@
 namespace App\App\Presentation\EntryPoint;
 
 use App\App\Business\Finder;
-use App\App\Presentation\Model\SingleItemRequestModel;
+use App\App\Presentation\Model\Request\SingleItemRequestModel;
 
 class SingleItemEntryPoint
 {
@@ -27,5 +27,7 @@ class SingleItemEntryPoint
     public function getSingleItem(SingleItemRequestModel $model)
     {
         return $this->finder->getSingleItem($model);
+
+
     }
 }

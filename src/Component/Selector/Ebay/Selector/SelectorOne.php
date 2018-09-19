@@ -3,6 +3,7 @@
 namespace App\Component\Selector\Ebay\Selector;
 
 use App\Component\Selector\Ebay\ObserverSelectorInterface;
+use App\Component\Selector\Ebay\SubjectSelectorInterface;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
@@ -29,10 +30,10 @@ class SelectorOne implements ObserverSelectorInterface
         $this->applicationShop = $applicationShop;
     }
     /**
-     * @param \SplSubject $subject
+     * @param SubjectSelectorInterface $subject
      * @return FindingApiModel|null
      */
-    public function update(\SplSubject $subject): ?FindingApiRequestModelInterface
+    public function update(SubjectSelectorInterface $subject): ?FindingApiRequestModelInterface
     {
         return $this->createModel();
     }
@@ -81,13 +82,21 @@ class SelectorOne implements ObserverSelectorInterface
             ['UnitPriceInfo', 'SellerInfo']
         ));
 
+        $featuredOnly = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::FEATURED_ONLY,
+            [true]
+        ));
+
         $sortOrder = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
             ItemFilterConstants::SORT_ORDER,
-            ['WatchCountDecreaseSort']
+            ['CurrentPriceHighest']
         ));
 
+        $itemFilters[] = $featuredOnly;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
         $itemFilters[] = $sortOrder;

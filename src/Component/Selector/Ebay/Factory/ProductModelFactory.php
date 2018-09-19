@@ -2,26 +2,25 @@
 
 namespace App\Component\Selector\Ebay\Factory;
 
+use App\Component\Selector\Ebay\Selector\SearchProduct;
 use App\Component\Selector\Type\Nan;
 use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
+use App\Doctrine\Entity\ApplicationShop;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
 class ProductModelFactory
 {
-    /**
-     * @param Item $singleItem
-     * @return TodayProduct
-     */
-    public function createModel(Item $singleItem): TodayProduct
+
+    public function createModel(Item $singleItem, ApplicationShop $applicationShop): TodayProduct
     {
         $itemId = (string) $singleItem->getItemId();
         $title = new Title($singleItem->getTitle());
-        $shopName = $singleItem->getSellerInfo()->getSellerUsername();
+        $shopName = $applicationShop->getApplicationName();
         $price = $this->createPrice($singleItem->getSellingStatus()->getCurrentPrice());
         $viewItemUrl = $singleItem->getViewItemUrl();
         $image = $this->createImage($singleItem);
@@ -33,6 +32,8 @@ class ProductModelFactory
             (string) $itemId
         );
 
+        $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
+
         return new TodayProduct(
             $itemId,
             $title,
@@ -42,6 +43,7 @@ class ProductModelFactory
             $viewItemUrl,
             $marketplace,
             $staticUrl,
+            $taxonomyName,
             $globalId
         );
     }

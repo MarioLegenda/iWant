@@ -3,7 +3,7 @@
 namespace App\Web\Controller;
 
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
-use App\App\Presentation\Model\SingleItemRequestModel;
+use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Doctrine\Entity\SingleProductItem;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;

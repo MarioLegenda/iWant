@@ -7,6 +7,7 @@ use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
+use App\Doctrine\Entity\ApplicationShop;
 use App\Etsy\Library\Response\ResponseItem\Result;
 use App\Library\MarketplaceType;
 use App\Library\Infrastructure\Type\TypeInterface;
@@ -15,10 +16,13 @@ class ProductModelFactory
 {
     /**
      * @param Result $singleModel
+     * @param ApplicationShop $applicationShop
      * @return TodayProduct
      */
-    public function createModel(Result $singleModel)
-    {
+    public function createModel(
+        Result $singleModel,
+        ApplicationShop $applicationShop
+    ) {
         $itemId = (string) $singleModel->getListingId();
         $title = new Title($singleModel->getTitle());
         $imageUrl = $this->createImage($singleModel);
@@ -33,6 +37,8 @@ class ProductModelFactory
             (string) $itemId
         );
 
+        $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
+
         return new TodayProduct(
             $itemId,
             $title,
@@ -41,7 +47,8 @@ class ProductModelFactory
             $price,
             $viewItemUrl,
             $marketplace,
-            $staticUrl
+            $staticUrl,
+            $taxonomyName
         );
     }
     /**

@@ -3,6 +3,7 @@
 namespace App\Component\Selector\Ebay\Selector;
 
 use App\Component\Selector\Ebay\ObserverSelectorInterface;
+use App\Component\Selector\Ebay\SubjectSelectorInterface;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
@@ -29,10 +30,10 @@ class SelectorThree implements ObserverSelectorInterface
         $this->applicationShop = $applicationShop;
     }
     /**
-     * @param \SplSubject $subject
+     * @param SubjectSelectorInterface $subject
      * @return FindingApiModel|null
      */
-    public function update(\SplSubject $subject): ?FindingApiRequestModelInterface
+    public function update(SubjectSelectorInterface $subject): ?FindingApiRequestModelInterface
     {
         return $this->createModel();
     }
@@ -67,13 +68,6 @@ class SelectorThree implements ObserverSelectorInterface
     {
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
-        $featuredOnly = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::FEATURED_ONLY,
-            [true]
-        ));
-
         $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
@@ -92,10 +86,33 @@ class SelectorThree implements ObserverSelectorInterface
             'name',
             'value',
             ItemFilterConstants::SORT_ORDER,
-            ['WatchCountDecreaseSort']
+            ['CurrentPriceHighest']
         ));
 
-        $itemFilters[] = $featuredOnly;
+        $minPrice = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::MIN_PRICE,
+            [200.00]
+        ));
+
+        $maxPrice = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::MAX_PRICE,
+            [2500.00]
+        ));
+
+        $condition = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::CONDITION,
+            ['New', 2000, 2500]
+        ));
+
+        $itemFilters[] = $minPrice;
+        $itemFilters[] = $maxPrice;
+        $itemFilters[] = $condition;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
         $itemFilters[] = $sortOrder;

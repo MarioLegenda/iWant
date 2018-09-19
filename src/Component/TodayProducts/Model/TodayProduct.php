@@ -45,6 +45,10 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $staticUrl;
     /**
+     * @var string $taxonomyName
+     */
+    private $taxonomyName;
+    /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $globalId
@@ -54,6 +58,7 @@ class TodayProduct implements ArrayNotationInterface
      * @param Price $price
      * @param string $viewItemUrl
      * @param string $staticUrl
+     * @param string $taxonomyName
      * @param MarketplaceType|TypeInterface $marketplace
      */
     public function __construct(
@@ -65,6 +70,7 @@ class TodayProduct implements ArrayNotationInterface
         string $viewItemUrl,
         MarketplaceType $marketplace,
         string $staticUrl,
+        string $taxonomyName,
         string $globalId = null
     ) {
         $this->itemId = $itemId;
@@ -75,6 +81,7 @@ class TodayProduct implements ArrayNotationInterface
         $this->shopName = $shopName;
         $this->price = $price;
         $this->viewItemUrl = $viewItemUrl;
+        $this->taxonomyName = $taxonomyName;
         $this->marketplace = $marketplace;
     }
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Symfony\Resolver;
 
-use App\App\Presentation\Model\SingleItemRequestModel;
+use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Library\MarketplaceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;

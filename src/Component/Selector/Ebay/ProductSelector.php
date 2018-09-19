@@ -2,22 +2,24 @@
 
 namespace App\Component\Selector\Ebay;
 
+use App\Component\Selector\Ebay\Selector\SearchProduct;
+use App\Doctrine\Entity\ApplicationShop;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\RootItem;
-use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Library\Infrastructure\Helper\TypedArray;
+use Twig\Node\Expression\Binary\SubBinary;
 
-class ProductSelector implements \SplSubject
+class ProductSelector implements SubjectSelectorInterface
 {
     /**
      * @var \SplObserver[] $observers
      */
     private $observers;
     /**
-     * @var array $productResponseModels
+     * @var SearchProduct[] $searchProducts
      */
-    private $productResponseModels;
+    private $searchProducts;
     /**
      * @var FindingApiEntryPoint $findingApiEntryPoint
      */
@@ -30,12 +32,12 @@ class ProductSelector implements \SplSubject
         FindingApiEntryPoint $findingApiEntryPoint
     ) {
         $this->findingApiEntryPoint = $findingApiEntryPoint;
-        $this->productResponseModels = TypedArray::create('integer', ResponseModelInterface::class);
+        $this->searchProducts = TypedArray::create('integer', SearchProduct::class);
     }
     /**
-     * @param \SplObserver $observer
+     * @param ObserverSelectorInterface $observer
      */
-    public function detach(\SplObserver $observer)
+    public function detach(ObserverSelectorInterface $observer)
     {
         $message = sprintf(
             'Method %s::detach() is disabled',
@@ -46,19 +48,20 @@ class ProductSelector implements \SplSubject
     }
     /**
      * @param \SplObserver $observer
-     * @return \SplSubject
+     * @return SubjectSelectorInterface
      */
-    public function attach(\SplObserver $observer): \SplSubject
+    public function attach(ObserverSelectorInterface $observer): SubjectSelectorInterface
     {
         $this->observers[] = $observer;
 
         return $this;
     }
     /**
+     * @param ApplicationShop $applicationShop
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function notify(): void
+    public function notify(ApplicationShop $applicationShop): void
     {
         /** @var \SplObserver|ObserverSelectorInterface $observer */
         foreach ($this->observers as $observer) {
@@ -71,7 +74,10 @@ class ProductSelector implements \SplSubject
             $rootItem = $responseModel->getRoot();
 
             if ($rootItem->getSearchResultsCount() > 0) {
-                $this->productResponseModels[] = $responseModel;
+                $this->searchProducts[] = new SearchProduct(
+                    $responseModel,
+                    $applicationShop
+                );
 
                 $this->observers = [];
 
@@ -84,6 +90,6 @@ class ProductSelector implements \SplSubject
      */
     public function getProductResponseModels(): iterable
     {
-        return $this->productResponseModels;
+        return $this->searchProducts;
     }
 }

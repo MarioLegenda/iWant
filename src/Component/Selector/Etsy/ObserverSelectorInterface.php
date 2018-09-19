@@ -2,13 +2,15 @@
 
 namespace App\Component\Selector\Etsy;
 
+use App\Ebay\Library\Model\FindingApiRequestModelInterface;
+use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Etsy\Presentation\Model\EtsyApiModel;
 
-interface ObserverSelectorInterface extends \SplObserver
+interface ObserverSelectorInterface
 {
     /**
-     * @param \SplSubject $subject
+     * @param SubjectSelectorInterface $subject
      * @return EtsyApiModel
      */
-    public function update(\SplSubject $subject): EtsyApiModel;
+    public function update(SubjectSelectorInterface $subject): EtsyApiModel;
 }

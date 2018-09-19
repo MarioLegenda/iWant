@@ -3,6 +3,7 @@
 namespace App\Component\Selector\Ebay\Selector;
 
 use App\Component\Selector\Ebay\ObserverSelectorInterface;
+use App\Component\Selector\Ebay\SubjectSelectorInterface;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
@@ -29,10 +30,10 @@ class SelectorFour implements ObserverSelectorInterface
         $this->applicationShop = $applicationShop;
     }
     /**
-     * @param \SplSubject $subject
+     * @param SubjectSelectorInterface $subject
      * @return FindingApiModel|null
      */
-    public function update(\SplSubject $subject): ?FindingApiRequestModelInterface
+    public function update(SubjectSelectorInterface $subject): ?FindingApiRequestModelInterface
     {
         return $this->createModel();
     }
@@ -67,20 +68,6 @@ class SelectorFour implements ObserverSelectorInterface
     {
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
-        $getItFastOnly = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::GET_IT_FAST_ONLY,
-            [true]
-        ));
-
-        $freeShippingOnly = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::FREE_SHIPPING_ONLY,
-            [true]
-        ));
-
         $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
@@ -99,11 +86,9 @@ class SelectorFour implements ObserverSelectorInterface
             'name',
             'value',
             ItemFilterConstants::SORT_ORDER,
-            ['WatchCountDecreaseSort']
+            ['BestMatch']
         ));
 
-        $itemFilters[] = $getItFastOnly;
-        $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $outputSelector;
         $itemFilters[] = $sortOrder;

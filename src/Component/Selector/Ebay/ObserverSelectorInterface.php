@@ -5,11 +5,11 @@ namespace App\Component\Selector\Ebay;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 
-interface ObserverSelectorInterface extends \SplObserver
+interface ObserverSelectorInterface
 {
     /**
-     * @param \SplSubject $subject
+     * @param SubjectSelectorInterface $subject
      * @return FindingApiModel|null
      */
-    public function update(\SplSubject $subject): ?FindingApiRequestModelInterface;
+    public function update(SubjectSelectorInterface $subject): ?FindingApiRequestModelInterface;
 }

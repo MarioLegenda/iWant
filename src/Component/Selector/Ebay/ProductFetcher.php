@@ -3,6 +3,7 @@
 namespace App\Component\Selector\Ebay;
 
 use App\Component\Selector\Ebay\Factory\ProductModelFactory;
+use App\Component\Selector\Ebay\Selector\SearchProduct;
 use App\Component\Selector\Ebay\Selector\SelectorFive;
 use App\Component\Selector\Ebay\Selector\SelectorFour;
 use App\Component\Selector\Ebay\Selector\SelectorOne;
@@ -93,20 +94,22 @@ class ProductFetcher
         return $this->createTodaysProductModels($responseModels);
     }
     /**
-     * @param TypedArray $responseModels
+     * @param TypedArray $searchProducts
      * @return TypedArray
      */
-    private function createTodaysProductModels(TypedArray $responseModels): TypedArray
+    private function createTodaysProductModels(TypedArray $searchProducts): TypedArray
     {
         $todayProductModels = TypedArray::create('integer', TodayProduct::class);
 
-        /** @var XmlFindingApiResponseModel $responseModel */
-        foreach ($responseModels as $responseModel) {
+        /** @var SearchProduct $searchProduct */
+        foreach ($searchProducts as $searchProduct) {
             /** @var Item $singleItem */
-            $singleItem = $responseModel->getSearchResults()[0];
-
+            $singleItem = $searchProduct->getResponseModels()->getSearchResults()[0];
             /** @var TodayProduct $productModel */
-            $productModel = $this->productModelFactory->createModel($singleItem);
+            $productModel = $this->productModelFactory->createModel(
+                $singleItem,
+                $searchProduct->getApplicationShop()
+            );
 
             $this->translateProductIfNecessary($productModel);
 
@@ -153,12 +156,10 @@ class ProductFetcher
                 ->attach(new SelectorOne($applicationShop))
                 ->attach(new SelectorTwo($applicationShop))
                 ->attach(new SelectorThree($applicationShop))
-                ->attach(new SelectorFour($applicationShop))
-                ->attach(new SelectorFive($applicationShop))
-                ->attach(new SelectorSix($applicationShop));
+                ->attach(new SelectorFour($applicationShop));
 
             try {
-                $this->productSelector->notify();
+                $this->productSelector->notify($applicationShop);
 
                 $shopSuccessCount++;
             } catch (\Exception $e) {}

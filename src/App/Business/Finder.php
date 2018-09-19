@@ -3,7 +3,7 @@
 namespace App\App\Business;
 
 use App\App\Library\Response\MarketplaceFactoryResponse;
-use App\App\Presentation\Model\SingleItemRequestModel;
+use App\App\Presentation\Model\Request\SingleItemRequestModel;
 
 class Finder
 {

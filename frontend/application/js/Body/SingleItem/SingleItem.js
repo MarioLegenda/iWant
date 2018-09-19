@@ -20,6 +20,20 @@ export const SingleItem = {
             }, (response) => {
                 this.item = response.resource.data;
             });
+        } else if (this.singleItem === null) {
+            const singleItemRepo = RepositoryFactory.create('single-item');
+
+            const paths = window.location.pathname.split('/');
+
+            const marketplace = paths[2];
+            const itemId = paths[4];
+
+            singleItemRepo.getSingleItem({
+                marketplace: marketplace,
+                itemId: itemId,
+            }, (response) => {
+                this.item = response.resource.data;
+            });
         }
     },
     computed: {

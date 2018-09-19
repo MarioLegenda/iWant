@@ -2,16 +2,18 @@
 
 namespace App\Component\Selector\Etsy;
 
+use App\Component\Selector\Etsy\Selector\SearchProduct;
+use App\Doctrine\Entity\ApplicationShop;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
 use App\Library\Infrastructure\Helper\TypedArray;
 
-class ProductSelector implements \SplSubject
+class ProductSelector implements SubjectSelectorInterface
 {
     /**
-     * @var TypedArray|iterable $productResponseModels
+     * @var TypedArray|iterable|SearchProduct[] $searchProducts
      */
-    private $productResponseModels;
+    private $searchProducts;
     /**
      * @var ObserverSelectorInterface[] $observers
      */
@@ -28,12 +30,12 @@ class ProductSelector implements \SplSubject
         EtsyApiEntryPoint $etsyApiEntryPoint
     ) {
         $this->etsyApiEntryPoint = $etsyApiEntryPoint;
-        $this->productResponseModels = TypedArray::create('integer', EtsyApiResponseModelInterface::class);
+        $this->searchProducts = TypedArray::create('integer', SearchProduct::class);
     }
     /**
-     * @param \SplObserver $observer
+     * @param ObserverSelectorInterface $observer
      */
-    public function detach(\SplObserver $observer)
+    public function detach(ObserverSelectorInterface $observer)
     {
         $message = sprintf(
             'Method %s::detach() is disabled',
@@ -43,17 +45,20 @@ class ProductSelector implements \SplSubject
         throw new \RuntimeException($message);
     }
     /**
-     * @param \SplObserver $observer
-     * @return \SplSubject
+     * @param ObserverSelectorInterface $observer
+     * @return SubjectSelectorInterface
      */
-    public function attach(\SplObserver $observer): \SplSubject
+    public function attach(ObserverSelectorInterface $observer): SubjectSelectorInterface
     {
         $this->observers[] = $observer;
 
         return $this;
     }
-
-    public function notify(): void
+    /**
+     * @param ApplicationShop $applicationShop
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function notify(ApplicationShop $applicationShop): void
     {
         /** @var ObserverSelectorInterface $observer */
         foreach ($this->observers as $observer) {
@@ -65,7 +70,10 @@ class ProductSelector implements \SplSubject
                     $responseModel = $this->etsyApiEntryPoint->findAllShopListingsFeatured($model);
 
                     if ($responseModel->getCount() > 0) {
-                        $this->productResponseModels[] = $responseModel;
+                        $this->searchProducts[] = new SearchProduct(
+                            $responseModel,
+                            $applicationShop
+                        );
                     }
 
                     $this->observers = [];
@@ -79,6 +87,6 @@ class ProductSelector implements \SplSubject
      */
     public function getProductResponseModels(): iterable
     {
-        return $this->productResponseModels;
+        return $this->searchProducts;
     }
 }

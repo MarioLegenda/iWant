@@ -1,8 +1,7 @@
 <?php
 
-namespace App\App\Presentation\Model;
+namespace App\App\Presentation\Model\Request;
 
-use App\Library\Http\Request\Type\InternalTypeType;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 

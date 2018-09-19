@@ -2,7 +2,7 @@
 
 namespace App\Tests\App\DataProvider;
 
-use App\App\Presentation\Model\SingleItemRequestModel;
+use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
