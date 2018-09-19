@@ -264,9 +264,14 @@ html {
   overflow: hidden;
   margin: 0 0 40px 80px;
 }
-.Item .ItemTitle-webshop-logo {
-  width: 100%;
+.Item .Item_ItemTaxonomyTitle {
+  width: 250px;
   float: left;
+  margin-top: 13px;
+}
+.Item .ItemTitle-webshop-logo {
+  width: 70px;
+  float: right;
 }
 .Item .ItemTitle-webshop-logo img {
   display: block;

@@ -155,6 +155,13 @@ class TodayProduct implements ArrayNotationInterface
         return $this->staticUrl;
     }
     /**
+     * @return string
+     */
+    public function getTaxonomyName(): string
+    {
+        return $this->taxonomyName;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -168,6 +175,7 @@ class TodayProduct implements ArrayNotationInterface
             'price' => $this->getPrice()->toArray(),
             'viewItemUrl' => $this->getViewItemUrl(),
             'marketplace' => (string) $this->getMarketplace(),
+            'taxonomyName' => $this->getTaxonomyName(),
             'staticUrl' => $this->getStaticUrl(),
         ];
     }

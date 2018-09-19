@@ -50,6 +50,10 @@ const ShopLogoImageItem = {
 
 export const Item = {
     template: `<div class="Item">
+                   <div class="Item_ItemTaxonomyTitle">
+                       <p>{{item.taxonomyName}}</p>
+                   </div>
+                   
                    <div class="ItemTitle-webshop-logo margin-bottom-20">
                         <shop-logo-image-item v-bind:marketplace="item.marketplace"></shop-logo-image-item>
                    </div>
