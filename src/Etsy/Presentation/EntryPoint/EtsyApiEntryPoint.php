@@ -48,4 +48,13 @@ class EtsyApiEntryPoint
     {
         return $this->finder->getListing($model);
     }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findAllListingShippingProfileEntries(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        return $this->finder->findAllListingShippingProfileEntries($model);
+    }
 }

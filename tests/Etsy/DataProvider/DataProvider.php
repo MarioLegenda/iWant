@@ -106,6 +106,30 @@ class DataProvider
         return $model;
     }
     /**
+     * @param string $listingId
+     * @return EtsyApiModel
+     */
+    public function getEtsyFindAllListingShippingProfileEntries(string $listingId)
+    {
+        $methodType = MethodType::fromKey('findAllListingShippingProfileEntries');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingIdQuery = new Query(sprintf('/listings/%s/shipping/info?', $listingId));
+
+        $queries[] = $listingIdQuery;
+
+        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
+
+        $model = new EtsyApiModel(
+            $methodType,
+            $itemFilters,
+            $queries
+        );
+
+        return $model;
+    }
+    /**
      * @param int $limit
      * @return TypedArray
      */

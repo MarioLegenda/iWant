@@ -13,5 +13,6 @@ class MethodType extends BaseType
         'findAllListingActive' => 'FindAllShopListingsActive',
         'findAllShopListingsFeatured' => 'FindAllShopListingsFeatured',
         'getListing' => 'GetListing',
+        'findAllListingShippingProfileEntries' => 'FindAllListingShippingProfileEntries'
     ];
 }

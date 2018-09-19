@@ -69,7 +69,6 @@ export const Item = {
                    </div>
                    
                    <div class="Item_Details margin-bottom-20">
-                       
                        <p class="Item_Details-item-price margin-bottom-10">
                             <span>
                                 <currency-item v-bind:currency="item.price.currency"></currency-item>

@@ -2,10 +2,9 @@
 
 namespace App\Etsy\Library\Response\ResponseItem;
 
-use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\Util;
 
-class Results implements ResultsInterface
+class ShippingProfileEntriesResults implements ResultsInterface
 {
     /**
      * @var Result[] $results
@@ -100,7 +99,7 @@ class Results implements ResultsInterface
         $resultsGen = Util::createGenerator($results);
         foreach ($resultsGen as $item) {
             $entry = $item['item'];
-            $createdResults[] = new Result($entry);
+            $createdResults[] = new ShippingProfileEntryResult($entry);
         }
 
         return $createdResults;

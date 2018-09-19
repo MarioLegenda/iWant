@@ -4,11 +4,13 @@ namespace App\Etsy\Business;
 
 use App\Cache\Implementation\RequestCacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
+use App\Etsy\Business\Request\FindAllListingShippingProfileEntries;
 use App\Etsy\Business\Request\FindAllShopListingsFeatured;
 use App\Etsy\Business\Request\GetListing;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Library\Response\FindAllShopListingsFeaturedResponseModel;
 use App\Etsy\Library\Response\GetListingResponseModel;
+use App\Etsy\Library\Response\ShippingProfileEntriesResponseModel;
 use App\Library\Http\Request;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
@@ -89,7 +91,7 @@ class Finder
      * @return EtsyApiResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function findAllShopListingsFeatured(EtsyApiModel $model)
+    public function findAllShopListingsFeatured(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         $findAllShopListingFeatured = new FindAllShopListingsFeatured(
             $model,
@@ -120,7 +122,7 @@ class Finder
      * @return EtsyApiResponseModelInterface
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getListing(EtsyApiModel $model)
+    public function getListing(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         $getListing = new GetListing(
             $model,
@@ -141,6 +143,37 @@ class Finder
 
         /** @var EtsyApiResponseModelInterface $responseModel */
         $responseModel = $this->createGetListingResponseModel($resource);
+
+        $this->cacheImplementation->store($request, $resource);
+
+        return $responseModel;
+    }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findAllListingShippingProfileEntries(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        $findAllShippingEntries = new FindAllListingShippingProfileEntries(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $findAllShippingEntries->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createShippingProfileEntriesResponseModel(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
+
+        $resource = $this->finderSource->getResource($request);
+
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $this->createShippingProfileEntriesResponseModel($resource);
 
         $this->cacheImplementation->store($request, $resource);
 
@@ -175,5 +208,15 @@ class Finder
         $responseData = json_decode($responseString, true);
 
         return new GetListingResponseModel(LockedImmutableGenericHashSet::create($responseData));
+    }
+    /**
+     * @param string $responseString
+     * @return ShippingProfileEntriesResponseModel
+     */
+    private function createShippingProfileEntriesResponseModel(string $responseString)
+    {
+        $responseData = json_decode($responseString, true);
+
+        return new ShippingProfileEntriesResponseModel(LockedImmutableGenericHashSet::create($responseData));
     }
 }

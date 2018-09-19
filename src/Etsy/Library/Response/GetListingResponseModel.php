@@ -3,6 +3,7 @@
 namespace App\Etsy\Library\Response;
 
 use App\Etsy\Library\Response\ResponseItem\Results;
+use App\Etsy\Library\Response\ResponseItem\ResultsInterface;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Library\Tools\UnlockedImmutableHashSet;
 
@@ -38,9 +39,9 @@ class GetListingResponseModel implements EtsyApiResponseModelInterface
         return $this->responseObjects['count'];
     }
     /**
-     * @return Results
+     * @return ResultsInterface
      */
-    public function getResults(): Results
+    public function getResults(): ResultsInterface
     {
         if (!isset($this->responseObjects['results'])) {
             $this->responseObjects['results'] = new Results($this->responseData['results']);

@@ -4,10 +4,11 @@ namespace App\Etsy\Library\Response;
 
 use App\Etsy\Library\Response\ResponseItem\Results;
 use App\Etsy\Library\Response\ResponseItem\ResultsInterface;
+use App\Etsy\Library\Response\ResponseItem\ShippingProfileEntriesResults;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Library\Tools\UnlockedImmutableHashSet;
 
-class FindAllShopListingsFeaturedResponseModel implements EtsyApiResponseModelInterface
+class ShippingProfileEntriesResponseModel implements EtsyApiResponseModelInterface
 {
     /**
      * @var iterable $responseData
@@ -28,6 +29,17 @@ class FindAllShopListingsFeaturedResponseModel implements EtsyApiResponseModelIn
         $this->responseObjects = UnlockedImmutableHashSet::create(array_keys($response->toArray()));
     }
     /**
+     * @return ResultsInterface
+     */
+    public function getResults(): ResultsInterface
+    {
+        if (!isset($this->responseObjects['results'])) {
+            $this->responseObjects['results'] = new ShippingProfileEntriesResults($this->responseData['results']);
+        }
+
+        return $this->responseObjects['results'];
+    }
+    /**
      * @inheritdoc
      */
     public function getCount(): int
@@ -37,26 +49,5 @@ class FindAllShopListingsFeaturedResponseModel implements EtsyApiResponseModelIn
         }
 
         return $this->responseObjects['count'];
-    }
-    /**
-     * @return ResultsInterface
-     */
-    public function getResults(): ResultsInterface
-    {
-        if (!isset($this->responseObjects['results'])) {
-            $this->responseObjects['results'] = new Results($this->responseData['results']);
-        }
-
-        return $this->responseObjects['results'];
-    }
-    /**
-     * @return iterable
-     */
-    public function toArray(): iterable
-    {
-        return [
-            'count' => $this->getCount(),
-            'results' => $this->getResults()->toArray(),
-        ];
     }
 }

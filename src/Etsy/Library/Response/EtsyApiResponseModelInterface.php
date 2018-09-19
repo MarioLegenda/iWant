@@ -2,7 +2,7 @@
 
 namespace App\Etsy\Library\Response;
 
-use App\Etsy\Library\Response\ResponseItem\Results;
+use App\Etsy\Library\Response\ResponseItem\ResultsInterface;
 
 interface EtsyApiResponseModelInterface
 {
@@ -11,7 +11,7 @@ interface EtsyApiResponseModelInterface
      */
     public function getCount(): int;
     /**
-     * @return Results
+     * @return ResultsInterface
      */
-    public function getResults(): Results;
+    public function getResults(): ResultsInterface;
 }
