@@ -9,6 +9,7 @@ use App\Component\TodayProducts\Model\Title;
 use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Etsy\Library\Response\ResponseItem\Result;
+use App\Etsy\Library\Response\ShippingProfileEntriesResponseModel;
 use App\Library\MarketplaceType;
 use App\Library\Infrastructure\Type\TypeInterface;
 
@@ -17,11 +18,13 @@ class ProductModelFactory
     /**
      * @param Result $singleModel
      * @param ApplicationShop $applicationShop
+     * @param ShippingProfileEntriesResponseModel $shippingInfo
      * @return TodayProduct
      */
     public function createModel(
         Result $singleModel,
-        ApplicationShop $applicationShop
+        ApplicationShop $applicationShop,
+        ShippingProfileEntriesResponseModel $shippingInfo
     ) {
         $itemId = (string) $singleModel->getListingId();
         $title = new Title($singleModel->getTitle());

@@ -56,6 +56,7 @@ class ProductFetcher
      * @throws \BlueDot\Exception\ConfigurationException
      * @throws \BlueDot\Exception\ConnectionException
      * @throws \BlueDot\Exception\RepositoryException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getProducts(): iterable
     {
@@ -78,7 +79,8 @@ class ProductFetcher
 
             $products[] = $this->productModelFactory->createModel(
                 $singleModel,
-                $searchProduct->getApplicationShop()
+                $searchProduct->getApplicationShop(),
+                $searchProduct->getShippingInfo()
             );
         }
 

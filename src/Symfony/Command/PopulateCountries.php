@@ -93,6 +93,7 @@ class PopulateCountries extends BaseCommand
                         $item['name'],
                         $item['alpha3Code'],
                         $item['flag'],
+                        $item['alpha2Code'],
                         $item['currencyCode']
                     )
                 );
@@ -112,6 +113,7 @@ class PopulateCountries extends BaseCommand
     /**
      * @param string $name
      * @param string $alpha3Code
+     * @param string $alpha2Code
      * @param string $currencyCode|null
      * @param string $flag
      * @return Country
@@ -120,11 +122,13 @@ class PopulateCountries extends BaseCommand
         string $name,
         string $alpha3Code,
         string $flag,
+        string $alpha2Code,
         string $currencyCode = null
     ): Country {
         return new Country(
             $name,
             $alpha3Code,
+            $alpha2Code,
             $flag,
             $currencyCode
         );
@@ -162,6 +166,7 @@ class PopulateCountries extends BaseCommand
                 'alpha3Code' => $item['alpha3Code'],
                 'currencyCode' => $currencyCode,
                 'flag' => $item['flag'],
+                'alpha2Code' => $item['alpha2Code'],
             ];
         }
 

@@ -36,6 +36,11 @@ class Country
      */
     private $alpha3Code;
     /**
+     * @var string $alpha2Code
+     * @Column(type="string")
+     */
+    private $alpha2Code;
+    /**
      * @var string|null $currencyCode
      * @Column(type="string", nullable=true)
      */
@@ -59,6 +64,7 @@ class Country
     public function __construct(
         string $name,
         string $alpha3Code,
+        string $alpha2Code,
         string $flag,
         string $currencyCode = null
     ) {
@@ -66,6 +72,7 @@ class Country
         $this->alpha3Code = $alpha3Code;
         $this->flag = $flag;
         $this->currencyCode = $currencyCode;
+        $this->alpha2Code = $alpha2Code;
     }
 
     /**
@@ -137,6 +144,13 @@ class Country
     public function getCreatedAt(): \DateTime
     {
         return $this->createdAt;
+    }
+    /**
+     * @return string
+     */
+    public function getAlpha2Code(): string
+    {
+        return $this->alpha2Code;
     }
     /**
      * @param \DateTime $createdAt
