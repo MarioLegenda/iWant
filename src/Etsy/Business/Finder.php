@@ -6,7 +6,9 @@ use App\Cache\Implementation\RequestCacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
 use App\Etsy\Business\Request\FindAllListingShippingProfileEntries;
 use App\Etsy\Business\Request\FindAllShopListingsFeatured;
+use App\Etsy\Business\Request\GetCountry;
 use App\Etsy\Business\Request\GetListing;
+use App\Etsy\Library\Response\CountryResponseModel;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Library\Response\FindAllShopListingsFeaturedResponseModel;
 use App\Etsy\Library\Response\GetListingResponseModel;
@@ -180,6 +182,37 @@ class Finder
         return $responseModel;
     }
     /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface|ShippingProfileEntriesResponseModel
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findCountryByCountryId(EtsyApiModel $model)
+    {
+        $getCountry = new GetCountry(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $getCountry->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createCountryResponseModel(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
+
+        $resource = $this->finderSource->getResource($request);
+
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $this->createCountryResponseModel($resource);
+
+        $this->cacheImplementation->store($request, $resource);
+
+        return $responseModel;
+    }
+    /**
      * @param string $responseString
      * @return FindAllListingActiveResponseModel
      */
@@ -213,10 +246,20 @@ class Finder
      * @param string $responseString
      * @return ShippingProfileEntriesResponseModel
      */
-    private function createShippingProfileEntriesResponseModel(string $responseString)
+    private function createShippingProfileEntriesResponseModel(string $responseString): EtsyApiResponseModelInterface
     {
         $responseData = json_decode($responseString, true);
 
         return new ShippingProfileEntriesResponseModel(LockedImmutableGenericHashSet::create($responseData));
+    }
+    /**
+     * @param string $responseString
+     * @return EtsyApiResponseModelInterface
+     */
+    private function createCountryResponseModel(string $responseString): EtsyApiResponseModelInterface
+    {
+        $responseData = json_decode($responseString, true);
+
+        return new CountryResponseModel(LockedImmutableGenericHashSet::create($responseData));
     }
 }

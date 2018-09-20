@@ -57,4 +57,13 @@ class EtsyApiEntryPoint
     {
         return $this->finder->findAllListingShippingProfileEntries($model);
     }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findCountryByCountryId(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        return $this->finder->findCountryByCountryId($model);
+    }
 }

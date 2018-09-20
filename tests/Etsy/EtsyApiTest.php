@@ -2,7 +2,9 @@
 
 namespace App\Tests\Etsy;
 
+use App\Etsy\Library\Response\CountryResponseModel;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
+use App\Etsy\Library\Response\ResponseItem\Country;
 use App\Etsy\Library\Response\ResponseItem\Result;
 use App\Etsy\Library\Response\ResponseItem\Results;
 use App\Etsy\Library\Response\ResponseItem\ResultsInterface;
@@ -174,5 +176,30 @@ class EtsyApiTest extends BasicSetup
         static::assertNotEmpty($responseModel->getCount());
         static::assertNotEmpty($responseModel->getResults());
         static::assertInstanceOf(ResultsInterface::class, $responseModel->getResults());
+    }
+
+    public function test_get_country_by_country_id()
+    {
+        /** @var EtsyApiEntryPoint $etsyApiEntryPoint */
+        $etsyApiEntryPoint = $this->locator->get(EtsyApiEntryPoint::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.etsy_api');
+
+        /** @var EtsyApiModel $model */
+        $model = $dataProvider->getCountryByCountryId('79');
+
+        /** @var CountryResponseModel $responseModel */
+        $responseModel = $etsyApiEntryPoint->findCountryByCountryId($model);
+
+        static::assertInstanceOf(CountryResponseModel::class, $responseModel);
+        static::assertNotEmpty($responseModel->getCount());
+        static::assertNotEmpty($responseModel->getResults());
+        static::assertInstanceOf(ResultsInterface::class, $responseModel->getResults());
+
+        static::assertEquals(1, count($responseModel->getResults()));
+
+        $country = $responseModel->getResults()[0];
+
+        static::assertInstanceOf(Country::class, $country);
     }
 }
