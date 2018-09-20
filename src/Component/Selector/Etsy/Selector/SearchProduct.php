@@ -19,23 +19,23 @@ class SearchProduct
      */
     private $applicationShop;
     /**
-     * @var ShippingProfileEntriesResponseModel $shippingProfileEntriesResponseModel
+     * @var array $shippingInformation
      */
-    private $shippingProfileEntriesResponseModel;
+    private $shippingInformation;
     /**
      * SearchProduct constructor.
      * @param EtsyApiResponseModelInterface $model
-     * @param ShippingProfileEntriesResponseModel $shippingProfileEntriesResponseModel
+     * @param array $shippingInformation
      * @param ApplicationShop $applicationShop
      */
     public function __construct(
         EtsyApiResponseModelInterface $model,
-        ShippingProfileEntriesResponseModel $shippingProfileEntriesResponseModel,
+        array $shippingInformation,
         ApplicationShop $applicationShop
     ) {
         $this->applicationShop = $applicationShop;
         $this->responseModels = $model;
-        $this->shippingProfileEntriesResponseModel = $shippingProfileEntriesResponseModel;
+        $this->shippingInformation = $shippingInformation;
     }
     /**
      * @return EtsyApiResponseModelInterface
@@ -52,10 +52,10 @@ class SearchProduct
         return $this->applicationShop;
     }
     /**
-     * @return ShippingProfileEntriesResponseModel
+     * @return array
      */
-    public function getShippingInfo(): ShippingProfileEntriesResponseModel
+    public function getShippingInformation(): array
     {
-        return $this->shippingProfileEntriesResponseModel;
+        return $this->shippingInformation;
     }
 }

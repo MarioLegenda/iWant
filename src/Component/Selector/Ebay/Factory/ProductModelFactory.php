@@ -2,7 +2,6 @@
 
 namespace App\Component\Selector\Ebay\Factory;
 
-use App\Component\Selector\Ebay\Selector\SearchProduct;
 use App\Component\Selector\Type\Nan;
 use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\Price;
@@ -16,8 +15,11 @@ use App\Library\MarketplaceType;
 class ProductModelFactory
 {
 
-    public function createModel(Item $singleItem, ApplicationShop $applicationShop): TodayProduct
-    {
+    public function createModel(
+        Item $singleItem,
+        ApplicationShop $applicationShop,
+        array $shippingLocations
+    ): TodayProduct {
         $itemId = (string) $singleItem->getItemId();
         $title = new Title($singleItem->getTitle());
         $shopName = $applicationShop->getApplicationName();
@@ -44,6 +46,7 @@ class ProductModelFactory
             $marketplace,
             $staticUrl,
             $taxonomyName,
+            $shippingLocations,
             $globalId
         );
     }

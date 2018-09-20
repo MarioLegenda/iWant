@@ -49,6 +49,10 @@ class TodayProduct implements ArrayNotationInterface
      */
     private $taxonomyName;
     /**
+     * @var array $shippingLocations
+     */
+    private $shippingLocations;
+    /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $globalId
@@ -59,6 +63,7 @@ class TodayProduct implements ArrayNotationInterface
      * @param string $viewItemUrl
      * @param string $staticUrl
      * @param string $taxonomyName
+     * @param array $shippingLocations
      * @param MarketplaceType|TypeInterface $marketplace
      */
     public function __construct(
@@ -71,6 +76,7 @@ class TodayProduct implements ArrayNotationInterface
         MarketplaceType $marketplace,
         string $staticUrl,
         string $taxonomyName,
+        array $shippingLocations,
         string $globalId = null
     ) {
         $this->itemId = $itemId;
@@ -83,6 +89,7 @@ class TodayProduct implements ArrayNotationInterface
         $this->viewItemUrl = $viewItemUrl;
         $this->taxonomyName = $taxonomyName;
         $this->marketplace = $marketplace;
+        $this->shippingLocations = $shippingLocations;
     }
     /**
      * @return string
@@ -162,6 +169,13 @@ class TodayProduct implements ArrayNotationInterface
         return $this->taxonomyName;
     }
     /**
+     * @return array
+     */
+    public function getShippingLocations(): array
+    {
+        return $this->shippingLocations;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -177,6 +191,7 @@ class TodayProduct implements ArrayNotationInterface
             'marketplace' => (string) $this->getMarketplace(),
             'taxonomyName' => $this->getTaxonomyName(),
             'staticUrl' => $this->getStaticUrl(),
+            'shippingLocations' => $this->getShippingLocations(),
         ];
     }
 }

@@ -108,7 +108,8 @@ class ProductFetcher
             /** @var TodayProduct $productModel */
             $productModel = $this->productModelFactory->createModel(
                 $singleItem,
-                $searchProduct->getApplicationShop()
+                $searchProduct->getApplicationShop(),
+                $searchProduct->getShippingInformation()
             );
 
             $this->translateProductIfNecessary($productModel);

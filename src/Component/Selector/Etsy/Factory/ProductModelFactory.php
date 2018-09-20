@@ -18,13 +18,13 @@ class ProductModelFactory
     /**
      * @param Result $singleModel
      * @param ApplicationShop $applicationShop
-     * @param ShippingProfileEntriesResponseModel $shippingInfo
+     * @param array $shippingInformation
      * @return TodayProduct
      */
     public function createModel(
         Result $singleModel,
         ApplicationShop $applicationShop,
-        ShippingProfileEntriesResponseModel $shippingInfo
+        array $shippingInformation
     ) {
         $itemId = (string) $singleModel->getListingId();
         $title = new Title($singleModel->getTitle());
@@ -51,7 +51,8 @@ class ProductModelFactory
             $viewItemUrl,
             $marketplace,
             $staticUrl,
-            $taxonomyName
+            $taxonomyName,
+            $shippingInformation
         );
     }
     /**

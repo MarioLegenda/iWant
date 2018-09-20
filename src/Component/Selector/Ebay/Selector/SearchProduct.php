@@ -17,16 +17,23 @@ class SearchProduct
      */
     private $applicationShop;
     /**
+     * @var array $shippingInformation
+     */
+    private $shippingInformation;
+    /**
      * SearchProduct constructor.
      * @param FindingApiResponseModelInterface $model
      * @param ApplicationShop $applicationShop
+     * @param array $shippingInformation
      */
     public function __construct(
         FindingApiResponseModelInterface $model,
-        ApplicationShop $applicationShop
+        ApplicationShop $applicationShop,
+        array $shippingInformation
     ) {
         $this->applicationShop = $applicationShop;
         $this->responseModels = $model;
+        $this->shippingInformation = $shippingInformation;
     }
     /**
      * @return XmlFindingApiResponseModel
@@ -41,5 +48,12 @@ class SearchProduct
     public function getApplicationShop(): ApplicationShop
     {
         return $this->applicationShop;
+    }
+    /**
+     * @return array
+     */
+    public function getShippingInformation(): array
+    {
+        return $this->shippingInformation;
     }
 }

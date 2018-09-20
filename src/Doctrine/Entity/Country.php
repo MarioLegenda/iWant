@@ -2,6 +2,7 @@
 
 namespace App\Doctrine\Entity;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\Util;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -17,7 +18,7 @@ use Doctrine\ORM\Mapping\PrePersist;
  * )
  * @HasLifecycleCallbacks()
  **/
-class Country
+class Country implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -185,5 +186,18 @@ class Country
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
         }
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'name' => $this->getName(),
+            'alpha2Code' => $this->getAlpha2Code(),
+            'alpha3Code' => $this->getAlpha3Code(),
+            'flag' => $this->getFlag(),
+            'currencyCode' => $this->getCurrencyCode(),
+        ];
     }
 }

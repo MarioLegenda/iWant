@@ -35,7 +35,7 @@ class ShippingProfileEntryResult implements ArrayNotationInterface
     /**
      * @return null|string
      */
-    public function getDestinationCountryId(): string
+    public function getDestinationCountryId(): ?string
     {
         return $this->resultItem['destination_country_id'];
     }
