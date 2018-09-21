@@ -48,6 +48,35 @@ const ShopLogoImageItem = {
     props: ['marketplace'],
 };
 
+const ShippingCountriesPopupItem = {
+    template: `<v-popover offset="16">
+                    <button class="tooltip-target b3">View shipping locations</button>
+                    
+                    <template slot="popover">
+                        <p v-for="(item, index) in shippingLocations" :key="index">{{item.name}}</p>
+                    </template>
+               </v-popover>`,
+    props: ['shippingLocations']
+};
+
+const ShippingCountriesListItem = {
+    template: `
+                   <p v-if="worldwide">Ships worldwide</p>
+                   <div v-else class="Item_Details-shipping-list"><shipping-countries-list-popover v-bind:shippingLocations="shippingLocations"></shipping-countries-list-popover></div>
+               `,
+    computed: {
+        worldwide: function() {
+            if (this.shippingLocations[0] === 'Worldwide') {
+                return true;
+            }
+        }
+    },
+    props: ['shippingLocations'],
+    components: {
+        'shipping-countries-list-popover': ShippingCountriesPopupItem,
+    }
+};
+
 export const Item = {
     template: `<div class="Item">
                    <div class="Item_ItemTaxonomyTitle">
@@ -69,6 +98,10 @@ export const Item = {
                    </div>
                    
                    <div class="Item_Details margin-bottom-20">
+                       <div class="Item_Details-shipping-countries-list margin-bottom-20">
+                           <shipping-list-countries-item v-bind:shippingLocations="item.shippingLocations"></shipping-list-countries-item>
+                       </div>
+                       
                        <p class="Item_Details-item-price margin-bottom-10">
                             <span>
                                 <currency-item v-bind:currency="item.price.currency"></currency-item>
@@ -91,5 +124,6 @@ export const Item = {
         'currency-item': CurrencyItem,
         'image-item': ImageItem,
         'shop-logo-image-item': ShopLogoImageItem,
+        'shipping-list-countries-item': ShippingCountriesListItem
     }
 };

@@ -200,6 +200,7 @@ class ProductSelector implements SubjectSelectorInterface
         $shippingInfoGen = Util::createGenerator($shippingInfo->getResults()->toArray());
         $countries = [];
 
+        $etsyCountryNames = [];
         foreach ($shippingInfoGen as $entry) {
             $item = $entry['item'];
 
@@ -207,6 +208,12 @@ class ProductSelector implements SubjectSelectorInterface
 
             /** @var Country $etsyCountry */
             $etsyCountry = $this->etsyApiEntryPoint->findCountryByCountryId($this->createCountryModel($countryId))->getResults()[0];
+
+            if (in_array($etsyCountry->getName(), $etsyCountryNames)) {
+                continue;
+            }
+
+            $etsyCountryNames[] = $etsyCountry->getName();
 
             /** @var InternalCountry $internalCountry */
             $internalCountry = $this->countryRepository->findOneBy([

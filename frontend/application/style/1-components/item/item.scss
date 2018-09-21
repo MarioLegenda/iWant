@@ -5,7 +5,7 @@
 
 .Item {
   width: 480px;
-  height: 380px;
+  height: 410px;
   float: left;
   overflow: hidden;
 
@@ -30,6 +30,22 @@
     }
   }
 
+  .Item_Details-shipping-list {
+    button {
+      border: none;
+      font-family: $mainFont;
+      background-color: none;
+
+      color: $textColor;
+
+      font-size: 1em;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
   .Item_ItemTitle {
     width: 100%;
     float: left;
@@ -40,6 +56,11 @@
 
       line-height: 1.2em;
     }
+  }
+
+  .Item_Details-shipping-countries-list {
+    width: 100%;
+    float: left;
   }
 
   .Item_ItemImage {
