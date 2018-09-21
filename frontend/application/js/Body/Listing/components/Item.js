@@ -53,7 +53,9 @@ const ShippingCountriesPopupItem = {
                     <button class="tooltip-target b3">View shipping locations</button>
                     
                     <template slot="popover">
-                        <p v-for="(item, index) in shippingLocations" :key="index">{{item.name}}</p>
+                        <div class="ShippingListPopover">
+                            <p v-for="(item, index) in shippingLocations" :key="index"><span>{{item.name}}</span> <img :src="item.flag"/></p>
+                        </div>
                     </template>
                </v-popover>`,
     props: ['shippingLocations']
