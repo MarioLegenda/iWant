@@ -120,8 +120,8 @@ services:
   # COMPONENT SYSTEM
 
     App\Component\:
-      resource: '../src/Component'
-      exclude: '../src/Component/{TodayProducts/Model/*,Request/Model/*,Selector/Ebay/Selector/*,Selector/Etsy/Selector/*}'
+        resource: '../src/Component'
+        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*}'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:

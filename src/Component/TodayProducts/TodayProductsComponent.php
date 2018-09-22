@@ -4,8 +4,8 @@ namespace App\Component\TodayProducts;
 
 use App\Cache\Implementation\TodayProductCacheImplementation;
 use App\Web\Model\Request\TodayProductRequestModel;
-use App\Component\Selector\Ebay\ProductFetcher as EbayProductFetcher;
-use App\Component\Selector\Etsy\ProductFetcher as EtsyProductFetcher;
+use App\Component\TodayProducts\Selector\Ebay\ProductFetcher as EbayProductFetcher;
+use App\Component\TodayProducts\Selector\Etsy\ProductFetcher as EtsyProductFetcher;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 
