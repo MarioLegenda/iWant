@@ -2,17 +2,14 @@
 
 namespace App\Component\Selector\Etsy;
 
+use App\Component\Selector\Etsy\Factory\RequestModelFactory;
 use App\Component\Selector\Etsy\Selector\SearchProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\CountryRepository;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Library\Response\ResponseItem\Country;
 use App\Etsy\Library\Response\ShippingProfileEntriesResponseModel;
-use App\Etsy\Library\Type\MethodType;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
-use App\Etsy\Presentation\Model\EtsyApiModel;
-use App\Etsy\Presentation\Model\ItemFilterModel;
-use App\Etsy\Presentation\Model\Query;
 use App\Library\Information\WorldwideShipping;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Util;
@@ -37,17 +34,24 @@ class ProductSelector implements SubjectSelectorInterface
      */
     private $countryRepository;
     /**
+     * @var RequestModelFactory $requestModelFactory
+     */
+    private $requestModelFactory;
+    /**
      * ProductSelector constructor.
      * @param EtsyApiEntryPoint $etsyApiEntryPoint
      * @param CountryRepository $countryRepository
+     * @param RequestModelFactory $requestModelFactory
      */
     public function __construct(
         CountryRepository $countryRepository,
+        RequestModelFactory $requestModelFactory,
         EtsyApiEntryPoint $etsyApiEntryPoint
     ) {
         $this->etsyApiEntryPoint = $etsyApiEntryPoint;
         $this->countryRepository = $countryRepository;
         $this->searchProducts = TypedArray::create('integer', SearchProduct::class);
+        $this->requestModelFactory = $requestModelFactory;
     }
     /**
      * @param ObserverSelectorInterface $observer
@@ -105,14 +109,10 @@ class ProductSelector implements SubjectSelectorInterface
 
                     if ($responseModel->getCount() > 0) {
                         $listingId = (string) $responseModel->getResults()[0]->getListingId();
-                        $shippingInfoModel = $this->createShippingInfoModel($listingId);
-
-                        /** @var ShippingProfileEntriesResponseModel $shippingInfo */
-                        $shippingInfo = $this->etsyApiEntryPoint->findAllListingShippingProfileEntries($shippingInfoModel);
 
                         $this->searchProducts[] = new SearchProduct(
                             $responseModel,
-                            $shippingInfo,
+                            $this->getShippingInformation($listingId),
                             $applicationShop
                         );
                     }
@@ -133,56 +133,12 @@ class ProductSelector implements SubjectSelectorInterface
     }
     /**
      * @param string $listingId
-     * @return EtsyApiModel
+     * @return array
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    private function createShippingInfoModel(string $listingId): EtsyApiModel
-    {
-        $methodType = MethodType::fromKey('findAllListingShippingProfileEntries');
-
-        $queries = TypedArray::create('integer', Query::class);
-
-        $listingIdQuery = new Query(sprintf('/listings/%s/shipping/info?', $listingId));
-
-        $queries[] = $listingIdQuery;
-
-        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
-
-        $model = new EtsyApiModel(
-            $methodType,
-            $itemFilters,
-            $queries
-        );
-
-        return $model;
-    }
-    /**
-     * @param string $countryId
-     * @return EtsyApiModel
-     */
-    private function createCountryModel(string $countryId): EtsyApiModel
-    {
-        $methodType = MethodType::fromKey('getCountry');
-
-        $queries = TypedArray::create('integer', Query::class);
-
-        $listingIdQuery = new Query(sprintf('/countries/%s?', $countryId));
-
-        $queries[] = $listingIdQuery;
-
-        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
-
-        $model = new EtsyApiModel(
-            $methodType,
-            $itemFilters,
-            $queries
-        );
-
-        return $model;
-    }
-
     private function getShippingInformation(string $listingId): array
     {
-        $shippingInfoModel = $this->createShippingInfoModel($listingId);
+        $shippingInfoModel = $this->requestModelFactory->createShippingInfoModel($listingId);
 
         /** @var ShippingProfileEntriesResponseModel $shippingInfo */
         $shippingInfo = $this->etsyApiEntryPoint->findAllListingShippingProfileEntries($shippingInfoModel);
@@ -207,7 +163,7 @@ class ProductSelector implements SubjectSelectorInterface
             $countryId = $item['originCountryId'];
 
             /** @var Country $etsyCountry */
-            $etsyCountry = $this->etsyApiEntryPoint->findCountryByCountryId($this->createCountryModel($countryId))->getResults()[0];
+            $etsyCountry = $this->etsyApiEntryPoint->findCountryByCountryId($this->requestModelFactory->createCountryModel($countryId))->getResults()[0];
 
             if (in_array($etsyCountry->getName(), $etsyCountryNames)) {
                 continue;

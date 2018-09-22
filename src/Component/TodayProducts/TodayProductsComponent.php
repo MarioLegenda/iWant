@@ -82,10 +82,11 @@ class TodayProductsComponent
         return $this->ebayProductFetcher->getProducts();
     }
     /**
-     * @return iterable|TypedArray
+     * @return iterable
      * @throws \BlueDot\Exception\ConfigurationException
      * @throws \BlueDot\Exception\ConnectionException
      * @throws \BlueDot\Exception\RepositoryException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     private function createEtsyProducts(): iterable
     {

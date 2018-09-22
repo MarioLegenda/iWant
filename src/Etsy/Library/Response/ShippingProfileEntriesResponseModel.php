@@ -2,7 +2,6 @@
 
 namespace App\Etsy\Library\Response;
 
-use App\Etsy\Library\Response\ResponseItem\Results;
 use App\Etsy\Library\Response\ResponseItem\ResultsInterface;
 use App\Etsy\Library\Response\ResponseItem\ShippingProfileEntriesResults;
 use App\Library\Tools\LockedImmutableGenericHashSet;
