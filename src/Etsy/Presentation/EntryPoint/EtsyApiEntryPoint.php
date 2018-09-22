@@ -66,4 +66,9 @@ class EtsyApiEntryPoint
     {
         return $this->finder->findCountryByCountryId($model);
     }
+
+    public function findAllListingImages(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        return $this->finder->findAllListingImages($model);
+    }
 }

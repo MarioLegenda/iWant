@@ -109,7 +109,7 @@ class DataProvider
      * @param string $listingId
      * @return EtsyApiModel
      */
-    public function getEtsyFindAllListingShippingProfileEntries(string $listingId)
+    public function getEtsyFindAllListingShippingProfileEntries(string $listingId): EtsyApiModel
     {
         $methodType = MethodType::fromKey('findAllListingShippingProfileEntries');
 
@@ -154,13 +154,36 @@ class DataProvider
         return $model;
     }
     /**
+     * @param string $listingId
+     * @return EtsyApiModel
+     */
+    public function getFindAllListingImages(string $listingId): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('findAllListingImages');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingIdQuery = new Query(sprintf('/listings/%s/images?', $listingId));
+
+        $queries[] = $listingIdQuery;
+
+        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
+
+        $model = new EtsyApiModel(
+            $methodType,
+            $itemFilters,
+            $queries
+        );
+
+        return $model;
+    }
+    /**
      * @param int $limit
      * @return TypedArray
      */
     private function createItemFilters(
         $limit = 5
-    ): TypedArray
-    {
+    ): TypedArray {
         $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
 
         $keywordsModelMetadata = new ItemFilterMetadata(

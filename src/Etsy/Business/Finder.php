@@ -4,12 +4,14 @@ namespace App\Etsy\Business;
 
 use App\Cache\Implementation\RequestCacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
+use App\Etsy\Business\Request\FindAllListingImages;
 use App\Etsy\Business\Request\FindAllListingShippingProfileEntries;
 use App\Etsy\Business\Request\FindAllShopListingsFeatured;
 use App\Etsy\Business\Request\GetCountry;
 use App\Etsy\Business\Request\GetListing;
 use App\Etsy\Library\Response\CountryResponseModel;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
+use App\Etsy\Library\Response\FindAllListingImagesResponseModel;
 use App\Etsy\Library\Response\FindAllShopListingsFeaturedResponseModel;
 use App\Etsy\Library\Response\GetListingResponseModel;
 use App\Etsy\Library\Response\ShippingProfileEntriesResponseModel;
@@ -186,7 +188,7 @@ class Finder
      * @return EtsyApiResponseModelInterface|ShippingProfileEntriesResponseModel
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function findCountryByCountryId(EtsyApiModel $model)
+    public function findCountryByCountryId(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         $getCountry = new GetCountry(
             $model,
@@ -207,6 +209,37 @@ class Finder
 
         /** @var EtsyApiResponseModelInterface $responseModel */
         $responseModel = $this->createCountryResponseModel($resource);
+
+        $this->cacheImplementation->store($request, $resource);
+
+        return $responseModel;
+    }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findAllListingImages(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        $findAllListingImages = new FindAllListingImages(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $findAllListingImages->getRequest();
+
+        if ($this->cacheImplementation->isRequestStored($request)) {
+            return $this->createListingImagesResponseModel(
+                $this->cacheImplementation->getFromStoreByRequest($request)
+            );
+        }
+
+        $resource = $this->finderSource->getResource($request);
+
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $this->createListingImagesResponseModel($resource);
 
         $this->cacheImplementation->store($request, $resource);
 
@@ -261,5 +294,15 @@ class Finder
         $responseData = json_decode($responseString, true);
 
         return new CountryResponseModel(LockedImmutableGenericHashSet::create($responseData));
+    }
+    /**
+     * @param string $responseString
+     * @return EtsyApiResponseModelInterface
+     */
+    private function createListingImagesResponseModel(string $responseString): EtsyApiResponseModelInterface
+    {
+        $responseData = json_decode($responseString, true);
+
+        return new FindAllListingImagesResponseModel(LockedImmutableGenericHashSet::create($responseData));
     }
 }
