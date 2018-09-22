@@ -2,6 +2,7 @@ export const Menu = {
     data: function() {
         return {
             showCategories: false,
+            showShops: false,
         }
     },
     template: `<div id="main_menu">
@@ -15,7 +16,7 @@ export const Menu = {
                         </div>
                         
                         <div class="menu-item">
-                            <a href="#">Shops</a>
+                            <a href="#" v-on:click.stop="showShopsMenu">Shops</a>
                         </div>
                         
                         <div class="menu-item">
@@ -26,6 +27,15 @@ export const Menu = {
     methods: {
         showCategoriesMenu() {
             this.$store.commit('showCategories', !this.$store.state.showCategories);
+
+            this.$store.commit('showShops', false);
+            this.showShops = false;
+        },
+        showShopsMenu() {
+            this.$store.commit('showShops', !this.$store.state.showShops);
+
+            this.$store.commit('showCategories', false);
+            this.showCategories = false;
         }
     }
 };

@@ -11,19 +11,28 @@ export const ETSY = 'Etsy';
 class GlobalEventHandler {
     handleCategoriesMenu(classNames) {
         let closeCategoriesMenu = true;
+        let closeShopsMenu = true;
+
         for (let className of classNames) {
             if (new RegExp('Categories').test(className)) {
                 closeCategoriesMenu = false;
 
                 break;
             }
-        }
 
-        console.log('closeCategoriesMenu: ', closeCategoriesMenu);
-        console.log('store state: ', this.$store.state.showCategories);
+            if (new RegExp('Shops').test(className)) {
+                closeShopsMenu = false;
+
+                break;
+            }
+        }
 
         if (closeCategoriesMenu) {
             this.$store.commit('showCategories', false);
+        }
+
+        if (closeShopsMenu) {
+            this.$store.commit('showShops', false);
         }
     }
 }
@@ -78,6 +87,7 @@ export class Init {
                 todaysProductsListing: {},
                 singleItem: null,
                 showCategories: false,
+                showShops: false,
             },
             mutations: {
                 todaysProductsListing(state, value) {
@@ -88,6 +98,9 @@ export class Init {
                 },
                 showCategories(state, value) {
                     this.state.showCategories = value;
+                },
+                showShops(state, value) {
+                    this.state.showShops = value;
                 }
             }
         });

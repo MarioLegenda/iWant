@@ -440,23 +440,23 @@ html {
   font-weight: bolder;
 }
 
-.Categories {
+.PopupMenu {
   position: absolute;
   width: 100%;
   z-index: 1000;
   background-color: white;
   color: #5b5b5b;
 }
-.Categories .Categories_Wrapper {
+.PopupMenu .PopupMenu_Wrapper {
   width: 80%;
   overflow: hidden;
   margin: 0 auto;
 }
-.Categories .Categories_Wrapper .Wrapper-categories {
+.PopupMenu .PopupMenu_Wrapper .Wrapper-categories, .PopupMenu .PopupMenu_Wrapper .Wrapper-shops {
   width: 250px;
   float: left;
 }
-.Categories .Categories_Wrapper .Wrapper-categories .category {
+.PopupMenu .PopupMenu_Wrapper .Wrapper-categories .category, .PopupMenu .PopupMenu_Wrapper .Wrapper-categories .shop, .PopupMenu .PopupMenu_Wrapper .Wrapper-shops .category, .PopupMenu .PopupMenu_Wrapper .Wrapper-shops .shop {
   display: block;
   width: 100%;
   float: left;
@@ -468,14 +468,14 @@ html {
   -o-transition: border-right 0.5s;
   -moz-transition: border-right 0.5s;
 }
-.Categories .Categories_Wrapper .Wrapper-categories .category:hover {
+.PopupMenu .PopupMenu_Wrapper .Wrapper-categories .category:hover, .PopupMenu .PopupMenu_Wrapper .Wrapper-categories .shop:hover, .PopupMenu .PopupMenu_Wrapper .Wrapper-shops .category:hover, .PopupMenu .PopupMenu_Wrapper .Wrapper-shops .shop:hover {
   border-right: 3px solid #f78f27;
 }
-.Categories .Categories_Wrapper .Wrapper-descriptions {
+.PopupMenu .PopupMenu_Wrapper .Wrapper-descriptions {
   width: 480px;
   float: left;
 }
-.Categories .Categories_Wrapper .Wrapper-descriptions .Description {
+.PopupMenu .PopupMenu_Wrapper .Wrapper-descriptions .Description {
   padding: 10px;
   margin-left: 30px;
   letter-spacing: 0.07em;

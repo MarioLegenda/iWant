@@ -1,4 +1,4 @@
-.Categories {
+.PopupMenu {
   position: absolute;
   width: 100%;
   z-index: 1000;
@@ -6,16 +6,16 @@
   background-color: white;
   color: $textColor;
 
-  .Categories_Wrapper {
+  .PopupMenu_Wrapper {
     width: 80%;
     overflow: hidden;
     margin: 0 auto;
 
-    .Wrapper-categories {
+    .Wrapper-categories, .Wrapper-shops {
       width: 250px;
       float: left;
 
-      .category {
+      .category, .shop {
         display: block;
         width: 100%;
         float: left;
