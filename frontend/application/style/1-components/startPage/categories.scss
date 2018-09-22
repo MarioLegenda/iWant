@@ -1,0 +1,54 @@
+.Categories {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+
+  background-color: white;
+  color: $textColor;
+
+  .Categories_Wrapper {
+    width: 80%;
+    overflow: hidden;
+    margin: 0 auto;
+
+    .Wrapper-categories {
+      width: 250px;
+      float: left;
+
+      .category {
+        display: block;
+        width: 100%;
+        float: left;
+
+        padding: 15px 15px 15px 3px;
+
+        border-right: 3px solid white;
+        border-bottom: 1px solid $lightestGray;
+
+        transition: border-right 0.5s;
+        -webkit-transition: border-right 0.5s;
+        -o-transition: border-right 0.5s;
+        -moz-transition: border-right 0.5s;
+
+        &:hover {
+          border-right: 3px solid $basicOrange;
+        }
+      }
+    }
+
+    .Wrapper-descriptions {
+      width: 480px;
+      float: left;
+
+      .Description {
+
+        padding: 10px;
+
+        margin-left: 30px;
+
+        letter-spacing: 0.07em;
+        line-height: 1.5em;
+      }
+    }
+  }
+}

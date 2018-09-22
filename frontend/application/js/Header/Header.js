@@ -6,11 +6,6 @@ export const Header = {
                            <span class="logo-part am-part">am</span>
                            <span class="logo-part buying-part">buying</span>
                        </router-link>
-                       
-                       <div class="search-box">
-                            <input type="text" />
-                            
-                       </div>
                    </header>
                </div>`
 };

@@ -361,11 +361,11 @@ html {
   overflow: hidden;
   margin: 0 auto;
 }
-#main_menu nav .item {
+#main_menu nav .menu-item {
   float: left;
   margin-left: 10px;
 }
-#main_menu nav .item a {
+#main_menu nav .menu-item a {
   display: inline-block;
   width: 110px;
   padding: 15px;
@@ -374,7 +374,7 @@ html {
   border-top: 2px solid white;
   transition: border-top 0.5s;
 }
-#main_menu nav .item a:hover {
+#main_menu nav .menu-item a:hover {
   border-top: 2px solid #f78f27;
 }
 
@@ -438,6 +438,48 @@ html {
   text-align: center;
   font-size: 1.5em;
   font-weight: bolder;
+}
+
+.Categories {
+  position: absolute;
+  width: 100%;
+  z-index: 1000;
+  background-color: white;
+  color: #5b5b5b;
+}
+.Categories .Categories_Wrapper {
+  width: 80%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.Categories .Categories_Wrapper .Wrapper-categories {
+  width: 250px;
+  float: left;
+}
+.Categories .Categories_Wrapper .Wrapper-categories .category {
+  display: block;
+  width: 100%;
+  float: left;
+  padding: 15px 15px 15px 3px;
+  border-right: 3px solid white;
+  border-bottom: 1px solid #d6d6d6;
+  transition: border-right 0.5s;
+  -webkit-transition: border-right 0.5s;
+  -o-transition: border-right 0.5s;
+  -moz-transition: border-right 0.5s;
+}
+.Categories .Categories_Wrapper .Wrapper-categories .category:hover {
+  border-right: 3px solid #f78f27;
+}
+.Categories .Categories_Wrapper .Wrapper-descriptions {
+  width: 480px;
+  float: left;
+}
+.Categories .Categories_Wrapper .Wrapper-descriptions .Description {
+  padding: 10px;
+  margin-left: 30px;
+  letter-spacing: 0.07em;
+  line-height: 1.5em;
 }
 
 .ItemList {

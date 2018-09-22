@@ -8,6 +8,26 @@ import {Menu} from "./Menu/Menu";
 export const EBAY = 'Ebay';
 export const ETSY = 'Etsy';
 
+class GlobalEventHandler {
+    handleCategoriesMenu(classNames) {
+        let closeCategoriesMenu = true;
+        for (let className of classNames) {
+            if (new RegExp('Categories').test(className)) {
+                closeCategoriesMenu = false;
+
+                break;
+            }
+        }
+
+        console.log('closeCategoriesMenu: ', closeCategoriesMenu);
+        console.log('store state: ', this.$store.state.showCategories);
+
+        if (closeCategoriesMenu) {
+            this.$store.commit('showCategories', false);
+        }
+    }
+}
+
 export class Init {
     static registerWindowPrototypeMethods() {
         ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'].forEach(
@@ -57,6 +77,7 @@ export class Init {
             state: {
                 todaysProductsListing: {},
                 singleItem: null,
+                showCategories: false,
             },
             mutations: {
                 todaysProductsListing(state, value) {
@@ -64,6 +85,9 @@ export class Init {
                 },
                 singleItem(state, value) {
                     this.state.singleItem = value;
+                },
+                showCategories(state, value) {
+                    this.state.showCategories = value;
                 }
             }
         });
@@ -77,12 +101,24 @@ export class Init {
             el: '#vue_app',
             store,
             router: router,
-            template: `<div>
+            template: `<div v-on:click="globalEventResolver($event)">
                    <Header></Header>
                    <Categories></Categories>
                    
                    <router-view></router-view>
                </div>`,
+            methods: {
+                globalEventResolver($event) {
+                    const globalEventHandler = new GlobalEventHandler();
+                    let classNames = [];
+
+                    for (let elem of $event.path) {
+                        classNames.push(elem.className);
+                    }
+
+                    globalEventHandler.handleCategoriesMenu.call(this, classNames);
+                }
+            },
             components: {
                 Header,
                 Categories: Menu
