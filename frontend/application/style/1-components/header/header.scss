@@ -6,15 +6,18 @@
 
   background-color: white;
 
-  padding-bottom: 20px;
+  overflow: hidden;
 
   .logo {
     display: block;
     width: 80px;
+    float: left;
     position: absolute;
+
+    top: 13px;
     left: 0;
 
-    padding: 16px;
+    padding: 10px 10px 10px 10px;
 
     .logo-part {
       display: block;
@@ -36,6 +39,86 @@
 
     .buying-part {
       color: #f78f27;
+    }
+  }
+
+  .SearchBox {
+    width: 480px;
+    overflow: hidden;
+    margin: 0 auto;
+
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    .SearchBox_InputBox {
+      width: 430px;
+      height: 40px;
+      float: left;
+
+      input[type="text"] {
+        display: block;
+        width: 430px;
+        height: 40px;
+        float: left;
+
+        border: none;
+
+        font-family: $mainFont;
+        font-size: 1.4em;
+
+        border-bottom: 1px solid $lightestGray;
+      }
+    }
+
+    .SearchBox_SubmitBox {
+      width: 40px;
+      height: 40px;
+      float: left;
+
+      button {
+        display: block;
+        width: 40px;
+        height: 40px;
+        float: left;
+
+        border: none;
+        color: white;
+        background-color: $basicOrange;
+      }
+    }
+
+    .SearchBox_AdvancedSearch {
+      width: 100%;
+      float: right;
+
+      a {
+        width: 150px;
+        float: right;
+        display: inline-block;
+
+        text-align: left;
+
+        border-bottom: 3px solid white;
+
+        color: $textColor;
+
+        margin-right: 10px;
+
+        padding: 10px 0 10px 0;
+
+        transition: border-bottom 0.5s;
+        -webkit-transition: border-bottom 0.5s;
+        -moz-transition: border-bottom 0.5s;
+        -o-transition: border-bottom 0.5s;
+
+        i {
+          color: $basicOrange;
+        }
+
+        &:hover {
+          border-bottom: 3px solid $basicOrange;
+        }
+      }
     }
   }
 }

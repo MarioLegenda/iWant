@@ -325,14 +325,16 @@ html {
   color: #5b5b5b;
   position: relative;
   background-color: white;
-  padding-bottom: 20px;
+  overflow: hidden;
 }
 #main_header .logo {
   display: block;
   width: 80px;
+  float: left;
   position: absolute;
+  top: 13px;
   left: 0;
-  padding: 16px;
+  padding: 10px 10px 10px 10px;
 }
 #main_header .logo .logo-part {
   display: block;
@@ -349,6 +351,66 @@ html {
 }
 #main_header .logo .buying-part {
   color: #f78f27;
+}
+#main_header .SearchBox {
+  width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+#main_header .SearchBox .SearchBox_InputBox {
+  width: 430px;
+  height: 40px;
+  float: left;
+}
+#main_header .SearchBox .SearchBox_InputBox input[type=text] {
+  display: block;
+  width: 430px;
+  height: 40px;
+  float: left;
+  border: none;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.4em;
+  border-bottom: 1px solid #d6d6d6;
+}
+#main_header .SearchBox .SearchBox_SubmitBox {
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+#main_header .SearchBox .SearchBox_SubmitBox button {
+  display: block;
+  width: 40px;
+  height: 40px;
+  float: left;
+  border: none;
+  color: white;
+  background-color: #f78f27;
+}
+#main_header .SearchBox .SearchBox_AdvancedSearch {
+  width: 100%;
+  float: right;
+}
+#main_header .SearchBox .SearchBox_AdvancedSearch a {
+  width: 150px;
+  float: right;
+  display: inline-block;
+  text-align: left;
+  border-bottom: 3px solid white;
+  color: #5b5b5b;
+  margin-right: 10px;
+  padding: 10px 0 10px 0;
+  transition: border-bottom 0.5s;
+  -webkit-transition: border-bottom 0.5s;
+  -moz-transition: border-bottom 0.5s;
+  -o-transition: border-bottom 0.5s;
+}
+#main_header .SearchBox .SearchBox_AdvancedSearch a i {
+  color: #f78f27;
+}
+#main_header .SearchBox .SearchBox_AdvancedSearch a:hover {
+  border-bottom: 3px solid #f78f27;
 }
 
 #main_menu {
