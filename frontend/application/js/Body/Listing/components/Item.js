@@ -40,7 +40,23 @@ const ImageItem = {
 };
 
 const ShopLogoImageItem = {
-    template: `<img class="ItemTitle-webshop-logo" :src="shopLogo"/>`,
+    data: function() {
+        return {
+            Ebay: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nibh velit, varius eu mi vel, egestas dictum nisl. Integer fringilla vitae est vel tristique.',
+            Etsy: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nibh velit, varius eu mi vel, egestas dictum nisl. Integer fringilla vitae est vel tristique.',
+            Amazon: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nibh velit, varius eu mi vel, egestas dictum nisl. Integer fringilla vitae est vel tristique.',
+        }
+    },
+    template: `<img class="ItemTitle-webshop-logo" :src="shopLogo" v-tooltip="{
+                    content: hoveredTooltip,
+                    placement: 'top-center',
+                    offset: 20,
+                    classes: ['shop-tooltip'],
+                    delay: {
+                        show: 100,
+                        hide: 100
+                    }
+               }"/>`,
     computed: {
         shopLogo: function() {
             switch (this.marketplace) {
@@ -49,6 +65,9 @@ const ShopLogoImageItem = {
                 case 'Etsy':
                     return '/images/temp_etsy_logo.png';
             }
+        },
+        hoveredTooltip: function() {
+            return this[this.marketplace];
         }
     },
     props: ['marketplace'],
