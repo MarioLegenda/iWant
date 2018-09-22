@@ -11,8 +11,8 @@ const CurrencyItem = {
 const ImageItem = {
     data: function() {
         return {
-            width: '120px',
-            height: '120px',
+            width: '140px',
+            height: '140px',
             url: null
         }
     },
@@ -24,8 +24,14 @@ const ImageItem = {
         }
 
         this.url = this.image.url;
-        this.width = this.image.width;
-        this.height = this.image.height;
+
+        if (!this.image.width > 140) {
+            this.width = this.image.width;
+        }
+
+        if (!this.image.height > 140) {
+            this.height = this.image.height;
+        }
     },
     props: ['image'],
     template: `
