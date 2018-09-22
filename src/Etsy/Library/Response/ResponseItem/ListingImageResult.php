@@ -77,6 +77,7 @@ class ListingImageResult implements ArrayNotationInterface
             'url75' => $this->getUrl75(),
             'url170' => $this->getUrl170(),
             'url570' => $this->getUrl570(),
+            'urlFull' => $this->getUrlFull(),
             'fullWidth' => $this->getFullWidth(),
             'fullHeight' => $this->getFullHeight(),
         ];

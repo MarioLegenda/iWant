@@ -23,19 +23,26 @@ class SearchProduct
      */
     private $shippingInformation;
     /**
+     * @var array $image
+     */
+    private $image;
+    /**
      * SearchProduct constructor.
      * @param EtsyApiResponseModelInterface $model
      * @param array $shippingInformation
      * @param ApplicationShop $applicationShop
+     * @param array $image
      */
     public function __construct(
         EtsyApiResponseModelInterface $model,
         array $shippingInformation,
-        ApplicationShop $applicationShop
+        ApplicationShop $applicationShop,
+        array $image
     ) {
         $this->applicationShop = $applicationShop;
         $this->responseModels = $model;
         $this->shippingInformation = $shippingInformation;
+        $this->image = $image;
     }
     /**
      * @return EtsyApiResponseModelInterface
@@ -57,5 +64,12 @@ class SearchProduct
     public function getShippingInformation(): array
     {
         return $this->shippingInformation;
+    }
+    /**
+     * @return array
+     */
+    public function getImage(): array
+    {
+        return $this->image;
     }
 }

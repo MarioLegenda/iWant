@@ -10,6 +10,7 @@ use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Library\Response\ResponseItem\Country;
 use App\Etsy\Library\Response\ShippingProfileEntriesResponseModel;
 use App\Etsy\Presentation\EntryPoint\EtsyApiEntryPoint;
+use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Library\Information\WorldwideShipping;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Util;
@@ -96,7 +97,8 @@ class ProductSelector implements SubjectSelectorInterface
                         $this->searchProducts[] = new SearchProduct(
                             $responseModel,
                             $this->getShippingInformation($listingId),
-                            $applicationShop
+                            $applicationShop,
+                            $this->getImage($listingId)
                         );
                     }
 
@@ -113,7 +115,8 @@ class ProductSelector implements SubjectSelectorInterface
                         $this->searchProducts[] = new SearchProduct(
                             $responseModel,
                             $this->getShippingInformation($listingId),
-                            $applicationShop
+                            $applicationShop,
+                            $this->getImage($listingId)
                         );
                     }
 
@@ -189,5 +192,18 @@ class ProductSelector implements SubjectSelectorInterface
         }
 
         return $countries;
+    }
+    /**
+     * @param string $listingId
+     * @return array
+     */
+    public function getImage(string $listingId): array
+    {
+        /** @var EtsyApiModel $imageModel */
+        $imageModel = $this->requestModelFactory->createListingImageModel($listingId);
+
+        $listingImagesResponseModel = $this->etsyApiEntryPoint->findAllListingImages($imageModel);
+
+        return $listingImagesResponseModel->getResults()->toArray()[0];
     }
 }

@@ -19,17 +19,19 @@ class ProductModelFactory
      * @param Result $singleModel
      * @param ApplicationShop $applicationShop
      * @param array $shippingInformation
+     * @param array $image
      * @return TodayProduct
      */
     public function createModel(
         Result $singleModel,
         ApplicationShop $applicationShop,
-        array $shippingInformation
+        array $shippingInformation,
+        array $image
     ) {
         $itemId = (string) $singleModel->getListingId();
         $title = new Title($singleModel->getTitle());
-        $imageUrl = $this->createImage($singleModel);
-        $shopName = 'Shop name';
+        $image = $this->createImage($image);
+        $shopName = $applicationShop->getApplicationName();
         $price = $this->createPrice($singleModel);
         $viewItemUrl = $singleModel->getUrl();
         $marketplace = MarketplaceType::fromValue('Etsy');
@@ -45,7 +47,7 @@ class ProductModelFactory
         return new TodayProduct(
             $itemId,
             $title,
-            $imageUrl,
+            $image,
             $shopName,
             $price,
             $viewItemUrl,
@@ -74,12 +76,16 @@ class ProductModelFactory
         );
     }
     /**
-     * @param Result $singleModel
+     * @param array $image
      * @return Image
      */
-    private function createImage(Result $singleModel): Image
+    private function createImage(array $image): Image
     {
-        return new Image(Nan::fromValue());
+        return new Image(
+            $image['urlFull'],
+            $image['fullWidth'],
+            $image['fullHeight']
+        );
     }
     /**
      * @param Result $singleModel

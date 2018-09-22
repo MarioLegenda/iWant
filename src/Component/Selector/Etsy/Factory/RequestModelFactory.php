@@ -57,4 +57,28 @@ class RequestModelFactory
 
         return $model;
     }
+    /**
+     * @param string $listingId
+     * @return EtsyApiModel
+     */
+    public function createListingImageModel(string $listingId): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('findAllListingImages');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingIdQuery = new Query(sprintf('/listings/%s/images?', $listingId));
+
+        $queries[] = $listingIdQuery;
+
+        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
+
+        $model = new EtsyApiModel(
+            $methodType,
+            $itemFilters,
+            $queries
+        );
+
+        return $model;
+    }
 }

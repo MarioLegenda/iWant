@@ -80,7 +80,8 @@ class ProductFetcher
             $products[] = $this->productModelFactory->createModel(
                 $singleModel,
                 $searchProduct->getApplicationShop(),
-                $searchProduct->getShippingInformation()
+                $searchProduct->getShippingInformation(),
+                $searchProduct->getImage()
             );
         }
 
