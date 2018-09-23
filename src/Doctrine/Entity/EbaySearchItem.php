@@ -15,6 +15,14 @@ use Doctrine\ORM\Mapping\Index;
 use App\Library\Util\Util;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
+/**
+ * @Entity @Table(
+ *     name="ebay_search_items",
+ *     uniqueConstraints={ @UniqueConstraint(columns={"item_id"}) },
+ *     indexes={ @Index(name="category_name_idx", columns={"item_id"}) }
+ * )
+ * @HasLifecycleCallbacks()
+ **/
 class EbaySearchItem implements ArrayNotationInterface
 {
     /**
@@ -34,6 +42,16 @@ class EbaySearchItem implements ArrayNotationInterface
      */
     private $globalId;
     /**
+     * @var string $startedAt
+     * @Column(type="datetime")
+     */
+    private $startedAt;
+    /**
+     * @var string $expiresAt
+     * @Column(type="datetime")
+     */
+    private $expiresAt;
+    /**
      * @var string $response
      * @Column(type="text")
      */
@@ -48,6 +66,48 @@ class EbaySearchItem implements ArrayNotationInterface
      * @Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    /**
+     * @return string
+     */
+    public function getItemId(): string
+    {
+        return $this->itemId;
+    }
+    /**
+     * @return string
+     */
+    public function getGlobalId(): string
+    {
+        return $this->globalId;
+    }
+    /**
+     * @return string
+     */
+    public function getStartedAt(): string
+    {
+        return $this->startedAt;
+    }
+    /**
+     * @return string
+     */
+    public function getExpiresAt(): string
+    {
+        return $this->expiresAt;
+    }
+    /**
+     * @return string
+     */
+    public function getResponse(): string
+    {
+        return $this->response;
+    }
     /**
      * @return \DateTime
      */
