@@ -53,4 +53,20 @@ class Seller extends BaseDynamic implements ItemFilterInterface
 
         return true;
     }
+    /**
+     * @param int|null $counter
+     * @return string
+     */
+    public function urlify(int $counter = null): string
+    {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $finalEntry = sprintf('itemFilter(%d)=Seller&', 0);
+
+        $valueCounter = 0;
+        foreach ($dynamicValue[0] as $key => $f) {
+            $finalEntry.=sprintf('itemFilter(%d).value(%d)=%s&', $counter, $valueCounter, $f);
+        }
+
+        return $finalEntry;
+    }
 }

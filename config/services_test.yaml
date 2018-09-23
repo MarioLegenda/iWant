@@ -121,7 +121,7 @@ services:
 
     App\Component\:
         resource: '../src/Component'
-        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*}'
+        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Request/Model/*}'
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
@@ -201,7 +201,7 @@ services:
     data_provider.shopping_api:
         class: App\Tests\Ebay\ShoppingApi\DataProvider\DataProvider
 
-    data_provider.component.todays_keywords:
+    data_provider.component:
         class: App\Tests\Component\DataProvider\DataProvider
 
     data_provider.app:

@@ -2,12 +2,10 @@
 
 namespace App\Tests\Component\DataProvider;
 
+use App\Component\Search\Request\Model\SearchRequestModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
-use App\Doctrine\Entity\TodayKeyword;
 use App\Doctrine\Repository\ApplicationShopRepository;
-use App\Doctrine\Repository\TodaysKeywordRepository;
-use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Tests\Library\FakerTrait;
 
@@ -15,30 +13,12 @@ class DataProvider
 {
     use FakerTrait;
     /**
-     * @param MarketplaceType|TypeInterface $marketplaceType
-     * @param TodaysKeywordRepository $todaysKeywordRepository
-     * @param NativeTaxonomy $nativeTaxonomy
-     * @param int $numOfKeywords
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @param string $keyword
+     * @return SearchRequestModel
      */
-    public function createKeywordsForMarketplace(
-        MarketplaceType $marketplaceType,
-        TodaysKeywordRepository $todaysKeywordRepository,
-        NativeTaxonomy $nativeTaxonomy,
-        int $numOfKeywords = 12
-    ): void {
-        for ($i = 0; $i < $numOfKeywords; $i++) {
-            $todaysKeyword = $this->createKeyword(
-                $this->faker()->name,
-                $marketplaceType,
-                $nativeTaxonomy
-            );
-
-            $todaysKeywordRepository->getManager()->persist($todaysKeyword);
-        }
-
-        $todaysKeywordRepository->getManager()->flush($todaysKeyword);
+    public function getSearchRequestModel(string $keyword)
+    {
+        return new SearchRequestModel($keyword, 12, 0);
     }
     /**
      * @param ApplicationShopRepository $applicationShopRepository
@@ -63,23 +43,6 @@ class DataProvider
 
             $applicationShopRepository->persistAndFlush($applicationShop);
         }
-    }
-    /**
-     * @param string $keyword
-     * @param MarketplaceType $marketplace
-     * @param NativeTaxonomy $taxonomy
-     * @return TodayKeyword
-     */
-    private function createKeyword(
-        string $keyword,
-        MarketplaceType $marketplace,
-        NativeTaxonomy $taxonomy
-    ): TodayKeyword {
-        return new TodayKeyword(
-            $keyword,
-            $marketplace,
-            $taxonomy
-        );
     }
     /**
      * @param string $name

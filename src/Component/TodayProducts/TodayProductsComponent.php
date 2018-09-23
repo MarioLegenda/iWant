@@ -82,7 +82,7 @@ class TodayProductsComponent
         return $this->ebayProductFetcher->getProducts();
     }
     /**
-     * @return iterable
+     * @return iterable|TypedArray
      * @throws \BlueDot\Exception\ConfigurationException
      * @throws \BlueDot\Exception\ConnectionException
      * @throws \BlueDot\Exception\RepositoryException

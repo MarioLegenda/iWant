@@ -71,7 +71,7 @@ class ConnectEbayCategories extends BaseCommand
 
         if (empty($normalizedCategories)) {
             $message = sprintf(
-                'Normalized categories are empty. Please, use \'app:upsert_normalized_category\' command and create all the necessary categories'
+                'Normalized categories are empty. Please, use \'app:upsert_native_taxonomy\' command and create all the necessary categories'
             );
 
             throw new \RuntimeException($message);

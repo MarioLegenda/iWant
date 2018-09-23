@@ -79,7 +79,7 @@ class SelectorTwo implements ObserverSelectorInterface
             'name',
             'value',
             ItemFilterConstants::OUTPUT_SELECTOR,
-            ['UnitPriceInfo']
+            ['UnitPriceInfo', 'SellerInfo']
         ));
 
         $sortOrder = new ItemFilter(new ItemFilterMetadata(

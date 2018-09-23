@@ -6,6 +6,7 @@ use App\Doctrine\Entity\ApplicationShop;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query;
 
 class ApplicationShopRepository extends ServiceEntityRepository
 {
