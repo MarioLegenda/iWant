@@ -1,208 +1,105 @@
-import {ChoosingFilterFactory} from "./Filters/ChoosingFilterFactory";
-import {AddedFiltersFactory} from "./Filters/AddedFiltersFactory";
 import {Sentence} from "./Sentence";
-
-class FilterValidation {
-    constructor(filters) {
-        this.filters = filters;
-        this.errors = [];
-        this.messages = {
-            highLowFilter: 'Lowest price filter cannot be used with Highest price filter and vice versa'
-        }
-    }
-
-    alreadyAdded(data) {
-        for (let filter of this.filters) {
-            if (filter.id === data.id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    lowHighFilterValidation(filterToInclude) {
-        const mappedIds = [1, 2];
-        let hasId = false;
-
-        for (let filter of this.filters) {
-            if (mappedIds.includes(filter.id)) {
-                hasId = true;
-
-                break;
-            }
-        }
-
-        if (hasId === true) {
-            if (mappedIds.includes(filterToInclude.id)) {
-                this.errors.push(this.messages.highLowFilter);
-            }
-        }
-    }
-}
-
-class FilterTraversal {
-    hasFilterById(filter, filters) {
-        for (let f of filters) {
-            if (f.id === filter.id) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-}
+import {LowestPrice} from "./Filters/Choosing/LowestPrice";
+import {LowestPriceView} from "./Filters/View/LowestPriceView";
+import {HighestPrice} from "./Filters/Choosing/HighestPrice";
+import {HighestPriceView} from "./Filters/View/HighestPriceView";
+import {HighQuality} from "./Filters/Choosing/HighQuality";
+import {HighQualityView} from "./Filters/View/HighQualityView";
 
 export const Filters = {
     data: function() {
         return {
-            filterValidation: null,
-            filterTraversal: null,
+            lowestPriceView: false,
+            highestPriceView: false,
+            highQualityView: false,
             errors: [],
-            choosingFilters: [
-                {
-                    id: 1,
-                    type: 'simple',
-                    name: 'LowestPrice',
-                    text: 'Lowest price',
-                },
-                {
-                    id: 2,
-                    type: 'simple',
-                    name: 'HighestPrice',
-                    text: 'Highest price',
-                },
-                {
-                    id: 3,
-                    type: 'simple',
-                    name: 'HighQuality',
-                    text: 'High quality',
-                },
-                {
-                    id: 4,
-                    type: 'select',
-                    name: 'ShippingCountry',
-                    text: 'Add shipping country',
-                    values: [],
-                }
-            ],
-            addedFilters: []
         }
-    },
-    created() {
-        this.filterValidation = new FilterValidation(this.addedFilters);
-        this.filterTraversal = new FilterTraversal();
     },
     template: `<div class="Filters">
 
                     <div class="Filters_AddedFilters">
-                        <added-filter-factory
-                            v-for="(value, index) in addedFilters"
-                            :key="index"
-                            v-bind:filter="value"
-                            v-on:remove-simple-filter="onRemoveSimpleFilter">
-                        </added-filter-factory>
+                        <lowest-price-view
+                            v-if="lowestPriceView"
+                            v-on:remove-lowest-price="removeLowestPrice">
+                        </lowest-price-view>
+                        
+                        <highest-price-view
+                            v-if="highestPriceView"
+                            v-on:remove-highest-price="removeHighestPrice">
+                        </highest-price-view>
+                        
+                        <high-quality-view
+                            v-if="highQualityView"
+                            v-on:remove-high-quality="removeHighQuality">
+                        </high-quality-view>
                     </div>
                     
                     <div class="Filters_ChoosingFilters">
                         <h1 class="ChoosingFilters-title">Filter your search results</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
+                                                
+                        <lowest-price
+                            v-on:add-lowest-price="addLowestPrice">
+                        </lowest-price>
                         
-                        <choosing-filter-factory
-                            v-for="(value, index) in choosingFilters"
-                            :key="index"
-                            v-bind:filter="value"
-                            v-on:add-simple-filter="onAddSimpleFilter"
-                            v-on:on-country-select="onCountrySelect">
-                        </choosing-filter-factory>
+                        <highest-price
+                            v-on:add-highest-price="addHighestPrice">
+                        </highest-price>
+                        
+                        <high-quality
+                            v-on:add-high-quality="addHighQuality">
+                        </high-quality>
                     </div>
                     
                </div>`,
     methods: {
-        onCountrySelect(data) {
-            const countries = data.countries;
-            const filter = data.filter;
+        addLowestPrice() {
+            this.errors = [];
 
-            if (countries === null) {
+            if (this.highestPriceView) {
+                this.errors.push('Lowest price filter cannot be used with highest price filter and vice versa');
+
                 return false;
             }
 
-            if (!this.filterTraversal.hasFilterById(filter, this.addedFilters)) {
-                this.addedFilters.push(filter);
-            }
+            this.lowestPriceView = true;
+        },
+        removeLowestPrice() {
+            this.errors = [];
 
-            let foundFilter = null;
-            for (let i = 0; i < this.addedFilters.length; i++) {
-                if (filter.id === this.addedFilters[i].id) {
-                    foundFilter = {
-                        index: i,
-                        filter: this.addedFilters[i],
-                    };
+            this.lowestPriceView = false;
+        },
+        addHighestPrice() {
+            this.errors = [];
 
-                    break;
-                }
-            }
+            if (this.lowestPriceView) {
+                this.errors.push('Lowest price filter cannot be used with highest price filter and vice versa');
 
-            if (foundFilter === null) {
                 return false;
             }
 
-            let newFilter = Object.assign({}, foundFilter.filter);
-
-            if (countries === 'worldwide') {
-                newFilter.values.push('worldwide');
-            }
-
-            if (Array.isArray(countries)) {
-                for (let c of countries) {
-                    newFilter.values.push(c);
-                }
-            }
-
-            this.addedFilters.splice(foundFilter.index, 1);
-
-            this.addedFilters.push(newFilter);
+            this.highestPriceView = true;
         },
-
-        onAddSimpleFilter(data) {
-            this.errors = [];
-            this.filterValidation.errors = [];
-
-            if (this.filterValidation.alreadyAdded(data)) {
-                return;
-            }
-
-            this.filterValidation.lowHighFilterValidation(data);
-
-            this.errors = this.filterValidation.errors;
-
-            if (this.errors.length > 0) {
-                return;
-            }
-
-            this.addedFilters.push(data);
-
-            this.$emit('add-filter', data);
-        },
-
-        onRemoveSimpleFilter(data) {
+        removeHighestPrice() {
             this.errors = [];
 
-            for (let i = 0; this.addedFilters.length; i++) {
-                let addedFilter = this.addedFilters[i];
-
-                if (addedFilter.id === data.id) {
-                    this.addedFilters.splice(i, 1);
-
-                    break;
-                }
-            }
+            this.highestPriceView = false;
+        },
+        addHighQuality() {
+            this.highQualityView = true;
+        },
+        removeHighQuality() {
+            this.highQualityView = false;
         }
     },
     components: {
-        'choosing-filter-factory': ChoosingFilterFactory,
-        'added-filter-factory': AddedFiltersFactory,
+        'lowest-price-view': LowestPriceView,
+        'lowest-price': LowestPrice,
+        'highest-price-view': HighestPriceView,
+        'highest-price': HighestPrice,
+        'high-quality': HighQuality,
+        'high-quality-view': HighQualityView,
         'sentence': Sentence,
     }
 };

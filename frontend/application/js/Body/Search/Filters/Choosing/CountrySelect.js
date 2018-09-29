@@ -45,7 +45,7 @@ export const CountrySelect = {
                                <p @click="onAddCountry('worldwide')">Worldwide<i v-if="isWorldwide" class="fas fa-check"></i></p>
                                <choice 
                                     v-for="(item, index) in items"
-                                    :key="index" 
+                                    :key="index"
                                     v-bind:item="item"
                                     v-bind:markUnchecked="removeChoices"
                                     v-on:add-country="onAddCountry">

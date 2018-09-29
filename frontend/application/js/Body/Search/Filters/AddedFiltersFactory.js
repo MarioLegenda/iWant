@@ -1,5 +1,5 @@
-import {Simple} from "./Added/Simple";
-import {Select} from "./Added/Select";
+import {SingleDataView} from "./View/Simple";
+import {Select} from "./View/Select";
 
 export const AddedFiltersFactory = {
     template: `<div>
@@ -21,7 +21,7 @@ export const AddedFiltersFactory = {
         }
     },
     components: {
-        'simple': Simple,
+        'simple': SingleDataView,
         'select-item': Select,
     }
 };

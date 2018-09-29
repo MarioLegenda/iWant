@@ -1,4 +1,4 @@
-import {Simple} from "./Choosing/Simple";
+import {LowestPrice} from "./Choosing/Simple";
 import {CountrySelect} from "./Choosing/CountrySelect";
 
 export const ChoosingFilterFactory = {
@@ -21,7 +21,7 @@ export const ChoosingFilterFactory = {
         },
     },
     components: {
-        'simple': Simple,
+        'simple': LowestPrice,
         'country-select-item': CountrySelect,
     }
 };
