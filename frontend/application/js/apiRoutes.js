@@ -1,6 +1,7 @@
 export const routes = {
     app_get_todays_products: '/api/v1/get-todays-products',
     app_get_item: '/api/v1/item/:marketplace/:itemId',
+    app_get_countries: '/api/v1/get-countries',
 
     createRoute: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {

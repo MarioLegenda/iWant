@@ -12,12 +12,10 @@
     display: block;
     width: 80px;
     float: left;
-    position: absolute;
-
-    top: 13px;
-    left: 0;
 
     padding: 10px 10px 10px 10px;
+
+    margin-top: 33px;
 
     .logo-part {
       display: block;
@@ -44,11 +42,12 @@
 
   .SearchBox {
     width: 480px;
-    overflow: hidden;
     margin: 0 auto;
 
-    margin-top: 30px;
-    margin-bottom: 30px;
+    margin-top: 50px;
+    margin-bottom: 120px;
+
+    border: 1px solid white;
 
     .SearchBox_InputBox {
       width: 430px;
@@ -84,6 +83,10 @@
         border: none;
         color: white;
         background-color: $basicOrange;
+
+        &:hover {
+          cursor: pointer;
+        }
       }
     }
 

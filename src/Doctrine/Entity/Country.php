@@ -112,9 +112,9 @@ class Country implements ArrayNotationInterface
         $this->alpha3Code = $alpha3Code;
     }
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCurrencyCode(): string
+    public function getCurrencyCode(): ?string
     {
         return $this->currencyCode;
     }
@@ -193,6 +193,7 @@ class Country implements ArrayNotationInterface
     public function toArray(): iterable
     {
         return [
+            'id' => $this->getId(),
             'name' => $this->getName(),
             'alpha2Code' => $this->getAlpha2Code(),
             'alpha3Code' => $this->getAlpha3Code(),

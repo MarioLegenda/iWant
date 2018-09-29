@@ -38,6 +38,7 @@
   "homepage": "https://github.com/MarioLegenda/langland-v2#readme",
   "dependencies": {
     "jquery": "^3.3.1",
-    "v-tooltip": "^2.0.0-rc.33"
+    "v-tooltip": "^2.0.0-rc.33",
+    "whatwg-fetch": "^3.0.0"
   }
 }

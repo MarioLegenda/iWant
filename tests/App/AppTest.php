@@ -2,8 +2,11 @@
 
 namespace App\Tests\App;
 
+use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
+use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Tests\Library\BasicSetup;
 
@@ -22,5 +25,21 @@ class AppTest extends BasicSetup
         ));
 
         static::assertInstanceOf(SingleProductItem::class, $singleItem);
+    }
+
+    public function test_get_countries()
+    {
+        /** @var CountryEntryPoint $countryEntryPoint */
+        $countryEntryPoint = $this->locator->get(CountryEntryPoint::class);
+
+        /** @var Country[]|TypedArray $countries */
+        $countries = $countryEntryPoint->getCountries();
+
+        static::assertNotEmpty($countries);
+        static::assertGreaterThan(1, count($countries));
+
+        foreach ($countries as $country) {
+            static::assertInstanceOf(Country::class, $country);
+        }
     }
 }

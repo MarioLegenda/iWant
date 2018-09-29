@@ -1,3 +1,5 @@
+import {SearchBox} from "./SearchBox";
+
 export const Header = {
     template: `<div id="main_header">
                    <header>
@@ -6,20 +8,11 @@ export const Header = {
                            <span class="logo-part am-part">Would</span>
                            <span class="logo-part buying-part">Like</span>
                        </router-link>
-                      
-                       <div class="SearchBox">
-                           <div class="SearchBox_InputBox">
-                                <input type="text" placeholder="search what would you like" />
-                           </div>
-                           
-                           <div class="SearchBox_SubmitBox">
-                                <button><i class="fas fa-chevron-right"></i></button>
-                           </div>
-                           
-                           <div class="SearchBox_AdvancedSearch">
-                               <a href="">Advanced search <i class="fas fa-search"></i></a>
-                           </div>
-                       </div>
                    </header>
-               </div>`
+                   
+                   <router-view name="search-box"></router-view>
+               </div>`,
+    components: {
+        'search-box': SearchBox,
+    }
 };

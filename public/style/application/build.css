@@ -231,6 +231,64 @@ html {
   transition: opacity 0.15s;
 }
 
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: table;
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 480px;
+  overflow: hidden;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+  transition: all 0.3s ease;
+}
+
+.modal-body {
+  margin: 20px 0;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
 #main_header {
   width: 100%;
   float: left;
@@ -243,10 +301,8 @@ html {
   display: block;
   width: 80px;
   float: left;
-  position: absolute;
-  top: 13px;
-  left: 0;
   padding: 10px 10px 10px 10px;
+  margin-top: 33px;
 }
 #main_header .logo .logo-part {
   display: block;
@@ -266,10 +322,10 @@ html {
 }
 #main_header .SearchBox {
   width: 480px;
-  overflow: hidden;
   margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 50px;
+  margin-bottom: 120px;
+  border: 1px solid white;
 }
 #main_header .SearchBox .SearchBox_InputBox {
   width: 430px;
@@ -299,6 +355,9 @@ html {
   border: none;
   color: white;
   background-color: #f78f27;
+}
+#main_header .SearchBox .SearchBox_SubmitBox button:hover {
+  cursor: pointer;
 }
 #main_header .SearchBox .SearchBox_AdvancedSearch {
   width: 100%;
@@ -350,6 +409,7 @@ html {
 }
 #main_menu nav .menu-item a:hover {
   border-top: 2px solid #f78f27;
+  cursor: pointer;
 }
 
 #StartPage {
@@ -558,6 +618,223 @@ html {
   background-color: #f78f27;
   text-align: center;
   padding: 10px;
+}
+
+#search_page {
+  width: 100%;
+  float: left;
+}
+#search_page .AdvancedSearch {
+  width: 480px;
+  margin: 0 auto;
+  overflow: hidden;
+  margin-top: 50px;
+  margin-bottom: 120px;
+  border: 1px solid white;
+}
+#search_page .Sentence {
+  width: 100%;
+  float: left;
+  margin-top: 30px;
+}
+#search_page .Filters {
+  width: 100%;
+  float: left;
+  margin-top: 50px;
+  z-index: -1;
+}
+#search_page .Filters .Error {
+  width: 100%;
+  float: left;
+  color: red;
+  margin: 10px 0 20px 0;
+}
+#search_page .Filters .Filters_AddedFilters {
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+}
+#search_page .Filters .Filters_ChoosingFilters {
+  width: 100%;
+  float: left;
+}
+#search_page .Filters .Filters_ChoosingFilters .ChoosingFilters-title {
+  width: 100%;
+  float: left;
+  padding: 10px 10px 5px 0;
+  border-bottom: 1px solid #d6d6d6;
+  margin-bottom: 10px;
+}
+#search_page .Filters .filter {
+  position: relative;
+  margin-bottom: 5px;
+}
+#search_page .Filters .Filter-select {
+  width: 468px;
+  float: left;
+  border: 1px solid #d6d6d6;
+  margin-top: 10px;
+  padding: 10px;
+  line-height: 1.4em;
+}
+#search_page .Filters .Filter-select .Modal .Modal_Header {
+  width: 100%;
+  float: left;
+  font-family: "Quicksand", sans-serif;
+  color: #898989;
+  padding: 10px 0 5px 0;
+  border-bottom: 1px solid #d6d6d6;
+}
+#search_page .Filters .Filter-select .Modal .Modal_Body {
+  width: 100%;
+  float: left;
+  height: 400px;
+  overflow: auto;
+  margin-top: 10px;
+}
+#search_page .Filters .Filter-select .Modal .Modal_Body p {
+  width: 100%;
+  float: left;
+  position: relative;
+  color: #898989;
+  font-family: "Quicksand", sans-serif;
+  border-bottom: 1px solid white;
+  transition: border-bottom 0.5s;
+  -webkit-transition: border-bottom 0.5s;
+  -moz-transition: border-bottom 0.5s;
+  -o-transition: border-bottom 0.5s;
+  padding: 10px 10px 10px 0;
+}
+#search_page .Filters .Filter-select .Modal .Modal_Body p:hover {
+  cursor: pointer;
+  border-bottom: 1px solid #f78f27;
+}
+#search_page .Filters .Filter-select .Modal .Modal_Body p i {
+  position: absolute;
+  right: 30px;
+  bottom: 12px;
+  color: green;
+}
+#search_page .Filters .Filter-select .Modal button {
+  width: 70px;
+  float: right;
+  border: none;
+  padding: 7px;
+  background-color: none;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.2em;
+  color: #898989;
+}
+#search_page .Filters .Filter-select .Modal .Modal_ChooseButton {
+  border: 1px solid #d6d6d6;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1em;
+  transition: border 0.5s;
+  -webkit-transition: border 0.5s;
+  -o-transition: border 0.5s;
+  -moz-transition: border 0.5s;
+  margin-top: 20px;
+}
+#search_page .Filters .Filter-select .Modal .Modal_ChooseButton:hover {
+  cursor: pointer;
+  border: 1px solid #f78f27;
+}
+#search_page .Filters .Filter-select p {
+  width: 100%;
+  float: left;
+  text-align: center;
+}
+#search_page .Filters .Filter-select select {
+  display: block;
+  width: 250px;
+  float: left;
+  margin-left: 10px;
+  border-bottom: 1px solid #d6d6d6;
+  background: none;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1em;
+}
+#search_page .Filters .Filter-select i {
+  position: absolute;
+  right: 5px;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
+  transition: color 0.5s;
+}
+#search_page .Filters .Filter-select:hover {
+  cursor: pointer;
+}
+#search_page .Filters .Filter-simple {
+  display: block;
+  width: 150px;
+  float: left;
+  border: 1px solid #d6d6d6;
+  transition: border 0.5s;
+  -webkit-transition: border 0.5s;
+  -moz-transition: border 0.5s;
+  -o-transition: border 0.5s;
+  text-align: center;
+  margin-right: 9px;
+  padding: 10px;
+}
+#search_page .Filters .Filter-simple i {
+  position: absolute;
+  right: 5px;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
+  transition: color 0.5s;
+}
+#search_page .Filters .Filter-simple:hover {
+  border: 1px solid #f78f27;
+  cursor: pointer;
+}
+#search_page .Filters .Filter-simple:hover i {
+  color: #f78f27;
+}
+#search_page .Filters .added {
+  border: 1px solid #f78f27;
+}
+#search_page .Filters .added i {
+  color: #f78f27;
+}
+#search_page .SearchBoxAdvanced {
+  width: 100%;
+  float: left;
+  border: 1px solid white;
+}
+#search_page .SearchBoxAdvanced .SearchBox_InputBox {
+  width: 430px;
+  height: 40px;
+  float: left;
+}
+#search_page .SearchBoxAdvanced .SearchBox_InputBox input[type=text] {
+  display: block;
+  width: 430px;
+  height: 40px;
+  float: left;
+  border: none;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.4em;
+  border-bottom: 1px solid #d6d6d6;
+}
+#search_page .SearchBoxAdvanced .SearchBox_SubmitBox {
+  width: 40px;
+  height: 40px;
+  float: left;
+}
+#search_page .SearchBoxAdvanced .SearchBox_SubmitBox button {
+  display: block;
+  width: 40px;
+  height: 40px;
+  float: left;
+  border: none;
+  color: white;
+  background-color: #f78f27;
+}
+#search_page .SearchBoxAdvanced .SearchBox_SubmitBox button:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=build.css.map */

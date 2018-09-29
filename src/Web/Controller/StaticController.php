@@ -45,4 +45,18 @@ class StaticController
 
         return new Response($content);
     }
+
+    /**
+     * @param \Twig_Environment $templating
+     * @return Response
+     * @throws \Twig_Error_Loader
+     * @throws \Twig_Error_Runtime
+     * @throws \Twig_Error_Syntax
+     */
+    public function getSearch(\Twig_Environment $templating): Response
+    {
+        $content = $templating->render('application/static/search.html.twig');
+
+        return new Response($content);
+    }
 }

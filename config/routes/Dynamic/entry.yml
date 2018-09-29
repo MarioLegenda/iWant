@@ -5,3 +5,7 @@ app_get_todays_products:
 app_get_item:
   path: /item/{marketplace}/{itemId}
   controller: App\Web\Controller\AppController::getSingleItem
+
+app_get_countries:
+  path: /get-countries
+  controller: App\Web\Controller\AppController:getCountries

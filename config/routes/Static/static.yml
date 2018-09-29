@@ -9,3 +9,7 @@ app_static_promise:
 app_static_single_item:
     path: /item/{marketplace}/{title}/{itemId}
     controller: App\Web\Controller\StaticController::getSingleItem
+
+app_static_search:
+    path: /search
+    controller: App\Web\Controller\StaticController::getSingleItem

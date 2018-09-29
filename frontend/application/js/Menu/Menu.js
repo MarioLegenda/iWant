@@ -8,19 +8,19 @@ export const Menu = {
     template: `<div id="main_menu">
                    <nav>
                         <div class="menu-item category-menu-item">
-                            <a href="#" v-on:click.stop="showCategoriesMenu">Categories</a>
+                            <a v-on:click.stop="showCategoriesMenu">Categories</a>
                         </div>
                         
                         <div class="menu-item">
-                            <a href="#">Tickets</a>
+                            <a>Tickets</a>
                         </div>
                         
                         <div class="menu-item">
-                            <a href="#" v-on:click.stop="showShopsMenu">Shops</a>
+                            <a v-on:click.stop="showShopsMenu">Shops</a>
                         </div>
                         
                         <div class="menu-item">
-                            <a href="#">Our mission</a>
+                            <a>Our mission</a href="#">
                         </div>
                    </nav>
                </div>`,

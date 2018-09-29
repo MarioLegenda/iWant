@@ -27,6 +27,18 @@ class SingleItemRepository {
     }
 }
 
+class CountryRepository {
+    getCountries(data, success) {
+        const route = routes.app_get_countries;
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
+}
+
 class Factory {
     constructor() {
         this.repositores = {};
@@ -43,6 +55,12 @@ class Factory {
             case 'single-item':
                 if (!this.repositores.hasOwnProperty(repoName)) {
                     this.repositores[repoName] = new SingleItemRepository();
+                }
+
+                return this.repositores[repoName];
+            case 'country':
+                if (!this.repositores.hasOwnProperty(repoName)) {
+                    this.repositores[repoName] = new CountryRepository();
                 }
 
                 return this.repositores[repoName];

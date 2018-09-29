@@ -2,7 +2,6 @@
 
 namespace App\Component\Search;
 
-use App\Component\Ebay\Search\Request\Model\SearchRequestModel as EbaySearchRequestModel;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 
 class SearchComponent
@@ -21,7 +20,7 @@ class SearchComponent
         $this->findingApiEntryPoint = $findingApiEntryPoint;
     }
 
-    public function searchEbay(EbaySearchRequestModel $searchRequestModel)
+    public function searchEbay()
     {
 
     }
