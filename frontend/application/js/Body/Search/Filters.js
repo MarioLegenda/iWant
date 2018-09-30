@@ -5,6 +5,8 @@ import {HighestPrice} from "./Filters/Choosing/HighestPrice";
 import {HighestPriceView} from "./Filters/View/HighestPriceView";
 import {HighQuality} from "./Filters/Choosing/HighQuality";
 import {HighQualityView} from "./Filters/View/HighQualityView";
+import {ShippingCountry} from "./Filters/Choosing/ShippingCountry";
+import {ShippingCountriesView} from "./Filters/View/ShippingCountriesView";
 
 export const Filters = {
     data: function() {
@@ -12,6 +14,8 @@ export const Filters = {
             lowestPriceView: false,
             highestPriceView: false,
             highQualityView: false,
+            shippingCountriesView: false,
+            shippingCountries: [],
             errors: [],
         }
     },
@@ -32,6 +36,11 @@ export const Filters = {
                             v-if="highQualityView"
                             v-on:remove-high-quality="removeHighQuality">
                         </high-quality-view>
+                        
+                        <shipping-countries-view
+                            v-if="shippingCountriesView"
+                            v-bind:shippingCountries="shippingCountries">
+                        </shipping-countries-view>
                     </div>
                     
                     <div class="Filters_ChoosingFilters">
@@ -50,6 +59,9 @@ export const Filters = {
                         <high-quality
                             v-on:add-high-quality="addHighQuality">
                         </high-quality>
+                        
+                        <shipping-country
+                            v-on:on-add-shipping-countries="addShippingCountries"></shipping-country>
                     </div>
                     
                </div>`,
@@ -91,6 +103,14 @@ export const Filters = {
         },
         removeHighQuality() {
             this.highQualityView = false;
+        },
+        addShippingCountries(shippingCountries) {
+            const normalized = shippingCountries.normalize();
+
+            if (normalized.length > 0) {
+                this.shippingCountriesView = true;
+                this.shippingCountries = normalized;
+            }
         }
     },
     components: {
@@ -100,6 +120,8 @@ export const Filters = {
         'highest-price': HighestPrice,
         'high-quality': HighQuality,
         'high-quality-view': HighQualityView,
+        'shipping-country': ShippingCountry,
+        'shipping-countries-view': ShippingCountriesView,
         'sentence': Sentence,
     }
 };
