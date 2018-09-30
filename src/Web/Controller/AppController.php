@@ -3,6 +3,7 @@
 namespace App\Web\Controller;
 
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
+use App\App\Presentation\EntryPoint\MarketplaceEntryPoint;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Doctrine\Entity\SingleProductItem;
@@ -72,6 +73,34 @@ class AppController
             ->create($countries->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
             ->method('GET')
             ->addMessage('A list of countries')
+            ->isCollection()
+            ->setStatusCode(200)
+            ->build();
+
+        $response = new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+
+        $response->setCache([
+            'max_age' => 60 * 60 * 24 * 30
+        ]);
+
+        return $response;
+    }
+    /**
+     * @param MarketplaceEntryPoint $marketplaceEntryPoint
+     * @return JsonResponse
+     */
+    public function getMarketplaces(MarketplaceEntryPoint $marketplaceEntryPoint)
+    {
+        $marketplaces = $marketplaceEntryPoint->getMarketplaces();
+
+        /** @var ApiResponseData $responseData */
+        $responseData = $this->apiSdk
+            ->create($marketplaces->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            ->method('GET')
+            ->addMessage('A list of marketplaces')
             ->isCollection()
             ->setStatusCode(200)
             ->build();

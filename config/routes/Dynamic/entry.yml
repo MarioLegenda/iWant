@@ -9,3 +9,7 @@ app_get_item:
 app_get_countries:
   path: /get-countries
   controller: App\Web\Controller\AppController:getCountries
+
+app_get_marketplaces:
+  path: /get-marketplaces
+  controller: App\Web\Controller\AppController:getMarketplaces

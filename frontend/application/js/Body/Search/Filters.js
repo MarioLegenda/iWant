@@ -7,6 +7,8 @@ import {HighQuality} from "./Filters/Choosing/HighQuality";
 import {HighQualityView} from "./Filters/View/HighQualityView";
 import {ShippingCountry} from "./Filters/Choosing/ShippingCountry";
 import {ShippingCountriesView} from "./Filters/View/ShippingCountriesView";
+import {Marketplace} from "./Filters/Choosing/Marketplace";
+import {MarketplaceView} from "./Filters/View/MarketplaceView";
 
 export const Filters = {
     data: function() {
@@ -16,6 +18,8 @@ export const Filters = {
             highQualityView: false,
             shippingCountriesView: false,
             shippingCountries: [],
+            marketplaceView: false,
+            marketplaces: [],
             errors: [],
         }
     },
@@ -39,8 +43,15 @@ export const Filters = {
                         
                         <shipping-countries-view
                             v-if="shippingCountriesView"
-                            v-bind:shippingCountries="shippingCountries">
+                            v-bind:shippingCountries="shippingCountries"
+                            v-on:remove-shipping-countries="removeShippingCountries">
                         </shipping-countries-view>
+                        
+                        <marketplace-view
+                            v-if="marketplaceView"
+                            v-bind:marketplaces="marketplaces"
+                            v-on:remove-marketplaces="removeMarketplaces">
+                        </marketplace-view>
                     </div>
                     
                     <div class="Filters_ChoosingFilters">
@@ -63,6 +74,10 @@ export const Filters = {
                         <shipping-country
                             v-on:on-add-shipping-countries="addShippingCountries">
                         </shipping-country>
+                        
+                        <marketplace
+                            v-on:on-add-marketplaces="addMarketplaces">
+                        </marketplace>
                     </div>
                     
                </div>`,
@@ -112,6 +127,22 @@ export const Filters = {
                 this.shippingCountriesView = true;
                 this.shippingCountries = normalized;
             }
+        },
+        removeShippingCountries() {
+            this.shippingCountriesView = false;
+            this.shippingCountries = [];
+        },
+        addMarketplaces(marketplaces) {
+            const normalized = marketplaces.normalize();
+
+            if (normalized.length > 0) {
+                this.marketplaceView = true;
+                this.marketplaces = normalized;
+            }
+        },
+        removeMarketplaces() {
+            this.marketplaceView = false;
+            this.marketplaces = [];
         }
     },
     components: {
@@ -123,6 +154,8 @@ export const Filters = {
         'high-quality-view': HighQualityView,
         'shipping-country': ShippingCountry,
         'shipping-countries-view': ShippingCountriesView,
+        'marketplace': Marketplace,
+        'marketplace-view': MarketplaceView,
         'sentence': Sentence,
     }
 };

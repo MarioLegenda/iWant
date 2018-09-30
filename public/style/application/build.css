@@ -677,7 +677,7 @@ html {
   padding: 10px;
   line-height: 1.4em;
 }
-#search_page .Filters .Filter-select .Modal .Modal_Header {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Header, #search_page .Filters .Filter-select .Modal .Modal_Header {
   width: 100%;
   float: left;
   font-family: "Quicksand", sans-serif;
@@ -685,14 +685,14 @@ html {
   padding: 10px 0 5px 0;
   border-bottom: 1px solid #d6d6d6;
 }
-#search_page .Filters .Filter-select .Modal .Modal_Body {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body, #search_page .Filters .Filter-select .Modal .Modal_Body {
   width: 100%;
   float: left;
   height: 400px;
   overflow: auto;
   margin-top: 10px;
 }
-#search_page .Filters .Filter-select .Modal .Modal_Body p {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body p, #search_page .Filters .Filter-select .Modal .Modal_Body p {
   width: 100%;
   float: left;
   position: relative;
@@ -705,17 +705,17 @@ html {
   -o-transition: border-bottom 0.5s;
   padding: 10px 10px 10px 0;
 }
-#search_page .Filters .Filter-select .Modal .Modal_Body p:hover {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body p:hover, #search_page .Filters .Filter-select .Modal .Modal_Body p:hover {
   cursor: pointer;
   border-bottom: 1px solid #f78f27;
 }
-#search_page .Filters .Filter-select .Modal .Modal_Body p i {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body p i, #search_page .Filters .Filter-select .Modal .Modal_Body p i {
   position: absolute;
   right: 30px;
   bottom: 12px;
   color: green;
 }
-#search_page .Filters .Filter-select .Modal button {
+#search_page .Filters .Filter-select #ShippingCountryModal button, #search_page .Filters .Filter-select .Modal button {
   width: 70px;
   float: right;
   border: none;
@@ -725,7 +725,7 @@ html {
   font-size: 1.2em;
   color: #898989;
 }
-#search_page .Filters .Filter-select .Modal .Modal_ChooseButton {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_ChooseButton, #search_page .Filters .Filter-select .Modal .Modal_ChooseButton {
   border: 1px solid #d6d6d6;
   font-family: "Quicksand", sans-serif;
   font-size: 1em;
@@ -735,9 +735,12 @@ html {
   -moz-transition: border 0.5s;
   margin-top: 20px;
 }
-#search_page .Filters .Filter-select .Modal .Modal_ChooseButton:hover {
+#search_page .Filters .Filter-select #ShippingCountryModal .Modal_ChooseButton:hover, #search_page .Filters .Filter-select .Modal .Modal_ChooseButton:hover {
   cursor: pointer;
   border: 1px solid #f78f27;
+}
+#search_page .Filters .Filter-select #MarketplaceModal .Modal_Body {
+  height: 150px;
 }
 #search_page .Filters .Filter-select p {
   width: 100%;

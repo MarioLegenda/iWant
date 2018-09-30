@@ -75,7 +75,7 @@
 
       line-height: 1.4em;
 
-      .Modal {
+      #ShippingCountryModal, .Modal {
         .Modal_Header {
           width: 100%;
           float: left;
@@ -161,6 +161,12 @@
         .Modal_ChooseButton:hover {
           cursor: pointer;
           border: 1px solid $basicOrange;
+        }
+      }
+
+      #MarketplaceModal {
+        .Modal_Body {
+          height: 150px;
         }
       }
 
