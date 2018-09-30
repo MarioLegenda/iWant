@@ -61,7 +61,8 @@ export const Filters = {
                         </high-quality>
                         
                         <shipping-country
-                            v-on:on-add-shipping-countries="addShippingCountries"></shipping-country>
+                            v-on:on-add-shipping-countries="addShippingCountries">
+                        </shipping-country>
                     </div>
                     
                </div>`,

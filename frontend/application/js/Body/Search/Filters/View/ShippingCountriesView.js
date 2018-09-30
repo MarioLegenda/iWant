@@ -17,9 +17,18 @@ export const ShippingCountriesView = {
             }
 
             if (this.shippingCountries.length > 2) {
-                const names = this.shippingCountries.map((v) => v.name);
+                const lastItem = this.shippingCountries[this.shippingCountries.length - 1];
 
-                return `Ships to ${names.join(', ')}`;
+                const names = this.shippingCountries.map((v) => {
+                    if (v.id !== lastItem.id) {
+                        return v.name;
+                    }
+                });
+
+                let joinedNames = names.join(', ');
+                joinedNames = joinedNames.substring(0, joinedNames.length - 2);
+
+                return `Ships to ${joinedNames} and ${lastItem.name}`;
             }
         }
     },
