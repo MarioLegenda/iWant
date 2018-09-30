@@ -1,25 +1,25 @@
-export const MarketplaceView = {
+export const TaxonomyView = {
     template: `<div class="Filter_Filter-filter">
                   <span
-                      @click="removeMarketplaces"
+                      @click="removeTaxonomies"
                       class="Filter-select filter added">{{text}}<i class="fas fa-minus"></i>
                   </span>
                </div>`,
-    props: ['marketplaces'],
+    props: ['taxonomies'],
     computed: {
         text: function() {
-            if (this.marketplaces.length === 1) {
-                return `Search in ${this.marketplaces[0].name}`
+            if (this.taxonomies.length === 1) {
+                return `Search in ${this.taxonomy[0].name}`
             }
 
-            if (this.marketplaces.length === 2) {
-                return `Search in ${this.marketplaces[0].name} and ${this.marketplaces[1].name}`;
+            if (this.taxonomies.length === 2) {
+                return `Search in ${this.taxonomies[0].name} and ${this.taxonomies[1].name}`;
             }
 
-            if (this.marketplaces.length > 2) {
-                const lastItem = this.marketplaces[this.marketplaces.length - 1];
+            if (this.taxonomies.length > 2) {
+                const lastItem = this.taxonomies[this.taxonomies.length - 1];
 
-                const names = this.marketplaces.map((v) => {
+                const names = this.taxonomies.map((v) => {
                     if (v.id !== lastItem.id) {
                         return v.name;
                     }
@@ -33,8 +33,8 @@ export const MarketplaceView = {
         }
     },
     methods: {
-        removeMarketplaces() {
-            this.$emit('remove-marketplaces');
+        removeTaxonomies() {
+            this.$emit('remove-taxonomies');
         }
     }
 };

@@ -2,6 +2,7 @@
 
 namespace App\Doctrine\Entity;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\Util;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
@@ -22,7 +23,7 @@ use Doctrine\ORM\Mapping\Index;
  * )
  * @HasLifecycleCallbacks()
  **/
-class EbayRootCategory
+class EbayRootCategory implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -72,9 +73,9 @@ class EbayRootCategory
     private $leafCategory;
     /**
      * @ManyToOne(targetEntity="NativeTaxonomy")
-     * @JoinColumn(name="normalized_category_id", referencedColumnName="id")
+     * @JoinColumn(name="native_taxonomy_id", referencedColumnName="id")
      */
-    private $normalizedCategory;
+    private $nativeTaxonomy;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
@@ -95,7 +96,7 @@ class EbayRootCategory
         string $categoryNamePath,
         string $categoryParentId,
         bool $leafCategory,
-        NativeTaxonomy $normalizedCategory
+        NativeTaxonomy $nativeTaxonomy
     ) {
         $this->globalId = $globalId;
         $this->categoryId = $categoryId;
@@ -105,9 +106,8 @@ class EbayRootCategory
         $this->categoryNamePath = $categoryNamePath;
         $this->categoryParentId = $categoryParentId;
         $this->leafCategory = $leafCategory;
-        $this->normalizedCategory = $normalizedCategory;
+        $this->nativeTaxonomy = $nativeTaxonomy;
     }
-
     /**
      * @return int
      */
@@ -230,16 +230,16 @@ class EbayRootCategory
     /**
      * @return NativeTaxonomy
      */
-    public function getNormalizedCategory(): NativeTaxonomy
+    public function getNativeTaxonomy(): NativeTaxonomy
     {
-        return $this->normalizedCategory;
+        return $this->nativeTaxonomy;
     }
     /**
-     * @param NativeTaxonomy $normalizedCategory
+     * @param NativeTaxonomy $nativeTaxonomy
      */
-    public function setNormalizedCategory(NativeTaxonomy $normalizedCategory): void
+    public function setNativeTaxonomy(NativeTaxonomy $nativeTaxonomy): void
     {
-        $this->normalizedCategory = $normalizedCategory;
+        $this->nativeTaxonomy = $nativeTaxonomy;
     }
     /**
      * @param \DateTime $createdAt
@@ -274,5 +274,21 @@ class EbayRootCategory
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
         }
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'id' => $this->getId(),
+            'globalId' => $this->getGlobalId(),
+            'categoryId' => $this->getCategoryId(),
+            'categoryIdPath' => $this->getCategoryIdPath(),
+            'categoryLevel' => $this->getCategoryLevel(),
+            'categoryName' => $this->getCategoryName(),
+            'categoryNamePath' => $this->getCategoryNamePath(),
+            'categoryParentId' => $this->getCategoryParentId(),
+        ];
     }
 }

@@ -9,6 +9,8 @@ import {ShippingCountry} from "./Filters/Choosing/ShippingCountry";
 import {ShippingCountriesView} from "./Filters/View/ShippingCountriesView";
 import {Marketplace} from "./Filters/Choosing/Marketplace";
 import {MarketplaceView} from "./Filters/View/MarketplaceView";
+import {Taxonomy} from "./Filters/Choosing/Taxonomy";
+import {TaxonomyView} from "./Filters/View/TaxonomyView";
 
 export const Filters = {
     data: function() {
@@ -19,6 +21,8 @@ export const Filters = {
             shippingCountriesView: false,
             shippingCountries: [],
             marketplaceView: false,
+            taxonomyView: false,
+            taxonomies: [],
             marketplaces: [],
             errors: [],
         }
@@ -52,6 +56,12 @@ export const Filters = {
                             v-bind:marketplaces="marketplaces"
                             v-on:remove-marketplaces="removeMarketplaces">
                         </marketplace-view>
+                        
+                        <taxonomy-view
+                            v-if="taxonomyView"
+                            v-bind:taxonomies="taxonomies"
+                            v-on:remove-taxonomies="removeTaxonomies">
+                        </taxonomy-view>
                     </div>
                     
                     <div class="Filters_ChoosingFilters">
@@ -78,6 +88,10 @@ export const Filters = {
                         <marketplace
                             v-on:on-add-marketplaces="addMarketplaces">
                         </marketplace>
+                        
+                        <taxonomy
+                            v-on:on-add-taxonomies="addTaxonomies">
+                        </taxonomy>
                     </div>
                     
                </div>`,
@@ -143,7 +157,19 @@ export const Filters = {
         removeMarketplaces() {
             this.marketplaceView = false;
             this.marketplaces = [];
-        }
+        },
+        removeTaxonomies() {
+            this.taxonomyView = false;
+            this.taxonomies = [];
+        },
+        addTaxonomies(taxonomy) {
+            const normalized = taxonomy.normalize();
+
+            if (normalized.length > 0) {
+                this.taxonomyView = true;
+                this.taxonomies = normalized;
+            }
+        },
     },
     components: {
         'lowest-price-view': LowestPriceView,
@@ -156,6 +182,8 @@ export const Filters = {
         'shipping-countries-view': ShippingCountriesView,
         'marketplace': Marketplace,
         'marketplace-view': MarketplaceView,
+        'taxonomy': Taxonomy,
+        'taxonomy-view': TaxonomyView,
         'sentence': Sentence,
     }
 };

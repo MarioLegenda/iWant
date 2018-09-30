@@ -4,6 +4,7 @@ namespace App\Web\Controller;
 
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\App\Presentation\EntryPoint\MarketplaceEntryPoint;
+use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Doctrine\Entity\SingleProductItem;
@@ -99,6 +100,34 @@ class AppController
         /** @var ApiResponseData $responseData */
         $responseData = $this->apiSdk
             ->create($marketplaces->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            ->method('GET')
+            ->addMessage('A list of marketplaces')
+            ->isCollection()
+            ->setStatusCode(200)
+            ->build();
+
+        $response = new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+
+        $response->setCache([
+            'max_age' => 60 * 60 * 24 * 30
+        ]);
+
+        return $response;
+    }
+    /**
+     * @param NativeTaxonomyEntryPoint $nativeTaxonomyEntryPoint
+     * @return JsonResponse
+     */
+    public function getNativeTaxonomies(NativeTaxonomyEntryPoint $nativeTaxonomyEntryPoint)
+    {
+        $taxonomies = $nativeTaxonomyEntryPoint->getNativeTaxonomies();
+
+        /** @var ApiResponseData $responseData */
+        $responseData = $this->apiSdk
+            ->create($taxonomies->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
             ->method('GET')
             ->addMessage('A list of marketplaces')
             ->isCollection()

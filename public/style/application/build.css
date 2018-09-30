@@ -739,6 +739,9 @@ html {
   cursor: pointer;
   border: 1px solid #f78f27;
 }
+#search_page .Filters .Filter-select #TaxonomyModal .Modal_Body {
+  height: auto;
+}
 #search_page .Filters .Filter-select #MarketplaceModal .Modal_Body {
   height: 150px;
 }
@@ -801,6 +804,9 @@ html {
 }
 #search_page .Filters .added i {
   color: #f78f27;
+}
+#search_page .Filters .highlight-added {
+  font-weight: bolder;
 }
 #search_page .SearchBoxAdvanced {
   width: 100%;

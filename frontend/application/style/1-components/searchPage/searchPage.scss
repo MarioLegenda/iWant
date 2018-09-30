@@ -164,6 +164,12 @@
         }
       }
 
+      #TaxonomyModal {
+        .Modal_Body {
+          height: auto;
+        }
+      }
+
       #MarketplaceModal {
         .Modal_Body {
           height: 150px;
@@ -246,6 +252,10 @@
       i {
         color: $basicOrange;
       }
+    }
+
+    .highlight-added {
+      font-weight: bolder;
     }
   }
 

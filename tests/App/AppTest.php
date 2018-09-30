@@ -3,6 +3,7 @@
 namespace App\Tests\App;
 
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
+use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
@@ -41,5 +42,15 @@ class AppTest extends BasicSetup
         foreach ($countries as $country) {
             static::assertInstanceOf(Country::class, $country);
         }
+    }
+
+    public function test_get_native_taxonomies()
+    {
+        /** @var NativeTaxonomyEntryPoint $nativeTaxonomyEntryPoint */
+        $nativeTaxonomyEntryPoint = $this->locator->get(NativeTaxonomyEntryPoint::class);
+
+        $taxonomies = $nativeTaxonomyEntryPoint->getNativeTaxonomies();
+
+
     }
 }

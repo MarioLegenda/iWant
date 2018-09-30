@@ -51,6 +51,18 @@ class CountryRepository {
     }
 }
 
+class TaxonomyRepository {
+    getNativeTaxonomies(data, success) {
+        const route = routes.app_get_taxonomies;
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
+}
+
 class Factory {
     constructor() {
         this.repositores = {};
@@ -79,6 +91,12 @@ class Factory {
             case 'marketplace':
                 if (!this.repositores.hasOwnProperty(repoName)) {
                     this.repositores[repoName] = new MarketplaceRepository();
+                }
+
+                return this.repositores[repoName];
+            case 'taxonomy':
+                if (!this.repositores.hasOwnProperty(repoName)) {
+                    this.repositores[repoName] = new TaxonomyRepository();
                 }
 
                 return this.repositores[repoName];

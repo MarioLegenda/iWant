@@ -13,3 +13,7 @@ app_get_countries:
 app_get_marketplaces:
   path: /get-marketplaces
   controller: App\Web\Controller\AppController:getMarketplaces
+
+app_get_taxonomies:
+  path: /get-taxonomies
+  controller: App\Web\Controller\AppController:getNativeTaxonomies
