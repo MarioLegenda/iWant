@@ -5,11 +5,18 @@ import {Sentence} from "./Sentence";
 export const AdvancedSearch = {
     data: function() {
         return {
-            filters: []
+            filters: {
+                lowestPrice: true,
+                highestPrice: false,
+                highQuality: false,
+                shippingCountries: [],
+                marketplaces: [],
+                taxonomies: [],
+            }
         }
     },
     template: `<div class="AdvancedSearch">                    
-                    <search-box-advanced></search-box-advanced>
+                    <search-box-advanced v-on:submit="submit"></search-box-advanced>
                     
                     <sentence v-bind:filters="filters"></sentence>
                     
@@ -17,7 +24,14 @@ export const AdvancedSearch = {
                </div>`,
     methods: {
         addFilter(filter) {
-            this.filters.push(filter);
+            if (!this.filters.hasOwnProperty(filter.name)) {
+                throw new Error(`Filter ${filter.name} not found`);
+            }
+
+            this.filters[filter.name] = filter.value;
+        },
+        submit() {
+            console.log(this.filters);
         }
     },
     components: {

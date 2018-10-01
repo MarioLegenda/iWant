@@ -106,11 +106,21 @@ export const Filters = {
             }
 
             this.lowestPriceView = true;
+
+            this.$emit('add-filter', {
+                name: 'lowestPrice',
+                value: this.lowestPriceView
+            });
         },
         removeLowestPrice() {
             this.errors = [];
 
             this.lowestPriceView = false;
+
+            this.$emit('add-filter', {
+                name: 'lowestPrice',
+                value: this.lowestPriceView
+            });
         },
         addHighestPrice() {
             this.errors = [];
@@ -122,17 +132,41 @@ export const Filters = {
             }
 
             this.highestPriceView = true;
+
+            this.$emit('add-filter', {
+                name: 'highestPrice',
+                value: this.highestPriceView
+            });
         },
         removeHighestPrice() {
             this.errors = [];
 
             this.highestPriceView = false;
+
+            this.$emit('add-filter', {
+                name: 'highestPrice',
+                value: this.highestPriceView
+            });
         },
         addHighQuality() {
+            this.errors = [];
+
             this.highQualityView = true;
+
+            this.$emit('add-filter', {
+                name: 'highQuality',
+                value: this.highQualityView
+            });
         },
         removeHighQuality() {
+            this.errors = [];
+
             this.highQualityView = false;
+
+            this.$emit('add-filter', {
+                name: 'highQuality',
+                value: this.highQualityView
+            });
         },
         addShippingCountries(shippingCountries) {
             const normalized = shippingCountries.normalize();
@@ -141,10 +175,20 @@ export const Filters = {
                 this.shippingCountriesView = true;
                 this.shippingCountries = normalized;
             }
+
+            this.$emit('add-filter', {
+                name: 'shippingCountries',
+                value: this.shippingCountries
+            });
         },
         removeShippingCountries() {
             this.shippingCountriesView = false;
             this.shippingCountries = [];
+
+            this.$emit('add-filter', {
+                name: 'shippingCountries',
+                value: this.shippingCountries
+            });
         },
         addMarketplaces(marketplaces) {
             const normalized = marketplaces.normalize();
@@ -153,14 +197,29 @@ export const Filters = {
                 this.marketplaceView = true;
                 this.marketplaces = normalized;
             }
+
+            this.$emit('add-filter', {
+                name: 'marketplaces',
+                value: this.marketplaces
+            });
         },
         removeMarketplaces() {
             this.marketplaceView = false;
             this.marketplaces = [];
+
+            this.$emit('add-filter', {
+                name: 'marketplaces',
+                value: this.marketplaces
+            });
         },
         removeTaxonomies() {
             this.taxonomyView = false;
             this.taxonomies = [];
+
+            this.$emit('add-filter', {
+                name: 'taxonomies',
+                value: this.taxonomies
+            });
         },
         addTaxonomies(taxonomy) {
             const normalized = taxonomy.normalize();
@@ -169,6 +228,11 @@ export const Filters = {
                 this.taxonomyView = true;
                 this.taxonomies = normalized;
             }
+
+            this.$emit('add-filter', {
+                name: 'taxonomies',
+                value: this.taxonomies
+            });
         },
     },
     components: {

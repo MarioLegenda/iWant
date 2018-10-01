@@ -818,7 +818,7 @@ html {
   height: 40px;
   float: left;
 }
-#search_page .SearchBoxAdvanced .SearchBox_InputBox input[type=text] {
+#search_page .SearchBoxAdvanced .SearchBox_InputBox .InputBox {
   display: block;
   width: 430px;
   height: 40px;
@@ -827,6 +827,9 @@ html {
   font-family: "Quicksand", sans-serif;
   font-size: 1.4em;
   border-bottom: 1px solid #d6d6d6;
+}
+#search_page .SearchBoxAdvanced .SearchBox_InputBox .Error {
+  border-bottom: 1px solid #f41f1f;
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox {
   width: 40px;
