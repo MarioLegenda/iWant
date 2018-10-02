@@ -229,7 +229,7 @@ services:
 
     App\Component\:
         resource: '../src/Component'
-        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*}'
+        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Model/*}'
 
     # EVENT LISTENER
 

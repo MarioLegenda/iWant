@@ -6,6 +6,7 @@ use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsByKeywords;
+use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Presentation\Model\Query;
@@ -128,6 +129,38 @@ class DataProvider
         $itemFilters[] = $maxPrice;
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $listingType;
+
+        $model = new FindingApiModel($findItemsAdvanced, $itemFilters);
+
+        return $model;
+    }
+
+    public function getFindItemsInEbayStores($keyword)
+    {
+        $keywordsQuery = new Query(
+            'keywords',
+            $keyword
+        );
+
+        $storeName = new Query(
+            'storeName',
+            'musicMagpie Shop'
+        );
+
+        $globalId = new Query(
+            'GLOBAL-ID',
+            'EBAY-GB'
+        );
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $globalId;
+        $queries[] = $keywordsQuery;
+        $queries[] = $storeName;
+
+        $findItemsAdvanced = new FindItemsInEbayStores($queries);
+
+        $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
         $model = new FindingApiModel($findItemsAdvanced, $itemFilters);
 

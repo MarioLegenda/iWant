@@ -2,7 +2,7 @@
 
 namespace App\Tests\Component\DataProvider;
 
-use App\Component\Search\Request\Model\SearchRequestModel;
+use App\Component\Search\Model\Request\SearchModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -13,12 +13,26 @@ class DataProvider
 {
     use FakerTrait;
     /**
-     * @param string $keyword
-     * @return SearchRequestModel
+     * @param array $data
+     * @return SearchModel
      */
-    public function getSearchRequestModel(string $keyword)
+    public function createSearchRequestModel(array $data = []): SearchModel
     {
-        return new SearchRequestModel($keyword, 12, 0);
+        $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
+        $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
+        $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
+        $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
+        $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
+        $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
+
+        return new SearchModel(
+            $lowestPrice,
+            $highestPrice,
+            $highQuality,
+            $shippingCountries,
+            $marketplaces,
+            $taxonomies
+        );
     }
     /**
      * @param ApplicationShopRepository $applicationShopRepository

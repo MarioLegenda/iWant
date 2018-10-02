@@ -16,6 +16,7 @@ use App\Ebay\Library\Response\FindingApi\ResponseItem\ConditionHistogramContaine
 use App\Ebay\Library\Response\FindingApi\ResponseItem\PaginationOutput;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\RootItem;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
+use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
@@ -58,9 +59,36 @@ class FindingApiTest extends BasicSetup
             'Lady gaga'
         );
 
+        /** @var XmlFindingApiResponseModel $responseModel */
         $responseModel = $findingApiEntryPoint->findItemsAdvanced($model);
 
         static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
+
+        $rootItem = $responseModel->getRoot();
+
+        static::assertInstanceOf(RootItem::class, $rootItem);
+
+        $this->assertRootItem($rootItem);
+        $this->assertAspectHistogramContainer($responseModel->getAspectHistogramContainer());
+        $this->assertConditionHistogramContainer($responseModel->getConditionHistogramContainer());
+        $this->assertPaginationOutput($responseModel->getPaginationOutput());
+        $this->assertCategoryHistogramContainer($responseModel->getCategoryHistogramContainer());
+        $this->assertSearchResultsContainer($responseModel->getSearchResults());
+    }
+
+    public function test_find_items_in_ebay_stores()
+    {
+        /** @var FindingApiEntryPoint $findingApiEntryPoint */
+        $findingApiEntryPoint = $this->locator->get(FindingApiEntryPoint::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.finding_api');
+
+        $model = $dataProvider->getFindItemsInEbayStores(
+            urlencode('lady gaga')
+        );
+
+        /** @var XmlFindingApiResponseModel $responseModel */
+        $responseModel = $findingApiEntryPoint->findItemsInEbayStores($model);
 
         $rootItem = $responseModel->getRoot();
 

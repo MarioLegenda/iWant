@@ -2,30 +2,34 @@
 
 namespace App\Component\Search;
 
-use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
+use App\Component\Search\Business\Finder;
+use App\Component\Search\Model\Request\SearchModel;
 
 class SearchComponent
 {
     /**
-     * @var FindingApiEntryPoint $findingApiEntryPoint
+     * @var Finder $finder
      */
-    private $findingApiEntryPoint;
+    private $finder;
     /**
      * SearchComponent constructor.
-     * @param FindingApiEntryPoint $findingApiEntryPoint
+     * @param Finder $finder
      */
     public function __construct(
-        FindingApiEntryPoint $findingApiEntryPoint
+        Finder $finder
     ) {
-        $this->findingApiEntryPoint = $findingApiEntryPoint;
+        $this->finder = $finder;
     }
-
-    public function searchEbay()
+    /**
+     * @param SearchModel $model
+     * @return iterable
+     */
+    public function searchEbay(SearchModel $model): iterable
     {
-
+        return $this->finder->findEbayProducts($model);
     }
 
-    public function searchEtsy()
+    public function searchEtsy(SearchModel $model): iterable
     {
 
     }

@@ -175,6 +175,7 @@ class Finder
                 $this->cacheImplementation->getFromStoreByRequest($request)
             );
         }
+
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
         /** @var FindingApiResponseModelInterface $responseModel */
