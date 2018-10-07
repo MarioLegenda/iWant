@@ -9,7 +9,7 @@ export const TaxonomyView = {
     computed: {
         text: function() {
             if (this.taxonomies.length === 1) {
-                return `Search in ${this.taxonomy[0].name}`
+                return `Search in ${this.taxonomies[0].name}`
             }
 
             if (this.taxonomies.length === 2) {

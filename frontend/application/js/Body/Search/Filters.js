@@ -171,10 +171,10 @@ export const Filters = {
         addShippingCountries(shippingCountries) {
             const normalized = shippingCountries.normalize();
 
-            if (normalized.length > 0) {
-                this.shippingCountriesView = true;
-                this.shippingCountries = normalized;
-            }
+            (normalized.length > 0) ? this.shippingCountriesView = true : this.shippingCountriesView = false;
+
+
+            this.shippingCountries = normalized;
 
             this.$emit('add-filter', {
                 name: 'shippingCountries',
@@ -193,10 +193,9 @@ export const Filters = {
         addMarketplaces(marketplaces) {
             const normalized = marketplaces.normalize();
 
-            if (normalized.length > 0) {
-                this.marketplaceView = true;
-                this.marketplaces = normalized;
-            }
+            (normalized.length > 0) ? this.marketplaceView = true : this.marketplaceView = false;
+
+            this.marketplaces = normalized;
 
             this.$emit('add-filter', {
                 name: 'marketplaces',
@@ -224,10 +223,9 @@ export const Filters = {
         addTaxonomies(taxonomy) {
             const normalized = taxonomy.normalize();
 
-            if (normalized.length > 0) {
-                this.taxonomyView = true;
-                this.taxonomies = normalized;
-            }
+            (normalized.length > 0) ? this.taxonomyView = true : this.taxonomyView = false;
+
+            this.taxonomies = normalized;
 
             this.$emit('add-filter', {
                 name: 'taxonomies',
