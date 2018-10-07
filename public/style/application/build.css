@@ -674,8 +674,10 @@ html {
   float: left;
   border: 1px solid #d6d6d6;
   margin-top: 10px;
-  padding: 10px;
   line-height: 1.4em;
+}
+#search_page .Filters .Filter-select .clickable-select-choice {
+  padding: 10px;
 }
 #search_page .Filters .Filter-select #ShippingCountryModal .Modal_Header, #search_page .Filters .Filter-select .Modal .Modal_Header {
   width: 100%;
@@ -745,20 +747,11 @@ html {
 #search_page .Filters .Filter-select #MarketplaceModal .Modal_Body {
   height: 150px;
 }
-#search_page .Filters .Filter-select p {
+#search_page .Filters .Filter-select .clickable-select-choice {
   width: 100%;
   float: left;
   text-align: center;
-}
-#search_page .Filters .Filter-select select {
-  display: block;
-  width: 250px;
-  float: left;
-  margin-left: 10px;
-  border-bottom: 1px solid #d6d6d6;
-  background: none;
-  font-family: "Quicksand", sans-serif;
-  font-size: 1em;
+  padding: 10px;
 }
 #search_page .Filters .Filter-select i {
   position: absolute;

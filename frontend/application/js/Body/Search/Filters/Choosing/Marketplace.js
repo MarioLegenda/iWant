@@ -71,7 +71,7 @@ export const Marketplace = {
         }
     },
     template: `<div class="Filter_Filter-filter Filter-select">
-                   <p v-on:click="showModal = !showModal">Add marketplace</p>
+                   <p class="clickable-select-choice" v-on:click="showModal = !showModal">Add marketplace</p>
                    
                    <div class="Modal" id="MarketplaceModal">
                        <modal v-if="showModal" v-on:closeModal="showModal = false">

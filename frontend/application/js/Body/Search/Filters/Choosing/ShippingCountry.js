@@ -60,7 +60,7 @@ export const ShippingCountry = {
         }
     },
     template: `<div class="Filter_Filter-filter Filter-select">
-                   <p v-on:click="showModal = !showModal">Add shipping countries</p>
+                   <p class="clickable-select-choice" v-on:click="showModal = !showModal">Add shipping countries</p>
                    
                    <div class="Modal" id="ShippingCountryModal">
                        <modal v-if="showModal" v-on:closeModal="showModal = false">

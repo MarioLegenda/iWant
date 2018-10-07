@@ -60,7 +60,7 @@ export const Taxonomy = {
         }
     },
     template: `<div class="Filter_Filter-filter Filter-select">
-                   <p v-on:click="showModal = !showModal">Add category</p>
+                   <p class="clickable-select-choice" v-on:click="showModal = !showModal">Add category</p>
                    
                    <div class="Modal" id="TaxonomyModal">
                        <modal v-if="showModal" v-on:closeModal="showModal = false">

@@ -71,9 +71,12 @@
 
       border: 1px solid $lightestGray;
       margin-top: 10px;
-      padding: 10px;
 
       line-height: 1.4em;
+
+      .clickable-select-choice {
+        padding: 10px;
+      }
 
       #ShippingCountryModal, .Modal {
         .Modal_Header {
@@ -176,22 +179,11 @@
         }
       }
 
-      p {
+      .clickable-select-choice {
         width: 100%;
         float: left;
         text-align: center;
-      }
-
-      select {
-        display: block;
-        width: 250px;
-        float: left;
-        margin-left: 10px;
-
-        border-bottom: 1px solid $lightestGray;
-        background: none;
-        font-family: $mainFont;
-        font-size: 1em;
+        padding: 10px;
       }
 
       i {
