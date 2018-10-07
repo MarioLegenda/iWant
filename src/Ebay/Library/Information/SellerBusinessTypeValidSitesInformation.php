@@ -2,32 +2,20 @@
 
 namespace App\Ebay\Library\Information;
 
-use App\Library\Information\InformationInterface;
 
-class GlobalIdInformation implements InformationInterface
+class SellerBusinessTypeValidSitesInformation
 {
     const EBAY_AT = 'EBAY-AT';
-    const EBAY_AU = 'EBAY-AU';
     const EBAY_CH = 'EBAY-CH';
     const EBAY_DE = 'EBAY-DE';
-    const EBAY_ENCA = 'EBAY-ENCA';
     const EBAY_ES = 'EBAY-ES';
-    const EBAY_FR = 'EBAYFR';
+    const EBAY_FR = 'EBAY-FR';
     const EBAY_FRBE = 'EBAY-FRBE';
-    const EBAY_FRCA = 'EBAY-FRCA';
     const EBAY_GB = 'EBAY-GB';
-    const EBAY_HK = 'EBAY-HK';
     const EBAY_IE = 'EBAY-IE';
-    const EBAY_IN = 'EBAY-IN';
     const EBAY_IT = 'EBAY-IT';
-    const EBAY_MOTOR = 'EBAY-MOTOR';
-    const EBAY_MY = 'EBAY-MY';
-    const EBAY_NL = 'EBAY-NL';
     const EBAY_NLBE = 'EBAY-NLBE';
-    const EBAY_PH = 'EBAY-PH';
     const EBAY_PL = 'EBAY-PL';
-    const EBAY_SG = 'EBAY-SG';
-    const EBAY_US = 'EBAY-US';
     /**
      * @var array $globalIds
      */
@@ -36,16 +24,8 @@ class GlobalIdInformation implements InformationInterface
             'global-id' => 'EBAY-AT',
             'language' => 'de-AT',
             'teritory' => 'AT',
-            'site-name' => 'eBay Austria',
+            'site-name' => 'Ebay Austria',
             'ebay-site-id' => 16,
-            'removed' => false,
-        ),
-        'ebay-au' => array(
-            'global-id' => 'EBAY-AU',
-            'language' => 'en-AU',
-            'teritory' => 'AU',
-            'site-name' => 'eBay Australia',
-            'ebay-site-id' => 15,
             'removed' => false,
         ),
         'ebay-ch' => array(
@@ -62,14 +42,6 @@ class GlobalIdInformation implements InformationInterface
             'teritory' => 'DE',
             'site-name' => 'eBay Germany',
             'ebay-site-id' => 77,
-            'removed' => false,
-        ),
-        'ebay-enca' => array(
-            'global-id' => 'EBAY-ENCA',
-            'language' => 'en-CA',
-            'teritory' => 'CA',
-            'site-name' => 'eBay Canada (English)',
-            'ebay-site-id' => 2,
             'removed' => false,
         ),
         'ebay-es' => array(
@@ -96,28 +68,12 @@ class GlobalIdInformation implements InformationInterface
             'ebay-site-id' => 23,
             'removed' => false,
         ),
-        'ebay-frca' => array(
-            'global-id' => 'EBAY-FRCA',
-            'language' => 'fr-CA',
-            'teritory' => 'CA',
-            'site-name' => 'eBay Canada (French)',
-            'ebay-site-id' => 210,
-            'removed' => false,
-        ),
         'ebay-gb' => array(
             'global-id' => 'EBAY-GB',
             'language' => 'en-GB',
             'teritory' => 'GB',
             'site-name' => 'eBay UK',
             'ebay-site-id' => 3,
-            'removed' => false,
-        ),
-        'ebay-hk' => array(
-            'global-id' => 'EBAY-HK',
-            'language' => 'zh-Hant',
-            'teritory' => 'HK',
-            'site-name' => 'eBay Hong Kong',
-            'ebay-site-id' => 201,
             'removed' => false,
         ),
         'ebay-ie' => array(
@@ -128,44 +84,12 @@ class GlobalIdInformation implements InformationInterface
             'ebay-site-id' => 205,
             'removed' => false,
         ),
-        'ebay-in' => array(
-            'global-id' => 'EBAY-IN',
-            'language' => 'en-IN',
-            'teritory' => 'IN',
-            'site-name' => 'eBay India',
-            'ebay-site-id' => 203,
-            'removed' => false,
-        ),
         'ebay-it' => array(
             'global-id' => 'EBAY-IT',
             'language' => 'it-IT',
             'teritory' => 'IT',
             'site-name' => 'eBay Italy',
             'ebay-site-id' => 101,
-            'removed' => false,
-        ),
-        'ebay-motor' => array(
-            'global-id' => 'EBAY-MOTOR',
-            'language' => 'en-US',
-            'teritory' => 'US',
-            'site-name' => 'eBay Motors',
-            'ebay-site-id' => 100,
-            'removed' => false,
-        ),
-        'ebay-my' => array(
-            'global-id' => 'EBAY-MY',
-            'language' => 'en-MY',
-            'teritory' => 'MY',
-            'site-name' => 'eBay Malaysia',
-            'ebay-site-id' => 207,
-            'removed' => false,
-        ),
-        'ebay-nl' => array(
-            'global-id' => 'EBAY-NL',
-            'language' => 'nl-NL',
-            'teritory' => 'NL',
-            'site-name' => 'eBay Netherlands',
-            'ebay-site-id' => 146,
             'removed' => false,
         ),
         'ebay-nlbe' => array(
@@ -176,14 +100,6 @@ class GlobalIdInformation implements InformationInterface
             'ebay-site-id' => 123,
             'removed' => false,
         ),
-        'ebay-ph' => array(
-            'global-id' => 'EBAY-PH',
-            'language' => 'en-PH',
-            'teritory' => 'PH',
-            'site-name' => 'eBay Philippines',
-            'ebay-site-id' => 212,
-            'removed' => false,
-        ),
         'ebay-pl' => array(
             'global-id' => 'EBAY-PL',
             'language' => 'pl-PL',
@@ -192,29 +108,13 @@ class GlobalIdInformation implements InformationInterface
             'ebay-site-id' => 212,
             'removed' => false,
         ),
-        'ebay-sg' => array(
-            'global-id' => 'EBAY-SG',
-            'language' => 'en-SG',
-            'teritory' => 'SG',
-            'site-name' => 'eBay Singapore',
-            'ebay-site-id' => 216,
-            'removed' => false,
-        ),
-        'ebay-us' => array(
-            'global-id' => 'EBAY-US',
-            'language' => 'en-US',
-            'teritory' => 'US',
-            'site-name' => 'eBay United States',
-            'ebay-site-id' => 0,
-            'removed' => false,
-        ),
     );
     /**
-     * @var GlobalIdInformation $instance
+     * @var SellerBusinessTypeValidSitesInformation $instance
      */
     private static $instance;
     /**
-     * @return GlobalIdInformation
+     * @return SellerBusinessTypeValidSitesInformation
      */
     public static function instance()
     {
@@ -236,18 +136,6 @@ class GlobalIdInformation implements InformationInterface
     }
     /**
      * @param string $id
-     * @return array|null
-     */
-    public function getTotalInformation(string $id): ?array
-    {
-        if (!$this->has($id)) {
-            return null;
-        }
-
-        return $this->globalIds[strtolower($id)];
-    }
-    /**
-     * @param string $id
      * @return mixed
      */
     public function has(string $id) : bool
@@ -262,10 +150,10 @@ class GlobalIdInformation implements InformationInterface
     /**
      * @param string $name
      * @param array $values
-     * @return GlobalIdInformation
+     * @return SellerBusinessTypeValidSitesInformation
      * @throws \RuntimeException
      */
-    public function add(string $name, array $values) : GlobalIdInformation
+    public function add(string $name, array $values) : SellerBusinessTypeValidSitesInformation
     {
         if (!array_key_exists('global-id', $values) and !empty($values['global-id'])) {
             throw new \RuntimeException('GlobalId values has to be an array with \'global-id\' key and a non empty \'global-id\' value');

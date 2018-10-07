@@ -23,15 +23,37 @@ class CategoryId extends BaseDynamic
             throw new \RuntimeException($message);
         }
 
-        if (!is_int($dynamicValue[0])) {
-            $message = sprintf(
-                '%s has to be an integer',
-                $dynamicName
-            );
+        $categories = $dynamicValue[0];
 
-            throw new \RuntimeException($message);
+        foreach ($categories as $category) {
+            if (!is_int($category)) {
+                $message = sprintf(
+                    '%s has to be an integer',
+                    $category
+                );
+
+                throw new \RuntimeException($message);
+            }
         }
 
         return true;
+    }
+    /**
+     * @param int|null $counter
+     * @return string
+     */
+    public function urlify(int $counter = null): string
+    {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue()[0];
+
+        $counter = 0;
+        $final = '';
+        foreach ($dynamicValue as $filter) {
+            $final.='categoryId('.$counter.')='.$filter.'&';
+
+            $counter++;
+        }
+
+        return $final;
     }
 }

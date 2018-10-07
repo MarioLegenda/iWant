@@ -50,7 +50,58 @@ class RequestCacheImplementation
 
         $cache = $this->apiRequestCache->get($uniqueName);
 
+        if ($cache instanceof RequestCache) {
+            /**
+             * If a cache entry is expired, just return false
+             */
+            if (Util::toDateTime()->getTimestamp() > $cache->getExpiresAt()) {
+                return false;
+            }
+        }
+
         return $cache instanceof RequestCache;
+    }
+    /**
+     * @param Request $request
+     * @return bool
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     *
+     * This method should only be used if you know that the cache exists.
+     * It is useless otherwise
+     */
+    public function isExpired(Request $request): bool
+    {
+        /** @var ToggleCache $toggleCache */
+        $toggleCache = $this->toggleCacheRepository->findAll()[0];
+
+        if ($toggleCache->getAllRequestCache() === false) {
+            return false;
+        }
+
+        $uniqueName = $this->createUniqueNameFromRequest($request);
+
+        $cache = $this->apiRequestCache->get($uniqueName);
+
+        if ($cache instanceof RequestCache) {
+            /**
+             * If a cache entry is expired, just return false
+             */
+            if (Util::toDateTime()->getTimestamp() > $cache->getExpiresAt()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    /**
+     * @param Request $request
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function deleteIfExpired(Request $request): void
+    {
+        if ($this->isExpired($request)) {
+            $this->apiRequestCache->delete($this->createUniqueNameFromRequest($request));
+        }
     }
     /**
      * @param Request $request
@@ -92,7 +143,7 @@ class RequestCacheImplementation
             $this->apiRequestCache->delete($uniqueName);
 
             $this->apiRequestCache->set(
-                $request,
+                $uniqueName,
                 $response,
                 $this->calculateTTL()
             );

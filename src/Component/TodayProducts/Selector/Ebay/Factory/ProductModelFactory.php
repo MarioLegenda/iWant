@@ -2,11 +2,11 @@
 
 namespace App\Component\TodayProducts\Selector\Ebay\Factory;
 
+use App\Component\TodayProducts\Model\TodayProduct;
 use App\Component\TodayProducts\Selector\Type\Nan;
 use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\Title;
-use App\Component\TodayProducts\Model\TodayProduct;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Library\Infrastructure\Type\TypeInterface;
@@ -14,7 +14,12 @@ use App\Library\MarketplaceType;
 
 class ProductModelFactory
 {
-
+    /**
+     * @param Item $singleItem
+     * @param ApplicationShop $applicationShop
+     * @param array $shippingLocations
+     * @return TodayProduct
+     */
     public function createModel(
         Item $singleItem,
         ApplicationShop $applicationShop,

@@ -6,7 +6,7 @@ use App\Component\TodayProducts\Selector\Etsy\Factory\ProductModelFactory;
 use App\Component\TodayProducts\Selector\Etsy\Selector\FindAllShopListingsActive;
 use App\Component\TodayProducts\Selector\Etsy\Selector\FindAllShopListingsFeatured;
 use App\Component\TodayProducts\Selector\Etsy\Selector\SearchProduct;
-use App\Component\TodayProducts\Model\TodayProduct;
+use App\Component\TodayProducts\Model\SearchResult;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Etsy\Library\Response\ResponseItem\Result;
@@ -69,7 +69,7 @@ class ProductFetcher
      */
     public function createTodaysProductModels(TypedArray $searchProducts): TypedArray
     {
-        $products = TypedArray::create('integer', TodayProduct::class);
+        $products = TypedArray::create('integer', SearchResult::class);
 
         /** @var SearchProduct $searchProduct */
         foreach ($searchProducts as $searchProduct) {

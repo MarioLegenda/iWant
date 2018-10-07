@@ -97,6 +97,17 @@ class SellerBusinessType extends BaseDynamic implements ItemFilterInterface
 
         return true;
     }
+
+    public function urlify(int $counter = null): string
+    {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue()[0];
+        $dynamicName = $this->getDynamicMetadata()->getName();
+
+        $dynamicValue = $this->refactorDynamicValue($dynamicValue);
+
+        return 'itemFilter('.$counter.').name='.$dynamicName.'&itemFilter('.$counter.').value='.$dynamicValue['businessType'].'&';
+    }
+
     /**
      * @param array $filter
      */

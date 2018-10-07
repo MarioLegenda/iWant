@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Component\Search\Model\Request;
+namespace App\Component\Search\Ebay\Model\Request;
 
 class SearchModel
 {
+    /**
+     * @var string $keyword
+     */
+    private $keyword;
     /**
      * @var bool $lowestPrice
      */
@@ -30,6 +34,7 @@ class SearchModel
     private $taxonomies;
     /**
      * SearchModel constructor.
+     * @param string $keyword
      * @param bool $lowestPrice
      * @param bool $highestPrice
      * @param bool $highQuality
@@ -38,6 +43,7 @@ class SearchModel
      * @param array $taxonomies
      */
     public function __construct(
+        string $keyword,
         bool $lowestPrice,
         bool $highestPrice,
         bool $highQuality,
@@ -45,12 +51,20 @@ class SearchModel
         array $marketplaces,
         array $taxonomies
     ) {
+        $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
         $this->highQuality = $highQuality;
         $this->highestPrice = $highestPrice;
         $this->shippingCountries = $shippingCountries;
         $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;
+    }
+    /**
+     * @return string
+     */
+    public function getKeyword(): string
+    {
+        return $this->keyword;
     }
     /**
      * @return bool

@@ -76,11 +76,6 @@ class Finder
         /** @var Request $request */
         $request = $findItemsByKeywords->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createKeywordsModelResponse(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
 
@@ -108,11 +103,6 @@ class Finder
         /** @var Request $request */
         $request = $findItemsAdvanced->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createKeywordsModelResponse(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
         /** @var FindingApiResponseModelInterface $responseModel */
@@ -139,14 +129,9 @@ class Finder
         /** @var Request $request */
         $request = $getUserProfile->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createUserProfileResponse(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
-
+        /** @var GetUserProfileResponse $responseModel */
         $responseModel = $this->createUserProfileResponse($response->getResponseString());
 
         if (!$responseModel->getRoot()->isSuccess()) {
@@ -169,12 +154,6 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsInEbayStores->getRequest();
-
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createKeywordsModelResponse(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
 
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
@@ -202,14 +181,9 @@ class Finder
         /** @var Request $request */
         $request = $getCategoryInfo->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createCategoryInfoResponse(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
-
+        /** @var GetCategoryInfoResponse $responseModel */
         $responseModel = $this->createCategoryInfoResponse($response->getResponseString());
 
         if (!$responseModel->getRoot()->isSuccess()) {
@@ -233,14 +207,9 @@ class Finder
         /** @var Request $request */
         $request = $getSingleItem->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createSingleItemResponse(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
         /** @var Response $resource */
         $response = $this->finderSource->getApiResource($request);
-
+        /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->createSingleItemResponse($response->getResponseString());
 
         if (!$responseModel->getRoot()->isSuccess()) {

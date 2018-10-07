@@ -171,7 +171,7 @@ abstract class BaseDynamic implements UrlifyInterface, DynamicInterface
      * @param array $dynamics
      * @return array
      */
-    private function refactorDynamicValue(array $dynamics)
+    protected function refactorDynamicValue(array $dynamics)
     {
         if (count($dynamics) === 1) {
             $dynamic = $dynamics[0];

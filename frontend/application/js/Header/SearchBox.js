@@ -9,7 +9,7 @@ export const SearchBox = {
                            </div>
                            
                            <div class="SearchBox_AdvancedSearch">
-                               <router-link to="/search">Advanced search <i class="fas fa-search"></router-link>
+                               <router-link to="/search">Advanced search <i class="fas fa-search"></i></router-link>
                            </div>
                </div>`
 };

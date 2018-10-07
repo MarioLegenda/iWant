@@ -2,7 +2,7 @@
 
 namespace App\Tests\Component\DataProvider;
 
-use App\Component\Search\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -18,6 +18,7 @@ class DataProvider
      */
     public function createSearchRequestModel(array $data = []): SearchModel
     {
+        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'lady gaga';
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
@@ -26,6 +27,7 @@ class DataProvider
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
 
         return new SearchModel(
+            $keyword,
             $lowestPrice,
             $highestPrice,
             $highQuality,

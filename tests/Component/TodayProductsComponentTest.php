@@ -3,7 +3,6 @@
 namespace App\Tests\Component;
 
 use App\Component\TodayProducts\Model\Image;
-use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\TodayProduct as TodayProductModel;
 use App\Component\TodayProducts\TodayProductsComponent;
 use App\Ebay\Library\Information\GlobalIdInformation;

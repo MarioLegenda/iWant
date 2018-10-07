@@ -5,6 +5,7 @@ namespace App\Library\Infrastructure\Helper;
 use App\Library\Infrastructure\ServiceFilterInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Util\Util;
 
 class TypedArray implements
     \Countable,
@@ -78,11 +79,22 @@ class TypedArray implements
     }
     /**
      * @param \Closure $filter
-     * @return mixed
+     * @param string $allowType
+     * @return array
      */
-    public function filter(\Closure $filter)
+    public function filter(\Closure $filter, string $allowType = null): array
     {
-        return $filter($this->data);
+        $filtered = [];
+
+        foreach ($this->data as $item) {
+            $result = $filter->__invoke($item);
+
+            if (!is_null($result)) {
+                $filtered[] = $result;
+            }
+        }
+
+        return $filtered;
     }
 
     /**
@@ -171,6 +183,35 @@ class TypedArray implements
     public function isEmpty(): bool
     {
         return empty($this->data);
+    }
+    /**
+     * @param \Closure $closure
+     * @param array|null $storeType
+     * @return TypedArray
+     */
+    public function findBy(\Closure $closure, array $storeType = null): TypedArray
+    {
+        $dataGen = Util::createGenerator($this->data);
+
+        $type = 'integer';
+        $class = 'mixed';
+        $store = TypedArray::create($type, $class);
+
+        if (!empty($storeType)) {
+            $type = $storeType['type'];
+            $class = $storeType['class'];
+
+            $store = TypedArray::create($type, $class);
+        }
+
+        foreach ($dataGen as $entry) {
+            /** @var mixed $item */
+            $item = $entry['item'];
+
+            $store[$type] = $closure->__invoke($item);
+        }
+
+        return $store;
     }
     /**
      * @param mixed $type

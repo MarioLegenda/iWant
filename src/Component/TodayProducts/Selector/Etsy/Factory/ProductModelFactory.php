@@ -25,7 +25,7 @@ class ProductModelFactory
         ApplicationShop $applicationShop,
         array $shippingInformation,
         array $image
-    ) {
+    ): TodayProduct {
         $itemId = (string) $singleModel->getListingId();
         $title = new Title($singleModel->getTitle());
         $image = $this->createImage($image);

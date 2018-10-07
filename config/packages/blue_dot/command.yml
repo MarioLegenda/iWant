@@ -1,0 +1,12 @@
+configuration:
+    simple:
+        select:
+            paginate_request_cache:
+                sql: "SELECT id, expires_at FROM request_cache LIMIT :limit OFFSET :offset"
+                parameters: [limit, offset]
+
+        delete:
+            delete_request_cache_entry_by_id:
+                sql: "DELETE FROM request_cache WHERE id = :id"
+                parameters: [id]
+

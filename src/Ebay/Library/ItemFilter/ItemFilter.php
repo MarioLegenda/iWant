@@ -55,4 +55,5 @@ class ItemFilter
     const WORLD_OF_GOOD_ONLY = 'WorldOfGoodOnly';
     const ENTRIES_PER_PAGE = 'EntriesPerPage';
     const INCLUDE_SELECTOR = 'IncludeSelector';
+    const CATEGORY_ID = 'CategoryId';
 }

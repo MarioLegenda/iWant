@@ -158,11 +158,11 @@ class DataProvider
         $queries[] = $keywordsQuery;
         $queries[] = $storeName;
 
-        $findItemsAdvanced = new FindItemsInEbayStores($queries);
+        $findItemsInEbayStores = new FindItemsInEbayStores($queries);
 
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
 
-        $model = new FindingApiModel($findItemsAdvanced, $itemFilters);
+        $model = new FindingApiModel($findItemsInEbayStores, $itemFilters);
 
         return $model;
     }

@@ -229,7 +229,7 @@ services:
 
     App\Component\:
         resource: '../src/Component'
-        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Model/*}'
+        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*}'
 
     # EVENT LISTENER
 
@@ -336,3 +336,10 @@ services:
             $toggleCacheRepository: '@App\Doctrine\Repository\ToggleCacheRepository'
         tags:
             - { name: 'console.command' }
+
+    App\Symfony\Command\StaleRequestCacheRemove:
+        arguments:
+            $apiRequestCache: '@App\Cache\Cache\ApiRequestCache'
+            $blueDot: '@BlueDot\BlueDot'
+        tags:
+        - { name: 'console.command' }

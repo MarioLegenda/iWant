@@ -61,15 +61,6 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         throw new \RuntimeException($message);
     }
     /**
-     * @param Request $request
-     * @return HttpResponse
-     * @throws WrapperHttpException
-     */
-    private function tryGet(Request $request): HttpResponse
-    {
-
-    }
-    /**
      * @return Client
      */
     private function createClient(): Client
@@ -90,12 +81,11 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
     private function createResponse(
         GuzzleResponse $response,
         Request $request
-    ): HttpResponse
-    {
+    ): HttpResponse {
         return new HttpResponse(
             $request,
             (string) $response->getBody(),
-            $response->getStatusCode(),
+            200,
             $response
         );
     }

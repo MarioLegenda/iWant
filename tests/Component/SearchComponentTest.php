@@ -2,8 +2,10 @@
 
 namespace App\Tests\Component;
 
-use App\Component\Search\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\SearchComponent;
+use App\Doctrine\Entity\NativeTaxonomy;
+use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Tests\Component\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 
@@ -16,9 +18,28 @@ class SearchComponentTest extends BasicSetup
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component');
 
-        /** @var SearchModel $model */
-        $model = $dataProvider->createSearchRequestModel();
+        $nativeTaxonomyRepository = $this->locator->get(NativeTaxonomyRepository::class);
 
-        //$ebayProducts = $searchComponent->searchEbay($model);
+        $nativeTaxonomies = $nativeTaxonomyRepository->findAll();
+        $nativeTaxonomyCount = count($nativeTaxonomies);
+
+        $randKeys = array_rand($nativeTaxonomies, rand(1, $nativeTaxonomyCount));
+
+        $chosenTaxonomies = [];
+
+        /** @var NativeTaxonomy $nativeTaxonomy */
+        foreach ($nativeTaxonomies as $nativeTaxonomy) {
+            $chosenTaxonomies[] = $nativeTaxonomy->toArray();
+        }
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createSearchRequestModel([
+            'taxonomies' => $chosenTaxonomies,
+        ]);
+
+        $ebayProducts = $searchComponent->searchEbay($model);
+
+
+
     }
 }

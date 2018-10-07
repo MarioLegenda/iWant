@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Library\ItemFilter\Validation;
 
+use App\Ebay\Library\Dynamic\BaseDynamic;
 use App\Ebay\Library\Information\OutputSelectorInformation;
 use App\Ebay\Library\Information\SortOrderInformation;
 use App\Ebay\Library\ItemFilter\ItemFilter;
@@ -165,19 +166,13 @@ class GlobalItemFiltersValidator
      */
     private function getDynamicsInBulk(TypedArray $itemFilters, array $dynamics)
     {
-        return $itemFilters->filter(function(iterable $data) use ($dynamics) {
-            $items = [];
-            /** @var ItemFilterInterface $item */
-            foreach ($data as $item) {
-                $dynamicMetadata = $item->getDynamicMetadata();
-                $dynamicName = $dynamicMetadata->getName();
+        return $itemFilters->filter(function(BaseDynamic $itemFilter) use ($dynamics) {
+            $dynamicMetadata = $itemFilter->getDynamicMetadata();
+            $dynamicName = $dynamicMetadata->getName();
 
-                if (in_array($dynamicName, $dynamics)) {
-                    $items[] = $item;
-                }
+            if (in_array($dynamicName, $dynamics)) {
+                return $itemFilter;
             }
-
-            return $items;
         });
     }
 }

@@ -42,7 +42,7 @@ class ApiRequestCache implements CacheInterface
             'request' => $key
         ]);
 
-        if (!$cache instanceof RequestCache) {
+        if ($cache instanceof RequestCache) {
             $this->requestCacheRepository->getManager()->remove($cache);
             $this->requestCacheRepository->getManager()->flush();
         }

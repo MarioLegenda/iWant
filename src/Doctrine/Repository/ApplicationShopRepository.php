@@ -3,6 +3,8 @@
 namespace App\Doctrine\Repository;
 
 use App\Doctrine\Entity\ApplicationShop;
+use App\Library\Infrastructure\Type\TypeInterface;
+use App\Library\MarketplaceType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
@@ -37,5 +39,20 @@ class ApplicationShopRepository extends ServiceEntityRepository
     public function getManager(): EntityManager
     {
         return $this->getEntityManager();
+    }
+    /**
+     * @param MarketplaceType|TypeInterface $marketplace
+     * @return array
+     */
+    public function findEssentialApplicationShopInformation(MarketplaceType $marketplace): array
+    {
+        $qb = $this->createQueryBuilder('asq');
+
+        return $qb
+            ->select('asq.applicationName', 'asq.globalId', 'asq.marketplace')
+            ->where('asq.marketplace = :marketplace')
+            ->setParameter(':marketplace', (string) $marketplace)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
     }
 }
