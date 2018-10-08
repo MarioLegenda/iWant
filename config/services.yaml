@@ -139,6 +139,10 @@ services:
         arguments:
             $yandexTranslationLanguages: '%yandex_translation_languages%'
 
+    App\Library\Representation\ApplicationShopRepresentation:
+        arguments:
+            $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:

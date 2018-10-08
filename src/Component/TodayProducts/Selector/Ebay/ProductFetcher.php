@@ -10,7 +10,6 @@ use App\Component\TodayProducts\Selector\Ebay\Selector\SelectorOne;
 use App\Component\TodayProducts\Selector\Ebay\Selector\SelectorThree;
 use App\Component\TodayProducts\Selector\Ebay\Selector\SelectorTwo;
 use App\Component\TodayProducts\Model\Title;
-use App\Component\TodayProducts\Model\SearchResult;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
@@ -93,7 +92,7 @@ class ProductFetcher
      */
     private function createTodaysProductModels(TypedArray $searchProducts): TypedArray
     {
-        $todayProductModels = TypedArray::create('integer', SearchResult::class);
+        $todayProductModels = TypedArray::create('integer', TodayProduct::class);
 
         /** @var SearchProduct $searchProduct */
         foreach ($searchProducts as $searchProduct) {

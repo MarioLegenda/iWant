@@ -66,7 +66,6 @@ class ProductModelFactory
             $priceInfo['currentPrice']
         );
     }
-
     /**
      * @param MarketplaceType|TypeInterface $marketplace
      * @param string $title

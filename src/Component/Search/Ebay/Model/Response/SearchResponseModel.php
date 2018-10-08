@@ -6,7 +6,7 @@ use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
-class SearchResult implements ArrayNotationInterface
+class SearchResponseModel implements ArrayNotationInterface
 {
     /**
      * @var string $itemId

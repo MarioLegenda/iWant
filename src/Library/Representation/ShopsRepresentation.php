@@ -64,6 +64,18 @@ class ShopsRepresentation
                 'marketplace' => $this->marketplaceRepresentation->ebay,
             ],
             [
+                'name' => 'thrift.books',
+                'global_id' => GlobalIdInformation::EBAY_US,
+                'category' => $allNormalizedCategories['Books, Music & Movies'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'rebuy-shop',
+                'global_id' => GlobalIdInformation::EBAY_DE,
+                'category' => $allNormalizedCategories['Books, Music & Movies'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
                 'name' => 'www.csl-computer.com',
                 'global_id' => GlobalIdInformation::EBAY_DE,
                 'category' => $allNormalizedCategories['Computers, Mobile & Games'],

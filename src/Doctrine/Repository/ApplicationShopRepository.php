@@ -55,4 +55,23 @@ class ApplicationShopRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult(Query::HYDRATE_ARRAY);
     }
+    /**
+     * @param MarketplaceType|TypeInterface $marketplace
+     * @return mixed
+     */
+    public function findGlobalsIdsByMarketplace(MarketplaceType $marketplace)
+    {
+        $qb = $this->createQueryBuilder('asq');
+
+        $result = $qb
+            ->select('asq.globalId')
+            ->where('asq.marketplace = :marketplace')
+            ->setParameter(':marketplace', (string) $marketplace)
+            ->getQuery()
+            ->getResult(Query::HYDRATE_ARRAY);
+
+        return apply_on_iterable($result, function($data) {
+            return $data['globalId'];
+        });
+    }
 }

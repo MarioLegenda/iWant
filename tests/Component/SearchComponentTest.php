@@ -2,6 +2,7 @@
 
 namespace App\Tests\Component;
 
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\SearchComponent;
 use App\Doctrine\Entity\NativeTaxonomy;
@@ -34,12 +35,9 @@ class SearchComponentTest extends BasicSetup
 
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
-            'taxonomies' => $chosenTaxonomies,
+            'pagination' => new Pagination(8, 1)
         ]);
 
         $ebayProducts = $searchComponent->searchEbay($model);
-
-
-
     }
 }

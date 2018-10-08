@@ -4,6 +4,7 @@ namespace App\Component\Search;
 
 use App\Component\Search\Ebay\Business\Finder;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 
@@ -30,10 +31,8 @@ class SearchComponent
      */
     public function searchEbay(SearchModel $model): iterable
     {
-        /** @var XmlFindingApiResponseModel[]|TypedArray $ebayProducts */
-        $ebayProducts = $this->finder->findEbayProducts($model);
-
-        
+        /** @var SearchResponseModel[] $ebayProducts */
+        return $this->finder->findEbayProducts($model);
     }
 
     public function searchEtsy(SearchModel $model): iterable

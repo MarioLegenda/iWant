@@ -60,11 +60,13 @@ class Seller extends BaseDynamic implements ItemFilterInterface
     public function urlify(int $counter = null): string
     {
         $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
-        $finalEntry = sprintf('itemFilter(%d)=Seller&', 0);
+        $finalEntry = sprintf('itemFilter(%d).name=Seller&', $counter);
 
         $valueCounter = 0;
         foreach ($dynamicValue[0] as $key => $f) {
             $finalEntry.=sprintf('itemFilter(%d).value(%d)=%s&', $counter, $valueCounter, $f);
+
+            $valueCounter++;
         }
 
         return $finalEntry;

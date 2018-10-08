@@ -2,6 +2,7 @@
 
 namespace App\Tests\Component\DataProvider;
 
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
@@ -18,13 +19,16 @@ class DataProvider
      */
     public function createSearchRequestModel(array $data = []): SearchModel
     {
-        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'lady gaga';
+        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter';
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
         $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
+        $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
+            ? $data['pagination']
+            : new Pagination(10, 1);
 
         return new SearchModel(
             $keyword,
@@ -33,7 +37,8 @@ class DataProvider
             $highQuality,
             $shippingCountries,
             $marketplaces,
-            $taxonomies
+            $taxonomies,
+            $pagination
         );
     }
     /**

@@ -141,6 +141,16 @@ class EbayModelFactory
             'GLOBAL-ID',
             $rootMetadata->getGlobalId()
         );
+
+        $queries[] = new Query(
+            'paginationInput.entriesPerPage',
+            $model->getPagination()->getLimit()
+        );
+
+        $queries[] = new Query(
+            'paginationInput.pageNumber',
+            $model->getPagination()->getPage()
+        );
     }
     /**
      * @param RootMetadata $rootMetadata
@@ -154,8 +164,15 @@ class EbayModelFactory
         $shops = $rootMetadata->getShops();
 
         $shopNames = $shops->filter(function(ApplicationShop $applicationShop) {
-            return $applicationShop->getApplicationName();
+            return $applicationShop->getName();
         });
+
+        $outputSelector = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::OUTPUT_SELECTOR,
+            ['SellerInfo', 'StoreInfo']
+        ));
 
         if (!empty($rootMetadata->getTaxonomyMetadata())) {
             $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
@@ -204,6 +221,7 @@ class EbayModelFactory
 
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $sellers;
+        $itemFilters[] = $outputSelector;
     }
     /**
      * @param SearchModel $model

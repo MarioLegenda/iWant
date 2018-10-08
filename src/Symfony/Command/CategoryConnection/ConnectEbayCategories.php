@@ -4,6 +4,7 @@ namespace App\Symfony\Command\CategoryConnection;
 
 use App\Doctrine\Entity\EbayRootCategory;
 use App\Doctrine\Entity\NativeTaxonomy;
+use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Doctrine\Repository\EbayRootCategoryRepository;
 use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
@@ -16,6 +17,7 @@ use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
 use App\Ebay\Presentation\ShoppingApi\Model\GetCategoryInfo;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\MarketplaceType;
 use App\Library\Util\Util;
 use App\Symfony\Command\BaseCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,15 +37,27 @@ class ConnectEbayCategories extends BaseCommand
      * @var EbayRootCategoryRepository $ebayRootCategoryRepository
      */
     private $ebayRootCategoryRepository;
-
+    /**
+     * @var ApplicationShopRepository $applicationShopRepository
+     */
+    private $applicationShopRepository;
+    /**
+     * ConnectEbayCategories constructor.
+     * @param NativeTaxonomyRepository $nativeTaxonomyRepository
+     * @param ApplicationShopRepository $applicationShopRepository
+     * @param EbayRootCategoryRepository $ebayRootCategoryRepository
+     * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
+     */
     public function __construct(
         NativeTaxonomyRepository $nativeTaxonomyRepository,
+        ApplicationShopRepository $applicationShopRepository,
         EbayRootCategoryRepository $ebayRootCategoryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint
     ) {
         $this->nativeTaxonomyRepository = $nativeTaxonomyRepository;
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->ebayRootCategoryRepository = $ebayRootCategoryRepository;
+        $this->applicationShopRepository = $applicationShopRepository;
 
         parent::__construct();
     }
@@ -82,10 +96,7 @@ class ConnectEbayCategories extends BaseCommand
                 $this->getName()
         ));
 
-        $globalIds = [
-            GlobalIdInformation::EBAY_GB,
-            GlobalIdInformation::EBAY_DE,
-        ];
+        $globalIds = $this->getGlobalIds();
 
         $this->output->writeln(sprintf(
                 '<info>Starting writing ebay categories for global ids %s</info>',
@@ -143,7 +154,7 @@ class ConnectEbayCategories extends BaseCommand
         foreach ($ebayRootCategories as $ebayRootCategory) {
             $existingEbayRootCategory = $this->ebayRootCategoryRepository->findOneBy([
                 'globalId' => $globalId,
-                'normalizedCategory' => $normalizedCategory,
+                'nativeTaxonomy' => $normalizedCategory,
                 'categoryId' => $ebayRootCategory['categoryId']
             ]);
 
@@ -292,6 +303,18 @@ class ConnectEbayCategories extends BaseCommand
                 '14339',
                 '281',
             ],
+            'Fashion' => [
+                '11450'
+            ]
         ];
+    }
+    /**
+     * @return array
+     */
+    private function getGlobalIds(): array
+    {
+        $globalIds = $this->applicationShopRepository->findGlobalsIdsByMarketplace(MarketplaceType::fromValue('Ebay'));
+
+        return array_unique($globalIds);
     }
 }

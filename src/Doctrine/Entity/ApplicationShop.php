@@ -2,6 +2,7 @@
 
 namespace App\Doctrine\Entity;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,7 +22,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
  * )
  * @HasLifecycleCallbacks()
  **/
-class ApplicationShop
+class ApplicationShop implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -203,5 +204,20 @@ class ApplicationShop
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
         }
+    }
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'applicationName' => $this->getApplicationName(),
+            'globalId' => $this->getGlobalId(),
+            'marketplace' => MarketplaceType::fromValue($this->getMarketplace()),
+            'createdAt' => Util::formatFromDate($this->getCreatedAt()),
+            'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
+        ];
     }
 }

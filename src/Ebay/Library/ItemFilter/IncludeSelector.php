@@ -18,6 +18,6 @@ class IncludeSelector extends BaseDynamic
     {
         $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
 
-        return sprintf('includeSelector=%s', implode(',', $dynamicValue));
+        return sprintf('includeSelector=%s&', implode(',', $dynamicValue));
     }
 }

@@ -33,6 +33,10 @@ class SearchModel
      */
     private $taxonomies;
     /**
+     * @var Pagination $pagination
+     */
+    private $pagination;
+    /**
      * SearchModel constructor.
      * @param string $keyword
      * @param bool $lowestPrice
@@ -41,6 +45,7 @@ class SearchModel
      * @param array $shippingCountries
      * @param array $marketplaces
      * @param array $taxonomies
+     * @param Pagination $pagination
      */
     public function __construct(
         string $keyword,
@@ -49,7 +54,8 @@ class SearchModel
         bool $highQuality,
         array $shippingCountries,
         array $marketplaces,
-        array $taxonomies
+        array $taxonomies,
+        Pagination $pagination
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -58,6 +64,7 @@ class SearchModel
         $this->shippingCountries = $shippingCountries;
         $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;
+        $this->pagination = $pagination;
     }
     /**
      * @return string
@@ -107,5 +114,12 @@ class SearchModel
     public function getTaxonomies(): iterable
     {
         return $this->taxonomies;
+    }
+    /**
+     * @return Pagination
+     */
+    public function getPagination(): Pagination
+    {
+        return $this->pagination;
     }
 }

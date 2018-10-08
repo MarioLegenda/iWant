@@ -233,11 +233,12 @@ class CreateNativeShops extends BaseCommand
      * @param string $sellerName
      * @param string|null $globalId
      * @return UserItem
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     private function getEbayUser(string $sellerName, string $globalId = null): UserItem
     {
         $userProfileModel = $this->getUserProfileModel($sellerName, $globalId);
-
         /** @var GetUserProfileResponse $response */
         $response = $this->shoppingApiEntryPoint->getUserProfile($userProfileModel);
 
