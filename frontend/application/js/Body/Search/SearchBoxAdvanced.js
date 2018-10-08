@@ -28,7 +28,7 @@ export const SearchBoxAdvanced = {
                 this.isError = false;
             }
 
-            this.$emit('submit');
+            this.$emit('submit', this.text);
         }
     }
 };

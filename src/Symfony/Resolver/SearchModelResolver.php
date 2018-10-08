@@ -2,6 +2,7 @@
 
 namespace App\Symfony\Resolver;
 
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Library\MarketplaceType;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 class SearchModelResolver implements ArgumentValueResolverInterface
 {
     /**
-     * @var SingleItemRequestModelResolver $model
+     * @var SearchModel $model
      */
     private $model;
     /**
@@ -33,6 +34,29 @@ class SearchModelResolver implements ArgumentValueResolverInterface
         if ($argument->getType() !== SearchModel::class) {
             return false;
         }
+
+        $searchData = $request->get('searchData');
+
+        if (!is_string($searchData)) {
+            return false;
+        }
+
+        $searchData = json_decode($searchData, true);
+
+        $filters = $searchData['filters'];
+        $keyword = $searchData['keyword'];
+        $pagination = $searchData['pagination'];
+
+        $this->model = new SearchModel(
+            $keyword,
+            $filters['lowestPrice'],
+            $filters['highestPrice'],
+            $filters['highQuality'],
+            $filters['shippingCountries'],
+            $filters['marketplaces'],
+            $filters['taxonomies'],
+            new Pagination($pagination['limit'], $pagination['page'])
+        );
 
         return true;
     }

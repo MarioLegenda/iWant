@@ -1,10 +1,12 @@
 import {SearchBoxAdvanced} from "./SearchBoxAdvanced";
 import {Filters} from "./Filters";
 import {Sentence} from "./Sentence";
+import {RepositoryFactory} from "../../services/repositoryFactory";
 
 export const AdvancedSearch = {
     data: function() {
         return {
+            keyword: null,
             filters: {
                 lowestPrice: true,
                 highestPrice: false,
@@ -30,8 +32,24 @@ export const AdvancedSearch = {
 
             this.filters[filter.name] = filter.value;
         },
-        submit() {
-            console.log(this.filters);
+        submit(keyword) {
+            this.keyword = keyword;
+
+            const searchRepo = RepositoryFactory.create('search');
+
+            searchRepo.getSearch(this.createModel(), function(data) {
+                console.log(data);
+            })
+        },
+        createModel() {
+            return {
+                keyword: this.keyword,
+                filters: this.filters,
+                pagination: {
+                    limit: 8,
+                    page: 1,
+                }
+            }
         }
     },
     components: {

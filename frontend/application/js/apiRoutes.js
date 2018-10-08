@@ -4,10 +4,11 @@ export const routes = {
     app_get_countries: '/api/v1/get-countries',
     app_get_marketplaces: '/api/v1/get-marketplaces',
     app_get_taxonomies: '/api/v1/get-taxonomies',
+    app_get_search: '/api/v1/search/ebay/:searchData',
 
     createRoute: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {
-            let resolvedItem = this.app_get_item;
+            let resolvedItem = this[routeName];
 
             for (let param in params) {
                 if (params.hasOwnProperty(param)) {

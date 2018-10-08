@@ -63,6 +63,20 @@ class TaxonomyRepository {
     }
 }
 
+class SearchRepository {
+    getSearch(data, success) {
+        const route = routes.createRoute('app_get_search', {
+            searchData: JSON.stringify(data),
+        });
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
+}
+
 class Factory {
     constructor() {
         this.repositores = {};
@@ -97,6 +111,12 @@ class Factory {
             case 'taxonomy':
                 if (!this.repositores.hasOwnProperty(repoName)) {
                     this.repositores[repoName] = new TaxonomyRepository();
+                }
+
+                return this.repositores[repoName];
+            case 'search':
+                if (!this.repositores.hasOwnProperty(repoName)) {
+                    this.repositores[repoName] = new SearchRepository();
                 }
 
                 return this.repositores[repoName];
