@@ -173,7 +173,6 @@ export const Filters = {
 
             (normalized.length > 0) ? this.shippingCountriesView = true : this.shippingCountriesView = false;
 
-
             this.shippingCountries = normalized;
 
             this.$emit('add-filter', {

@@ -9,6 +9,10 @@ export const ShippingCountriesView = {
     computed: {
         text: function() {
             if (this.shippingCountries.length === 1) {
+                if (this.shippingCountries[0].hasOwnProperty('worldwide')) {
+                    return `Ships worldwide`;
+                }
+
                 return `Ships to ${this.shippingCountries[0].name}`
             }
 

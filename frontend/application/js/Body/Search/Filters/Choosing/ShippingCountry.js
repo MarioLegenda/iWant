@@ -42,6 +42,10 @@ class SelectedItems {
         return normalized;
     }
 
+    clear() {
+        this.items = [];
+    }
+
     remove(index) {
         this.items.splice(index, 1);
     }
@@ -54,6 +58,7 @@ class SelectedItems {
 export const ShippingCountry = {
     data: function() {
         return {
+            worldwideSelected: true,
             showModal: false,
             items: [],
             selectedItems: new SelectedItems()
@@ -67,6 +72,7 @@ export const ShippingCountry = {
                            <h1 class="Modal_Header" slot="header">Choose a shipping country</h1>
                            
                            <div class="Modal_Body" slot="body">
+                               <p @click="onAddCountry('worldwide')">Worldwide<i v-if="worldwideSelected" class="fas fa-check"></i></p> 
                                <choice
                                     v-for="(item, index) in items"
                                     :key="index"
@@ -99,6 +105,10 @@ export const ShippingCountry = {
                 }
 
                 this.items = componentItems;
+
+                this.selectedItems.clear();
+
+                this.selectedItems.add({index: 0, worldwide: 'worldwide'});
             });
         }
     },
@@ -109,6 +119,27 @@ export const ShippingCountry = {
             this.$emit('on-add-shipping-countries', this.selectedItems);
         },
         onAddCountry: function(item) {
+            console.log(item);
+            if (item === 'worldwide') {
+                this.worldwideSelected = true;
+
+                this.selectedItems.clear();
+
+                for (let item of this.items) {
+                    item.selected = false;
+                }
+
+                this.selectedItems.add({index: 0, worldwide: 'worldwide'});
+
+                return;
+            }
+
+            this.worldwideSelected = false;
+
+            if (this.selectedItems.normalize()[0].hasOwnProperty('worldwide')) {
+                this.selectedItems.clear();
+            }
+
             (item.selected) ? this.selectedItems.add(item) : this.selectedItems.remove(item.index);
         },
     },

@@ -9,7 +9,7 @@ export const SearchBoxAdvanced = {
     },
     template: `<div class="SearchBoxAdvanced">
                            <div class="SearchBox_InputBox">
-                                <input type="text" v-model="text" v-bind:class="[activeClass, errorClass]" placeholder="what would you like?" />
+                                <input @input="onInputChange" type="text" v-model="text" v-bind:class="[activeClass, errorClass]" placeholder="what would you like?" />
                            </div>
                            
                            <div class="SearchBox_SubmitBox">
@@ -29,6 +29,10 @@ export const SearchBoxAdvanced = {
             }
 
             this.$emit('submit', this.text);
+        },
+
+        onInputChange: function() {
+            this.$emit('on-search-term-change', this.text);
         }
     }
 };

@@ -6,6 +6,7 @@ import {RepositoryFactory} from "../../services/repositoryFactory";
 export const AdvancedSearch = {
     data: function() {
         return {
+            showSentence: false,
             keyword: null,
             filters: {
                 lowestPrice: true,
@@ -17,20 +18,41 @@ export const AdvancedSearch = {
             }
         }
     },
-    template: `<div class="AdvancedSearch">                    
-                    <search-box-advanced v-on:submit="submit"></search-box-advanced>
-                    
-                    <sentence v-bind:filters="filters"></sentence>
+    template: `<div class="AdvancedSearch">
+                    <search-box-advanced 
+                        v-on:submit="submit"
+                        v-on:on-search-term-change="onSearchTermChange">
+                    </search-box-advanced>
+
+                    <sentence
+                        v-bind:sentenceData="sentenceData"
+                        v-bind:showSentence="showSentence">
+                    </sentence>
                     
                     <filters v-on:add-filter="addFilter"></filters>
                </div>`,
+    computed: {
+        sentenceData: function() {
+            return {
+                filters: this.filters,
+                keyword: this.keyword,
+            }
+        }
+    },
     methods: {
         addFilter(filter) {
+            this.showSentence = true;
+
             if (!this.filters.hasOwnProperty(filter.name)) {
                 throw new Error(`Filter ${filter.name} not found`);
             }
 
             this.filters[filter.name] = filter.value;
+        },
+        onSearchTermChange(searchTerm) {
+            this.showSentence = true;
+
+            this.keyword = searchTerm;
         },
         submit(keyword) {
             this.keyword = keyword;
@@ -39,7 +61,7 @@ export const AdvancedSearch = {
 
             searchRepo.getSearch(this.createModel(), function(data) {
                 console.log(data);
-            })
+            });
         },
         createModel() {
             return {

@@ -18,6 +18,22 @@
     float: left;
 
     margin-top: 30px;
+
+    h1 {
+      padding-bottom: 5px;
+
+      border-bottom: 1px solid $lightestGray;
+    }
+
+    p {
+      margin-top: 10px;
+      line-height: 1.4em;
+    }
+
+    .highlighted {
+      font-weight: bolder;
+      color: black;
+    }
   }
 
   .Filters {
@@ -240,6 +256,7 @@
 
     .added {
       border: 1px solid $basicOrange;
+      padding: 10px;
 
       i {
         color: $basicOrange;

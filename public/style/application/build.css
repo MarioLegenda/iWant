@@ -637,6 +637,18 @@ html {
   float: left;
   margin-top: 30px;
 }
+#search_page .Sentence h1 {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #d6d6d6;
+}
+#search_page .Sentence p {
+  margin-top: 10px;
+  line-height: 1.4em;
+}
+#search_page .Sentence .highlighted {
+  font-weight: bolder;
+  color: black;
+}
 #search_page .Filters {
   width: 100%;
   float: left;
@@ -794,6 +806,7 @@ html {
 }
 #search_page .Filters .added {
   border: 1px solid #f78f27;
+  padding: 10px;
 }
 #search_page .Filters .added i {
   color: #f78f27;
