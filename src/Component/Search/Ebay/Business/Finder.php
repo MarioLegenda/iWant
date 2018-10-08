@@ -99,9 +99,6 @@ class Finder
             }
         }
 
-        dump($searchResponseModels);
-        die();
-
         return $searchResponseModels;
     }
     /**

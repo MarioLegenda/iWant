@@ -214,6 +214,11 @@ services:
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 
+    app.symfony.resolver.search_model_resolver:
+        class: 'App\Symfony\Resolver\SearchModelResolver'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
     app.symfony.resolver.single_item_resolver:
         class: 'App\Symfony\Resolver\SingleItemRequestModelResolver'
         tags:

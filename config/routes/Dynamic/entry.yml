@@ -17,3 +17,7 @@ app_get_marketplaces:
 app_get_taxonomies:
   path: /get-taxonomies
   controller: App\Web\Controller\AppController:getNativeTaxonomies
+
+app_get_search:
+  path: /search/{data}
+  controller: App\Web\Controller\SearchController:getSearch

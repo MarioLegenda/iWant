@@ -24,7 +24,7 @@ function apply_on_iterable(iterable $iterable, \Closure $callback)
 
     $iterableGenerator = Util::createGenerator($iterable);
     foreach ($iterableGenerator as $entry) {
-        $newResult[] = $callback->__invoke($entry['item']);
+        $newResult[] = $callback->__invoke($entry['item'], $entry['key']);
     }
 
     return $newResult;
