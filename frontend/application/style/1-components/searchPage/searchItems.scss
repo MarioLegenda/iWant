@@ -1,0 +1,13 @@
+.SearchItems {
+  width: 100%;
+  float: left;
+
+  .SearchItems_Title {
+    color: black;
+    font-size: 1.5em;
+    text-align: center;
+
+    padding-bottom: 10px;
+    border-bottom: 1px solid $lightestGray;
+  }
+}

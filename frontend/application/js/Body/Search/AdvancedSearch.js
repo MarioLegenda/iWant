@@ -6,6 +6,7 @@ import {RepositoryFactory} from "../../services/repositoryFactory";
 export const AdvancedSearch = {
     data: function() {
         return {
+            filtersInitialized: false,
             showSentence: false,
             keyword: null,
             filters: {
@@ -25,11 +26,14 @@ export const AdvancedSearch = {
                     </search-box-advanced>
 
                     <sentence
+                        v-if="showSentence"
                         v-bind:sentenceData="sentenceData"
                         v-bind:showSentence="showSentence">
                     </sentence>
                     
-                    <filters v-on:add-filter="addFilter"></filters>
+                    <filters
+                        v-on:add-filter="addFilter">
+                    </filters>
                </div>`,
     computed: {
         sentenceData: function() {
@@ -59,8 +63,8 @@ export const AdvancedSearch = {
 
             const searchRepo = RepositoryFactory.create('search');
 
-            searchRepo.getSearch(this.createModel(), function(data) {
-                console.log(data);
+            searchRepo.searchEbay(this.createModel(), (response) => {
+                this.$emit('on-ebay-items-found', response.collection.data);
             });
         },
         createModel() {

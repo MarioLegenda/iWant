@@ -64,7 +64,7 @@ class TaxonomyRepository {
 }
 
 class SearchRepository {
-    getSearch(data, success) {
+    searchEbay(data, success) {
         const route = routes.createRoute('app_get_search', {
             searchData: JSON.stringify(data),
         });

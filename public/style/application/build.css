@@ -629,13 +629,13 @@ html {
   margin: 0 auto;
   overflow: hidden;
   margin-top: 50px;
-  margin-bottom: 120px;
+  margin-bottom: 50px;
   border: 1px solid white;
 }
 #search_page .Sentence {
   width: 100%;
   float: left;
-  margin-top: 30px;
+  margin-bottom: 30px;
 }
 #search_page .Sentence h1 {
   padding-bottom: 5px;
@@ -652,7 +652,6 @@ html {
 #search_page .Filters {
   width: 100%;
   float: left;
-  margin-top: 50px;
   z-index: -1;
 }
 #search_page .Filters .Error {
@@ -817,6 +816,7 @@ html {
 #search_page .SearchBoxAdvanced {
   width: 100%;
   float: left;
+  margin-bottom: 30px;
   border: 1px solid white;
 }
 #search_page .SearchBoxAdvanced .SearchBox_InputBox {
@@ -853,6 +853,18 @@ html {
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox button:hover {
   cursor: pointer;
+}
+
+.SearchItems {
+  width: 100%;
+  float: left;
+}
+.SearchItems .SearchItems_Title {
+  color: black;
+  font-size: 1.5em;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #d6d6d6;
 }
 
 /*# sourceMappingURL=build.css.map */

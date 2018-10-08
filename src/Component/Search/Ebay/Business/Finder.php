@@ -82,6 +82,7 @@ class Finder
             if (!empty($searchResults)) {
                 $searchResultsGen = Util::createGenerator($item->getSearchResults());
 
+                $temp = [];
                 foreach ($searchResultsGen as $searchResultEntry) {
                     /** @var Item $item */
                     $item = $searchResultEntry['item'];
@@ -94,8 +95,15 @@ class Finder
                         $this->createShippingLocations($item)
                     );
 
-                    $searchResponseModels[$globalId][] = $searchResultResponseModel;
+                    if (!array_key_exists('globalId', $temp)) {
+                        $temp['globalId'] = $globalId;
+                        $temp['globalIdInformation'] = $globalIdInformation;
+                    }
+
+                    $temp['items'][] = $searchResultResponseModel;
                 }
+
+                $searchResponseModels[] = $temp;
             }
         }
 
