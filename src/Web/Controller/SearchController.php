@@ -7,6 +7,8 @@ use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\SearchComponent;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
+use Nexy\Slack\Attachment;
+use Nexy\Slack\Client;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SearchController
@@ -34,23 +36,27 @@ class SearchController
     public function getSearch(
         SearchModel $model,
         SearchComponent $searchComponent
-    ) {
+    ): JsonResponse {
         /** @var SearchResponseModel[]|iterable $searchResponseModels */
         $searchResponseModels = $searchComponent->searchEbay($model);
 
+        $data = apply_on_iterable($searchResponseModels, function(array $responseModels, string $globalId) {
+            $normalizedResponse = [];
+
+            /** @var SearchResponseModel $responseModel */
+            foreach ($responseModels as $responseModel) {
+                $normalizedResponse[$globalId][] = $responseModel->toArray();
+            }
+
+            return $normalizedResponse;
+        });
+
         /** @var ApiResponseData $responseData */
         $responseData = $this->apiSdk
-            ->create(apply_on_iterable($searchResponseModels, function(array $responseModels, string $globalId) {
-                $normalizedResponse = [];
-
-                /** @var SearchResponseModel $responseModel */
-                foreach ($responseModels as $responseModel) {
-                    $normalizedResponse[$globalId][] = $responseModel->toArray();
-                }
-            }))
+            ->create($data)
             ->method('GET')
-            ->addMessage('A single item')
-            ->isResource()
+            ->addMessage('A search result')
+            ->isCollection()
             ->setStatusCode(200)
             ->build();
 

@@ -42,4 +42,22 @@ class Condition extends BaseDynamic implements ItemFilterInterface
 
         return true;
     }
+    /**
+     * @param int $counter
+     * @return string
+     */
+    public function urlify(int $counter = null) : string
+    {
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $finalEntry = sprintf('itemFilter(%d).name=Condition&', $counter);
+
+        $valueCounter = 0;
+        foreach ($dynamicValue as $key => $f) {
+            $finalEntry.=sprintf('itemFilter(%d).value(%d)=%s&', $counter, $valueCounter, $f);
+
+            $valueCounter++;
+        }
+
+        return $finalEntry;
+    }
 }

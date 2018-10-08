@@ -1,0 +1,31 @@
+httplug:
+    plugins:
+        redirect:
+            preserve_header: true
+
+    discovery:
+        client: 'auto'
+
+    clients:
+        app:
+            http_methods_client: true
+            plugins:
+                - 'httplug.plugin.content_length'
+                - 'httplug.plugin.redirect'
+
+nexy_slack:
+
+        # If you want to use an another httplug client service.
+    http:
+        client: httplug.client
+
+        # The Slack API Incoming WebHooks URL.
+    endpoint:             https://hooks.slack.com/services/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
+    channel:              null
+    username:             null
+    icon:                 null
+    link_names:           false
+    unfurl_links:         false
+    unfurl_media:         true
+    allow_markdown:       true
+    markdown_in_attachments: []

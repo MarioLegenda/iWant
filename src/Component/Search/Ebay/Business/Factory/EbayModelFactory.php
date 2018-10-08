@@ -71,6 +71,8 @@ class EbayModelFactory
         $this->createRequiredQueries($model, $rootMetadata, $queries);
         $this->createRequiredItemFilters($rootMetadata, $itemFilters);
         $this->createModelSpecificItemFilters($model, $itemFilters);
+        $this->createOutputSelector($itemFilters);
+        $this->createSortOrder($model, $itemFilters);
 
         $findItemsInEbayStores = new FindItemsInEbayStores($queries);
 
@@ -84,30 +86,13 @@ class EbayModelFactory
         SearchModel $model,
         TypedArray $itemFilters
     ) {
-        if ($model->isLowestPrice()) {
-            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::SORT_ORDER,
-                ['PricePlusShippingLowest']
-            ));
-        }
-
-        if ($model->isHighestPrice()) {
-            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::SORT_ORDER,
-                ['CurrentPriceHighest']
-            ));
-        }
 
         if ($model->isHighQuality()) {
             $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
                 'name',
                 'value',
                 ItemFilterConstants::CONDITION,
-                [1000, 1500, 2000]
+                ['New', 2000, 2500]
             ));
         }
 
@@ -167,13 +152,6 @@ class EbayModelFactory
             return $applicationShop->getName();
         });
 
-        $outputSelector = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::OUTPUT_SELECTOR,
-            ['SellerInfo', 'StoreInfo']
-        ));
-
         if (!empty($rootMetadata->getTaxonomyMetadata())) {
             $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
 
@@ -221,7 +199,46 @@ class EbayModelFactory
 
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $sellers;
+    }
+    /**
+     * @param TypedArray $itemFilters
+     */
+    private function createOutputSelector(TypedArray $itemFilters)
+    {
+        $outputSelector = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::OUTPUT_SELECTOR,
+            ['SellerInfo', 'StoreInfo']
+        ));
+
         $itemFilters[] = $outputSelector;
+    }
+    /**
+     * @param SearchModel $model
+     * @param TypedArray $itemFilters
+     */
+    private function createSortOrder(
+        SearchModel $model,
+        TypedArray $itemFilters
+    ) {
+        if ($model->isLowestPrice()) {
+            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::SORT_ORDER,
+                ['PricePlusShippingLowest']
+            ));
+        }
+
+        if ($model->isHighestPrice()) {
+            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::SORT_ORDER,
+                ['CurrentPriceHighest']
+            ));
+        }
     }
     /**
      * @param SearchModel $model
