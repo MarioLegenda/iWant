@@ -88,6 +88,7 @@ export class Init {
                 singleItem: null,
                 showCategories: false,
                 showShops: false,
+                ebaySearchListing: []
             },
             mutations: {
                 todaysProductsListing(state, value) {
@@ -101,6 +102,9 @@ export class Init {
                 },
                 showShops(state, value) {
                     this.state.showShops = value;
+                },
+                ebaySearchListing(state, value) {
+                    this.state.ebaySearchListing = value;
                 }
             }
         });

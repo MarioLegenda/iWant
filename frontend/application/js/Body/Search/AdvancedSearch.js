@@ -61,11 +61,7 @@ export const AdvancedSearch = {
         submit(keyword) {
             this.keyword = keyword;
 
-            const searchRepo = RepositoryFactory.create('search');
-
-            searchRepo.searchEbay(this.createModel(), (response) => {
-                this.$emit('on-ebay-items-found', response.collection.data);
-            });
+            this.$emit('get-ebay-items', this.createModel());
         },
         createModel() {
             return {

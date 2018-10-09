@@ -2,11 +2,11 @@ import {Item} from "../../Listing/components/Item";
 
 export const EbayItems = {
     template: `
-            <div class="EbayItems SearchItems">
-                <h1 class="SearchItems_Title">Ebay</h1>
+            <div v-if="ebaySearchListing.length > 0" class="EbayItems SearchItems">
+                <h1 class="SearchItems_Title">eBay</h1>
                 
-                <div v-for="(item, index) in items" :key="index" class="GlobalIdContainer">
-                    <item 
+                <div v-for="(item, index) in ebaySearchListing" :key="index" class="GlobalIdContainer">
+                    <item
                         v-for="(item, index) in item.items" 
                         :key="index" 
                         v-bind:item="item"
@@ -16,7 +16,12 @@ export const EbayItems = {
                 </div>
             </div>
             `,
-    props: ['items', 'classList'],
+    computed: {
+        ebaySearchListing: function() {
+            return this.$store.state.ebaySearchListing;
+        }
+    },
+    props: ['classList'],
     components: {
         'item': Item
     }
