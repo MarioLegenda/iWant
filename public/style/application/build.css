@@ -863,6 +863,13 @@ html {
   margin-bottom: 30px;
   border: 1px solid white;
 }
+#search_page .SearchBoxAdvanced .SearchBoxAdvanced-enter-to-search {
+  width: 100%;
+  float: left;
+  font-size: 0.8em;
+  color: #898989;
+  margin-top: 3px;
+}
 #search_page .SearchBoxAdvanced .SearchBox_InputBox {
   width: 430px;
   height: 40px;
