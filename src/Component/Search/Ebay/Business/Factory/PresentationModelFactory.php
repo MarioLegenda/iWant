@@ -7,13 +7,39 @@ use App\Component\Search\Ebay\Model\Response\Nan;
 use App\Component\Search\Ebay\Model\Response\Price;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\Ebay\Model\Response\Title;
+use App\Component\TodayProducts\Selector\Ebay\Selector\SearchProduct;
 use App\Doctrine\Entity\ApplicationShop;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
+use App\Library\Representation\LanguageTranslationsRepresentation;
+use App\Yandex\Library\Request\RequestFactory;
+use App\Yandex\Library\Response\TranslatedTextResponse;
+use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 
 class PresentationModelFactory
 {
+    /**
+     * @var YandexEntryPoint $yandexEntryPoint
+     */
+    private $yandexEntryPoint;
+    /**
+     * @var LanguageTranslationsRepresentation $languageTranslationRepresentation
+     */
+    private $languageTranslationRepresentation;
+    /**
+     * PresentationModelFactory constructor.
+     * @param YandexEntryPoint $yandexEntryPoint
+     * @param LanguageTranslationsRepresentation $languageTranslationsRepresentation
+     */
+    public function __construct(
+        YandexEntryPoint $yandexEntryPoint,
+        LanguageTranslationsRepresentation $languageTranslationsRepresentation
+    ) {
+        $this->yandexEntryPoint = $yandexEntryPoint;
+        $this->languageTranslationRepresentation = $languageTranslationsRepresentation;
+    }
     /**
      * @param Item $singleItem
      * @param ApplicationShop $applicationShop
@@ -41,7 +67,7 @@ class PresentationModelFactory
 
         $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
 
-        return new SearchResponseModel(
+        $model = new SearchResponseModel(
             $itemId,
             $title,
             $image,
@@ -54,6 +80,10 @@ class PresentationModelFactory
             $shippingLocations,
             $globalId
         );
+
+        $this->translateModelIfNecessary($model);
+
+        return $model;
     }
     /**
      * @param array $priceInfo
@@ -104,5 +134,28 @@ class PresentationModelFactory
         return new Image(
             Nan::fromValue()
         );
+    }
+    /**
+     * @param SearchResponseModel $model
+     */
+    private function translateModelIfNecessary(SearchResponseModel $model)
+    {
+        if (GlobalIdInformation::instance()->has($model->getGlobalId())) {
+            if ($this->languageTranslationRepresentation->isMappedByGlobalId($model->getGlobalId())) {
+                /** @var Title $title */
+                $title = $model->getTitle();
+
+                $translationModel = RequestFactory::createTranslateRequestModel(
+                    $title->getOriginal(),
+                    'en'
+                );
+
+                /** @var TranslatedTextResponse $translated */
+                $translated = $this->yandexEntryPoint->translate($translationModel);
+
+                $model->setTitle($translated->getText());
+                $model->translated(true);
+            }
+        }
     }
 }

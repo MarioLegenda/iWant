@@ -134,6 +134,8 @@ export const Item = {
                         <h1 class="ItemTitle-header">
                             {{ item.title.truncated }}
                         </h1>
+                        
+                        <p class="ItemTitle-translation"><a v-if="isTranslated" href="http://translate.yandex.com/" target="_blank">Powered by Yandex.Translate</a></p>
                    </div>
                    
                    <div class="Item_Details margin-bottom-20">
@@ -153,6 +155,11 @@ export const Item = {
                        <router-link :to="item.staticUrl" class="ItemLink-closer-look" v-on:click.native="saveItemToStore">Take a closer look</router-link>
                    </div>
                </div>`,
+    computed: {
+        isTranslated: function() {
+            return this.item.isTranslated;
+        }
+    },
     props: {
         item: {
             type: Object,
@@ -170,7 +177,7 @@ export const Item = {
                     marketplaceLogo: true,
                 }
             }
-        }
+        },
     },
     methods: {
         saveItemToStore: function() {

@@ -574,6 +574,15 @@ html {
   width: 100%;
   float: left;
 }
+.Item .Item_ItemTitle .ItemTitle-translation {
+  width: 100%;
+  float: left;
+  height: 20px;
+  margin-top: 10px;
+}
+.Item .Item_ItemTitle .ItemTitle-translation a {
+  color: #898989;
+}
 .Item .Item_ItemTitle .ItemTitle-header {
   width: 100%;
   float: left;
@@ -625,7 +634,7 @@ html {
 
 .SearchItemItem {
   width: 220px;
-  height: 390px;
+  height: 415px;
   float: right;
   margin: 0 0 40px 40px;
 }

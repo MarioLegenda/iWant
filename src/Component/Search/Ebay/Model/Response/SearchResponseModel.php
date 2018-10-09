@@ -53,6 +53,10 @@ class SearchResponseModel implements ArrayNotationInterface
      */
     private $shippingLocations;
     /**
+     * @var bool $isTranslated
+     */
+    private $isTranslated = false;
+    /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $globalId
@@ -176,6 +180,20 @@ class SearchResponseModel implements ArrayNotationInterface
         return $this->shippingLocations;
     }
     /**
+     * @param bool $isTranslated
+     */
+    public function translated(bool $isTranslated)
+    {
+        $this->isTranslated = $isTranslated;
+    }
+    /**
+     * @return bool
+     */
+    public function isTranslated(): bool
+    {
+        return $this->isTranslated;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -192,6 +210,7 @@ class SearchResponseModel implements ArrayNotationInterface
             'taxonomyName' => $this->getTaxonomyName(),
             'staticUrl' => $this->getStaticUrl(),
             'shippingLocations' => $this->getShippingLocations(),
+            'isTranslated' => $this->isTranslated(),
         ];
     }
 }
