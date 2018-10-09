@@ -28,8 +28,6 @@
 }
 
 .Item {
-  width: 480px;
-  height: 410px;
   float: left;
   overflow: hidden;
 
@@ -128,6 +126,52 @@
       text-align: center;
 
       padding: 10px;
+    }
+  }
+}
+
+.TodayProductItem {
+  width: 480px;
+  height: 410px;
+}
+
+.SearchItemItem {
+  width: 220px;
+  height: 390px;
+  float: right;
+
+  margin: 0 0 40px 40px;
+
+  .Item_ItemTitle {
+    width: 100%;
+    float: left;
+
+    .ItemTitle-header {
+      width: 100%;
+      float: left;
+
+      line-height: 1.2em;
+
+      height: 50px;
+    }
+  }
+
+  .Item_Details {
+    width: 100%;
+    float: left;
+
+    .Item_Details-shop-name {
+      width: 100%;
+      display: inline-block;
+      color: $darkBlue;
+      font-weight: bolder;
+
+      margin-top: 10px;
+    }
+
+    .Item_Details-item-price {
+      color: black;
+      font-weight: bolder;
     }
   }
 }

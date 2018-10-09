@@ -17,7 +17,10 @@ export const SearchPage = {
                         v-on:on-ebay-items-found="onEbayItemsFound">
                     </advanced-search>
                     
-                    <ebay-items v-bind:items="ebayItems"></ebay-items>
+                    <ebay-items 
+                        v-bind:items="ebayItems"
+                        classList="Item SearchItemItem">
+                    </ebay-items>
                </div>`,
     methods: {
         onEbayItemsFound(items) {

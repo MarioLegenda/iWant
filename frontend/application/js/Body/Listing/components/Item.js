@@ -17,23 +17,35 @@ const ImageItem = {
         }
     },
     created() {
-        if (this.image.url === 'NaN') {
-            this.url = '/images/no-image.png';
+        this.createImage(this.image);
+    },
+    methods: {
+        createImage(image) {
+            if (image.url === 'NaN') {
+                this.url = '/images/no-image.png';
 
-            return;
-        }
+                return;
+            }
 
-        this.url = this.image.url;
+            this.url = image.url;
 
-        if (!this.image.width > 140) {
-            this.width = this.image.width;
-        }
+            if (!image.width > 140) {
+                this.width = this.image.width;
+            }
 
-        if (!this.image.height > 140) {
-            this.height = this.image.height;
+            if (!image.height > 140) {
+                this.height = this.image.height;
+            }
         }
     },
     props: ['image'],
+    watch: {
+        image: function(newVal, oldVal) {
+            if (oldVal.url !== newVal.url) {
+                this.createImage(newVal);
+            }
+        }
+    },
     template: `
         <img :src="url" :width="width" :height="height" />
     `
@@ -105,12 +117,12 @@ const ShippingCountriesListItem = {
 };
 
 export const Item = {
-    template: `<div class="Item">
-                   <div class="Item_ItemTaxonomyTitle">
+    template: `<div v-bind:class="classList">
+                   <div v-if="show.taxonomyTitle" class="Item_ItemTaxonomyTitle">
                        <p>{{item.taxonomyName}}</p>
                    </div>
                    
-                   <div class="ItemTitle-webshop-logo margin-bottom-20">
+                   <div v-if="show.marketplaceLogo" class="ItemTitle-webshop-logo margin-bottom-20">
                         <shop-logo-image-item v-bind:marketplace="item.marketplace"></shop-logo-image-item>
                    </div>
                    
@@ -141,7 +153,25 @@ export const Item = {
                        <router-link :to="item.staticUrl" class="ItemLink-closer-look" v-on:click.native="saveItemToStore">Take a closer look</router-link>
                    </div>
                </div>`,
-    props: ['item'],
+    props: {
+        item: {
+            type: Object,
+            required: true,
+        },
+        classList: {
+            type: String,
+            required: true
+        },
+        show: {
+            type: Object,
+            default: function() {
+                return {
+                    taxonomyTitle: true,
+                    marketplaceLogo: true,
+                }
+            }
+        }
+    },
     methods: {
         saveItemToStore: function() {
             this.$store.commit('singleItem', this.item);

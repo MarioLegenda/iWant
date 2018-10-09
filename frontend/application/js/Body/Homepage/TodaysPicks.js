@@ -11,12 +11,15 @@ export const TodaysPicks = {
                        . . . our {{ currentDay }} products for you . . .
                    </h1>
                    
-                   <item-list v-bind:items="todaysProductsListing.ebay"></item-list>
-                   <item-list v-bind:items="todaysProductsListing.etsy"></item-list>
+                   <item-list
+                       v-bind:items="todaysProductsListing.ebay"
+                       classList="Item TodayProductItem">
+                   </item-list>
                    
-                   <h1 class="todays-picks-header">
-                       . . . this weeks concert tickets . . .
-                   </h1>
+                   <item-list
+                       v-bind:items="todaysProductsListing.etsy"
+                       classList="Item TodayProductItem">
+                   </item-list>
                </div>`,
     computed: {
         todaysProductsListing: function() {
