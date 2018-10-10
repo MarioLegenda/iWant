@@ -97,7 +97,7 @@ export const AdvancedSearch = {
                 keyword: this.keyword,
                 filters: this.filters,
                 pagination: {
-                    limit: 8,
+                    limit: 4,
                     page: 1,
                 }
             }
