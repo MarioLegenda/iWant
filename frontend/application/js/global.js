@@ -56,7 +56,7 @@ export class Init {
 
         window.isEmpty = function(val) {
             return val === '' || val === null || typeof val === 'undefined';
-        }
+        };
 
         window.isObjectEmpty = function(obj) {
             for(let prop in obj) {
@@ -93,7 +93,11 @@ export class Init {
                 showCategories: false,
                 showShops: false,
                 ebaySearchListing: [],
-                searchTerm: null
+                searchTerm: null,
+                searchLoading: {
+                    searchProgress: false,
+                    ebay: false
+                },
             },
             mutations: {
                 todaysProductsListing(state, value) {
@@ -113,6 +117,9 @@ export class Init {
                 },
                 searchTerm(state, value) {
                     this.state.searchTerm = value;
+                },
+                searchLoading(state, value) {
+                    this.state.searchLoading = value;
                 }
             }
         });

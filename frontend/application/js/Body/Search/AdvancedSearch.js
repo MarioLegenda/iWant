@@ -31,8 +31,7 @@ export const AdvancedSearch = {
 
         if (typeof splitted[2] !== 'undefined') {
             const keyword = splitted[2];
-
-            const replaced = keyword.replace('-', ' ');
+            const replaced = keyword.replace(/-/g, ' ');
 
             this.onSearchTermChange(replaced);
             this.submit(replaced);

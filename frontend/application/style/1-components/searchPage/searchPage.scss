@@ -270,9 +270,30 @@
     width: 100%;
     float: left;
 
+    position: relative;
+
     margin-bottom: 30px;
 
     border: 1px solid white;
+
+    .LoadingBar {
+      width: 100%;
+      float: left;
+
+      padding: 5px 0 5px 0;
+
+      .spinner {
+        color: $basicOrange;
+      }
+
+      .active {
+        color: $basicOrange;
+      }
+
+      span {
+        font-weight: bolder;
+      }
+    }
 
     .SearchBoxAdvanced-enter-to-search {
       width: 100%;

@@ -35,9 +35,19 @@ export const SearchPage = {
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
 
+                this.$store.commit('searchLoading', {
+                    searchProgress: true,
+                    ebay: false
+                });
+
                 searchRepo.searchEbay(model, (response) => {
                     this.$store.commit('ebaySearchListing', response.collection.data);
                     this.ebayHttpInProgress = false;
+
+                    this.$store.commit('searchLoading', {
+                        searchProgress: false,
+                        ebay: true
+                    });
                 });
 
                 this.ebayHttpInProgress = true;

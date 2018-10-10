@@ -867,8 +867,23 @@ html {
 #search_page .SearchBoxAdvanced {
   width: 100%;
   float: left;
+  position: relative;
   margin-bottom: 30px;
   border: 1px solid white;
+}
+#search_page .SearchBoxAdvanced .LoadingBar {
+  width: 100%;
+  float: left;
+  padding: 5px 0 5px 0;
+}
+#search_page .SearchBoxAdvanced .LoadingBar .spinner {
+  color: #f78f27;
+}
+#search_page .SearchBoxAdvanced .LoadingBar .active {
+  color: #f78f27;
+}
+#search_page .SearchBoxAdvanced .LoadingBar span {
+  font-weight: bolder;
 }
 #search_page .SearchBoxAdvanced .SearchBoxAdvanced-enter-to-search {
   width: 100%;
