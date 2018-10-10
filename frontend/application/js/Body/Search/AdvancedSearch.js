@@ -1,7 +1,7 @@
 import {SearchBoxAdvanced} from "./SearchBoxAdvanced";
 import {Filters} from "./Filters";
 import {Sentence} from "./Sentence";
-import {RepositoryFactory} from "../../services/repositoryFactory";
+import urlifyFactory from 'urlify';
 
 export const AdvancedSearch = {
     data: function() {
@@ -89,6 +89,16 @@ export const AdvancedSearch = {
         },
         submit(keyword) {
             this.keyword = keyword;
+
+            const urlify = urlifyFactory.create({
+                addEToUmlauts: true,
+                szToSs: true,
+                spaces: "-",
+                nonPrintable: "-",
+                trim: true
+            });
+
+            this.$router.push(`/search/${urlify(this.keyword)}`);
 
             this.$emit('get-ebay-items', this.createModel());
         },
