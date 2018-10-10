@@ -6,8 +6,6 @@ use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Finder;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
-use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
-use App\Library\Infrastructure\Helper\TypedArray;
 
 class SearchComponent
 {

@@ -44,4 +44,29 @@ class RequestFactory
             $queries
         );
     }
+
+    public static function createDetectLanguageRequestModel(string $text): YandexRequestModel
+    {
+        $textQuery = new Query(
+            'text',
+            urlencode($text)
+        );
+
+        $format = new Query(
+            'format',
+            'plain'
+        );
+
+        $callType = CallType::fromValue('detect');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $textQuery;
+        $queries[] = $format;
+
+        return new YandexRequestModel(
+            $callType,
+            $queries
+        );
+    }
 }

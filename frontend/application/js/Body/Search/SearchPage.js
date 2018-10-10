@@ -28,6 +28,9 @@ export const SearchPage = {
             return this.$store.state.searchTerm;
         }
     },
+    updated() {
+        console.log('ulazak');
+    },
     methods: {
         onGetEbayItems(model) {
             this.$store.commit('ebaySearchListing', []);

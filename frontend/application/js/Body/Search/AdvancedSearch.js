@@ -37,7 +37,7 @@ export const AdvancedSearch = {
             this.submit(replaced);
         }
     },
-    template: `<div class="AdvancedSearch">
+    template: `<div class="AdvancedSearch" id="AdvancedSearchId">
                     <search-box-advanced
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"

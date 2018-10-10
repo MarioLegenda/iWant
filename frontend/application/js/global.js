@@ -58,6 +58,17 @@ export class Init {
             return val === '' || val === null || typeof val === 'undefined';
         };
 
+        window.getOffset = function getOffset( el ) {
+            let _x = 0;
+            let _y = 0;
+            while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+                _x += el.offsetLeft - el.scrollLeft;
+                _y += el.offsetTop - el.scrollTop;
+                el = el.offsetParent;
+            }
+            return { top: _y, left: _x };
+        };
+
         window.isObjectEmpty = function(obj) {
             for(let prop in obj) {
                 if(obj.hasOwnProperty(prop))
@@ -120,7 +131,7 @@ export class Init {
                 },
                 searchLoading(state, value) {
                     this.state.searchLoading = value;
-                }
+                },
             }
         });
 
