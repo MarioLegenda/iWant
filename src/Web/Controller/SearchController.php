@@ -29,29 +29,20 @@ class SearchController
      * @param SearchComponent $searchComponent
      * @return JsonResponse
      * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getSearch(
         SearchModel $model,
         SearchComponent $searchComponent
     ): JsonResponse {
-        /** @var SearchResponseModel[]|iterable $searchResponseModels */
-        $searchResponseModels = $searchComponent->searchEbay($model);
+        /** @var iterable|array $products */
+        $products = $searchComponent->searchEbay($model);
 
         /** @var ApiResponseData $responseData */
         $responseData = $this->apiSdk
-            ->create(apply_on_iterable($searchResponseModels, function(array $responseData) {
-                $normalizedItems = [];
-
-                /** @var SearchResponseModel $searchResponseModel */
-                foreach ($responseData['items'] as $searchResponseModel) {
-                    $normalizedItems[] = $searchResponseModel->toArray();
-                }
-
-                $responseData['items'] = $normalizedItems;
-
-                return $responseData;
-            }))
+            ->create($products)
             ->method('GET')
             ->addMessage('A search result')
             ->isCollection()

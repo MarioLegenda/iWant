@@ -2,12 +2,12 @@
 
 namespace App\Doctrine\Repository;
 
-use App\Doctrine\Entity\TodayKeyword;
+use App\Doctrine\Entity\SearchCache;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 
-class TodaysKeywordRepository extends ServiceEntityRepository
+class SearchCacheRepository extends ServiceEntityRepository
 {
     /**
      * CategoryRepository constructor.
@@ -15,20 +15,20 @@ class TodaysKeywordRepository extends ServiceEntityRepository
      */
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TodayKeyword::class);
+        parent::__construct($registry, SearchCache::class);
     }
     /**
-     * @param TodayKeyword $todayKeyword
-     * @return TodayKeyword
+     * @param SearchCache $searchCache
+     * @return SearchCache
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function persistAndFlush(TodayKeyword $todayKeyword): TodayKeyword
+    public function persistAndFlush(SearchCache $searchCache): SearchCache
     {
-        $this->getEntityManager()->persist($todayKeyword);
+        $this->getEntityManager()->persist($searchCache);
         $this->getEntityManager()->flush();
 
-        return $todayKeyword;
+        return $searchCache;
     }
     /**
      * @return EntityManager

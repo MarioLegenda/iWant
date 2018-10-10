@@ -35,7 +35,7 @@ class SearchComponentTest extends BasicSetup
 
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
-            'highQuality' => true,
+            'highQuality' => false,
             'pagination' => new Pagination(8, 1)
         ]);
 

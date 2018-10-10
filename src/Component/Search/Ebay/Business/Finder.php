@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business;
 
+use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Factory\PresentationModelFactory;
 use App\Component\Search\Ebay\Model\Request\SearchRequestModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;

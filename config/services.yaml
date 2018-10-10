@@ -267,10 +267,6 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\TodaysKeywordRepository:
-        arguments:
-            $registry: '@doctrine'
-
     App\Doctrine\Repository\TodaysProductsCacheRepository:
         arguments:
             $registry: '@doctrine'
@@ -284,6 +280,10 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\SearchRequestRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    App\Doctrine\Repository\SearchCacheRepository:
         arguments:
             $registry: '@doctrine'
 

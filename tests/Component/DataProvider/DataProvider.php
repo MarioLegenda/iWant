@@ -19,7 +19,7 @@ class DataProvider
      */
     public function createSearchRequestModel(array $data = []): SearchModel
     {
-        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter';
+        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter book';
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
@@ -28,7 +28,7 @@ class DataProvider
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
             ? $data['pagination']
-            : new Pagination(10, 1);
+            : new Pagination(8, 1);
 
         return new SearchModel(
             $keyword,
