@@ -16,4 +16,8 @@ export const routes = [
         'default': SearchPage,
         'search-box-advanced': SearchBoxAdvanced,
     }},
+    { path: '/search/:term', components: {
+        'default': SearchPage,
+        'search-box-advanced': SearchBoxAdvanced
+    }}
 ];

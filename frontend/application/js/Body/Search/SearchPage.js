@@ -8,7 +8,6 @@ export const SearchPage = {
     data: function() {
         return {
             ebayHttpInProgress: false,
-            ebayItems: [],
         }
     },
     template: `<div id="search_page">
@@ -16,6 +15,7 @@ export const SearchPage = {
                     <shops-menu></shops-menu>
                     
                     <advanced-search
+                        v-bind:external-search-term="searchTerm"
                         v-on:get-ebay-items="onGetEbayItems">
                     </advanced-search>
                     
@@ -23,8 +23,15 @@ export const SearchPage = {
                         classList="Item SearchItemItem">
                     </ebay-items>
                </div>`,
+    computed: {
+        searchTerm: function() {
+            return this.$store.state.searchTerm;
+        }
+    },
     methods: {
         onGetEbayItems(model) {
+            this.$store.commit('ebaySearchListing', []);
+
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
 

@@ -8,6 +8,12 @@ export const SearchBoxAdvanced = {
             errorClass: '',
         }
     },
+    created() {
+        if (!isEmpty(this.externalKeyword)) {
+            this.text = this.externalKeyword;
+        }
+    },
+    props: ['externalKeyword'],
     template: `<div class="SearchBoxAdvanced">
                            <div class="SearchBox_InputBox">
                                 <input @input="onInputChange" v-on:keydown.enter="submit" type="text" v-model="text" v-bind:class="[activeClass, errorClass]" placeholder="what would you like?" />
@@ -35,7 +41,7 @@ export const SearchBoxAdvanced = {
         },
 
         onInputChange: function() {
-            if (this.text !== null && this.text !== '' && typeof this.text !== 'undefined') {
+            if (!isEmpty(this.text)) {
                 this.enterToSearch = true;
             } else {
                 this.enterToSearch = false;

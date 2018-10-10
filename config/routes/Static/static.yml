@@ -10,6 +10,10 @@ app_static_single_item:
     path: /item/{marketplace}/{title}/{itemId}
     controller: App\Web\Controller\StaticController::getSingleItem
 
-app_static_search:
+app_static_search_temp:
     path: /search
-    controller: App\Web\Controller\StaticController::getSingleItem
+    controller: App\Web\Controller\StaticController::getSearch
+
+app_static_search:
+    path: /search/{term}
+    controller: App\Web\Controller\StaticController::getSearch

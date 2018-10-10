@@ -19,8 +19,28 @@ export const AdvancedSearch = {
             }
         }
     },
+    props: ['externalSearchTerm'],
+    created() {
+        if (!isEmpty(this.externalSearchTerm)) {
+            this.submit(this.externalSearchTerm);
+
+            return;
+        }
+
+        const splitted = window.location.pathname.split('/');
+
+        if (typeof splitted[2] !== 'undefined') {
+            const keyword = splitted[2];
+
+            const replaced = keyword.replace('-', ' ');
+
+            this.onSearchTermChange(replaced);
+            this.submit(replaced);
+        }
+    },
     template: `<div class="AdvancedSearch">
-                    <search-box-advanced 
+                    <search-box-advanced
+                        v-bind:external-keyword="keyword"
                         v-on:submit="submit"
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box-advanced>
@@ -35,6 +55,16 @@ export const AdvancedSearch = {
                         v-on:add-filter="addFilter">
                     </filters>
                </div>`,
+    watch: {
+        externalSearchTerm: function(newVal, oldVal) {
+            if (newVal === oldVal) {
+                return null;
+            }
+
+            this.onSearchTermChange(newVal);
+            this.submit(newVal);
+        }
+    },
     computed: {
         sentenceData: function() {
             return {

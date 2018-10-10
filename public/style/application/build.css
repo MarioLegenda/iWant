@@ -327,6 +327,13 @@ html {
   margin-bottom: 120px;
   border: 1px solid white;
 }
+#main_header .SearchBox .SearchBox-enter-to-search {
+  width: 30%;
+  float: left;
+  font-size: 0.8em;
+  color: #898989;
+  margin-top: 3px;
+}
 #main_header .SearchBox .SearchBox_InputBox {
   width: 430px;
   height: 40px;
@@ -360,7 +367,7 @@ html {
   cursor: pointer;
 }
 #main_header .SearchBox .SearchBox_AdvancedSearch {
-  width: 100%;
+  width: 70%;
   float: right;
 }
 #main_header .SearchBox .SearchBox_AdvancedSearch a {

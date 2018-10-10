@@ -54,6 +54,10 @@ export class Init {
             return NaN;
         };
 
+        window.isEmpty = function(val) {
+            return val === '' || val === null || typeof val === 'undefined';
+        }
+
         window.isObjectEmpty = function(obj) {
             for(let prop in obj) {
                 if(obj.hasOwnProperty(prop))
@@ -88,7 +92,8 @@ export class Init {
                 singleItem: null,
                 showCategories: false,
                 showShops: false,
-                ebaySearchListing: []
+                ebaySearchListing: [],
+                searchTerm: null
             },
             mutations: {
                 todaysProductsListing(state, value) {
@@ -105,6 +110,9 @@ export class Init {
                 },
                 ebaySearchListing(state, value) {
                     this.state.ebaySearchListing = value;
+                },
+                searchTerm(state, value) {
+                    this.state.searchTerm = value;
                 }
             }
         });
