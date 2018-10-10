@@ -2,7 +2,7 @@ import {Item} from "../../Listing/components/Item";
 
 export const EbayItems = {
     template: `
-            <div v-if="ebaySearchListing.length > 0" class="EbayItems SearchItems">
+            <div v-if="ebaySearchListing.length > 0" class="EbayItems SearchItems" id="EbayItemsId">
                 <h1 class="SearchItems_Title">eBay</h1>
                 
                 <div v-for="(item, index) in ebaySearchListing" :key="index" class="GlobalIdContainer">

@@ -10,6 +10,16 @@ export const SearchPage = {
             ebayHttpInProgress: false,
         }
     },
+    beforeDestroy() {
+        this.ebayHttpInProgress = false;
+
+        this.$store.commit('ebaySearchListing', []);
+
+        this.$store.commit('searchLoading', {
+            searchProgress: false,
+            ebay: false
+        });
+    },
     template: `<div id="search_page">
                     <categories-menu></categories-menu>
                     <shops-menu></shops-menu>
@@ -48,10 +58,24 @@ export const SearchPage = {
                         searchProgress: false,
                         ebay: true
                     });
+
+                    this.scrollIfNotScrolled();
                 });
 
                 this.ebayHttpInProgress = true;
             }
+        },
+        scrollIfNotScrolled() {
+            const mm = document.getElementById('main_menu');
+            const mh = document.getElementById('main_header');
+            const as = document.getElementById("AdvancedSearchId");
+
+            setTimeout(function() {
+                window.scrollTo({
+                    top: getElementGeometry(mm).height + getElementGeometry(mh).height + getElementGeometry(as).height,
+                    behavior: 'smooth',
+                });
+            }, 1000);
         }
     },
     components: {

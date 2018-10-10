@@ -15,7 +15,6 @@ use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Yandex\Library\Request\RequestFactory;
-use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 
@@ -146,14 +145,9 @@ class PresentationModelFactory
                 /** @var Title $title */
                 $title = $model->getTitle();
 
-                $detectLanguageModel = RequestFactory::createDetectLanguageRequestModel($title->getOriginal());
-
-                /** @var DetectLanguageResponse $detectedResponse */
-                $detectedResponse = $this->yandexEntryPoint->detectLanguage($detectLanguageModel);
-
                 $translationModel = RequestFactory::createTranslateRequestModel(
                     $title->getOriginal(),
-                    $detectedResponse->getLang()
+                    'en'
                 );
 
                 /** @var TranslatedTextResponse $translated */

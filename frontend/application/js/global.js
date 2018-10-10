@@ -58,15 +58,21 @@ export class Init {
             return val === '' || val === null || typeof val === 'undefined';
         };
 
-        window.getOffset = function getOffset( el ) {
-            let _x = 0;
-            let _y = 0;
+        window.getElementGeometry = function getOffset( el ) {
+            let _x = 0, _y = 0, _w = 0, _h = 0, temp = el;
+
             while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
                 _x += el.offsetLeft - el.scrollLeft;
                 _y += el.offsetTop - el.scrollTop;
                 el = el.offsetParent;
             }
-            return { top: _y, left: _x };
+
+            return {
+                offsetTop: _y,
+                offsetLeft: _x,
+                width: temp.offsetWidth,
+                height: temp.offsetHeight,
+            };
         };
 
         window.isObjectEmpty = function(obj) {
