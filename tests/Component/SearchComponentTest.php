@@ -36,7 +36,8 @@ class SearchComponentTest extends BasicSetup
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
             'highQuality' => false,
-            'pagination' => new Pagination(8, 1)
+            'globalIds' => ['EBAY-DE'],
+            'pagination' => new Pagination(4, 1)
         ]);
 
         $ebayProducts = $searchComponent->searchEbay($model);

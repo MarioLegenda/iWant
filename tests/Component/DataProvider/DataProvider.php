@@ -26,9 +26,10 @@ class DataProvider
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
         $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
+        $globalIds = (isset($data['globalIds'])) ? $data['globalIds'] : [];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
             ? $data['pagination']
-            : new Pagination(4, 1);
+            : new Pagination(4, 2);
 
         return new SearchModel(
             $keyword,
@@ -38,7 +39,8 @@ class DataProvider
             $shippingCountries,
             $marketplaces,
             $taxonomies,
-            $pagination
+            $pagination,
+            $globalIds
         );
     }
     /**

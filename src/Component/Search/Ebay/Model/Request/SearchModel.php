@@ -33,6 +33,10 @@ class SearchModel
      */
     private $taxonomies;
     /**
+     * @var iterable $globalIds
+     */
+    private $globalIds = [];
+    /**
      * @var Pagination $pagination
      */
     private $pagination;
@@ -46,6 +50,7 @@ class SearchModel
      * @param array $marketplaces
      * @param array $taxonomies
      * @param Pagination $pagination
+     * @param array $globalIds
      */
     public function __construct(
         string $keyword,
@@ -55,7 +60,8 @@ class SearchModel
         array $shippingCountries,
         array $marketplaces,
         array $taxonomies,
-        Pagination $pagination
+        Pagination $pagination,
+        array $globalIds = []
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -65,6 +71,7 @@ class SearchModel
         $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
+        $this->globalIds = $globalIds;
     }
     /**
      * @return string
@@ -121,5 +128,12 @@ class SearchModel
     public function getPagination(): Pagination
     {
         return $this->pagination;
+    }
+    /**
+     * @return iterable
+     */
+    public function getGlobalIds(): iterable
+    {
+        return $this->globalIds;
     }
 }

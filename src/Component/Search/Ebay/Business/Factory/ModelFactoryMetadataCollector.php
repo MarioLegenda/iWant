@@ -102,8 +102,19 @@ class ModelFactoryMetadataCollector
         $globalIdNormalized = [];
         /** @var ApplicationShop $applicationShop */
         foreach ($applicationShops as $applicationShop) {
+            if (!empty($model->getGlobalIds())) {
+                $globalIds = $model->getGlobalIds();
+
+                if (in_array($applicationShop->getGlobalId(), $globalIds)) {
+                    $globalIdNormalized[$applicationShop->getGlobalId()][] = $applicationShop;
+                }
+
+                continue;
+            }
+
             $globalIdNormalized[$applicationShop->getGlobalId()][] = $applicationShop;
         }
+
         /**
          * @var string $globalId
          * @var ApplicationShop $applicationShops
