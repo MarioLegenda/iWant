@@ -15,12 +15,29 @@ const LoadMore = {
                         <i v-if="selected === true" class="fas fa-circle-notch fa-spin"></i>
                    </p>
                </div>`,
-    props: ['pagination', 'requestModel'],
+    props: ['requestModel', 'globalId'],
     methods: {
         loadMore() {
             this.selected = !this.selected;
 
+            const searchRepo = RepositoryFactory.create('search');
+            const model = this.createModel();
+
+            searchRepo.searchEbay(model, (response) => {
+                this.$store.commit('ebaySearchListing', {
+                    listing: response.collection.data,
+                    pagination: response.collection.pagination,
+                    model: model,
+                });
+            });
+
             this.$emit('on-load-items', []);
+        },
+        createModel() {
+            this.requestModel.filters.globalIds.push(this.globalId);
+            this.requestModel.pagination.page += this.requestModel.pagination.page;
+
+            return this.requestModel;
         }
     }
 };
@@ -46,7 +63,6 @@ export const EbayItems = {
                     
                     <load-more
                         v-bind:global-id="item.globalIdInformation.global_id"
-                        v-bind:pagination="ebaySearchListing.pagination"
                         v-bind:request-model="ebaySearchListing.model"
                         v-on:on-load-items="onLoadItems">
                     </load-more>

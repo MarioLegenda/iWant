@@ -16,6 +16,7 @@ export const AdvancedSearch = {
                 shippingCountries: [],
                 marketplaces: [],
                 taxonomies: [],
+                globalIds: [],
             }
         }
     },

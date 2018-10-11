@@ -55,7 +55,8 @@ class SearchModelResolver implements ArgumentValueResolverInterface
             $filters['shippingCountries'],
             $filters['marketplaces'],
             $filters['taxonomies'],
-            new Pagination($pagination['limit'], $pagination['page'])
+            new Pagination($pagination['limit'], $pagination['page']),
+            $filters['globalIds']
         );
 
         return true;
