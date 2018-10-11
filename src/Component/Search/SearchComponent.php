@@ -61,9 +61,18 @@ class SearchComponent
             return $responseData;
         });
 
-        $this->searchResponseCacheImplementation->store($uniqueName, json_encode($products));
+        $this->searchResponseCacheImplementation->store(
+            $uniqueName,
+            $model->getPagination()->getPage(),
+            json_encode($products)
+        );
 
         return $products;
+    }
+
+    public function searchEbayByGlobalId()
+    {
+
     }
 
     public function searchEtsy(SearchModel $model): iterable

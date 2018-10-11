@@ -49,6 +49,7 @@ class SearchResponseCacheImplementation
     }
     /**
      * @param string $uniqueName
+     * @param int $page
      * @param string $value
      * @return bool
      * @throws \App\Cache\Exception\CacheException
@@ -57,6 +58,7 @@ class SearchResponseCacheImplementation
      */
     public function store(
         string $uniqueName,
+        int $page,
         string $value
     ): bool {
         /** @var ToggleCache $toggleCache */
@@ -68,6 +70,7 @@ class SearchResponseCacheImplementation
 
         $this->searchResponseCache->set(
             $uniqueName,
+            $page,
             $value,
             $this->calculateTTL()
         );

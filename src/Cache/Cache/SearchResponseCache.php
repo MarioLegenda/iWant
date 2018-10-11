@@ -55,14 +55,19 @@ class SearchResponseCache
     }
     /**
      * @param string $key
+     * @param int $page
      * @param string $value
-     * @param null $ttl
+     * @param null|int $ttl
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function set(string $key, string $value, int $ttl = null)
-    {
+    public function set(
+        string $key,
+        int $page,
+        string $value,
+        int $ttl = null
+    ) {
         if (empty($ttl)) {
             $message = sprintf(
                 'TTL has to be implemented in %s::set()',
@@ -82,6 +87,7 @@ class SearchResponseCache
 
         $cache = $this->createSearchCache(
             $key,
+            $page,
             $value,
             $ttl
         );
@@ -194,18 +200,21 @@ class SearchResponseCache
     }
     /**
      * @param string $uniqueName
+     * @param int $page
      * @param string $value
      * @param int $ttl
      * @return SearchCache
      */
     private function createSearchCache(
         string $uniqueName,
+        int $page,
         string $value,
         int $ttl
     ) {
         return new SearchCache(
             $uniqueName,
             $value,
+            $page,
             $ttl
         );
     }

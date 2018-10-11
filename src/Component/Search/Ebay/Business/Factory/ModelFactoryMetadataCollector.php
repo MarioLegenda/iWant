@@ -104,7 +104,6 @@ class ModelFactoryMetadataCollector
         foreach ($applicationShops as $applicationShop) {
             $globalIdNormalized[$applicationShop->getGlobalId()][] = $applicationShop;
         }
-
         /**
          * @var string $globalId
          * @var ApplicationShop $applicationShops
