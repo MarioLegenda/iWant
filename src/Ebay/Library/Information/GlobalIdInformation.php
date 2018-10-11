@@ -33,179 +33,179 @@ class GlobalIdInformation implements InformationInterface
      */
     private $globalIds = array(
         'ebay-at' => array(
-            'global-id' => 'EBAY-AT',
+            'global_id' => 'EBAY-AT',
             'language' => 'de-AT',
             'teritory' => 'AT',
-            'site-name' => 'eBay Austria',
-            'ebay-site-id' => 16,
+            'site_name' => 'eBay Austria',
+            'ebay_site_id' => 16,
             'removed' => false,
         ),
         'ebay-au' => array(
-            'global-id' => 'EBAY-AU',
+            'global_id' => 'EBAY-AU',
             'language' => 'en-AU',
             'teritory' => 'AU',
-            'site-name' => 'eBay Australia',
-            'ebay-site-id' => 15,
+            'site_name' => 'eBay Australia',
+            'ebay_site_id' => 15,
             'removed' => false,
         ),
         'ebay-ch' => array(
-            'global-id' => 'EBAY-CH',
+            'global_id' => 'EBAY-CH',
             'language' => 'de-CH',
             'teritory' => 'CH',
-            'site-name' => 'eBay Switzerland',
-            'ebay-site-id' => 193,
+            'site_name' => 'eBay Switzerland',
+            'ebay_site_id' => 193,
             'removed' => false,
         ),
         'ebay-de' => array(
-            'global-id' => 'EBAY-DE',
+            'global_id' => 'EBAY-DE',
             'language' => 'de-DE',
             'teritory' => 'DE',
-            'site-name' => 'eBay Germany',
-            'ebay-site-id' => 77,
+            'site_name' => 'eBay Germany',
+            'ebay_site_id' => 77,
             'removed' => false,
         ),
         'ebay-enca' => array(
-            'global-id' => 'EBAY-ENCA',
+            'global_id' => 'EBAY-ENCA',
             'language' => 'en-CA',
             'teritory' => 'CA',
-            'site-name' => 'eBay Canada (English)',
-            'ebay-site-id' => 2,
+            'site_name' => 'eBay Canada (English)',
+            'ebay_site_id' => 2,
             'removed' => false,
         ),
         'ebay-es' => array(
-            'global-id' => 'EBAY-ES',
+            'global_id' => 'EBAY-ES',
             'language' => 'es-ES',
             'teritory' => 'ES',
-            'site-name' => 'eBay Spain',
-            'ebay-site-id' => 186,
+            'site_name' => 'eBay Spain',
+            'ebay_site_id' => 186,
             'removed' => false,
         ),
         'ebay-fr' => array(
-            'global-id' => 'EBAY-FR',
+            'global_id' => 'EBAY-FR',
             'language' => 'fr-FR',
             'teritory' => 'FR',
-            'site-name' => 'eBay France',
-            'ebay-site-id' => 71,
+            'site_name' => 'eBay France',
+            'ebay_site_id' => 71,
             'removed' => false,
         ),
         'ebay-frbe' => array(
-            'global-id' => 'EBAY-FRBE',
+            'global_id' => 'EBAY-FRBE',
             'language' => 'fr-BE',
             'teritory' => 'BE',
-            'site-name' => 'eBay Belgium (French)',
-            'ebay-site-id' => 23,
+            'site_name' => 'eBay Belgium (French)',
+            'ebay_site_id' => 23,
             'removed' => false,
         ),
         'ebay-frca' => array(
-            'global-id' => 'EBAY-FRCA',
+            'global_id' => 'EBAY-FRCA',
             'language' => 'fr-CA',
             'teritory' => 'CA',
-            'site-name' => 'eBay Canada (French)',
-            'ebay-site-id' => 210,
+            'site_name' => 'eBay Canada (French)',
+            'ebay_site_id' => 210,
             'removed' => false,
         ),
         'ebay-gb' => array(
-            'global-id' => 'EBAY-GB',
+            'global_id' => 'EBAY-GB',
             'language' => 'en-GB',
             'teritory' => 'GB',
-            'site-name' => 'eBay UK',
-            'ebay-site-id' => 3,
+            'site_name' => 'eBay UK',
+            'ebay_site_id' => 3,
             'removed' => false,
         ),
         'ebay-hk' => array(
-            'global-id' => 'EBAY-HK',
+            'global_id' => 'EBAY-HK',
             'language' => 'zh-Hant',
             'teritory' => 'HK',
-            'site-name' => 'eBay Hong Kong',
-            'ebay-site-id' => 201,
+            'site_name' => 'eBay Hong Kong',
+            'ebay_site_id' => 201,
             'removed' => false,
         ),
         'ebay-ie' => array(
-            'global-id' => 'EBAY-IE',
+            'global_id' => 'EBAY-IE',
             'language' => 'en-IE',
             'teritory' => 'IE',
-            'site-name' => 'eBay Ireland',
-            'ebay-site-id' => 205,
+            'site_name' => 'eBay Ireland',
+            'ebay_site_id' => 205,
             'removed' => false,
         ),
         'ebay-in' => array(
-            'global-id' => 'EBAY-IN',
+            'global_id' => 'EBAY-IN',
             'language' => 'en-IN',
             'teritory' => 'IN',
-            'site-name' => 'eBay India',
-            'ebay-site-id' => 203,
+            'site_name' => 'eBay India',
+            'ebay_site_id' => 203,
             'removed' => false,
         ),
         'ebay-it' => array(
-            'global-id' => 'EBAY-IT',
+            'global_id' => 'EBAY-IT',
             'language' => 'it-IT',
             'teritory' => 'IT',
-            'site-name' => 'eBay Italy',
-            'ebay-site-id' => 101,
+            'site_name' => 'eBay Italy',
+            'ebay_site_id' => 101,
             'removed' => false,
         ),
         'ebay-motor' => array(
-            'global-id' => 'EBAY-MOTOR',
+            'global_id' => 'EBAY-MOTOR',
             'language' => 'en-US',
             'teritory' => 'US',
-            'site-name' => 'eBay Motors',
-            'ebay-site-id' => 100,
+            'site_name' => 'eBay Motors',
+            'ebay_site_id' => 100,
             'removed' => false,
         ),
         'ebay-my' => array(
-            'global-id' => 'EBAY-MY',
+            'global_id' => 'EBAY-MY',
             'language' => 'en-MY',
             'teritory' => 'MY',
-            'site-name' => 'eBay Malaysia',
-            'ebay-site-id' => 207,
+            'site_name' => 'eBay Malaysia',
+            'ebay_site_id' => 207,
             'removed' => false,
         ),
         'ebay-nl' => array(
-            'global-id' => 'EBAY-NL',
+            'global_id' => 'EBAY-NL',
             'language' => 'nl-NL',
             'teritory' => 'NL',
-            'site-name' => 'eBay Netherlands',
-            'ebay-site-id' => 146,
+            'site_name' => 'eBay Netherlands',
+            'ebay_site_id' => 146,
             'removed' => false,
         ),
         'ebay-nlbe' => array(
-            'global-id' => 'EBAY-NLBE',
+            'global_id' => 'EBAY-NLBE',
             'language' => 'nl-BE',
             'teritory' => 'BE',
-            'site-name' => 'eBay Belgium (Dutch)',
-            'ebay-site-id' => 123,
+            'site_name' => 'eBay Belgium (Dutch)',
+            'ebay_site_id' => 123,
             'removed' => false,
         ),
         'ebay-ph' => array(
-            'global-id' => 'EBAY-PH',
+            'global_id' => 'EBAY-PH',
             'language' => 'en-PH',
             'teritory' => 'PH',
-            'site-name' => 'eBay Philippines',
-            'ebay-site-id' => 212,
+            'site_name' => 'eBay Philippines',
+            'ebay_site_id' => 212,
             'removed' => false,
         ),
         'ebay-pl' => array(
-            'global-id' => 'EBAY-PL',
+            'global_id' => 'EBAY-PL',
             'language' => 'pl-PL',
             'teritory' => 'PL',
-            'site-name' => 'eBay Poland',
-            'ebay-site-id' => 212,
+            'site_name' => 'eBay Poland',
+            'ebay_site_id' => 212,
             'removed' => false,
         ),
         'ebay-sg' => array(
-            'global-id' => 'EBAY-SG',
+            'global_id' => 'EBAY-SG',
             'language' => 'en-SG',
             'teritory' => 'SG',
-            'site-name' => 'eBay Singapore',
-            'ebay-site-id' => 216,
+            'site_name' => 'eBay Singapore',
+            'ebay_site_id' => 216,
             'removed' => false,
         ),
         'ebay-us' => array(
-            'global-id' => 'EBAY-US',
+            'global_id' => 'EBAY-US',
             'language' => 'en-US',
             'teritory' => 'US',
-            'site-name' => 'eBay United States',
-            'ebay-site-id' => 0,
+            'site_name' => 'eBay United States',
+            'ebay_site_id' => 0,
             'removed' => false,
         ),
     );
@@ -232,7 +232,7 @@ class GlobalIdInformation implements InformationInterface
             return null;
         }
 
-        return $this->globalIds[strtolower($id)]['global-id'];
+        return $this->globalIds[strtolower($id)]['global_id'];
     }
     /**
      * @param string $id
@@ -267,16 +267,16 @@ class GlobalIdInformation implements InformationInterface
      */
     public function add(string $name, array $values) : GlobalIdInformation
     {
-        if (!array_key_exists('global-id', $values) and !empty($values['global-id'])) {
-            throw new \RuntimeException('GlobalId values has to be an array with \'global-id\' key and a non empty \'global-id\' value');
+        if (!array_key_exists('global_id', $values) and !empty($values['global_id'])) {
+            throw new \RuntimeException('GlobalId values has to be an array with \'global_id\' key and a non empty \'global_id\' value');
         }
 
         if ($this->has($name)) {
             throw new \RuntimeException('Global id '.$name.' already exists');
         }
 
-        if (!array_key_exists('global-id', $values) and !empty($values['global-id'])) {
-            throw new \RuntimeException('Global id '.$name.' value array has to have at least a global-id key and corresponding value');
+        if (!array_key_exists('global_id', $values) and !empty($values['global_id'])) {
+            throw new \RuntimeException('Global id '.$name.' value array has to have at least a global_id key and corresponding value');
         }
 
         $name = strtolower($name);

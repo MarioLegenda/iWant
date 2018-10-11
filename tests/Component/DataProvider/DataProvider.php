@@ -28,7 +28,7 @@ class DataProvider
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
             ? $data['pagination']
-            : new Pagination(8, 1);
+            : new Pagination(4, 1);
 
         return new SearchModel(
             $keyword,

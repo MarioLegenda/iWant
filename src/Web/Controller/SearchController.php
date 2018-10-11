@@ -28,6 +28,7 @@ class SearchController
      * @param SearchModel $model
      * @param SearchComponent $searchComponent
      * @return JsonResponse
+     * @throws \App\Cache\Exception\CacheException
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -39,13 +40,13 @@ class SearchController
     ): JsonResponse {
         /** @var iterable|array $products */
         $products = $searchComponent->searchEbay($model);
-
         /** @var ApiResponseData $responseData */
         $responseData = $this->apiSdk
             ->create($products)
             ->method('GET')
             ->addMessage('A search result')
             ->isCollection()
+            ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
             ->setStatusCode(200)
             ->build();
 

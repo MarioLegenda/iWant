@@ -13,7 +13,13 @@ export const SearchPage = {
     beforeDestroy() {
         this.ebayHttpInProgress = false;
 
-        this.$store.commit('ebaySearchListing', []);
+        this.$store.commit('ebaySearchListing', {
+            listing: [],
+            pagination: {
+                limit: 4,
+                page: 1,
+            }
+        });
 
         this.$store.commit('searchLoading', {
             searchProgress: false,
@@ -40,8 +46,6 @@ export const SearchPage = {
     },
     methods: {
         onGetEbayItems(model) {
-            this.$store.commit('ebaySearchListing', []);
-
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
 
@@ -51,7 +55,12 @@ export const SearchPage = {
                 });
 
                 searchRepo.searchEbay(model, (response) => {
-                    this.$store.commit('ebaySearchListing', response.collection.data);
+                    this.$store.commit('ebaySearchListing', {
+                        listing: response.collection.data,
+                        pagination: response.collection.pagination,
+                        model: model,
+                    });
+
                     this.ebayHttpInProgress = false;
 
                     this.$store.commit('searchLoading', {

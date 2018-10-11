@@ -30,6 +30,10 @@ class ApiSDK
             'data' => null,
         ],
         'cache_key' => null,
+        'pagination' => [
+            'limit' => null,
+            'page' => null
+        ],
     ];
     /**
      * @var array $metadata
@@ -61,6 +65,18 @@ class ApiSDK
     public function addMessage(string $message): ApiSDK
     {
         $this->messages[] = $message;
+
+        return $this;
+    }
+    /**
+     * @param int $limit
+     * @param int $page
+     * @return ApiSDK
+     */
+    public function addPagination(int $limit, int $page): ApiSDK
+    {
+        $this->config['pagination']['limit'] = $limit;
+        $this->config['pagination']['page'] = $page;
 
         return $this;
     }
@@ -226,6 +242,7 @@ class ApiSDK
                 'collection' => [
                     'totalItems' => count($this->data),
                     'data' => $this->data,
+                    'pagination' => $this->config['pagination'],
                 ],
             ];
         }

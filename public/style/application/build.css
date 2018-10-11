@@ -932,15 +932,41 @@ html {
   width: 100%;
   float: left;
 }
-.SearchItems .SearchItems_Title {
+.SearchItems .SearchItems_GlobalIdIdentifier {
+  width: 100%;
+  float: left;
   color: black;
   font-size: 1.5em;
   text-align: center;
   padding-bottom: 10px;
   border-bottom: 1px solid #d6d6d6;
+  margin-bottom: 30px;
 }
 .SearchItems .GlobalIdContainer {
   margin: 30px 0 30px 0;
+}
+.SearchItems .LoadMoreWrapper {
+  width: 100%;
+  float: left;
+  margin: 10px 0 50px 0;
+}
+.SearchItems .LoadMore {
+  width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  color: #b3bff2;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #b3bff2;
+}
+.SearchItems .LoadMore span {
+  display: block;
+}
+.SearchItems .LoadMore i {
+  margin: 0 auto;
+}
+.SearchItems .LoadMore:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=build.css.map */

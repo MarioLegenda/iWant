@@ -782,7 +782,7 @@ class ItemFiltersTest extends TestCase
         $globalIds = GlobalIdInformation::instance()->getAll();
 
         foreach ($globalIds as $value) {
-            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LISTED_IN, [$value['global-id']]);
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::LISTED_IN, [$value['global_id']]);
 
             $listedIn = new ListedIn(
                 $dynamicMetadata,
@@ -2255,7 +2255,7 @@ class ItemFiltersTest extends TestCase
         foreach ($globalIds as $globalId) {
             $dynamicMetadata = $this->getDynamicMetadata(
                 ItemFilter::GLOBAL_ID,
-                [$globalId['global-id']]
+                [$globalId['global_id']]
             );
 
             $globalId = new GlobalId(
