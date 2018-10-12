@@ -119,6 +119,9 @@
     "mario-legenda/blue-dot": {
         "version": "1.4"
     },
+    "monolog/monolog": {
+        "version": "1.23.0"
+    },
     "nexylan/slack": {
         "version": "v2.0.0"
     },
@@ -271,6 +274,18 @@
     },
     "symfony/lts": {
         "version": "4-dev"
+    },
+    "symfony/monolog-bridge": {
+        "version": "v4.1.6"
+    },
+    "symfony/monolog-bundle": {
+        "version": "3.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "3.1",
+            "ref": "18ebf5a940573a20de06f9c4060101eeb438cf3d"
+        }
     },
     "symfony/options-resolver": {
         "version": "v4.1.6"
