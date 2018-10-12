@@ -226,7 +226,8 @@ class CreateNativeShops extends BaseCommand
             $storeName,
             (string) $data['marketplace'],
             $data['category'],
-            $data['global_id']
+            $data['global_id'],
+            (isset($data['uncategorised'])) ? $data['uncategorised'] : false
         );
     }
     /**

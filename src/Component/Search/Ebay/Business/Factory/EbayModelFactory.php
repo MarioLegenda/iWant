@@ -198,23 +198,25 @@ class EbayModelFactory
         RootMetadata $rootMetadata,
         TypedArray $itemFilters
     ) {
-        if ($rootMetadata->getGlobalId() !== GlobalIdInformation::EBAY_MOTOR) {
-            if (!empty($rootMetadata->getTaxonomyMetadata())) {
-                $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
+        if ($rootMetadata->getGlobalId() === GlobalIdInformation::EBAY_MOTOR) {
+            return;
+        }
 
-                $ebayRootCategoryIds = $taxonomyMetadata->getEbayRootCategories()->filter(function(EbayRootCategory $ebayRootCategory) {
-                    return (int) $ebayRootCategory->getCategoryId();
-                });
+        if (!empty($rootMetadata->getTaxonomyMetadata())) {
+            $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
 
-                $categoryId = new ItemFilter(new ItemFilterMetadata(
-                    'name',
-                    'value',
-                    ItemFilterConstants::CATEGORY_ID,
-                    [$ebayRootCategoryIds]
-                ));
+            $ebayRootCategoryIds = $taxonomyMetadata->getEbayRootCategories()->filter(function(EbayRootCategory $ebayRootCategory) {
+                return (int) $ebayRootCategory->getCategoryId();
+            });
 
-                $itemFilters[] = $categoryId;
-            }
+            $categoryId = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::CATEGORY_ID,
+                [$ebayRootCategoryIds]
+            ));
+
+            $itemFilters[] = $categoryId;
         }
     }
     /**

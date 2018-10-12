@@ -32,7 +32,7 @@ class SearchComponentTest extends BasicSetup
             7 => 'fashion',
         ];
 
-        $chosenTaxonomies = [1];
+        $chosenTaxonomies = [5];
 
         $chosenTaxonomyObjects = [];
         foreach ($chosenTaxonomies as $chosenTaxonomy) {
@@ -49,7 +49,9 @@ class SearchComponentTest extends BasicSetup
 
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
-            'highQuality' => false,
+            'lowestPrice' => false,
+            'highQuality' => true,
+            'highestPrice' => true,
             'taxonomies' => $chosenTaxonomyObjects,
             'pagination' => new Pagination(4, 1)
         ]);

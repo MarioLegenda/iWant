@@ -52,6 +52,11 @@ class ApplicationShop implements ArrayNotationInterface
      */
     private $nativeTaxonomy;
     /**
+     * @var bool $unCategorised
+     * @Column(type="boolean")
+     */
+    private $unCategorised = false;
+    /**
      * @var string $name
      * @Column(type="string")
      */
@@ -73,19 +78,32 @@ class ApplicationShop implements ArrayNotationInterface
      * @param string $globalId
      * @param string $marketplace
      * @param NativeTaxonomy $nativeTaxonomy
+     * @param bool $unCategorised
      */
     public function __construct(
         string $name,
         string $applicationName,
         string $marketplace,
-        NativeTaxonomy $nativeTaxonomy,
-        string $globalId = null
+        NativeTaxonomy $nativeTaxonomy = null,
+        string $globalId = null,
+        bool $unCategorised = false
     ) {
+        if ($unCategorised === true and $nativeTaxonomy instanceof NativeTaxonomy) {
+            $message = sprintf(
+                'Application shop with name \'%s\' cannot have a native taxonomy \'%s\' and be not categorised at the same time',
+                $name,
+                $nativeTaxonomy->getInternalName()
+            );
+
+            throw new \RuntimeException($message);
+        }
+
         $this->name = $name;
         $this->applicationName = $applicationName;
         $this->globalId = $globalId;
         $this->marketplace = (string) MarketplaceType::fromValue($marketplace);
         $this->nativeTaxonomy = $nativeTaxonomy;
+        $this->unCategorised = $unCategorised;
     }
     /**
      * @return int
@@ -107,6 +125,21 @@ class ApplicationShop implements ArrayNotationInterface
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+    /**
+     * @return bool
+     */
+    public function isUnCategorised(): bool
+    {
+        return $this->unCategorised;
+    }
+
+    /**
+     * @param bool $unCategorised
+     */
+    public function setUnCategorised(bool $unCategorised): void
+    {
+        $this->unCategorised = $unCategorised;
     }
     /**
      * @return string
@@ -137,16 +170,16 @@ class ApplicationShop implements ArrayNotationInterface
         return $this->globalId;
     }
     /**
-     * @return NativeTaxonomy
+     * @return NativeTaxonomy|null
      */
-    public function getNativeTaxonomy(): NativeTaxonomy
+    public function getNativeTaxonomy(): ?NativeTaxonomy
     {
         return $this->nativeTaxonomy;
     }
     /**
-     * @param NativeTaxonomy $nativeTaxonomy
+     * @param NativeTaxonomy|null $nativeTaxonomy
      */
-    public function setNativeTaxonomy(NativeTaxonomy $nativeTaxonomy): void
+    public function setNativeTaxonomy(NativeTaxonomy $nativeTaxonomy = null): void
     {
         $this->nativeTaxonomy = $nativeTaxonomy;
     }

@@ -79,6 +79,7 @@ class Finder
      * @param SearchModel $model
      * @return iterable
      * @throws \App\Symfony\Exception\HttpException
+     * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findEbayProducts(SearchModel $model): iterable
@@ -129,6 +130,7 @@ class Finder
      * @param SearchModel $model
      * @return iterable
      * @throws \App\Symfony\Exception\HttpException
+     * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     private function getResponses(SearchModel $model): iterable
@@ -173,7 +175,7 @@ class Finder
 
                     $this->nexySlack->sendMessage($message);
 
-                    throw $e;
+                    // SEND EXCEPTION ONLY WHEN LOGGING LISTENER IS IMPLEMENTED
                 }
             }
         }

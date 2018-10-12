@@ -297,7 +297,6 @@ class ConnectEbayCategories extends BaseCommand
                 'Antiques',
                 'Collectables',
                 'Art',
-                'Stamps',
             ],
             'Crafts & Handmade' => [
                 'Crafts',

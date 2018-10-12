@@ -44,6 +44,7 @@ class GetUserProfile extends BaseCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int|null|void
+     * @throws \App\Symfony\Exception\HttpException
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function execute(InputInterface $input, OutputInterface $output)

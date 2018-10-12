@@ -88,6 +88,31 @@ class ShopsRepresentation
                 'marketplace' => $this->marketplaceRepresentation->ebay,
             ],
             [
+                'name' => 'decluttr_store',
+                'global_id' => GlobalIdInformation::EBAY_US,
+                'category' => $allNormalizedCategories['Computers, Mobile & Games'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'get_importcds',
+                'global_id' => GlobalIdInformation::EBAY_US,
+                'category' => $allNormalizedCategories['Books, Music & Movies'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'discover-books',
+                'global_id' => GlobalIdInformation::EBAY_US,
+                'category' => $allNormalizedCategories['Books, Music & Movies'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'ppretail',
+                'global_id' => GlobalIdInformation::EBAY_GB,
+                'category' => null,
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+                'uncategorised' => true,
+            ],
+            [
                 'name' => 'ModernMud',
                 'global_id' => null,
                 'category' => $allNormalizedCategories['Crafts & Handmade'],

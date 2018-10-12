@@ -9,6 +9,7 @@ use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\Ebay\Model\Response\Title;
 use App\Component\TodayProducts\Selector\Ebay\Selector\SearchProduct;
 use App\Doctrine\Entity\ApplicationShop;
+use App\Doctrine\Entity\NativeTaxonomy;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Library\Infrastructure\Type\TypeInterface;
@@ -65,7 +66,10 @@ class PresentationModelFactory
             (string) $itemId
         );
 
-        $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
+        $taxonomyName = 'Uncategorized';
+        if ($applicationShop->getNativeTaxonomy() instanceof NativeTaxonomy) {
+            $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
+        }
 
         $model = new SearchResponseModel(
             $itemId,
