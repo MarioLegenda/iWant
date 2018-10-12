@@ -48,6 +48,7 @@ class CategoryId extends BaseDynamic
 
         $counter = 0;
         $final = '';
+
         foreach ($dynamicValue as $filter) {
             $final.='categoryId('.$counter.')='.$filter.'&';
 

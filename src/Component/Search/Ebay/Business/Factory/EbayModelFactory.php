@@ -8,6 +8,7 @@ use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchRequestModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\EbayRootCategory;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Information\SellerBusinessTypeValidSitesInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
@@ -71,6 +72,7 @@ class EbayModelFactory
         $this->createRequiredQueries($model, $rootMetadata, $queries);
         $this->createRequiredItemFilters($rootMetadata, $itemFilters);
         $this->createModelSpecificItemFilters($model, $itemFilters);
+        $this->createCategoryIdItemFilter($rootMetadata, $itemFilters);
         $this->createOutputSelector($itemFilters);
         $this->createSortOrder($model, $itemFilters);
 
@@ -157,23 +159,6 @@ class EbayModelFactory
             return $applicationShop->getName();
         });
 
-        if (!empty($rootMetadata->getTaxonomyMetadata())) {
-            $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
-
-            $ebayRootCategoryIds = $taxonomyMetadata->getEbayRootCategories()->filter(function(EbayRootCategory $ebayRootCategory) {
-                return (int) $ebayRootCategory->getCategoryId();
-            });
-
-            $categoryId = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::CATEGORY_ID,
-                [$ebayRootCategoryIds]
-            ));
-
-            $itemFilters[] = $categoryId;
-        }
-
         if (SellerBusinessTypeValidSitesInformation::instance()->has($rootMetadata->getGlobalId())) {
             $sellerBussinessType = new ItemFilter(new ItemFilterMetadata(
                 'name',
@@ -204,6 +189,33 @@ class EbayModelFactory
 
         $itemFilters[] = $hideDuplicatedItems;
         $itemFilters[] = $sellers;
+    }
+    /**
+     * @param RootMetadata $rootMetadata
+     * @param TypedArray $itemFilters
+     */
+    public function createCategoryIdItemFilter(
+        RootMetadata $rootMetadata,
+        TypedArray $itemFilters
+    ) {
+        if ($rootMetadata->getGlobalId() !== GlobalIdInformation::EBAY_MOTOR) {
+            if (!empty($rootMetadata->getTaxonomyMetadata())) {
+                $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
+
+                $ebayRootCategoryIds = $taxonomyMetadata->getEbayRootCategories()->filter(function(EbayRootCategory $ebayRootCategory) {
+                    return (int) $ebayRootCategory->getCategoryId();
+                });
+
+                $categoryId = new ItemFilter(new ItemFilterMetadata(
+                    'name',
+                    'value',
+                    ItemFilterConstants::CATEGORY_ID,
+                    [$ebayRootCategoryIds]
+                ));
+
+                $itemFilters[] = $categoryId;
+            }
+        }
     }
     /**
      * @param TypedArray $itemFilters

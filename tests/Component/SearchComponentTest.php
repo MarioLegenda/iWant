@@ -21,21 +21,36 @@ class SearchComponentTest extends BasicSetup
 
         $nativeTaxonomyRepository = $this->locator->get(NativeTaxonomyRepository::class);
 
-        $nativeTaxonomies = $nativeTaxonomyRepository->findAll();
-        $nativeTaxonomyCount = count($nativeTaxonomies);
+        $internalTaxonomyNames = [
+            0 => 'booksMusicMovies',
+            1 => 'autopartsMechanics',
+            2 => 'homeGarden',
+            3 => 'computersMobileGames',
+            4 => 'sport',
+            5 => 'antiquesArtCollectibles',
+            6 => 'craftsHandmade',
+            7 => 'fashion',
+        ];
 
-        $randKeys = array_rand($nativeTaxonomies, rand(1, $nativeTaxonomyCount));
+        $chosenTaxonomies = [1];
 
-        $chosenTaxonomies = [];
+        $chosenTaxonomyObjects = [];
+        foreach ($chosenTaxonomies as $chosenTaxonomy) {
+            $internalTaxonomyName = $internalTaxonomyNames[$chosenTaxonomy];
 
-        /** @var NativeTaxonomy $nativeTaxonomy */
-        foreach ($nativeTaxonomies as $nativeTaxonomy) {
-            $chosenTaxonomies[] = $nativeTaxonomy->toArray();
+            /** @var NativeTaxonomy $nativeTaxonomy */
+            $nativeTaxonomy = $nativeTaxonomyRepository->findOneBy([
+                'internalName' => $internalTaxonomyName,
+            ]);
+
+            $chosenTaxonomyObjects[] = $nativeTaxonomy->toArray();
         }
+
 
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
             'highQuality' => false,
+            'taxonomies' => $chosenTaxonomyObjects,
             'pagination' => new Pagination(4, 1)
         ]);
 

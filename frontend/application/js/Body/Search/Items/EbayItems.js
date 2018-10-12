@@ -110,6 +110,17 @@ export const EbayItems = {
         ebaySearchListing: function() {
             const listing = this.$store.state.ebaySearchListing.listing;
 
+            if (listing.length === 0) {
+                for (let key in this.globalIdInfo) {
+                    if (this.globalIdInfo.hasOwnProperty(key)) {
+                        const info = this.globalIdInfo[key];
+
+                        this.items[info.global_id] = [];
+                        this.$set(this.items, info.global_id, []);
+                    }
+                }
+            }
+
             for (const item in listing) {
                 if (this.items.hasOwnProperty(item)) {
                     this.items[item] = this.items[item].concat(listing[item]);

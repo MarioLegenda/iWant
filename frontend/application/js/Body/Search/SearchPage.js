@@ -11,20 +11,7 @@ export const SearchPage = {
         }
     },
     beforeDestroy() {
-        this.ebayHttpInProgress = false;
-
-        this.$store.commit('ebaySearchListing', {
-            listing: [],
-            pagination: {
-                limit: 4,
-                page: 1,
-            }
-        });
-
-        this.$store.commit('searchLoading', {
-            searchProgress: false,
-            ebay: false
-        });
+        this.dataReset();
     },
     template: `<div id="search_page">
                     <categories-menu></categories-menu>
@@ -46,6 +33,8 @@ export const SearchPage = {
     },
     methods: {
         onGetEbayItems(model) {
+            this.dataReset();
+
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
 
@@ -85,6 +74,22 @@ export const SearchPage = {
                     behavior: 'smooth',
                 });
             }, 1000);
+        },
+        dataReset() {
+            this.ebayHttpInProgress = false;
+
+            this.$store.commit('ebaySearchListing', {
+                listing: [],
+                pagination: {
+                    limit: 4,
+                    page: 1,
+                }
+            });
+
+            this.$store.commit('searchLoading', {
+                searchProgress: false,
+                ebay: false
+            });
         }
     },
     components: {

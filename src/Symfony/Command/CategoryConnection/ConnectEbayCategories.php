@@ -108,6 +108,7 @@ class ConnectEbayCategories extends BaseCommand
 
             $model = $this->createShoppingApiModel($globalId);
 
+
             /** @var GetCategoryInfoResponseInterface $response */
             $response = $this->shoppingApiEntryPoint->getCategoryInfo($model);
 
@@ -123,7 +124,6 @@ class ConnectEbayCategories extends BaseCommand
                     $response,
                     $ebayCategoryIds
                 );
-
 
                 $this->upsertEbayRootCategory(
                     $normalizedCategory,
@@ -216,7 +216,7 @@ class ConnectEbayCategories extends BaseCommand
                 /** @var Category $item */
                 $item = $entry['item'];
 
-                if ($item->getCategoryId() === $categoryId) {
+                if ($item->getCategoryName() === $categoryId) {
                     $foundCategories[] = $item;
                 }
             }
@@ -270,41 +270,41 @@ class ConnectEbayCategories extends BaseCommand
     {
         return [
             'Books, Music & Movies' => [
-                '267',
-                '11232',
-                '11233',
+                'Books, Comics & Magazines',
+                'DVDs, Films & TV',
+                'Music',
             ],
             'Autoparts & Mechanics' => [
-                '9800',
-                '131090',
+                'Cars, Motorcycles & Vehicles',
+                'Vehicle Parts & Accessories',
             ],
             'Home & Garden' => [
-                '159912',
-                '11700',
-                '20081',
+                'Garden & Patio',
+                'Home, Furniture & DIY',
+                'Antiques',
             ],
             'Computers, Mobile & Games' => [
-                '58058',
-                '11232',
-                '15032',
+                'Computers/Tablets & Networking',
+                'DVDs, Films & TV',
+                'Mobile Phones & Communication',
             ],
             'Sport' => [
-                '888',
-                '64482',
-                '1',
+                'Sporting Goods',
+                'Sports Memorabilia',
+                'Collectables',
             ],
             'Antiques, Art & Collectibles' => [
-                '20081',
-                '1',
-                '550',
-                '260',
+                'Antiques',
+                'Collectables',
+                'Art',
+                'Stamps',
             ],
             'Crafts & Handmade' => [
-                '14339',
-                '281',
+                'Crafts',
+                'Jewellery & Watches',
             ],
             'Fashion' => [
-                '11450'
+                'Clothes, Shoes & Accessories'
             ]
         ];
     }

@@ -63,7 +63,10 @@ class SearchController
 
         return $response;
     }
-
+    /**
+     * @param array $products
+     * @return array
+     */
     private function createGlobalIdView(array $products): array
     {
         $productsGen = Util::createGenerator($products);
@@ -79,7 +82,10 @@ class SearchController
 
         return $mergedItems;
     }
-
+    /**
+     * @param array $products
+     * @return array
+     */
     private function createItemsView(array $products): array
     {
         $productsGen = Util::createGenerator($products);

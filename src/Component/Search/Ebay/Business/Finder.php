@@ -124,16 +124,20 @@ class Finder
         $responses = [];
         /** @var SearchRequestModel $requestModel */
         foreach ($requestModels as $requestModel) {
-            $response = $this->findingApiEntryPoint
-                ->findItemsInEbayStores($requestModel->getEntryPointModel());
+            try {
+                $response = $this->findingApiEntryPoint
+                    ->findItemsInEbayStores($requestModel->getEntryPointModel());
 
-            $globalId = $requestModel->getMetadata()->getGlobalId();
-            $globalIdInformation = GlobalIdInformation::instance()->getTotalInformation($globalId);
+                $globalId = $requestModel->getMetadata()->getGlobalId();
+                $globalIdInformation = GlobalIdInformation::instance()->getTotalInformation($globalId);
 
-            $responses[$requestModel->getMetadata()->getGlobalId()] = [
-                'globalIdInformation' => $globalIdInformation,
-                'response' => $response,
-            ];
+                $responses[$requestModel->getMetadata()->getGlobalId()] = [
+                    'globalIdInformation' => $globalIdInformation,
+                    'response' => $response,
+                ];
+            } catch (\Exception $e) {
+                // SLACK NOTIFICATION AND LOGGING GOES HERE
+            }
         }
 
         return $responses;

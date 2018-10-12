@@ -88,7 +88,6 @@ class ModelFactoryMetadataCollector
                 }
 
                 foreach ($globalIdSorted as $globalId => $ebayRootCategories) {
-
                     $taxonomyMetadataSingleObject = new TaxonomyMetadata(
                         $nativeTaxonomy,
                         TypedArray::create('integer', EbayRootCategory::class, $ebayRootCategories)
