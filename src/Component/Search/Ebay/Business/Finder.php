@@ -16,9 +16,18 @@ use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Library\Information\WorldwideShipping;
 use App\Library\Representation\ApplicationShopRepresentation;
 use App\Library\Util\Util;
+use Nexy\Slack\Client;
 
 class Finder
 {
+    /**
+     * @var string $env
+     */
+    private $env;
+    /**
+     * @var Client $nexySlack
+     */
+    private $nexySlack;
     /**
      * @var FindingApiEntryPoint $findingApiEntryPoint
      */
@@ -41,6 +50,8 @@ class Finder
     private $countryRepository;
     /**
      * Finder constructor.
+     * @param string $env
+     * @param Client $nexySlack
      * @param FindingApiEntryPoint $findingApiEntryPoint
      * @param EbayModelFactory $ebayModelFactory
      * @param ApplicationShopRepresentation $applicationShopRepresentation
@@ -48,17 +59,21 @@ class Finder
      * @param CountryRepository $countryRepository
      */
     public function __construct(
+        string $env,
+        Client $nexySlack,
         FindingApiEntryPoint $findingApiEntryPoint,
         EbayModelFactory $ebayModelFactory,
         ApplicationShopRepresentation $applicationShopRepresentation,
         PresentationModelFactory $presentationModelFactory,
         CountryRepository $countryRepository
     ) {
+        $this->env = $env;
         $this->findingApiEntryPoint = $findingApiEntryPoint;
         $this->ebayModelFactory = $ebayModelFactory;
         $this->applicationShopRepresentation = $applicationShopRepresentation;
         $this->presentationModelFactory = $presentationModelFactory;
         $this->countryRepository = $countryRepository;
+        $this->nexySlack = $nexySlack;
     }
     /**
      * @param SearchModel $model
@@ -124,7 +139,7 @@ class Finder
         $responses = [];
         /** @var SearchRequestModel $requestModel */
         foreach ($requestModels as $requestModel) {
-            try {
+            if ($this->env === 'test') {
                 $response = $this->findingApiEntryPoint
                     ->findItemsInEbayStores($requestModel->getEntryPointModel());
 
@@ -135,8 +150,31 @@ class Finder
                     'globalIdInformation' => $globalIdInformation,
                     'response' => $response,
                 ];
-            } catch (\Exception $e) {
-                // SLACK NOTIFICATION AND LOGGING GOES HERE
+            } else if ($this->env === 'dev' OR $this->env === 'prod') {
+                try {
+                    $response = $this->findingApiEntryPoint
+                        ->findItemsInEbayStores($requestModel->getEntryPointModel());
+
+                    $globalId = $requestModel->getMetadata()->getGlobalId();
+                    $globalIdInformation = GlobalIdInformation::instance()->getTotalInformation($globalId);
+
+                    $responses[$requestModel->getMetadata()->getGlobalId()] = [
+                        'globalIdInformation' => $globalIdInformation,
+                        'response' => $response,
+                    ];
+                } catch (\Exception $e) {
+                    // SEND SLACK NOTIFICATION HERE AND PASS THE EXCEPTION FORWARD TO THE EXCEPTION LISTENER
+
+                    $message = $this->nexySlack->createMessage();
+
+                    $message
+                        ->to('#http_exceptions')
+                        ->setText($e->getMessage());
+
+                    $this->nexySlack->sendMessage($message);
+
+                    throw $e;
+                }
             }
         }
 

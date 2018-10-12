@@ -240,6 +240,10 @@ services:
         resource: '../src/Component'
         exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*}'
 
+    App\Component\Search\Ebay\Business\Finder:
+        arguments:
+            $env: '%env(APP_ENV)%'
+            $nexySlack: '@nexy_slack.client'
     # EVENT LISTENER
 
     App\Symfony\Listener\HttpExceptionListener:
