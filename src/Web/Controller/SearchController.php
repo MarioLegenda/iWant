@@ -7,6 +7,7 @@ use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\SearchComponent;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
+use App\Library\Util\Util;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SearchController
@@ -40,11 +41,14 @@ class SearchController
     ): JsonResponse {
         /** @var iterable|array $products */
         $products = $searchComponent->searchEbay($model);
+
         /** @var ApiResponseData $responseData */
         $responseData = $this->apiSdk
             ->create($products)
             ->method('GET')
             ->addMessage('A search result')
+            ->addView('globalIdView', $this->createGlobalIdView($products))
+            ->addView('itemsView', $this->createItemsView($products))
             ->isCollection()
             ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
             ->setStatusCode(200)
@@ -58,5 +62,36 @@ class SearchController
         $response->headers->set('Cache-Control', 'no-cache');
 
         return $response;
+    }
+
+    private function createGlobalIdView(array $products): array
+    {
+        $productsGen = Util::createGenerator($products);
+
+        $mergedItems = [];
+        foreach ($productsGen as $entry) {
+            $item = $entry['item'];
+            $globalId = $item['globalIdInformation']['global_id'];
+            $listingItems = $item['items'];
+
+            $mergedItems[$globalId] = $listingItems;
+        }
+
+        return $mergedItems;
+    }
+
+    private function createItemsView(array $products): array
+    {
+        $productsGen = Util::createGenerator($products);
+
+        $mergedItems = [];
+        foreach ($productsGen as $entry) {
+            $item = $entry['item'];
+            $listingItems = $item['items'];
+
+            $mergedItems = array_merge($mergedItems, $listingItems);
+        }
+
+        return $mergedItems;
     }
 }

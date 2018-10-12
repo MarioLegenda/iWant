@@ -34,6 +34,7 @@ class ApiSDK
             'limit' => null,
             'page' => null
         ],
+        'views' => [],
     ];
     /**
      * @var array $metadata
@@ -65,6 +66,27 @@ class ApiSDK
     public function addMessage(string $message): ApiSDK
     {
         $this->messages[] = $message;
+
+        return $this;
+    }
+    /**
+     * @param string $viewName
+     * @param array $data
+     * @return ApiSDK
+     */
+    public function addView(string $viewName, array $data): ApiSDK
+    {
+        if (array_key_exists($viewName, $this->config['views'])) {
+            $message = sprintf(
+                '%s exception. View with name \'%s\' already exists',
+                get_class($this),
+                $viewName
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $this->config['views'][$viewName] = $data;
 
         return $this;
     }
@@ -243,6 +265,7 @@ class ApiSDK
                     'totalItems' => count($this->data),
                     'data' => $this->data,
                     'pagination' => $this->config['pagination'],
+                    'views' => $this->config['views'],
                 ],
             ];
         }

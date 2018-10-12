@@ -7,11 +7,15 @@ use App\App\Presentation\EntryPoint\MarketplaceEntryPoint;
 use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
+use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\SingleProductItem;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Representation\ApplicationShopRepresentation;
 use App\Library\Util\TypedRecursion;
+use App\Library\Util\Util;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppController
@@ -145,4 +149,31 @@ class AppController
 
         return $response;
     }
+    /**
+     * @return JsonResponse
+     */
+    public function getGlobalIdsInformation(): JsonResponse
+    {
+        $globalIds = GlobalIdInformation::instance()->getAll();
+
+        /** @var ApiResponseData $responseData */
+        $responseData = $this->apiSdk
+            ->create($globalIds)
+            ->method('GET')
+            ->addMessage('A list of all ebay global ids')
+            ->isCollection()
+            ->setStatusCode(200)
+            ->build();
+
+        $response = new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+
+        $response->headers->set('Cache-Control', 'no-cache');
+
+        return $response;
+    }
+
+
 }

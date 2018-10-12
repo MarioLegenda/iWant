@@ -26,6 +26,26 @@ class ApplicationShopRepresentation
         $this->applicationShopRepository = $applicationShopRepository;
     }
     /**
+     * @return array|ApplicationShop[]
+     */
+    public function getAllShops(): array
+    {
+        $all = $this->applicationShopRepository->findAll();
+
+        $allGen = Util::createGenerator($all);
+
+        foreach ($allGen as $entry) {
+            /** @var ApplicationShop $item */
+            $item = $entry['item'];
+
+            if (!$this->findInCache($item->getApplicationName()) instanceof ApplicationShop) {
+                $this->applicationShopCache[] = $item;
+            }
+        }
+
+        return $all;
+    }
+    /**
      * @param string $key
      * @param string $name
      * @return ApplicationShop

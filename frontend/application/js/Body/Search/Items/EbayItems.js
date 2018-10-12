@@ -8,8 +8,8 @@ const LoadMore = {
         }
     },
     template: `<div class="LoadMoreWrapper">
-                   <p 
-                        @click="loadMore" 
+                   <p
+                        @click="loadMore"
                         class="LoadMore">
                         <span v-if="selected === false">Load more</span>
                         <i v-if="selected === true" class="fas fa-circle-notch fa-spin"></i>
@@ -25,7 +25,7 @@ const LoadMore = {
 
             searchRepo.searchEbay(model, (response) => {
                 this.$store.commit('ebaySearchListing', {
-                    listing: response.collection.data,
+                    listing: response.collection.views.globalIdsView,
                     pagination: response.collection.pagination,
                     model: model,
                 });

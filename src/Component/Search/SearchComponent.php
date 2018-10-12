@@ -45,7 +45,7 @@ class SearchComponent
         if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
             $products = $this->searchResponseCacheImplementation->getStored($uniqueName);
 
-            return json_decode($products);
+            return json_decode($products, true);
         }
 
         $products = apply_on_iterable($this->finder->findEbayProducts($model), function(array $responseData) {

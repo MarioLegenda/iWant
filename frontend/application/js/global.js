@@ -133,6 +133,7 @@ export class Init {
                     if (this.state.ebaySearchListing.length === 0) {
                         this.state.ebaySearchListing = value;
                     } else {
+
                     }
 
                     console.log(this.state.ebaySearchListing);
