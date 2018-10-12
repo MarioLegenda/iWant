@@ -12,6 +12,16 @@ class TodaysProductsRepository {
     }
 }
 
+class AppRepository {
+    async asyncGetEbayGlobalIdsInformation(success) {
+        const route = routes.app_get_ebay_global_id_information;
+
+        const response = await fetch(route);
+
+        success(await response.json());
+    }
+}
+
 class SingleItemRepository {
     getSingleItem(data, success) {
         const route = routes.createRoute('app_get_item', {
@@ -117,6 +127,12 @@ class Factory {
             case 'search':
                 if (!this.repositores.hasOwnProperty(repoName)) {
                     this.repositores[repoName] = new SearchRepository();
+                }
+
+                return this.repositores[repoName];
+            case 'app':
+                if (!this.repositores.hasOwnProperty(repoName)) {
+                    this.repositores[repoName] = new AppRepository();
                 }
 
                 return this.repositores[repoName];

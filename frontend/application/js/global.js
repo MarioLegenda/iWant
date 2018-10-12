@@ -130,13 +130,7 @@ export class Init {
                     this.state.showShops = value;
                 },
                 ebaySearchListing(state, value) {
-                    if (this.state.ebaySearchListing.length === 0) {
-                        this.state.ebaySearchListing = value;
-                    } else {
-
-                    }
-
-                    console.log(this.state.ebaySearchListing);
+                    this.state.ebaySearchListing = value;
                 },
                 searchTerm(state, value) {
                     this.state.searchTerm = value;

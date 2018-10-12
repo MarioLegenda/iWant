@@ -5,6 +5,7 @@ export const routes = {
     app_get_marketplaces: '/api/v1/get-marketplaces',
     app_get_taxonomies: '/api/v1/get-taxonomies',
     app_get_search: '/api/v1/search/ebay/:searchData',
+    app_get_ebay_global_id_information: '/api/v1/get-ebay-global-id-information',
 
     createRoute: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {

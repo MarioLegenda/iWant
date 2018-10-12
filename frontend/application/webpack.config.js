@@ -3,7 +3,7 @@ var webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-    entry: ['whatwg-fetch', './index.js'],
+    entry: ['babel-polyfill', 'whatwg-fetch', './index.js'],
     output: {
         path: path.resolve(__dirname, './../../public/js/dist'),
         publicPath: './../../public/js/dist/',

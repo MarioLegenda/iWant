@@ -5,6 +5,7 @@ const LoadMore = {
     data: function() {
         return {
             selected: false,
+            pages: {},
         }
     },
     template: `<div class="LoadMoreWrapper">
@@ -19,25 +20,35 @@ const LoadMore = {
     methods: {
         loadMore() {
             this.selected = !this.selected;
+            this.updatePages();
 
             const searchRepo = RepositoryFactory.create('search');
             const model = this.createModel();
 
             searchRepo.searchEbay(model, (response) => {
                 this.$store.commit('ebaySearchListing', {
-                    listing: response.collection.views.globalIdsView,
-                    pagination: response.collection.pagination,
+                    listing: response.collection.views.globalIdView,
                     model: model,
                 });
-            });
 
-            this.$emit('on-load-items', []);
+                this.selected = false;
+            });
         },
         createModel() {
             this.requestModel.filters.globalIds.push(this.globalId);
-            this.requestModel.pagination.page += this.requestModel.pagination.page;
+            this.requestModel.pagination = {
+                limit: 4,
+                page: this.pages[this.globalId],
+            };
 
             return this.requestModel;
+        },
+        updatePages() {
+            if (!this.pages.hasOwnProperty(this.globalId)) {
+                this.pages[this.globalId] = 2;
+            } else {
+                this.pages[this.globalId] += 1;
+            }
         }
     }
 };
@@ -46,15 +57,34 @@ export const EbayItems = {
     data: function() {
         return {
             loadMoreData: [],
+            items: {},
+            globalIdInfo: {},
         }
     },
+    created() {
+        RepositoryFactory.create('app').asyncGetEbayGlobalIdsInformation((data) => {
+            const globalIdInfo = data.collection.data;
+
+            this.globalIdInfo = globalIdInfo;
+
+            for (let key in globalIdInfo) {
+                if (globalIdInfo.hasOwnProperty(key)) {
+                    const info = globalIdInfo[key];
+
+                    this.items[info.global_id] = [];
+                    this.$set(this.items, info.global_id, []);
+                }
+            }
+        });
+    },
     template: `
-            <div v-if="ebaySearchListingLoaded()" class="EbayItems SearchItems" id="EbayItemsId">
-                <div v-for="(item, index) in ebaySearchListing.listing" :key="index" class="GlobalIdContainer">
-                    <h1 class="SearchItems_GlobalIdIdentifier">{{item.globalIdInformation.site_name}}</h1>
+            <div v-if="ebaySearchListing" class="EbayItems SearchItems" id="EbayItemsId">
+                <input type="hidden" :value="ebaySearchListing" />
+                <div v-if="products.length > 0" v-for="(products, globalId, index) in items" :key="index" class="GlobalIdContainer">
+                    <h1 class="SearchItems_GlobalIdIdentifier">{{findGlobalIdInfo(globalId).site_name}}</h1>
                     
                     <item
-                        v-for="(item, index) in item.items" 
+                        v-for="(item, index) in products" 
                         :key="index"
                         v-bind:item="item"
                         v-bind:classList="classList"
@@ -62,24 +92,31 @@ export const EbayItems = {
                     </item>
                     
                     <load-more
-                        v-bind:global-id="item.globalIdInformation.global_id"
-                        v-bind:request-model="ebaySearchListing.model"
-                        v-on:on-load-items="onLoadItems">
+                        v-bind:global-id="findGlobalIdInfo(globalId).global_id"
+                        v-bind:request-model="ebaySearchListing.model">
                     </load-more>
                 </div>
             </div>
             `,
     methods: {
-        onLoadItems(items) {
+        findGlobalIdInfo(globalId) {
+            const info = this.globalIdInfo[globalId.toLowerCase()];
 
-        },
-        ebaySearchListingLoaded() {
-            return typeof this.ebaySearchListing !== 'undefined';
+            return info;
         }
     },
     props: ['classList'],
     computed: {
         ebaySearchListing: function() {
+            const listing = this.$store.state.ebaySearchListing.listing;
+
+            for (const item in listing) {
+                if (this.items.hasOwnProperty(item)) {
+                    this.items[item] = this.items[item].concat(listing[item]);
+                    this.$set(this.items, item, this.items[item]);
+                }
+            }
+
             return this.$store.state.ebaySearchListing;
         }
     },

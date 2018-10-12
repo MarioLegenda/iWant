@@ -56,7 +56,7 @@ export const SearchPage = {
 
                 searchRepo.searchEbay(model, (response) => {
                     this.$store.commit('ebaySearchListing', {
-                        listing: response.collection.data,
+                        listing: response.collection.views.globalIdView,
                         pagination: response.collection.pagination,
                         model: model,
                     });
