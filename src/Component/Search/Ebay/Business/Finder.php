@@ -2,7 +2,6 @@
 
 namespace App\Component\Search\Ebay\Business;
 
-use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Factory\PresentationModelFactory;
 use App\Component\Search\Ebay\Model\Request\SearchRequestModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
@@ -15,19 +14,20 @@ use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Library\Information\WorldwideShipping;
 use App\Library\Representation\ApplicationShopRepresentation;
+use App\Library\Util\Environment;
+use App\Library\Util\SlackImplementation;
 use App\Library\Util\Util;
-use Nexy\Slack\Client;
 
 class Finder
 {
     /**
-     * @var string $env
+     * @var Environment $environment
      */
-    private $env;
+    private $environment;
     /**
-     * @var Client $nexySlack
+     * @var SlackImplementation $slackImplementation
      */
-    private $nexySlack;
+    private $slackImplementation;
     /**
      * @var FindingApiEntryPoint $findingApiEntryPoint
      */
@@ -50,8 +50,8 @@ class Finder
     private $countryRepository;
     /**
      * Finder constructor.
-     * @param string $env
-     * @param Client $nexySlack
+     * @param Environment $environment
+     * @param SlackImplementation $slackImplementation
      * @param FindingApiEntryPoint $findingApiEntryPoint
      * @param EbayModelFactory $ebayModelFactory
      * @param ApplicationShopRepresentation $applicationShopRepresentation
@@ -59,21 +59,21 @@ class Finder
      * @param CountryRepository $countryRepository
      */
     public function __construct(
-        string $env,
-        Client $nexySlack,
+        Environment $environment,
+        SlackImplementation $slackImplementation,
         FindingApiEntryPoint $findingApiEntryPoint,
         EbayModelFactory $ebayModelFactory,
         ApplicationShopRepresentation $applicationShopRepresentation,
         PresentationModelFactory $presentationModelFactory,
         CountryRepository $countryRepository
     ) {
-        $this->env = $env;
+        $this->environment = $environment;
+        $this->slackImplementation = $slackImplementation;
         $this->findingApiEntryPoint = $findingApiEntryPoint;
         $this->ebayModelFactory = $ebayModelFactory;
         $this->applicationShopRepresentation = $applicationShopRepresentation;
         $this->presentationModelFactory = $presentationModelFactory;
         $this->countryRepository = $countryRepository;
-        $this->nexySlack = $nexySlack;
     }
     /**
      * @param SearchModel $model
@@ -141,7 +141,7 @@ class Finder
         $responses = [];
         /** @var SearchRequestModel $requestModel */
         foreach ($requestModels as $requestModel) {
-            if ($this->env === 'test') {
+            if ((string) $this->environment === 'test') {
                 $response = $this->findingApiEntryPoint
                     ->findItemsInEbayStores($requestModel->getEntryPointModel());
 
@@ -152,7 +152,7 @@ class Finder
                     'globalIdInformation' => $globalIdInformation,
                     'response' => $response,
                 ];
-            } else if ($this->env === 'dev' OR $this->env === 'prod') {
+            } else if ((string) $this->environment === 'dev' OR (string) $this->environment === 'prod') {
                 try {
                     $response = $this->findingApiEntryPoint
                         ->findItemsInEbayStores($requestModel->getEntryPointModel());
@@ -167,15 +167,9 @@ class Finder
                 } catch (\Exception $e) {
                     // SEND SLACK NOTIFICATION HERE AND PASS THE EXCEPTION FORWARD TO THE EXCEPTION LISTENER
 
-                    $message = $this->nexySlack->createMessage();
+                    $this->slackImplementation->sendMessageToChannel('#http_exceptions', $e->getMessage());
 
-                    $message
-                        ->to('#http_exceptions')
-                        ->setText($e->getMessage());
-
-                    $this->nexySlack->sendMessage($message);
-
-                    // SEND EXCEPTION ONLY WHEN LOGGING LISTENER IS IMPLEMENTED
+                    throw $e;
                 }
             }
         }

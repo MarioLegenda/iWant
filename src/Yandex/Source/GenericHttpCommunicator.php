@@ -5,7 +5,7 @@ namespace App\Yandex\Source;
 use App\Library\Http\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\Response;
-use App\Symfony\Exception\WrapperHttpException;
+use App\Symfony\Exception\ExternalApiNativeException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
@@ -61,13 +61,13 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             TooManyRedirectsException |
             TransferException $e) {
 
-                throw new WrapperHttpException($e);
+                throw new ExternalApiNativeException($e);
         }
     }
     /**
      * @param Request $request
      * @return HttpResponse
-     * @throws WrapperHttpException
+     * @throws ExternalApiNativeException
      */
     private function tryGet(Request $request): HttpResponse
     {
@@ -86,9 +86,9 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             TooManyRedirectsException |
             TransferException $e) {
 
-            throw new WrapperHttpException($e);
+            throw new ExternalApiNativeException($e);
         } catch (\Exception $e) {
-            throw new WrapperHttpException($e);
+            throw new ExternalApiNativeException($e);
         }
     }
     /**

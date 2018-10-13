@@ -35,6 +35,7 @@ class ApiSDK
             'page' => null
         ],
         'views' => [],
+        'isError' => false,
     ];
     /**
      * @var array $metadata
@@ -89,6 +90,22 @@ class ApiSDK
         $this->config['views'][$viewName] = $data;
 
         return $this;
+    }
+    /**
+     * @return ApiSDK
+     */
+    public function isError(): ApiSDK
+    {
+        $this->config['isError'] = true;
+
+        return $this;
+    }
+    /**
+     * @return bool
+     */
+    public function getIsError(): bool
+    {
+        return $this->config['isError'];
     }
     /**
      * @param int $limit
@@ -214,6 +231,7 @@ class ApiSDK
                 'data' => null,
             ],
             'cache_key' => null,
+            'isError' => false,
         ];
 
         $this->metadata = [
@@ -242,6 +260,7 @@ class ApiSDK
         $type = $this->determineType();
         $statusCode = $this->config['metadata']['statusCode'];
         $cacheKey = $this->config['cache_key'];
+        $isError = $this->config['isError'];
 
         return [
             'properties' => $properties,
@@ -250,6 +269,7 @@ class ApiSDK
             'statusCode' => $statusCode,
             'messages' => $this->messages,
             'cache_key' => $cacheKey,
+            'isError' => $isError,
         ];
     }
     /**

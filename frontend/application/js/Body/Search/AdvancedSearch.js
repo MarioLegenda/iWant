@@ -10,7 +10,7 @@ export const AdvancedSearch = {
             showSentence: false,
             keyword: null,
             filters: {
-                lowestPrice: true,
+                lowestPrice: false,
                 highestPrice: false,
                 highQuality: false,
                 shippingCountries: [],

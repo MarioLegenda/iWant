@@ -123,11 +123,6 @@ services:
         resource: '../src/Component'
         exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*}'
 
-    App\Component\Search\Ebay\Business\Finder:
-        arguments:
-            $env: '%env(APP_ENV)%'
-            $nexySlack: '@nexy_slack.client'
-
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:
@@ -164,7 +159,6 @@ services:
     # HTTP REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
-            $env: '%env(APP_ENV)%'
             $communicator: '@App\Ebay\Source\GenericHttpCommunicator'
 
     App\Etsy\Source\Repository\EtsyRepository:

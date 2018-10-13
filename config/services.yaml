@@ -180,10 +180,9 @@ services:
         arguments:
             $yandexApi: '%yandex_api%'
 
-    # REPOSITORY
+    # HTTP REPOSITORY
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
-            $env: '%env(APP_ENV)%'
             $communicator: '@App\Ebay\Source\GenericHttpCommunicator'
 
     App\Etsy\Source\Repository\EtsyRepository:
@@ -207,6 +206,15 @@ services:
         resource: '../src/Cache'
 
     # SYMFONY
+
+    # UTIL
+    App\Library\Util\Environment:
+        arguments:
+            $env: '%env(APP_ENV)%'
+
+    App\Library\Util\SlackImplementation:
+        arguments:
+            $nexySlack: '@nexy_slack.client'
 
     # RESOLVER
     app.symfony.resolver.todays_products_resolver:
@@ -240,15 +248,15 @@ services:
         resource: '../src/Component'
         exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*}'
 
-    App\Component\Search\Ebay\Business\Finder:
-        arguments:
-            $env: '%env(APP_ENV)%'
-            $nexySlack: '@nexy_slack.client'
     # EVENT LISTENER
 
     App\Symfony\Listener\HttpExceptionListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 1000 }
+
+    App\Symfony\Listener\SystemExceptionListener:
+        tags:
+        - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 900 }
 
     # REPOSITORY
     App\Doctrine\Repository\RequestCacheRepository:

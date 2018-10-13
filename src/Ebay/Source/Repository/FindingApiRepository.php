@@ -15,10 +15,6 @@ class FindingApiRepository
      */
     private $memcachedWrapper;
     /**
-     * @var string $env
-     */
-    private $env;
-    /**
      * @var GenericHttpCommunicator $communicator
      */
     private $communicator;
@@ -30,12 +26,10 @@ class FindingApiRepository
      */
     public function __construct(
         MemcachedWrapper $memcachedWrapper,
-        GenericHttpCommunicator $communicator,
-        string $env
+        GenericHttpCommunicator $communicator
     ) {
         $this->memcachedWrapper = $memcachedWrapper;
         $this->communicator = $communicator;
-        $this->env = $env;
     }
     /**
      * @param Request $request

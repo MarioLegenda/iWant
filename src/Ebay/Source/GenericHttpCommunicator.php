@@ -3,6 +3,11 @@
 namespace App\Ebay\Source;
 
 use App\Library\Http\GenericHttpCommunicatorInterface;
+use App\Library\Http\Response\ApiResponseData;
+use App\Library\Http\Response\ApiSDK;
+use App\Library\Util\Environment;
+use App\Symfony\Exception\ExceptionType;
+use App\Symfony\Exception\NetworkExceptionBody;
 use GuzzleHttp\Client;
 use App\Library\Http\Request;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
@@ -15,10 +20,31 @@ use GuzzleHttp\Exception\SeekException;
 use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Exception\TransferException;
-use App\Symfony\Exception\WrapperHttpException;
+use App\Symfony\Exception\ExternalApiNativeException;
+use Http\Client\Exception\NetworkException;
 
 class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 {
+    /**
+     * @var ApiSDK $apiSdk
+     */
+    private $apiSdk;
+    /**
+     * @var Environment $environment
+     */
+    private $environment;
+    /**
+     * GenericHttpCommunicator constructor.
+     * @param Environment $environment
+     * @param ApiSDK $apiSDK
+     */
+    public function __construct(
+        Environment $environment,
+        ApiSDK $apiSDK
+    ) {
+        $this->environment = $environment;
+        $this->apiSdk = $apiSDK;
+    }
     /**
      * @var Client $client
      */
@@ -37,14 +63,54 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         ServerException |
         RequestException |
         BadResponseException |
+        NetworkException |
         ClientException  |
         ConnectException |
         SeekException |
         TooManyRedirectsException |
         TransferException $e) {
-            throw new WrapperHttpException($e);
+            $message = 'A network problem to the Ebay external api has been detected';
+            if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
+                $message = $e->getMessage();
+            }
+
+            /** @var ApiResponseData $builtData */
+            $builtData = $this->apiSdk
+                ->create([
+                    'type' => ExceptionType::HTTP_EXCEPTION,
+                    'message' => $message,
+                    'url' => $request->getBaseUrl(),
+                ])
+                ->isError()
+                ->method('GET')
+                ->setStatusCode(503)
+                ->isResource()
+                ->build();
+
+            $networkExceptionBody = new NetworkExceptionBody($builtData->getStatusCode(), $builtData->toArray());
+
+            throw new ExternalApiNativeException($networkExceptionBody);
         } catch (\Exception $e) {
-            throw new WrapperHttpException($e);
+            $message = 'An unhandled exception has been detected in the Ebay api';
+            if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
+                $message = $e->getMessage();
+            }
+
+            /** @var ApiResponseData $builtData */
+            $builtData = $this->apiSdk
+                ->create([
+                    'type' => ExceptionType::HTTP_EXCEPTION,
+                    'message' => $message,
+                    'url' => $request->getBaseUrl(),
+                ])
+                ->isError()
+                ->setStatusCode(503)
+                ->isResource()
+                ->build();
+
+            $networkExceptionBody = new NetworkExceptionBody($builtData->getStatusCode(), $builtData->toArray());
+
+            throw new ExternalApiNativeException($networkExceptionBody);
         }
     }
     /**
@@ -65,13 +131,28 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
      */
     private function createClient(): Client
     {
+        $options = [
+            'timeout' => $this->getTimeout(),
+        ];
+
         if (!$this->client instanceof Client) {
-            $this->client = new Client([
-                'timeout' => 30,
-            ]);
+            $this->client = new Client($options);
         }
 
         return $this->client;
+    }
+    /**
+     * @param $name
+     */
+    public function __get($name)
+    {
+        if ($name === 'client') {
+            $message = sprintf(
+                'Accessing $client property is forbidden. User GenericHttpCommunicator::createClient() private method instead'
+            );
+
+            throw new \RuntimeException($message);
+        }
     }
     /**
      * @param GuzzleResponse $response
@@ -90,16 +171,20 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         );
     }
     /**
-     * @param $name
+     * @return int
      */
-    public function __get($name)
+    private function getTimeout()
     {
-        if ($name === 'client') {
-            $message = sprintf(
-                'Accessing $client property is forbidden. User GenericHttpCommunicator::createClient() private method instead'
-            );
+        $timeout = 30;
 
-            throw new \RuntimeException($message);
+        if ((string) $this->environment === 'dev') {
+            $timeout = 5;
         }
+
+        if ((string) $this->environment === 'test') {
+            $timeout = false;
+        }
+
+        return $timeout;
     }
 }

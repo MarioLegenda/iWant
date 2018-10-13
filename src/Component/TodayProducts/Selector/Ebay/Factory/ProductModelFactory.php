@@ -8,6 +8,7 @@ use App\Component\TodayProducts\Model\Image;
 use App\Component\TodayProducts\Model\Price;
 use App\Component\TodayProducts\Model\Title;
 use App\Doctrine\Entity\ApplicationShop;
+use App\Doctrine\Entity\NativeTaxonomy;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
@@ -39,7 +40,11 @@ class ProductModelFactory
             (string) $itemId
         );
 
-        $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
+        $taxonomyName = 'Uncategorized';
+
+        if ($applicationShop->getNativeTaxonomy() instanceof NativeTaxonomy) {
+            $taxonomyName = $applicationShop->getNativeTaxonomy()->getName();
+        }
 
         return new TodayProduct(
             $itemId,

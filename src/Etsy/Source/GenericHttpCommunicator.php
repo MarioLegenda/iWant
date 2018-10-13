@@ -7,7 +7,7 @@ use App\Library\Http\Request;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use App\Library\Response as HttpResponse;
-use App\Symfony\Exception\WrapperHttpException;
+use App\Symfony\Exception\ExternalApiNativeException;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\ConnectException;
@@ -62,9 +62,9 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         TooManyRedirectsException |
         TransferException $e) {
 
-            throw new WrapperHttpException($e);
+            throw new ExternalApiNativeException($e);
         } catch (\Exception $e) {
-            throw new WrapperHttpException($e);
+            throw new ExternalApiNativeException($e);
         }
     }
     /**
