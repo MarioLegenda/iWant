@@ -113,6 +113,19 @@ class ShopsRepresentation
                 'uncategorised' => true,
             ],
             [
+                'name' => 'superdrystore',
+                'global_id' => GlobalIdInformation::EBAY_GB,
+                'category' => $allNormalizedCategories['Fashion'],
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+            ],
+            [
+                'name' => 'blowitoutahere',
+                'global_id' => GlobalIdInformation::EBAY_US,
+                'category' => null,
+                'marketplace' => $this->marketplaceRepresentation->ebay,
+                'uncategorised' => true,
+            ],
+            [
                 'name' => 'ModernMud',
                 'global_id' => null,
                 'category' => $allNormalizedCategories['Crafts & Handmade'],

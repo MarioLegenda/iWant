@@ -67,7 +67,7 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
     {
         if (!$this->client instanceof Client) {
             $this->client = new Client([
-                'timeout' => false,
+                'timeout' => 30,
             ]);
         }
 

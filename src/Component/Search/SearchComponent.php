@@ -36,6 +36,7 @@ class SearchComponent
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function searchEbay(SearchModel $model): iterable

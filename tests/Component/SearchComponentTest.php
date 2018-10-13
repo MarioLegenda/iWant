@@ -46,7 +46,6 @@ class SearchComponentTest extends BasicSetup
             $chosenTaxonomyObjects[] = $nativeTaxonomy->toArray();
         }
 
-
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
             'lowestPrice' => false,
