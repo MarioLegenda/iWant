@@ -29,7 +29,10 @@ class HttpExceptionListener
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $this->logger->log('error', $event->getException()->getMessage());
+        $this->logger->critical(sprintf(
+            'Http error detected with json message body: %s',
+            json_encode($event->getException()->getBody()->toArray())
+        ));
 
         /** @var ImplementsExceptionBodyInterface $exception */
         $exception = $event->getException();
