@@ -1,0 +1,21 @@
+magephp:
+  environments:
+    production:
+      log_dir: .mage
+      user: root
+      branch: master
+      from: ./
+      host_path: /var/www
+      releases: 4
+      exclude:
+          - ./var/cache/*
+          - ./var/log/*
+      hosts:
+          - 142.93.111.72
+      pre-deploy:
+          - git/update
+          - composer/install: { timeout: 3600 }
+          - composer/dump-autoload
+      on-deploy:
+          - symfony/cache-warmup: { env: 'prod' }
+          - symfony/assets-install: { env: 'prod' }
