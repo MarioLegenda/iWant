@@ -20,6 +20,36 @@ class AppRepository {
 
         success(await response.json());
     }
+
+    getMarketplaces(data, success) {
+        const route = routes.app_get_marketplaces;
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
+
+    getCountries(data, success) {
+        const route = routes.app_get_countries;
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
+
+    getNativeTaxonomies(data, success) {
+        const route = routes.app_get_taxonomies;
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
 }
 
 class SingleItemRepository {
@@ -38,39 +68,14 @@ class SingleItemRepository {
 }
 
 class MarketplaceRepository {
-    getMarketplaces(data, success) {
-        const route = routes.app_get_marketplaces;
 
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
-    }
 }
 
 class CountryRepository {
-    getCountries(data, success) {
-        const route = routes.app_get_countries;
-
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
-    }
 }
 
 class TaxonomyRepository {
-    getNativeTaxonomies(data, success) {
-        const route = routes.app_get_taxonomies;
 
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
-    }
 }
 
 class SearchRepository {

@@ -83,9 +83,9 @@ export const Taxonomy = {
                </div>`,
     created() {
         if (this.items.length === 0) {
-            const taxonomyRepo = RepositoryFactory.create('taxonomy');
+            const appRepo = RepositoryFactory.create('app');
 
-            taxonomyRepo.getNativeTaxonomies(null, (response) => {
+            appRepo.getNativeTaxonomies(null, (response) => {
                 const responseItems = response.collection.data;
                 let componentItems = [];
 

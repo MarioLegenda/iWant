@@ -89,9 +89,9 @@ export const ShippingCountry = {
                </div>`,
     created() {
         if (this.items.length === 0) {
-            const countryRepo = RepositoryFactory.create('country');
+            const appRepo = RepositoryFactory.create('app');
 
-            countryRepo.getCountries(null, (response) => {
+            appRepo.getCountries(null, (response) => {
                 const responseItems = response.collection.data;
                 let componentItems = [];
 

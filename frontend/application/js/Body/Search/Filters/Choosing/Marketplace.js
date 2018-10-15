@@ -94,9 +94,9 @@ export const Marketplace = {
                </div>`,
     created() {
         if (this.items.length === 0) {
-            const marketplaceRepo = RepositoryFactory.create('marketplace');
+            const appRepo = RepositoryFactory.create('app');
 
-            marketplaceRepo.getMarketplaces(null, (response) => {
+            appRepo.getMarketplaces(null, (response) => {
                 const responseItems = response.collection.data;
                 let componentItems = [];
 
