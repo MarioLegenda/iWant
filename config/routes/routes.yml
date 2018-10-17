@@ -2,7 +2,7 @@ app_static:
     prefix: /
     resource: 'Static/'
     methods: [GET]
-    host: iwouldlike.com
+    host: goiwouldlike.com
     schemes: [http]
     type: directory
     requirements:
@@ -12,7 +12,7 @@ app_dynamic:
     prefix: /api/v1
     resource: 'Dynamic'
     methods: [GET]
-    host: iwouldlike.com
+    host: goiwouldlike.com
     schemes: [http]
     type: directory
     requirements:
