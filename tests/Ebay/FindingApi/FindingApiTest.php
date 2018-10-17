@@ -2,7 +2,6 @@
 
 namespace App\Tests\Ebay\FindingApi;
 
-use App\Bonanza\Library\Response\ResponseItem\ListingInfo;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\AspectHistogramContainer;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\CategoryHistogramContainer;

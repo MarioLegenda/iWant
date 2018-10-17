@@ -115,8 +115,6 @@ services:
         resource: '../src/Symfony'
         exclude: '../src/Symfony/{Exception/*,Resolver/*}'
 
-    App\Library\Tools\MemcachedWrapper:
-
   # COMPONENT SYSTEM
 
     App\Component\:

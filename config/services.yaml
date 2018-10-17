@@ -114,8 +114,6 @@ services:
         resource: '../src/Symfony'
         exclude: '../src/Symfony/{Exception/*,Resolver/*}'
 
-    App\Library\Tools\MemcachedWrapper:
-
     App\Library\Http\HttpCommunicator:
 
     App\Library\Http\Response\ApiSDK:
