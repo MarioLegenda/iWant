@@ -26,20 +26,35 @@ class HttpExceptionListener
     }
     /**
      * @param GetResponseForExceptionEvent $event
+     * @throws \Exception
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $this->logger->critical(sprintf(
-            'Http error detected with json message body: %s',
-            json_encode($event->getException()->getBody()->toArray())
-        ));
+        if (!$event->getRequest()->isXmlHttpRequest()) {
+            $this->logger->critical(sprintf(
+                'Non ajax request caught with the exception handler. Passing it trough. Message %s',
+                $event->getException()->getMessage()
+            ));
+
+            throw $event->getException();
+        }
 
         /** @var ImplementsExceptionBodyInterface $exception */
         $exception = $event->getException();
 
         if (!$exception instanceof ImplementsExceptionBodyInterface) {
+            $this->logger->critical(sprintf(
+                'Http error detected with json message body: %s',
+                json_encode($event->getException()->getMessage())
+            ));
+
             return;
         }
+
+        $this->logger->critical(sprintf(
+            'Http error detected with json message body: %s',
+            json_encode($event->getException()->getBody()->toArray())
+        ));
 
         /** @var Response $response */
         $response = $event->getResponse();

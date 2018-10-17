@@ -42,13 +42,21 @@ class SystemExceptionListener
     }
     /**
      * @param GetResponseForExceptionEvent $event
+     * @throws \Exception
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
+        if (!$event->getRequest()->isXmlHttpRequest()) {
+            $this->logger->critical(sprintf(
+                'Non ajax request caught with the exception handler. Passing it trough. Message %s',
+                $event->getException()->getMessage()
+            ));
+
+            throw $event->getException();
+
+        }
         $this->logger->log('error', $event->getException()->getMessage());
 
-        dump($event->getResponse()->getContent());
-        die();
         /** @var ApiResponseData $builtData */
         $builtData = $this->apiSdk
             ->create([
