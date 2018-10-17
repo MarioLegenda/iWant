@@ -1,5 +1,6 @@
 
 ###> symfony/framework-bundle ###
+.mage
 /.env
 /public/bundles/
 /var/
