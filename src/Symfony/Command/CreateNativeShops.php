@@ -80,6 +80,7 @@ class CreateNativeShops extends BaseCommand
             '<info>Starting command %s</info>',
             $this->getName()
         ));
+
         $this->output->writeln('');
 
         $sellersGen = Util::createGenerator($this->shopsRepresentation->getRepresentation());

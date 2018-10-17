@@ -86,8 +86,6 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        $this->cacheImplementation->store($request, $response->getResponseString());
-
         return $responseModel;
     }
     /**
@@ -111,8 +109,6 @@ class Finder
         if (!$responseModel->getRoot()->isSuccess()) {
             throw new HttpException($response->getResponseString());
         }
-
-        $this->cacheImplementation->store($request, $response->getResponseString());
 
         return $responseModel;
     }
@@ -138,8 +134,6 @@ class Finder
             throw new HttpException($responseModel->getRawResponse());
         }
 
-        $this->cacheImplementation->store($request, $response->getResponseString());
-
         return $responseModel;
     }
     /**
@@ -163,8 +157,6 @@ class Finder
         if (!$responseModel->getRoot()->isSuccess()) {
             throw new HttpException($response->getResponseString());
         }
-
-        $this->cacheImplementation->store($request, $response->getResponseString());
 
         return $responseModel;
     }
@@ -190,8 +182,6 @@ class Finder
             throw new HttpException($response->getResponseString());
         }
 
-        $this->cacheImplementation->store($request, $response->getResponseString());
-
         return $responseModel;
     }
     /**
@@ -215,8 +205,6 @@ class Finder
         if (!$responseModel->getRoot()->isSuccess()) {
             throw new HttpException($response->getResponseString());
         }
-
-        $this->cacheImplementation->store($request, $response->getResponseString());
 
         return $responseModel;
     }
