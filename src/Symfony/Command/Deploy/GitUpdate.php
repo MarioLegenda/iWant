@@ -14,7 +14,7 @@ class GitUpdate extends AbstractTask
 
     public function getDescription()
     {
-        return '[Git] Update';
+        return '[Git] Update. Custom command. Default is not working';
     }
 
     public function execute()

@@ -43,22 +43,24 @@ export const SearchPage = {
                     ebay: false
                 });
 
-                searchRepo.searchEbay(model, (response) => {
-                    this.$store.commit('ebaySearchListing', {
-                        listing: response.collection.views.globalIdView,
-                        pagination: response.collection.pagination,
-                        model: model,
+                setTimeout(() => {
+                    searchRepo.searchEbay(model, (response) => {
+                        this.$store.commit('ebaySearchListing', {
+                            listing: response.collection.views.globalIdView,
+                            pagination: response.collection.pagination,
+                            model: model,
+                        });
+
+                        this.ebayHttpInProgress = false;
+
+                        this.$store.commit('searchLoading', {
+                            searchProgress: false,
+                            ebay: true
+                        });
+
+                        this.scrollIfNotScrolled();
                     });
-
-                    this.ebayHttpInProgress = false;
-
-                    this.$store.commit('searchLoading', {
-                        searchProgress: false,
-                        ebay: true
-                    });
-
-                    this.scrollIfNotScrolled();
-                });
+                }, 500);
 
                 this.ebayHttpInProgress = true;
             }
