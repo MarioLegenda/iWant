@@ -56,7 +56,6 @@ export const Categories = {
                 </div>
             </div>
 </transition>
-
     `,
     computed: {
         showCategories: function() {

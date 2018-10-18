@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Index;
@@ -38,28 +39,36 @@ class NativeTaxonomy implements ArrayNotationInterface
      */
     private $name;
     /**
-     * @var string $name
+     * @var string $internalName
      * @Column(type="string")
      */
     private $internalName;
+    /**
+     * @var string $description
+     * @Column(type="string")
+     */
+    private $description;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
      */
     private $createdAt;
     /**
-     * @var \DateTime $createdAt
+     * @var \DateTime $updatedAt
      * @Column(type="datetime", nullable=true)
      */
     private $updatedAt;
     /**
      * NativeTaxonomy constructor.
      * @param string $name
+     * @param string $description
      */
     public function __construct(
-        string $name
+        string $name,
+        string $description
     ) {
         $this->name = $name;
+        $this->description = $description;
 
         $this->internalName = lcfirst(preg_replace('#\s+|&|,|\.|#', '', $this->name));
     }
@@ -83,6 +92,20 @@ class NativeTaxonomy implements ArrayNotationInterface
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+    /**
+     * @return string
+     */
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
     }
     /**
      * @return string
@@ -128,14 +151,15 @@ class NativeTaxonomy implements ArrayNotationInterface
     }
     /**
      * @PrePersist()
+     * @PreUpdate()
      */
     public function handleDates(): void
     {
-        if ($this->updatedAt instanceof \DateTime) {
+        if ($this->getCreatedAt() instanceof \DateTime) {
             $this->setUpdatedAt(Util::toDateTime());
         }
 
-        if (!$this->createdAt instanceof \DateTime) {
+        if (!$this->getCreatedAt() instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
         }
     }
@@ -147,6 +171,7 @@ class NativeTaxonomy implements ArrayNotationInterface
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
+            'description' => $this->getDescription(),
             'internalName' => $this->getInternalName(),
             'createdAt' => Util::formatFromDate($this->getCreatedAt()),
             'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
