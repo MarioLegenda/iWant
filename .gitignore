@@ -1,6 +1,7 @@
 
 ###> symfony/framework-bundle ###
 .mage
+frontend/application/node_modules
 /.env
 /public/bundles/
 /var/
