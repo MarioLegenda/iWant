@@ -109,7 +109,9 @@ export class Init {
                 singleItem: null,
                 showCategories: false,
                 showShops: false,
-                ebaySearchListing: [],
+                ebaySearchListing: {
+                    listing: [],
+                },
                 searchTerm: null,
                 searchLoading: {
                     searchProgress: false,
