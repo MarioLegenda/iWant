@@ -1,8 +1,0 @@
-[2018-10-17 09:32:15] magephp.DEBUG: Environment: production [] []
-[2018-10-17 09:32:15] magephp.DEBUG: Release ID: 20181017093215 [] []
-[2018-10-17 09:32:15] magephp.DEBUG: Running task [Git] Change Branch (dev) (git/change-branch) [] []
-[2018-10-17 09:32:15] magephp.INFO: git branch | grep "*" [] []
-[2018-10-17 09:32:15] magephp.DEBUG: * dev  [] []
-[2018-10-17 09:32:15] magephp.DEBUG: Task [Git] Change Branch (dev) (git/change-branch) finished with SKIPPED, thrown SkipException [] []
-[2018-10-17 09:32:15] magephp.DEBUG: Running task [Git] Update (git/update) [] []
-[2018-10-17 09:32:15] magephp.INFO: git pull origin dev [] []

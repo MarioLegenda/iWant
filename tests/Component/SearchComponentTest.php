@@ -48,10 +48,10 @@ class SearchComponentTest extends BasicSetup
 
         /** @var SearchModel $model */
         $model = $dataProvider->createSearchRequestModel([
-            'lowestPrice' => false,
-            'highQuality' => true,
-            'highestPrice' => true,
-            'taxonomies' => $chosenTaxonomyObjects,
+            'lowestPrice' => true,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'taxonomies' => [],
             'pagination' => new Pagination(4, 1)
         ]);
 

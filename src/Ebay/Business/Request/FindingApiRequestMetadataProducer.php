@@ -44,7 +44,7 @@ class FindingApiRequestMetadataProducer
     public function getRequest(): Request
     {
         $requestProducer = new RequestProducer($this->createProcessors($this->model));
-
+        
         return new Request($requestProducer->produce());
     }
     /**
