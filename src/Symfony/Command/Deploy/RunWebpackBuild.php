@@ -14,13 +14,13 @@ class RunWebpackBuild extends AbstractTask
 
     public function getDescription()
     {
-        return '[Git] Update. Custom command. Default is not working';
+        return 'Webpack is compiling the latest build';
     }
 
     public function execute()
     {
         $command = sprintf(
-            '/var/www/iwouldlike/current/frontend/application/node_modules/.bin/webpack --mode production --config webpack.config-prod.js'
+            'frontend/application/node_modules/.bin/webpack --mode production --config webpack.config-prod.js'
         );
 
         /** @var Process $process */
