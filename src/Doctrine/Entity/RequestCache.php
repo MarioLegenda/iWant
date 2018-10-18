@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
 use App\Library\Util\Util;
 
@@ -163,10 +164,11 @@ class RequestCache
     }
     /**
      * @PrePersist()
+     * @PreUpdate()
      */
     public function handleDates(): void
     {
-        if ($this->updatedAt instanceof \DateTime) {
+        if ($this->createdAt instanceof \DateTime) {
             $this->setUpdatedAt(Util::toDateTime());
         }
 

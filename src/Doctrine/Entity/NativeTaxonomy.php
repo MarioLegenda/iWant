@@ -155,11 +155,11 @@ class NativeTaxonomy implements ArrayNotationInterface
      */
     public function handleDates(): void
     {
-        if ($this->getCreatedAt() instanceof \DateTime) {
+        if ($this->createdAt instanceof \DateTime) {
             $this->setUpdatedAt(Util::toDateTime());
         }
 
-        if (!$this->getCreatedAt() instanceof \DateTime) {
+        if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
         }
     }

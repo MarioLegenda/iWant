@@ -13,6 +13,7 @@ use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping\Index;
 
@@ -264,10 +265,11 @@ class EbayRootCategory implements ArrayNotationInterface
     }
     /**
      * @PrePersist()
+     * @PreUpdate()
      */
     public function handleDates(): void
     {
-        if ($this->updatedAt instanceof \DateTime) {
+        if ($this->createdAt instanceof \DateTime) {
             $this->setUpdatedAt(Util::toDateTime());
         }
 

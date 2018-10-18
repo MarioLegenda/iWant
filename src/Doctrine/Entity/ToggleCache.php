@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\PrePersist;
+use Doctrine\ORM\Mapping\PreUpdate;
 
 /**
  * @Entity @Table(
@@ -81,6 +82,13 @@ class ToggleCache
         $this->todaysKeywordsCache = $todaysKeywordsCache;
     }
     /**
+     * @return \DateTime|null
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+    /**
      * @param \DateTime $createdAt
      */
     public function setCreatedAt(\DateTime $createdAt): void
@@ -103,10 +111,11 @@ class ToggleCache
     }
     /**
      * @PrePersist()
+     * @PreUpdate()
      */
     public function handleDates(): void
     {
-        if ($this->updatedAt instanceof \DateTime) {
+        if ($this->createdAt instanceof \DateTime) {
             $this->setUpdatedAt(Util::toDateTime());
         }
 
