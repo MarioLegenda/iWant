@@ -182,7 +182,7 @@ class AppController
      * @return JsonResponse
      * @throws \Http\Client\Exception
      */
-    public function onActivity(
+    public function postActivity(
         ActivityMessage $model,
         SlackImplementation $slackImplementation
     ) {

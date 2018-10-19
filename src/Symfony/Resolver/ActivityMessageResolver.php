@@ -33,17 +33,23 @@ class ActivityMessageResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        $data = $request->get('activityMessage');
+        $content = $request->getContent();
 
-        if (!is_string($data)) {
+        if (empty($content)) {
             return false;
         }
 
-        $message = json_decode($data, true);
+        $message = json_decode($content, true);
+
+        if (!array_key_exists('activityMessage', $message)) {
+            return false;
+        }
+
+        $message = $message['activityMessage'];
 
         $this->model = new ActivityMessage(
             $message['message'],
-            $message['additionalData']
+            json_encode($message['additionalData'])
         );
 
         return true;

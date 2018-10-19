@@ -4,6 +4,7 @@ import {routes} from "./routes";
 import Vue from "vue";
 import {Header} from "./Header/Header";
 import {Menu} from "./Menu/Menu";
+import {routes as apiRoutes} from "./apiRoutes";
 
 export const EBAY = 'Ebay';
 export const ETSY = 'Etsy';
@@ -147,6 +148,42 @@ export class Init {
             mode: 'history',
             routes: routes
         });
+
+        Vue.config.errorHandler = function(err, vm, info) {
+            fetch(apiRoutes.app_post_activity_message, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    activityMessage: {
+                        message: `${err.message} ; ${err.stack}`,
+                        additionalData: {
+                            info: info
+                        },
+                    },
+                })
+            });
+        };
+
+        window.onerror = function(message, source, lineno, colno, error) {
+            fetch(apiRoutes.app_post_activity_message, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    activityMessage: {
+                        message: message,
+                        additionalData: {
+                            'source': source,
+                            'lineNumber': lineno,
+                            'colNumber': colno
+                        },
+                    },
+                })
+            });
+        };
 
         new Vue({
             el: '#vue_app',

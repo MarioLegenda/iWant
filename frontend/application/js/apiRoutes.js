@@ -6,6 +6,7 @@ export const routes = {
     app_get_taxonomies: '/api/v1/get-taxonomies',
     app_get_search: '/api/v1/search/ebay/:searchData',
     app_get_ebay_global_id_information: '/api/v1/get-ebay-global-id-information',
+    app_post_activity_message: '/api/v1/activity-message',
 
     createRoute: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {

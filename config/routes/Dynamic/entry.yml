@@ -1,27 +1,39 @@
+app_post_activity_message:
+  path: /activity-message
+  controller: App\Web\Controller\AppController::postActivity
+  methods: [POST]
+
 app_get_todays_products:
   path: /get-todays-products
   controller: App\Web\Controller\TodayProductsController::getTodaysProducts
+  methods: [GET]
 
 app_get_item:
   path: /item/{marketplace}/{itemId}
   controller: App\Web\Controller\AppController::getSingleItem
+  methods: [GET]
 
 app_get_countries:
   path: /get-countries
   controller: App\Web\Controller\AppController::getCountries
+  methods: [GET]
 
 app_get_marketplaces:
   path: /get-marketplaces
   controller: App\Web\Controller\AppController::getMarketplaces
+  methods: [GET]
 
 app_get_taxonomies:
   path: /get-taxonomies
   controller: App\Web\Controller\AppController::getNativeTaxonomies
+  methods: [GET]
 
 app_get_search:
   path: /search/ebay/{searchData}
   controller: App\Web\Controller\SearchController::getSearch
+  methods: [GET]
 
 app_get_ebay_global_id_information:
   path: /get-ebay-global-id-information
   controller: App\Web\Controller\AppController::getGlobalIdsInformation
+  methods: [GET]
