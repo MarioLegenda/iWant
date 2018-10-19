@@ -14,22 +14,4 @@ environments:
         port: 3306
         charset: utf8
 
-    development:
-        adapter: mysql
-        host: localhost
-        name: iwouldlike
-        user: KHF6XvgGS9Ub
-        pass: 'U9bu7My5DcbLtQTPqeuxdpG'
-        port: 3306
-        charset: utf8
-
-    testing:
-        adapter: mysql
-        host: localhost
-        name: iwouldlike
-        user: KHF6XvgGS9Ub
-        pass: 'U9bu7My5DcbLtQTPqeuxdpG'
-        port: 3306
-        charset: utf8
-
 version_order: creation
