@@ -12,10 +12,6 @@ export const Menu = {
                         </div>
                         
                         <div class="menu-item">
-                            <a>Tickets</a>
-                        </div>
-                        
-                        <div class="menu-item">
                             <a v-on:click.stop="showShopsMenu">Shops</a>
                         </div>
                         
