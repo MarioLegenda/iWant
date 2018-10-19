@@ -145,9 +145,12 @@ class AppController
             $responseData->getStatusCode()
         );
 
-        $response->setCache([
-            'max_age' => 60 * 60 * 24 * 30
-        ]);
+        $cacheControl = sprintf(
+            'must-revalidate, max-age=%d',
+            60 * 60 * 24 * 30
+        );
+
+        $response->headers->set('Cache-Control', $cacheControl);
 
         return $response;
     }
