@@ -241,6 +241,8 @@ class ApiSDK
 
         $this->messages = [];
 
+        $this->createCalledFlag = false;
+
         return $this;
     }
     /**

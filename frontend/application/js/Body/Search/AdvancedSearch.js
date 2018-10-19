@@ -110,7 +110,8 @@ export const AdvancedSearch = {
                 pagination: {
                     limit: 4,
                     page: 1,
-                }
+                },
+                viewType: 'globalIdView',
             }
         }
     },

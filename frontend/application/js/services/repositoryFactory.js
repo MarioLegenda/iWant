@@ -67,17 +67,6 @@ class SingleItemRepository {
     }
 }
 
-class MarketplaceRepository {
-
-}
-
-class CountryRepository {
-}
-
-class TaxonomyRepository {
-
-}
-
 class SearchRepository {
     searchEbay(data, success) {
         const route = routes.createRoute('app_get_search', {

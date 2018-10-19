@@ -9,6 +9,7 @@ use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Library\MarketplaceType;
 use App\Tests\Library\FakerTrait;
+use App\Web\Library\View\EbaySearchViewType;
 
 class DataProvider
 {
@@ -31,6 +32,8 @@ class DataProvider
             ? $data['pagination']
             : new Pagination(4, 2);
 
+        $viewType = EbaySearchViewType::fromValue('globalIdView');
+
         return new SearchModel(
             $keyword,
             $lowestPrice,
@@ -40,6 +43,7 @@ class DataProvider
             $marketplaces,
             $taxonomies,
             $pagination,
+            $viewType,
             $globalIds
         );
     }

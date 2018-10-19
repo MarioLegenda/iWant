@@ -5,6 +5,7 @@ namespace App\Symfony\Resolver;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Library\MarketplaceType;
+use App\Web\Library\View\EbaySearchViewType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -46,6 +47,7 @@ class SearchModelResolver implements ArgumentValueResolverInterface
         $filters = $searchData['filters'];
         $keyword = $searchData['keyword'];
         $pagination = $searchData['pagination'];
+        $viewType = EbaySearchViewType::fromValue($searchData['viewType']);
 
         $this->model = new SearchModel(
             $keyword,
@@ -56,6 +58,7 @@ class SearchModelResolver implements ArgumentValueResolverInterface
             $filters['marketplaces'],
             $filters['taxonomies'],
             new Pagination($pagination['limit'], $pagination['page']),
+            $viewType,
             $filters['globalIds']
         );
 

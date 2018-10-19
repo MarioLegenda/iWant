@@ -2,6 +2,9 @@
 
 namespace App\Component\Search\Ebay\Model\Request;
 
+use App\Library\Infrastructure\Type\TypeInterface;
+use App\Web\Library\View\EbaySearchViewType;
+
 class SearchModel
 {
     /**
@@ -41,6 +44,10 @@ class SearchModel
      */
     private $pagination;
     /**
+     * @var string $viewType
+     */
+    private $viewType;
+    /**
      * SearchModel constructor.
      * @param string $keyword
      * @param bool $lowestPrice
@@ -50,6 +57,7 @@ class SearchModel
      * @param array $marketplaces
      * @param array $taxonomies
      * @param Pagination $pagination
+     * @param EbaySearchViewType|TypeInterface $viewType
      * @param array $globalIds
      */
     public function __construct(
@@ -61,6 +69,7 @@ class SearchModel
         array $marketplaces,
         array $taxonomies,
         Pagination $pagination,
+        EbaySearchViewType $viewType,
         array $globalIds = []
     ) {
         $this->keyword = $keyword;
@@ -71,6 +80,7 @@ class SearchModel
         $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
+        $this->viewType = $viewType;
         $this->globalIds = $globalIds;
     }
     /**
@@ -135,5 +145,12 @@ class SearchModel
     public function getGlobalIds(): iterable
     {
         return $this->globalIds;
+    }
+    /**
+     * @return string
+     */
+    public function getViewType(): string
+    {
+        return $this->viewType;
     }
 }
