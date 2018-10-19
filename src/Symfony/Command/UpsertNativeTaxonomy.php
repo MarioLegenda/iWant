@@ -185,15 +185,6 @@ class UpsertNativeTaxonomy extends BaseCommand
         foreach ($questions as $name => $question) {
             $answer = $helper->ask($this->input, $this->output, $question);
 
-            if (empty($answer) and !is_string($answer)) {
-                $message = sprintf(
-                    '\'%s\' has to be a non empty string',
-                    $name
-                );
-
-                throw new \RuntimeException($message);
-            }
-
             $answers[$name] = $answer;
         }
 
@@ -236,15 +227,15 @@ class UpsertNativeTaxonomy extends BaseCommand
     }
     /**
      * @param int $id
-     * @param string $name
-     * @param string $description
+     * @param string|null $name
+     * @param string|null $description
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     private function updateTaxonomy(
         int $id,
-        string $name,
-        string $description
+        string $name = null,
+        string $description = null
     ): void {
         /** @var NativeTaxonomy $existingTaxonomy */
         $existingTaxonomy = $this->nativeTaxonomyRepository->find($id);
@@ -259,8 +250,14 @@ class UpsertNativeTaxonomy extends BaseCommand
         }
 
         $oldName = $existingTaxonomy->getName();
-        $existingTaxonomy->setName($name);
-        $existingTaxonomy->setDescription($description);
+
+        if (!is_null($name) and $existingTaxonomy->getName() !== $name) {
+            $existingTaxonomy->setName($name);
+        }
+
+        if (!is_null($description) and $existingTaxonomy->getDescription() !== $description) {
+            $existingTaxonomy->setDescription($description);
+        }
 
         $this->nativeTaxonomyRepository->persistAndFlush($existingTaxonomy);
 
