@@ -14,8 +14,10 @@ use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\ApplicationShopRepresentation;
+use App\Library\Util\SlackImplementation;
 use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
+use App\Web\Model\Request\ActivityMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AppController
@@ -174,6 +176,24 @@ class AppController
 
         return $response;
     }
+    /**
+     * @param ActivityMessage $model
+     * @param SlackImplementation $slackImplementation
+     * @return JsonResponse
+     * @throws \Http\Client\Exception
+     */
+    public function onActivity(
+        ActivityMessage $model,
+        SlackImplementation $slackImplementation
+    ) {
+        $slackImplementation
+            ->sendMessageToChannel(
+                '#app_activity',
+                json_encode($model->toArray())
+            );
 
-
+        return new JsonResponse(
+            200
+        );
+    }
 }
