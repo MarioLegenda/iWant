@@ -27,7 +27,5 @@ class SingleItemEntryPoint
     public function getSingleItem(SingleItemRequestModel $model)
     {
         return $this->finder->getSingleItem($model);
-
-
     }
 }

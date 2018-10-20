@@ -4,7 +4,7 @@ namespace App\Component\Search\Ebay\Business;
 
 use App\Component\Search\Ebay\Business\Factory\PresentationModelFactory;
 use App\Component\Search\Ebay\Model\Request\SearchRequestModel;
-use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
 use App\Component\Search\Ebay\Business\Factory\EbayModelFactory;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Repository\CountryRepository;
@@ -76,15 +76,15 @@ class Finder
         $this->countryRepository = $countryRepository;
     }
     /**
-     * @param SearchModel $model
+     * @param EbaySearchModel $model
      * @return iterable
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function findEbayProducts(SearchModel $model): iterable
+    public function findEbayProducts(EbaySearchModel $model): iterable
     {
-        $responses = $this->getResponses($model);
+        $responses = $this->getEbayResponses($model);
 
         $responsesGen = Util::createGenerator($responses);
 
@@ -127,13 +127,13 @@ class Finder
         return $searchResponseModels;
     }
     /**
-     * @param SearchModel $model
+     * @param EbaySearchModel $model
      * @return iterable
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    private function getResponses(SearchModel $model): iterable
+    private function getEbayResponses(EbaySearchModel $model): iterable
     {
         /** @var SearchRequestModel[] $requestModels */
         $requestModels = $this->ebayModelFactory->createRequestModels($model);

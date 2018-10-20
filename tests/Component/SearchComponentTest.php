@@ -3,7 +3,8 @@
 namespace App\Tests\Component;
 
 use App\Component\Search\Ebay\Model\Request\Pagination;
-use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\NativeTaxonomyRepository;
@@ -46,8 +47,8 @@ class SearchComponentTest extends BasicSetup
             $chosenTaxonomyObjects[] = $nativeTaxonomy->toArray();
         }
 
-        /** @var SearchModel $model */
-        $model = $dataProvider->createSearchRequestModel([
+        /** @var EbaySearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel([
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -56,5 +57,20 @@ class SearchComponentTest extends BasicSetup
         ]);
 
         $ebayProducts = $searchComponent->searchEbay($model);
+
+        static::assertNotEmpty($ebayProducts);
+    }
+
+    public function test_etsy_search()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        /** @var EtsySearchModel $model */
+        $model = $dataProvider->createEtsySearchRequestModel();
+
+        $searchComponent->searchEtsy($model);
     }
 }

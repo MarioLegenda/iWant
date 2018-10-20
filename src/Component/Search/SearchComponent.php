@@ -3,34 +3,43 @@
 namespace App\Component\Search;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
-use App\Component\Search\Ebay\Business\Finder;
-use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Business\Finder as EbayFinder;
+use App\Component\Search\Etsy\Business\Finder as EtsyFinder;
+use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 
 class SearchComponent
 {
     /**
-     * @var Finder $finder
+     * @var EbayFinder $ebayFinder
      */
-    private $finder;
+    private $ebayFinder;
+    /**
+     * @var EtsyFinder $etsyFinder
+     */
+    private $etsyFinder;
     /**
      * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
      */
     private $searchResponseCacheImplementation;
     /**
      * SearchComponent constructor.
-     * @param Finder $finder
+     * @param EbayFinder $ebayFinder
+     * @param EtsyFinder $etsyFinder
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      */
     public function __construct(
-        Finder $finder,
+        EbayFinder $ebayFinder,
+        EtsyFinder $etsyFinder,
         SearchResponseCacheImplementation $searchResponseCacheImplementation
     ) {
-        $this->finder = $finder;
+        $this->ebayFinder = $ebayFinder;
+        $this->etsyFinder = $etsyFinder;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
     }
     /**
-     * @param SearchModel $model
+     * @param EbaySearchModel $model
      * @return iterable
      * @throws \App\Cache\Exception\CacheException
      * @throws \App\Symfony\Exception\HttpException
@@ -39,7 +48,7 @@ class SearchComponent
      * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function searchEbay(SearchModel $model): iterable
+    public function searchEbay(EbaySearchModel $model): iterable
     {
         $uniqueName = md5(serialize($model));
         /** @var SearchResponseModel[] $ebayProducts */
@@ -49,7 +58,7 @@ class SearchComponent
             return json_decode($products, true);
         }
 
-        $products = apply_on_iterable($this->finder->findEbayProducts($model), function(array $responseData) {
+        $products = apply_on_iterable($this->ebayFinder->findEbayProducts($model), function(array $responseData) {
             $normalizedItems = [];
 
             /** @var SearchResponseModel $searchResponseModel */
@@ -70,14 +79,20 @@ class SearchComponent
 
         return $products;
     }
-
-    public function searchEbayByGlobalId()
+    /**
+     * @param EtsySearchModel $model
+     * @return iterable
+     */
+    public function searchEtsy(EtsySearchModel $model): iterable
     {
+        $uniqueName = md5(serialize($model));
+        /** @var SearchResponseModel[] $ebayProducts */
+        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
+            $products = $this->searchResponseCacheImplementation->getStored($uniqueName);
 
-    }
+            return json_decode($products, true);
+        }
 
-    public function searchEtsy(SearchModel $model): iterable
-    {
-
+        $this->etsyFinder->findEtsyProducts($model);
     }
 }

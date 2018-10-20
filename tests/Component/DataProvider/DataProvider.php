@@ -2,8 +2,10 @@
 
 namespace App\Tests\Component\DataProvider;
 
-use App\Component\Search\Ebay\Model\Request\Pagination;
-use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\Pagination as EbayPagination;
+use App\Component\Search\Etsy\Model\Request\Pagination as EtsyPagination;
+use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\ApplicationShopRepository;
@@ -16,9 +18,9 @@ class DataProvider
     use FakerTrait;
     /**
      * @param array $data
-     * @return SearchModel
+     * @return EbaySearchModel
      */
-    public function createSearchRequestModel(array $data = []): SearchModel
+    public function createEbaySearchRequestModel(array $data = []): EbaySearchModel
     {
         $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter book';
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
@@ -30,11 +32,11 @@ class DataProvider
         $globalIds = (isset($data['globalIds'])) ? $data['globalIds'] : [];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
             ? $data['pagination']
-            : new Pagination(4, 2);
+            : new EbayPagination(4, 2);
 
-        $viewType = EbaySearchViewType::fromValue('globalIdView');
+        $viewType = (isset($data['viewType'])) ? $data['viewType'] : EbaySearchViewType::fromValue('globalIdView');
 
-        return new SearchModel(
+        return new EbaySearchModel(
             $keyword,
             $lowestPrice,
             $highestPrice,
@@ -45,6 +47,30 @@ class DataProvider
             $pagination,
             $viewType,
             $globalIds
+        );
+    }
+    /**
+     * @param array $data
+     * @return EtsySearchModel
+     */
+    public function createEtsySearchRequestModel(array $data = [])
+    {
+        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter book';
+        $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
+        $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
+        $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
+        $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
+        $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
+            ? $data['pagination']
+            : new EtsyPagination(4, 2);
+
+        return new EtsySearchModel(
+            $keyword,
+            $lowestPrice,
+            $highestPrice,
+            $highQuality,
+            $shippingCountries,
+            $pagination
         );
     }
     /**
