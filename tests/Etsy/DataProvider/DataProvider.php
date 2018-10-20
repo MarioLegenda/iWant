@@ -12,6 +12,24 @@ use App\Library\Infrastructure\Helper\TypedArray;
 
 class DataProvider
 {
+    public function getGetListingShop(string $listingId)
+    {
+        $methodType = MethodType::fromKey('getListingShop');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $shopListingQuery = new Query(sprintf('/shops/listing/%s?', $listingId));
+
+        $queries[] = $shopListingQuery;
+
+        $model = new EtsyApiModel(
+            $methodType,
+            TypedArray::create('integer', ItemFilterModel::class),
+            $queries
+        );
+
+        return $model;
+    }
     /**
      * @return EtsyApiModel
      */

@@ -4,6 +4,7 @@ namespace App\Etsy\Source;
 
 use App\Etsy\Source\Repository\EtsyRepository;
 use App\Library\Http\Request;
+use App\Library\Response;
 
 class FinderSource
 {
@@ -22,9 +23,9 @@ class FinderSource
     }
     /**
      * @param Request $request
-     * @return string
+     * @return Response
      */
-    public function getResource(Request $request): string
+    public function getResource(Request $request): Response
     {
         return $this->etsyRepository->getResource($request);
     }

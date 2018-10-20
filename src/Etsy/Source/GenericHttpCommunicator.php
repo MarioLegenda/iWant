@@ -4,6 +4,11 @@ namespace App\Etsy\Source;
 
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\Http\Request;
+use App\Library\Http\Response\ApiResponseData;
+use App\Library\Http\Response\ApiSDK;
+use App\Library\Util\Environment;
+use App\Symfony\Exception\ExceptionType;
+use App\Symfony\Exception\NetworkExceptionBody;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use App\Library\Response as HttpResponse;
@@ -19,6 +24,26 @@ use GuzzleHttp\Exception\TransferException;
 
 class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 {
+    /**
+     * @var ApiSDK $apiSdk
+     */
+    private $apiSdk;
+    /**
+     * @var Environment $environment
+     */
+    private $environment;
+    /**
+     * GenericHttpCommunicator constructor.
+     * @param Environment $environment
+     * @param ApiSDK $apiSDK
+     */
+    public function __construct(
+        Environment $environment,
+        ApiSDK $apiSDK
+    ) {
+        $this->environment = $environment;
+        $this->apiSdk = $apiSDK;
+    }
     /**
      * @var Client $client
      */
@@ -61,10 +86,50 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         SeekException |
         TooManyRedirectsException |
         TransferException $e) {
+            dump($e->getMessage());
+            die();
+            $message = 'A network problem on the Ebay external api has been detected';
+            if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
+                $message = $e->getMessage();
+            }
 
-            throw new ExternalApiNativeException($e);
+            /** @var ApiResponseData $builtData */
+            $builtData = $this->apiSdk
+                ->create([
+                    'type' => ExceptionType::HTTP_EXCEPTION,
+                    'message' => $message,
+                    'url' => $request->getBaseUrl(),
+                ])
+                ->isError()
+                ->method('GET')
+                ->setStatusCode(503)
+                ->isResource()
+                ->build();
+
+            $networkExceptionBody = new NetworkExceptionBody($builtData->getStatusCode(), $builtData->toArray());
+
+            throw new ExternalApiNativeException($networkExceptionBody);
         } catch (\Exception $e) {
-            throw new ExternalApiNativeException($e);
+            $message = 'An unhandled exception has been detected in the Ebay api';
+            if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
+                $message = $e->getMessage();
+            }
+
+            /** @var ApiResponseData $builtData */
+            $builtData = $this->apiSdk
+                ->create([
+                    'type' => ExceptionType::HTTP_EXCEPTION,
+                    'message' => $message,
+                    'url' => $request->getBaseUrl(),
+                ])
+                ->isError()
+                ->setStatusCode(503)
+                ->isResource()
+                ->build();
+
+            $networkExceptionBody = new NetworkExceptionBody($builtData->getStatusCode(), $builtData->toArray());
+
+            throw new ExternalApiNativeException($networkExceptionBody);
         }
     }
     /**

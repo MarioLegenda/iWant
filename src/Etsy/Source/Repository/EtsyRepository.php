@@ -5,6 +5,7 @@ namespace App\Etsy\Source\Repository;
 use App\Etsy\Source\GenericHttpCommunicator;
 use App\Library\Http\Request;
 use App\Library\OfflineMode\OfflineMode;
+use App\Library\Response;
 
 class EtsyRepository
 {
@@ -30,17 +31,10 @@ class EtsyRepository
     }
     /**
      * @param Request $request
-     * @return string
+     * @return Response
      */
-    public function getResource(Request $request): string
+    public function getResource(Request $request): Response
     {
-        if ($this->env === 'dev' or $this->env === 'test') {
-            return OfflineMode::inst()->getResponse(
-                $this->communicator,
-                $request
-            );
-        }
-
         return $this->communicator->get($request);
     }
 }

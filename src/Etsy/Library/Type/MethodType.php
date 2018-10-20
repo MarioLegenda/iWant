@@ -16,5 +16,6 @@ class MethodType extends BaseType
         'findAllListingShippingProfileEntries' => 'FindAllListingShippingProfileEntries',
         'getCountry' => 'GetCountry',
         'findAllListingImages' => 'FindAllListingImages',
+        'getListingShop' => 'GetListingShop',
     ];
 }

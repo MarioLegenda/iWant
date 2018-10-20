@@ -84,8 +84,10 @@ class UnlockedImmutableHashSet implements CollectionInterface
 
         if (isset($this->data[$offset])) {
             $message = sprintf(
-                '%s values can only be set once and cannot be changed later',
-                get_class($this)
+                '%s values can only be set once and cannot be changed later for offset %s with data %s',
+                get_class($this),
+                $offset,
+                serialize($this->data)
             );
 
             throw new \RuntimeException($message);

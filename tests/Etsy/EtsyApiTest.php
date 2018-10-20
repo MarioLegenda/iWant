@@ -5,7 +5,9 @@ namespace App\Tests\Etsy;
 use App\Etsy\Library\Response\CountryResponseModel;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Library\Response\FindAllListingImagesResponseModel;
+use App\Etsy\Library\Response\GetListingShopResponseModel;
 use App\Etsy\Library\Response\ResponseItem\Country;
+use App\Etsy\Library\Response\ResponseItem\ListingShop;
 use App\Etsy\Library\Response\ResponseItem\Result;
 use App\Etsy\Library\Response\ResponseItem\Results;
 use App\Etsy\Library\Response\ResponseItem\ResultsInterface;
@@ -220,6 +222,23 @@ class EtsyApiTest extends BasicSetup
         static::assertNotEmpty($responseModel->getCount());
         static::assertNotEmpty($responseModel->getResults());
         static::assertInstanceOf(ResultsInterface::class, $responseModel->getResults());
+    }
 
+    public function test_get_listing_shop()
+    {
+        /** @var EtsyApiEntryPoint $etsyApiEntryPoint */
+        $etsyApiEntryPoint = $this->locator->get(EtsyApiEntryPoint::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.etsy_api');
+
+        /** @var EtsyApiModel $model */
+        $model = $dataProvider->getGetListingShop('550212552');
+
+        $responseModel = $etsyApiEntryPoint->findGetListingShop($model);
+
+        static::assertInstanceOf(GetListingShopResponseModel::class, $responseModel);
+        static::assertNotEmpty($responseModel->getCount());
+        static::assertNotEmpty($responseModel->getResults());
+        static::assertInstanceOf(ListingShop::class, $responseModel->getResults());
     }
 }

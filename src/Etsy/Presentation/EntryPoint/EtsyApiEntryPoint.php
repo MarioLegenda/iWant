@@ -66,9 +66,22 @@ class EtsyApiEntryPoint
     {
         return $this->finder->findCountryByCountryId($model);
     }
-
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function findAllListingImages(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
         return $this->finder->findAllListingImages($model);
+    }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
+    public function findGetListingShop(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        return $this->finder->findGetListingShop($model);
     }
 }

@@ -9,13 +9,16 @@ use App\Etsy\Business\Request\FindAllListingShippingProfileEntries;
 use App\Etsy\Business\Request\FindAllShopListingsFeatured;
 use App\Etsy\Business\Request\GetCountry;
 use App\Etsy\Business\Request\GetListing;
+use App\Etsy\Business\Request\GetListingShop;
 use App\Etsy\Library\Response\CountryResponseModel;
 use App\Etsy\Library\Response\EtsyApiResponseModelInterface;
 use App\Etsy\Library\Response\FindAllListingImagesResponseModel;
 use App\Etsy\Library\Response\FindAllShopListingsFeaturedResponseModel;
 use App\Etsy\Library\Response\GetListingResponseModel;
+use App\Etsy\Library\Response\GetListingShopResponseModel;
 use App\Etsy\Library\Response\ShippingProfileEntriesResponseModel;
 use App\Library\Http\Request;
+use App\Library\Response;
 use App\Library\Tools\LockedImmutableGenericHashSet;
 use App\Etsy\Library\Processor\ApiKeyProcessor;
 use App\Etsy\Library\Processor\RequestBaseProcessor;
@@ -62,7 +65,6 @@ class Finder
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findAllListingActive(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -75,25 +77,17 @@ class Finder
         /** @var Request $request */
         $request = $findAllListingActive->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createFindAllListingActiveResponseModel(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
-
-        $resource = $this->finderSource->getResource($request);
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $this->createFindAllListingActiveResponseModel($resource);
-
-        $this->cacheImplementation->store($request, $resource);
+        $responseModel = $this->createFindAllListingActiveResponseModel($response->getResponseString());
 
         return $responseModel;
     }
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findAllShopListingsFeatured(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -106,25 +100,17 @@ class Finder
         /** @var Request $request */
         $request = $findAllShopListingFeatured->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createFindAllShopListingsFeaturedResponseModel(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
-
-        $resource = $this->finderSource->getResource($request);
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $this->createFindAllShopListingsFeaturedResponseModel($resource);
-
-        $this->cacheImplementation->store($request, $resource);
+        $responseModel = $this->createFindAllShopListingsFeaturedResponseModel($response->getResponseString());
 
         return $responseModel;
     }
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getListing(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -137,25 +123,17 @@ class Finder
         /** @var Request $request */
         $request = $getListing->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createGetListingResponseModel(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
-
-        $resource = $this->finderSource->getResource($request);
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $this->createGetListingResponseModel($resource);
-
-        $this->cacheImplementation->store($request, $resource);
+        $responseModel = $this->createGetListingResponseModel($response->getResponseString());
 
         return $responseModel;
     }
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findAllListingShippingProfileEntries(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -168,25 +146,17 @@ class Finder
         /** @var Request $request */
         $request = $findAllShippingEntries->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createShippingProfileEntriesResponseModel(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
-
-        $resource = $this->finderSource->getResource($request);
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $this->createShippingProfileEntriesResponseModel($resource);
-
-        $this->cacheImplementation->store($request, $resource);
+        $responseModel = $this->createShippingProfileEntriesResponseModel($response->getResponseString());
 
         return $responseModel;
     }
     /**
      * @param EtsyApiModel $model
-     * @return EtsyApiResponseModelInterface|ShippingProfileEntriesResponseModel
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @return EtsyApiResponseModelInterface
      */
     public function findCountryByCountryId(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -199,25 +169,17 @@ class Finder
         /** @var Request $request */
         $request = $getCountry->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createCountryResponseModel(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
-
-        $resource = $this->finderSource->getResource($request);
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $this->createCountryResponseModel($resource);
-
-        $this->cacheImplementation->store($request, $resource);
+        $responseModel = $this->createCountryResponseModel($response->getResponseString());
 
         return $responseModel;
     }
     /**
      * @param EtsyApiModel $model
      * @return EtsyApiResponseModelInterface
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findAllListingImages(EtsyApiModel $model): EtsyApiResponseModelInterface
     {
@@ -230,18 +192,34 @@ class Finder
         /** @var Request $request */
         $request = $findAllListingImages->getRequest();
 
-        if ($this->cacheImplementation->isRequestStored($request)) {
-            return $this->createListingImagesResponseModel(
-                $this->cacheImplementation->getFromStoreByRequest($request)
-            );
-        }
-
-        $resource = $this->finderSource->getResource($request);
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
 
         /** @var EtsyApiResponseModelInterface $responseModel */
-        $responseModel = $this->createListingImagesResponseModel($resource);
+        $responseModel = $this->createListingImagesResponseModel($response->getResponseString());
 
-        $this->cacheImplementation->store($request, $resource);
+        return $responseModel;
+    }
+    /**
+     * @param EtsyApiModel $model
+     * @return EtsyApiResponseModelInterface
+     */
+    public function findGetListingShop(EtsyApiModel $model): EtsyApiResponseModelInterface
+    {
+        $getListingShop = new GetListingShop(
+            $model,
+            $this->requestBaseProcessor,
+            $this->apiKeyProcessor
+        );
+
+        /** @var Request $request */
+        $request = $getListingShop->getRequest();
+
+        /** @var Response $response */
+        $response = $this->finderSource->getResource($request);
+
+        /** @var EtsyApiResponseModelInterface $responseModel */
+        $responseModel = $this->createGetListingShopResponseModel($response->getResponseString());
 
         return $responseModel;
     }
@@ -304,5 +282,17 @@ class Finder
         $responseData = json_decode($responseString, true);
 
         return new FindAllListingImagesResponseModel(LockedImmutableGenericHashSet::create($responseData));
+    }
+    /**
+     * @param string $responseString
+     * @return EtsyApiResponseModelInterface
+     */
+    private function createGetListingShopResponseModel(string $responseString): EtsyApiResponseModelInterface
+    {
+        $responseData = json_decode($responseString, true);
+
+        return new GetListingShopResponseModel(LockedImmutableGenericHashSet::create($responseData));
+
+
     }
 }
