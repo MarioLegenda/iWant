@@ -4,7 +4,8 @@ export const routes = {
     app_get_countries: '/api/v1/get-countries',
     app_get_marketplaces: '/api/v1/get-marketplaces',
     app_get_taxonomies: '/api/v1/get-taxonomies',
-    app_get_search: '/api/v1/search/ebay/:searchData',
+    app_get_ebay_search: '/api/v1/search/ebay/:searchData',
+    app_get_etsy_search: '/api/v1/search/etsy/:searchData',
     app_get_ebay_global_id_information: '/api/v1/get-ebay-global-id-information',
     app_post_activity_message: '/api/v1/activity-message',
 

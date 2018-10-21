@@ -3,6 +3,7 @@ import {Shops} from "../Homepage/Menu/Shops";
 import {AdvancedSearch} from "./AdvancedSearch";
 import {EbayItems} from "./Items/EbayItems";
 import {RepositoryFactory} from "../../services/repositoryFactory";
+import {EtsyItems} from "./Items/EtsyItems";
 
 export const SearchPage = {
     data: function() {
@@ -19,12 +20,17 @@ export const SearchPage = {
                     
                     <advanced-search
                         v-bind:external-search-term="searchTerm"
-                        v-on:get-ebay-items="onGetEbayItems">
+                        v-on:get-ebay-items="onGetEbayItems"
+                        v-on:get-etsy-items="onGetEtsyItems">
                     </advanced-search>
                     
                     <ebay-items
                         classList="Item SearchItemItem">
                     </ebay-items>
+                    
+                    <etsy-items
+                        classList="Item SearchItemItem">
+                    </etsy-items>
                </div>`,
     computed: {
         searchTerm: function() {
@@ -32,6 +38,29 @@ export const SearchPage = {
         }
     },
     methods: {
+        onGetEtsyItems(model) {
+            setTimeout(() => {
+                const searchRepo = RepositoryFactory.create('search');
+
+                this.$store.commit('searchLoading', {
+                    searchProgress: true,
+                    etsy: false,
+                });
+
+                searchRepo.searchEtsy(model, (response) => {
+                    this.$store.commit('etsySearchListing', {
+                        listing: response.collection.data,
+                        pagination: response.collection.pagination,
+                        model: model,
+                    });
+
+                    this.$store.commit('searchLoading', {
+                        etsy: true
+                    });
+                });
+            }, 500);
+        },
+
         onGetEbayItems(model) {
             this.dataReset();
 
@@ -40,7 +69,7 @@ export const SearchPage = {
 
                 this.$store.commit('searchLoading', {
                     searchProgress: true,
-                    ebay: false
+                    ebay: false,
                 });
 
                 setTimeout(() => {
@@ -58,7 +87,7 @@ export const SearchPage = {
                             ebay: true
                         });
 
-                        this.scrollIfNotScrolled();
+                        //this.scrollIfNotScrolled();
                     });
                 }, 500);
 
@@ -90,7 +119,8 @@ export const SearchPage = {
 
             this.$store.commit('searchLoading', {
                 searchProgress: false,
-                ebay: false
+                ebay: false,
+                etsy: false,
             });
         }
     },
@@ -98,6 +128,7 @@ export const SearchPage = {
         'categories-menu': Categories,
         'shops-menu': Shops,
         'advanced-search': AdvancedSearch,
-        'ebay-items': EbayItems
+        'ebay-items': EbayItems,
+        'etsy-items': EtsyItems,
     }
 };

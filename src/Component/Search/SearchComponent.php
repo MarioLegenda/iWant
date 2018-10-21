@@ -102,13 +102,14 @@ class SearchComponent
 
         /** @var TypedArray $products */
         $products = $this->etsyFinder->findEtsyProducts($model);
+        $productsArray = $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
         $this->searchResponseCacheImplementation->store(
             $uniqueName,
             $model->getPagination()->getPage(),
-            json_encode($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            $productsArray
         );
 
-        return $products;
+        return $productsArray;
     }
 }

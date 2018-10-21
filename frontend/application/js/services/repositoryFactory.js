@@ -69,7 +69,19 @@ class SingleItemRepository {
 
 class SearchRepository {
     searchEbay(data, success) {
-        const route = routes.createRoute('app_get_search', {
+        const route = routes.createRoute('app_get_ebay_search', {
+            searchData: JSON.stringify(data),
+        });
+
+        fetch(route)
+            .then(function(response) {
+                return response.json();
+            })
+            .then(success);
+    }
+
+    searchEtsy(data, success) {
+        const route = routes.createRoute('app_get_etsy_search', {
             searchData: JSON.stringify(data),
         });
 

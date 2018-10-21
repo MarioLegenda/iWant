@@ -113,10 +113,14 @@ export class Init {
                 ebaySearchListing: {
                     listing: [],
                 },
+                etsySearchListing: {
+                    listing: [],
+                },
                 searchTerm: null,
                 searchLoading: {
                     searchProgress: false,
-                    ebay: false
+                    ebay: false,
+                    etsy: false,
                 },
             },
             mutations: {
@@ -134,6 +138,9 @@ export class Init {
                 },
                 ebaySearchListing(state, value) {
                     this.state.ebaySearchListing = value;
+                },
+                etsySearchListing(state, value) {
+                    this.state.etsySearchListing = value;
                 },
                 searchTerm(state, value) {
                     this.state.searchTerm = value;

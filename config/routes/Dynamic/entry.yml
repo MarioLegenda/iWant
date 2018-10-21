@@ -32,7 +32,7 @@ app_get_ebay_search:
   path: /search/ebay/{searchData}
   controller: App\Web\Controller\SearchController::getEbaySearch
   methods: [GET]
-  
+
 app_get_etsy_search:
   path: /search/etsy/{searchData}
   controller: App\Web\Controller\SearchController::getEtsySearch

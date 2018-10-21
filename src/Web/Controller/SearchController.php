@@ -79,12 +79,11 @@ class SearchController
         SearchComponent $searchComponent,
         Environment $environment
     ) {
-        /** @var TypedArray $products */
         $products = $searchComponent->searchEtsy($model);
 
         /** @var ApiResponseData $responseData */
         $responseData = $this->apiSdk
-            ->create($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            ->create($products)
             ->method('GET')
             ->addMessage('A search result')
             ->isCollection()

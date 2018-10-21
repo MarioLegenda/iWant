@@ -102,6 +102,7 @@ export const AdvancedSearch = {
             this.$router.push(`/search/${urlify(this.keyword)}`);
 
             this.$emit('get-ebay-items', this.createModel());
+            this.$emit('get-etsy-items', this.createModel());
         },
         createModel() {
             return {
