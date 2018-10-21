@@ -55,6 +55,8 @@ export const SearchBoxAdvanced = {
                 setTimeout(() => {
                     this.$store.commit('searchLoading', {
                         searchProgress: false,
+                        ebay: false,
+                        etsy: false,
                     });
                 }, 200);
             }
