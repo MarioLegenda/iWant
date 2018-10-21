@@ -124,7 +124,15 @@ class PresentationModelFactory
      */
     private function createImage(Item $model): Image
     {
-        $url = $model->getGalleryUrl();
+        $url = null;
+
+        if (!empty($model->getPictureURLSuperSize())) {
+            $url = $model->getPictureURLSuperSize();
+        } else if (!empty($model->getPictureURLLarge())) {
+            $url = $model->getPictureURLLarge();
+        } else if (!empty($model->getGalleryUrl())) {
+            $url = $model->getGalleryUrl();
+        }
 
         if (is_string($url)) {
             $imageSize = getimagesize($url);

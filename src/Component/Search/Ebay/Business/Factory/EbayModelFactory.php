@@ -73,7 +73,13 @@ class EbayModelFactory
         $this->createRequiredItemFilters($rootMetadata, $itemFilters);
         $this->createModelSpecificItemFilters($model, $itemFilters);
         $this->createCategoryIdItemFilter($rootMetadata, $itemFilters);
-        $this->createOutputSelector($itemFilters);
+        $this->createOutputSelector([
+            'SellerInfo',
+            'StoreInfo',
+            'GalleryInfo',
+            'PictureURLLarge',
+            'PictureURLSuperSize',
+        ], $itemFilters);
         $this->createSortOrder($model, $itemFilters);
 
         $findItemsInEbayStores = new FindItemsInEbayStores($queries);
@@ -220,15 +226,16 @@ class EbayModelFactory
         }
     }
     /**
+     * @param array $selectors
      * @param TypedArray $itemFilters
      */
-    private function createOutputSelector(TypedArray $itemFilters)
+    private function createOutputSelector(array $selectors, TypedArray $itemFilters)
     {
         $outputSelector = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
             ItemFilterConstants::OUTPUT_SELECTOR,
-            ['SellerInfo', 'StoreInfo']
+            [$selectors]
         ));
 
         $itemFilters[] = $outputSelector;

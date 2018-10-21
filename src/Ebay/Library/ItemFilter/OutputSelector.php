@@ -16,7 +16,8 @@ class OutputSelector extends BaseDynamic implements ItemFilterInterface
 
         $validSelectors = OutputSelectorInformation::instance()->getAll();
 
-        foreach ($dynamicValue as $filter) {
+        $filters = $dynamicValue[0];
+        foreach ($filters as $filter) {
             if (in_array($filter, $validSelectors) === false) {
                 $message = sprintf(
                     'Invalid output selector \'%s\'. Valid outputSelector types are %s',
@@ -36,7 +37,7 @@ class OutputSelector extends BaseDynamic implements ItemFilterInterface
      */
     public function urlify(int $counter = null) : string
     {
-        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue();
+        $dynamicValue = $this->getDynamicMetadata()->getDynamicValue()[0];
 
         $counter = 0;
         $final = '';

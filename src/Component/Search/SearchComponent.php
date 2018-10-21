@@ -107,7 +107,7 @@ class SearchComponent
         $this->searchResponseCacheImplementation->store(
             $uniqueName,
             $model->getPagination()->getPage(),
-            $productsArray
+            json_encode($productsArray)
         );
 
         return $productsArray;
