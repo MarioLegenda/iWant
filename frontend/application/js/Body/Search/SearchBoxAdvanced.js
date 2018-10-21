@@ -19,7 +19,7 @@ export const SearchBoxAdvanced = {
                                <p v-if="searchLoading.searchProgress" class="LoadingBar">
                                    Searching
                                    <span v-bind:class="{ active: searchLoading.ebay }">Ebay</span> |
-                                   <span>Etsy</span> |
+                                   <span v-bind:class="{ active: searchLoading.etsy }">Etsy</span> |
                                    <span>Amazon</span>
                                 
                                    <i class="spinner fas fa-circle-notch fa-spin"></i>
@@ -44,6 +44,21 @@ export const SearchBoxAdvanced = {
                </div>`,
     computed: {
         searchLoading: function() {
+            const searchLoading = this.$store.state.searchLoading;
+
+            if (searchLoading.ebay === true && searchLoading.etsy === true) {
+                this.$store.commit('searchLoading', {
+                    ebay: true,
+                    etsy: true,
+                });
+
+                setTimeout(() => {
+                    this.$store.commit('searchLoading', {
+                        searchProgress: false,
+                    });
+                }, 200);
+            }
+
             return this.$store.state.searchLoading;
         }
     },

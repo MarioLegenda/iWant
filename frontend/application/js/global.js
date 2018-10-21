@@ -146,7 +146,7 @@ export class Init {
                     this.state.searchTerm = value;
                 },
                 searchLoading(state, value) {
-                    this.state.searchLoading = value;
+                    this.state.searchLoading = Object.assign({}, this.state.searchLoading, value);
                 },
             }
         });

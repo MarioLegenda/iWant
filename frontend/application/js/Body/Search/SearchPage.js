@@ -83,11 +83,8 @@ export const SearchPage = {
                         this.ebayHttpInProgress = false;
 
                         this.$store.commit('searchLoading', {
-                            searchProgress: false,
                             ebay: true
                         });
-
-                        //this.scrollIfNotScrolled();
                     });
                 }, 500);
 
