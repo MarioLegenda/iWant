@@ -221,7 +221,7 @@ services:
             - { name: controller.argument_value_resolver, priority: 50 }
 
     app.symfony.resolver.search_model_resolver:
-        class: 'App\Symfony\Resolver\SearchModelResolver'
+        class: 'App\Symfony\Resolver\EbaySearchModelResolver'
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 

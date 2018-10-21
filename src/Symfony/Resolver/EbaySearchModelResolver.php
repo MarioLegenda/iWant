@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
 
-class SearchModelResolver implements ArgumentValueResolverInterface
+class EbaySearchModelResolver implements ArgumentValueResolverInterface
 {
     /**
      * @var SearchModel $model

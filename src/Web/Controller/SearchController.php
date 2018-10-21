@@ -2,13 +2,14 @@
 
 namespace App\Web\Controller;
 
-use App\Component\Search\Ebay\Model\Request\SearchModel;
-use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
+use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Environment;
-use App\Library\Util\Util;
+use App\Library\Util\TypedRecursion;
 use App\Web\Library\View\EbaySearchViewType;
 use App\Web\Library\View\StaticViewFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,7 +30,7 @@ class SearchController
         $this->apiSdk = $apiSDK;
     }
     /**
-     * @param SearchModel $model
+     * @param EbaySearchModel $model
      * @param SearchComponent $searchComponent
      * @param Environment $environment
      * @return JsonResponse
@@ -41,7 +42,7 @@ class SearchController
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getEbaySearch(
-        SearchModel $model,
+        EbaySearchModel $model,
         SearchComponent $searchComponent,
         Environment $environment
     ): JsonResponse {
@@ -72,11 +73,43 @@ class SearchController
 
         return $response;
     }
+
+    public function getEtsySearch(
+        EtsySearchModel $model,
+        SearchComponent $searchComponent,
+        Environment $environment
+    ) {
+        /** @var TypedArray $products */
+        $products = $searchComponent->searchEtsy($model);
+
+        /** @var ApiResponseData $responseData */
+        $responseData = $this->apiSdk
+            ->create($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            ->method('GET')
+            ->addMessage('A search result')
+            ->isCollection()
+            ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
+            ->setStatusCode(200)
+            ->build();
+
+        $response = new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+
+        if ((string) $environment === 'dev') {
+            $response->headers->set('Cache-Control', 'no-cache');
+        } else if ((string) $environment === 'prod') {
+            $response->setMaxAge(86400);
+        }
+
+        return $response;
+    }
     /**
-     * @param SearchModel $model
+     * @param EbaySearchModel $model
      * @param array $products
      */
-    private function addRequiredViews(SearchModel $model, array $products)
+    private function addRequiredViews(EbaySearchModel $model, array $products)
     {
         if ((string) $model->getViewType() === (string) EbaySearchViewType::fromValue('globalIdView')) {
             $this->apiSdk->create([]);
