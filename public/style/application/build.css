@@ -637,6 +637,7 @@ html {
   -moz-transition: border 0.5s, color 0.5s;
   -o-transition: border 0.5s, color 0.5s;
   padding: 10px;
+  border-radius: 10px;
 }
 .Item .Item_ItemLink .ItemLink-closer-look:hover {
   border: 1px solid #f78f27;

@@ -3,8 +3,6 @@ parameters:
         ebay: Ebay
         amazon: Amazon
         etsy: Etsy
-        viagogo: Viagogo
-        ticketMaster: ticketmaster
 
     yandex_translation_languages:
         'EBAY-DE': en

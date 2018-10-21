@@ -20,14 +20,6 @@ class MarketplaceRepresentation implements ArrayNotationInterface, \IteratorAggr
      */
     public $amazon;
     /**
-     * @var MarketplaceType $viagogo
-     */
-    public $viagogo;
-    /**
-     * @var MarketplaceType $ticketMaster
-     */
-    public $ticketMaster;
-    /**
      * @var iterable $marketplaces
      */
     public $marketplaces;
