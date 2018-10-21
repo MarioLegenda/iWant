@@ -13,7 +13,5 @@ class MarketplaceType extends BaseType
         'Ebay',
         'Amazon',
         'Etsy',
-        'Viagogo',
-        'ticketmaster',
     ];
 }

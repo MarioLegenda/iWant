@@ -71,6 +71,8 @@ class SearchComponentTest extends BasicSetup
         /** @var EtsySearchModel $model */
         $model = $dataProvider->createEtsySearchRequestModel();
 
-        $searchComponent->searchEtsy($model);
+        $etsyProducts = $searchComponent->searchEtsy($model);
+
+        static::assertNotEmpty($etsyProducts);
     }
 }

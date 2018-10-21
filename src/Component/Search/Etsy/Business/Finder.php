@@ -2,8 +2,9 @@
 
 namespace App\Component\Search\Etsy\Business;
 
-use App\Component\Search\Ebay\Business\Factory\PresentationModelFactory;
+use App\Component\Search\Etsy\Business\Factory\PresentationModelFactory;
 use App\Component\Search\Etsy\Model\Request\SearchModel;
+use App\Component\Search\Etsy\Model\Response\SearchResponseModel;
 use App\Doctrine\Repository\CountryRepository;
 use App\Etsy\Library\ItemFilter\ItemFilterType;
 use App\Etsy\Library\Type\MethodType;
@@ -16,6 +17,7 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\ApplicationShopRepresentation;
 use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
+use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 
 class Finder
@@ -68,24 +70,90 @@ class Finder
         $this->presentationModelFactory = $presentationModelFactory;
         $this->countryRepository = $countryRepository;
     }
-
+    /**
+     * @param SearchModel $model
+     * @return iterable
+     * @throws \Psr\SimpleCache\InvalidArgumentException
+     */
     public function findEtsyProducts(SearchModel $model): iterable
     {
         $findAllListingModel = $this->createFindAllListingsRequestModel($model);
 
         $responses = $this->etsyApiEntryPoint->findAllListingActive($findAllListingModel);
 
-        $responseModelsGen = Util::createGenerator($responses->getResults());
-        foreach ($responses as $entry) {
+        $responseModelsGen = Util::createGenerator($responses->getResults()->toArray());
+
+        $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
+
+        foreach ($responseModelsGen as $entry) {
             $item = $entry['item'];
 
-            $listingId = $item['listingId'];
+            $listingId = $item['listing_id'];
 
-            $listingImages = $this->etsyApiEntryPoint->findAllListingImages($this->createFindAllListingImagesRequestModel($listingId));
+            $listingImages = $this->etsyApiEntryPoint->findAllListingImages(
+                $this->createFindAllListingImagesRequestModel($listingId)
+            );
+
+            $listingShop = $this->etsyApiEntryPoint->findGetListingShop(
+                $this->createGetListingShopRequestModel($listingId)
+            );
+
+            $searchResponseModels[] = $this->presentationModelFactory->createModel(
+                $item,
+                $listingImages->getResults()->toArray(),
+                $listingShop->getResults()
+            );
         }
-    }
 
-    private function createFindAllListingImagesRequestModel(SearchModel $model)
+        return $searchResponseModels;
+    }
+    /**
+     * @param string $listingId
+     * @return EtsyApiModel
+     */
+    private function createGetListingShopRequestModel(string $listingId): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('getListingShop');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $shopListingQuery = new Query(sprintf('/shops/listing/%s?', $listingId));
+
+        $queries[] = $shopListingQuery;
+
+        return new EtsyApiModel(
+            $methodType,
+            TypedArray::create('integer', ItemFilterModel::class),
+            $queries
+        );
+    }
+    /**
+     * @param string $listingId
+     * @return EtsyApiModel
+     */
+    private function createFindAllListingImagesRequestModel(string $listingId): EtsyApiModel
+    {
+        $methodType = MethodType::fromKey('findAllListingImages');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $listingImageQuery = new Query(sprintf('/listings/%s/images?', $listingId));
+
+        $queries[] = $listingImageQuery;
+
+        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
+
+        return new EtsyApiModel(
+            $methodType,
+            $itemFilters,
+            $queries
+        );
+    }
+    /**
+     * @param SearchModel $model
+     * @return EtsyApiModel
+     */
+    private function createFindAllListingsRequestModel(SearchModel $model): EtsyApiModel
     {
         $methodType = MethodType::fromKey('findAllListingActive');
 
@@ -106,25 +174,6 @@ class Finder
             $queries
         );
     }
-
-    private function createFindAllListingsRequestModel(string $listingId): EtsyApiModel
-    {
-        $methodType = MethodType::fromKey('findAllListingImages');
-
-        $queries = TypedArray::create('integer', Query::class);
-
-        $listingImageQuery = new Query(sprintf('/listings/%s/images', $listingId));
-
-        $queries[] = $listingImageQuery;
-
-        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
-
-        return new EtsyApiModel(
-            $methodType,
-            $itemFilters,
-            $queries
-        );
-    }
     /**
      * @param SearchModel $model
      * @param TypedArray $itemFilters
@@ -138,9 +187,26 @@ class Finder
             [$model->getKeyword()]
         ));
 
-        $itemFilters[] = $keywordsModelMetadata;
-    }
+        $pagination = $model->getPagination();
 
+        $limitModelMetadata = new ItemFilterModel(new ItemFilterMetadata(
+            ItemFilterType::fromKey('Limit'),
+            [$pagination->getLimit()]
+        ));
+
+        $pageModelMetadata = new ItemFilterModel(new ItemFilterMetadata(
+            ItemFilterType::fromKey('Page'),
+            [$pagination->getPage()]
+        ));
+
+        $itemFilters[] = $keywordsModelMetadata;
+        $itemFilters[] = $limitModelMetadata;
+        $itemFilters[] = $pageModelMetadata;
+    }
+    /**
+     * @param SearchModel $model
+     * @param TypedArray $itemFilters
+     */
     private function addOptionalItemFilters(
         SearchModel $model,
         TypedArray $itemFilters

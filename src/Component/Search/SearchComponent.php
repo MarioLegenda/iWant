@@ -8,6 +8,8 @@ use App\Component\Search\Etsy\Business\Finder as EtsyFinder;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
 use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
+use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\TypedRecursion;
 
 class SearchComponent
 {
@@ -79,9 +81,14 @@ class SearchComponent
 
         return $products;
     }
+
     /**
      * @param EtsySearchModel $model
      * @return iterable
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function searchEtsy(EtsySearchModel $model): iterable
     {
@@ -93,6 +100,15 @@ class SearchComponent
             return json_decode($products, true);
         }
 
-        $this->etsyFinder->findEtsyProducts($model);
+        /** @var TypedArray $products */
+        $products = $this->etsyFinder->findEtsyProducts($model);
+
+        $this->searchResponseCacheImplementation->store(
+            $uniqueName,
+            $model->getPagination()->getPage(),
+            json_encode($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+        );
+
+        return $products;
     }
 }

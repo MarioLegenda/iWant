@@ -62,7 +62,7 @@ class DataProvider
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
             ? $data['pagination']
-            : new EtsyPagination(4, 2);
+            : new EtsyPagination(4, 1);
 
         return new EtsySearchModel(
             $keyword,

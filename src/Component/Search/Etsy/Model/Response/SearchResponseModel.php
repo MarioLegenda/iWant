@@ -2,19 +2,16 @@
 
 namespace App\Component\Search\Etsy\Model\Response;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 
-class SearchResponseModel
+class SearchResponseModel implements ArrayNotationInterface
 {
     /**
      * @var string $itemId
      */
     private $itemId;
-    /**
-     * @var string|null $globalId
-     */
-    private $globalId;
     /**
      * @var Title $title
      */
@@ -44,17 +41,9 @@ class SearchResponseModel
      */
     private $staticUrl;
     /**
-     * @var string $taxonomyName
-     */
-    private $taxonomyName;
-    /**
      * @var array $shippingLocations
      */
     private $shippingLocations;
-    /**
-     * @var bool $isTranslated
-     */
-    private $isTranslated = false;
     /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
