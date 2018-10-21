@@ -3,6 +3,7 @@
 namespace App\Component\Search\Etsy\Business\Factory;
 
 use App\Component\Search\Etsy\Model\Response\Image;
+use App\Component\Search\Etsy\Model\Response\Nan;
 use App\Component\Search\Etsy\Model\Response\Price;
 use App\Component\Search\Etsy\Model\Response\SearchResponseModel;
 use App\Component\Search\Etsy\Model\Response\Title;
@@ -71,10 +72,14 @@ class PresentationModelFactory
             foreach ($cascade as $imageName) {
                 if (array_key_exists($imageName, $item) and !empty($item[$imageName])) {
                     $imageUrl = $item[$imageName];
+
+                    return new Image($imageUrl);
                 }
             }
         }
 
-        return new Image($imageUrl);
+        return new Image(
+            Nan::fromValue()
+        );
     }
 }

@@ -608,6 +608,7 @@ html {
 .Item .Item_ItemImage img {
   display: block;
   margin: 0 auto;
+  border-radius: 10px;
 }
 .Item .Item_Details {
   width: 100%;
