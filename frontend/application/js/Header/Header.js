@@ -5,8 +5,8 @@ export const Header = {
                    <header>
                        <router-link to="/" class="logo" exact>
                            <span class="logo-part i-part">i</span>
-                           <span class="logo-part am-part">Would</span>
-                           <span class="logo-part buying-part">Like</span>
+                           <span class="logo-part would-part">Would</span>
+                           <span class="logo-part like-part">Like</span>
                        </router-link>
                    </header>
                    
