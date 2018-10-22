@@ -12,7 +12,6 @@ const ImageItem = {
     data: function() {
         return {
             width: '100%',
-            height: '350px',
             url: null
         }
     },
@@ -39,7 +38,7 @@ const ImageItem = {
         }
     },
     template: `
-        <img :src="url" :width="width" :height="height" />
+        <img :src="url" :width="width"/>
     `
 };
 

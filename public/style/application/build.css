@@ -606,6 +606,7 @@ html {
   margin: 0 0 40px 0;
 }
 .Item .Item_ItemImage img {
+  height: 380px;
   display: block;
   margin: 0 auto;
   border-radius: 10px;
@@ -651,7 +652,7 @@ html {
 
 .SearchItemItem {
   width: 480px;
-  height: 620px;
+  height: 650px;
   float: right;
   margin: 0 85px 40px 0;
 }
@@ -986,6 +987,25 @@ html {
   cursor: pointer;
 }
 
+@media only screen and (max-width: 1180px) {
+  .SearchItemItem {
+    width: 430px;
+    margin: 0 5% 80px 0;
+  }
+}
+@media only screen and (max-width: 960px) {
+  .SearchItemItem {
+    width: 360px !important;
+  }
+}
+@media only screen and (max-width: 810px) {
+  .SearchItemItem {
+    width: 400px !important;
+    float: none !important;
+    margin: 0 auto;
+    margin-bottom: 80px;
+  }
+}
 @media only screen and (max-width: 600px) {
   .SearchBox {
     width: 100% !important;
@@ -994,11 +1014,11 @@ html {
   }
 
   .AdvancedSearch {
-    width: 100% !important;
+    width: 480px !important;
   }
 
   .SearchBox_InputBox {
-    width: 93% !important;
+    width: 90% !important;
   }
 
   .InputBox {
@@ -1010,16 +1030,13 @@ html {
   }
 
   .GenericFiltersWrapper {
-    width: 90% !important;
+    width: 100% !important;
     overflow: hidden;
     margin: 0 auto;
   }
 
-  .Filter_Filter-filter {
-    margin-left: 27px;
-  }
-
   .SearchItemItem {
+    width: 410px !important;
     float: none !important;
     margin: 0 auto;
     margin-bottom: 80px;

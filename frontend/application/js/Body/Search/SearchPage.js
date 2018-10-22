@@ -39,6 +39,8 @@ export const SearchPage = {
     },
     methods: {
         onGetEtsyItems(model) {
+            this.dataReset('etsySearchListing');
+
             setTimeout(() => {
                 const searchRepo = RepositoryFactory.create('search');
 
@@ -62,7 +64,7 @@ export const SearchPage = {
         },
 
         onGetEbayItems(model) {
-            this.dataReset();
+            this.dataReset('ebaySearchListing');
 
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
@@ -91,6 +93,7 @@ export const SearchPage = {
                 this.ebayHttpInProgress = true;
             }
         },
+
         scrollIfNotScrolled() {
             const mm = document.getElementById('main_menu');
             const mh = document.getElementById('main_header');
@@ -103,15 +106,16 @@ export const SearchPage = {
                 });
             }, 1000);
         },
-        dataReset() {
+
+        dataReset(property) {
             this.ebayHttpInProgress = false;
 
-            this.$store.commit('ebaySearchListing', {
+            this.$store.commit(property, {
                 listing: [],
                 pagination: {
                     limit: 4,
                     page: 1,
-                }
+                },
             });
 
             this.$store.commit('searchLoading', {
