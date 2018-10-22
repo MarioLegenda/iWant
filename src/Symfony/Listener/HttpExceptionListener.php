@@ -2,7 +2,7 @@
 
 namespace App\Symfony\Listener;
 
-
+use App\Library\Util\SlackImplementation;
 use App\Symfony\Exception\ImplementsExceptionBodyInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,17 +16,24 @@ class HttpExceptionListener
      */
     private $logger;
     /**
+     * @var SlackImplementation $slackImplementation
+     */
+    private $slackImplementation;
+    /**
      * HttpExceptionListener constructor.
      * @param LoggerInterface $logger
+     * @param SlackImplementation $slackImplementation
      */
     public function __construct(
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        SlackImplementation $slackImplementation
     ) {
         $this->logger = $logger;
+        $this->slackImplementation = $slackImplementation;
     }
     /**
      * @param GetResponseForExceptionEvent $event
-     * @throws \Exception
+     * @throws \Http\Client\Exception
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
@@ -36,7 +43,7 @@ class HttpExceptionListener
                 $event->getException()->getMessage()
             ));
 
-            throw $event->getException();
+            return;
         }
 
         /** @var ImplementsExceptionBodyInterface $exception */
@@ -55,6 +62,11 @@ class HttpExceptionListener
             'Http error detected with json message body: %s',
             json_encode($event->getException()->getBody()->toArray())
         ));
+
+        $this->slackImplementation->sendMessageToChannel(
+            '#http_exceptions',
+            json_encode($event->getException()->getBody()->toArray())
+        );
 
         /** @var Response $response */
         $response = $event->getResponse();

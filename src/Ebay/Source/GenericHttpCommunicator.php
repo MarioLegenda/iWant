@@ -96,6 +96,7 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
                     'type' => ExceptionType::HTTP_EXCEPTION,
                     'message' => $message,
                     'url' => $request->getBaseUrl(),
+                    'external_api' => 'ebay',
                 ])
                 ->isError()
                 ->method('GET')
@@ -126,7 +127,9 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
                     'type' => ExceptionType::HTTP_EXCEPTION,
                     'message' => $message,
                     'url' => $request->getBaseUrl(),
+                    'external_api' => 'ebay',
                 ])
+                ->method('GET')
                 ->isError()
                 ->setStatusCode(503)
                 ->isResource()

@@ -5,6 +5,7 @@ namespace App\Symfony\Listener;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Util\Environment;
+use App\Library\Util\SlackImplementation;
 use App\Symfony\Exception\ExceptionType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,35 +27,33 @@ class SystemExceptionListener
      */
     private $logger;
     /**
+     * @var SlackImplementation $slackImplementation
+     */
+    private $slackImplementation;
+    /**
      * SystemExceptionListener constructor.
      * @param Environment $environment
      * @param LoggerInterface $logger
      * @param ApiSDK $apiSDK
+     * @param SlackImplementation $slackImplementation
      */
     public function __construct(
         Environment $environment,
         LoggerInterface $logger,
-        ApiSDK $apiSDK
+        ApiSDK $apiSDK,
+        SlackImplementation $slackImplementation
     ) {
         $this->logger = $logger;
         $this->apiSdk = $apiSDK;
         $this->environment = $environment;
+        $this->slackImplementation = $slackImplementation;
     }
     /**
      * @param GetResponseForExceptionEvent $event
-     * @throws \Exception
+     * @throws \Http\Client\Exception
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        if (!$event->getRequest()->isXmlHttpRequest()) {
-            $this->logger->critical(sprintf(
-                'Non ajax request caught with the exception handler. Passing it trough. Message %s',
-                $event->getException()->getMessage()
-            ));
-
-            throw $event->getException();
-
-        }
         $this->logger->log('error', $event->getException()->getMessage());
 
         /** @var ApiResponseData $builtData */
@@ -68,6 +67,11 @@ class SystemExceptionListener
             ->setStatusCode(500)
             ->isResource()
             ->build();
+
+        $this->slackImplementation->sendMessageToChannel(
+            '#http_exceptions',
+            json_encode($builtData->toArray())
+        );
 
         $response = $event->getResponse();
 

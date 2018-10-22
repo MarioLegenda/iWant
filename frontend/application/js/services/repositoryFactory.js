@@ -1,5 +1,9 @@
 import {routes} from "../apiRoutes";
 
+function parseJson(response) {
+    return response.json();
+}
+
 class TodaysProductsRepository {
     getTodaysProducts(data, success) {
         const route = `${routes.app_get_todays_products}?data=${data}`;
@@ -68,28 +72,34 @@ class SingleItemRepository {
 }
 
 class SearchRepository {
-    searchEbay(data, success) {
+    searchEbay(data, success, error) {
         const route = routes.createRoute('app_get_ebay_search', {
             searchData: JSON.stringify(data),
         });
 
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
+        fetch(route, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        })
+            .then(parseJson)
+            .then(success)
+            .catch(error);
     }
 
-    searchEtsy(data, success) {
+    searchEtsy(data, success, error) {
         const route = routes.createRoute('app_get_etsy_search', {
             searchData: JSON.stringify(data),
         });
 
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
+        fetch(route, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        })
+            .then(parseJson)
+            .then(success)
+            .then(error);
     }
 }
 

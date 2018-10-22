@@ -99,6 +99,12 @@ export const SearchPage = {
                 });
 
                 searchRepo.searchEtsy(model, (response) => {
+                    if (response.status >= 400 && response.status <= 499 ||
+                        response.status >= 500 && response.status <= 599) {
+
+                        return;
+                    }
+
                     this.$store.commit('etsySearchListing', {
                         listing: response.collection.data,
                         pagination: response.collection.pagination,
@@ -107,6 +113,8 @@ export const SearchPage = {
 
                     this.$store.commit('searchLoading', {
                         etsy: true
+                    }, (response) => {
+
                     });
                 });
             }, 500);
@@ -126,6 +134,12 @@ export const SearchPage = {
 
                 setTimeout(() => {
                     searchRepo.searchEbay(model, (response) => {
+                        if (response.status >= 400 && response.status <= 499 ||
+                            response.status >= 500 && response.status <= 599) {
+
+                            return;
+                        }
+
                         this.$store.commit('ebaySearchListing', {
                             listing: response.collection.views.globalIdView,
                             pagination: response.collection.pagination,
@@ -137,6 +151,8 @@ export const SearchPage = {
                         this.$store.commit('searchLoading', {
                             ebay: true
                         });
+                    }, (response) => {
+
                     });
                 }, 500);
 
