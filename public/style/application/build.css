@@ -712,7 +712,13 @@ html {
 #search_page .Filters {
   width: 100%;
   float: left;
+  font-size: 16px !important;
   z-index: -1;
+}
+#search_page .Filters .GenericFiltersWrapper {
+  width: 100%;
+  overflow: hidden;
+  margin: 0 auto;
 }
 #search_page .Filters .Error {
   width: 100%;
@@ -980,11 +986,43 @@ html {
   cursor: pointer;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 600px) {
   .SearchBox {
     width: 100% !important;
     float: left;
     border: 1px solid red;
+  }
+
+  .AdvancedSearch {
+    width: 100% !important;
+  }
+
+  .SearchBox_InputBox {
+    width: 93% !important;
+  }
+
+  .InputBox {
+    width: 100% !important;
+  }
+
+  .SearchBoxAdvanced {
+    width: 100% !important;
+  }
+
+  .GenericFiltersWrapper {
+    width: 90% !important;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  .Filter_Filter-filter {
+    margin-left: 27px;
+  }
+
+  .SearchItemItem {
+    float: none !important;
+    margin: 0 auto;
+    margin-bottom: 80px;
   }
 }
 

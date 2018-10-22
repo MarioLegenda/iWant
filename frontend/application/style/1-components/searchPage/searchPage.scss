@@ -40,7 +40,15 @@
     width: 100%;
     float: left;
 
+    font-size: 16px !important;
+
     z-index: -1;
+
+    .GenericFiltersWrapper {
+      width: 100%;
+      overflow: hidden;
+      margin: 0 auto;
+    }
 
     .Error {
       width: 100%;

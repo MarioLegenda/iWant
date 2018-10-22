@@ -70,36 +70,38 @@ export const Filters = {
                         <h1 class="ChoosingFilters-title">Filter your search results</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
-                                    
-                        <single-add-filter
-                            v-on:add-lowest-price="addLowestPrice"
-                            event-name="add-lowest-price"
-                            filter-text="Lowest price ">
-                        </single-add-filter>
                         
-                        <single-add-filter
-                            v-on:add-highest-price="addHighestPrice"
-                            event-name="add-highest-price"
-                            filter-text="Highest price ">
-                        </single-add-filter>
+                        <div class="GenericFiltersWrapper">
+                            <single-add-filter
+                                v-on:add-lowest-price="addLowestPrice"
+                                event-name="add-lowest-price"
+                                filter-text="Lowest price ">
+                            </single-add-filter>
                         
-                        <single-add-filter
-                            v-on:add-high-quality="addHighQuality"
-                            event-name="add-high-quality"
-                            filter-text="High quality ">
-                        </single-add-filter>
+                            <single-add-filter
+                                v-on:add-highest-price="addHighestPrice"
+                                event-name="add-highest-price"
+                                filter-text="Highest price ">
+                            </single-add-filter>
                         
-                        <shipping-country
-                            v-on:on-add-shipping-countries="addShippingCountries">
-                        </shipping-country>
+                            <single-add-filter
+                                v-on:add-high-quality="addHighQuality"
+                                event-name="add-high-quality"
+                                filter-text="High quality ">
+                            </single-add-filter>
                         
-                        <marketplace
-                            v-on:on-add-marketplaces="addMarketplaces">
-                        </marketplace>
+                            <shipping-country
+                                v-on:on-add-shipping-countries="addShippingCountries">
+                            </shipping-country>
                         
-                        <taxonomy
-                            v-on:on-add-taxonomies="addTaxonomies">
-                        </taxonomy>
+                            <marketplace
+                                v-on:on-add-marketplaces="addMarketplaces">
+                            </marketplace>
+                        
+                            <taxonomy
+                                v-on:on-add-taxonomies="addTaxonomies">
+                            </taxonomy>
+                        </div>
                     </div>
                     
                </div>`,
