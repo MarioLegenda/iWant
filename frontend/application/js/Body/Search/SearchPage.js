@@ -11,6 +11,7 @@ export const SearchPage = {
         return {
             ebayHttpInProgress: false,
             showMarketplaceChoices: false,
+            foundEbayGlobalIds: [],
             marketplaceChoices: {
                 ebay: false,
                 etsy: false,
@@ -30,12 +31,14 @@ export const SearchPage = {
                     
                     <marketplace-choice
                         v-if="showMarketplaceChoices"
+                        v-bind:ebay-global-ids="foundEbayGlobalIds"
                         v-on:on-choice="onMarketplaceChoice">
                     </marketplace-choice>
                     
                     <transition name="fade">
                         <ebay-items
                             :key="1"
+                            v-on:on-global-ids-computed="onEbayGlobalIdsComputed"
                             v-show="marketplaceChoices.ebay"
                             classList="Item SearchItemItem">
                         </ebay-items>
@@ -64,17 +67,19 @@ export const SearchPage = {
         },
     },
     methods: {
-
+        onEbayGlobalIdsComputed(globalIds) {
+            this.foundEbayGlobalIds = globalIds;
+        },
         onMarketplaceChoice(marketplace) {
             for (let choice in this.marketplaceChoices) {
                 if (this.marketplaceChoices.hasOwnProperty(choice)) {
-                    if (choice !== marketplace) {
+                    if (choice !== marketplace.marketplace) {
                         this.marketplaceChoices[choice] = false;
                     }
                 }
             }
 
-            this.marketplaceChoices[marketplace] = true;
+            this.marketplaceChoices[marketplace.marketplace] = true;
         },
         onGetEtsyItems(model) {
             this.dataReset('etsySearchListing');

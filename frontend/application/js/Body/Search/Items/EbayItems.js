@@ -121,12 +121,17 @@ export const EbayItems = {
                 }
             }
 
-            for (const item in listing) {
-                if (this.items.hasOwnProperty(item)) {
-                    this.items[item] = this.items[item].concat(listing[item]);
-                    this.$set(this.items, item, this.items[item]);
+            let globalIds = [];
+            for (const globalId in listing) {
+                if (this.items.hasOwnProperty(globalId)) {
+                    this.items[globalId] = this.items[globalId].concat(listing[globalId]);
+                    this.$set(this.items, globalId, this.items[globalId]);
+
+                    globalIds.push(this.globalIdInfo[globalId.toLowerCase()]);
                 }
             }
+
+            this.$emit('on-global-ids-computed', globalIds);
 
             return this.$store.state.ebaySearchListing;
         }

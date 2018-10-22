@@ -1017,7 +1017,7 @@ html {
   color: #898989;
   font-size: 1.5em;
 }
-#search_page .MarketplaceChoice .ChoiceButtons .ButtonWrapper {
+#search_page .MarketplaceChoice .ChoiceButtons .MarketplaceButtonWrapper {
   width: 100%;
   float: left;
 }

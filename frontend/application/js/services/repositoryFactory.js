@@ -112,24 +112,6 @@ class Factory {
                 }
 
                 return this.repositores[repoName];
-            case 'country':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new CountryRepository();
-                }
-
-                return this.repositores[repoName];
-            case 'marketplace':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new MarketplaceRepository();
-                }
-
-                return this.repositores[repoName];
-            case 'taxonomy':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new TaxonomyRepository();
-                }
-
-                return this.repositores[repoName];
             case 'search':
                 if (!this.repositores.hasOwnProperty(repoName)) {
                     this.repositores[repoName] = new SearchRepository();
