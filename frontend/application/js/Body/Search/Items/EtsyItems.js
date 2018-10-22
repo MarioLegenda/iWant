@@ -60,7 +60,7 @@ export const EtsyItems = {
             <div v-if="etsySearchListing.listing.length > 0" class="EtsyItems SearchItems" id="EtsyItemsId">
                 <input type="hidden" :value="etsySearchListing" />
                 <div class="GlobalIdContainer">
-                    <h1 class="SearchItems_GlobalIdIdentifier">Etsy</h1>
+                    <h1 class="SearchItems_GlobalIdIdentifier"></h1>
                     
                     <item
                         v-for="(item, index) in items"

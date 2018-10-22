@@ -1,0 +1,24 @@
+#search_page {
+  .Sentence {
+    width: 100%;
+    float: left;
+
+    margin-bottom: 30px;
+
+    h1 {
+      padding-bottom: 5px;
+
+      border-bottom: 1px solid $lightestGray;
+    }
+
+    p {
+      margin-top: 10px;
+      line-height: 1.4em;
+    }
+
+    .highlighted {
+      font-weight: bolder;
+      color: black;
+    }
+  }
+}

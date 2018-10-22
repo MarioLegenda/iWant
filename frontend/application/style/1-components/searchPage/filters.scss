@@ -1,0 +1,243 @@
+#search_page {
+  .Filters {
+    width: 100%;
+    float: left;
+
+    font-size: 16px !important;
+
+    z-index: -1;
+
+    .GenericFiltersWrapper {
+      width: 100%;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+
+    .Error {
+      width: 100%;
+      float: left;
+
+      color: red;
+
+      margin: 10px 0 20px 0;
+    }
+
+    .Filters_AddedFilters {
+      width: 100%;
+      float: left;
+
+      margin-bottom: 30px;
+    }
+
+    .Filters_ChoosingFilters {
+      width: 100%;
+      float: left;
+
+      .ChoosingFilters-title {
+        width: 100%;
+        float: left;
+
+        padding: 10px 10px 5px 0;
+        border-bottom: 1px solid $lightestGray;
+
+        margin-bottom: 10px;
+      }
+    }
+
+    .filter {
+      position: relative;
+
+      margin-bottom: 5px;
+    }
+
+    .Filter-select {
+      width: 468px;
+      float: left;
+
+      border: 1px solid $lightestGray;
+      margin-top: 10px;
+
+      font-size: 1em;
+
+      line-height: 1.4em;
+
+      .clickable-select-choice {
+        padding: 10px;
+      }
+
+      #ShippingCountryModal, .Modal {
+        .Modal_Header {
+          width: 100%;
+          float: left;
+
+          font-family: $mainFont;
+          color: $middleGray;
+
+          padding: 10px 0 5px 0;
+
+          border-bottom: 1px solid $lightestGray;
+        }
+
+        .Modal_Body {
+          width: 100%;
+          float: left;
+          height: 400px;
+          overflow: auto;
+
+          margin-top: 10px;
+
+          p {
+            width: 100%;
+            float: left;
+
+            position: relative;
+
+            color: $middleGray;
+
+            font-family: $mainFont;
+
+            border-bottom: 1px solid white;
+
+            transition: border-bottom 0.5s;
+            -webkit-transition: border-bottom 0.5s;
+            -moz-transition: border-bottom 0.5s;
+            -o-transition: border-bottom 0.5s;
+
+            padding: 10px 10px 10px 0;
+
+            &:hover {
+              cursor: pointer;
+
+              border-bottom: 1px solid $basicOrange;
+            }
+
+            i {
+              position: absolute;
+              right: 30px;
+              bottom: 12px;
+
+              color: green;
+            }
+          }
+        }
+
+        button {
+          width: 70px;
+          float: right;
+          border: none;
+
+          padding: 7px;
+          background-color: none;
+          font-family: $mainFont;
+
+          font-size: 1.2em;
+
+          color: $middleGray;
+        }
+
+        .Modal_ChooseButton {
+          border: 1px solid $lightestGray;
+          font-family: $mainFont;
+          font-size: 1em;
+
+          transition: border 0.5s;
+          -webkit-transition: border 0.5s;
+          -o-transition: border 0.5s;
+          -moz-transition: border 0.5s;
+
+          margin-top: 20px;
+        }
+
+        .Modal_ChooseButton:hover {
+          cursor: pointer;
+          border: 1px solid $basicOrange;
+        }
+      }
+
+      #TaxonomyModal {
+        .Modal_Body {
+          height: auto;
+        }
+      }
+
+      #MarketplaceModal {
+        .Modal_Body {
+          height: 150px;
+        }
+      }
+
+      .clickable-select-choice {
+        width: 100%;
+        float: left;
+        text-align: center;
+        padding: 10px;
+      }
+
+      i {
+        position: absolute;
+        right: 5px;
+
+        -webkit-transition: color 0.5s;
+        -moz-transition: color 0.5s;
+        -o-transition: color 0.5s;
+        transition: color 0.5s;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .Filter-simple {
+      display: block;
+      width: 150px;
+      float: left;
+
+      font-size: 1em;
+
+      border: 1px solid $lightestGray;
+
+      transition: border 0.5s;
+      -webkit-transition: border 0.5s;
+      -moz-transition: border 0.5s;
+      -o-transition: border 0.5s;
+
+      text-align: center;
+
+      margin-right: 9px;
+      padding: 10px;
+
+      i {
+        position: absolute;
+        right: 5px;
+
+        -webkit-transition: color 0.5s;
+        -moz-transition: color 0.5s;
+        -o-transition: color 0.5s;
+        transition: color 0.5s;
+      }
+
+      &:hover {
+        border: 1px solid $basicOrange;
+        cursor: pointer;
+      }
+
+      &:hover i {
+        color: $basicOrange;
+      }
+    }
+
+    .added {
+      border: 1px solid $basicOrange;
+      padding: 10px;
+
+      i {
+        color: $basicOrange;
+      }
+    }
+
+    .highlight-added {
+      font-weight: bolder;
+    }
+  }
+}

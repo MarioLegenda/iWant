@@ -4,40 +4,78 @@ import {AdvancedSearch} from "./AdvancedSearch";
 import {EbayItems} from "./Items/EbayItems";
 import {RepositoryFactory} from "../../services/repositoryFactory";
 import {EtsyItems} from "./Items/EtsyItems";
+import {MarketplaceChoice} from "./MarketplaceChoice";
 
 export const SearchPage = {
     data: function() {
         return {
             ebayHttpInProgress: false,
+            showMarketplaceChoices: false,
+            marketplaceChoices: {
+                ebay: false,
+                etsy: false,
+            },
         }
     },
     beforeDestroy() {
         this.dataReset();
     },
     template: `<div id="search_page">
-                    <categories-menu></categories-menu>
-                    <shops-menu></shops-menu>
-                    
+                    <input type="hidden" :value="searchLoading" />
                     <advanced-search
                         v-bind:external-search-term="searchTerm"
                         v-on:get-ebay-items="onGetEbayItems"
                         v-on:get-etsy-items="onGetEtsyItems">
                     </advanced-search>
                     
-                    <ebay-items
-                        classList="Item SearchItemItem">
-                    </ebay-items>
+                    <marketplace-choice
+                        v-if="showMarketplaceChoices"
+                        v-on:on-choice="onMarketplaceChoice">
+                    </marketplace-choice>
                     
-                    <etsy-items
-                        classList="Item SearchItemItem">
-                    </etsy-items>
+                    <transition name="fade">
+                        <ebay-items
+                            :key="1"
+                            v-show="marketplaceChoices.ebay"
+                            classList="Item SearchItemItem">
+                        </ebay-items>
+                    </transition>
+                    
+                    <transition name="fade">
+                        <etsy-items
+                            :key="2"
+                            v-show="marketplaceChoices.etsy"
+                            classList="Item SearchItemItem">
+                        </etsy-items>
+                    </transition>
                </div>`,
     computed: {
         searchTerm: function() {
             return this.$store.state.searchTerm;
-        }
+        },
+        searchLoading: function() {
+            const searchLoading = this.$store.state.searchLoading;
+
+            if (searchLoading.ebay === true && searchLoading.etsy === true) {
+                this.showMarketplaceChoices = true;
+            }
+
+            return this.$store.state.searchLoading;
+        },
     },
     methods: {
+
+        onMarketplaceChoice(marketplace) {
+            for (let choice in this.marketplaceChoices) {
+                if (this.marketplaceChoices.hasOwnProperty(choice)) {
+                    if (choice !== marketplace) {
+                        this.marketplaceChoices[choice] = false;
+                    }
+                }
+            }
+
+            this.marketplaceChoices[marketplace] = true;
+        },
         onGetEtsyItems(model) {
             this.dataReset('etsySearchListing');
 
@@ -131,5 +169,6 @@ export const SearchPage = {
         'advanced-search': AdvancedSearch,
         'ebay-items': EbayItems,
         'etsy-items': EtsyItems,
+        'marketplace-choice': MarketplaceChoice,
     }
 };
