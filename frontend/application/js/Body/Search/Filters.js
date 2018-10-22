@@ -1,16 +1,12 @@
 import {Sentence} from "./Sentence";
-import {LowestPrice} from "./Filters/Choosing/LowestPrice";
-import {LowestPriceView} from "./Filters/View/LowestPriceView";
-import {HighestPrice} from "./Filters/Choosing/HighestPrice";
-import {HighestPriceView} from "./Filters/View/HighestPriceView";
-import {HighQuality} from "./Filters/Choosing/HighQuality";
-import {HighQualityView} from "./Filters/View/HighQualityView";
 import {ShippingCountry} from "./Filters/Choosing/ShippingCountry";
 import {ShippingCountriesView} from "./Filters/View/ShippingCountriesView";
 import {Marketplace} from "./Filters/Choosing/Marketplace";
 import {MarketplaceView} from "./Filters/View/MarketplaceView";
 import {Taxonomy} from "./Filters/Choosing/Taxonomy";
 import {TaxonomyView} from "./Filters/View/TaxonomyView";
+import {SingleAddFilter} from "./Filters/Choosing/SingleAddFilter";
+import {SingleAddView} from "./Filters/View/SingleAddView";
 
 export const Filters = {
     data: function() {
@@ -30,20 +26,26 @@ export const Filters = {
     template: `<div class="Filters">
 
                     <div class="Filters_AddedFilters">
-                        <lowest-price-view
+                        <single-add-view
                             v-if="lowestPriceView"
-                            v-on:remove-lowest-price="removeLowestPrice">
-                        </lowest-price-view>
+                            v-on:remove-lowest-price="removeLowestPrice"
+                            event-name="remove-lowest-price"
+                            filter-text="Lowest price ">
+                        </single-add-view>
                         
-                        <highest-price-view
+                        <single-add-view
                             v-if="highestPriceView"
-                            v-on:remove-highest-price="removeHighestPrice">
-                        </highest-price-view>
+                            v-on:remove-highest-price="removeHighestPrice"
+                            event-name="remove-highest-price"
+                            filter-text="Highest price ">
+                        </single-add-view>
                         
-                        <high-quality-view
+                        <single-add-view
                             v-if="highQualityView"
-                            v-on:remove-high-quality="removeHighQuality">
-                        </high-quality-view>
+                            v-on:remove-high-quality="removeHighQuality"
+                            event-name="remove-high-quality"
+                            filter-text="High quality ">
+                        </single-add-view>
                         
                         <shipping-countries-view
                             v-if="shippingCountriesView"
@@ -68,18 +70,24 @@ export const Filters = {
                         <h1 class="ChoosingFilters-title">Filter your search results</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
-                                                
-                        <lowest-price
-                            v-on:add-lowest-price="addLowestPrice">
-                        </lowest-price>
+                                    
+                        <single-add-filter
+                            v-on:add-lowest-price="addLowestPrice"
+                            event-name="add-lowest-price"
+                            filter-text="Lowest price ">
+                        </single-add-filter>
                         
-                        <highest-price
-                            v-on:add-highest-price="addHighestPrice">
-                        </highest-price>
+                        <single-add-filter
+                            v-on:add-highest-price="addHighestPrice"
+                            event-name="add-highest-price"
+                            filter-text="Highest price ">
+                        </single-add-filter>
                         
-                        <high-quality
-                            v-on:add-high-quality="addHighQuality">
-                        </high-quality>
+                        <single-add-filter
+                            v-on:add-high-quality="addHighQuality"
+                            event-name="add-high-quality"
+                            filter-text="High quality ">
+                        </single-add-filter>
                         
                         <shipping-country
                             v-on:on-add-shipping-countries="addShippingCountries">
@@ -233,12 +241,6 @@ export const Filters = {
         },
     },
     components: {
-        'lowest-price-view': LowestPriceView,
-        'lowest-price': LowestPrice,
-        'highest-price-view': HighestPriceView,
-        'highest-price': HighestPrice,
-        'high-quality': HighQuality,
-        'high-quality-view': HighQualityView,
         'shipping-country': ShippingCountry,
         'shipping-countries-view': ShippingCountriesView,
         'marketplace': Marketplace,
@@ -246,5 +248,7 @@ export const Filters = {
         'taxonomy': Taxonomy,
         'taxonomy-view': TaxonomyView,
         'sentence': Sentence,
+        'single-add-filter': SingleAddFilter,
+        'single-add-view': SingleAddView,
     }
 };
