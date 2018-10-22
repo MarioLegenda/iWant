@@ -22,8 +22,6 @@ export const Homepage = {
                              </div>
                          </div>
                      </div>
-                     
-                     <todays-picks></todays-picks>
                </div>`,
     created() {
         if (isObjectEmpty(this.$store.state.todaysProductsListing)) {
