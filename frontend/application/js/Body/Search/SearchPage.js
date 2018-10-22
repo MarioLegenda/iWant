@@ -20,11 +20,7 @@ export const SearchPage = {
         }
     },
     beforeDestroy() {
-        this.dataReset('ebaySearchListing');
-        this.dataReset('etsySearchListing');
-        this.resetMarketplaceChoices({marketplace: 'etsy'});
-        this.resetMarketplaceChoices({marketplace: 'ebay'});
-        this.resetChoices();
+        this.fullSearchComponentReset();
     },
     template: `<div id="search_page">
                     <input type="hidden" :value="searchLoading" />
@@ -62,6 +58,7 @@ export const SearchPage = {
         searchTerm: function() {
             return this.$store.state.searchTerm;
         },
+
         searchLoading: function() {
             const searchLoading = this.$store.state.searchLoading;
 
@@ -91,6 +88,7 @@ export const SearchPage = {
 
         onGetEtsyItems(model) {
             this.dataReset('etsySearchListing');
+            this.resetChoices();
 
             setTimeout(() => {
                 const searchRepo = RepositoryFactory.create('search');
@@ -116,6 +114,7 @@ export const SearchPage = {
 
         onGetEbayItems(model) {
             this.dataReset('ebaySearchListing');
+            this.resetChoices();
 
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
@@ -176,9 +175,9 @@ export const SearchPage = {
                 }
             }
 
-            this.currentEbayGlobalId = null;
-            this.showMarketplaceChoices = false;
-            this.foundEbayGlobalIds = [];
+            if (this.currentEbayGlobalId !== null) this.currentEbayGlobalId = null;
+            if (this.showMarketplaceChoices) this.showMarketplaceChoices = false;
+            if (this.foundEbayGlobalIds.length > 0) this.foundEbayGlobalIds = [];
         },
 
         dataReset(property) {
@@ -197,6 +196,14 @@ export const SearchPage = {
                 ebay: false,
                 etsy: false,
             });
+        },
+
+        fullSearchComponentReset() {
+            this.dataReset('ebaySearchListing');
+            this.dataReset('etsySearchListing');
+            this.resetMarketplaceChoices({marketplace: 'etsy'});
+            this.resetMarketplaceChoices({marketplace: 'ebay'});
+            this.resetChoices();
         }
     },
     components: {
