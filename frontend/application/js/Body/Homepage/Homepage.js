@@ -6,9 +6,6 @@ import {Shops} from "./Menu/Shops";
 export const Homepage = {
     template: `<div>
                     <div id="StartPage">
-                    
-                        <categories-menu></categories-menu>
-                        <shops-menu></shops-menu>
                         
                         <div class="StartPage-background-image">
                             <img src="/images/start_page_background.jpg"/>

@@ -198,7 +198,6 @@ export class Init {
             router: router,
             template: `<div v-on:click="globalEventResolver($event)">
                    <Header></Header>
-                   <Categories></Categories>
                    
                    <router-view></router-view>
                </div>`,
@@ -215,8 +214,7 @@ export class Init {
                 }
             },
             components: {
-                Header,
-                Categories: Menu
+                Header
             }
         });
     }
