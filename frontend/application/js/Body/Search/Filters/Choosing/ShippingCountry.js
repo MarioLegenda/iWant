@@ -1,5 +1,6 @@
 import {RepositoryFactory} from "../../../../services/repositoryFactory";
 import {Modal} from "../../../../global/modal";
+import {SelectedItems} from "./SelectedItems";
 
 const Choice = {
     template: `
@@ -16,44 +17,6 @@ const Choice = {
         }
     }
 };
-
-class SelectedItems {
-    constructor() {
-        this.items = [];
-    }
-
-    length() {
-        let len = 0;
-        for (let item in this.items) {
-            len++;
-        }
-
-        return len;
-    }
-
-    normalize() {
-        let normalized = [];
-        for (let item of this.items) {
-            if (typeof item !== 'undefined') {
-                normalized.push(item);
-            }
-        }
-
-        return normalized;
-    }
-
-    clear() {
-        this.items = [];
-    }
-
-    remove(index) {
-        this.items.splice(index, 1);
-    }
-
-    add(item) {
-        this.items[item.index] = item;
-    }
-}
 
 export const ShippingCountry = {
     data: function() {
