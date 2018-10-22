@@ -16,6 +16,8 @@ class TodayProductsComponentTest extends BasicSetup
 {
     public function test_todays_products_component()
     {
+        static::markTestSkipped();
+
         $component = $this->locator->get(TodayProductsComponent::class);
 
         $products = $component->getTodaysProducts(new TodayProductRequestModel(

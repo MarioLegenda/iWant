@@ -43,14 +43,4 @@ class AppTest extends BasicSetup
             static::assertInstanceOf(Country::class, $country);
         }
     }
-
-    public function test_get_native_taxonomies()
-    {
-        /** @var NativeTaxonomyEntryPoint $nativeTaxonomyEntryPoint */
-        $nativeTaxonomyEntryPoint = $this->locator->get(NativeTaxonomyEntryPoint::class);
-
-        $taxonomies = $nativeTaxonomyEntryPoint->getNativeTaxonomies();
-
-
-    }
 }
