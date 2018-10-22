@@ -212,6 +212,8 @@ export const SearchPage = {
                 ebay: false,
                 etsy: false,
             });
+
+            this.$store.commit('searchTerm', null);
         },
 
         fullSearchComponentReset() {

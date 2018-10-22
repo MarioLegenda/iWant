@@ -7,6 +7,9 @@ export const SearchBox = {
             term: null
         }
     },
+    created() {
+        this.term = null;
+    },
     template: `<div class="SearchBox">
                            <div class="SearchBox_InputBox">
                                 <input @input="onInputChange" v-on:keydown.enter="submit" type="text" v-model="term" placeholder="what would you like?" />
