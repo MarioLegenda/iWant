@@ -69,7 +69,9 @@ class SearchComponentTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.component');
 
         /** @var EtsySearchModel $model */
-        $model = $dataProvider->createEtsySearchRequestModel();
+        $model = $dataProvider->createEtsySearchRequestModel([
+            'keyword' => 'hoover',
+        ]);
 
         $etsyProducts = $searchComponent->searchEtsy($model);
 

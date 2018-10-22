@@ -17,7 +17,6 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\ApplicationShopRepresentation;
 use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
-use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 
 class Finder

@@ -110,11 +110,17 @@ class Result implements ArrayNotationInterface
         return $this->resultItem['shipping_template_id'];
     }
     /**
-     * @return int
+     * @return int|null
      */
-    public function getTaxonomyId(): int
+    public function getTaxonomyId(): ?int
     {
-        return $this->resultItem['taxonomy_id'];
+        if (array_key_exists('taxonomy_id', $this->resultItem)) {
+            return $this->resultItem['taxonomy_id'];
+        } else if (array_key_exists('suggested_taxonomy_id', $this->resultItem)) {
+            return $this->resultItem['suggested_taxonomy_id'];
+        }
+
+        return null;
     }
     /**
      * @return array
@@ -141,8 +147,8 @@ class Result implements ArrayNotationInterface
             'url' => $this->getUrl(),
             'views' => $this->getViews(),
             'shipping_template_id' => $this->getShippingTemplateId(),
-            'taxonomy_id' => $this->getTaxonomyId(),
-            'taxonomy_path' => $this->getTaxonomyPath(),
+            'taxonomyId' => $this->getTaxonomyId(),
+            'taxonomyPath' => $this->getTaxonomyPath(),
         ];
     }
 }
