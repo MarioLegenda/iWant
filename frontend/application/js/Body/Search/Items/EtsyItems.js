@@ -5,7 +5,7 @@ const LoadMore = {
     data: function() {
         return {
             selected: false,
-            pages: {},
+            page: 1,
         }
     },
     template: `<div class="LoadMoreWrapper">
@@ -16,7 +16,7 @@ const LoadMore = {
                         <i v-if="selected === true" class="fas fa-circle-notch fa-spin"></i>
                    </p>
                </div>`,
-    props: ['requestModel', 'globalId'],
+    props: ['requestModel'],
     methods: {
         loadMore() {
             this.selected = !this.selected;
@@ -25,9 +25,10 @@ const LoadMore = {
             const searchRepo = RepositoryFactory.create('search');
             const model = this.createModel();
 
-            searchRepo.searchEbay(model, (response) => {
-                this.$store.commit('ebaySearchListing', {
+            searchRepo.searchEtsy(model, (response) => {
+                this.$store.commit('etsySearchListing', {
                     listing: response.collection.data,
+                    pagination: response.collection.pagination,
                     model: model,
                 });
 
@@ -35,20 +36,15 @@ const LoadMore = {
             });
         },
         createModel() {
-            this.requestModel.filters.globalIds.push(this.globalId);
             this.requestModel.pagination = {
                 limit: 4,
-                page: this.pages[this.globalId],
+                page: this.page,
             };
 
             return this.requestModel;
         },
         updatePages() {
-            if (!this.pages.hasOwnProperty(this.globalId)) {
-                this.pages[this.globalId] = 2;
-            } else {
-                this.pages[this.globalId] += 1;
-            }
+            ++this.page;
         }
     }
 };
@@ -57,16 +53,17 @@ export const EtsyItems = {
     data: function() {
         return {
             loadMoreData: [],
+            items: []
         }
     },
     template: `
-            <div v-if="etsySearchListing.length > 0" class="EtsyItems SearchItems" id="EtsyItemsId">
+            <div v-if="etsySearchListing.listing.length > 0" class="EtsyItems SearchItems" id="EtsyItemsId">
                 <input type="hidden" :value="etsySearchListing" />
                 <div class="GlobalIdContainer">
                     <h1 class="SearchItems_GlobalIdIdentifier">Etsy</h1>
                     
                     <item
-                        v-for="(item, index) in etsySearchListing"
+                        v-for="(item, index) in items"
                         :key="index"
                         v-bind:item="item"
                         v-bind:classList="classList"
@@ -82,7 +79,11 @@ export const EtsyItems = {
     props: ['classList'],
     computed: {
         etsySearchListing: function() {
-            return this.$store.state.etsySearchListing.listing;
+            const etsySearchListing = this.$store.state.etsySearchListing;
+
+            this.items = this.items.concat(etsySearchListing.listing);
+
+            return this.$store.state.etsySearchListing;
         }
     },
     components: {
