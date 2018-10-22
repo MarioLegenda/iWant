@@ -24,7 +24,7 @@ export const MarketplaceChoice = {
                     </div>
                     
                     <div class="MarketplaceButtonWrapper">
-                        <p 
+                        <p
                             v-bind:class="{'ClickableElement-highlighted': marketplaces.ebay }" 
                             class="ClickableElement" 
                             @click="showEbayGlobalIdChoice"><img alt="Choose eBay" :src="ebayImg" />

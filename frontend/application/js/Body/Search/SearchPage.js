@@ -74,7 +74,9 @@ export const SearchPage = {
     },
     methods: {
         onEbayGlobalIdsComputed(globalIds) {
-            this.foundEbayGlobalIds = globalIds;
+            if (this.foundEbayGlobalIds.length === 0) {
+                this.foundEbayGlobalIds = globalIds;
+            }
         },
 
         onMarketplaceChoice(marketplace) {

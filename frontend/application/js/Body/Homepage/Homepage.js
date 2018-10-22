@@ -24,7 +24,7 @@ export const Homepage = {
                      </div>
                </div>`,
     created() {
-        if (isObjectEmpty(this.$store.state.todaysProductsListing)) {
+/*        if (isObjectEmpty(this.$store.state.todaysProductsListing)) {
             const todayProductsRepository = RepositoryFactory.create('todays-products');
 
             const date = new Date();
@@ -34,7 +34,7 @@ export const Homepage = {
                     this.$store.commit('todaysProductsListing', response.collection.data);
                 }
             );
-        }
+        }*/
     },
     components: {
         'todays-picks': TodaysPicks,
