@@ -22,6 +22,7 @@ use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Exception\TransferException;
 use App\Symfony\Exception\ExternalApiNativeException;
 use Http\Client\Exception\NetworkException;
+use Psr\Log\LoggerInterface;
 
 class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 {
@@ -34,16 +35,23 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
      */
     private $environment;
     /**
+     * @var LoggerInterface $logger
+     */
+    private $logger;
+    /**
      * GenericHttpCommunicator constructor.
      * @param Environment $environment
+     * @param LoggerInterface $logger
      * @param ApiSDK $apiSDK
      */
     public function __construct(
+        LoggerInterface $logger,
         Environment $environment,
         ApiSDK $apiSDK
     ) {
         $this->environment = $environment;
         $this->apiSdk = $apiSDK;
+        $this->logger = $logger;
     }
     /**
      * @var Client $client
@@ -74,6 +82,14 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
                 $message = $e->getMessage();
             }
 
+            $exceptionMessage = $e->getMessage();
+            $logMessage = sprintf(
+                'An exception was caught in dev/test environment with message: %s',
+                $exceptionMessage
+            );
+
+            $this->logger->critical($logMessage);
+
             /** @var ApiResponseData $builtData */
             $builtData = $this->apiSdk
                 ->create([
@@ -95,6 +111,14 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
                 $message = $e->getMessage();
             }
+
+            $exceptionMessage = $e->getMessage();
+            $logMessage = sprintf(
+                'An exception was caught in dev/test environment with message: %s',
+                $exceptionMessage
+            );
+
+            $this->logger->critical($logMessage);
 
             /** @var ApiResponseData $builtData */
             $builtData = $this->apiSdk

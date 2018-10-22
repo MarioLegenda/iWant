@@ -13,10 +13,13 @@ class ExternalApiNativeException extends \Exception implements ImplementsExcepti
     private $body;
     /**
      * ExternalApiNativeException constructor.
-     * @param ArrayNotationInterface $body
+     * @param ArrayNotationInterface|NetworkExceptionBody $body
      */
     public function __construct(ArrayNotationInterface $body)
     {
+        if ($body instanceof NetworkExceptionBody) {
+            $this->message = json_encode($body->toArray());
+        }
         $this->body = $body;
     }
     /**
