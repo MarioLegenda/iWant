@@ -304,6 +304,10 @@ class ConnectEbayCategories extends BaseCommand
             ],
             'Fashion' => [
                 'Clothes, Shoes & Accessories'
+            ],
+            'Health & Beauty' => [
+                'Baby',
+                'Health & Beauty',
             ]
         ];
     }
