@@ -1006,7 +1006,7 @@ html {
 #search_page .MarketplaceChoice .ChoiceButtons .ChoiceCaret {
   width: 100%;
   float: left;
-  margin: 20px 0 0 0;
+  margin: 20px 0 20px 0;
 }
 #search_page .MarketplaceChoice .ChoiceButtons .ChoiceCaret i {
   display: block;
@@ -1041,6 +1041,21 @@ html {
   float: left;
   display: block;
   padding: 10px;
+}
+#search_page .MarketplaceChoice .ChoiceButtons .EbaySiteSelection {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  text-align: center;
+  line-height: 1.2em;
+  border-radius: 0;
+}
+#search_page .MarketplaceChoice .ChoiceButtons .EbaySiteSelection img {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
 }
 
 @media only screen and (max-width: 1180px) {

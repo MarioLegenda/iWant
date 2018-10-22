@@ -4,6 +4,7 @@ export const MarketplaceChoice = {
     data: function() {
         return {
             ebayGlobalIdChoice: false,
+            ebayGlobalIdChoices: [],
             marketplaces: {
                 ebay: false,
                 etsy: false,
@@ -42,32 +43,22 @@ export const MarketplaceChoice = {
                         </div>
                         
                         <p 
-                            v-for="(globalId, index) in ebayGlobalIdChoices"
+                            v-for="(siteInfo, index) in ebayGlobalIdChoices"
                             :key="index"
                             v-bind:class="{'ClickableElement-highlighted': marketplaces.etsy }" 
-                            class="ClickableElement" 
-                            @click="showEtsy"><img alt="Choose Etsy" :src="etsyImg" />
+                            class="ClickableElement EbaySiteSelection" 
+                            @click="showEbaySite(siteInfo.globalId)">{{siteInfo.siteName}}<img :src="siteInfo.flag" />
                         </p>
                     </div>
                 </div>
             </div>
     `,
-    computed: {
-        ebayGlobalIdChoices: function() {
-            const appRepo = RepositoryFactory.create('app');
-
-            appRepo.getCountries(null, (response) => {
-                const items = response.collection.data;
-
-                console.log(this.ebayGlobalIds);
-            });
-        }
-    },
     methods: {
         showEtsy() {
             this.disableAllButtons();
 
             this.marketplaces.etsy = true;
+            this.ebayGlobalIdChoice = false;
 
             this.emitEvent({
                 marketplace: 'etsy',
@@ -75,10 +66,35 @@ export const MarketplaceChoice = {
             });
         },
 
+        showEbaySite(globalId) {
+            this.emitEvent({
+                marketplace: 'ebay',
+                globalId: globalId,
+            });
+        },
+
         showEbayGlobalIdChoice() {
             this.disableAllButtons();
 
-            this.ebayGlobalIdChoice = !this.ebayGlobalIdChoice;
+            this.marketplaces.ebay = true;
+
+            const appRepo = RepositoryFactory.create('app');
+
+            appRepo.getCountries(null, (response) => {
+                const countries = response.collection.data;
+
+                this.ebayGlobalIdChoices = this.ebayGlobalIds.map((globalIdInfo) => {
+                    const foundCountry = countries.filter((c) => c.alpha2Code === globalIdInfo.alpha2Code);
+
+                    return {
+                        globalId: globalIdInfo.global_id,
+                        siteName: globalIdInfo.site_name,
+                        flag: foundCountry[0].flag,
+                    };
+                });
+
+                this.ebayGlobalIdChoice = !this.ebayGlobalIdChoice;
+            });
         },
 
         emitEvent(data) {

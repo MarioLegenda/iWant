@@ -9,6 +9,7 @@ import {MarketplaceChoice} from "./MarketplaceChoice";
 export const SearchPage = {
     data: function() {
         return {
+            currentEbayGlobalId: null,
             ebayHttpInProgress: false,
             showMarketplaceChoices: false,
             foundEbayGlobalIds: [],
@@ -19,7 +20,11 @@ export const SearchPage = {
         }
     },
     beforeDestroy() {
-        this.dataReset();
+        this.dataReset('ebaySearchListing');
+        this.dataReset('etsySearchListing');
+        this.resetMarketplaceChoices({marketplace: 'etsy'});
+        this.resetMarketplaceChoices({marketplace: 'ebay'});
+        this.resetChoices();
     },
     template: `<div id="search_page">
                     <input type="hidden" :value="searchLoading" />
@@ -38,6 +43,7 @@ export const SearchPage = {
                     <transition name="fade">
                         <ebay-items
                             :key="1"
+                            v-bind:currentGlobalId="currentEbayGlobalId"
                             v-on:on-global-ids-computed="onEbayGlobalIdsComputed"
                             v-show="marketplaceChoices.ebay"
                             classList="Item SearchItemItem">
@@ -70,17 +76,17 @@ export const SearchPage = {
         onEbayGlobalIdsComputed(globalIds) {
             this.foundEbayGlobalIds = globalIds;
         },
+
         onMarketplaceChoice(marketplace) {
-            for (let choice in this.marketplaceChoices) {
-                if (this.marketplaceChoices.hasOwnProperty(choice)) {
-                    if (choice !== marketplace.marketplace) {
-                        this.marketplaceChoices[choice] = false;
-                    }
-                }
+            this.resetMarketplaceChoices(marketplace);
+
+            if (marketplace.globalId !== null) {
+                this.currentEbayGlobalId = marketplace.globalId;
             }
 
             this.marketplaceChoices[marketplace.marketplace] = true;
         },
+
         onGetEtsyItems(model) {
             this.dataReset('etsySearchListing');
 
@@ -148,6 +154,29 @@ export const SearchPage = {
                     behavior: 'smooth',
                 });
             }, 1000);
+        },
+
+        resetMarketplaceChoices(marketplace) {
+            for (let choice in this.marketplaceChoices) {
+                if (this.marketplaceChoices.hasOwnProperty(choice)) {
+                    if (choice !== marketplace.marketplace) {
+                        this.marketplaceChoices[choice] = false;
+                    }
+                }
+            }
+        },
+
+        resetChoices() {
+            for (let choice in this.marketplaceChoices) {
+                if (this.marketplaceChoices.hasOwnProperty(choice)) {
+                    this.marketplaceChoices[choice] = false;
+
+                }
+            }
+
+            this.currentEbayGlobalId = null;
+            this.showMarketplaceChoices = false;
+            this.foundEbayGlobalIds = [];
         },
 
         dataReset(property) {

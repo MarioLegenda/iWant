@@ -34,6 +34,7 @@ const LoadMore = {
                 this.selected = false;
             });
         },
+
         createModel() {
             this.requestModel.filters.globalIds.push(this.globalId);
             this.requestModel.pagination = {
@@ -43,6 +44,7 @@ const LoadMore = {
 
             return this.requestModel;
         },
+
         updatePages() {
             if (!this.pages.hasOwnProperty(this.globalId)) {
                 this.pages[this.globalId] = 2;
@@ -56,6 +58,7 @@ const LoadMore = {
 export const EbayItems = {
     data: function() {
         return {
+            globalIdListingReactivity: false,
             loadMoreData: [],
             items: {},
             globalIdInfo: {},
@@ -80,11 +83,9 @@ export const EbayItems = {
     template: `
             <div v-if="ebaySearchListing" class="EbayItems SearchItems" id="EbayItemsId">
                 <input type="hidden" :value="ebaySearchListing" />
-                <div v-if="products.length > 0" v-for="(products, globalId, index) in items" :key="index" class="GlobalIdContainer">
-                    <h1 class="SearchItems_GlobalIdIdentifier">{{findGlobalIdInfo(globalId).site_name}}</h1>
-                    
+                <div v-if="currentGlobalId" class="GlobalIdContainer">           
                     <item
-                        v-for="(item, index) in products" 
+                        v-for="(item, index) in globalIdListing" 
                         :key="index"
                         v-bind:item="item"
                         v-bind:classList="classList"
@@ -92,21 +93,19 @@ export const EbayItems = {
                     </item>
                     
                     <load-more
-                        v-bind:global-id="findGlobalIdInfo(globalId).global_id"
+                        v-bind:global-id="currentGlobalId"
                         v-bind:request-model="ebaySearchListing.model">
                     </load-more>
                 </div>
             </div>
             `,
-    methods: {
-        findGlobalIdInfo(globalId) {
-            const info = this.globalIdInfo[globalId.toLowerCase()];
-
-            return info;
-        }
-    },
-    props: ['classList'],
+    props: ['classList', 'currentGlobalId'],
     computed: {
+        globalIdListing: function() {
+            const someField = this.globalIdListingReactivity;
+
+            return this.items[this.currentGlobalId];
+        },
         ebaySearchListing: function() {
             const listing = this.$store.state.ebaySearchListing.listing;
 
@@ -130,6 +129,8 @@ export const EbayItems = {
                     globalIds.push(this.globalIdInfo[globalId.toLowerCase()]);
                 }
             }
+
+            this.globalIdListingReactivity = !this.globalIdListingReactivity;
 
             this.$emit('on-global-ids-computed', globalIds);
 

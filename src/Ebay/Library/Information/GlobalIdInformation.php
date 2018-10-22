@@ -35,6 +35,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-at' => array(
             'global_id' => 'EBAY-AT',
             'language' => 'de-AT',
+            'alpha2Code' => 'AT',
             'teritory' => 'AT',
             'site_name' => 'eBay Austria',
             'ebay_site_id' => 16,
@@ -42,6 +43,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-au' => array(
             'global_id' => 'EBAY-AU',
+            'alpha2Code' => 'AU',
             'language' => 'en-AU',
             'teritory' => 'AU',
             'site_name' => 'eBay Australia',
@@ -50,6 +52,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-ch' => array(
             'global_id' => 'EBAY-CH',
+            'alpha2Code' => 'CH',
             'language' => 'de-CH',
             'teritory' => 'CH',
             'site_name' => 'eBay Switzerland',
@@ -58,6 +61,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-de' => array(
             'global_id' => 'EBAY-DE',
+            'alpha2Code' => 'DE',
             'language' => 'de-DE',
             'teritory' => 'DE',
             'site_name' => 'eBay Germany',
@@ -66,6 +70,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-enca' => array(
             'global_id' => 'EBAY-ENCA',
+            'alpha2Code' => 'CA',
             'language' => 'en-CA',
             'teritory' => 'CA',
             'site_name' => 'eBay Canada (English)',
@@ -75,6 +80,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-es' => array(
             'global_id' => 'EBAY-ES',
             'language' => 'es-ES',
+            'alpha2Code' => 'ES',
             'teritory' => 'ES',
             'site_name' => 'eBay Spain',
             'ebay_site_id' => 186,
@@ -82,6 +88,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-fr' => array(
             'global_id' => 'EBAY-FR',
+            'alpha2Code' => 'FR',
             'language' => 'fr-FR',
             'teritory' => 'FR',
             'site_name' => 'eBay France',
@@ -90,6 +97,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-frbe' => array(
             'global_id' => 'EBAY-FRBE',
+            'alpha2Code' => 'BE',
             'language' => 'fr-BE',
             'teritory' => 'BE',
             'site_name' => 'eBay Belgium (French)',
@@ -98,6 +106,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-frca' => array(
             'global_id' => 'EBAY-FRCA',
+            'alpha2Code' => 'CA',
             'language' => 'fr-CA',
             'teritory' => 'CA',
             'site_name' => 'eBay Canada (French)',
@@ -106,6 +115,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-gb' => array(
             'global_id' => 'EBAY-GB',
+            'alpha2Code' => 'GB',
             'language' => 'en-GB',
             'teritory' => 'GB',
             'site_name' => 'eBay UK',
@@ -114,6 +124,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-hk' => array(
             'global_id' => 'EBAY-HK',
+            'alpha2Code' => 'HK',
             'language' => 'zh-Hant',
             'teritory' => 'HK',
             'site_name' => 'eBay Hong Kong',
@@ -122,6 +133,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-ie' => array(
             'global_id' => 'EBAY-IE',
+            'alpha2Code' => 'IE',
             'language' => 'en-IE',
             'teritory' => 'IE',
             'site_name' => 'eBay Ireland',
@@ -131,6 +143,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-in' => array(
             'global_id' => 'EBAY-IN',
             'language' => 'en-IN',
+            'alpha2Code' => 'IN',
             'teritory' => 'IN',
             'site_name' => 'eBay India',
             'ebay_site_id' => 203,
@@ -139,6 +152,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-it' => array(
             'global_id' => 'EBAY-IT',
             'language' => 'it-IT',
+            'alpha2Code' => 'IT',
             'teritory' => 'IT',
             'site_name' => 'eBay Italy',
             'ebay_site_id' => 101,
@@ -146,6 +160,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-motor' => array(
             'global_id' => 'EBAY-MOTOR',
+            'alpha2Code' => 'US',
             'language' => 'en-US',
             'teritory' => 'US',
             'site_name' => 'eBay Motors',
@@ -155,6 +170,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-my' => array(
             'global_id' => 'EBAY-MY',
             'language' => 'en-MY',
+            'alpha2Code' => 'MY',
             'teritory' => 'MY',
             'site_name' => 'eBay Malaysia',
             'ebay_site_id' => 207,
@@ -163,6 +179,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-nl' => array(
             'global_id' => 'EBAY-NL',
             'language' => 'nl-NL',
+            'alpha2Code' => 'NL',
             'teritory' => 'NL',
             'site_name' => 'eBay Netherlands',
             'ebay_site_id' => 146,
@@ -171,6 +188,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-nlbe' => array(
             'global_id' => 'EBAY-NLBE',
             'language' => 'nl-BE',
+            'alpha2Code' => 'BE',
             'teritory' => 'BE',
             'site_name' => 'eBay Belgium (Dutch)',
             'ebay_site_id' => 123,
@@ -179,6 +197,7 @@ class GlobalIdInformation implements InformationInterface
         'ebay-ph' => array(
             'global_id' => 'EBAY-PH',
             'language' => 'en-PH',
+            'alpha2Code' => 'PH',
             'teritory' => 'PH',
             'site_name' => 'eBay Philippines',
             'ebay_site_id' => 212,
@@ -186,6 +205,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-pl' => array(
             'global_id' => 'EBAY-PL',
+            'alpha2Code' => 'PL',
             'language' => 'pl-PL',
             'teritory' => 'PL',
             'site_name' => 'eBay Poland',
@@ -194,6 +214,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-sg' => array(
             'global_id' => 'EBAY-SG',
+            'alpha2Code' => 'SG',
             'language' => 'en-SG',
             'teritory' => 'SG',
             'site_name' => 'eBay Singapore',
@@ -202,6 +223,7 @@ class GlobalIdInformation implements InformationInterface
         ),
         'ebay-us' => array(
             'global_id' => 'EBAY-US',
+            'alpha2Code' => 'US',
             'language' => 'en-US',
             'teritory' => 'US',
             'site_name' => 'eBay United States',
