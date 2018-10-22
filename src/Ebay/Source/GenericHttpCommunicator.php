@@ -80,15 +80,15 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             $message = 'A network problem on the Ebay external api has been detected';
             if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
                 $message = $e->getMessage();
+
+                $exceptionMessage = $e->getMessage();
+                $logMessage = sprintf(
+                    'An exception was caught in dev/test environment with message: %s',
+                    $exceptionMessage
+                );
+
+                $this->logger->critical($logMessage);
             }
-
-            $exceptionMessage = $e->getMessage();
-            $logMessage = sprintf(
-                'An exception was caught in dev/test environment with message: %s',
-                $exceptionMessage
-            );
-
-            $this->logger->critical($logMessage);
 
             /** @var ApiResponseData $builtData */
             $builtData = $this->apiSdk
@@ -110,15 +110,15 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             $message = 'An unhandled exception has been detected in the Ebay api';
             if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
                 $message = $e->getMessage();
+
+                $exceptionMessage = $e->getMessage();
+                $logMessage = sprintf(
+                    'An exception was caught in dev/test environment with message: %s',
+                    $exceptionMessage
+                );
+
+                $this->logger->critical($logMessage);
             }
-
-            $exceptionMessage = $e->getMessage();
-            $logMessage = sprintf(
-                'An exception was caught in dev/test environment with message: %s',
-                $exceptionMessage
-            );
-
-            $this->logger->critical($logMessage);
 
             /** @var ApiResponseData $builtData */
             $builtData = $this->apiSdk
