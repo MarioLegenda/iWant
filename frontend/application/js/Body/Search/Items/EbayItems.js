@@ -83,7 +83,9 @@ export const EbayItems = {
     template: `
             <div v-if="ebaySearchListing" class="EbayItems SearchItems" id="EbayItemsId">
                 <input type="hidden" :value="ebaySearchListing" />
-                <div v-if="currentGlobalId" class="GlobalIdContainer">           
+                <div v-if="currentGlobalId" class="GlobalIdContainer">
+                    <h1 class="SearchItems_GlobalIdIdentifier"></h1>
+        
                     <item
                         v-for="(item, index) in globalIdListing" 
                         :key="index"
