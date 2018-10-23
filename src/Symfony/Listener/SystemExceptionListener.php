@@ -56,12 +56,24 @@ class SystemExceptionListener
     {
         $this->logger->critical($event->getException()->getMessage());
 
+        $data = [
+            'type' => ExceptionType::SYSTEM_EXCEPTION,
+            'message' => 'A system exception occurred',
+            'environment' => (string) $this->environment,
+        ];
+
+        $devData = [
+            'exception' => $event->getException()->getMessage(),
+            'exceptionTrace' => $event->getException()->getTraceAsString(),
+        ];
+
+        if ((string) $this->environment === 'dev') {
+            $data = array_merge($data, $devData);
+        }
+
         /** @var ApiResponseData $builtData */
         $builtData = $this->apiSdk
-            ->create([
-                'type' => ExceptionType::SYSTEM_EXCEPTION,
-                'message' => 'A system exception occurred',
-            ])
+            ->create($data)
             ->method(strtoupper($event->getRequest()->getMethod()))
             ->isError()
             ->setStatusCode(500)

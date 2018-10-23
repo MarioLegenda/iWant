@@ -8,10 +8,8 @@ use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\NativeTaxonomyRepository;
-use App\Library\Util\TypedRecursion;
 use App\Tests\Component\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
-use App\Web\Library\Grouping\Grouping;
 
 class SearchComponentTest extends BasicSetup
 {
@@ -35,7 +33,7 @@ class SearchComponentTest extends BasicSetup
             7 => 'fashion',
         ];
 
-        $chosenTaxonomies = [5];
+        $chosenTaxonomies = [2, 5];
 
         $chosenTaxonomyObjects = [];
         foreach ($chosenTaxonomies as $chosenTaxonomy) {
@@ -51,10 +49,11 @@ class SearchComponentTest extends BasicSetup
 
         /** @var EbaySearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel([
-            'lowestPrice' => true,
+            'keyword' => 'hoover',
+            'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
-            'taxonomies' => [],
+            'taxonomies' => $chosenTaxonomyObjects,
             'pagination' => new Pagination(4, 1)
         ]);
 
@@ -63,7 +62,7 @@ class SearchComponentTest extends BasicSetup
         static::assertNotEmpty($ebayProducts);
     }
 
-    public function test_ebay_search_by_single_category()
+    public function test_search_ebay_by_single_category()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);

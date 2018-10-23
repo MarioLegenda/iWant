@@ -97,6 +97,7 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
                     'message' => $message,
                     'url' => $request->getBaseUrl(),
                     'external_api' => 'ebay',
+                    'environment' => (string) $this->environment,
                 ])
                 ->isError()
                 ->method('GET')

@@ -170,8 +170,6 @@ class Finder
                     // SEND SLACK NOTIFICATION HERE AND PASS THE EXCEPTION FORWARD TO THE EXCEPTION LISTENER
 
                     $this->slackImplementation->sendMessageToChannel('#http_exceptions', $e->getMessage());
-
-                    throw $e;
                 }
             }
         }
