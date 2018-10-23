@@ -45,20 +45,20 @@ class Grouping
      * @param iterable|TypedArray $data
      * @return TypedArray
      */
-    private function groupByPriceLowest(iterable $data): TypedArray
+    public function groupByPriceLowest(iterable $data): TypedArray
     {
         $dataArray = $data->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION);
-        usort($dataArray, function(PriceGroupingInterface $a, PriceGroupingInterface$b) {
+        usort($dataArray, function(PriceGroupingInterface $a, PriceGroupingInterface $b) {
             return $a->getPriceForGrouping() >= $b->getPriceForGrouping();
         });
 
-        return TypedArray::create('integer', UniformedResponseModel::class, $dataArray);
+        return TypedArray::create('integer', PriceGroupingInterface::class, $dataArray);
     }
     /**
      * @param iterable|TypedArray $data
      * @return TypedArray
      */
-    private function groupByPriceHighest(iterable $data)
+    public function groupByPriceHighest(iterable $data)
     {
         $dataArray = $data->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION);
         usort($dataArray, function(PriceGroupingInterface $a, PriceGroupingInterface$b) {

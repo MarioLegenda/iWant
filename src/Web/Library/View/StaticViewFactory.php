@@ -2,16 +2,20 @@
 
 namespace App\Web\Library\View;
 
+use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 
 class StaticViewFactory
 {
     /**
-     * @param array $products
+     * @param iterable|TypedArray $products
      * @return array
      */
-    public static function createGlobalIdView(array $products): array
+    public static function createGlobalIdView(iterable $products): array
     {
+        $products = ($products instanceof TypedArray) ? $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION) : $products;
+
         $productsGen = Util::createGenerator($products);
 
         $mergedItems = [];
@@ -26,11 +30,13 @@ class StaticViewFactory
         return $mergedItems;
     }
     /**
-     * @param array $products
+     * @param iterable|TypedArray $products
      * @return array
      */
-    public static function createItemsView(array $products): array
+    public static function createItemsView(iterable $products): array
     {
+        $products = ($products instanceof TypedArray) ? $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION) : $products;
+
         $productsGen = Util::createGenerator($products);
 
         $mergedItems = [];

@@ -5,8 +5,9 @@ namespace App\Component\Search\Ebay\Model\Response;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
+use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 
-class SearchResponseModel implements ArrayNotationInterface
+class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterface
 {
     /**
      * @var string $itemId
@@ -192,6 +193,13 @@ class SearchResponseModel implements ArrayNotationInterface
     public function isTranslated(): bool
     {
         return $this->isTranslated;
+    }
+    /**
+     * @return float
+     */
+    public function getPriceForGrouping(): float
+    {
+        return (float) $this->getPrice()->getPrice();
     }
     /**
      * @return iterable

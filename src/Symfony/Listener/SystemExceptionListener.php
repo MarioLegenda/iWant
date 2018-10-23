@@ -54,7 +54,7 @@ class SystemExceptionListener
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $this->logger->log('error', $event->getException()->getMessage());
+        $this->logger->critical($event->getException()->getMessage());
 
         /** @var ApiResponseData $builtData */
         $builtData = $this->apiSdk
@@ -70,7 +70,12 @@ class SystemExceptionListener
 
         $this->slackImplementation->sendMessageToChannel(
             '#http_exceptions',
-            json_encode($builtData->toArray())
+            sprintf(
+                'An error occurred with message: %s. The actual response sent to the server: %s. Stack trace: %s',
+                $event->getException()->getMessage(),
+                json_encode($builtData->toArray()),
+                $event->getException()->getTraceAsString()
+            )
         );
 
         $response = $event->getResponse();
