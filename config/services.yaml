@@ -36,12 +36,10 @@ parameters:
             app_id: appid
             version: version
             response_encoding: responseencoding
-            site_id: siteiD
         params:
             app_id: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
             version: "1063"
             response_encoding: XML
-            site_id: "3"
     amazon_product_advertising_api_metadata:
         base_url: http://webservices.amazon
         private_key: '1234567890'

@@ -10,11 +10,10 @@ use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Tests\Component\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
-use App\Web\Library\Grouping\Grouping;
 
 class SearchComponentTest extends BasicSetup
 {
-    public function test_ebay_search()
+    public function test_customizable_ebay_search()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
@@ -34,7 +33,7 @@ class SearchComponentTest extends BasicSetup
             7 => 'fashion',
         ];
 
-        $chosenTaxonomies = [5];
+        $chosenTaxonomies = [];
 
         $chosenTaxonomyObjects = [];
         foreach ($chosenTaxonomies as $chosenTaxonomy) {
@@ -50,10 +49,11 @@ class SearchComponentTest extends BasicSetup
 
         /** @var EbaySearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel([
-            'lowestPrice' => true,
+            'keyword' => 'tablet',
+            'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
-            'taxonomies' => [],
+            'taxonomies' => $chosenTaxonomyObjects,
             'pagination' => new Pagination(4, 1)
         ]);
 
@@ -62,7 +62,7 @@ class SearchComponentTest extends BasicSetup
         static::assertNotEmpty($ebayProducts);
     }
 
-    public function test_ebay_search_by_single_category()
+    public function test_ebay_by_single_category()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);

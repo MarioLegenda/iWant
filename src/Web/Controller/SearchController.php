@@ -59,8 +59,6 @@ class SearchController
             /** @var ApiResponseData $responseData */
             $responseData = $this->createEbayResponseData($model, $products);
 
-            var_dump($responseData);
-            die();
             $response = new JsonResponse(
                 $responseData->toArray(),
                 $responseData->getStatusCode()
