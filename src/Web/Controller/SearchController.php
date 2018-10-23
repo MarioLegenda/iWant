@@ -88,7 +88,6 @@ class SearchController
             json_encode($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
         );
 
-
         if ((string) $environment === 'dev') {
             $response->headers->set('Cache-Control', 'no-cache');
         } else if ((string) $environment === 'prod') {
@@ -101,6 +100,7 @@ class SearchController
      * @param EtsySearchModel $model
      * @param SearchComponent $searchComponent
      * @param Environment $environment
+     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @return JsonResponse
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -110,19 +110,34 @@ class SearchController
     public function getEtsySearch(
         EtsySearchModel $model,
         SearchComponent $searchComponent,
-        Environment $environment
+        Environment $environment,
+        SearchResponseCacheImplementation $searchResponseCacheImplementation
     ) {
+        $uniqueName = md5(serialize($model));
+        /** @var SearchResponseModel[] $ebayProducts */
+        if ($searchResponseCacheImplementation->isStored($uniqueName)) {
+            $products = json_decode($searchResponseCacheImplementation->getStored($uniqueName), true);
+
+            $responseData = $this->createEtsyResponseData($model, $products);
+
+            $response = new JsonResponse(
+                $responseData->toArray(),
+                $responseData->getStatusCode()
+            );
+
+            if ((string) $environment === 'dev') {
+                $response->headers->set('Cache-Control', 'no-cache');
+            } else if ((string) $environment === 'prod') {
+                $response->setMaxAge(86400);
+            }
+
+            return $response;
+        }
+
         $products = $searchComponent->searchEtsy($model);
 
         /** @var ApiResponseData $responseData */
-        $responseData = $this->apiSdk
-            ->create($products)
-            ->method('GET')
-            ->addMessage('A search result')
-            ->isCollection()
-            ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
-            ->setStatusCode(200)
-            ->build();
+        $responseData = $this->createEtsyResponseData($model, $products);
 
         $response = new JsonResponse(
             $responseData->toArray(),
@@ -149,6 +164,26 @@ class SearchController
         $this->addRequiredViews($model, $products);
 
         return $this->apiSdk
+            ->method('GET')
+            ->addMessage('A search result')
+            ->isCollection()
+            ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
+            ->setStatusCode(200)
+            ->build();
+    }
+    /**
+     * @param EtsySearchModel $model
+     * @param TypedArray|iterable $products
+     * @return ApiResponseData
+     */
+    private function createEtsyResponseData(
+        EtsySearchModel $model,
+        iterable $products
+    ): ApiResponseData {
+        $products = ($products instanceof TypedArray) ? $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION) : $products;
+
+        return $this->apiSdk
+            ->create($products)
             ->method('GET')
             ->addMessage('A search result')
             ->isCollection()

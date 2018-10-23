@@ -54,7 +54,7 @@ class SearchComponent
 
     /**
      * @param EtsySearchModel $model
-     * @return iterable
+     * @return iterable|TypedArray
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -72,6 +72,7 @@ class SearchComponent
 
         /** @var TypedArray $products */
         $products = $this->etsyFinder->findEtsyProducts($model);
+
         $productsArray = $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
         $this->searchResponseCacheImplementation->store(
