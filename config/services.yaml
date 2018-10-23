@@ -260,7 +260,11 @@ services:
 
     App\Symfony\Listener\SystemExceptionListener:
         tags:
-        - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 900 }
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 900 }
+
+    App\Symfony\Listener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     # REPOSITORY
     App\Doctrine\Repository\RequestCacheRepository:
@@ -300,6 +304,10 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\SearchCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    App\Doctrine\Repository\IpAddressRepository:
         arguments:
             $registry: '@doctrine'
 
