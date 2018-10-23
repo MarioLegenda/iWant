@@ -11,7 +11,6 @@ app_static:
 app_dynamic:
   prefix: /api/v1
   resource: '../Dynamic'
-  methods: [GET]
   host: goiwouldlike.com
   schemes: [http]
   type: directory
