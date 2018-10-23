@@ -8,6 +8,7 @@ use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\NativeTaxonomyRepository;
+use App\Library\Util\TypedRecursion;
 use App\Tests\Component\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 use App\Web\Library\Grouping\Grouping;

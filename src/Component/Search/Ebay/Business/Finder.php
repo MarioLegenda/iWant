@@ -6,6 +6,8 @@ use App\Component\Search\Ebay\Business\Factory\PresentationModelFactory;
 use App\Component\Search\Ebay\Model\Request\SearchRequestModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
 use App\Component\Search\Ebay\Business\Factory\EbayModelFactory;
+use App\Component\Search\Ebay\Model\Response\EbaySiteSearchResponseModel;
+use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Repository\CountryRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
@@ -13,6 +15,7 @@ use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Library\Information\WorldwideShipping;
+use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\ApplicationShopRepresentation;
 use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
@@ -88,7 +91,7 @@ class Finder
 
         $responsesGen = Util::createGenerator($responses);
 
-        $searchResponseModels = [];
+        $ebaySiteResponseModels = TypedArray::create('integer', EbaySiteSearchResponseModel::class);
         foreach ($responsesGen as $entry) {
             /** @var FindingApiResponseModelInterface $item */
             $item = $entry['item']['response'];
@@ -99,7 +102,7 @@ class Finder
             if (!empty($searchResults)) {
                 $searchResultsGen = Util::createGenerator($item->getSearchResults());
 
-                $temp = [];
+                $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
                 foreach ($searchResultsGen as $searchResultEntry) {
                     /** @var Item $item */
                     $item = $searchResultEntry['item'];
@@ -112,19 +115,18 @@ class Finder
                         $this->createShippingLocations($item)
                     );
 
-                    if (!array_key_exists('globalId', $temp)) {
-                        $temp['globalId'] = $globalId;
-                        $temp['globalIdInformation'] = $globalIdInformation;
-                    }
-
-                    $temp['items'][] = $searchResultResponseModel;
+                    $searchResponseModels[] = $searchResultResponseModel;
                 }
 
-                $searchResponseModels[] = $temp;
+                $ebaySiteResponseModels[] = new EbaySiteSearchResponseModel(
+                    $globalId,
+                    $globalIdInformation,
+                    $searchResponseModels
+                );
             }
         }
 
-        return $searchResponseModels;
+        return $ebaySiteResponseModels;
     }
     /**
      * @param EbaySearchModel $model

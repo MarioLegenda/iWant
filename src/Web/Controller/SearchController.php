@@ -59,8 +59,6 @@ class SearchController
             /** @var ApiResponseData $responseData */
             $responseData = $this->createEbayResponseData($model, $products);
 
-            var_dump($responseData);
-            die();
             $response = new JsonResponse(
                 $responseData->toArray(),
                 $responseData->getStatusCode()
@@ -75,7 +73,7 @@ class SearchController
             return $response;
         }
 
-        /** @var SearchResponseModel[] $products */
+        /** @var SearchResponseModel[]|TypedArray $products */
         $products = $searchComponent->searchEbay($model);
         /** @var ApiResponseData $responseData */
         $responseData = $this->createEbayResponseData($model, $products);
@@ -87,7 +85,7 @@ class SearchController
         $searchResponseCacheImplementation->store(
             $uniqueName,
             $model->getPagination()->getPage(),
-            json_encode($responseData->toArray())
+            json_encode($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
         );
 
 
@@ -141,12 +139,12 @@ class SearchController
     }
     /**
      * @param EbaySearchModel $model
-     * @param array $products
+     * @param array|iterable|TypedArray $products
      * @return ApiResponseData
      */
     private function createEbayResponseData(
         EbaySearchModel $model,
-        array $products
+        iterable $products
     ): ApiResponseData {
         $this->addRequiredViews($model, $products);
 
