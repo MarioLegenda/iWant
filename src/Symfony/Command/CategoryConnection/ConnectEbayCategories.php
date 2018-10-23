@@ -96,18 +96,18 @@ class ConnectEbayCategories extends BaseCommand
                 $this->getName()
         ));
 
-        $globalIds = $this->getGlobalIds();
+        $siteInfo = $this->getSiteInfo();
 
         $this->output->writeln(sprintf(
                 '<info>Starting writing ebay categories for global ids %s</info>',
-                implode(', ', $globalIds)
+                json_encode($siteInfo)
         ));
 
-        foreach ($globalIds as $globalId) {
+        foreach ($siteInfo as $info) {
             $this->output->writeln('');
 
-            $model = $this->createShoppingApiModel($globalId);
-
+            $model = $this->createShoppingApiModel($info);
+            $globalId = $info['globalId'];
 
             /** @var GetCategoryInfoResponseInterface $response */
             $response = $this->shoppingApiEntryPoint->getCategoryInfo($model);
@@ -118,17 +118,22 @@ class ConnectEbayCategories extends BaseCommand
             foreach ($normalizedCategories as $normalizedCategory) {
                 $normalizedCategoryName = $normalizedCategory->getName();
 
-                $ebayCategoryIds = $normalizedCategoryInfo[$normalizedCategoryName];
+                if (!array_key_exists($globalId, $normalizedCategoryInfo)) {
+                    $globalId = 'default';
+                }
+
+                $ebayCategoryIds = $normalizedCategoryInfo[$globalId][$normalizedCategoryName];
 
                 $foundEbayRootCategories = $this->findCategoriesInResponse(
                     $response,
-                    $ebayCategoryIds
+                    $ebayCategoryIds,
+                    $siteInfo
                 );
 
                 $this->upsertEbayRootCategory(
                     $normalizedCategory,
                     $foundEbayRootCategories,
-                    $globalId
+                    $info['globalId']
                 );
             }
         }
@@ -200,11 +205,13 @@ class ConnectEbayCategories extends BaseCommand
     /**
      * @param GetCategoryInfoResponseInterface $response
      * @param iterable $ebayCategoryIds
+     * @param $siteInfo
      * @return iterable
      */
     private function findCategoriesInResponse(
         GetCategoryInfoResponseInterface $response,
-        iterable $ebayCategoryIds
+        iterable $ebayCategoryIds,
+        array $siteInfo
     ) {
         $foundCategories = TypedArray::create('integer', Category::class);
         $ebayCategories = $response->getCategories();
@@ -225,10 +232,10 @@ class ConnectEbayCategories extends BaseCommand
         return $foundCategories->toArray();
     }
     /**
-     * @param string $globalId
+     * @param array $info
      * @return ShoppingApiRequestModelInterface
      */
-    private function createShoppingApiModel(string $globalId): ShoppingApiRequestModelInterface
+    private function createShoppingApiModel(array $info): ShoppingApiRequestModelInterface
     {
         $callname = new Query(
             'callname',
@@ -240,9 +247,14 @@ class ConnectEbayCategories extends BaseCommand
             -1
         );
 
+        $siteId = new Query(
+            'siteid',
+            $info['siteId']
+        );
+
         $globalId = new Query(
             'GLOBAL-ID',
-            $globalId
+            $info['globalId']
         );
 
         $includeSelector = new Query(
@@ -253,6 +265,7 @@ class ConnectEbayCategories extends BaseCommand
         $queries = TypedArray::create('integer', Query::class);
 
         $queries[] = $categoryId;
+        $queries[] = $siteId;
         $queries[] = $globalId;
         $queries[] = $callname;
         $queries[] = $includeSelector;
@@ -269,55 +282,191 @@ class ConnectEbayCategories extends BaseCommand
     private function getNormalizedCategoryInfo(): iterable
     {
         return [
-            'Books, Music & Movies' => [
-                'Books, Comics & Magazines',
-                'DVDs, Films & TV',
-                'Music',
+            'EBAY-US' => [
+                'Books, Music & Movies' => [
+                    'Books, Comics & Magazines',
+                    'DVDs, Films & TV',
+                    'Music',
+                ],
+                'Autoparts & Mechanics' => [
+                    'Cars, Motorcycles & Vehicles',
+                    'Vehicle Parts & Accessories',
+                ],
+                'Home & Garden' => [
+                    'Garden & Patio',
+                    'Home, Furniture & DIY',
+                    'Antiques',
+                ],
+                'Computers, Mobile & Games' => [
+                    'Computers/Tablets & Networking',
+                    'DVDs, Films & TV',
+                    'Mobile Phones & Communication',
+                ],
+                'Sport' => [
+                    'Sporting Goods',
+                    'Sports Memorabilia',
+                    'Collectables',
+                ],
+                'Antiques, Art & Collectibles' => [
+                    'Antiques',
+                    'Collectables',
+                    'Art',
+                ],
+                'Crafts & Handmade' => [
+                    'Crafts',
+                    'Jewellery & Watches',
+                ],
+                'Fashion' => [
+                    'Clothes, Shoes & Accessories'
+                ],
+                'Health & Beauty' => [
+                    'Baby',
+                    'Health & Beauty',
+                ],
             ],
-            'Autoparts & Mechanics' => [
-                'Cars, Motorcycles & Vehicles',
-                'Vehicle Parts & Accessories',
+            'EBAY-GB' => [
+                'Books, Music & Movies' => [
+                    'Books, Comics & Magazines',
+                    'DVDs, Films & TV',
+                    'Music',
+                ],
+                'Autoparts & Mechanics' => [
+                    'Cars, Motorcycles & Vehicles',
+                    'Vehicle Parts & Accessories',
+                ],
+                'Home & Garden' => [
+                    'Garden & Patio',
+                    'Home, Furniture & DIY',
+                    'Antiques',
+                ],
+                'Computers, Mobile & Games' => [
+                    'Computers/Tablets & Networking',
+                    'DVDs, Films & TV',
+                    'Mobile Phones & Communication',
+                ],
+                'Sport' => [
+                    'Sporting Goods',
+                    'Sports Memorabilia',
+                    'Collectables',
+                ],
+                'Antiques, Art & Collectibles' => [
+                    'Antiques',
+                    'Collectables',
+                    'Art',
+                ],
+                'Crafts & Handmade' => [
+                    'Crafts',
+                    'Jewellery & Watches',
+                ],
+                'Fashion' => [
+                    'Clothes, Shoes & Accessories'
+                ],
+                'Health & Beauty' => [
+                    'Baby',
+                    'Health & Beauty',
+                ],
             ],
-            'Home & Garden' => [
-                'Garden & Patio',
-                'Home, Furniture & DIY',
-                'Antiques',
+            'EBAY-DE' => [
+                'Books, Music & Movies' => [
+                    'Bücher',
+                    'Filme & DVDs',
+                    'Musik',
+                ],
+                'Autoparts & Mechanics' => [
+                    'Auto & Motorrad: Fahrzeuge',
+                    'Auto & Motorrad: Teile',
+                ],
+                'Home & Garden' => [
+                    'Garten & Terrasse',
+                    'Haushaltsgeräte',
+                    'Möbel & Wohnen',
+                ],
+                'Computers, Mobile & Games' => [
+                    'Computer, Tablets & Netzwerk',
+                    'TV, Video & Audio',
+                    'Handys & Kommunikation',
+                ],
+                'Sport' => [
+                    'Sport',
+                    'Sammeln & Seltenes',
+                ],
+                'Antiques, Art & Collectibles' => [
+                    'Antiquitäten & Kunst',
+                    'Sammeln & Seltenes',
+                ],
+                'Crafts & Handmade' => [
+                    'Bastel- & Künstlerbedarf',
+                    'Uhren & Schmuck',
+                ],
+                'Fashion' => [
+                    'Kleidung & Accessoires',
+                ],
+                'Health & Beauty' => [
+                    'Baby',
+                    'Beauty & Gesundheit',
+                ],
             ],
-            'Computers, Mobile & Games' => [
-                'Computers/Tablets & Networking',
-                'DVDs, Films & TV',
-                'Mobile Phones & Communication',
+            'default' => [
+                'Books, Music & Movies' => [
+                    'Books, Comics & Magazines',
+                    'DVDs, Films & TV',
+                    'Music',
+                ],
+                'Autoparts & Mechanics' => [
+                    'Cars, Motorcycles & Vehicles',
+                    'Vehicle Parts & Accessories',
+                ],
+                'Home & Garden' => [
+                    'Garden & Patio',
+                    'Home, Furniture & DIY',
+                    'Antiques',
+                ],
+                'Computers, Mobile & Games' => [
+                    'Computers/Tablets & Networking',
+                    'DVDs, Films & TV',
+                    'Mobile Phones & Communication',
+                ],
+                'Sport' => [
+                    'Sporting Goods',
+                    'Sports Memorabilia',
+                    'Collectables',
+                ],
+                'Antiques, Art & Collectibles' => [
+                    'Antiques',
+                    'Collectables',
+                    'Art',
+                ],
+                'Crafts & Handmade' => [
+                    'Crafts',
+                    'Jewellery & Watches',
+                ],
+                'Fashion' => [
+                    'Clothes, Shoes & Accessories'
+                ],
+                'Health & Beauty' => [
+                    'Baby',
+                    'Health & Beauty',
+                ],
             ],
-            'Sport' => [
-                'Sporting Goods',
-                'Sports Memorabilia',
-                'Collectables',
-            ],
-            'Antiques, Art & Collectibles' => [
-                'Antiques',
-                'Collectables',
-                'Art',
-            ],
-            'Crafts & Handmade' => [
-                'Crafts',
-                'Jewellery & Watches',
-            ],
-            'Fashion' => [
-                'Clothes, Shoes & Accessories'
-            ],
-            'Health & Beauty' => [
-                'Baby',
-                'Health & Beauty',
-            ]
         ];
     }
     /**
      * @return array
      */
-    private function getGlobalIds(): array
+    private function getSiteInfo(): array
     {
-        $globalIds = $this->applicationShopRepository->findGlobalsIdsByMarketplace(MarketplaceType::fromValue('Ebay'));
+        $globalIds = array_unique($this->applicationShopRepository->findGlobalsIdsByMarketplace(MarketplaceType::fromValue('Ebay')));
+        $siteInfo = [];
 
-        return array_unique($globalIds);
+        foreach ($globalIds as $globalId) {
+            $siteId = GlobalIdInformation::instance()->getTotalInformation($globalId)['ebay_site_id'];
+
+            $siteInfo[] = [
+                'globalId' => $globalId,
+                'siteId' => $siteId,
+            ];
+        }
+
+        return $siteInfo;
     }
 }

@@ -36,7 +36,6 @@ export const SearchPage = {
                         v-on:on-choice="onMarketplaceChoice">
                     </marketplace-choice>
                     
-                    <transition name="fade">
                         <ebay-items
                             :key="1"
                             v-bind:currentGlobalId="currentEbayGlobalId"
@@ -44,15 +43,12 @@ export const SearchPage = {
                             v-show="marketplaceChoices.ebay"
                             classList="Item SearchItemItem">
                         </ebay-items>
-                    </transition>
                     
-                    <transition name="fade">
                         <etsy-items
                             :key="2"
                             v-show="marketplaceChoices.etsy"
                             classList="Item SearchItemItem">
                         </etsy-items>
-                    </transition>
                </div>`,
     computed: {
         searchTerm: function() {

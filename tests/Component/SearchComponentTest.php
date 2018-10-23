@@ -13,7 +13,7 @@ use App\Tests\Library\BasicSetup;
 
 class SearchComponentTest extends BasicSetup
 {
-    public function test_ebay_search()
+    public function test_customizable_ebay_search()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
@@ -33,7 +33,7 @@ class SearchComponentTest extends BasicSetup
             7 => 'fashion',
         ];
 
-        $chosenTaxonomies = [2, 5];
+        $chosenTaxonomies = [];
 
         $chosenTaxonomyObjects = [];
         foreach ($chosenTaxonomies as $chosenTaxonomy) {
@@ -54,7 +54,7 @@ class SearchComponentTest extends BasicSetup
             'highQuality' => false,
             'highestPrice' => false,
             'taxonomies' => $chosenTaxonomyObjects,
-            'pagination' => new Pagination(4, 1)
+            'pagination' => new Pagination(4, 1),
         ]);
 
         $ebayProducts = $searchComponent->searchEbay($model);
