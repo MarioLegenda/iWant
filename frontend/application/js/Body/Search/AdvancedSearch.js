@@ -2,6 +2,7 @@ import {SearchBoxAdvanced} from "./SearchBoxAdvanced";
 import {Filters} from "./Filters";
 import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
+import {FoundProductsInformation} from "./FoundProductsInformation";
 
 export const AdvancedSearch = {
     data: function() {
@@ -44,7 +45,7 @@ export const AdvancedSearch = {
                         v-on:submit="submit"
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box-advanced>
-
+                    
                     <sentence
                         v-if="showSentence"
                         v-bind:sentenceData="sentenceData"
@@ -100,6 +101,11 @@ export const AdvancedSearch = {
             });
 
             this.$router.push(`/search/${urlify(this.keyword)}`);
+
+            this.$store.commit('foundSearchProducts', {
+                ebay: false,
+                etsy: false,
+            });
 
             this.$emit('get-ebay-items', this.createModel());
             this.$emit('get-etsy-items', this.createModel());

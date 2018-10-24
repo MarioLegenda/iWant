@@ -101,6 +101,16 @@ export const SearchPage = {
                         return;
                     }
 
+                    if (response.collection.totalItems === 0) {
+                        this.$store.commit('foundSearchProducts', {
+                            etsy: false
+                        });
+                    } else if (response.collection.totalItems > 0) {
+                        this.$store.commit('foundSearchProducts', {
+                            etsy: true
+                        });
+                    }
+
                     this.$store.commit('etsySearchListing', {
                         listing: response.collection.data,
                         pagination: response.collection.pagination,
@@ -135,6 +145,10 @@ export const SearchPage = {
 
                             return;
                         }
+
+                        this.$store.commit('foundSearchProducts', {
+                            ebay: true
+                        });
 
                         this.$store.commit('ebaySearchListing', {
                             listing: response.collection.views.globalIdView,

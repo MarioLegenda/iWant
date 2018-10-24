@@ -107,6 +107,10 @@ export class Init {
         const store = new Vuex.Store({
             state: {
                 todaysProductsListing: {},
+                foundSearchProducts: {
+                    ebay: false,
+                    etsy: false,
+                },
                 singleItem: null,
                 showCategories: false,
                 showShops: false,
@@ -148,6 +152,9 @@ export class Init {
                 searchLoading(state, value) {
                     this.state.searchLoading = Object.assign({}, this.state.searchLoading, value);
                 },
+                foundSearchProducts(state, value) {
+                    this.state.foundSearchProducts = Object.assign({}, this.state.foundSearchProducts, value);
+                },
             }
         });
 
@@ -157,6 +164,8 @@ export class Init {
         });
 
         Vue.config.errorHandler = function(err, vm, info) {
+            console.error(err, info, err.stack);
+
             fetch(apiRoutes.app_post_activity_message, {
                 method: 'POST',
                 headers: {
@@ -174,6 +183,8 @@ export class Init {
         };
 
         window.onerror = function(message, source, lineno, colno, error) {
+            console.error(message, source, lineno, colno, error);
+
             fetch(apiRoutes.app_post_activity_message, {
                 method: 'POST',
                 headers: {
