@@ -686,33 +686,17 @@ html {
   float: left;
 }
 #search_page .AdvancedSearch {
-  width: 480px;
-  margin: 0 auto;
-  overflow: hidden;
-  margin-top: 50px;
-  margin-bottom: 50px;
+  width: 70%;
+  float: left;
+  margin: 0 0 0 30px;
   border: 1px solid white;
 }
 #search_page .SearchBoxAdvanced {
   width: 100%;
   float: left;
   position: relative;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   border: 1px solid white;
-}
-#search_page .SearchBoxAdvanced .LoadingBar {
-  width: 100%;
-  float: left;
-  padding: 5px 0 5px 0;
-}
-#search_page .SearchBoxAdvanced .LoadingBar .spinner {
-  color: #f78f27;
-}
-#search_page .SearchBoxAdvanced .LoadingBar .active {
-  color: #46ea25;
-}
-#search_page .SearchBoxAdvanced .LoadingBar span {
-  font-weight: bolder;
 }
 #search_page .SearchBoxAdvanced .SearchBoxAdvanced-enter-to-search {
   width: 100%;
@@ -722,18 +706,18 @@ html {
   margin-top: 3px;
 }
 #search_page .SearchBoxAdvanced .SearchBox_InputBox {
-  width: 430px;
-  height: 40px;
+  width: 100%;
   float: left;
+  position: relative;
 }
 #search_page .SearchBoxAdvanced .SearchBox_InputBox .InputBox {
   display: block;
-  width: 430px;
-  height: 40px;
+  width: 100%;
   float: left;
+  padding: 0 0 7px 0;
   border: none;
   font-family: "Quicksand", sans-serif;
-  font-size: 1.4em;
+  font-size: 1.1em;
   border-bottom: 1px solid #d6d6d6;
 }
 #search_page .SearchBoxAdvanced .SearchBox_InputBox .Error {
@@ -742,7 +726,9 @@ html {
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox {
   width: 40px;
   height: 40px;
-  float: left;
+  position: absolute;
+  right: 0;
+  bottom: 1px;
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox button {
   display: block;
@@ -799,7 +785,7 @@ html {
 }
 
 #search_page .Filters {
-  width: 100%;
+  width: 200px;
   float: left;
   font-size: 16px !important;
   z-index: -1;
@@ -814,11 +800,6 @@ html {
   float: left;
   color: red;
   margin: 10px 0 20px 0;
-}
-#search_page .Filters .Filters_AddedFilters {
-  width: 100%;
-  float: left;
-  margin-bottom: 30px;
 }
 #search_page .Filters .Filters_ChoosingFilters {
   width: 100%;
@@ -836,7 +817,7 @@ html {
   margin-bottom: 5px;
 }
 #search_page .Filters .Filter-select {
-  width: 468px;
+  width: 100%;
   float: left;
   border: 1px solid #d6d6d6;
   margin-top: 10px;
@@ -933,7 +914,7 @@ html {
 }
 #search_page .Filters .Filter-simple {
   display: block;
-  width: 150px;
+  width: 100%;
   float: left;
   font-size: 1em;
   border: 1px solid #d6d6d6;
@@ -960,15 +941,27 @@ html {
 #search_page .Filters .Filter-simple:hover i {
   color: #f78f27;
 }
-#search_page .Filters .added {
+#search_page .SelectedFilters {
+  width: 100%;
+  float: left;
+  margin: 0 0 20px 0;
+}
+#search_page .SelectedFilters .SelectedFilter {
+  display: inline-block;
   border: 1px solid #f78f27;
-  padding: 10px;
+  border-radius: 10px;
+  padding-left: 5px;
+  color: #898989;
+  font-size: 0.8em;
 }
-#search_page .Filters .added i {
+#search_page .SelectedFilters .SelectedFilter i {
+  color: #d6d6d6;
+  padding: 5px;
+  border-left: 1px solid #f78f27;
+}
+#search_page .SelectedFilters .SelectedFilter i:hover {
+  cursor: pointer;
   color: #f78f27;
-}
-#search_page .Filters .highlight-added {
-  font-weight: bolder;
 }
 
 #search_page .Sentence {

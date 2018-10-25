@@ -33,7 +33,7 @@ class SearchComponentTest extends BasicSetup
             7 => 'fashion',
         ];
 
-        $chosenTaxonomies = [];
+        $chosenTaxonomies = [1];
 
         $chosenTaxonomyObjects = [];
         foreach ($chosenTaxonomies as $chosenTaxonomy) {
@@ -49,7 +49,7 @@ class SearchComponentTest extends BasicSetup
 
         /** @var EbaySearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel([
-            'keyword' => 'hoover',
+            'keyword' => 'stabiliser link',
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,

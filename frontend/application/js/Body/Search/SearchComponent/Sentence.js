@@ -97,10 +97,13 @@ export const Sentence = {
     `,
     props: ['sentenceData', 'showSentence'],
     computed: {
+        filtersEvent() {
+            return this.$store.state.filtersEvent;
+        },
         sentence: function() {
             const {filters} = this.sentenceData;
 
-            const sc = new SentenceCreator(filters);
+            const sc = new SentenceCreator(this.filtersEvent);
 
             return sc.constructSentence();
         },

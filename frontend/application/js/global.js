@@ -3,44 +3,22 @@ import VueRouter from "vue-router";
 import {routes} from "./routes";
 import Vue from "vue";
 import {Header} from "./Header/Header";
-import {Menu} from "./Menu/Menu";
 import {routes as apiRoutes} from "./apiRoutes";
 
 export const EBAY = 'Ebay';
 export const ETSY = 'Etsy';
 
+export const marketplacesList = {
+    ebay: EBAY,
+    etsy: ETSY,
+};
+
 class GlobalEventHandler {
-    handleCategoriesMenu(classNames) {
-        let closeCategoriesMenu = true;
-        let closeShopsMenu = true;
-
-        for (let className of classNames) {
-            if (new RegExp('Categories').test(className)) {
-                closeCategoriesMenu = false;
-
-                break;
-            }
-
-            if (new RegExp('Shops').test(className)) {
-                closeShopsMenu = false;
-
-                break;
-            }
-        }
-
-        if (closeCategoriesMenu) {
-            this.$store.commit('showCategories', false);
-        }
-
-        if (closeShopsMenu) {
-            this.$store.commit('showShops', false);
-        }
-    }
 }
 
 export class Init {
     static registerWindowPrototypeMethods() {
-        ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp'].forEach(
+        ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Boolean'].forEach(
             function(name) {
                 window['is' + name] = function(obj) {
                     return toString.call(obj) === '[object ' + name + ']';
@@ -106,14 +84,6 @@ export class Init {
     static createVueInstance() {
         const store = new Vuex.Store({
             state: {
-                todaysProductsListing: {},
-                foundSearchProducts: {
-                    ebay: false,
-                    etsy: false,
-                },
-                singleItem: null,
-                showCategories: false,
-                showShops: false,
                 ebaySearchListing: {
                     listing: [],
                 },
@@ -121,40 +91,46 @@ export class Init {
                     listing: [],
                 },
                 searchTerm: null,
-                searchLoading: {
-                    searchProgress: false,
-                    ebay: false,
-                    etsy: false,
+                searchInitialiseEvent: {
+                    searchUrl: null,
+                    model: null,
+                    loading: {
+                        ebay: false,
+                        etsy: false,
+                    },
+                    initialised: false,
+                    marketplaces: {},
                 },
+                filtersEvent: {
+                    lowestPrice: false,
+                    highestPrice: false,
+                    highQuality: false,
+                    shippingCountries: [],
+                    marketplaces: [],
+                    taxonomies: [],
+                    globalIds: [],
+                },
+                listingEvent: {
+                    ebay: null,
+                    etsy: null
+                }
             },
             mutations: {
-                todaysProductsListing(state, value) {
-                    this.state.todaysProductsListing = value;
-                },
-                singleItem(state, value) {
-                    this.state.singleItem = value;
-                },
-                showCategories(state, value) {
-                    this.state.showCategories = value;
-                },
-                showShops(state, value) {
-                    this.state.showShops = value;
-                },
-                ebaySearchListing(state, value) {
-                    this.state.ebaySearchListing = value;
-                },
-                etsySearchListing(state, value) {
-                    this.state.etsySearchListing = value;
-                },
                 searchTerm(state, value) {
                     this.state.searchTerm = value;
-                },
-                searchLoading(state, value) {
-                    this.state.searchLoading = Object.assign({}, this.state.searchLoading, value);
                 },
                 foundSearchProducts(state, value) {
                     this.state.foundSearchProducts = Object.assign({}, this.state.foundSearchProducts, value);
                 },
+                searchInitialiseEvent(state, value) {
+                    this.state.searchInitialiseEvent = Object.assign({}, this.state.searchInitialiseEvent, value);
+                },
+                listingEvent(state, value) {
+                    this.state.listingEvent = Object.assign({}, this.state.listingEvent, value);
+                },
+                filtersEvent(state, value) {
+                    this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
+                }
             }
         });
 
@@ -214,14 +190,6 @@ export class Init {
                </div>`,
             methods: {
                 globalEventResolver($event) {
-                    const globalEventHandler = new GlobalEventHandler();
-                    let classNames = [];
-
-                    for (let elem of $event.path) {
-                        classNames.push(elem.className);
-                    }
-
-                    globalEventHandler.handleCategoriesMenu.call(this, classNames);
                 }
             },
             components: {

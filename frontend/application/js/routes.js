@@ -3,7 +3,7 @@ import {TodaysPicks} from "./Body/Homepage/TodaysPicks";
 import {SingleItem} from "./Body/SingleItem/SingleItem";
 import {SearchBox} from "./Header/SearchBox";
 import {SearchPage} from "./Body/Search/SearchPage";
-import {SearchBoxAdvanced} from "./Body/Search/SearchBoxAdvanced";
+import {SearchBoxAdvanced} from "./Body/Search/SearchComponent/SearchBoxAdvanced";
 
 export const routes = [
     { path: '/', components: {

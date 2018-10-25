@@ -2,23 +2,15 @@ import {SearchBoxAdvanced} from "./SearchBoxAdvanced";
 import {Filters} from "./Filters";
 import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
-import {FoundProductsInformation} from "./FoundProductsInformation";
+import {marketplacesList} from "../../../global";
+import {SelectedFilters} from "./SelectedFilters";
 
-export const AdvancedSearch = {
+export const SearchComponent = {
     data: function() {
         return {
             filtersInitialized: false,
             showSentence: false,
             keyword: null,
-            filters: {
-                lowestPrice: false,
-                highestPrice: false,
-                highQuality: false,
-                shippingCountries: [],
-                marketplaces: [],
-                taxonomies: [],
-                globalIds: [],
-            }
         }
     },
     props: ['externalSearchTerm'],
@@ -46,15 +38,13 @@ export const AdvancedSearch = {
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box-advanced>
                     
+                    <selected-filters></selected-filters>
+                   
                     <sentence
                         v-if="showSentence"
                         v-bind:sentenceData="sentenceData"
                         v-bind:showSentence="showSentence">
                     </sentence>
-                    
-                    <filters
-                        v-on:add-filter="addFilter">
-                    </filters>
                </div>`,
     watch: {
         externalSearchTerm: function(newVal, oldVal) {
@@ -72,18 +62,12 @@ export const AdvancedSearch = {
                 filters: this.filters,
                 keyword: this.keyword,
             }
+        },
+        filtersEvent: function() {
+            return this.$store.state.filtersEvent;
         }
     },
     methods: {
-        addFilter(filter) {
-            this.showSentence = true;
-
-            if (!this.filters.hasOwnProperty(filter.name)) {
-                throw new Error(`Filter ${filter.name} not found`);
-            }
-
-            this.filters[filter.name] = filter.value;
-        },
         onSearchTermChange(searchTerm) {
             this.showSentence = true;
 
@@ -102,18 +86,38 @@ export const AdvancedSearch = {
 
             this.$router.push(`/search/${urlify(this.keyword)}`);
 
-            this.$store.commit('foundSearchProducts', {
-                ebay: false,
-                etsy: false,
-            });
+            const model = this.createModel();
 
-            this.$emit('get-ebay-items', this.createModel());
-            this.$emit('get-etsy-items', this.createModel());
+            this.$store.commit('searchInitialiseEvent', {
+                searchUrl: `/search/${urlify(this.keyword)}`,
+                model: model,
+                marketplaces: {'ebay': 'Ebay'},
+                initialised: true
+            });
         },
+
+        determineMarketplaces(model) {
+            let marketplaces = {};
+
+            if (model.filters.marketplaces.length === 0) {
+                marketplaces = marketplacesList;
+            }
+
+            if (model.filters.marketplaces.length > 0) {
+                const marketplaceFilters = model.filters.marketplaces;
+
+                for (const m of marketplaceFilters) {
+                    marketplaces[m.normalized] = m.name;
+                }
+            }
+
+            return marketplaces;
+        },
+
         createModel() {
             return {
                 keyword: this.keyword,
-                filters: this.filters,
+                filters: this.filtersEvent,
                 pagination: {
                     limit: 4,
                     page: 1,
@@ -126,5 +130,6 @@ export const AdvancedSearch = {
         'search-box-advanced': SearchBoxAdvanced,
         'filters': Filters,
         'sentence': Sentence,
+        'selected-filters': SelectedFilters,
     }
 };

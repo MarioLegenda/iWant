@@ -16,6 +16,7 @@ use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Yandex\Library\Request\RequestFactory;
+use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 
@@ -152,22 +153,25 @@ class PresentationModelFactory
      */
     private function translateModelIfNecessary(SearchResponseModel $model)
     {
-        if (GlobalIdInformation::instance()->has($model->getGlobalId())) {
-            if ($this->languageTranslationRepresentation->isMappedByGlobalId($model->getGlobalId())) {
-                /** @var Title $title */
-                $title = $model->getTitle();
+        /** @var Title $title */
+        $title = $model->getTitle();
 
-                $translationModel = RequestFactory::createTranslateRequestModel(
-                    $title->getOriginal(),
-                    'en'
-                );
+        $detectLanguageModel = RequestFactory::createDetectLanguageRequestModel($title->getOriginal());
 
-                /** @var TranslatedTextResponse $translated */
-                $translated = $this->yandexEntryPoint->translate($translationModel);
+        /** @var DetectLanguageResponse $detectLanguageResponse */
+        $detectLanguageResponse = $this->yandexEntryPoint->detectLanguage($detectLanguageModel);
 
-                $model->setTitle($translated->getText());
-                $model->translated(true);
-            }
+        if ($detectLanguageResponse->getLang() !== 'en') {
+            $translationModel = RequestFactory::createTranslateRequestModel(
+                $title->getOriginal(),
+                'en'
+            );
+
+            /** @var TranslatedTextResponse $translated */
+            $translated = $this->yandexEntryPoint->translate($translationModel);
+
+            $model->setTitle($translated->getText());
+            $model->translated(true);
         }
     }
 }

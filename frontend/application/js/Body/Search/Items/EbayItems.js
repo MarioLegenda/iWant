@@ -1,5 +1,6 @@
 import {Item} from "../../Listing/components/Item";
 import {RepositoryFactory} from "../../../services/repositoryFactory";
+import {EBAY, ETSY} from "../../../global";
 
 const LoadMore = {
     data: function() {
@@ -58,7 +59,6 @@ const LoadMore = {
 export const EbayItems = {
     data: function() {
         return {
-            globalIdListingReactivity: false,
             loadMoreData: [],
             items: {},
             globalIdInfo: {},
@@ -81,8 +81,8 @@ export const EbayItems = {
         });
     },
     template: `
-            <div v-if="ebaySearchListing" class="EbayItems SearchItems" id="EbayItemsId">
-                <input type="hidden" :value="ebaySearchListing" />
+            <div v-if="listingEvent" class="EbayItems SearchItems" id="EbayItemsId">
+                <input type="hidden" :value="listingEvent" />
                 <div v-if="currentGlobalId" class="GlobalIdContainer">
                     <h1 class="SearchItems_GlobalIdIdentifier"></h1>
         
@@ -103,41 +103,27 @@ export const EbayItems = {
             `,
     props: ['classList', 'currentGlobalId'],
     computed: {
-        globalIdListing: function() {
-            const someField = this.globalIdListingReactivity;
-
-            return this.items[this.currentGlobalId];
+        searchInitialiseEvent: function() {
+            return this.$store.state.searchInitialiseEvent;
         },
-        ebaySearchListing: function() {
-            const listing = this.$store.state.ebaySearchListing.listing;
+        listingEvent: function() {
+            const ebayListing = this.$store.state.listingEvent.ebay;
 
-            if (listing.length === 0) {
-                for (let key in this.globalIdInfo) {
-                    if (this.globalIdInfo.hasOwnProperty(key)) {
-                        const info = this.globalIdInfo[key];
+            if (ebayListing === null) {
+                return null;
+            }
 
-                        this.items[info.global_id] = [];
-                        this.$set(this.items, info.global_id, []);
-                    }
+            for (let key in this.globalIdInfo) {
+                if (this.globalIdInfo.hasOwnProperty(key)) {
+                    const info = this.globalIdInfo[key];
+
+                    this.items[info.global_id] = [];
+                    this.$set(this.items, info.global_id, []);
                 }
             }
 
-            let globalIds = [];
-            for (const globalId in listing) {
-                if (this.items.hasOwnProperty(globalId)) {
-                    this.items[globalId] = this.items[globalId].concat(listing[globalId]);
-                    this.$set(this.items, globalId, this.items[globalId]);
-
-                    globalIds.push(this.globalIdInfo[globalId.toLowerCase()]);
-                }
-            }
-
-            this.globalIdListingReactivity = !this.globalIdListingReactivity;
-
-            this.$emit('on-global-ids-computed', globalIds);
-
-            return this.$store.state.ebaySearchListing;
-        }
+            return this.$store.state.listingEvent.ebay;
+        },
     },
     components: {
         'item': Item,
