@@ -36,9 +36,9 @@ class SearchModel
      */
     private $taxonomies;
     /**
-     * @var iterable $globalIds
+     * @var string $globalId
      */
-    private $globalIds = [];
+    private $globalId;
     /**
      * @var Pagination $pagination
      */
@@ -58,7 +58,7 @@ class SearchModel
      * @param array $taxonomies
      * @param Pagination $pagination
      * @param EbaySearchViewType|TypeInterface $viewType
-     * @param array $globalIds
+     * @param string $globalId
      */
     public function __construct(
         string $keyword,
@@ -70,7 +70,7 @@ class SearchModel
         array $taxonomies,
         Pagination $pagination,
         EbaySearchViewType $viewType,
-        array $globalIds = []
+        string $globalId
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -81,7 +81,7 @@ class SearchModel
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
         $this->viewType = $viewType;
-        $this->globalIds = $globalIds;
+        $this->globalId = $globalId;
     }
     /**
      * @return string
@@ -140,11 +140,11 @@ class SearchModel
         return $this->pagination;
     }
     /**
-     * @return iterable
+     * @return string
      */
-    public function getGlobalIds(): iterable
+    public function getGlobalId(): string
     {
-        return $this->globalIds;
+        return $this->globalId;
     }
     /**
      * @return string

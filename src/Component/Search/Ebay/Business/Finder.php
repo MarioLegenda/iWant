@@ -13,7 +13,9 @@ use App\Doctrine\Repository\CountryRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
+use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
+use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Library\Information\WorldwideShipping;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\ApplicationShopRepresentation;
@@ -78,55 +80,13 @@ class Finder
         $this->presentationModelFactory = $presentationModelFactory;
         $this->countryRepository = $countryRepository;
     }
-    /**
-     * @param EbaySearchModel $model
-     * @return iterable
-     * @throws \App\Symfony\Exception\HttpException
-     * @throws \Http\Client\Exception
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    public function findEbayProducts(EbaySearchModel $model): iterable
+
+    public function findEbayProductsAdvanced(EbaySearchModel $model): ResponseModelInterface
     {
-        $responses = $this->getEbayResponses($model);
+        /** @var FindingApiModel $findingApiModel */
+        $findingApiModel = $this->ebayModelFactory->createRequestModel($model);
 
-        $responsesGen = Util::createGenerator($responses);
-
-        $ebaySiteResponseModels = TypedArray::create('integer', EbaySiteSearchResponseModel::class);
-        foreach ($responsesGen as $entry) {
-            /** @var FindingApiResponseModelInterface $item */
-            $item = $entry['item']['response'];
-            $globalId = $entry['key'];
-            $globalIdInformation = $entry['item']['globalIdInformation'];
-            $searchResults = $item->getSearchResults();
-
-            if (!empty($searchResults)) {
-                $searchResultsGen = Util::createGenerator($item->getSearchResults());
-
-                $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
-                foreach ($searchResultsGen as $searchResultEntry) {
-                    /** @var Item $item */
-                    $item = $searchResultEntry['item'];
-                    $storeName = $item->getStoreInfo()->getStoreName();
-                    $applicationShop = $this->applicationShopRepresentation->getShop('applicationName', $storeName);
-
-                    $searchResultResponseModel = $this->presentationModelFactory->createModel(
-                        $item,
-                        $applicationShop,
-                        $this->createShippingLocations($item)
-                    );
-
-                    $searchResponseModels[] = $searchResultResponseModel;
-                }
-
-                $ebaySiteResponseModels[] = new EbaySiteSearchResponseModel(
-                    $globalId,
-                    $globalIdInformation,
-                    $searchResponseModels
-                );
-            }
-        }
-
-        return $ebaySiteResponseModels;
+        return $this->findingApiEntryPoint->findItemsAdvanced($findingApiModel);
     }
     /**
      * @param EbaySearchModel $model
@@ -135,46 +95,8 @@ class Finder
      * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    private function getEbayResponses(EbaySearchModel $model): iterable
+    public function findEbayProductsInEbayStores(EbaySearchModel $model): iterable
     {
-        /** @var SearchRequestModel[] $requestModels */
-        $requestModels = $this->ebayModelFactory->createRequestModels($model);
-
-        $responses = [];
-        /** @var SearchRequestModel $requestModel */
-        foreach ($requestModels as $requestModel) {
-            if ((string) $this->environment === 'test') {
-                $response = $this->findingApiEntryPoint
-                    ->findItemsInEbayStores($requestModel->getEntryPointModel());
-
-                $globalId = $requestModel->getMetadata()->getGlobalId();
-                $globalIdInformation = GlobalIdInformation::instance()->getTotalInformation($globalId);
-
-                $responses[$requestModel->getMetadata()->getGlobalId()] = [
-                    'globalIdInformation' => $globalIdInformation,
-                    'response' => $response,
-                ];
-            } else if ((string) $this->environment === 'dev' OR (string) $this->environment === 'prod') {
-                try {
-                    $response = $this->findingApiEntryPoint
-                        ->findItemsInEbayStores($requestModel->getEntryPointModel());
-
-                    $globalId = $requestModel->getMetadata()->getGlobalId();
-                    $globalIdInformation = GlobalIdInformation::instance()->getTotalInformation($globalId);
-
-                    $responses[$requestModel->getMetadata()->getGlobalId()] = [
-                        'globalIdInformation' => $globalIdInformation,
-                        'response' => $response,
-                    ];
-                } catch (\Exception $e) {
-                    // SEND SLACK NOTIFICATION HERE AND PASS THE EXCEPTION FORWARD TO THE EXCEPTION LISTENER
-
-                    $this->slackImplementation->sendMessageToChannel('#http_exceptions', $e->getMessage());
-                }
-            }
-        }
-
-        return $responses;
     }
     /**
      * @param Item $singleItem

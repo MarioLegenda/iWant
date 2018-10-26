@@ -64,48 +64,19 @@ class ModelFactoryMetadataCollector
             'marketplace' => (string) MarketplaceType::fromValue('Ebay'),
         ]);
 
-        $taxonomyMetadata = TypedArray::create('string', TaxonomyMetadata::class);
         $rootMetadata = TypedArray::create('integer', RootMetadata::class);
 
         $metadataCollection = new MetadataCollection($rootMetadata);
 
-        if (!empty($model->getTaxonomies())) {
-            $taxonomies = $model->getTaxonomies();
-
-            foreach ($taxonomies as $taxonomy) {
-                /** @var NativeTaxonomy $nativeTaxonomy */
-                $nativeTaxonomy = $this->nativeTaxonomyRepository->find($taxonomy['id']);
-
-                $ebayRootCategories = $this->ebayRootCategoryRepository->findBy([
-                    'nativeTaxonomy' => $nativeTaxonomy,
-                ]);
-
-                $globalIdSorted = [];
-
-                /** @var EbayRootCategory $ebayRootCategory */
-                foreach ($ebayRootCategories as $ebayRootCategory) {
-                    $globalIdSorted[$ebayRootCategory->getGlobalId()][] = $ebayRootCategory;
-                }
-
-                foreach ($globalIdSorted as $globalId => $ebayRootCategories) {
-                    $taxonomyMetadataSingleObject = new TaxonomyMetadata(
-                        $nativeTaxonomy,
-                        TypedArray::create('integer', EbayRootCategory::class, $ebayRootCategories)
-                    );
-
-                    $taxonomyMetadata[$globalId] = $taxonomyMetadataSingleObject;
-                }
-            }
-        }
-
         $globalIdNormalized = [];
         /** @var ApplicationShop $applicationShop */
         foreach ($applicationShops as $applicationShop) {
-            if (!empty($model->getGlobalIds())) {
-                $globalIds = $model->getGlobalIds();
+            if (!empty($model->getGlobalId())) {
+                $globalId = $model->getGlobalId();
 
-                if (in_array($applicationShop->getGlobalId(), $globalIds)) {
+                if ($applicationShop->getGlobalId() === $globalId) {
                     $globalIdNormalized[$applicationShop->getGlobalId()][] = $applicationShop;
+
                 }
 
                 continue;

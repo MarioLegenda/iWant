@@ -4,12 +4,23 @@ namespace App\Component\Search;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Finder as EbayFinder;
+use App\Component\Search\Ebay\Model\Response\Image;
+use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
+use App\Component\Search\Ebay\Model\Response\Price;
+use App\Component\Search\Ebay\Model\Response\Title;
 use App\Component\Search\Etsy\Business\Finder as EtsyFinder;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
 use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
+use App\Ebay\Library\Information\GlobalIdInformation;
+use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
+use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\MarketplaceType;
 use App\Library\Util\TypedRecursion;
+use App\Library\Util\Util;
 
 class SearchComponent
 {
@@ -47,40 +58,121 @@ class SearchComponent
      * @throws \Http\Client\Exception
      * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function searchEbay(EbaySearchModel $model): iterable
+    private function searchEbayInEbayStores(EbaySearchModel $model): iterable
     {
-        return $this->ebayFinder->findEbayProducts($model);
+        return $this->ebayFinder->findEbayProductsInEbayStores($model);
     }
-
     /**
-     * @param EtsySearchModel $model
-     * @return iterable|TypedArray
+     * @param EbaySearchModel $model
+     * @return FindingApiResponseModelInterface
+     */
+    private function searchEbayAdvanced(EbaySearchModel $model): ResponseModelInterface
+    {
+        return $this->ebayFinder->findEbayProductsAdvanced($model);
+    }
+    /**
+     * @param EbaySearchModel $model
+     * @return PreparedEbayResponse
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function searchEtsy(EtsySearchModel $model): iterable
+    public function prepareEbayProductsAdvanced(EbaySearchModel $model): PreparedEbayResponse
     {
-        $uniqueName = md5(serialize($model));
-        /** @var SearchResponseModel[] $ebayProducts */
-        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
-            $products = $this->searchResponseCacheImplementation->getStored($uniqueName);
+        $response = $this->searchEbayAdvanced($model);
 
-            return json_decode($products, true);
+        $uniqueName = md5(serialize($model));;
+        $globalId = $model->getGlobalId();
+        $totalEntries = $response->getPaginationOutput()->getTotalEntries();
+        $entriesPerPage = $response->getPaginationOutput()->getEntriesPerPage();
+
+        $preparedEbayResponse = new PreparedEbayResponse(
+            $uniqueName,
+            GlobalIdInformation::instance()->getTotalInformation($globalId),
+            $globalId,
+            $totalEntries,
+            $entriesPerPage
+        );
+
+        /** @var SearchResultsContainer $searchResults */
+        $searchResults = $response->getSearchResults();
+
+        if ($searchResults->isEmpty()) {
+            return $preparedEbayResponse;
         }
 
-        /** @var TypedArray $products */
-        $products = $this->etsyFinder->findEtsyProducts($model);
+        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
+            return $preparedEbayResponse;
+        }
 
-        $productsArray = $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+        $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
+
+        $searchResultsGen = Util::createGenerator($searchResults);
+
+        foreach ($searchResultsGen as $entry) {
+            /** @var Item $item */
+            $item = $entry['item'];
+
+            $itemId = $item->getItemId();
+            $title = new Title($item->getTitle());
+            $image = new Image($item->dynamicSingleItemChoice(function(Item $item) {
+                $methods = ['getPictureURLSuperSize', 'getPictureURLLarge', 'getGalleryPlusPictureURL', 'getGalleryUrl'];
+
+                foreach ($methods as $method) {
+                    $image = $item->{$method}();
+
+                    if (is_string($image)) {
+                        return $image;
+                    }
+                }
+            }));
+            $shopName = $item->dynamicSingleItemChoice(function(Item $item) {
+                if ($item->getStoreInfo() !== null) {
+                    return $item->getStoreInfo()->getStoreName();
+                }
+
+                if ($item->getSellerInfo() !== null) {
+                    return $item->getSellerInfo()->getSellerUsername();
+                }
+
+                return 'Unknown';
+            });
+            $price = new Price(
+                $item->getSellingStatus()->getCurrentPrice()['currencyId'],
+                $item->getSellingStatus()->getCurrentPrice()['currentPrice']
+            );
+            $viewItemUrl = $item->getViewItemUrl();
+            $marketplaceType = MarketplaceType::fromValue('Ebay');
+            $staticUrl = sprintf(
+                '/item/Ebay/%s/%s',
+                \URLify::filter($item->getTitle()),
+                $itemId
+            );
+            $taxonomyName = 'Invalid taxonomy';
+            $shippingLocations = [];
+
+            $searchResponseModels[] = new SearchResponseModel(
+                $uniqueName,
+                $itemId,
+                $title,
+                $image,
+                $shopName,
+                $price,
+                $viewItemUrl,
+                $marketplaceType,
+                $staticUrl,
+                $taxonomyName,
+                $shippingLocations,
+                $globalId
+            );
+        }
 
         $this->searchResponseCacheImplementation->store(
             $uniqueName,
             $model->getPagination()->getPage(),
-            json_encode($productsArray)
+            json_encode($searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
         );
 
-        return $productsArray;
+        return $preparedEbayResponse;
     }
 }

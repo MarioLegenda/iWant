@@ -2,14 +2,8 @@
 
 namespace App\Component\Search\Ebay\Business\Factory;
 
-use App\Component\Search\Ebay\Business\Factory\Metadata\MetadataCollection;
-use App\Component\Search\Ebay\Business\Factory\Metadata\RootMetadata;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
-use App\Component\Search\Ebay\Model\Request\SearchRequestModel;
-use App\Doctrine\Entity\ApplicationShop;
-use App\Doctrine\Entity\EbayRootCategory;
 use App\Ebay\Library\Information\GlobalIdInformation;
-use App\Ebay\Library\Information\SellerBusinessTypeValidSitesInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
 use App\Ebay\Presentation\Model\ItemFilter;
@@ -21,58 +15,20 @@ use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 class EbayModelFactory
 {
     /**
-     * @var ModelFactoryMetadataCollector $modelFactoryMetadataCollector
-     */
-    private $modelFactoryMetadataCollector;
-    /**
-     * EbayModelFactory constructor.
-     * @param ModelFactoryMetadataCollector $modelFactoryMetadataCollector
-     */
-    public function __construct(
-        ModelFactoryMetadataCollector $modelFactoryMetadataCollector
-    ) {
-        $this->modelFactoryMetadataCollector = $modelFactoryMetadataCollector;
-    }
-    /**
      * @param SearchModel $model
-     * @return iterable|TypedArray
-     */
-    public function createRequestModels(SearchModel $model): iterable
-    {
-        $this->validateModel($model);
-
-        /** @var MetadataCollection $metadataCollection */
-        $metadataCollection = $this->modelFactoryMetadataCollector->createData($model);
-
-        $requestModels = TypedArray::create('integer', SearchRequestModel::class);
-
-        /** @var TypedArray|RootMetadata $metadata */
-        $metadata = $metadataCollection->getMetadata();
-        /** @var RootMetadata $item */
-        foreach ($metadata as $item) {
-            $requestModel = $this->createRequestModel($model, $item);
-
-            $requestModels[] = new SearchRequestModel($item, $requestModel);
-        }
-
-        return $requestModels;
-    }
-    /**
-     * @param SearchModel $model
-     * @param RootMetadata $rootMetadata
      * @return FindingApiModel
      */
-    private function createRequestModel(
-        SearchModel $model,
-        RootMetadata $rootMetadata
+    public function createRequestModel(
+        SearchModel $model
     ): FindingApiModel {
+        $this->validateModel($model);
+
         $itemFilters = TypedArray::create('integer', ItemFilter::class);
         $queries = TypedArray::create('integer', Query::class);
 
-        $this->createRequiredQueries($model, $rootMetadata, $queries);
-        $this->createRequiredItemFilters($rootMetadata, $itemFilters);
+        $this->createRequiredQueries($model, $queries);
+        $this->createRequiredItemFilters($itemFilters);
         $this->createModelSpecificItemFilters($model, $itemFilters);
-        $this->createCategoryIdItemFilter($rootMetadata, $itemFilters);
         $this->createOutputSelector([
             'SellerInfo',
             'StoreInfo',
@@ -117,12 +73,10 @@ class EbayModelFactory
     }
     /**
      * @param SearchModel $model
-     * @param RootMetadata $rootMetadata
      * @param TypedArray $queries
      */
     public function createRequiredQueries(
         SearchModel $model,
-        RootMetadata $rootMetadata,
         TypedArray $queries
     ) {
         $queries[] = new Query(
@@ -132,7 +86,7 @@ class EbayModelFactory
 
         $queries[] = new Query(
             'GLOBAL-ID',
-            $rootMetadata->getGlobalId()
+            $model->getGlobalId()
         );
 
         $queries[] = new Query(
@@ -146,41 +100,11 @@ class EbayModelFactory
         );
     }
     /**
-     * @param RootMetadata $rootMetadata
      * @param TypedArray $itemFilters
      */
     public function createRequiredItemFilters(
-        RootMetadata $rootMetadata,
         TypedArray $itemFilters
     ) {
-        /** @var TypedArray $shops */
-        $shops = $rootMetadata->getShops();
-
-        $shopNames = $shops->filter(function(ApplicationShop $applicationShop) {
-            return $applicationShop->getName();
-        });
-
-        if (SellerBusinessTypeValidSitesInformation::instance()->has($rootMetadata->getGlobalId())) {
-            $sellerBussinessType = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::SELLER_BUSINESS_TYPE,
-                [[
-                    'siteId' => $rootMetadata->getGlobalId(),
-                    'businessType' => 'Business',
-                ]]
-            ));
-
-            $itemFilters[] = $sellerBussinessType;
-        }
-
-        $sellers = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::SELLER,
-            [array_values($shopNames)]
-        ));
-
         $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
@@ -189,36 +113,6 @@ class EbayModelFactory
         ));
 
         $itemFilters[] = $hideDuplicatedItems;
-        $itemFilters[] = $sellers;
-    }
-    /**
-     * @param RootMetadata $rootMetadata
-     * @param TypedArray $itemFilters
-     */
-    public function createCategoryIdItemFilter(
-        RootMetadata $rootMetadata,
-        TypedArray $itemFilters
-    ) {
-        if ($rootMetadata->getGlobalId() === GlobalIdInformation::EBAY_MOTOR) {
-            return;
-        }
-
-        if (!empty($rootMetadata->getTaxonomyMetadata())) {
-            $taxonomyMetadata = $rootMetadata->getTaxonomyMetadata();
-
-            $ebayRootCategoryIds = $taxonomyMetadata->getEbayRootCategories()->filter(function(EbayRootCategory $ebayRootCategory) {
-                return (int) $ebayRootCategory->getCategoryId();
-            });
-
-            $categoryId = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::CATEGORY_ID,
-                [$ebayRootCategoryIds]
-            ));
-
-            $itemFilters[] = $categoryId;
-        }
     }
     /**
      * @param array $selectors
@@ -269,6 +163,15 @@ class EbayModelFactory
         if ($model->isHighestPrice() and $model->isLowestPrice()) {
             $message = sprintf(
                 'Lowest price item filter cannot be used with the highest price item filter and vice versa'
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        if (!GlobalIdInformation::instance()->has($model->getGlobalId())) {
+            $message = sprintf(
+                'Global id %s does not exist',
+                $model->getGlobalId()
             );
 
             throw new \RuntimeException($message);

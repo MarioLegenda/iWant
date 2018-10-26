@@ -4,6 +4,7 @@ namespace App\Web\Controller;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
@@ -35,159 +36,45 @@ class SearchController
      * @param EbaySearchModel $model
      * @param SearchComponent $searchComponent
      * @param Environment $environment
-     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @return JsonResponse
      * @throws \App\Cache\Exception\CacheException
-     * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Http\Client\Exception
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
-    public function getEbaySearch(
+    public function prepareEbaySearch(
         EbaySearchModel $model,
         SearchComponent $searchComponent,
-        Environment $environment,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation
+        Environment $environment
     ): JsonResponse {
-        $uniqueName = md5(serialize($model));
-        if ($searchResponseCacheImplementation->isStored($uniqueName)) {
-            $products = $searchResponseCacheImplementation->getStored($uniqueName);
+        $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
+        /** @var ApiResponseData $apiResponseData */
+        $apiResponseData = $this->createPreparedEbayResponseData($preparedEbayResponse);
 
-            $products = json_decode($products, true);
-
-            /** @var ApiResponseData $responseData */
-            $responseData = $this->createEbayResponseData($model, $products);
-
-            $response = new JsonResponse(
-                $responseData->toArray(),
-                $responseData->getStatusCode()
-            );
-
-            if ((string) $environment === 'dev') {
-                $response->headers->set('Cache-Control', 'no-cache');
-            } else if ((string) $environment === 'prod') {
-                $response->setMaxAge(86400);
-            }
-
-            return $response;
-        }
-
-        /** @var SearchResponseModel[]|TypedArray $products */
-        $products = $searchComponent->searchEbay($model);
-        /** @var ApiResponseData $responseData */
-        $responseData = $this->createEbayResponseData($model, $products);
         $response = new JsonResponse(
-            $responseData->toArray(),
-            $responseData->getStatusCode()
-        );
-
-        $searchResponseCacheImplementation->store(
-            $uniqueName,
-            $model->getPagination()->getPage(),
-            json_encode($products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            $apiResponseData->toArray(),
+            $apiResponseData->getStatusCode()
         );
 
         if ((string) $environment === 'dev') {
             $response->headers->set('Cache-Control', 'no-cache');
         } else if ((string) $environment === 'prod') {
-            $response->setMaxAge(86400);
+            $response->setMaxAge(60 * 60 * 24);
         }
 
         return $response;
     }
     /**
-     * @param EtsySearchModel $model
-     * @param SearchComponent $searchComponent
-     * @param Environment $environment
-     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
-     * @return JsonResponse
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    public function getEtsySearch(
-        EtsySearchModel $model,
-        SearchComponent $searchComponent,
-        Environment $environment,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation
-    ) {
-        $uniqueName = md5(serialize($model));
-        /** @var SearchResponseModel[] $ebayProducts */
-        if ($searchResponseCacheImplementation->isStored($uniqueName)) {
-            $products = json_decode($searchResponseCacheImplementation->getStored($uniqueName), true);
-
-            $responseData = $this->createEtsyResponseData($model, $products);
-
-            $response = new JsonResponse(
-                $responseData->toArray(),
-                $responseData->getStatusCode()
-            );
-
-            if ((string) $environment === 'dev') {
-                $response->headers->set('Cache-Control', 'no-cache');
-            } else if ((string) $environment === 'prod') {
-                $response->setMaxAge(86400);
-            }
-
-            return $response;
-        }
-
-        $products = $searchComponent->searchEtsy($model);
-
-        /** @var ApiResponseData $responseData */
-        $responseData = $this->createEtsyResponseData($model, $products);
-
-        $response = new JsonResponse(
-            $responseData->toArray(),
-            $responseData->getStatusCode()
-        );
-
-        if ((string) $environment === 'dev') {
-            $response->headers->set('Cache-Control', 'no-cache');
-        } else if ((string) $environment === 'prod') {
-            $response->setMaxAge(86400);
-        }
-
-        return $response;
-    }
-    /**
-     * @param EbaySearchModel $model
-     * @param array|iterable|TypedArray $products
+     * @param PreparedEbayResponse $preparedEbayResponse
      * @return ApiResponseData
      */
-    private function createEbayResponseData(
-        EbaySearchModel $model,
-        iterable $products
+    private function createPreparedEbayResponseData(
+        PreparedEbayResponse $preparedEbayResponse
     ): ApiResponseData {
-        $this->addRequiredViews($model, $products);
-
         return $this->apiSdk
-            ->method('GET')
-            ->addMessage('A search result')
-            ->isCollection()
-            ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
-            ->setStatusCode(200)
-            ->build();
-    }
-    /**
-     * @param EtsySearchModel $model
-     * @param TypedArray|iterable $products
-     * @return ApiResponseData
-     */
-    private function createEtsyResponseData(
-        EtsySearchModel $model,
-        iterable $products
-    ): ApiResponseData {
-        $products = ($products instanceof TypedArray) ? $products->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION) : $products;
-
-        return $this->apiSdk
-            ->create($products)
-            ->method('GET')
-            ->addMessage('A search result')
-            ->isCollection()
-            ->addPagination($model->getPagination()->getLimit(), $model->getPagination()->getPage())
+            ->create($preparedEbayResponse->toArray())
+            ->method('POST')
+            ->addMessage('Prepared ebay response for getting the items from the cache')
+            ->isResource()
             ->setStatusCode(200)
             ->build();
     }

@@ -17,6 +17,10 @@ class EbaySiteSearchResponseModel implements ArrayNotationInterface
      */
     private $globalIdInformation;
     /**
+     * @var int $totalEntriesFound
+     */
+    private $totalEntriesFound;
+    /**
      * @var TypedArray $items
      */
     private $items;
@@ -24,16 +28,19 @@ class EbaySiteSearchResponseModel implements ArrayNotationInterface
      * EbaySiteSearchResponseModel constructor.
      * @param string $globalId
      * @param array $globalIdInformation
+     * @param int $totalEntriesFound
      * @param TypedArray $items
      */
     public function __construct(
         string $globalId,
         array $globalIdInformation,
+        int $totalEntriesFound,
         TypedArray $items
     ) {
         $this->globalId = $globalId;
         $this->globalIdInformation = $globalIdInformation;
         $this->items = $items;
+        $this->totalEntriesFound = $totalEntriesFound;
     }
     /**
      * @return string
@@ -55,6 +62,13 @@ class EbaySiteSearchResponseModel implements ArrayNotationInterface
     public function getItems(): TypedArray
     {
         return $this->items;
+    }
+    /**
+     * @return int
+     */
+    public function getTotalEntriesFound(): int
+    {
+        return $this->totalEntriesFound;
     }
     /**
      * @return iterable

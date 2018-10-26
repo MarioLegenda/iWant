@@ -2,10 +2,13 @@
 
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
 class AbstractItemIterator extends AbstractItem implements
     \IteratorAggregate,
     \Countable,
-    \ArrayAccess
+    \ArrayAccess,
+    ArrayNotationInterface
 {
     /**
      * @var int $position
@@ -93,6 +96,13 @@ class AbstractItemIterator extends AbstractItem implements
     public function offsetUnset($offset)
     {
         $this->throwUsageException();
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return $this->items;
     }
     /**
      * @throws \RuntimeException

@@ -745,6 +745,14 @@ class Item extends AbstractItemIterator implements ArrayNotationInterface
         return $this->discountPriceInfo;
     }
     /**
+     * @param \Closure $closure
+     * @return mixed
+     */
+    public function dynamicSingleItemChoice(\Closure $closure)
+    {
+        return $closure->__invoke($this);
+    }
+    /**
      * @return array
      */
     public function toArray(): array

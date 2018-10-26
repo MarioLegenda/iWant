@@ -3,11 +3,6 @@ app_post_activity_message:
   controller: App\Web\Controller\AppController::postActivity
   methods: [POST]
 
-app_get_todays_products:
-  path: /get-todays-products
-  controller: App\Web\Controller\TodayProductsController::getTodaysProducts
-  methods: [GET]
-
 app_get_item:
   path: /item/{marketplace}/{itemId}
   controller: App\Web\Controller\AppController::getSingleItem
@@ -23,19 +18,14 @@ app_get_marketplaces:
   controller: App\Web\Controller\AppController::getMarketplaces
   methods: [GET]
 
+app_post_prepare_ebay_search:
+  path: /ebay/prepare-search
+  controller: App\Web\Controller\SearchController::prepareEbaySearch
+  methods: [POST]
+
 app_get_taxonomies:
   path: /get-taxonomies
   controller: App\Web\Controller\AppController::getNativeTaxonomies
-  methods: [GET]
-
-app_get_ebay_search:
-  path: /search/ebay/{searchData}
-  controller: App\Web\Controller\SearchController::getEbaySearch
-  methods: [GET]
-
-app_get_etsy_search:
-  path: /search/etsy/{searchData}
-  controller: App\Web\Controller\SearchController::getEtsySearch
   methods: [GET]
 
 app_get_ebay_global_id_information:

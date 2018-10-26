@@ -10,6 +10,10 @@ use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterface
 {
     /**
+     * @var string $uniqueName
+     */
+    private $uniqueName;
+    /**
      * @var string $itemId
      */
     private $itemId;
@@ -60,6 +64,7 @@ class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterf
     /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
+     * @param string $uniqueName
      * @param string $globalId
      * @param Title $title
      * @param Image $image
@@ -72,6 +77,7 @@ class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterf
      * @param MarketplaceType|TypeInterface $marketplace
      */
     public function __construct(
+        string $uniqueName,
         string $itemId,
         Title $title,
         Image $image,
@@ -82,8 +88,9 @@ class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterf
         string $staticUrl,
         string $taxonomyName,
         array $shippingLocations,
-        string $globalId = null
+        string $globalId
     ) {
+        $this->uniqueName = $uniqueName;
         $this->itemId = $itemId;
         $this->staticUrl = $staticUrl;
         $this->globalId = $globalId;
@@ -95,6 +102,13 @@ class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterf
         $this->taxonomyName = $taxonomyName;
         $this->marketplace = $marketplace;
         $this->shippingLocations = $shippingLocations;
+    }
+    /**
+     * @return string
+     */
+    public function getUniqueName(): string
+    {
+        return $this->uniqueName;
     }
     /**
      * @return string
@@ -207,6 +221,7 @@ class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterf
     public function toArray(): iterable
     {
         return [
+            'uniqueName' => $this->getUniqueName(),
             'itemId' => $this->getItemId(),
             'globalId' => $this->getGlobalId(),
             'title' => $this->getTitle()->toArray(),

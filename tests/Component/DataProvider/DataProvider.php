@@ -29,10 +29,10 @@ class DataProvider
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
         $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
-        $globalIds = (isset($data['globalIds'])) ? $data['globalIds'] : [];
+        $globalIds = $data['globalId'];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
             ? $data['pagination']
-            : new EbayPagination(4, 2);
+            : new EbayPagination(80, 1);
 
         $viewType = (isset($data['viewType'])) ? $data['viewType'] : EbaySearchViewType::fromValue('globalIdView');
 

@@ -56,7 +56,7 @@ class ShippingInfo extends AbstractItem implements ArrayNotationInterface
      * @param mixed $default
      * @return bool|null
      */
-    public function getExpeditedShipping($default = null) : bool
+    public function getExpeditedShipping($default = null) : ?bool
     {
         if ($this->expeditedShipping === null) {
             if (!empty($this->simpleXml->expeditedShipping)) {
@@ -91,9 +91,9 @@ class ShippingInfo extends AbstractItem implements ArrayNotationInterface
     }
     /**
      * @param mixed $default
-     * @return int
+     * @return int|null
      */
-    public function getOneDayShippingAvailable($default = null) : int
+    public function getOneDayShippingAvailable($default = null) : ?int
     {
         if ($this->oneDayShippingAvailable === null) {
             if (!empty($this->simpleXml->oneDayShippingAvailable)) {

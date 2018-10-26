@@ -4,124 +4,32 @@ namespace App\Tests\Component;
 
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
-use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
-use App\Doctrine\Entity\NativeTaxonomy;
-use App\Doctrine\Repository\NativeTaxonomyRepository;
 use App\Tests\Component\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 
 class SearchComponentTest extends BasicSetup
 {
-    public function test_customizable_ebay_search()
+    public function test_ebay_advanced_search()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component');
-
-        $nativeTaxonomyRepository = $this->locator->get(NativeTaxonomyRepository::class);
-
-        $internalTaxonomyNames = [
-            0 => 'booksMusicMovies',
-            1 => 'autopartsMechanics',
-            2 => 'homeGarden',
-            3 => 'computersMobileGames',
-            4 => 'sport',
-            5 => 'antiquesArtCollectibles',
-            6 => 'craftsHandmade',
-            7 => 'fashion',
-        ];
-
-        $chosenTaxonomies = [1];
-
-        $chosenTaxonomyObjects = [];
-        foreach ($chosenTaxonomies as $chosenTaxonomy) {
-            $internalTaxonomyName = $internalTaxonomyNames[$chosenTaxonomy];
-
-            /** @var NativeTaxonomy $nativeTaxonomy */
-            $nativeTaxonomy = $nativeTaxonomyRepository->findOneBy([
-                'internalName' => $internalTaxonomyName,
-            ]);
-
-            $chosenTaxonomyObjects[] = $nativeTaxonomy->toArray();
-        }
 
         /** @var EbaySearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel([
-            'keyword' => 'stabiliser link',
+            'keyword' => 'harry potter',
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
-            'taxonomies' => $chosenTaxonomyObjects,
+            'globalId' => 'EBAY-DE',
             'pagination' => new Pagination(4, 1),
         ]);
 
-        $ebayProducts = $searchComponent->searchEbay($model);
+        $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
 
-        static::assertNotEmpty($ebayProducts);
-    }
-
-    public function test_search_ebay_by_single_category()
-    {
-        /** @var SearchComponent $searchComponent */
-        $searchComponent = $this->locator->get(SearchComponent::class);
-        /** @var DataProvider $dataProvider */
-        $dataProvider = $this->locator->get('data_provider.component');
-
-        $nativeTaxonomyRepository = $this->locator->get(NativeTaxonomyRepository::class);
-
-        $internalTaxonomyNames = [
-            0 => 'booksMusicMovies',
-            1 => 'autopartsMechanics',
-            2 => 'homeGarden',
-            3 => 'computersMobileGames',
-            4 => 'sport',
-            5 => 'antiquesArtCollectibles',
-            6 => 'craftsHandmade',
-            7 => 'healthBeauty',
-            8 => 'fashion',
-        ];
-
-        foreach ($internalTaxonomyNames as $taxonomyIndex => $internalTaxonomyName) {
-            $internalTaxonomyName = $internalTaxonomyNames[$taxonomyIndex];
-
-            /** @var NativeTaxonomy $nativeTaxonomy */
-            $nativeTaxonomy = $nativeTaxonomyRepository->findOneBy([
-                'internalName' => $internalTaxonomyName,
-            ]);
-
-            $chosenTaxonomyObjects[] = $nativeTaxonomy->toArray();
-
-            /** @var EbaySearchModel $model */
-            $model = $dataProvider->createEbaySearchRequestModel([
-                'lowestPrice' => true,
-                'highQuality' => false,
-                'highestPrice' => false,
-                'taxonomies' => [],
-                'pagination' => new Pagination(4, 1)
-            ]);
-
-            $ebayProducts = $searchComponent->searchEbay($model);
-
-            static::assertNotEmpty($ebayProducts);
-        }
-    }
-
-    public function test_etsy_search()
-    {
-        /** @var SearchComponent $searchComponent */
-        $searchComponent = $this->locator->get(SearchComponent::class);
-        /** @var DataProvider $dataProvider */
-        $dataProvider = $this->locator->get('data_provider.component');
-
-        /** @var EtsySearchModel $model */
-        $model = $dataProvider->createEtsySearchRequestModel([
-            'keyword' => 'hoover',
-        ]);
-
-        $etsyProducts = $searchComponent->searchEtsy($model);
-
-        static::assertNotEmpty($etsyProducts);
+        dump($preparedEbayResponse);
+        die();
     }
 }
