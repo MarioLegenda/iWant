@@ -4,6 +4,8 @@ import {routes} from "./routes";
 import Vue from "vue";
 import {Header} from "./Header/Header";
 import {routes as apiRoutes} from "./apiRoutes";
+import {RepositoryFactory} from "./services/repositoryFactory";
+import {GlobalIdInformation} from "./services/globalIdInformation";
 
 export const EBAY = 'Ebay';
 export const ETSY = 'Etsy';
@@ -82,7 +84,7 @@ export class Init {
     }
 
     static createVueInstance() {
-        const store = new Vuex.Store({
+        const store =  new Vuex.Store({
             state: {
                 ebaySearchListing: {
                     listing: [],
@@ -134,67 +136,82 @@ export class Init {
             }
         });
 
-        const router = new VueRouter({
-            mode: 'history',
-            routes: routes
-        });
-
-        Vue.config.errorHandler = function(err, vm, info) {
-            console.error(err, info, err.stack);
-
-            fetch(apiRoutes.app_post_activity_message, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    activityMessage: {
-                        message: `${err.message} ; ${err.stack}`,
-                        additionalData: {
-                            info: info
-                        },
-                    },
-                })
+        const createVueRouter = () => {
+            return new VueRouter({
+                mode: 'history',
+                routes: routes
             });
         };
 
-        window.onerror = function(message, source, lineno, colno, error) {
-            console.error(message, source, lineno, colno, error);
+        const createErrorHandlers = () => {
+            Vue.config.errorHandler = function(err, vm, info) {
+                console.error(err, info, err.stack);
 
-            fetch(apiRoutes.app_post_activity_message, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    activityMessage: {
-                        message: message,
-                        additionalData: {
-                            'source': source,
-                            'lineNumber': lineno,
-                            'colNumber': colno
-                        },
+                fetch(apiRoutes.app_post_activity_message, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
                     },
-                })
-            });
+                    body: JSON.stringify({
+                        activityMessage: {
+                            message: `${err.message} ; ${err.stack}`,
+                            additionalData: {
+                                info: info
+                            },
+                        },
+                    })
+                });
+            };
+
+            window.onerror = function(message, source, lineno, colno, error) {
+                console.error(message, source, lineno, colno, error);
+
+                fetch(apiRoutes.app_post_activity_message, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        activityMessage: {
+                            message: message,
+                            additionalData: {
+                                'source': source,
+                                'lineNumber': lineno,
+                                'colNumber': colno
+                            },
+                        },
+                    })
+                });
+            };
         };
 
-        new Vue({
-            el: '#vue_app',
-            store,
-            router: router,
-            template: `<div v-on:click="globalEventResolver($event)">
+        const createVueApp = () => {
+            const appRepo = RepositoryFactory.create('app');
+
+            appRepo.asyncGetEbayGlobalIdsInformation((response) => {
+                Vue.prototype.$globalIdInformation = new GlobalIdInformation(response.collection.data);
+
+                new Vue({
+                    el: '#vue_app',
+                    store,
+                    router: createVueRouter(),
+                    template: `<div v-on:click="globalEventResolver($event)">
                    <Header></Header>
                    
                    <router-view></router-view>
                </div>`,
-            methods: {
-                globalEventResolver($event) {
-                }
-            },
-            components: {
-                Header
-            }
-        });
+                    methods: {
+                        globalEventResolver($event) {
+                        }
+                    },
+                    components: {
+                        Header
+                    }
+                });
+            });
+        };
+
+        createErrorHandlers();
+        createVueApp();
     }
 }
