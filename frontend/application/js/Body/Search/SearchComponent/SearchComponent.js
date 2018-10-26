@@ -4,6 +4,7 @@ import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
 import {marketplacesList} from "../../../global";
 import {SelectedFilters} from "./SelectedFilters";
+import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
 
 export const SearchComponent = {
     data: function() {
@@ -39,12 +40,14 @@ export const SearchComponent = {
                     </search-box-advanced>
                     
                     <selected-filters></selected-filters>
-                   
+                    
                     <sentence
                         v-if="showSentence"
                         v-bind:sentenceData="sentenceData"
                         v-bind:showSentence="showSentence">
                     </sentence>
+                    
+                    <loading-component></loading-component>
                </div>`,
     watch: {
         externalSearchTerm: function(newVal, oldVal) {
@@ -131,5 +134,6 @@ export const SearchComponent = {
         'filters': Filters,
         'sentence': Sentence,
         'selected-filters': SelectedFilters,
+        'loading-component': LoadingComponent,
     }
 };

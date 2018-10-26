@@ -982,73 +982,28 @@ html {
   color: black;
 }
 
-#search_page .MarketplaceChoice {
+#search_page .LoadingComponent {
   width: 100%;
   float: left;
 }
-#search_page .MarketplaceChoice .ChoiceButtons {
-  width: 480px;
-  overflow: hidden;
-  margin: 0 auto;
-}
-#search_page .MarketplaceChoice .ChoiceButtons h1 {
-  text-align: center;
-  color: black;
-  padding-bottom: 5px;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .ChoiceCaret {
-  width: 100%;
+#search_page .LoadingComponent .ImageWrapper {
+  width: 50px;
+  height: 50px;
   float: left;
-  margin: 20px 0 20px 0;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .ChoiceCaret i {
-  display: block;
-  width: 30px;
-  height: 30px;
-  overflow: hidden;
-  margin: 0 auto;
-  color: #898989;
-  font-size: 1.5em;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .MarketplaceButtonWrapper {
-  width: 100%;
-  float: left;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .ClickableElement {
-  display: block;
-  width: 80px;
-  float: left;
-  margin-right: 5%;
-  border-radius: 100px;
-  border: 1px solid white;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .ClickableElement:hover {
-  cursor: pointer;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .ClickableElement-highlighted {
-  border: 1px solid #f78f27;
-}
-#search_page .MarketplaceChoice .ChoiceButtons img {
-  width: 100%;
-  height: 80px;
-  float: left;
-  display: block;
-  padding: 10px;
-}
-#search_page .MarketplaceChoice .ChoiceButtons .EbaySiteSelection {
-  width: 100px;
-  height: 100px;
+  margin: 0 10px 10px 0;
   position: relative;
-  text-align: center;
-  line-height: 1.2em;
-  border-radius: 0;
 }
-#search_page .MarketplaceChoice .ChoiceButtons .EbaySiteSelection img {
+#search_page .LoadingComponent .ImageWrapper .Image {
+  display: block;
+  width: 100%;
+  height: 50px;
+}
+#search_page .LoadingComponent .ImageWrapper .ImageHider {
   width: 50px;
   height: 50px;
   position: absolute;
-  bottom: 15px;
-  right: 20px;
+  border-radius: 25px;
+  background-color: rgba(165, 165, 165, 0.9);
 }
 
 #search_page .FoundProductsInformation {

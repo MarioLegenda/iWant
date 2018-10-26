@@ -1,0 +1,32 @@
+#search_page {
+  .LoadingComponent {
+    width: 100%;
+    float: left;
+
+    .ImageWrapper {
+      width: 50px;
+      height: 50px;
+      float: left;
+
+      margin: 0 10px 10px 0;
+
+      position: relative;
+      .Image {
+        display: block;
+        width: 100%;
+        height: 50px;
+      }
+
+      .ImageHider {
+        width: 50px;
+        height: 50px;
+
+        position: absolute;
+
+        border-radius: 25px;
+
+        background-color: rgba(165, 165, 165, 0.9);
+      }
+    }
+  }
+}
