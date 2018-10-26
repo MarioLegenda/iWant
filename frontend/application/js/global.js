@@ -89,19 +89,14 @@ export class Init {
                 ebaySearchListing: {
                     listing: [],
                 },
-                etsySearchListing: {
-                    listing: [],
-                },
                 searchTerm: null,
                 searchInitialiseEvent: {
                     searchUrl: null,
                     model: null,
                     loading: {
                         ebay: false,
-                        etsy: false,
                     },
                     initialised: false,
-                    marketplaces: {},
                 },
                 filtersEvent: {
                     lowestPrice: false,
@@ -114,7 +109,6 @@ export class Init {
                 },
                 listingEvent: {
                     ebay: null,
-                    etsy: null
                 }
             },
             mutations: {

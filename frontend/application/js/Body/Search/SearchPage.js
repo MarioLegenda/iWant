@@ -1,7 +1,5 @@
 import {SearchComponent} from "./SearchComponent/SearchComponent";
 import {RepositoryFactory} from "../../services/repositoryFactory";
-import {MarketplaceChoice} from "./MarketplaceChoice";
-import {EBAY, ETSY} from "../../global";
 import {ListingComponent} from "./ListingComponent/ListingComponent";
 import {Filters} from "./SearchComponent/Filters";
 
@@ -29,12 +27,7 @@ export const SearchPage = {
                     </search-component>
                     
                     <listing-component></listing-component>
-                    
-                    <marketplace-choice
-                        v-if="showMarketplaceChoices"
-                        v-bind:ebay-global-ids="foundEbayGlobalIds"
-                        v-on:on-choice="onMarketplaceChoice">
-                    </marketplace-choice>
+
                </div>`,
     computed: {
         searchTerm: function() {
@@ -45,31 +38,11 @@ export const SearchPage = {
             const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
 
             if (searchInitialiseEvent.initialised) {
-                if (searchInitialiseEvent.marketplaces.hasOwnProperty(EBAY.toLowerCase())) {
-                    this.onGetEbayItems(searchInitialiseEvent.model);
-                }
-
-                if (searchInitialiseEvent.marketplaces.hasOwnProperty(ETSY.toLowerCase())) {
-                    this.onGetEtsyItems(searchInitialiseEvent.model);
-                }
+                this.onGetEbayItems(searchInitialiseEvent.model);
             }
         },
     },
     methods: {
-        onGetEtsyItems(model) {
-            setTimeout(() => {
-                const searchRepo = RepositoryFactory.create('search');
-
-                searchRepo.searchEtsy(model, (response) => {
-                    if (response.status >= 400 && response.status <= 499 ||
-                        response.status >= 500 && response.status <= 599) {
-
-                        return;
-                    }
-                });
-            }, 500);
-        },
-
         onGetEbayItems(model) {
             if (this.ebayHttpInProgress === false) {
                 const searchRepo = RepositoryFactory.create('search');
@@ -112,7 +85,6 @@ export const SearchPage = {
     components: {
         'listing-component': ListingComponent,
         'search-component': SearchComponent,
-        'marketplace-choice': MarketplaceChoice,
         'filters': Filters,
     }
 };

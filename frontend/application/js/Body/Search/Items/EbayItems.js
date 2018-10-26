@@ -1,6 +1,5 @@
 import {Item} from "../../Listing/components/Item";
 import {RepositoryFactory} from "../../../services/repositoryFactory";
-import {EBAY, ETSY} from "../../../global";
 
 const LoadMore = {
     data: function() {

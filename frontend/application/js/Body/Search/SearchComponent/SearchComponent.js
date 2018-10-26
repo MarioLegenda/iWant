@@ -94,7 +94,6 @@ export const SearchComponent = {
             this.$store.commit('searchInitialiseEvent', {
                 searchUrl: `/search/${urlify(this.keyword)}`,
                 model: model,
-                marketplaces: {'ebay': 'Ebay'},
                 initialised: true
             });
         },
