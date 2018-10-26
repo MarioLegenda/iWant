@@ -8,12 +8,6 @@ export const SearchPage = {
         return {
             currentEbayGlobalId: null,
             ebayHttpInProgress: false,
-            showMarketplaceChoices: false,
-            foundEbayGlobalIds: [],
-            marketplaceChoices: {
-                ebay: false,
-                etsy: false,
-            },
         }
     },
     template: `<div id="search_page">
@@ -35,11 +29,7 @@ export const SearchPage = {
         },
 
         searchInitialiseEvent: function() {
-            const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
-
-            if (searchInitialiseEvent.initialised) {
-                this.onGetEbayItems(searchInitialiseEvent.model);
-            }
+            return this.$store.state.searchInitialiseEvent;
         },
     },
     methods: {
@@ -55,8 +45,13 @@ export const SearchPage = {
                             return;
                         }
 
+                        const view = response.collection.views.globalIdView;
+
                         this.$store.commit('listingEvent', {
-                            ebay: response.collection.views.globalIdView
+                            ebay: {
+                                listing: response.collection.views.globalIdView,
+                                globalId: Object.keys(view)[0],
+                            }
                         });
 
 

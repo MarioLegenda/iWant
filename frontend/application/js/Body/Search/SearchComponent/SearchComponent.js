@@ -47,7 +47,7 @@ export const SearchComponent = {
                         v-bind:showSentence="showSentence">
                     </sentence>
                     
-                    <loading-component></loading-component>
+                    <loading-component v-if="searchInitialiseEvent.initialise"></loading-component>
                </div>`,
     watch: {
         externalSearchTerm: function(newVal, oldVal) {
@@ -68,6 +68,9 @@ export const SearchComponent = {
         },
         filtersEvent: function() {
             return this.$store.state.filtersEvent;
+        },
+        searchInitialiseEvent: function() {
+            return this.$store.state.searchInitialiseEvent;
         }
     },
     methods: {
@@ -96,6 +99,8 @@ export const SearchComponent = {
                 model: model,
                 initialised: true
             });
+
+
         },
 
         determineMarketplaces(model) {
