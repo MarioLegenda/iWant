@@ -2,6 +2,7 @@
 
 namespace App\Component\Search;
 
+use App\Cache\Implementation\PreparedResponseCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Finder as EbayFinder;
 use App\Component\Search\Ebay\Model\Response\Image;
@@ -37,19 +38,26 @@ class SearchComponent
      */
     private $searchResponseCacheImplementation;
     /**
+     * @var PreparedResponseCacheImplementation $preparedResponseCacheImplementation
+     */
+    private $preparedResponseCacheImplementation;
+    /**
      * SearchComponent constructor.
      * @param EbayFinder $ebayFinder
      * @param EtsyFinder $etsyFinder
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
+     * @param PreparedResponseCacheImplementation $preparedResponseCacheImplementation
      */
     public function __construct(
         EbayFinder $ebayFinder,
         EtsyFinder $etsyFinder,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation
+        SearchResponseCacheImplementation $searchResponseCacheImplementation,
+        PreparedResponseCacheImplementation $preparedResponseCacheImplementation
     ) {
         $this->ebayFinder = $ebayFinder;
         $this->etsyFinder = $etsyFinder;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
+        $this->preparedResponseCacheImplementation = $preparedResponseCacheImplementation;
     }
     /**
      * @param EbaySearchModel $model
@@ -79,9 +87,22 @@ class SearchComponent
      */
     public function prepareEbayProductsAdvanced(EbaySearchModel $model): PreparedEbayResponse
     {
+        $uniqueName = md5(serialize($model));
+
+        if ($this->preparedResponseCacheImplementation->isStored($uniqueName)) {
+            $response = json_decode($this->preparedResponseCacheImplementation->getStored($uniqueName), true);
+
+            return new PreparedEbayResponse(
+                $response['uniqueName'],
+                $response['globalIdInformation'],
+                $response['globalId'],
+                $response['totalEntries'],
+                $response['entriesPerPage']
+            );
+        }
+
         $response = $this->searchEbayAdvanced($model);
 
-        $uniqueName = md5(serialize($model));
         $globalId = $model->getGlobalId();
         $totalEntries = $response->getPaginationOutput()->getTotalEntries();
         $entriesPerPage = $response->getPaginationOutput()->getEntriesPerPage();
@@ -93,10 +114,6 @@ class SearchComponent
             $totalEntries,
             $entriesPerPage
         );
-
-        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
-            return $preparedEbayResponse;
-        }
 
         /** @var SearchResultsContainer $searchResults */
         $searchResults = $response->getSearchResults();
@@ -126,6 +143,7 @@ class SearchComponent
                     }
                 }
             }));
+
             $shopName = $item->dynamicSingleItemChoice(function(Item $item) {
                 if ($item->getStoreInfo() !== null) {
                     return $item->getStoreInfo()->getStoreName();
@@ -137,10 +155,12 @@ class SearchComponent
 
                 return 'Unknown';
             });
+
             $price = new Price(
                 $item->getSellingStatus()->getCurrentPrice()['currencyId'],
                 $item->getSellingStatus()->getCurrentPrice()['currentPrice']
             );
+
             $viewItemUrl = $item->getViewItemUrl();
             $marketplaceType = MarketplaceType::fromValue('Ebay');
             $staticUrl = sprintf(
@@ -148,6 +168,7 @@ class SearchComponent
                 \URLify::filter($item->getTitle()),
                 $itemId
             );
+
             $taxonomyName = 'Invalid taxonomy';
             $shippingLocations = [];
 
@@ -166,6 +187,11 @@ class SearchComponent
                 $globalId
             );
         }
+
+        $this->preparedResponseCacheImplementation->store(
+            $uniqueName,
+            json_encode($preparedEbayResponse->toArray())
+        );
 
         $this->searchResponseCacheImplementation->store(
             $uniqueName,

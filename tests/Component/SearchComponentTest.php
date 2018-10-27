@@ -28,8 +28,5 @@ class SearchComponentTest extends BasicSetup
         ]);
 
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
-
-        dump($preparedEbayResponse);
-        die();
     }
 }

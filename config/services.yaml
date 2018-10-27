@@ -311,6 +311,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\PreparedResponseCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
