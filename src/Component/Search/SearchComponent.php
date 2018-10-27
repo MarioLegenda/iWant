@@ -81,7 +81,7 @@ class SearchComponent
     {
         $response = $this->searchEbayAdvanced($model);
 
-        $uniqueName = md5(serialize($model));;
+        $uniqueName = md5(serialize($model));
         $globalId = $model->getGlobalId();
         $totalEntries = $response->getPaginationOutput()->getTotalEntries();
         $entriesPerPage = $response->getPaginationOutput()->getEntriesPerPage();
@@ -94,14 +94,14 @@ class SearchComponent
             $entriesPerPage
         );
 
+        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
+            return $preparedEbayResponse;
+        }
+
         /** @var SearchResultsContainer $searchResults */
         $searchResults = $response->getSearchResults();
 
         if ($searchResults->isEmpty()) {
-            return $preparedEbayResponse;
-        }
-
-        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
             return $preparedEbayResponse;
         }
 

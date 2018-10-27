@@ -42,14 +42,16 @@ export const SearchComponent = {
                     </search-box-advanced>
                     
                     <selected-filters></selected-filters>
-                    
-                    <loading-component></loading-component>
-                    
+                                        
                     <sentence
                         v-if="showSentence"
                         v-bind:sentenceData="sentenceData"
                         v-bind:showSentence="showSentence">
                     </sentence>
+                    
+                    <transition name="fade">
+                        <loading-component v-if="searchInitialiseEvent.initialised"></loading-component>
+                    </transition>
                     
                     <loading-component v-if="searchInitialiseEvent.initialise"></loading-component>
                </div>`,

@@ -967,7 +967,7 @@ html {
 #search_page .Sentence {
   width: 100%;
   float: left;
-  margin-bottom: 30px;
+  margin-top: 10px;
 }
 #search_page .Sentence h1 {
   padding-bottom: 5px;
@@ -1004,6 +1004,11 @@ html {
   position: absolute;
   border-radius: 25px;
   background-color: rgba(165, 165, 165, 0.9);
+}
+#search_page .EbayLoading {
+  width: 100%;
+  float: left;
+  margin: 40px 0 40px 0;
 }
 
 #search_page .FoundProductsInformation {

@@ -206,7 +206,7 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         $timeout = 30;
 
         if ((string) $this->environment === 'dev') {
-            $timeout = 5;
+            $timeout = false;
         }
 
         if ((string) $this->environment === 'test') {

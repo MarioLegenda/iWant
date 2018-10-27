@@ -45,13 +45,15 @@ export const EbayLoading = {
     template: `
             <div class="EbayLoading">
                 <input type="hidden" :value="preparedEbayRequestEvent" />
+                
                 <div
                     v-for="(item, globalId, index) in information" 
                     v-if="supportedSites.includes(item.globalId)"
                     :key="index"
                     class="ImageWrapper">
                     
-                    <div v-if="!item.isLoaded" class="ImageHider"></div>
+                    <transition name="fade"><div v-if="!item.isLoaded" class="ImageHider"></div></transition>
+                    
                     <img class="Image" :src="item.icon" />
                 </div>
             </div>
