@@ -5,7 +5,7 @@ import urlifyFactory from 'urlify';
 import {marketplacesList} from "../../../global";
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
-import {supportedSites} from "../../../global";
+import {SUPPORTED_SITES} from "../../../global";
 import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const SearchComponent = {
@@ -38,6 +38,7 @@ export const SearchComponent = {
     },
     template: `<div class="AdvancedSearch" id="AdvancedSearchId">
                     <input type="hidden" :value="preparedEbayRequestEvent" />
+                    
                     <search-box-advanced
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"
@@ -45,12 +46,14 @@ export const SearchComponent = {
                     </search-box-advanced>
                     
                     <selected-filters></selected-filters>
-                                        
-                    <sentence
-                        v-if="showSentence"
-                        v-bind:sentenceData="sentenceData"
-                        v-bind:showSentence="showSentence">
-                    </sentence>
+                             
+                    <transition name="fade">
+                        <sentence
+                           v-if="showSentence"
+                           v-bind:sentenceData="sentenceData"
+                           v-bind:showSentence="showSentence">
+                        </sentence>
+                    </transition>
                     
                     <transition name="fade">
                         <loading-component v-if="searchInitialiseEvent.initialised"></loading-component>
@@ -96,7 +99,7 @@ export const SearchComponent = {
             }
 
             if (!this.sitesPrepared) {
-                if (supportedSites.length === this.preparedEbaySites.length) {
+                if (SUPPORTED_SITES.length === this.preparedEbaySites.length) {
                     setTimeout(() => {
                         this.$store.commit('searchInitialiseEvent', {
                             initialised: false
@@ -139,8 +142,8 @@ export const SearchComponent = {
 
             const searchRepo = RepositoryFactory.create('search');
 
-            for (const index in supportedSites) {
-                const globalId = supportedSites[index];
+            for (const index in SUPPORTED_SITES) {
+                const globalId = SUPPORTED_SITES[index];
                 model.globalId = globalId.toUpperCase();
 
                 searchRepo.postPrepareEbaySearch(model, (r) => {

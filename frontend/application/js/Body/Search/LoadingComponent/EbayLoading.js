@@ -1,16 +1,16 @@
-import {supportedSites} from "../../../global";
+import {SUPPORTED_SITES} from "../../../global";
 
 export const EbayLoading = {
     data: function() {
         return {
             information: {},
-            supportedSites: supportedSites,
+            supportedSites: SUPPORTED_SITES,
             loadedSites: [],
         }
     },
     created() {
-        for (const site in supportedSites) {
-            this.information[supportedSites[site].toUpperCase()] = {};
+        for (const site in SUPPORTED_SITES) {
+            this.information[SUPPORTED_SITES[site].toUpperCase()] = {};
         }
 
         for (const globalId in this.$globalIdInformation.all) {

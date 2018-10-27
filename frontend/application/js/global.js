@@ -15,7 +15,7 @@ export const marketplacesList = {
     etsy: ETSY,
 };
 
-export const supportedSites = [
+export const SUPPORTED_SITES = [
     'EBAY-AT',
     'EBAY-DE',
     'EBAY-ES',
@@ -121,18 +121,23 @@ export class Init {
                 searchTerm(state, value) {
                     this.state.searchTerm = value;
                 },
+
                 foundSearchProducts(state, value) {
                     this.state.foundSearchProducts = Object.assign({}, this.state.foundSearchProducts, value);
                 },
+
                 searchInitialiseEvent(state, value) {
                     this.state.searchInitialiseEvent = Object.assign({}, this.state.searchInitialiseEvent, value);
                 },
+
                 listingEvent(state, value) {
                     this.state.listingEvent = Object.assign({}, this.state.listingEvent, value);
                 },
+
                 filtersEvent(state, value) {
                     this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
                 },
+
                 preparedEbayRequestEvent(state, value) {
                     this.state.preparedEbayRequestEvent = value;
                 }
