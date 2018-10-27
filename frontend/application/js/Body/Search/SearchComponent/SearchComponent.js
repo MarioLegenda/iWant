@@ -14,6 +14,8 @@ export const SearchComponent = {
             filtersInitialized: false,
             showSentence: false,
             keyword: null,
+            preparedEbaySites: [],
+            sitesPrepared: false
         }
     },
     props: ['externalSearchTerm'],
@@ -35,6 +37,7 @@ export const SearchComponent = {
         }
     },
     template: `<div class="AdvancedSearch" id="AdvancedSearchId">
+                    <input type="hidden" :value="preparedEbayRequestEvent" />
                     <search-box-advanced
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"
@@ -72,11 +75,39 @@ export const SearchComponent = {
                 keyword: this.keyword,
             }
         },
+
         filtersEvent: function() {
             return this.$store.state.filtersEvent;
         },
+
         searchInitialiseEvent: function() {
             return this.$store.state.searchInitialiseEvent;
+        },
+
+        preparedEbayRequestEvent: function() {
+            const preparedSite = this.$store.state.preparedEbayRequestEvent;
+
+            if (preparedSite === null) {
+                return this.$store.state.preparedEbayRequestEvent;
+            }
+
+            if (!this.preparedEbaySites.includes(preparedSite)) {
+                this.preparedEbaySites.push(preparedSite);
+            }
+
+            if (!this.sitesPrepared) {
+                if (supportedSites.length === this.preparedEbaySites.length) {
+                    setTimeout(() => {
+                        this.$store.commit('searchInitialiseEvent', {
+                            initialised: false
+                        });
+
+                        this.sitesPrepared = true;
+
+                        return this.$store.state.preparedEbayRequestEvent
+                    }, 1000);
+                }
+            }
         }
     },
     methods: {
@@ -106,8 +137,6 @@ export const SearchComponent = {
                 initialised: true
             });
 
-            let count = 0;
-            const times = supportedSites.length;
             const searchRepo = RepositoryFactory.create('search');
 
             for (const index in supportedSites) {

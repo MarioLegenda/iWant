@@ -101,9 +101,6 @@ export class Init {
                 searchInitialiseEvent: {
                     searchUrl: null,
                     model: null,
-                    loading: {
-                        ebay: false,
-                    },
                     initialised: false,
                 },
                 filtersEvent: {
