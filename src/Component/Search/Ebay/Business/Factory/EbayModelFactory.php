@@ -5,6 +5,7 @@ namespace App\Component\Search\Ebay\Business\Factory;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
+use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
@@ -18,7 +19,7 @@ class EbayModelFactory
      * @param SearchModel $model
      * @return FindingApiModel
      */
-    public function createRequestModel(
+    public function createFindItemsAdvancedModel(
         SearchModel $model
     ): FindingApiModel {
         $this->validateModel($model);
@@ -38,7 +39,7 @@ class EbayModelFactory
         ], $itemFilters);
         $this->createSortOrder($model, $itemFilters);
 
-        $findItemsInEbayStores = new FindItemsInEbayStores($queries);
+        $findItemsInEbayStores = new FindItemsAdvanced($queries);
 
         return new FindingApiModel($findItemsInEbayStores, $itemFilters);
     }

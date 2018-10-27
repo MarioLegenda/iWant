@@ -72,12 +72,10 @@ class SingleItemRepository {
 }
 
 class SearchRepository {
-    searchEbay(data, success, error) {
-        const route = routes.createRoute('app_get_ebay_search', {
-            searchData: JSON.stringify(data),
-        });
-
-        fetch(route, {
+    postPrepareEbaySearch(data, success, error) {
+        fetch(routes.app_post_prepare_ebay_search, {
+            method: 'POST',
+            body: JSON.stringify(data),
             headers: {
                 'X-Requested-With': 'XMLHttpRequest',
             }
@@ -85,21 +83,6 @@ class SearchRepository {
             .then(parseJson)
             .then(success)
             .catch(error);
-    }
-
-    searchEtsy(data, success, error) {
-        const route = routes.createRoute('app_get_etsy_search', {
-            searchData: JSON.stringify(data),
-        });
-
-        fetch(route, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            }
-        })
-            .then(parseJson)
-            .then(success)
-            .then(error);
     }
 }
 

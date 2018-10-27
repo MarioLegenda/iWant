@@ -15,8 +15,16 @@ export const marketplacesList = {
     etsy: ETSY,
 };
 
-class GlobalEventHandler {
-}
+export const supportedSites = [
+    'EBAY-AT',
+    'EBAY-DE',
+    'EBAY-ES',
+    'EBAY-FR',
+    'EBAY-FRBE',
+    'EBAY-GB',
+    'EBAY-IT',
+    'EBAY-US',
+];
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -107,6 +115,7 @@ export class Init {
                     taxonomies: [],
                     globalIds: [],
                 },
+                preparedEbayRequestEvent: null,
                 listingEvent: {
                     ebay: null,
                 }
@@ -126,6 +135,9 @@ export class Init {
                 },
                 filtersEvent(state, value) {
                     this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
+                },
+                preparedEbayRequestEvent(state, value) {
+                    this.state.preparedEbayRequestEvent = value;
                 }
             }
         });

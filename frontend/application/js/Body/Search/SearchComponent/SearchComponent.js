@@ -5,6 +5,8 @@ import urlifyFactory from 'urlify';
 import {marketplacesList} from "../../../global";
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
+import {supportedSites} from "../../../global";
+import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const SearchComponent = {
     data: function() {
@@ -40,6 +42,8 @@ export const SearchComponent = {
                     </search-box-advanced>
                     
                     <selected-filters></selected-filters>
+                    
+                    <loading-component></loading-component>
                     
                     <sentence
                         v-if="showSentence"
@@ -100,7 +104,18 @@ export const SearchComponent = {
                 initialised: true
             });
 
+            let count = 0;
+            const times = supportedSites.length;
+            const searchRepo = RepositoryFactory.create('search');
 
+            for (const index in supportedSites) {
+                const globalId = supportedSites[index];
+                model.globalId = globalId.toUpperCase();
+
+                searchRepo.postPrepareEbaySearch(model, (r) => {
+                    this.$store.commit('preparedEbayRequestEvent', r.resource.data.globalId);
+                });
+            }
         },
 
         determineMarketplaces(model) {
@@ -130,6 +145,7 @@ export const SearchComponent = {
                     page: 1,
                 },
                 viewType: 'globalIdView',
+                globalId: null,
             }
         }
     },

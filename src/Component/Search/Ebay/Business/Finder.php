@@ -84,7 +84,7 @@ class Finder
     public function findEbayProductsAdvanced(EbaySearchModel $model): ResponseModelInterface
     {
         /** @var FindingApiModel $findingApiModel */
-        $findingApiModel = $this->ebayModelFactory->createRequestModel($model);
+        $findingApiModel = $this->ebayModelFactory->createFindItemsAdvancedModel($model);
 
         return $this->findingApiEntryPoint->findItemsAdvanced($findingApiModel);
     }
