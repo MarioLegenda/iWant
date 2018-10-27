@@ -1,4 +1,4 @@
-import {EbayItems} from "../Items/EbayItems";
+import {EbayItems} from "./Items/EbayItems";
 
 export const ListingComponent = {
     template: `

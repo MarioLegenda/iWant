@@ -954,7 +954,7 @@ html {
   box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
   border-radius: 10px;
   padding: 4px;
-  color: #898989;
+  color: black;
   font-size: 0.8em;
 }
 #search_page .SelectedFilters .SelectedFilter i {
@@ -976,7 +976,7 @@ html {
   box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
   margin-top: 10px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 20px;
 }
 #search_page .Sentence h1 {
   color: black;
@@ -1019,6 +1019,22 @@ html {
   width: 100%;
   float: left;
   margin: 40px 0 40px 0;
+  padding: 30px 30px 20px 30px;
+  border-radius: 10px;
+  -webkit-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
+  -moz-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
+  box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
+}
+#search_page .EbayLoading .Header {
+  width: 100%;
+  float: left;
+  padding-bottom: 20px;
+  color: black;
+  font-weight: bolder;
+}
+#search_page .EbayLoading .Header i {
+  margin-right: 10px;
+  color: #f78f27;
 }
 
 #search_page .FoundProductsInformation {

@@ -46,6 +46,7 @@ export const EbayLoading = {
             <div class="EbayLoading">
                 <input type="hidden" :value="preparedEbayRequestEvent" />
                 
+                <h1 class="Header"><i class="fa fa-circle-notch fa-spin"></i>Searching eBay sites</h1>
                 <div
                     v-for="(item, globalId, index) in information" 
                     v-if="supportedSites.includes(item.globalId)"

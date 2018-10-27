@@ -1,5 +1,5 @@
-import {Item} from "../../Listing/components/Item";
-import {RepositoryFactory} from "../../../services/repositoryFactory";
+import {Item} from "../../../Listing/components/Item";
+import {RepositoryFactory} from "../../../../services/repositoryFactory";
 
 const LoadMore = {
     data: function() {
