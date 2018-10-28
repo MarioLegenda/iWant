@@ -114,6 +114,7 @@ export const SearchComponent = {
                         });
 
                         this.sitesPrepared = true;
+                        this.preparedEbaySites = [];
 
                         return this.$store.state.preparedEbayRequestEvent
                     }, 1000);
