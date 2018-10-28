@@ -203,7 +203,7 @@ export class Init {
                     el: '#vue_app',
                     store,
                     router: createVueRouter(),
-                    template: `<div v-on:click="globalEventResolver($event)">
+                    template: `<div class="Global" v-on:click="globalEventResolver($event)">
                    <Header></Header>
                    
                    <router-view></router-view>
