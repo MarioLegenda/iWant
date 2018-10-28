@@ -1,55 +1,94 @@
 .SearchItems {
-  width: 100%;
+  width: 70%;
   float: left;
 
-  .SearchItems_GlobalIdIdentifier {
+  margin: 30px 0 0 30px;
+
+  .Row {
     width: 100%;
     float: left;
 
-    color: black;
-    font-size: 1.5em;
-    text-align: center;
+    margin-bottom: 15px;
 
-    padding-bottom: 10px;
-    border-bottom: 1px solid $lightestGray;
-
-    margin-bottom: 30px;
+    button {
+      border: none;
+      background: none;
+      font-family: $mainFont;
+      font-size: 1em;
+      padding: 0;
+    }
   }
 
-  .GlobalIdContainer {
-    margin: 30px auto 30px auto;
-  }
-
-  .LoadMoreWrapper {
-    width: 100%;
+  .SearchItem {
+    width: 200px;
     float: left;
 
-    margin: 10px 0 50px 0;
-  }
+    margin: 0 10px 25px 0;
 
-  .LoadMore {
-    width: 480px;
-    overflow: hidden;
-    margin: 0 auto;
+    padding: 10px;
 
-    color: $lightBlue;
+    border: 1px solid $lightestGray;
 
-    text-align: center;
+    border-radius: 10px;
 
-    padding-bottom: 10px;
-
-    border-bottom: 1px solid $lightBlue;
-
-    span {
-      display: block;
-    }
-
-    i {
-      margin: 0 auto;
-    }
+    transition: box-shadow 0.5s;
+    -webkit-transition: box-shadow 0.5s;
+    -moz-transition: box-shadow 0.5s;
+    -o-transition: box-shadow 0.5s;
 
     &:hover {
-      cursor: pointer;
+      -webkit-box-shadow: 2px 3px 9px -3px rgba(0,0,0,0.75);
+      -moz-box-shadow: 2px 3px 9px -3px rgba(0,0,0,0.75);
+      box-shadow: 2px 3px 9px -3px rgba(0,0,0,0.75);
+    }
+  }
+
+  .PriceWrapper {
+    color: black;
+  }
+
+  .QuickLookWrapper, .FullDetailsWrapper {
+    button {
+      position: relative;
+      width: 100%;
+      text-align: left;
+      display: block;
+      border: 1px solid $lightestGray;
+
+      border-radius: 10px;
+      padding: 10px;
+
+      &:hover {
+        cursor: pointer;
+        border: 1px solid $basicOrange;
+      }
+
+      i {
+        position: absolute;
+        right: 10px;
+        color: $basicOrange;
+        font-size: 1.4em;
+      }
+    }
+  }
+
+  .MarketplaceWrapper {
+    a {
+      display: block;
+      padding: 10px 10px 10px 0;
+      color: black;
+    }
+  }
+
+  .ImageWrapper {
+    width: 100%;
+
+    img {
+      display: block;
+      width: 100%;
+      height: 120px;
+
+      border-radius: 10px;
     }
   }
 }
