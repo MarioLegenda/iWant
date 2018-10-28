@@ -84,7 +84,15 @@ export const SearchComponent = {
         },
 
         searchInitialiseEvent: function() {
-            return this.$store.state.searchInitialiseEvent;
+            const searchInitialisedEvent = this.$store.state.searchInitialiseEvent;
+
+            if (typeof searchInitialisedEvent === 'object' && searchInitialisedEvent !== null) {
+                if (searchInitialisedEvent.initialised === false) {
+                    this.sitesPrepared = false;
+                }
+            }
+
+            return searchInitialisedEvent;
         },
 
         preparedEbayRequestEvent: function() {

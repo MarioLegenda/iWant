@@ -13,8 +13,7 @@ export const SearchPage = {
     template: `<div id="search_page">
                     <input type="hidden" :input="searchInitialiseEvent" />
          
-                    <filters>
-                    </filters>
+                    <filters></filters>
                     
                     <search-component
                         v-bind:external-search-term="searchTerm">
