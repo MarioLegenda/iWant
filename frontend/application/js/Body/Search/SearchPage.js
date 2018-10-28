@@ -2,6 +2,7 @@ import {SearchComponent} from "./SearchComponent/SearchComponent";
 import {RepositoryFactory} from "../../services/repositoryFactory";
 import {ListingComponent} from "./ListingComponent/ListingComponent";
 import {Filters} from "./SearchComponent/Filters";
+import {ListingChoiceComponent} from "./ListingChoiceComponent/ListingChoiceComponent";
 
 export const SearchPage = {
     data: function() {
@@ -19,6 +20,8 @@ export const SearchPage = {
                         <search-component
                             v-bind:external-search-term="searchTerm">
                         </search-component>
+                        
+                        <listing-choice-component></listing-choice-component>
                     
                         <listing-component></listing-component>
                     </div>
@@ -82,5 +85,6 @@ export const SearchPage = {
         'listing-component': ListingComponent,
         'search-component': SearchComponent,
         'filters': Filters,
+        'listing-choice-component': ListingChoiceComponent,
     }
 };

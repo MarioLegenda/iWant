@@ -59,7 +59,6 @@ export const SearchComponent = {
                         <loading-component v-if="searchInitialiseEvent.initialised"></loading-component>
                     </transition>
                     
-                    <loading-component v-if="searchInitialiseEvent.initialise"></loading-component>
                </div>`,
     watch: {
         externalSearchTerm: function(newVal, oldVal) {
@@ -102,16 +101,19 @@ export const SearchComponent = {
                 return this.$store.state.preparedEbayRequestEvent;
             }
 
-            if (!this.preparedEbaySites.includes(preparedSite)) {
-                this.preparedEbaySites.push(preparedSite);
+            if (!this.preparedEbaySites.includes(preparedSite.globalId)) {
+                this.preparedEbaySites.push(preparedSite.globalId);
             }
 
             if (!this.sitesPrepared) {
-                if (SUPPORTED_SITES.length === this.preparedEbaySites.length) {
+                if (SUPPORTED_SITES.sites.length === this.preparedEbaySites.length) {
                     setTimeout(() => {
                         this.$store.commit('searchInitialiseEvent', {
-                            initialised: false
+                            initialised: false,
+                            finished: true,
                         });
+
+                        this.$store.commit('preparedEbayRequestEvent', null);
 
                         this.sitesPrepared = true;
                         this.preparedEbaySites = [];
@@ -146,17 +148,21 @@ export const SearchComponent = {
             this.$store.commit('searchInitialiseEvent', {
                 searchUrl: `/search/${urlify(this.keyword)}`,
                 model: model,
-                initialised: true
+                initialised: true,
+                finished: false
             });
 
             const searchRepo = RepositoryFactory.create('search');
 
-            for (const index in SUPPORTED_SITES) {
-                const globalId = SUPPORTED_SITES[index];
+            for (const site of SUPPORTED_SITES.sites) {
+                const globalId = site.globalId;
                 model.globalId = globalId.toUpperCase();
 
                 searchRepo.postPrepareEbaySearch(model, (r) => {
-                    this.$store.commit('preparedEbayRequestEvent', r.resource.data.globalId);
+                    this.$store.commit('preparedEbayRequestEvent', {
+                        globalId: r.resource.data.globalId,
+                        resolved: r.isError
+                    });
                 });
             }
         },

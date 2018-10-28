@@ -31,8 +31,6 @@ export const SearchBoxAdvanced = {
                                                       
                            <p v-if="enterToSearch" class="SearchBoxAdvanced-enter-to-search">* Press Enter to search</p>
                </div>`,
-    computed: {
-    },
     methods: {
         submit: function() {
             if (this.text === null) {

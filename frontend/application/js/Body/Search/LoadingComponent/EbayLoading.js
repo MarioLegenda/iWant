@@ -9,17 +9,16 @@ export const EbayLoading = {
         }
     },
     created() {
-        for (const site in SUPPORTED_SITES) {
-            this.information[SUPPORTED_SITES[site].toUpperCase()] = {};
+        for (const site of this.supportedSites.sites) {
+            this.information[site.globalId] = {};
         }
 
         for (const globalId in this.$globalIdInformation.all) {
             if (this.$globalIdInformation.all.hasOwnProperty(globalId)) {
-                const siteInfo = this.$globalIdInformation.all[globalId];
                 const uGlobalId = globalId.toUpperCase();
 
                 if (this.information.hasOwnProperty(uGlobalId)) {
-                    this.information[uGlobalId].icon = `/images/country_icons/${globalId}.svg`;
+                    this.information[uGlobalId].icon = SUPPORTED_SITES.find(uGlobalId).icon;
                     this.information[uGlobalId].globalId = uGlobalId;
                     this.information[uGlobalId].isLoaded = false;
                 }
@@ -32,7 +31,7 @@ export const EbayLoading = {
                 const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
                 if (preparedEbayRequestEvent !== null && typeof preparedEbayRequestEvent !== 'undefined') {
-                    this.information[preparedEbayRequestEvent].isLoaded = true;
+                    this.information[preparedEbayRequestEvent.globalId].isLoaded = true;
                 }
             }
 
@@ -49,7 +48,7 @@ export const EbayLoading = {
                 <h1 class="Header"><i class="fa fa-circle-notch fa-spin"></i>Searching eBay sites</h1>
                 <div
                     v-for="(item, globalId, index) in information" 
-                    v-if="supportedSites.includes(item.globalId)"
+                    v-if="supportedSites.has(item.globalId)"
                     :key="index"
                     class="ImageWrapper">
                     

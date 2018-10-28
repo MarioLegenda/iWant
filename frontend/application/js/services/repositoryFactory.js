@@ -4,6 +4,10 @@ function parseJson(response) {
     return response.json();
 }
 
+const requiredHeaders = {
+    'X-Requested-With': 'XMLHttpRequest',
+};
+
 class TodaysProductsRepository {
     getTodaysProducts(data, success) {
         const route = `${routes.app_get_todays_products}?data=${data}`;
@@ -76,9 +80,7 @@ class SearchRepository {
         fetch(routes.app_post_prepare_ebay_search, {
             method: 'POST',
             body: JSON.stringify(data),
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            }
+            headers: requiredHeaders,
         })
             .then(parseJson)
             .then(success)

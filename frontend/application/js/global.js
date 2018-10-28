@@ -7,6 +7,36 @@ import {routes as apiRoutes} from "./apiRoutes";
 import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
 
+class SupportedSites {
+    constructor(sites) {
+        this.sites = sites;
+    }
+
+    find(globalId) {
+        for (const site of this.sites) {
+            if (site.globalId === globalId.toUpperCase()) {
+                return site;
+            }
+        }
+
+        throw new Error(`Global id ${globalId} not found as a supported site`);
+    }
+
+    tryFind(globalId) {
+        for (const site of this.sites) {
+            if (site.globalId === globalId.toUpperCase()) {
+                return site;
+            }
+        }
+
+        return false;
+    }
+
+    has(globalId) {
+        return this.tryFind(globalId);
+    }
+}
+
 export const EBAY = 'Ebay';
 export const ETSY = 'Etsy';
 
@@ -15,16 +45,16 @@ export const marketplacesList = {
     etsy: ETSY,
 };
 
-export const SUPPORTED_SITES = [
-    'EBAY-AT',
-    'EBAY-DE',
-    'EBAY-ES',
-    'EBAY-FR',
-    'EBAY-FRBE',
-    'EBAY-GB',
-    'EBAY-IT',
-    'EBAY-US',
-];
+export const SUPPORTED_SITES = new SupportedSites([
+    {globalId: 'EBAY-AT', icon: `/images/country_icons/ebay-at.svg`},
+    {globalId: 'EBAY-DE', icon: `/images/country_icons/ebay-de.svg`},
+    {globalId: 'EBAY-ES', icon: `/images/country_icons/ebay-es.svg`},
+    {globalId: 'EBAY-FR', icon: `/images/country_icons/ebay-fr.svg`},
+    {globalId: 'EBAY-FRBE', icon: `/images/country_icons/ebay-frbe.svg`},
+    {globalId: 'EBAY-GB', icon: `/images/country_icons/ebay-gb.svg`},
+    {globalId: 'EBAY-IT', icon: `/images/country_icons/ebay-it.svg`},
+    {globalId: 'EBAY-US', icon: `/images/country_icons/ebay-us.svg`},
+]);
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -102,6 +132,7 @@ export class Init {
                     searchUrl: null,
                     model: null,
                     initialised: false,
+                    finished: false,
                 },
                 filtersEvent: {
                     lowestPrice: false,
