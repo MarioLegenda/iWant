@@ -19,7 +19,7 @@ export const EbayItems = {
         }
     },
     template: `
-            <div class="EbayItems SearchItems" id="EbayItemsId">
+            <div class="EbayItems" id="EbayItemsId">
                 <div v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="index" class="EbayItem SearchItem">
                     <div class="Row ImageWrapper">
                         <img class="Image" src="/images/start_page_background.jpg" />

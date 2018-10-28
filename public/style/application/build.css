@@ -682,15 +682,20 @@ html {
   font-weight: bolder;
 }
 
+.LeftPanel {
+  width: 70%;
+  float: left;
+  margin: 0 0 0 30px;
+}
+
 #search_page {
   width: 100%;
   float: left;
 }
 #search_page .AdvancedSearch {
-  width: 70%;
+  width: 100%;
   float: left;
-  margin: 0 0 0 30px;
-  border: 1px solid white;
+  margin: 0 0 30px 0;
 }
 #search_page .SearchBoxAdvanced {
   width: 100%;
@@ -745,9 +750,8 @@ html {
 }
 
 .SearchItems {
-  width: 70%;
+  width: 100%;
   float: left;
-  margin: 30px 0 0 30px;
 }
 .SearchItems .Row {
   width: 100%;
@@ -762,9 +766,9 @@ html {
   padding: 0;
 }
 .SearchItems .SearchItem {
-  width: 200px;
+  width: 210px;
   float: left;
-  margin: 0 10px 25px 0;
+  margin: 0 14px 25px 0;
   padding: 10px;
   border: 1px solid #d6d6d6;
   border-radius: 10px;

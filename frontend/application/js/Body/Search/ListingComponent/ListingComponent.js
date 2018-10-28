@@ -2,7 +2,7 @@ import {EbayItems} from "./Items/EbayItems";
 
 export const ListingComponent = {
     template: `
-        <div>
+        <div class="SearchItems">
             <ebay-items
                 classList="Item SearchItemItem">
             </ebay-items>

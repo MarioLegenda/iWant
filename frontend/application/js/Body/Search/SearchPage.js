@@ -15,11 +15,13 @@ export const SearchPage = {
          
                     <filters></filters>
                     
-                    <search-component
-                        v-bind:external-search-term="searchTerm">
-                    </search-component>
+                    <div class="LeftPanel">
+                        <search-component
+                            v-bind:external-search-term="searchTerm">
+                        </search-component>
                     
-                    <listing-component></listing-component>
+                        <listing-component></listing-component>
+                    </div>
 
                </div>`,
     computed: {

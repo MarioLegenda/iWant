@@ -1,3 +1,10 @@
+.LeftPanel {
+  width: 70%;
+  float:left;
+
+  margin: 0 0 0 30px;
+}
+
 @import "searchPage";
 @import "searchItems";
 @import "filters";
