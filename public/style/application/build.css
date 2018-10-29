@@ -1050,6 +1050,13 @@ html {
   border-radius: 25px;
   background-color: rgba(165, 165, 165, 0.9);
 }
+#search_page .LoadingComponent .ImageWrapper .ErrorOccurred {
+  width: 50px;
+  height: 50px;
+  position: absolute;
+  border-radius: 25px;
+  background-color: rgba(226, 0, 0, 0.7);
+}
 #search_page .EbayLoading {
   width: 100%;
   float: left;

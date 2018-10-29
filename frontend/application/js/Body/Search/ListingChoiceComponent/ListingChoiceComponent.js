@@ -53,6 +53,9 @@ export const ListingChoiceComponent = {
             const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
             if (typeof preparedEbayRequestEvent === 'object' && preparedEbayRequestEvent !== null) {
+                if (preparedEbayRequestEvent.isError) {
+                    return preparedEbayRequestEvent;
+                }
 
                 this.resolvedSites[preparedEbayRequestEvent.preparedData.globalId] = preparedEbayRequestEvent;
 

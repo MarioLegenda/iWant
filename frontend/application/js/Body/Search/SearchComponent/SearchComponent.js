@@ -101,7 +101,7 @@ export const SearchComponent = {
                 return this.$store.state.preparedEbayRequestEvent;
             }
 
-            if (!this.preparedEbaySites.includes(preparedSite.preparedData.globalId)) {
+            if (!this.preparedEbaySites.includes(preparedSite.globalId)) {
                 this.preparedEbaySites.push(preparedSite);
             }
 
@@ -152,20 +152,38 @@ export const SearchComponent = {
                 finished: false
             });
 
+            let models = [];
             const searchRepo = RepositoryFactory.create('search');
 
             for (const site of SUPPORTED_SITES.sites) {
-                const globalId = site.globalId;
-                model.globalId = globalId.toUpperCase();
+                let model = this.createModel();
+                model.globalId = site.globalId.toUpperCase();
 
-
-                searchRepo.postPrepareEbaySearch(model, (r) => {
-                    this.$store.commit('preparedEbayRequestEvent', {
-                        preparedData: r.resource.data,
-                        resolved: r.isError
-                    });
-                });
+                models.push(model);
             }
+
+            let promises = [];
+            for (const m of models) {
+                let promise = searchRepo.postPrepareEbaySearch(m, (r) => {
+                    const response = r.content;
+
+                    const eventData = {
+                        preparedData: (response.isError) ? null : response.resource.data,
+                        isError: response.isError,
+                        globalId: r.request.globalId,
+                    };
+
+                    this.$store.commit('preparedEbayRequestEvent', eventData);
+
+                    return r.content;
+                });
+
+                promises.push(promise);
+            }
+
+            Promise.all(promises).then((responses) => {
+
+            });
         },
 
         determineMarketplaces(model) {

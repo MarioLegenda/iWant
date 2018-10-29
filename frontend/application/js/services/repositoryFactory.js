@@ -65,12 +65,20 @@ class SingleItemRepository {
 
 class SearchRepository {
     postPrepareEbaySearch(data, success, error) {
-        fetch(routes.app_post_prepare_ebay_search, {
+        return fetch(routes.app_post_prepare_ebay_search, {
             method: 'POST',
             body: JSON.stringify(data),
             headers: requiredHeaders,
         })
-            .then(parseJson)
+            .then((response) => {
+                return response.json()
+            })
+            .then((response) => {
+                return {
+                    content: response,
+                    request: data,
+                };
+            })
             .then(success)
             .catch(error);
     }

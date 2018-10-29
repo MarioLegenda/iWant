@@ -147,6 +147,7 @@ export class Init {
                 },
                 preparedEbayRequestEvent: null,
                 preparedEbayRequestEvents: [],
+                preparedSearchInformation: {}
             },
             mutations: {
                 searchTerm(state, value) {

@@ -21,6 +21,7 @@ export const EbayLoading = {
                     this.information[uGlobalId].icon = SUPPORTED_SITES.find(uGlobalId).icon;
                     this.information[uGlobalId].globalId = uGlobalId;
                     this.information[uGlobalId].isLoaded = false;
+                    this.information[uGlobalId].isError = false;
                 }
             }
         }
@@ -31,9 +32,17 @@ export const EbayLoading = {
                 const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
                 if (preparedEbayRequestEvent !== null && typeof preparedEbayRequestEvent !== 'undefined') {
-                    this.information[preparedEbayRequestEvent.preparedData.globalId].isLoaded = true;
+                    if (preparedEbayRequestEvent.isError) {
+                        this.information[preparedEbayRequestEvent.globalId].isError = preparedEbayRequestEvent.isError;
+                        this.information[preparedEbayRequestEvent.globalId].isLoaded = true;
+                    } else if (!preparedEbayRequestEvent.isError) {
+                        this.information[preparedEbayRequestEvent.preparedData.globalId].isError = preparedEbayRequestEvent.isError;
+                        this.information[preparedEbayRequestEvent.preparedData.globalId].isLoaded = true;
+                    }
                 }
             }
+
+            console.log(this.information);
 
             return this.$store.state.preparedEbayRequestEvent;
         },
@@ -52,8 +61,8 @@ export const EbayLoading = {
                     :key="index"
                     class="ImageWrapper">
                     
-                    <transition name="fade"><div v-if="!item.isLoaded" class="ImageHider"></div></transition>
-                    
+                    <transition name="fade"><div v-if="!item.isLoaded && !item.isError" class="ImageHider"></div></transition>
+                    <transition name="fade"><div v-if="item.isLoaded && item.isError" class="ErrorOccurred"></div></transition>
                     <img class="Image" :src="item.icon" />
                 </div>
             </div>
