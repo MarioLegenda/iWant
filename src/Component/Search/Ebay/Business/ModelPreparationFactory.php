@@ -26,7 +26,7 @@ class ModelPreparationFactory
         $indexes = $this->createPaginationIndexes($model->getPagination());
 
         $paginatedResults = [];
-        for ($i = $indexes['firstIndex']; $i < $indexes['lastIndex']; $i++) {
+        for ($i = $indexes['firstIndex']; $i <= $indexes['lastIndex']; $i++) {
             if (array_key_exists($i, $searchResults)) {
                 $paginatedResults[] = $searchResults[$i];
             }
