@@ -14,6 +14,7 @@ const ListingChoice = {
     props: ['image', 'siteName', 'preparedData'],
     methods: {
         onListingChoice: function() {
+            this.$emit('on-ebay-site-choice', this.preparedData);
         }
     }
 };
@@ -40,7 +41,8 @@ export const ListingChoiceComponent = {
                 <listing-choice
                     v-bind:image="supportedSites.find(globalId).icon"
                     v-bind:site-name="item.preparedData.globalIdInformation.site_name"
-                    v-bind:prepared-data="item.preparedData">
+                    v-bind:prepared-data="item.preparedData"
+                    v-on:on-ebay-site-choice="onEbaySiteChoice">
                 </listing-choice>
             </div>
         </div>
@@ -65,6 +67,11 @@ export const ListingChoiceComponent = {
             if (searchInitialiseEvent.initialised === false) {
                 this.resolvedSites = {};
             }
+        }
+    },
+    methods: {
+        onEbaySiteChoice: function(preparedData) {
+
         }
     },
     components: {

@@ -8,18 +8,6 @@ const requiredHeaders = {
     'X-Requested-With': 'XMLHttpRequest',
 };
 
-class TodaysProductsRepository {
-    getTodaysProducts(data, success) {
-        const route = `${routes.app_get_todays_products}?data=${data}`;
-
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
-    }
-}
-
 class AppRepository {
     async asyncGetEbayGlobalIdsInformation(success) {
         const route = routes.app_get_ebay_global_id_information;
@@ -86,6 +74,10 @@ class SearchRepository {
             .then(success)
             .catch(error);
     }
+
+    getPreparedEbaySearch(data, success, error) {
+
+    }
 }
 
 class Factory {
@@ -95,12 +87,6 @@ class Factory {
 
     create(repoName) {
         switch (repoName) {
-            case 'todays-products':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new TodaysProductsRepository();
-                }
-
-                return this.repositores[repoName];
             case 'single-item':
                 if (!this.repositores.hasOwnProperty(repoName)) {
                     this.repositores[repoName] = new SingleItemRepository();
