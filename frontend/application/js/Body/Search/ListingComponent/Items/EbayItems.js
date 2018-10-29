@@ -1,5 +1,24 @@
 import {Item} from "../../../Listing/components/Item";
 
+export const Price = {
+    template: `
+        <p v-if="currency === 'USD'" class="Price"><i v-bind:class="decideClass()"></i> {{price}}</p>
+        <p v-else-if="currency === 'EUR'" class="Price"><i v-bind:class="decideClass()"></i> {{price}}</p>
+    `,
+    created() {
+    },
+    props: ['price', 'currency'],
+    methods: {
+        decideClass() {
+            if (this.currency === 'USD') {
+                return 'currencySign fas fa-dollar-sign';
+            } else if (this.currency === 'EUR') {
+                return 'currencySign fas fa-euro-sign';
+            }
+        }
+    },
+};
+
 const LoadMore = {
     data: function() {
         return {
@@ -30,7 +49,10 @@ export const EbayItems = {
                     </div>
                     
                     <div class="Row PriceWrapper">
-                        <p class="Price">{{item.price.price}}</p>
+                        <price 
+                            v-bind:price="item.price.price" 
+                            v-bind:currency="item.price.currency">
+                        </price>
                     </div>
                     
                     <div class="Row QuickLookWrapper">
@@ -61,6 +83,7 @@ export const EbayItems = {
     },
     components: {
         'item': Item,
+        'price': Price,
         'load-more': LoadMore,
     }
 };
