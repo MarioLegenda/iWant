@@ -87,6 +87,12 @@ html {
   overflow: hidden;
 }
 
+.LeftPanel {
+  width: 75%;
+  float: left;
+  margin: 0 0 0 30px;
+}
+
 .wrap {
   width: 100%;
   float: left;
@@ -682,12 +688,6 @@ html {
   font-weight: bolder;
 }
 
-.LeftPanel {
-  width: 70%;
-  float: left;
-  margin: 0 0 0 30px;
-}
-
 #search_page {
   width: 100%;
   float: left;
@@ -768,7 +768,7 @@ html {
 .SearchItems .SearchItem {
   width: 210px;
   float: left;
-  margin: 0 14px 25px 0;
+  margin: 0 14px 14px 0;
   padding: 10px;
   border: 1px solid #d6d6d6;
   border-radius: 10px;
