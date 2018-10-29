@@ -2,35 +2,29 @@
 
 namespace App\Web\Controller;
 
-use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
-use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
-use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
-use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\SearchComponent;
 use App\Library\Http\Response\ApiResponseData;
-use App\Library\Http\Response\ApiSDK;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Environment;
-use App\Library\Util\TypedRecursion;
-use App\Web\Library\View\EbaySearchViewType;
-use App\Web\Library\View\StaticViewFactory;
+use App\Web\Library\ApiResponseDataFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SearchController
 {
     /**
-     * @var ApiSDK $apiSdk
+     * @var ApiResponseDataFactory $apiResponseDataFactory
      */
-    private $apiSdk;
+    private $apiResponseDataFactory;
     /**
-     * AppController constructor.
-     * @param ApiSDK $apiSDK
+     * SearchController constructor.
+     * @param ApiResponseDataFactory $apiResponseDataFactory
      */
     public function __construct(
-        ApiSDK $apiSDK
+        ApiResponseDataFactory $apiResponseDataFactory
     ) {
-        $this->apiSdk = $apiSDK;
+        $this->apiResponseDataFactory = $apiResponseDataFactory;
     }
     /**
      * @param EbaySearchModel $model
@@ -41,14 +35,14 @@ class SearchController
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function prepareEbaySearch(
+    public function postPrepareEbaySearch(
         EbaySearchModel $model,
         SearchComponent $searchComponent,
         Environment $environment
     ): JsonResponse {
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
         /** @var ApiResponseData $apiResponseData */
-        $apiResponseData = $this->createPreparedEbayResponseData($preparedEbayResponse);
+        $apiResponseData = $this->apiResponseDataFactory->createPreparedEbayResponseData($preparedEbayResponse);
 
         $response = new JsonResponse(
             $apiResponseData->toArray(),
@@ -64,40 +58,32 @@ class SearchController
         return $response;
     }
     /**
-     * @param PreparedEbayResponse $preparedEbayResponse
-     * @return ApiResponseData
+     * @param PreparedItemsSearchModel $model
+     * @param SearchComponent $searchComponent
+     * @param Environment $environment
+     * @return JsonResponse
      */
-    private function createPreparedEbayResponseData(
-        PreparedEbayResponse $preparedEbayResponse
-    ): ApiResponseData {
-        return $this->apiSdk
-            ->create($preparedEbayResponse->toArray())
-            ->method('POST')
-            ->addMessage('Prepared ebay response for getting the items from the cache')
-            ->isResource()
-            ->setStatusCode(200)
-            ->build();
-    }
-    /**
-     * @param EbaySearchModel $model
-     * @param iterable|array|TypedArray $products
-     */
-    private function addRequiredViews(EbaySearchModel $model, iterable $products)
-    {
-        if ((string) $model->getViewType() === (string) EbaySearchViewType::fromValue('globalIdView')) {
-            $this->apiSdk->create([]);
-            $this->apiSdk->addView((string) $model->getViewType(), StaticViewFactory::createGlobalIdView($products));
-        } else if ((string) $model->getViewType() === (string) EbaySearchViewType::fromValue('itemsView')) {
-            $this->apiSdk->create([]);
-            $this->apiSdk->addView((string) $model->getViewType(), StaticViewFactory::createItemsView($products));
-        } else if ((string) $model->getViewType() === (string) EbaySearchViewType::fromValue('default')) {
-            $this->apiSdk->create($products);
-        } else {
-            $message = sprintf(
-                'View type remained unselected for Ebay search request'
-            );
+    public function getEbaySearchByUniqueName(
+        PreparedItemsSearchModel $model,
+        SearchComponent $searchComponent,
+        Environment $environment
+    ) {
+        /** @var TypedArray $searchResults */
+        $searchResults = $searchComponent->findEbaySearchByUniqueName($model);
 
-            throw new \RuntimeException($message);
+        $responseData = null;
+
+        if (is_null($searchResults)) {
+            $responseData = $this->apiResponseDataFactory->createErrorUniqueNameSearchResultsResponseData();
+        } else if ($searchResults instanceof TypedArray) {
+            $responseData = $this->apiResponseDataFactory->createSuccessUniqueNameSearchResultsResponseData($searchResults);
         }
+
+        $response = new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+
+        return $response;
     }
 }

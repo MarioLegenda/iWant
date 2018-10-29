@@ -30,9 +30,13 @@ class SearchResponseCacheImplementation
         $this->searchResponseCache = $searchResponseCache;
         $this->toggleCacheRepository = $toggleCacheRepository;
     }
+
     /**
      * @param string $uniqueName
      * @return bool
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function isStored(string $uniqueName): bool
     {

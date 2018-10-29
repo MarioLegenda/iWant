@@ -5,13 +5,14 @@ namespace App\Component\Search;
 use App\Cache\Implementation\PreparedResponseCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Finder as EbayFinder;
+use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
 use App\Component\Search\Ebay\Model\Response\Image;
+use App\Component\Search\Ebay\Model\Response\Nan;
 use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
 use App\Component\Search\Ebay\Model\Response\Price;
 use App\Component\Search\Ebay\Model\Response\Title;
 use App\Component\Search\Etsy\Business\Finder as EtsyFinder;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
-use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
@@ -59,24 +60,39 @@ class SearchComponent
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->preparedResponseCacheImplementation = $preparedResponseCacheImplementation;
     }
-    /**
-     * @param EbaySearchModel $model
-     * @return iterable
-     * @throws \App\Symfony\Exception\HttpException
-     * @throws \Http\Client\Exception
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    private function searchEbayInEbayStores(EbaySearchModel $model): iterable
+
+    public function findEbaySearchByUniqueName(PreparedItemsSearchModel $model): ?iterable
     {
-        return $this->ebayFinder->findEbayProductsInEbayStores($model);
-    }
-    /**
-     * @param EbaySearchModel $model
-     * @return FindingApiResponseModelInterface
-     */
-    private function searchEbayAdvanced(EbaySearchModel $model): ResponseModelInterface
-    {
-        return $this->ebayFinder->findEbayProductsAdvanced($model);
+        if (!$this->searchResponseCacheImplementation->isStored($model->getUniqueName())) {
+            return null;
+        }
+
+        $storedResponse = json_decode($this->searchResponseCacheImplementation->getStored($model->getUniqueName()), true);
+
+        $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
+
+        $storedResponseGen = Util::createGenerator($storedResponse);
+
+        foreach ($storedResponseGen as $entry) {
+            $item = $entry['item'];
+
+            $searchResponseModels[] = new SearchResponseModel(
+                $item['uniqueName'],
+                $item['itemId'],
+                new Title($item['title']['original']),
+                new Image((is_string($item['image']['url'])) ? $item['image']['url'] : Nan::fromValue()),
+                $item['shopName'],
+                new Price($item['price']['currency'], $item['price']['price']),
+                $item['viewItemUrl'],
+                MarketplaceType::fromValue($item['marketplace']),
+                $item['staticUrl'],
+                $item['taxonomyName'],
+                $item['shippingLocations'],
+                $item['globalId']
+            );
+        }
+
+        return $searchResponseModels;
     }
     /**
      * @param EbaySearchModel $model
@@ -200,5 +216,13 @@ class SearchComponent
         );
 
         return $preparedEbayResponse;
+    }
+    /**
+     * @param EbaySearchModel $model
+     * @return FindingApiResponseModelInterface
+     */
+    private function searchEbayAdvanced(EbaySearchModel $model): ResponseModelInterface
+    {
+        return $this->ebayFinder->findEbayProductsAdvanced($model);
     }
 }
