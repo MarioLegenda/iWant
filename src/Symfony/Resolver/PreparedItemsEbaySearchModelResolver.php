@@ -2,6 +2,7 @@
 
 namespace App\Symfony\Resolver;
 
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -33,13 +34,18 @@ class PreparedItemsEbaySearchModelResolver implements ArgumentValueResolverInter
             return false;
         }
 
-        $uniqueName = $request->get('uniqueName');
+        $searchData = $request->get('searchData');
 
-        if (is_null($uniqueName)) {
+        if (is_null($searchData)) {
             return false;
         }
 
-        $this->model = new PreparedItemsSearchModel($uniqueName);
+        $searchData = json_decode($searchData, true);
+
+        $this->model = new PreparedItemsSearchModel(
+            $searchData['uniqueName'],
+            new Pagination($searchData['pagination']['limit'], $searchData['pagination']['page'])
+        );
 
         return true;
     }

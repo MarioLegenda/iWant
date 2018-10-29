@@ -76,7 +76,19 @@ class SearchRepository {
     }
 
     getPreparedEbaySearch(data, success, error) {
+        const route = routes.createRoute('app_get_prepared_ebay_search', {
+            searchData: JSON.stringify({
+                searchData: data
+            })
+        });
 
+        fetch(route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
+            .then(parseJson)
+            .then(success)
+            .catch(error);
     }
 }
 

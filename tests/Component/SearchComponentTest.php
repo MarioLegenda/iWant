@@ -52,9 +52,10 @@ class SearchComponentTest extends BasicSetup
 
         /** @var PreparedEbayResponse $preparedEbayResponse */
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
-
-        $preparedItemsSearchModel = new PreparedItemsSearchModel($preparedEbayResponse->getUniqueName());
-
-        $searchComponent->findEbaySearchByUniqueName($preparedItemsSearchModel);
+        
+        $preparedItemsSearchModel = new PreparedItemsSearchModel(
+            $preparedEbayResponse->getUniqueName(),
+            new Pagination(8, 1)
+        );
     }
 }

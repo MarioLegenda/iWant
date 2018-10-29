@@ -24,7 +24,7 @@ app_post_prepare_ebay_search:
   methods: [POST]
 
 app_get_prepared_ebay_search:
-  path: /ebay/get-prepared-search/{uniqueName}
+  path: /ebay/get-prepared-search/{searchData}
   controller: App\Web\Controller\SearchController::getEbaySearchByUniqueName
   methods: [GET]
 

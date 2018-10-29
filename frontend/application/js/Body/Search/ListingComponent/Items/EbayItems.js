@@ -49,9 +49,7 @@ export const EbayItems = {
             `,
     props: ['classList'],
     computed: {
-        searchInitialiseEvent: function() {
-            return this.$store.state.searchInitialiseEvent;
-        },
+
     },
     components: {
         'item': Item,

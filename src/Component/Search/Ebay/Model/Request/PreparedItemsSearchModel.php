@@ -9,13 +9,20 @@ class PreparedItemsSearchModel
      */
     private $uniqueName;
     /**
+     * @var Pagination $pagination
+     */
+    private $pagination;
+    /**
      * PreparedItemsSearchModel constructor.
      * @param string $uniqueName
+     * @param Pagination $pagination
      */
     public function __construct(
-        string $uniqueName
+        string $uniqueName,
+        Pagination $pagination
     ) {
         $this->uniqueName = $uniqueName;
+        $this->pagination = $pagination;
     }
     /**
      * @return string
@@ -23,5 +30,12 @@ class PreparedItemsSearchModel
     public function getUniqueName(): string
     {
         return $this->uniqueName;
+    }
+    /**
+     * @return Pagination
+     */
+    public function getPagination(): Pagination
+    {
+        return $this->pagination;
     }
 }

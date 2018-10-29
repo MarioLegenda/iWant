@@ -5,6 +5,8 @@ namespace App\Component\Search;
 use App\Cache\Implementation\PreparedResponseCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Finder as EbayFinder;
+use App\Component\Search\Ebay\Business\ModelPreparationFactory;
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
 use App\Component\Search\Ebay\Model\Response\Image;
 use App\Component\Search\Ebay\Model\Response\Nan;
@@ -43,22 +45,29 @@ class SearchComponent
      */
     private $preparedResponseCacheImplementation;
     /**
+     * @var ModelPreparationFactory $modelPreparationFactory
+     */
+    private $modelPreparationFactory;
+    /**
      * SearchComponent constructor.
      * @param EbayFinder $ebayFinder
      * @param EtsyFinder $etsyFinder
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param PreparedResponseCacheImplementation $preparedResponseCacheImplementation
+     * @param ModelPreparationFactory $modelPreparationFactory
      */
     public function __construct(
         EbayFinder $ebayFinder,
         EtsyFinder $etsyFinder,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
-        PreparedResponseCacheImplementation $preparedResponseCacheImplementation
+        PreparedResponseCacheImplementation $preparedResponseCacheImplementation,
+        ModelPreparationFactory $modelPreparationFactory
     ) {
         $this->ebayFinder = $ebayFinder;
         $this->etsyFinder = $etsyFinder;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->preparedResponseCacheImplementation = $preparedResponseCacheImplementation;
+        $this->modelPreparationFactory = $modelPreparationFactory;
     }
 
     public function findEbaySearchByUniqueName(PreparedItemsSearchModel $model): ?iterable
@@ -69,30 +78,10 @@ class SearchComponent
 
         $storedResponse = json_decode($this->searchResponseCacheImplementation->getStored($model->getUniqueName()), true);
 
-        $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
-
-        $storedResponseGen = Util::createGenerator($storedResponse);
-
-        foreach ($storedResponseGen as $entry) {
-            $item = $entry['item'];
-
-            $searchResponseModels[] = new SearchResponseModel(
-                $item['uniqueName'],
-                $item['itemId'],
-                new Title($item['title']['original']),
-                new Image((is_string($item['image']['url'])) ? $item['image']['url'] : Nan::fromValue()),
-                $item['shopName'],
-                new Price($item['price']['currency'], $item['price']['price']),
-                $item['viewItemUrl'],
-                MarketplaceType::fromValue($item['marketplace']),
-                $item['staticUrl'],
-                $item['taxonomyName'],
-                $item['shippingLocations'],
-                $item['globalId']
-            );
-        }
-
-        return $searchResponseModels;
+        return $this->modelPreparationFactory->prepareSearchItems(
+            $model,
+            $storedResponse
+        );
     }
     /**
      * @param EbaySearchModel $model
