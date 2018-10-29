@@ -81,7 +81,12 @@ export const ListingChoiceComponent = {
                     page: 1
                 }
             }, (r) => {
-                console.log(r);
+                const data = r.collection.data;
+
+                this.$store.commit('ebaySearchListing', {
+                    items: data,
+                    pagination: r.collection.pagination,
+                });
             });
         }
     },

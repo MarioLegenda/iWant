@@ -20,17 +20,17 @@ export const EbayItems = {
     },
     template: `
             <div class="EbayItems" id="EbayItemsId">
-                <div v-for="(item, index) in [1, 2, 3, 4, 5, 6, 7, 8, 9]" :key="index" class="EbayItem SearchItem">
+                <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
                     <div class="Row ImageWrapper">
-                        <img class="Image" src="/images/start_page_background.jpg" />
+                        <img class="Image" :src="item.image.url" />
                     </div>
                     
                     <div class="Row TitleWrapper">
-                        <p>Some title some title</p>
+                        <p>{{item.title.truncated}}</p>
                     </div>
                     
                     <div class="Row PriceWrapper">
-                        <p class="Price">24.58</p>
+                        <p class="Price">{{item.price.price}}</p>
                     </div>
                     
                     <div class="Row QuickLookWrapper">
@@ -42,14 +42,22 @@ export const EbayItems = {
                     </div>
                     
                     <div class="Row MarketplaceWrapper">
-                        <a href="#">View on eBay</a>
+                        <a :href="item.viewItemUrl" target="_blank">View on eBay</a>
                     </div>
                 </div>
             </div>
             `,
     props: ['classList'],
     computed: {
+        ebaySearchListing: function() {
+            const ebaySearchListing = this.$store.state.ebaySearchListing;
 
+            if (ebaySearchListing === null) {
+                return [];
+            }
+
+            return ebaySearchListing;
+        }
     },
     components: {
         'item': Item,

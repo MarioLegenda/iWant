@@ -128,9 +128,7 @@ export class Init {
     static createVueInstance() {
         const store =  new Vuex.Store({
             state: {
-                ebaySearchListing: {
-                    listing: [],
-                },
+                ebaySearchListing: null,
                 searchTerm: null,
                 searchInitialiseEvent: {
                     searchUrl: null,
@@ -149,13 +147,14 @@ export class Init {
                 },
                 preparedEbayRequestEvent: null,
                 preparedEbayRequestEvents: [],
-                listingEvent: {
-                    ebay: null,
-                }
             },
             mutations: {
                 searchTerm(state, value) {
                     this.state.searchTerm = value;
+                },
+
+                ebaySearchListing(state, value) {
+                    this.state.ebaySearchListing = value;
                 },
 
                 foundSearchProducts(state, value) {
@@ -164,10 +163,6 @@ export class Init {
 
                 searchInitialiseEvent(state, value) {
                     this.state.searchInitialiseEvent = Object.assign({}, this.state.searchInitialiseEvent, value);
-                },
-
-                listingEvent(state, value) {
-                    this.state.listingEvent = Object.assign({}, this.state.listingEvent, value);
                 },
 
                 filtersEvent(state, value) {

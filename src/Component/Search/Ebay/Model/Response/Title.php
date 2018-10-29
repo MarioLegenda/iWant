@@ -9,7 +9,7 @@ class Title implements ArrayNotationInterface
     /**
      * @var int $truncationLimit
      */
-    private $truncationLimit = 57;
+    private $truncationLimit = 19;
     /**
      * @var string $truncated
      */
