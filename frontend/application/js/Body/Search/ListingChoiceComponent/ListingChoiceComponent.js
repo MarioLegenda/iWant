@@ -1,4 +1,5 @@
 import {SUPPORTED_SITES} from "../../../global";
+import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 const ListingChoice = {
     template: `
@@ -20,7 +21,7 @@ const ListingChoice = {
 };
 
 export const ListingChoiceComponent = {
-    data: function() {
+    data: function () {
         return {
             resolvedSites: {},
             supportedSites: SUPPORTED_SITES
@@ -48,7 +49,7 @@ export const ListingChoiceComponent = {
         </div>
     `,
     computed: {
-        preparedEbayRequestEvent: function() {
+        preparedEbayRequestEvent: function () {
             const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
             if (typeof preparedEbayRequestEvent === 'object' && preparedEbayRequestEvent !== null) {
@@ -61,7 +62,7 @@ export const ListingChoiceComponent = {
             return preparedEbayRequestEvent;
         },
 
-        searchInitialiseEvent: function() {
+        searchInitialiseEvent: function () {
             const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
 
             if (searchInitialiseEvent.initialised === false) {
@@ -70,8 +71,18 @@ export const ListingChoiceComponent = {
         }
     },
     methods: {
-        onEbaySiteChoice: function(preparedData) {
+        onEbaySiteChoice: function (preparedData) {
+            const searchRepo = RepositoryFactory.create('search');
 
+            searchRepo.getPreparedEbaySearch({
+                uniqueName: preparedData.uniqueName,
+                pagination: {
+                    limit: 8,
+                    page: 1
+                }
+            }, (r) => {
+                console.log(r);
+            });
         }
     },
     components: {

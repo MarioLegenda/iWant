@@ -2,6 +2,7 @@
 
 namespace App\Web\Library;
 
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
@@ -54,18 +55,20 @@ class ApiResponseDataFactory
     }
     /**
      * @param TypedArray $searchResults
+     * @param Pagination $pagination
      * @return ApiResponseData
      */
     public function createSuccessUniqueNameSearchResultsResponseData(
-        TypedArray $searchResults
+        TypedArray $searchResults,
+        Pagination $pagination
     ): ApiResponseData {
         return $this->apiSdk
             ->create($searchResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
-            ->isError()
             ->method('GET')
-            ->addMessage('Operation not allowed')
-            ->isResource()
-            ->setStatusCode(400)
+            ->addMessage('A list of paginated products')
+            ->addPagination($pagination->getLimit(), $pagination->getPage())
+            ->isCollection()
+            ->setStatusCode(200)
             ->build();
     }
 }

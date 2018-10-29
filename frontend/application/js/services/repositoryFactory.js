@@ -82,6 +82,8 @@ class SearchRepository {
             })
         });
 
+        console.log(route);
+
         fetch(route, {
             method: 'GET',
             headers: requiredHeaders,

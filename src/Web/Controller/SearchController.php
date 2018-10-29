@@ -76,7 +76,10 @@ class SearchController
         if (is_null($searchResults)) {
             $responseData = $this->apiResponseDataFactory->createErrorUniqueNameSearchResultsResponseData();
         } else if ($searchResults instanceof TypedArray) {
-            $responseData = $this->apiResponseDataFactory->createSuccessUniqueNameSearchResultsResponseData($searchResults);
+            $responseData = $this->apiResponseDataFactory->createSuccessUniqueNameSearchResultsResponseData(
+                $searchResults,
+                $model->getPagination()
+            );
         }
 
         $response = new JsonResponse(

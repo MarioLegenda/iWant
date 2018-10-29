@@ -40,13 +40,6 @@ class SearchResponseCacheImplementation
      */
     public function isStored(string $uniqueName): bool
     {
-        /** @var ToggleCache $toggleCache */
-        $toggleCache = $this->toggleCacheRepository->findAll()[0];
-
-        if ($toggleCache->getTodaysKeywordsCache() === false) {
-            return false;
-        }
-
         $searchCache = $this->searchResponseCache->get($uniqueName);
 
         return $searchCache instanceof SearchCache;

@@ -40,7 +40,7 @@ class PreparedItemsEbaySearchModelResolver implements ArgumentValueResolverInter
             return false;
         }
 
-        $searchData = json_decode($searchData, true);
+        $searchData = json_decode($searchData, true)['searchData'];
 
         $this->model = new PreparedItemsSearchModel(
             $searchData['uniqueName'],
