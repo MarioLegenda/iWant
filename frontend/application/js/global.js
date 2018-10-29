@@ -61,6 +61,10 @@ export class Init {
         ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Boolean'].forEach(
             function(name) {
                 window['is' + name] = function(obj) {
+                    if (name === 'Object') {
+                        return typeof obj === 'object';
+                    }
+
                     return toString.call(obj) === '[object ' + name + ']';
                 }
             });
@@ -144,6 +148,7 @@ export class Init {
                     globalIds: [],
                 },
                 preparedEbayRequestEvent: null,
+                preparedEbayRequestEvents: [],
                 listingEvent: {
                     ebay: null,
                 }
@@ -171,6 +176,10 @@ export class Init {
 
                 preparedEbayRequestEvent(state, value) {
                     this.state.preparedEbayRequestEvent = value;
+                },
+
+                preparedEbayRequestEvents(state, value) {
+                    this.state.preparedEbayRequestEvents = value;
                 }
             }
         });

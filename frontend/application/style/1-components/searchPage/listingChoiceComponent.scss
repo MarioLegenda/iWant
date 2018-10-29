@@ -3,4 +3,96 @@
   float: left;
 
   margin: 0 0 30px 0;
+
+  padding: 20px;
+
+  border-radius: 10px;
+
+  -webkit-box-shadow: 1px 2px 8px 1px rgba(156,156,156,0.79);
+  -moz-box-shadow: 1px 2px 8px 1px rgba(156,156,156,0.79);
+  box-shadow: 1px 2px 8px 1px rgba(156,156,156,0.79);
+
+  .Title {
+    color: black;
+    font-size: 1.2em;
+
+    padding: 10px 10px 10px 0;
+
+    border-bottom: 1px solid $lightestGray;
+
+    margin: 0 0 30px 0;
+  }
+
+  .ListingChoice {
+    width: 100px;
+    height: 100px;
+    float: left;
+
+    z-index: 3;
+
+    position: relative;
+
+    border: 1px solid $lightestGray;
+
+    margin: 0 10px 10px 0;
+
+    border-radius: 50px;
+
+    -moz-transition: box-shadow 0.5s;
+    -o-transition: box-shadow 0.5s;
+    -webkit-transition: box-shadow 0.5s;
+    transition: box-shadow 0.5s;
+
+    &:hover {
+      cursor: pointer;
+
+      -webkit-box-shadow: 1px 2px 8px 1px rgba(156,156,156,0.79);
+      -moz-box-shadow: 1px 2px 8px 1px rgba(156,156,156,0.79);
+      box-shadow: 1px 2px 8px 1px rgba(156,156,156,0.79);
+    }
+
+    &:hover .SiteName {
+      opacity: 1;
+    }
+
+    .SiteName {
+      width: 100%;
+      height: 100px;
+      font-size: 0.85em;
+      text-align: center;
+      color: white;
+      z-index: 5;
+
+      border-radius: 50px;
+
+      position: absolute;
+
+      padding-top: 35px;
+
+      background-color: rgba(0, 0, 0, 0.5);
+
+      opacity: 0;
+
+      transition: opacity 0.5s;
+      -webkit-transition: opacity 0.5s;
+      -moz-transition: opacity 0.5s;
+      -o-transition: opacity 0.5s;
+    }
+
+    .ImageWrapper {
+      display: block;
+      width: 100%;
+      height: 100px;
+      overflow: hidden;
+      z-index: 2;
+
+      padding: 30px;
+
+      img {
+        width: 40px;
+        height: 40px;
+        display: block;
+      }
+    }
+  }
 }

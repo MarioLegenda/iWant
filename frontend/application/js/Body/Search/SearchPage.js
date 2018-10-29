@@ -21,7 +21,9 @@ export const SearchPage = {
                             v-bind:external-search-term="searchTerm">
                         </search-component>
                         
-                        <listing-choice-component></listing-choice-component>
+                        <transition name="fade">
+                            <listing-choice-component v-show="searchInitialiseEvent && searchInitialiseEvent.finished"></listing-choice-component>
+                        </transition>
                     
                         <listing-component></listing-component>
                     </div>

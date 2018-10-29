@@ -1,4 +1,4 @@
-export const SearchBoxAdvanced = {
+export const SearchBox = {
     data: function() {
         return {
             enterToSearch: false,

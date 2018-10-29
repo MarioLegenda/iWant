@@ -31,7 +31,7 @@ export const EbayLoading = {
                 const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
                 if (preparedEbayRequestEvent !== null && typeof preparedEbayRequestEvent !== 'undefined') {
-                    this.information[preparedEbayRequestEvent.globalId].isLoaded = true;
+                    this.information[preparedEbayRequestEvent.preparedData.globalId].isLoaded = true;
                 }
             }
 

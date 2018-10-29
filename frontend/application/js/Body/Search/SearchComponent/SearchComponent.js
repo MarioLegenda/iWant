@@ -1,4 +1,4 @@
-import {SearchBoxAdvanced} from "./SearchBoxAdvanced";
+import {SearchBox} from "./SearchBox";
 import {Filters} from "./Filters";
 import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
@@ -39,11 +39,11 @@ export const SearchComponent = {
     template: `<div class="AdvancedSearch" id="AdvancedSearchId">
                     <input type="hidden" :value="preparedEbayRequestEvent" />
                     
-                    <search-box-advanced
+                    <search-box
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"
                         v-on:on-search-term-change="onSearchTermChange">
-                    </search-box-advanced>
+                    </search-box>
                     
                     <selected-filters></selected-filters>
                              
@@ -54,7 +54,7 @@ export const SearchComponent = {
                            v-bind:showSentence="showSentence">
                         </sentence>
                     </transition>
-                    
+                                        
                     <transition name="fade">
                         <loading-component v-if="searchInitialiseEvent.initialised"></loading-component>
                     </transition>
@@ -101,8 +101,8 @@ export const SearchComponent = {
                 return this.$store.state.preparedEbayRequestEvent;
             }
 
-            if (!this.preparedEbaySites.includes(preparedSite.globalId)) {
-                this.preparedEbaySites.push(preparedSite.globalId);
+            if (!this.preparedEbaySites.includes(preparedSite.preparedData.globalId)) {
+                this.preparedEbaySites.push(preparedSite);
             }
 
             if (!this.sitesPrepared) {
@@ -118,7 +118,7 @@ export const SearchComponent = {
                         this.sitesPrepared = true;
                         this.preparedEbaySites = [];
 
-                        return this.$store.state.preparedEbayRequestEvent
+                        return this.$store.state.preparedEbayRequestEvent;
                     }, 1000);
                 }
             }
@@ -158,9 +158,10 @@ export const SearchComponent = {
                 const globalId = site.globalId;
                 model.globalId = globalId.toUpperCase();
 
+
                 searchRepo.postPrepareEbaySearch(model, (r) => {
                     this.$store.commit('preparedEbayRequestEvent', {
-                        globalId: r.resource.data.globalId,
+                        preparedData: r.resource.data,
                         resolved: r.isError
                     });
                 });
@@ -199,7 +200,7 @@ export const SearchComponent = {
         }
     },
     components: {
-        'search-box-advanced': SearchBoxAdvanced,
+        'search-box': SearchBox,
         'filters': Filters,
         'sentence': Sentence,
         'selected-filters': SelectedFilters,
