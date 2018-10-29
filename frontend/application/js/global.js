@@ -176,6 +176,10 @@ export class Init {
 
                 preparedEbayRequestEvents(state, value) {
                     this.state.preparedEbayRequestEvents = value;
+                },
+
+                preparedSearchInformation(state, value) {
+                    this.state.preparedSearchInformation = value;
                 }
             }
         });

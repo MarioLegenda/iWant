@@ -42,8 +42,6 @@ export const EbayLoading = {
                 }
             }
 
-            console.log(this.information);
-
             return this.$store.state.preparedEbayRequestEvent;
         },
         searchInitialiseEvent: function() {

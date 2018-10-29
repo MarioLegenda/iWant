@@ -1,5 +1,6 @@
 import {SUPPORTED_SITES} from "../../../global";
 import {RepositoryFactory} from "../../../services/repositoryFactory";
+import {PreparedSearchInformation} from "./PreparedSearchInformation";
 
 const ListingChoice = {
     template: `
@@ -33,7 +34,9 @@ export const ListingChoiceComponent = {
             
             <input type="hidden" :value="preparedEbayRequestEvent" />
             
-            <h1 class="Title">Choose your country</h1>
+            <prepared-search-information></prepared-search-information>
+            
+            <h1 class="Title">Choose eBay site</h1>
             
             <div
                v-for="(item, globalId, index) in resolvedSites"
@@ -94,6 +97,7 @@ export const ListingChoiceComponent = {
         }
     },
     components: {
-        'listing-choice': ListingChoice
+        'listing-choice': ListingChoice,
+        'prepared-search-information': PreparedSearchInformation,
     }
 };

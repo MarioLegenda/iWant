@@ -1090,11 +1090,32 @@ html {
   box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
 }
 .ListingChoiceComponent .Title {
+  width: 100%;
+  float: left;
   color: black;
   font-size: 1.2em;
   padding: 10px 10px 10px 0;
   border-bottom: 1px solid #d6d6d6;
   margin: 0 0 30px 0;
+}
+.ListingChoiceComponent .PreparedSearchInformation {
+  width: 470px;
+  float: left;
+  margin: 0 0 15px 0;
+}
+.ListingChoiceComponent .PreparedSearchInformation .InfoRow {
+  width: 100%;
+  float: left;
+  margin: 0 0 5px 0;
+}
+.ListingChoiceComponent .PreparedSearchInformation .InfoRow .InfoTitle {
+  width: 200px;
+  float: left;
+}
+.ListingChoiceComponent .PreparedSearchInformation .InfoRow .Information {
+  width: 200px;
+  float: left;
+  color: black;
 }
 .ListingChoiceComponent .ListingChoice {
   width: 100px;
