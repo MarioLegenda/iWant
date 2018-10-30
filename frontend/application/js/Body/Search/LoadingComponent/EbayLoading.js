@@ -34,10 +34,10 @@ export const EbayLoading = {
 
                 if (preparedEbayRequestEvent !== null && typeof preparedEbayRequestEvent !== 'undefined') {
                     if (preparedEbayRequestEvent.isError) {
-                        this.information[preparedEbayRequestEvent.globalId].isError = preparedEbayRequestEvent.preparedData.isError;
+                        this.information[preparedEbayRequestEvent.globalId].isError = preparedEbayRequestEvent.isError;
                         this.information[preparedEbayRequestEvent.globalId].isLoaded = true;
                     } else if (!preparedEbayRequestEvent.isError) {
-                        this.information[preparedEbayRequestEvent.preparedData.globalId].isError = preparedEbayRequestEvent.preparedData.isError;
+                        this.information[preparedEbayRequestEvent.preparedData.globalId].isError = preparedEbayRequestEvent.isError;
                         this.information[preparedEbayRequestEvent.preparedData.globalId].isLoaded = true;
                     }
                 }
@@ -61,7 +61,7 @@ export const EbayLoading = {
                     class="ImageWrapper">
                     
                     <transition name="fade"><div v-if="!item.isLoaded && !item.isError" class="ImageHider"></div></transition>
-                    <transition name="fade"><div v-if="item.isLoaded && item.isError" class="ErrorOccurred"></div></transition>
+                    <transition name="fade"><div v-if="item.isLoaded && item.isError" class="ErrorOccurred"><i class="fas fa-times"></i></div></transition>
                     <img class="Image" :src="item.icon" />
                 </div>
             </div>

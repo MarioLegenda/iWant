@@ -28,8 +28,8 @@ class Title implements ArrayNotationInterface
         $this->original = $original;
 
         $this->truncated = (strlen($original) > $this->truncationLimit) ?
-            substr($original, 0, $this->truncationLimit).'...' :
-            $original;
+            strtolower(substr($original, 0, $this->truncationLimit).'...') :
+            strtolower($original);
     }
     /**
      * @return string

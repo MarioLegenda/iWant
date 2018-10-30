@@ -89,6 +89,7 @@ class SearchComponent
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Throwable
      */
     public function prepareEbayProductsAdvanced(EbaySearchModel $model): PreparedEbayResponse
     {

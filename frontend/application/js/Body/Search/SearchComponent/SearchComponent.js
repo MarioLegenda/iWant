@@ -169,6 +169,7 @@ export const SearchComponent = {
 
                     const eventData = {
                         preparedData: response.resource.data,
+                        isError: response.isError,
                         globalId: r.request.globalId,
                     };
 
