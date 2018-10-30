@@ -58,6 +58,7 @@ class SearchModel implements ArrayNotationInterface
      * @param bool $lowestPrice
      * @param bool $highestPrice
      * @param bool $highQuality
+     * @param bool $bestMatch
      * @param array $shippingCountries
      * @param array $marketplaces
      * @param array $taxonomies
@@ -70,6 +71,7 @@ class SearchModel implements ArrayNotationInterface
         bool $lowestPrice,
         bool $highestPrice,
         bool $highQuality,
+        bool $bestMatch,
         array $shippingCountries,
         array $marketplaces,
         array $taxonomies,
@@ -81,6 +83,7 @@ class SearchModel implements ArrayNotationInterface
         $this->lowestPrice = $lowestPrice;
         $this->highQuality = $highQuality;
         $this->highestPrice = $highestPrice;
+        $this->bestMatch = $bestMatch;
         $this->shippingCountries = $shippingCountries;
         $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;

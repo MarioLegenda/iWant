@@ -24,6 +24,7 @@ class DataProvider
     {
         $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter book';
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
+        $bestMatch = (isset($data['bestMatch'])) ? $data['bestMatch'] : true;
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
@@ -41,6 +42,7 @@ class DataProvider
             $lowestPrice,
             $highestPrice,
             $highQuality,
+            $bestMatch,
             $shippingCountries,
             $marketplaces,
             $taxonomies,

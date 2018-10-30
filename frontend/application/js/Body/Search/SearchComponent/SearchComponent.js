@@ -207,6 +207,14 @@ export const SearchComponent = {
         },
 
         createModel() {
+
+            // DO NOT FORGET TO REMOVE THIS IF THE USER WILL HAVE THE POSSIBILITY TO CHOOSE
+            // A BEST MATCH FILTERS OPTION
+
+            let filters = this.filtersEvent;
+
+            filters.bestMatch = true;
+
             return {
                 keyword: this.keyword,
                 filters: this.filtersEvent,

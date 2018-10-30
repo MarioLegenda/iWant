@@ -146,12 +146,14 @@ class EbayModelFactory
             ));
         }
 
-        $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::SORT_ORDER,
-            ['BestMatch']
-        ));
+        if ($model->isBestMatch()) {
+            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::SORT_ORDER,
+                ['BestMatch']
+            ));
+        }
     }
     /**
      * @param SearchModel $model

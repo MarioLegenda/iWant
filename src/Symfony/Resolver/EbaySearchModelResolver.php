@@ -42,7 +42,6 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-
         $filters = $searchData['filters'];
         $keyword = $searchData['keyword'];
         $pagination = $searchData['pagination'];
@@ -54,6 +53,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['lowestPrice'],
             $filters['highestPrice'],
             $filters['highQuality'],
+            $filters['bestMatch'],
             $filters['shippingCountries'],
             $filters['marketplaces'],
             $filters['taxonomies'],
