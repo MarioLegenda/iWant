@@ -1,8 +1,8 @@
 export const SingleAddFilter = {
-    template: `<div class="Filter_Filter-filter">
+    template: `<div class="SingleFilterWrapper">
                   <p
                       @click="addFilter" 
-                      class="Filter-simple filter"
+                      class="SingleFilter"
                   >{{filterText}}<i class="fas fa-plus"></i></p> 
                </div>`,
     props: ['eventName', 'filterText'],

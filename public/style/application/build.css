@@ -93,6 +93,11 @@ html {
   margin: 0 0 0 30px;
 }
 
+.RightPanel {
+  width: 200px;
+  float: left;
+}
+
 .wrap {
   width: 100%;
   float: left;
@@ -838,39 +843,37 @@ html {
   margin-top: 5px;
 }
 
-#search_page .Filters {
-  width: 200px;
-  float: left;
+.FiltersWrapper {
   font-size: 16px !important;
+  padding: 0 3px 3px 3px;
   z-index: -1;
 }
-#search_page .Filters .GenericFiltersWrapper {
+.FiltersWrapper .GenericFiltersWrapper {
   width: 100%;
   overflow: hidden;
   margin: 0 auto;
 }
-#search_page .Filters .Error {
+.FiltersWrapper .Error {
   width: 100%;
   float: left;
-  color: red;
+  font-size: 0.9em;
+  color: #ea2e2e;
   margin: 10px 0 20px 0;
+  padding-left: 7px;
+  line-height: 1.4em;
 }
-#search_page .Filters .Filters_ChoosingFilters {
+.FiltersWrapper .FiltersList {
   width: 100%;
   float: left;
 }
-#search_page .Filters .Filters_ChoosingFilters .ChoosingFilters-title {
+.FiltersWrapper .FiltersList .Title {
   width: 100%;
   float: left;
   padding: 10px 10px 5px 0;
   border-bottom: 1px solid #d6d6d6;
   margin-bottom: 10px;
 }
-#search_page .Filters .filter {
-  position: relative;
-  margin-bottom: 5px;
-}
-#search_page .Filters .Filter-select {
+.FiltersWrapper .Filter-select {
   width: 100%;
   float: left;
   border: 1px solid #d6d6d6;
@@ -878,10 +881,10 @@ html {
   font-size: 1em;
   line-height: 1.4em;
 }
-#search_page .Filters .Filter-select .clickable-select-choice {
+.FiltersWrapper .Filter-select .clickable-select-choice {
   padding: 10px;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Header, #search_page .Filters .Filter-select .Modal .Modal_Header {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Header, .FiltersWrapper .Filter-select .Modal .Modal_Header {
   width: 100%;
   float: left;
   font-family: "Quicksand", sans-serif;
@@ -889,14 +892,14 @@ html {
   padding: 10px 0 5px 0;
   border-bottom: 1px solid #d6d6d6;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body, #search_page .Filters .Filter-select .Modal .Modal_Body {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Body, .FiltersWrapper .Filter-select .Modal .Modal_Body {
   width: 100%;
   float: left;
   height: 400px;
   overflow: auto;
   margin-top: 10px;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body p, #search_page .Filters .Filter-select .Modal .Modal_Body p {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Body p, .FiltersWrapper .Filter-select .Modal .Modal_Body p {
   width: 100%;
   float: left;
   position: relative;
@@ -909,17 +912,17 @@ html {
   -o-transition: border-bottom 0.5s;
   padding: 10px 10px 10px 0;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body p:hover, #search_page .Filters .Filter-select .Modal .Modal_Body p:hover {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Body p:hover, .FiltersWrapper .Filter-select .Modal .Modal_Body p:hover {
   cursor: pointer;
   border-bottom: 1px solid #f78f27;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_Body p i, #search_page .Filters .Filter-select .Modal .Modal_Body p i {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Body p i, .FiltersWrapper .Filter-select .Modal .Modal_Body p i {
   position: absolute;
   right: 30px;
   bottom: 12px;
   color: green;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal button, #search_page .Filters .Filter-select .Modal button {
+.FiltersWrapper .Filter-select #ShippingCountryModal button, .FiltersWrapper .Filter-select .Modal button {
   width: 70px;
   float: right;
   border: none;
@@ -929,7 +932,7 @@ html {
   font-size: 1.2em;
   color: #898989;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_ChooseButton, #search_page .Filters .Filter-select .Modal .Modal_ChooseButton {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_ChooseButton, .FiltersWrapper .Filter-select .Modal .Modal_ChooseButton {
   border: 1px solid #d6d6d6;
   font-family: "Quicksand", sans-serif;
   font-size: 1em;
@@ -939,23 +942,23 @@ html {
   -moz-transition: border 0.5s;
   margin-top: 20px;
 }
-#search_page .Filters .Filter-select #ShippingCountryModal .Modal_ChooseButton:hover, #search_page .Filters .Filter-select .Modal .Modal_ChooseButton:hover {
+.FiltersWrapper .Filter-select #ShippingCountryModal .Modal_ChooseButton:hover, .FiltersWrapper .Filter-select .Modal .Modal_ChooseButton:hover {
   cursor: pointer;
   border: 1px solid #f78f27;
 }
-#search_page .Filters .Filter-select #TaxonomyModal .Modal_Body {
+.FiltersWrapper .Filter-select #TaxonomyModal .Modal_Body {
   height: auto;
 }
-#search_page .Filters .Filter-select #MarketplaceModal .Modal_Body {
+.FiltersWrapper .Filter-select #MarketplaceModal .Modal_Body {
   height: 150px;
 }
-#search_page .Filters .Filter-select .clickable-select-choice {
+.FiltersWrapper .Filter-select .clickable-select-choice {
   width: 100%;
   float: left;
   text-align: center;
   padding: 10px;
 }
-#search_page .Filters .Filter-select i {
+.FiltersWrapper .Filter-select i {
   position: absolute;
   right: 5px;
   -webkit-transition: color 0.5s;
@@ -963,44 +966,54 @@ html {
   -o-transition: color 0.5s;
   transition: color 0.5s;
 }
-#search_page .Filters .Filter-select:hover {
+.FiltersWrapper .Filter-select:hover {
   cursor: pointer;
 }
-#search_page .Filters .Filter-simple {
+.FiltersWrapper .SingleFilterWrapper {
+  width: 100%;
+  float: left;
+  padding: 5px;
+}
+.FiltersWrapper .SingleFilter {
   display: block;
   width: 100%;
   float: left;
+  position: relative;
+  margin: 0 9px 0 0;
+  border-radius: 20px;
   font-size: 1em;
   border: 1px solid #d6d6d6;
-  transition: border 0.5s;
-  -webkit-transition: border 0.5s;
-  -moz-transition: border 0.5s;
-  -o-transition: border 0.5s;
+  transition: border 0.5s, box-shadow 0.5s;
+  -webkit-transition: border 0.5s, box-shadow 0.5s;
+  -moz-transition: border 0.5s, box-shadow 0.5s;
+  -o-transition: border 0.5s, box-shadow 0.5s;
   text-align: center;
-  margin-right: 9px;
   padding: 10px;
 }
-#search_page .Filters .Filter-simple i {
+.FiltersWrapper .SingleFilter i {
   position: absolute;
-  right: 5px;
+  right: 10px;
   -webkit-transition: color 0.5s;
   -moz-transition: color 0.5s;
   -o-transition: color 0.5s;
   transition: color 0.5s;
 }
-#search_page .Filters .Filter-simple:hover {
-  border: 1px solid #f78f27;
+.FiltersWrapper .SingleFilter:hover {
   cursor: pointer;
+  -webkit-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
+  -moz-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
+  box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
 }
-#search_page .Filters .Filter-simple:hover i {
+.FiltersWrapper .SingleFilter:hover i {
   color: #f78f27;
 }
-#search_page .SelectedFilters {
+
+.SelectedFilters {
   width: 100%;
   float: left;
   margin: 0 0 20px 0;
 }
-#search_page .SelectedFilters .SelectedFilter {
+.SelectedFilters .SelectedFilter {
   display: inline-block;
   margin-right: 5px;
   -webkit-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
@@ -1011,13 +1024,13 @@ html {
   color: black;
   font-size: 0.8em;
 }
-#search_page .SelectedFilters .SelectedFilter i {
+.SelectedFilters .SelectedFilter i {
   color: #d6d6d6;
   padding: 5px;
   padding-left: 8px;
   border-left: 1px solid #d6d6d6;
 }
-#search_page .SelectedFilters .SelectedFilter i:hover {
+.SelectedFilters .SelectedFilter i:hover {
   cursor: pointer;
   color: #f78f27;
 }

@@ -1,6 +1,4 @@
 import {Sentence} from "./Sentence";
-import {ShippingCountry} from "../Filters/Choosing/ShippingCountry";
-import {Taxonomy} from "../Filters/Choosing/Taxonomy";
 import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
 
 export const Filters = {
@@ -11,10 +9,10 @@ export const Filters = {
             errors: [],
         }
     },
-    template: `<div class="Filters">
+    template: `<div class="RightPanel FiltersWrapper">
                     <input type="hidden" :value="filtersEvent" />
-                    <div class="Filters_ChoosingFilters">
-                        <h1 class="ChoosingFilters-title">Filter your search results</h1>
+                    <div class="FiltersList">
+                        <h1 class="Title">Filter your search results</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
@@ -36,14 +34,6 @@ export const Filters = {
                                 event-name="add-high-quality"
                                 filter-text="High quality ">
                             </single-add-filter>
-                        
-                            <shipping-country
-                                v-on:on-add-shipping-countries="addShippingCountries">
-                            </shipping-country>
-                        
-                            <taxonomy
-                                v-on:on-add-taxonomies="addTaxonomies">
-                            </taxonomy>
                         </div>
                     </div>
                     
@@ -119,22 +109,8 @@ export const Filters = {
                 highQuality: false,
             });
         },
-        addShippingCountries(shippingCountries) {
-            const normalized = shippingCountries.normalize();
-
-
-        },
-        removeShippingCountries() {
-        },
-        removeTaxonomies() {
-        },
-        addTaxonomies(taxonomy) {
-            const normalized = taxonomy.normalize();
-        },
     },
     components: {
-        'shipping-country': ShippingCountry,
-        'taxonomy': Taxonomy,
         'sentence': Sentence,
         'single-add-filter': SingleAddFilter,
     }
