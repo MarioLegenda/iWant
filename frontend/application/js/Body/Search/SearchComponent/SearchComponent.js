@@ -182,7 +182,9 @@ export const SearchComponent = {
             }
 
             Promise.all(promises).then((responses) => {
-
+                this.$store.commit('preparedSearchInformation', {
+                    responses: responses,
+                });
             });
         },
 
