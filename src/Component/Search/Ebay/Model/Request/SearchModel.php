@@ -2,10 +2,11 @@
 
 namespace App\Component\Search\Ebay\Model\Request;
 
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Web\Library\View\EbaySearchViewType;
 
-class SearchModel
+class SearchModel implements ArrayNotationInterface
 {
     /**
      * @var string $keyword
@@ -19,6 +20,10 @@ class SearchModel
      * @var bool $highestPrice
      */
     private $highestPrice;
+    /**
+     * @var boolean $bestMatch
+     */
+    private $bestMatch;
     /**
      * @var bool $highQuality
      */
@@ -152,5 +157,31 @@ class SearchModel
     public function getViewType(): string
     {
         return $this->viewType;
+    }
+    /**
+     * @return bool
+     */
+    public function isBestMatch(): bool
+    {
+        return $this->bestMatch;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'keyword' => $this->getKeyword(),
+            'bestMatch' => $this->isBestMatch(),
+            'lowestPrice' => $this->isLowestPrice(),
+            'highestPrice' => $this->isHighestPrice(),
+            'highQuality' => $this->isHighQuality(),
+            'shippingCountries' => $this->getShippingCountries(),
+            'marketplaces' => $this->getMarketplaces(),
+            'taxonomies' => $this->getTaxonomies(),
+            'pagination' => $this->getPagination()->toArray(),
+            'globalId' => $this->getGlobalId(),
+            'viewType' => $this->getViewType(),
+        ];
     }
 }

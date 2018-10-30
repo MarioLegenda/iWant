@@ -6,7 +6,6 @@ use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
-use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Presentation\Model\Query;
@@ -138,15 +137,6 @@ class EbayModelFactory
         SearchModel $model,
         TypedArray $itemFilters
     ) {
-        if ($model->isLowestPrice()) {
-            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::SORT_ORDER,
-                ['PricePlusShippingLowest']
-            ));
-        }
-
         if ($model->isHighestPrice()) {
             $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
                 'name',
@@ -155,6 +145,13 @@ class EbayModelFactory
                 ['CurrentPriceHighest']
             ));
         }
+
+        $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::SORT_ORDER,
+            ['BestMatch']
+        ));
     }
     /**
      * @param SearchModel $model

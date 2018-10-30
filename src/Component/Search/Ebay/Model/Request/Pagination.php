@@ -2,7 +2,9 @@
 
 namespace App\Component\Search\Ebay\Model\Request;
 
-class Pagination
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class Pagination implements ArrayNotationInterface
 {
     /**
      * @var int|null $limit
@@ -37,5 +39,15 @@ class Pagination
     public function getPage(): ?int
     {
         return $this->page;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'limit' => $this->getLimit(),
+            'page' => $this->getPage(),
+        ];
     }
 }
