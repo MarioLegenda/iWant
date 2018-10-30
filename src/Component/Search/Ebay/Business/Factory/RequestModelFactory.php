@@ -6,6 +6,23 @@ use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Web\Library\View\EbaySearchViewType;
 
+/**
+ * Class RequestModelFactory
+ * @package App\Component\Search\Ebay\Business\Factory
+ *
+ * ONLY TO BE USED WHEN SPREADING AN ALREADY SEARCH QUERY FROM EBAY
+ *
+ * This factory will only create an object if you provide it a full
+ * array with all the values. It does not presume anything about the
+ * values of that array which means it is going to fail if some of the
+ * value are missing
+ *
+ * **************
+ *
+ * USE WITH CAUTION
+ *
+ * *****************
+ */
 class RequestModelFactory
 {
     /**
@@ -18,6 +35,7 @@ class RequestModelFactory
         $lowestPrice = $model['lowestPrice'];
         $highestPrice = $model['highestPrice'];
         $highQuality = $model['highQuality'];
+        $bestMatch = $model['bestMatch'];
         $shippingCountries = [];
         $marketplaces = [];
         $taxonomies = [];
@@ -31,6 +49,7 @@ class RequestModelFactory
             $lowestPrice,
             $highestPrice,
             $highQuality,
+            $bestMatch,
             $shippingCountries,
             $marketplaces,
             $taxonomies,
