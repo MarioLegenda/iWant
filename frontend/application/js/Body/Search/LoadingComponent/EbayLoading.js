@@ -31,12 +31,13 @@ export const EbayLoading = {
             if (this.searchInitialiseEvent.initialised) {
                 const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
+
                 if (preparedEbayRequestEvent !== null && typeof preparedEbayRequestEvent !== 'undefined') {
                     if (preparedEbayRequestEvent.isError) {
-                        this.information[preparedEbayRequestEvent.globalId].isError = preparedEbayRequestEvent.isError;
+                        this.information[preparedEbayRequestEvent.globalId].isError = preparedEbayRequestEvent.preparedData.isError;
                         this.information[preparedEbayRequestEvent.globalId].isLoaded = true;
                     } else if (!preparedEbayRequestEvent.isError) {
-                        this.information[preparedEbayRequestEvent.preparedData.globalId].isError = preparedEbayRequestEvent.isError;
+                        this.information[preparedEbayRequestEvent.preparedData.globalId].isError = preparedEbayRequestEvent.preparedData.isError;
                         this.information[preparedEbayRequestEvent.preparedData.globalId].isLoaded = true;
                     }
                 }

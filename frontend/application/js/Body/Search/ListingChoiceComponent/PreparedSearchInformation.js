@@ -64,7 +64,7 @@ export const PreparedSearchInformation = {
                         globalIds.push(response.resource.data.globalIdInformation.global_id);
                     }
                 }
-                
+
                 for (let supportedSite of SUPPORTED_SITES.sites) {
                     if (!globalIds.includes(supportedSite.globalId)) {
                         siteNames.push(this.$globalIdInformation.all[supportedSite.globalId.toLowerCase()].site_name);

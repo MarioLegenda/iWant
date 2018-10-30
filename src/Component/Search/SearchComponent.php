@@ -102,11 +102,18 @@ class SearchComponent
                 $response['globalIdInformation'],
                 $response['globalId'],
                 $response['totalEntries'],
-                $response['entriesPerPage']
+                $response['entriesPerPage'],
+                $response['isError']
             );
         }
 
-        $response = $this->searchEbayAdvanced($model);
+        $exceptionThrown = null;
+
+        try {
+            $response = $this->searchEbayAdvanced($model);
+        } catch (\Throwable $e) {
+            $exceptionThrown = $e;
+        }
 
         $globalId = $model->getGlobalId();
         $totalEntries = $response->getPaginationOutput()->getTotalEntries();
@@ -117,7 +124,8 @@ class SearchComponent
             GlobalIdInformation::instance()->getTotalInformation($globalId),
             $globalId,
             $totalEntries,
-            $entriesPerPage
+            $entriesPerPage,
+            $exceptionThrown instanceof \Exception
         );
 
         /** @var SearchResultsContainer $searchResults */
@@ -147,6 +155,8 @@ class SearchComponent
                         return $image;
                     }
                 }
+
+                return Nan::fromValue();
             }));
 
             $shopName = $item->dynamicSingleItemChoice(function(Item $item) {
@@ -203,6 +213,10 @@ class SearchComponent
             $model->getPagination()->getPage(),
             json_encode($searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
         );
+
+        if ($exceptionThrown instanceof \Exception) {
+            throw $exceptionThrown;
+        }
 
         return $preparedEbayResponse;
     }
