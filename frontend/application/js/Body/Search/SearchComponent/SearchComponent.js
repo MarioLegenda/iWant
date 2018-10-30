@@ -213,11 +213,11 @@ export const SearchComponent = {
 
             let filters = this.filtersEvent;
 
-            filters.bestMatch = true;
+            filters.bestMatch = filters.lowestPrice === false;
 
             return {
                 keyword: this.keyword,
-                filters: this.filtersEvent,
+                filters: filters,
                 pagination: {
                     limit: 80,
                     page: 1,

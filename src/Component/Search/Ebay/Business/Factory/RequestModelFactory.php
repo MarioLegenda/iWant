@@ -39,7 +39,7 @@ class RequestModelFactory
         $shippingCountries = [];
         $marketplaces = [];
         $taxonomies = [];
-        $globalIds = $model['globalId'];
+        $globalId = $model['globalId'];
         $pagination = new Pagination($model['pagination']['limit'], $model['pagination']['page']);
 
         $viewType = EbaySearchViewType::fromValue($model['viewType']);
@@ -55,7 +55,7 @@ class RequestModelFactory
             $taxonomies,
             $pagination,
             $viewType,
-            $globalIds
+            $globalId
         );
     }
 }

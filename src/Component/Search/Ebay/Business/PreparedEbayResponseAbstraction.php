@@ -5,7 +5,6 @@ namespace App\Component\Search\Ebay\Business;
 use App\Cache\Implementation\PreparedResponseCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Factory\SearchResponseModelFactory;
-use App\Component\Search\Ebay\Business\Factory\SpreadFactory\SpreadFactory;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
 use App\Ebay\Library\Information\GlobalIdInformation;
@@ -47,32 +46,25 @@ class PreparedEbayResponseAbstraction
      */
     private $searchResponseModelFactory;
     /**
-     * @var SpreadFactory $spreadFactory
-     */
-    private $spreadFactory;
-    /**
      * SearchComponent constructor.
      * @param Finder $ebayFinder
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param PreparedResponseCacheImplementation $preparedResponseCacheImplementation
      * @param ModelPreparationFactory $modelPreparationFactory
      * @param SearchResponseModelFactory $searchResponseModelFactory
-     * @param SpreadFactory $spreadFactory
      */
     public function __construct(
         Finder $ebayFinder,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         PreparedResponseCacheImplementation $preparedResponseCacheImplementation,
         ModelPreparationFactory $modelPreparationFactory,
-        SearchResponseModelFactory $searchResponseModelFactory,
-        SpreadFactory $spreadFactory
+        SearchResponseModelFactory $searchResponseModelFactory
     ) {
         $this->searchResponseModelFactory = $searchResponseModelFactory;
         $this->ebayFinder = $ebayFinder;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->preparedResponseCacheImplementation = $preparedResponseCacheImplementation;
         $this->modelPreparationFactory = $modelPreparationFactory;
-        $this->spreadFactory = $spreadFactory;
     }
     /**
      * @param SearchModel $model
@@ -122,10 +114,6 @@ class PreparedEbayResponseAbstraction
 
         /** @var SearchResultsContainer $searchResults */
         $searchResults = $response->getSearchResults();
-
-        if ($searchResults->isEmpty()) {
-            return $preparedEbayResponse;
-        }
 
         $searchResponseModels = $this->searchResponseModelFactory->fromIterable(
             $uniqueName,

@@ -42,25 +42,32 @@ class SearchComponent
      */
     private $preparedEbayResponseAbstraction;
     /**
+     * @var SpreadFactory $spreadFactory
+     */
+    private $spreadFactory;
+    /**
      * SearchComponent constructor.
      * @param EbayFinder $ebayFinder
      * @param EtsyFinder $etsyFinder
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param ModelPreparationFactory $modelPreparationFactory
      * @param PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
+     * @param SpreadFactory $spreadFactory
      */
     public function __construct(
         EbayFinder $ebayFinder,
         EtsyFinder $etsyFinder,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         ModelPreparationFactory $modelPreparationFactory,
-        PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
+        PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction,
+        SpreadFactory $spreadFactory
     ) {
         $this->ebayFinder = $ebayFinder;
         $this->etsyFinder = $etsyFinder;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->modelPreparationFactory = $modelPreparationFactory;
         $this->preparedEbayResponseAbstraction = $preparedEbayResponseAbstraction;
+        $this->spreadFactory = $spreadFactory;
     }
     /**
      * @param PreparedItemsSearchModel $model
@@ -92,6 +99,8 @@ class SearchComponent
      */
     public function prepareEbayProductsAdvanced(EbaySearchModel $model): PreparedEbayResponse
     {
+        $this->spreadFactory->spreadSearch($model);
+
         return $this->preparedEbayResponseAbstraction->getPreparedResponse($model);
     }
 }

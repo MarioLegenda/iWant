@@ -2,35 +2,33 @@
 
 namespace App\Component\Search\Ebay\Business\Factory\SpreadFactory;
 
-use App\Cache\Implementation\PreparedResponseCacheImplementation;
-use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Business\PreparedEbayResponseAbstraction;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 
 class BestMatchCacheFactory
 {
     /**
-     * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
+     * @var PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
      */
-    private $searchResponseCacheImplementation;
-    /**
-     * @var PreparedResponseCacheImplementation $preparedResponseCacheImplementation
-     */
-    private $preparedResponseCacheImplementation;
+    private $preparedEbayResponseAbstraction;
     /**
      * LowestPriceCacheFactory constructor.
-     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
-     * @param PreparedResponseCacheImplementation $preparedResponseCacheImplementation
+     * @param PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
      */
     public function __construct(
-        SearchResponseCacheImplementation $searchResponseCacheImplementation,
-        PreparedResponseCacheImplementation $preparedResponseCacheImplementation
+        PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
     ) {
-        $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
-        $this->preparedResponseCacheImplementation = $preparedResponseCacheImplementation;
+        $this->preparedEbayResponseAbstraction = $preparedEbayResponseAbstraction;
     }
-
-    public function storeInCache(SearchModel $model)
+    /**
+     * @param SearchModel $model
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Throwable
+     */
+    public function storeInCache(SearchModel $model): void
     {
-
+        $this->preparedEbayResponseAbstraction->getPreparedResponse($model);
     }
 }

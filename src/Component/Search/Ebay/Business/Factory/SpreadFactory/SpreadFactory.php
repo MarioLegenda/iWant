@@ -27,10 +27,48 @@ class SpreadFactory
         $this->lowestPriceCacheFactory = $lowestPriceCacheFactory;
         $this->bestMatchCacheFactory = $bestMatchCacheFactory;
     }
-
+    /**
+     * @param SearchModel $model
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Throwable
+     */
     public function spreadSearch(SearchModel $model)
     {
         $bestMatchModel = RequestModelFactory::createFromArray([
+            'keyword' => $model->getKeyword(),
+            'lowestPrice' => false,
+            'highestPrice' => false,
+            'highQuality' => false,
+            'bestMatch' => true,
+            'globalId' => $model->getGlobalId(),
+            'pagination' => [
+                'limit' => $model->getPagination()->getLimit(),
+                'page' => $model->getPagination()->getPage(),
+            ],
+            'viewType' => $model->getViewType(),
         ]);
+
+        $lowestPriceModel = RequestModelFactory::createFromArray([
+            'keyword' => $model->getKeyword(),
+            'lowestPrice' => true,
+            'highestPrice' => false,
+            'highQuality' => false,
+            'bestMatch' => false,
+            'globalId' => $model->getGlobalId(),
+            'pagination' => [
+                'limit' => $model->getPagination()->getLimit(),
+                'page' => $model->getPagination()->getPage(),
+            ],
+            'viewType' => $model->getViewType(),
+        ]);
+
+        $this->bestMatchCacheFactory->storeInCache($bestMatchModel);
+
+        $this->lowestPriceCacheFactory->storeInCache(
+            $bestMatchModel,
+            $lowestPriceModel
+        );
     }
 }

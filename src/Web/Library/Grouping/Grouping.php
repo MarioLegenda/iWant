@@ -61,7 +61,7 @@ class Grouping
     public function groupByPriceHighest(iterable $data)
     {
         $dataArray = $data->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION);
-        usort($dataArray, function(PriceGroupingInterface $a, PriceGroupingInterface$b) {
+        usort($dataArray, function(PriceGroupingInterface $a, PriceGroupingInterface $b) {
             return $a->getPriceForGrouping() <= $b->getPriceForGrouping();
         });
 
