@@ -12,7 +12,7 @@ use App\Tests\Library\BasicSetup;
 
 class SearchComponentTest extends BasicSetup
 {
-    public function test_ebay_advanced_search()
+    public function test_ebay_prepared_search()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
@@ -21,12 +21,12 @@ class SearchComponentTest extends BasicSetup
 
         /** @var EbaySearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel([
-            'keyword' => 'harry potter',
+            'keyword' => 'iphone 7',
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
-            'globalId' => 'EBAY-DE',
-            'pagination' => new Pagination(4, 1),
+            'globalId' => 'EBAY-FR',
+            'pagination' => new Pagination(80, 1),
         ]);
 
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);

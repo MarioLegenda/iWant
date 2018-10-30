@@ -126,10 +126,17 @@ class PreparedEbayResponseAbstraction
             json_encode($preparedEbayResponse->toArray())
         );
 
+        $toEncode = $searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+        $encoded = json_encode($toEncode);
+
+        if ($encoded === false) {
+            $toEncode = utf8ize($toEncode);
+        }
+
         $this->searchResponseCacheImplementation->store(
             $uniqueName,
             $model->getPagination()->getPage(),
-            json_encode($searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+            json_encode($toEncode)
         );
 
         if ($exceptionThrown instanceof \Exception) {

@@ -219,7 +219,7 @@ export const SearchComponent = {
                 keyword: this.keyword,
                 filters: filters,
                 pagination: {
-                    limit: 80,
+                    limit: 40,
                     page: 1,
                 },
                 viewType: 'globalIdView',
