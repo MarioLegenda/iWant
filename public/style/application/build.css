@@ -818,6 +818,25 @@ html {
   height: 120px;
   border-radius: 10px;
 }
+.SearchItems .EbayItems .SiteName {
+  width: 100%;
+  float: left;
+  margin: 50px 0 30px 0;
+  padding: 10px;
+  border-bottom: 1px solid #d6d6d6;
+}
+.SearchItems .EbayItems .SiteName img {
+  display: block;
+  width: 30px;
+  height: 30px;
+  float: left;
+  margin: 0 30px 0 0;
+}
+.SearchItems .EbayItems .SiteName h1 {
+  display: inline-block;
+  float: left;
+  margin-top: 5px;
+}
 
 #search_page .Filters {
   width: 200px;

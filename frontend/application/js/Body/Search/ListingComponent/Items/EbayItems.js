@@ -1,4 +1,5 @@
 import {Item} from "../../../Listing/components/Item";
+import {SUPPORTED_SITES} from "../../../../global";
 
 export const Price = {
     template: `
@@ -22,6 +23,24 @@ export const Price = {
     },
 };
 
+const SiteName = {
+    template: `<div class="SiteName">
+                   <img :src="decideImage()" />
+                   <h1>{{decideTitle()}}</h1>
+               </div>`,
+    props: ['globalIdInformation'],
+    methods: {
+        decideImage() {
+            const globalId = this.globalIdInformation.global_id;
+
+            return SUPPORTED_SITES.find(globalId).icon;
+        },
+        decideTitle() {
+            return this.globalIdInformation.site_name;
+        }
+    }
+};
+
 const LoadMore = {
     data: function() {
         return {
@@ -41,7 +60,8 @@ export const EbayItems = {
         }
     },
     template: `
-            <div class="EbayItems" id="EbayItemsId">
+            <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
+                <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
                 <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
                     <div class="Row ImageWrapper">
                         <img class="Image" :src="item.image.url" />
@@ -76,9 +96,8 @@ export const EbayItems = {
     computed: {
         ebaySearchListing: function() {
             const ebaySearchListing = this.$store.state.ebaySearchListing;
-
             if (ebaySearchListing === null) {
-                return [];
+                return null;
             }
 
             return ebaySearchListing;
@@ -88,5 +107,6 @@ export const EbayItems = {
         'item': Item,
         'price': Price,
         'load-more': LoadMore,
+        'site-name': SiteName,
     }
 };

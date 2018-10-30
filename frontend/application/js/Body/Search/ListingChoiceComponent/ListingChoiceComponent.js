@@ -92,6 +92,7 @@ export const ListingChoiceComponent = {
                 this.$store.commit('ebaySearchListing', {
                     items: data,
                     pagination: r.collection.pagination,
+                    preparedData: preparedData
                 });
             });
         }
