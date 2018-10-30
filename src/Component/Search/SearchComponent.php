@@ -156,7 +156,7 @@ class SearchComponent
             $model->getPagination()->getPage(),
             json_encode($searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
         );
-        
+
         if ($exceptionThrown instanceof \Exception) {
             throw $exceptionThrown;
         }
