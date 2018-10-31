@@ -91,17 +91,44 @@ class PreparedEbayResponseAbstraction
             );
         }
 
-        $exceptionThrown = null;
+        $response = $this->searchEbayAdvanced($model);
 
-        try {
-            $response = $this->searchEbayAdvanced($model);
-        } catch (\Throwable $e) {
-            $exceptionThrown = $e;
+        if ($response->isErrorResponse()) {
+            return new PreparedEbayResponse(
+                $uniqueName,
+                GlobalIdInformation::instance()->getTotalInformation($globalId),
+                $globalId,
+                0,
+                0,
+                true
+            );
         }
 
         $globalId = $model->getGlobalId();
         $totalEntries = $response->getPaginationOutput()->getTotalEntries();
         $entriesPerPage = $response->getPaginationOutput()->getEntriesPerPage();
+
+        /** @var SearchResultsContainer $searchResults */
+        $searchResults = $response->getSearchResults();
+
+        try {
+            $searchResponseModels = $this->searchResponseModelFactory->fromIterable(
+                $uniqueName,
+                $globalId,
+                $searchResults
+            );
+
+            $searchResponseArray = $searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+
+            $encodedSearchResponse = json_encode($searchResponseArray);
+
+            if ($encodedSearchResponse === false) {
+                $fixed = utf8ize($searchResponseArray);
+                $encodedSearchResponse = json_encode($fixed);
+            }
+        } catch (\Throwable $e) {
+            throw $e;
+        }
 
         $preparedEbayResponse = new PreparedEbayResponse(
             $uniqueName,
@@ -109,39 +136,22 @@ class PreparedEbayResponseAbstraction
             $globalId,
             $totalEntries,
             $entriesPerPage,
-            $exceptionThrown instanceof \Exception
+            false
         );
 
-        /** @var SearchResultsContainer $searchResults */
-        $searchResults = $response->getSearchResults();
-
-        $searchResponseModels = $this->searchResponseModelFactory->fromIterable(
-            $uniqueName,
-            $globalId,
-            $searchResults
-        );
+        $preparedResponseArray = $preparedEbayResponse->toArray();
+        $encodedPreparedEbayResponse = json_encode($preparedResponseArray);
 
         $this->preparedResponseCacheImplementation->store(
             $uniqueName,
-            json_encode($preparedEbayResponse->toArray())
+            $encodedPreparedEbayResponse
         );
-
-        $toEncode = $searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
-        $encoded = json_encode($toEncode);
-
-        if ($encoded === false) {
-            $toEncode = utf8ize($toEncode);
-        }
 
         $this->searchResponseCacheImplementation->store(
             $uniqueName,
             $model->getPagination()->getPage(),
-            json_encode($toEncode)
+            $encodedSearchResponse
         );
-
-        if ($exceptionThrown instanceof \Exception) {
-            throw $exceptionThrown;
-        }
 
         return $preparedEbayResponse;
     }
