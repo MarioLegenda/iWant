@@ -308,6 +308,7 @@ html {
   position: relative;
   background-color: white;
   overflow: hidden;
+  margin: 0 0 30px 0;
 }
 #main_header .logo {
   display: block;
@@ -725,7 +726,7 @@ html {
   display: block;
   width: 100%;
   float: left;
-  padding: 0 0 7px 0;
+  padding: 0 0 8px 0;
   border: none;
   font-family: "Quicksand", sans-serif;
   font-size: 1.1em;
