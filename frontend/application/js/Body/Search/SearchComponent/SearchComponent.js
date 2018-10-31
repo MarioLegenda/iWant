@@ -132,7 +132,7 @@ export const SearchComponent = {
         },
         submit(keyword) {
             this.$store.commit('ebaySearchListing', null);
-            
+
             this.keyword = keyword;
 
             const urlify = urlifyFactory.create({

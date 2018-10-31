@@ -44,7 +44,10 @@ class RequestFactory
             $queries
         );
     }
-
+    /**
+     * @param string $text
+     * @return YandexRequestModel
+     */
     public static function createDetectLanguageRequestModel(string $text): YandexRequestModel
     {
         $textQuery = new Query(
@@ -58,6 +61,31 @@ class RequestFactory
         );
 
         $callType = CallType::fromValue('detect');
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $textQuery;
+        $queries[] = $format;
+
+        return new YandexRequestModel(
+            $callType,
+            $queries
+        );
+    }
+
+    public static function createSupportedLanguagesListingRequestModel(string $lang)
+    {
+        $textQuery = new Query(
+            'ui',
+            urlencode($lang)
+        );
+
+        $format = new Query(
+            'format',
+            'plain'
+        );
+
+        $callType = CallType::fromValue('getLangs');
 
         $queries = TypedArray::create('integer', Query::class);
 

@@ -371,7 +371,7 @@ services:
         arguments:
             $toggleCacheRepository: '@App\Doctrine\Repository\ToggleCacheRepository'
         tags:
-        - { name: 'console.command' }
+            - { name: 'console.command' }
 
     App\Symfony\Command\InitialCacheToggle:
         arguments:
@@ -384,4 +384,10 @@ services:
             $apiRequestCache: '@App\Cache\Cache\ApiRequestCache'
             $blueDot: '@BlueDot\BlueDot'
         tags:
-        - { name: 'console.command' }
+            - { name: 'console.command' }
+
+    App\Symfony\Command\Util\SupportedLanguages:
+        arguments:
+            $yandexEntryPoint: '@App\Yandex\Presentation\EntryPoint\YandexEntryPoint'
+        tags:
+            - { name: 'console.command' }
