@@ -1,85 +1,84 @@
 import {SUPPORTED_SITES} from "../../../global";
 
 export const PreparedSearchInformation = {
+    data: function() {
+        return {
+            totalProducts: 0,
+            successSites: [],
+            successSitesString: 'N/A',
+            failedSites: [],
+            failedSitesString: 'None',
+        }
+    },
     template: `<div class="PreparedSearchInformation">
+                  <input type="hidden" :value="preparedEbayRequestEvent" />
+                  <input type="hidden" :value="searchInitialiseEvent" />
+                  
                   <div class="InfoRow">
                       <span class="InfoTitle">Total products found: </span><span class="Information">{{totalProducts}}</span>
                   </div>
                 
                   <div class="InfoRow">
-                      <span class="InfoTitle">eBay sites searched: </span><span class="Information">{{successSites}}</span>
+                      <span class="InfoTitle">eBay sites searched: </span><span class="Information">{{successSitesString}}</span>
                   </div>
                 
                   <div class="InfoRow">
-                      <span class="InfoTitle">Failed searches: </span><span class="Information">{{failedSites}}</span>
+                      <span class="InfoTitle">Failed searches: </span><span class="Information">{{failedSitesString}}</span>
                   </div>
                </div>`,
+    methods: {
+        calcTotal: function(data) {
+            this.totalProducts+=data.totalEntries;
+        },
+        calcSuccessSites: function(data) {
+            this.successSites.push(data.globalIdInformation.site_name);
+
+            this.successSitesString = this.successSites.join(', ');
+        },
+        calcFailedSites: function(preparedEbayRequestEvent) {
+            const globalId = preparedEbayRequestEvent.globalId;
+
+            this.failedSites.push(this.$globalIdInformation.all[globalId.toLowerCase()].site_name);
+
+            if (this.failedSites.length > 0) {
+                this.failedSitesString = this.failedSites.join(', ');
+            }
+        },
+    },
     computed: {
-        totalProducts: function() {
-            const preparedSearchInformation = this.preparedSearchInformation.responses;
+        searchInitialiseEvent: function() {
+            const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
 
-            let total = 0;
-            if (Array.isArray(preparedSearchInformation)) {
-                for (const response of preparedSearchInformation) {
-                    if (!response.isError) {
-                        const data = response.resource.data;
-
-                        total+=data.totalEntries;
-                    }
-                }
-
-                return total;
+            if (searchInitialiseEvent.initialised) {
+                this.total = 0;
+                this.successSites = [];
+                this.failedSites = [];
+                this.successSitesString = 'N/A';
+                this.failedSitesString = 'None';
             }
 
-            return total;
+            return searchInitialiseEvent;
         },
-        successSites: function() {
-            const preparedSearchInformation = this.preparedSearchInformation.responses;
 
-            let siteNames = [];
-            if (Array.isArray(preparedSearchInformation)) {
-                for (const response of preparedSearchInformation) {
-                    if (!response.isError) {
-                        const siteName = response.resource.data.globalIdInformation.site_name;
+        preparedEbayRequestEvent: function() {
+            const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
-                        siteNames.push(siteName);
-                    }
-                }
+            if (preparedEbayRequestEvent === null) {
+                return preparedEbayRequestEvent;
             }
 
-            if (siteNames.length === 0) {
-                return 'N/A';
+            if (!preparedEbayRequestEvent.isError) {
+                const preparedData = preparedEbayRequestEvent.preparedData;
+
+                this.calcTotal(preparedData);
+                this.calcSuccessSites(preparedData);
             }
 
-            return siteNames.join(', ');
+            if (preparedEbayRequestEvent.isError) {
+                this.calcFailedSites(preparedEbayRequestEvent);
+            }
+
+            return preparedEbayRequestEvent;
         },
-        failedSites: function() {
-            const preparedSearchInformation = this.preparedSearchInformation.responses;
-
-            let siteNames = [];
-            if (Array.isArray(preparedSearchInformation)) {
-                let globalIds = [];
-                for (const response of preparedSearchInformation) {
-                    if (!response.isError) {
-                        globalIds.push(response.resource.data.globalIdInformation.global_id);
-                    }
-                }
-
-                for (let supportedSite of SUPPORTED_SITES.sites) {
-                    if (!globalIds.includes(supportedSite.globalId)) {
-                        siteNames.push(this.$globalIdInformation.all[supportedSite.globalId.toLowerCase()].site_name);
-                    }
-                }
-            }
-
-            if (siteNames.length === 0) {
-                return 'None';
-            }
-
-            return siteNames.join(', ');
-        },
-        preparedSearchInformation: function() {
-            return this.$store.state.preparedSearchInformation;
-        }
     }
 };

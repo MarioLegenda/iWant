@@ -33,6 +33,7 @@ export const ListingChoiceComponent = {
             class="ListingChoiceComponent">
             
             <input type="hidden" :value="preparedEbayRequestEvent" />
+            <input type="hidden" :value="searchInitialiseEvent" />
             
             <prepared-search-information></prepared-search-information>
             
@@ -42,12 +43,15 @@ export const ListingChoiceComponent = {
                v-for="(item, globalId, index) in resolvedSites"
                v-if="item !== null"
                :key="index">
-                <listing-choice
-                    v-bind:image="supportedSites.find(globalId).icon"
-                    v-bind:site-name="item.preparedData.globalIdInformation.site_name"
-                    v-bind:prepared-data="item.preparedData"
-                    v-on:on-ebay-site-choice="onEbaySiteChoice">
-                </listing-choice>
+               <transition name="fade">
+               
+                   <listing-choice
+                       v-bind:image="supportedSites.find(globalId).icon"
+                       v-bind:site-name="item.preparedData.globalIdInformation.site_name"
+                       v-bind:prepared-data="item.preparedData"
+                       v-on:on-ebay-site-choice="onEbaySiteChoice">
+                   </listing-choice>
+                </transition>
             </div>
         </div>
     `,
@@ -71,9 +75,11 @@ export const ListingChoiceComponent = {
         searchInitialiseEvent: function () {
             const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
 
-            if (searchInitialiseEvent.initialised === false) {
+            if (searchInitialiseEvent.initialised) {
                 this.resolvedSites = {};
             }
+
+            return searchInitialiseEvent;
         },
 
         filtersEvent: function() {
