@@ -22,8 +22,8 @@ class SearchComponentTest extends BasicSetup
         /** @var EbaySearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel([
             'keyword' => 'iphone 7',
-            'lowestPrice' => false,
-            'highQuality' => false,
+            'lowestPrice' => true,
+            'highQuality' => true,
             'highestPrice' => false,
             'globalId' => 'EBAY-FR',
             'pagination' => new Pagination(80, 1),
@@ -34,7 +34,6 @@ class SearchComponentTest extends BasicSetup
 
     public function test_search_by_unique_name()
     {
-
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */

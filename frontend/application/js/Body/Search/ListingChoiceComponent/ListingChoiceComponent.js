@@ -74,6 +74,10 @@ export const ListingChoiceComponent = {
             if (searchInitialiseEvent.initialised === false) {
                 this.resolvedSites = {};
             }
+        },
+
+        filtersEvent: function() {
+            return this.$store.state.filtersEvent;
         }
     },
     methods: {
@@ -82,6 +86,7 @@ export const ListingChoiceComponent = {
 
             searchRepo.getPreparedEbaySearch({
                 uniqueName: preparedData.uniqueName,
+                lowestPrice: this.filtersEvent.lowestPrice,
                 pagination: {
                     limit: 8,
                     page: 1

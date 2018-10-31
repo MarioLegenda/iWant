@@ -18,6 +18,7 @@ use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Library\Util\TypedRecursion;
+use App\Web\Library\Grouping\Grouping;
 
 class SearchComponent
 {
@@ -42,32 +43,25 @@ class SearchComponent
      */
     private $preparedEbayResponseAbstraction;
     /**
-     * @var SpreadFactory $spreadFactory
-     */
-    private $spreadFactory;
-    /**
      * SearchComponent constructor.
      * @param EbayFinder $ebayFinder
      * @param EtsyFinder $etsyFinder
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param ModelPreparationFactory $modelPreparationFactory
      * @param PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
-     * @param SpreadFactory $spreadFactory
      */
     public function __construct(
         EbayFinder $ebayFinder,
         EtsyFinder $etsyFinder,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         ModelPreparationFactory $modelPreparationFactory,
-        PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction,
-        SpreadFactory $spreadFactory
+        PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
     ) {
         $this->ebayFinder = $ebayFinder;
         $this->etsyFinder = $etsyFinder;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->modelPreparationFactory = $modelPreparationFactory;
         $this->preparedEbayResponseAbstraction = $preparedEbayResponseAbstraction;
-        $this->spreadFactory = $spreadFactory;
     }
     /**
      * @param PreparedItemsSearchModel $model
@@ -84,10 +78,16 @@ class SearchComponent
 
         $storedResponse = json_decode($this->searchResponseCacheImplementation->getStored($model->getUniqueName()), true);
 
-        return $this->modelPreparationFactory->prepareSearchItems(
+        $searchResponseModels = $this->modelPreparationFactory->prepareSearchItems(
             $model,
             $storedResponse
         );
+
+        if ($model->isLowestPrice()) {
+            return Grouping::inst()->groupByPriceLowest($searchResponseModels);
+        }
+
+        return $searchResponseModels;
     }
     /**
      * @param EbaySearchModel $model
@@ -99,8 +99,6 @@ class SearchComponent
      */
     public function prepareEbayProductsAdvanced(EbaySearchModel $model): PreparedEbayResponse
     {
-        $this->spreadFactory->spreadSearch($model);
-
         return $this->preparedEbayResponseAbstraction->getPreparedResponse($model);
     }
 }

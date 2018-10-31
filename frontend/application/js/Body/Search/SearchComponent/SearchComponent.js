@@ -213,7 +213,7 @@ export const SearchComponent = {
 
             let filters = this.filtersEvent;
 
-            filters.bestMatch = filters.lowestPrice === false;
+            filters.bestMatch = true;
 
             return {
                 keyword: this.keyword,

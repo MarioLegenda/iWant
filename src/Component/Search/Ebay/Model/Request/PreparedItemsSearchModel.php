@@ -9,6 +9,10 @@ class PreparedItemsSearchModel
      */
     private $uniqueName;
     /**
+     * @var bool $lowestPrice
+     */
+    private $lowestPrice;
+    /**
      * @var Pagination $pagination
      */
     private $pagination;
@@ -16,13 +20,16 @@ class PreparedItemsSearchModel
      * PreparedItemsSearchModel constructor.
      * @param string $uniqueName
      * @param Pagination $pagination
+     * @param bool $lowestPrice
      */
     public function __construct(
         string $uniqueName,
+        bool $lowestPrice,
         Pagination $pagination
     ) {
         $this->uniqueName = $uniqueName;
         $this->pagination = $pagination;
+        $this->lowestPrice = $lowestPrice;
     }
     /**
      * @return string
@@ -37,5 +44,12 @@ class PreparedItemsSearchModel
     public function getPagination(): Pagination
     {
         return $this->pagination;
+    }
+    /**
+     * @return bool
+     */
+    public function isLowestPrice(): bool
+    {
+        return $this->lowestPrice;
     }
 }

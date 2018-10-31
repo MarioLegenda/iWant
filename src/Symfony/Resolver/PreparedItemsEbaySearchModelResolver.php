@@ -44,6 +44,7 @@ class PreparedItemsEbaySearchModelResolver implements ArgumentValueResolverInter
 
         $this->model = new PreparedItemsSearchModel(
             $searchData['uniqueName'],
+            $searchData['lowestPrice'],
             new Pagination($searchData['pagination']['limit'], $searchData['pagination']['page'])
         );
 

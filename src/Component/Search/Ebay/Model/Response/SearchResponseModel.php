@@ -7,7 +7,9 @@ use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 
-class SearchResponseModel implements PriceGroupingInterface, ArrayNotationInterface
+class SearchResponseModel implements
+    PriceGroupingInterface,
+    ArrayNotationInterface
 {
     /**
      * @var string $uniqueName

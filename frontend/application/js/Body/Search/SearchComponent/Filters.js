@@ -12,7 +12,7 @@ export const Filters = {
     template: `<div class="RightPanel FiltersWrapper">
                     <input type="hidden" :value="filtersEvent" />
                     <div class="FiltersList">
-                        <h1 class="Title">Filter your search results</h1>
+                        <h1 class="Title">Sort your search results</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
