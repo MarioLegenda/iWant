@@ -309,6 +309,7 @@ html {
   background-color: white;
   overflow: hidden;
   margin: 0 0 30px 0;
+  position: relative;
 }
 #main_header .logo {
   display: block;
@@ -403,6 +404,25 @@ html {
 }
 #main_header .SearchBox .SearchBox_AdvancedSearch a:hover {
   border-bottom: 3px solid #f78f27;
+}
+
+#main_header .SiteLanguageChoice {
+  width: 200px;
+  height: 50px;
+  overflow: hidden;
+  z-index: 1000;
+  position: absolute;
+  right: 0;
+  float: right;
+  font-size: 1em;
+}
+#main_header .SiteLanguageChoice .SiteLanguageSelect {
+  width: 100%;
+  float: left;
+  background-color: white;
+  border: 1px solid #d6d6d6;
+  font-size: 0.9em;
+  font-family: "Quicksand", sans-serif;
 }
 
 #main_menu {
@@ -1264,6 +1284,20 @@ html {
     margin: 0 auto;
     margin-bottom: 80px;
   }
+}
+.v-select {
+  width: 250px;
+  position: absolute !important;
+  display: block;
+  right: 70px;
+  top: 50px;
+  font-family: "Quicksand", sans-serif !important;
+}
+.v-select .LanguageImage {
+  display: block;
+  width: 22px;
+  height: 22px;
+  float: right;
 }
 
 /*# sourceMappingURL=build.css.map */

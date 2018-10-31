@@ -1,4 +1,5 @@
 import {SearchBox} from "./SearchBox";
+import {SiteLanguageChoice} from "./SiteLanguageChoice";
 
 export const Header = {
     template: `<div id="main_header">
@@ -9,7 +10,7 @@ export const Header = {
                            <span class="logo-part like-part">Like</span>
                        </router-link>
                    </header>
-                   
+                                                       
                    <router-view name="search-box"></router-view>
                </div>`,
     components: {

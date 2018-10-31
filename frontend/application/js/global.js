@@ -6,6 +6,7 @@ import {Header} from "./Header/Header";
 import {routes as apiRoutes} from "./apiRoutes";
 import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
+import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 
 class SupportedSites {
     constructor(sites) {
@@ -243,17 +244,16 @@ export class Init {
                     el: '#vue_app',
                     store,
                     router: createVueRouter(),
-                    template: `<div class="Global" v-on:click="globalEventResolver($event)">
+                    template: `<div class="Global">
                    <Header></Header>
+                   
+                   <site-language-choice></site-language-choice>
                    
                    <router-view></router-view>
                </div>`,
-                    methods: {
-                        globalEventResolver($event) {
-                        }
-                    },
                     components: {
-                        Header
+                        Header,
+                        'site-language-choice': SiteLanguageChoice,
                     }
                 });
             });
