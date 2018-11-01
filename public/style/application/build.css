@@ -406,23 +406,21 @@ html {
   border-bottom: 3px solid #f78f27;
 }
 
-#main_header .SiteLanguageChoice {
+.SiteLanguageChoice {
   width: 200px;
   height: 50px;
-  overflow: hidden;
   z-index: 1000;
   position: absolute;
-  right: 0;
-  float: right;
+  right: 122px;
+  top: 30px;
   font-size: 1em;
 }
-#main_header .SiteLanguageChoice .SiteLanguageSelect {
-  width: 100%;
-  float: left;
-  background-color: white;
-  border: 1px solid #d6d6d6;
-  font-size: 0.9em;
-  font-family: "Quicksand", sans-serif;
+.SiteLanguageChoice .Title {
+  display: block;
+  width: 250px;
+  margin: 0 0 3px 0;
+  line-height: 1.2em;
+  font-size: 0.8em;
 }
 
 #main_menu {
@@ -1289,9 +1287,6 @@ html {
 .v-select {
   width: 250px;
   position: absolute !important;
-  display: block;
-  right: 70px;
-  top: 50px;
   font-family: "Quicksand", sans-serif !important;
 }
 .v-select .LanguageImage {

@@ -42,6 +42,13 @@ const translationsMap = {
         lowestPriceFilter: 'Prezzo più basso',
         highestPriceFilter: 'Il prezzo più alto',
         highQualityFilter: 'Alta qualità',
+    },
+
+    pl: {
+        filterHeader: 'Sortuj swoje wyniki wyszukiwania',
+        lowestPriceFilter: 'Najniższa cena',
+        highestPriceFilter: 'Wyzsza cena',
+        highQualityFilter: 'Wysoka jakość',
     }
 };
 
@@ -93,6 +100,7 @@ export const SUPPORTED_SITES = new SupportedSites([
     {globalId: 'EBAY-IT', icon: `/images/country_icons/ebay-it.svg`},
     {globalId: 'EBAY-US', icon: `/images/country_icons/ebay-us.svg`},
     {globalId: 'EBAY-IE', icon: `/images/country_icons/ebay-ie.svg`},
+    {globalId: 'EBAY-PL', icon: `/images/country_icons/ebay-pl.svg`},
 ]);
 
 export class Init {
