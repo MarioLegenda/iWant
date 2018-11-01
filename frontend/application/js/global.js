@@ -8,6 +8,28 @@ import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
 import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 
+const translationsMap = {
+    en: {
+        filterHeader: 'Sort your search results',
+    },
+
+    fr: {
+        filterHeader: 'Trier vos résultats de recherche'
+    },
+
+    es: {
+        filterHeader: 'Ordena tus resultados de búsqueda'
+    },
+
+    ga: {
+        filterHeader: 'Sórtáil do thorthaí cuardaigh'
+    },
+
+    it: {
+        filterHeader: 'Ordina i risultati della tua ricerca'
+    }
+};
+
 class SupportedSites {
     constructor(sites) {
         this.sites = sites;
@@ -55,6 +77,7 @@ export const SUPPORTED_SITES = new SupportedSites([
     {globalId: 'EBAY-GB', icon: `/images/country_icons/ebay-gb.svg`},
     {globalId: 'EBAY-IT', icon: `/images/country_icons/ebay-it.svg`},
     {globalId: 'EBAY-US', icon: `/images/country_icons/ebay-us.svg`},
+    {globalId: 'EBAY-IE', icon: `/images/country_icons/ebay-ie.svg`},
 ]);
 
 export class Init {
@@ -148,7 +171,8 @@ export class Init {
                 },
                 preparedEbayRequestEvent: null,
                 preparedEbayRequestEvents: [],
-                preparedSearchInformation: {}
+                preparedSearchInformation: {},
+                translationsMap: {}
             },
             mutations: {
                 searchTerm(state, value) {
@@ -181,8 +205,16 @@ export class Init {
 
                 preparedSearchInformation(state, value) {
                     this.state.preparedSearchInformation = value;
+                },
+                translationsMap(state, value) {
+                    this.state.translationsMap = value;
                 }
-            }
+            },
+            actions: {
+                localeChanged(context, locale) {
+                    context.commit('translationsMap', translationsMap[locale]);
+                }
+            },
         });
 
         const createVueRouter = () => {
@@ -244,6 +276,9 @@ export class Init {
                     el: '#vue_app',
                     store,
                     router: createVueRouter(),
+                    created() {
+                        this.$store.dispatch('localeChanged', 'en');
+                    },
                     template: `<div class="Global">
                    <Header></Header>
                    

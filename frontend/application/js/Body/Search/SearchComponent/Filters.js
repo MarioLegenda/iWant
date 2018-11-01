@@ -11,8 +11,9 @@ export const Filters = {
     },
     template: `<div class="RightPanel FiltersWrapper">
                     <input type="hidden" :value="filtersEvent" />
+                    
                     <div class="FiltersList">
-                        <h1 class="Title">Sort your search results</h1>
+                        <h1 class="Title">{{translationsMap.filterHeader}}</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
@@ -48,6 +49,9 @@ export const Filters = {
             this.lowestPrice = filtersEvent.lowestPrice;
 
             return filtersEvent;
+        },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
         }
     },
     methods: {
