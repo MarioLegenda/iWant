@@ -60,16 +60,15 @@ const ImageItem = {
 };
 
 const LoadMore = {
-    props: ['pagination'],
+    props: ['pagination', 'currentlyLoading'],
     template: `<div class="LoadMoreWrapper">
                    <p 
                         class="LoadMoreButton"
-                        @click="loadMore">Load more <i class="fas fa-chevron-down"></i>
+                        @click="loadMore">Load more <i v-if="!currentlyLoading" class="fas fa-chevron-down"></i><i v-if="currentlyLoading" class="CurrentlyLoading fas fa-circle-notch fa-spin"></i>
                    </p>
                </div>`,
     methods: {
         loadMore: function() {
-
             this.$emit('load-more', Object.assign({}, this.pagination, {
                 page: ++this.pagination.page
             }));
@@ -78,6 +77,11 @@ const LoadMore = {
 };
 
 export const EbayItems = {
+    data: function() {
+        return {
+            currentlyLoading: false,
+        }
+    },
     template: `
             <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
                 <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
@@ -110,7 +114,8 @@ export const EbayItems = {
                 
                 <load-more 
                     @load-more="onLoadMore"
-                    :pagination="ebaySearchListing.pagination">
+                    :pagination="ebaySearchListing.pagination"
+                    :currently-loading="currentlyLoading">
                 </load-more>
             </div>
             `,
@@ -136,6 +141,8 @@ export const EbayItems = {
     },
     methods: {
         onLoadMore: function(pagination) {
+            this.currentlyLoading = true;
+
             const searchRepo = RepositoryFactory.create('search');
             const uniqueName = this.ebaySearchListing.preparedData.uniqueName;
 
@@ -154,6 +161,8 @@ export const EbayItems = {
                     pagination: r.collection.pagination,
                     preparedData: this.ebaySearchListing.preparedData,
                 });
+
+                this.currentlyLoading = false;
             });
         },
     },

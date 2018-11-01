@@ -806,6 +806,9 @@ html {
 .SearchItems .LoadMoreWrapper .LoadMoreButton:hover i {
   color: #f78f27;
 }
+.SearchItems .LoadMoreWrapper .LoadMoreButton .CurrentlyLoading {
+  color: #f78f27;
+}
 .SearchItems .Row {
   width: 100%;
   float: left;
