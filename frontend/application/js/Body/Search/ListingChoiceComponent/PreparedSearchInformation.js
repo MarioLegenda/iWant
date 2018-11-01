@@ -50,7 +50,7 @@ export const PreparedSearchInformation = {
             const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
 
             if (searchInitialiseEvent.initialised) {
-                this.total = 0;
+                this.totalProducts = 0;
                 this.successSites = [];
                 this.failedSites = [];
                 this.successSitesString = 'N/A';
