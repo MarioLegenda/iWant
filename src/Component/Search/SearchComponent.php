@@ -83,10 +83,6 @@ class SearchComponent
             $storedResponse
         );
 
-        if ($model->isLowestPrice()) {
-            return Grouping::inst()->groupByPriceLowest($searchResponseModels);
-        }
-
         return $searchResponseModels;
     }
     /**

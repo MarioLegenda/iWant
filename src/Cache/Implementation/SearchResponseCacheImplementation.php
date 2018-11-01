@@ -58,13 +58,6 @@ class SearchResponseCacheImplementation
         int $page,
         string $value
     ): bool {
-        /** @var ToggleCache $toggleCache */
-        $toggleCache = $this->toggleCacheRepository->findAll()[0];
-
-        if ($toggleCache->getTodaysKeywordsCache() === false) {
-            return false;
-        }
-
         $this->searchResponseCache->set(
             $uniqueName,
             $page,

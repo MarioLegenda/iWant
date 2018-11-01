@@ -215,7 +215,9 @@ export const SearchComponent = {
 
             let filters = this.filtersEvent;
 
-            filters.bestMatch = true;
+            if (!filters.highestPrice) {
+                filters.bestMatch = true;
+            }
 
             return {
                 keyword: this.keyword,

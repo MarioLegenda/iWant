@@ -11,7 +11,9 @@ use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
 use App\Ebay\Library\Response\ResponseModelInterface;
+use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
+use App\Web\Library\Grouping\Grouping;
 
 /**
  * Class PreparedEbayResponseAbstraction
@@ -76,6 +78,29 @@ class PreparedEbayResponseAbstraction
      */
     public function getPreparedResponse(SearchModel $model)
     {
+        if ($model->isLowestPrice()) {
+            $lowestPriceUniqueName = md5(serialize($model));
+
+            if ($this->preparedResponseCacheImplementation->isStored($lowestPriceUniqueName)) {
+                $response = json_decode($this->preparedResponseCacheImplementation->getStored($lowestPriceUniqueName), true);
+
+                return new PreparedEbayResponse(
+                    $response['uniqueName'],
+                    $response['globalIdInformation'],
+                    $response['globalId'],
+                    $response['totalEntries'],
+                    $response['entriesPerPage'],
+                    $response['isError']
+                );
+            }
+
+            $preparedEbayResponse = $this->tryFindWithoutLowestPrice($model);
+
+            if ($preparedEbayResponse instanceof PreparedEbayResponse) {
+                return $preparedEbayResponse;
+            }
+        }
+
         $uniqueName = md5(serialize($model));
 
         if ($this->preparedResponseCacheImplementation->isStored($uniqueName)) {
@@ -112,11 +137,15 @@ class PreparedEbayResponseAbstraction
         $searchResults = $response->getSearchResults();
 
         try {
-            $searchResponseModels = $this->searchResponseModelFactory->fromIterable(
+            $searchResponseModels = $this->searchResponseModelFactory->fromSearchResults(
                 $uniqueName,
                 $globalId,
                 $searchResults
             );
+
+            if ($model->isLowestPrice()) {
+                $searchResponseModels = Grouping::inst()->groupByPriceLowest($searchResponseModels);
+            }
 
             $searchResponseArray = $searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
@@ -154,6 +183,66 @@ class PreparedEbayResponseAbstraction
         );
 
         return $preparedEbayResponse;
+    }
+    /**
+     * @param SearchModel $model
+     * @return PreparedEbayResponse|null
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function tryFindWithoutLowestPrice(SearchModel $model): ?PreparedEbayResponse
+    {
+        $model->setLowestPrice(false);
+
+        $uniqueNameWithoutLowestPrice = md5(serialize($model));
+
+        if ($this->searchResponseCacheImplementation->isStored($uniqueNameWithoutLowestPrice)) {
+            $storedResponse = $this->searchResponseCacheImplementation->getStored($uniqueNameWithoutLowestPrice);
+            $storedDecodedResponse = json_decode($storedResponse, true);
+
+            $searchResponseModels = $this->searchResponseModelFactory->fromArray(
+                $uniqueNameWithoutLowestPrice,
+                $model->getGlobalId(),
+                $storedDecodedResponse
+            );
+
+            $searchResponseModels = Grouping::inst()->groupByPriceLowest($searchResponseModels);
+
+            $searchResponseArray = $searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+
+            $encodedSearchResponse = json_encode($searchResponseArray);
+
+            $model->setLowestPrice(true);
+
+            $uniqueNameWithLowestPrice = md5(serialize($model));
+
+            $this->searchResponseCacheImplementation->store(
+                $uniqueNameWithLowestPrice,
+                $model->getPagination()->getPage(),
+                $encodedSearchResponse
+            );
+
+            $response = json_decode($this->preparedResponseCacheImplementation->getStored($uniqueNameWithoutLowestPrice), true);
+
+            $preparedResponse = new PreparedEbayResponse(
+                $uniqueNameWithLowestPrice,
+                $response['globalIdInformation'],
+                $response['globalId'],
+                $response['totalEntries'],
+                $response['entriesPerPage'],
+                $response['isError']
+            );
+
+            $this->preparedResponseCacheImplementation->store(
+                $uniqueNameWithLowestPrice,
+                json_encode($preparedResponse->toArray())
+            );
+        }
+
+        $model->setLowestPrice(true);
+
+        return null;
     }
     /**
      * @param SearchModel $model

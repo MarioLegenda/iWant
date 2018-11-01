@@ -106,6 +106,13 @@ class SearchModel implements ArrayNotationInterface
         return $this->lowestPrice;
     }
     /**
+     * @param bool $lowestPrice
+     */
+    public function setLowestPrice(bool $lowestPrice)
+    {
+        $this->lowestPrice = $lowestPrice;
+    }
+    /**
      * @return bool
      */
     public function isHighestPrice(): bool
