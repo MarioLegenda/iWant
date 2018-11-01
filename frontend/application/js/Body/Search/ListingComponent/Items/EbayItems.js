@@ -1,5 +1,6 @@
 import {Item} from "../../../Listing/components/Item";
 import {SUPPORTED_SITES} from "../../../../global";
+import {RepositoryFactory} from "../../../../services/repositoryFactory";
 
 export const Price = {
     template: `
@@ -59,23 +60,24 @@ const ImageItem = {
 };
 
 const LoadMore = {
-    data: function() {
-        return {
-            selected: false,
-            pages: {},
-        }
-    },
+    props: ['pagination'],
     template: `<div class="LoadMoreWrapper">
+                   <p 
+                        class="LoadMoreButton"
+                        @click="loadMore">Load more <i class="fas fa-chevron-down"></i>
+                   </p>
                </div>`,
     methods: {
+        loadMore: function() {
+
+            this.$emit('load-more', Object.assign({}, this.pagination, {
+                page: ++this.pagination.page
+            }));
+        }
     }
 };
 
 export const EbayItems = {
-    data: function() {
-        return {
-        }
-    },
     template: `
             <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
                 <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
@@ -105,6 +107,11 @@ export const EbayItems = {
                         <a :href="item.viewItemUrl" target="_blank">View on eBay</a>
                     </div>
                 </div>
+                
+                <load-more 
+                    @load-more="onLoadMore"
+                    :pagination="ebaySearchListing.pagination">
+                </load-more>
             </div>
             `,
     props: ['classList'],
@@ -116,7 +123,39 @@ export const EbayItems = {
             }
 
             return ebaySearchListing;
+        },
+        filtersEvent: function() {
+            const filtersEvent = this.$store.state.filtersEvent;
+
+            if (filtersEvent === null) {
+                return null;
+            }
+
+            return this.$store.state.filtersEvent;
         }
+    },
+    methods: {
+        onLoadMore: function(pagination) {
+            const searchRepo = RepositoryFactory.create('search');
+            const uniqueName = this.ebaySearchListing.preparedData.uniqueName;
+
+            searchRepo.getPreparedEbaySearch({
+                uniqueName: uniqueName,
+                lowestPrice: this.filtersEvent.lowestPrice,
+                pagination: pagination
+            }, (r) => {
+                const fetchedItems = r.collection.data;
+                let existingData = this.ebaySearchListing.items;
+
+                fetchedItems.map((i) => existingData.push(i));
+
+                this.$store.commit('ebaySearchListing', {
+                    items: existingData,
+                    pagination: r.collection.pagination,
+                    preparedData: this.ebaySearchListing.preparedData,
+                });
+            });
+        },
     },
     components: {
         'item': Item,

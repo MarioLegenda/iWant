@@ -776,6 +776,35 @@ html {
 .SearchItems {
   width: 100%;
   float: left;
+  margin: 0 0 50px 0;
+}
+.SearchItems .LoadMoreWrapper {
+  width: 100%;
+  float: left;
+  margin: 30px auto;
+}
+.SearchItems .LoadMoreWrapper .LoadMoreButton {
+  position: relative;
+  width: 400px;
+  padding: 10px;
+  overflow: hidden;
+  margin: 0 auto;
+  text-align: center;
+  color: #898989;
+  border: 1px solid #d6d6d6;
+  border-radius: 20px;
+}
+.SearchItems .LoadMoreWrapper .LoadMoreButton i {
+  position: absolute;
+  top: 11px;
+  right: 130px;
+}
+.SearchItems .LoadMoreWrapper .LoadMoreButton:hover {
+  cursor: pointer;
+  color: black;
+}
+.SearchItems .LoadMoreWrapper .LoadMoreButton:hover i {
+  color: #f78f27;
 }
 .SearchItems .Row {
   width: 100%;

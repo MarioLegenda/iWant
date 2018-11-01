@@ -2,6 +2,46 @@
   width: 100%;
   float: left;
 
+  margin: 0 0 50px 0;
+
+  .LoadMoreWrapper {
+    width: 100%;
+    float: left;
+
+    margin: 30px auto;
+
+    .LoadMoreButton {
+      position: relative;
+      width: 400px;
+      padding: 10px;
+      overflow: hidden;
+      margin: 0 auto;
+
+      text-align: center;
+
+      color: $middleGray;
+
+      border: 1px solid $lightestGray;
+
+      border-radius: 20px;
+
+      i {
+        position: absolute;
+        top: 11px;
+        right: 130px;
+      }
+
+      &:hover {
+        cursor: pointer;
+        color: black;
+      }
+
+      &:hover i {
+        color: $basicOrange;
+      }
+    }
+  }
+
   .Row {
     width: 100%;
     float: left;
