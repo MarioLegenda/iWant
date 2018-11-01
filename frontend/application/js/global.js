@@ -11,22 +11,37 @@ import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 const translationsMap = {
     en: {
         filterHeader: 'Sort your search results',
+        lowestPriceFilter: 'Lowest price',
+        highestPriceFilter: 'Highest price',
+        highQualityFilter: 'High quality',
     },
 
     fr: {
-        filterHeader: 'Trier vos résultats de recherche'
+        filterHeader: 'Trier vos résultats de recherche',
+        lowestPriceFilter: 'Prix ​​le plus bas',
+        highestPriceFilter: 'Le prix le plus élevé',
+        highQualityFilter: 'Haute qualité',
     },
 
     es: {
-        filterHeader: 'Ordena tus resultados de búsqueda'
+        filterHeader: 'Ordena tus resultados de búsqueda',
+        lowestPriceFilter: 'El precio más bajo',
+        highestPriceFilter: 'Precio más alto',
+        highQualityFilter: 'Alta calidad',
     },
 
     ga: {
-        filterHeader: 'Sórtáil do thorthaí cuardaigh'
+        filterHeader: 'Sórtáil do thorthaí cuardaigh',
+        lowestPriceFilter: 'Praghas is ísle',
+        highestPriceFilter: 'An praghas is airde',
+        highQualityFilter: 'Ardchaighdeáin',
     },
 
     it: {
-        filterHeader: 'Ordina i risultati della tua ricerca'
+        filterHeader: 'Ordina i risultati della tua ricerca',
+        lowestPriceFilter: 'Prezzo più basso',
+        highestPriceFilter: 'Il prezzo più alto',
+        highQualityFilter: 'Alta qualità',
     }
 };
 

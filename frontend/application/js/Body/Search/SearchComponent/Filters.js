@@ -21,19 +21,19 @@ export const Filters = {
                             <single-add-filter
                                 v-on:add-lowest-price="addLowestPrice"
                                 event-name="add-lowest-price"
-                                filter-text="Lowest price ">
+                                :filter-text="translationsMap.lowestPriceFilter">
                             </single-add-filter>
                         
                             <single-add-filter
                                 v-on:add-highest-price="addHighestPrice"
                                 event-name="add-highest-price"
-                                filter-text="Highest price ">
+                                :filter-text="translationsMap.highestPriceFilter">
                             </single-add-filter>
                         
                             <single-add-filter
                                 v-on:add-high-quality="addHighQuality"
                                 event-name="add-high-quality"
-                                filter-text="High quality ">
+                                :filter-text="translationsMap.highQualityFilter">
                             </single-add-filter>
                         </div>
                     </div>
