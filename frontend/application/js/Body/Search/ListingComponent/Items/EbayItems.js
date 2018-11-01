@@ -41,6 +41,23 @@ const SiteName = {
     }
 };
 
+const ImageItem = {
+    template: `
+               <div class="Row ImageWrapper">
+                   <img class="Image" :src="determineImage()" />
+               </div>`,
+    props: ['url'],
+    methods: {
+        determineImage() {
+            if (this.url === 'NaN') {
+                return '/images/no-image.png';
+            }
+
+            return this.url;
+        }
+    }
+};
+
 const LoadMore = {
     data: function() {
         return {
@@ -63,9 +80,7 @@ export const EbayItems = {
             <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
                 <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
                 <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
-                    <div class="Row ImageWrapper">
-                        <img class="Image" :src="item.image.url" />
-                    </div>
+                    <image-item :url="item.image.url"></image-item>
                     
                     <div class="Row TitleWrapper">
                         <p>{{item.title.truncated}}</p>
@@ -108,5 +123,6 @@ export const EbayItems = {
         'price': Price,
         'load-more': LoadMore,
         'site-name': SiteName,
+        'image-item': ImageItem,
     }
 };
