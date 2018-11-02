@@ -7,6 +7,7 @@ import {routes as apiRoutes} from "./apiRoutes";
 import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
 import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
+import {LocaleInfo} from "./services/localeInfo";
 
 const translationsMap = {
     en: {
@@ -248,6 +249,7 @@ export class Init {
             },
             actions: {
                 localeChanged(context, locale) {
+                    Vue.prototype.$localeInfo.locale = locale;
                     context.commit('translationsMap', translationsMap[locale]);
                 }
             },
@@ -307,6 +309,7 @@ export class Init {
 
             appRepo.asyncGetEbayGlobalIdsInformation((response) => {
                 Vue.prototype.$globalIdInformation = new GlobalIdInformation(response.collection.data);
+                Vue.prototype.$localeInfo = new LocaleInfo('en', 'en');
 
                 new Vue({
                     el: '#vue_app',

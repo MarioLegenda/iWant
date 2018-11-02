@@ -92,6 +92,8 @@ export const ListingChoiceComponent = {
 
             searchRepo.getPreparedEbaySearch({
                 uniqueName: preparedData.uniqueName,
+                globalId: preparedData.globalId,
+                locale: this.$localeInfo.locale,
                 lowestPrice: this.filtersEvent.lowestPrice,
                 pagination: {
                     limit: 8,

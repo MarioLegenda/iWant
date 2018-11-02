@@ -148,6 +148,8 @@ export const EbayItems = {
 
             searchRepo.getPreparedEbaySearch({
                 uniqueName: uniqueName,
+                globalId: this.ebaySearchListing.preparedData.globalId,
+                locale: this.$localeInfo.locale,
                 lowestPrice: this.filtersEvent.lowestPrice,
                 pagination: pagination
             }, (r) => {

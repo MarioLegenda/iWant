@@ -9,6 +9,14 @@ class PreparedItemsSearchModel
      */
     private $uniqueName;
     /**
+     * @var string $globalId
+     */
+    private $globalId;
+    /**
+     * @var string $locale
+     */
+    private $locale;
+    /**
      * @var bool $lowestPrice
      */
     private $lowestPrice;
@@ -19,15 +27,21 @@ class PreparedItemsSearchModel
     /**
      * PreparedItemsSearchModel constructor.
      * @param string $uniqueName
+     * @param string $globalId
+     * @param string $locale
      * @param Pagination $pagination
      * @param bool $lowestPrice
      */
     public function __construct(
         string $uniqueName,
+        string $globalId,
+        string $locale,
         bool $lowestPrice,
         Pagination $pagination
     ) {
         $this->uniqueName = $uniqueName;
+        $this->globalId = $globalId;
+        $this->locale = $locale;
         $this->pagination = $pagination;
         $this->lowestPrice = $lowestPrice;
     }
@@ -51,5 +65,19 @@ class PreparedItemsSearchModel
     public function isLowestPrice(): bool
     {
         return $this->lowestPrice;
+    }
+    /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+    /**
+     * @return string
+     */
+    public function getGlobalId(): string
+    {
+        return $this->globalId;
     }
 }
