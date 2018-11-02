@@ -153,7 +153,7 @@ export const SearchComponent = {
                 initialised: true,
                 finished: false
             });
-
+            
             let models = [];
             const searchRepo = RepositoryFactory.create('search');
 

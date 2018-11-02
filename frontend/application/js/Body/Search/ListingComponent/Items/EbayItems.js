@@ -137,7 +137,7 @@ export const EbayItems = {
             }
 
             return this.$store.state.filtersEvent;
-        }
+        },
     },
     methods: {
         onLoadMore: function(pagination) {

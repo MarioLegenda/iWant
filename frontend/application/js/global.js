@@ -128,6 +128,17 @@ export class Init {
             return val === '' || val === null || typeof val === 'undefined';
         };
 
+        window.scrollToBoundingElement = function(el) {
+            const rect = el.getBoundingClientRect();
+
+            setTimeout(function() {
+                window.scrollTo({
+                    top: rect.bottom,
+                    behavior: 'smooth',
+                });
+            }, 1000);
+        };
+
         window.getElementGeometry = function getOffset( el ) {
             let _x = 0, _y = 0, _w = 0, _h = 0, temp = el;
 
@@ -142,6 +153,8 @@ export class Init {
                 offsetLeft: _x,
                 width: temp.offsetWidth,
                 height: temp.offsetHeight,
+                scrollLeft: el.scrollLeft,
+                scrollTop: el.scrollTop,
             };
         };
 
