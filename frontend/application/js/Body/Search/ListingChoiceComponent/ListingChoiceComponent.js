@@ -21,6 +21,10 @@ const ListingChoice = {
     }
 };
 
+const NoItems = {
+    template: `<div class="NoItems">No items found</div>`
+};
+
 export const ListingChoiceComponent = {
     data: function () {
         return {
@@ -37,30 +41,67 @@ export const ListingChoiceComponent = {
             
             <prepared-search-information></prepared-search-information>
             
-            <h1 class="Title">Choose eBay site</h1>
-            
-            <div
-               v-for="(item, globalId, index) in resolvedSites"
-               v-if="item !== null"
-               :key="index">
-               <transition name="fade">
-               
-                   <listing-choice
-                       v-bind:image="supportedSites.find(globalId).icon"
-                       v-bind:site-name="item.preparedData.globalIdInformation.site_name"
-                       v-bind:prepared-data="item.preparedData"
-                       v-on:on-ebay-site-choice="onEbaySiteChoice">
-                   </listing-choice>
-                </transition>
+            <div class="ListingChoiceWrapper">
+                <h1 class="Title">Choose eBay site</h1>
+
+                <div
+                    v-for="(item, globalId, index) in resolvedSites"
+                    v-if="item !== null"
+                    :key="index">
+                    <transition name="fade">
+                        <listing-choice
+                            v-bind:image="supportedSites.find(globalId).icon"
+                            v-bind:site-name="item.preparedData.globalIdInformation.site_name"
+                            v-bind:prepared-data="item.preparedData"
+                            v-on:on-ebay-site-choice="onEbaySiteChoice">
+                        </listing-choice>
+                    </transition>
+                </div>
+                
+                <no-items v-if="hasItems === false"></no-items>
             </div>
         </div>
     `,
     computed: {
+        preparedSearchInformation: function() {
+            const preparedSearchInformation = this.$store.state.preparedSearchInformation;
+
+            if (typeof preparedSearchInformation === 'undefined' || preparedSearchInformation === null) {
+                return null;
+            }
+
+            return this.$store.state.preparedSearchInformation;
+        },
+        hasItems: function() {
+            const preparedSearchInformation = this.preparedSearchInformation;
+
+            if (typeof preparedSearchInformation === 'undefined' || preparedSearchInformation === null) {
+                return null;
+            }
+
+            const responses = preparedSearchInformation.responses;
+
+            if (!Array.isArray(responses)) {
+                return null;
+            }
+
+            for (const r of responses) {
+                if (r.resource.data.totalEntries > 0) {
+                    return true;
+                }
+            }
+
+            return false;
+        },
         preparedEbayRequestEvent: function () {
             const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
             if (typeof preparedEbayRequestEvent === 'object' && preparedEbayRequestEvent !== null) {
                 if (preparedEbayRequestEvent.isError) {
+                    return preparedEbayRequestEvent;
+                }
+
+                if (preparedEbayRequestEvent.preparedData.totalEntries === 0) {
                     return preparedEbayRequestEvent;
                 }
 
@@ -113,5 +154,6 @@ export const ListingChoiceComponent = {
     components: {
         'listing-choice': ListingChoice,
         'prepared-search-information': PreparedSearchInformation,
+        'no-items': NoItems,
     }
 };

@@ -136,6 +136,17 @@ class PreparedEbayResponseAbstraction
         /** @var SearchResultsContainer $searchResults */
         $searchResults = $response->getSearchResults();
 
+        if (empty($searchResults)) {
+            return new PreparedEbayResponse(
+                $uniqueName,
+                GlobalIdInformation::instance()->getTotalInformation($globalId),
+                $globalId,
+                0,
+                0,
+                true
+            );
+        }
+
         try {
             $searchResponseModels = $this->searchResponseModelFactory->fromSearchResults(
                 $uniqueName,
