@@ -16,6 +16,8 @@ const ListingChoice = {
     props: ['image', 'siteName', 'preparedData'],
     methods: {
         onListingChoice: function() {
+            this.$store.commit('ebaySearchListingLoading', true);
+
             this.$emit('on-ebay-site-choice', this.preparedData);
         }
     }
@@ -131,6 +133,8 @@ export const ListingChoiceComponent = {
         onEbaySiteChoice: function (preparedData) {
             const searchRepo = RepositoryFactory.create('search');
 
+            this.$store.commit('ebaySearchListing', null);
+
             searchRepo.getPreparedEbaySearch({
                 uniqueName: preparedData.uniqueName,
                 globalId: preparedData.globalId,
@@ -142,6 +146,8 @@ export const ListingChoiceComponent = {
                 }
             }, (r) => {
                 const data = r.collection.data;
+
+                this.$store.commit('ebaySearchListingLoading', false);
 
                 this.$store.commit('ebaySearchListing', {
                     items: data,

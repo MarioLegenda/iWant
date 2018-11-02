@@ -874,6 +874,14 @@ html {
   height: 120px;
   border-radius: 10px;
 }
+.SearchItems .EbayResultsLoading {
+  width: 100%;
+  float: left;
+  margin: 30px 0 30px 0;
+  font-size: 2.5em;
+  text-align: center;
+  color: #898989;
+}
 .SearchItems .EbayItems .SiteName {
   width: 100%;
   float: left;

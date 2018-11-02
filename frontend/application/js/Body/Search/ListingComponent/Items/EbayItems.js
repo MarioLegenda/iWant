@@ -83,46 +83,56 @@ export const EbayItems = {
         }
     },
     template: `
-            <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
-                <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
-                <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
-                    <image-item :url="item.image.url"></image-item>
+            <div class="EbayItemsWrapper">
+                <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
+                    <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
+                    <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
+                        <image-item :url="item.image.url"></image-item>
                     
-                    <div class="Row TitleWrapper">
-                        <p>{{item.title.truncated}}</p>
-                    </div>
+                        <div class="Row TitleWrapper">
+                            <p>{{item.title.truncated}}</p>
+                        </div>
                     
-                    <div class="Row PriceWrapper">
-                        <price 
-                            v-bind:price="item.price.price" 
-                            v-bind:currency="item.price.currency">
-                        </price>
-                    </div>
+                        <div class="Row PriceWrapper">
+                            <price 
+                                v-bind:price="item.price.price" 
+                                v-bind:currency="item.price.currency">
+                            </price>
+                        </div>
                     
-                    <div class="Row QuickLookWrapper">
-                        <button>Quick look<i class="fas fa-caret-right"></i></button>
-                    </div>
+                        <div class="Row QuickLookWrapper">
+                            <button>Quick look<i class="fas fa-caret-right"></i></button>
+                        </div>
                     
-                    <div class="Row FullDetailsWrapper">
-                        <button>Full details<i class="fas fa-caret-right"></i></button>
-                    </div>
+                        <div class="Row FullDetailsWrapper">
+                            <button>Full details<i class="fas fa-caret-right"></i></button>
+                        </div>
                     
-                    <div class="Row MarketplaceWrapper">
-                        <a :href="item.viewItemUrl" target="_blank">View on eBay</a>
+                        <div class="Row MarketplaceWrapper">
+                            <a :href="item.viewItemUrl" target="_blank">View on eBay</a>
+                        </div>
                     </div>
+                
+                    <load-more 
+                        @load-more="onLoadMore"
+                        :pagination="ebaySearchListing.pagination"
+                        :currently-loading="currentlyLoading">
+                    </load-more>
                 </div>
                 
-                <load-more 
-                    @load-more="onLoadMore"
-                    :pagination="ebaySearchListing.pagination"
-                    :currently-loading="currentlyLoading">
-                </load-more>
+                <div v-if="ebaySearchListingLoading" class="EbayResultsLoading">
+                    Loading search results
+                </div>
             </div>
             `,
     props: ['classList'],
     computed: {
+        ebaySearchListingLoading() {
+            return this.$store.state.ebaySearchListingLoading;
+        },
         ebaySearchListing: function() {
             const ebaySearchListing = this.$store.state.ebaySearchListing;
+
             if (ebaySearchListing === null) {
                 return null;
             }

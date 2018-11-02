@@ -189,6 +189,7 @@ export class Init {
     static createVueInstance() {
         const store =  new Vuex.Store({
             state: {
+                ebaySearchListingLoading: false,
                 ebaySearchListing: null,
                 searchTerm: null,
                 searchInitialiseEvent: {
@@ -218,6 +219,10 @@ export class Init {
 
                 ebaySearchListing(state, value) {
                     this.state.ebaySearchListing = value;
+                },
+
+                ebaySearchListingLoading(state, value) {
+                    this.state.ebaySearchListingLoading = value;
                 },
 
                 foundSearchProducts(state, value) {
