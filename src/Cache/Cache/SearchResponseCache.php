@@ -3,11 +3,12 @@
 namespace App\Cache\Cache;
 
 use App\Cache\Exception\CacheException;
+use App\Cache\UpdateableCacheInterface;
 use App\Doctrine\Entity\SearchCache;
 use App\Doctrine\Repository\SearchCacheRepository;
 use App\Library\Util\Util;
 
-class SearchResponseCache
+class SearchResponseCache implements UpdateableCacheInterface
 {
     /**
      * @var SearchCacheRepository $searchCacheRepository
@@ -93,6 +94,27 @@ class SearchResponseCache
         );
 
         $this->searchCacheRepository->persistAndFlush($cache);
+    }
+    /**
+     * @param string $key
+     * @param int $page
+     * @param string $value
+     * @throws CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(
+        string $key,
+        int $page,
+        string $value
+    ): void {
+        /** @var SearchCache $searchCache */
+        $searchCache = $this->get($key);
+
+        $searchCache->setProductsResponse($value);
+        $searchCache->setPage($page);
+
+        $this->searchCacheRepository->persistAndFlush($searchCache);
     }
     /**
      * @param iterable $values

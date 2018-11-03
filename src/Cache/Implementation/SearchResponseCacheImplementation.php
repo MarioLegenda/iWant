@@ -68,8 +68,26 @@ class SearchResponseCacheImplementation
         return true;
     }
     /**
+     * @param string $key
+     * @param int $page
+     * @param string $value
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function update(
+        string $key,
+        int $page,
+        string $value
+    ): void {
+        $this->searchResponseCache->update($key, $page, $value);
+    }
+    /**
      * @param string $uniqueName
      * @return string
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function getStored(string $uniqueName): string
     {

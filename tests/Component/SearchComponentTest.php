@@ -56,6 +56,9 @@ class SearchComponentTest extends BasicSetup
 
         $preparedItemsSearchModel = new PreparedItemsSearchModel(
             $preparedEbayResponse->getUniqueName(),
+            'EBAY-DE',
+            'de',
+            false,
             new Pagination($limit, 1)
         );
 
