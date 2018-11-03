@@ -240,7 +240,7 @@ class Util
      */
     public static function getDateTimeApplicationFormat(): string
     {
-        return 'Y-m-d H:m:s';
+        return 'Y-m-d h:i:s';
     }
     /**
      * @return string

@@ -136,9 +136,9 @@ class SearchCache
         return $this->expiresAt;
     }
     /**
-     * @param \DateTime $expiresAt
+     * @param int $expiresAt
      */
-    public function setExpiresAt(\DateTime $expiresAt): void
+    public function setExpiresAt(int $expiresAt): void
     {
         $this->expiresAt = $expiresAt;
     }

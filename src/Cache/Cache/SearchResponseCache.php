@@ -43,9 +43,9 @@ class SearchResponseCache implements UpdateableCacheInterface
 
             $currentTimestamp = Util::toDateTime()->getTimestamp();
 
-            $ttlTimestamp = $expiresAt - $currentTimestamp;
+            $ttlTimestamp = $currentTimestamp - $expiresAt;
 
-            if ($ttlTimestamp > 0) {
+            if ($ttlTimestamp >= 0) {
                 $this->delete($searchCache);
             }
         }
@@ -94,6 +94,7 @@ class SearchResponseCache implements UpdateableCacheInterface
         );
 
         $this->searchCacheRepository->persistAndFlush($cache);
+
     }
     /**
      * @param string $key
@@ -200,7 +201,7 @@ class SearchResponseCache implements UpdateableCacheInterface
         }
 
         if ($key instanceof SearchCache) {
-            $this->searchCacheRepository->getManager()->persist($key);
+            $this->searchCacheRepository->getManager()->remove($key);
             $this->searchCacheRepository->getManager()->flush();
 
             return true;
