@@ -112,7 +112,7 @@ class EbayModelFactory
             [true]
         ));
 
-        $itemFilters[] = $hideDuplicatedItems;
+        //$itemFilters[] = $hideDuplicatedItems;
     }
     /**
      * @param array $selectors

@@ -182,6 +182,11 @@ class PreparedEbayResponseAbstraction
         $preparedResponseArray = $preparedEbayResponse->toArray();
         $encodedPreparedEbayResponse = json_encode($preparedResponseArray);
 
+        if ($encodedPreparedEbayResponse === false) {
+            $fixed = utf8ize($preparedResponseArray);
+            $encodedPreparedEbayResponse = json_encode($fixed);
+        }
+
         $this->preparedResponseCacheImplementation->store(
             $uniqueName,
             $encodedPreparedEbayResponse
@@ -223,6 +228,11 @@ class PreparedEbayResponseAbstraction
             $searchResponseArray = $searchResponseModels->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
             $encodedSearchResponse = json_encode($searchResponseArray);
+
+            if ($encodedSearchResponse === false) {
+                $fixed = utf8ize($searchResponseArray);
+                $encodedSearchResponse = json_encode($fixed);
+            }
 
             $model->setLowestPrice(true);
 

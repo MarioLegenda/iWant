@@ -43,6 +43,9 @@ class SearchResponseCacheCheck extends BaseCommand
      * @param InputInterface $input
      * @param OutputInterface $output
      * @return int|null|void
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function execute(InputInterface $input, OutputInterface $output)
     {
@@ -58,6 +61,20 @@ class SearchResponseCacheCheck extends BaseCommand
             $value
         );
 
+        $response = $this->searchCacheImplementation->getStored($uniqueName);
 
+        if ($response !== $value) {
+            $message = sprintf(
+                'Command failed. %s does not equal %s for unique name %s',
+                $value,
+                $response,
+                $uniqueName
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $output->writeln('');
+        $output->writeln('Command successful. ');
     }
 }
