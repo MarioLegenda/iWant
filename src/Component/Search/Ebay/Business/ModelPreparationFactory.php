@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business;
 
+use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
 use App\Component\Search\Ebay\Model\Response\Image;
@@ -21,23 +22,37 @@ class ModelPreparationFactory
      */
     private $translationService;
     /**
+     * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
+     */
+    private $searchResponseCacheImplementation;
+    /**
      * ModelPreparationFactory constructor.
      * @param TranslationService $translationService
+     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      */
     public function __construct(
-        TranslationService $translationService
+        TranslationService $translationService,
+        SearchResponseCacheImplementation $searchResponseCacheImplementation
     ) {
         $this->translationService = $translationService;
+        $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
     }
     /**
      * @param PreparedItemsSearchModel $model
-     * @param array $searchResults
-     * @return TypedArray|SearchResponseModel
+     * @return TypedArray
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function prepareSearchItems(
-        PreparedItemsSearchModel $model,
-        array $searchResults
+        PreparedItemsSearchModel $model
     ): TypedArray {
+        if (!$this->searchResponseCacheImplementation->isStored($model->getUniqueName())) {
+            return null;
+        }
+
+        $searchResults = json_decode($this->searchResponseCacheImplementation->getStored($model->getUniqueName()), true);
+
         $indexes = $this->createPaginationIndexes($model->getPagination());
 
         $paginatedResults = [];

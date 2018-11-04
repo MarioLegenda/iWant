@@ -2,6 +2,7 @@
 
 namespace App\Doctrine\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -10,15 +11,20 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
+use Doctrine\ORM\Mapping\UniqueConstraint;
+use Doctrine\ORM\Mapping\Index;
 use App\Library\Util\Util;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
 /**
  * @Entity @Table(
- *     name="search_cache"
+ *     name="item_translation_cache",
+ *     uniqueConstraints={ @UniqueConstraint(columns={"unique_name"}), @UniqueConstraint(columns={"item_id"}) },
+ *     indexes={ @Index(name="unique_name_ids", columns={"unique_name"}), @Index(name="item_id_idx", columns={"item_id"}) }
  * )
  * @HasLifecycleCallbacks()
  **/
-class SearchCache
+class ItemTranslationCache implements ArrayNotationInterface
 {
     /**
      * @var int $id
@@ -32,15 +38,15 @@ class SearchCache
      */
     private $uniqueName;
     /**
-     * @var string $productsResponse
+     * @var string $itemId
+     * @Column(type="string")
+     */
+    private $itemId;
+    /**
+     * @var string $itemId
      * @Column(type="text")
      */
-    private $productsResponse;
-    /**
-     * @var int $page
-     * @Column(type="integer")
-     */
-    private $page;
+    private $translations;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
@@ -62,72 +68,28 @@ class SearchCache
      */
     private $updatedAt;
     /**
-     * TodaysProductsCache constructor.
+     * ItemTranslationCache constructor.
      * @param string $uniqueName
-     * @param string $productsResponse
-     * @param int $page
-     * @param int $expiresAt
+     * @param string $itemId
+     * @param array $translations
      */
     public function __construct(
         string $uniqueName,
-        string $productsResponse,
-        int $page,
-        int $expiresAt
+        string $itemId,
+        array $translations
     ) {
-        $this->page = $page;
         $this->uniqueName = $uniqueName;
-        $this->productsResponse = $productsResponse;
-        $this->expiresAt = $expiresAt;
+        $this->itemId = $itemId;
+        $this->translations = $translations;
     }
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
-    /**
-     * @return string
-     */
-    public function getUniqueName(): string
-    {
-        return $this->uniqueName;
-    }
-    /**
-     * @param string $uniqueName
-     */
-    public function setUniqueName(string $uniqueName)
-    {
-        $this->uniqueName = $uniqueName;
-    }
-    /**
-     * @return string
-     */
-    public function getProductsResponse(): string
-    {
-        return $this->productsResponse;
-    }
-    /**
-     * @param string $productsResponse
-     */
-    public function setProductsResponse(string $productsResponse): void
-    {
-        $this->productsResponse = $productsResponse;
-    }
-    /**
-     * @return int
-     */
-    public function getPage(): int
-    {
-        return $this->page;
-    }
-    /**
-     * @param int $page
-     */
-    public function setPage(int $page): void
-    {
-        $this->page = $page;
-    }
+
     /**
      * @return int
      */
@@ -198,5 +160,9 @@ class SearchCache
             $this->setCreatedAt(Util::toDateTime());
             $this->setStoredAt($this->getCreatedAt());
         }
+    }
+
+    public function toArray(): iterable
+    {
     }
 }

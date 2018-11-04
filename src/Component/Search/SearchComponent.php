@@ -63,15 +63,8 @@ class SearchComponent
      */
     public function findEbaySearchByUniqueName(PreparedItemsSearchModel $model): ?iterable
     {
-        if (!$this->searchResponseCacheImplementation->isStored($model->getUniqueName())) {
-            return null;
-        }
-
-        $storedResponse = json_decode($this->searchResponseCacheImplementation->getStored($model->getUniqueName()), true);
-
         $searchResponseModels = $this->modelPreparationFactory->prepareSearchItems(
-            $model,
-            $storedResponse
+            $model
         );
 
         return $searchResponseModels;
