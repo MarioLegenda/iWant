@@ -323,7 +323,7 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\ItemTranslationRepositoryCache:
+    App\Doctrine\Repository\ItemTranslationCacheRepository:
         arguments:
             $registry: '@doctrine'
 

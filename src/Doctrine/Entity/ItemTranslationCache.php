@@ -71,12 +71,12 @@ class ItemTranslationCache implements ArrayNotationInterface
      * ItemTranslationCache constructor.
      * @param string $uniqueName
      * @param string $itemId
-     * @param array $translations
+     * @param string $translations
      */
     public function __construct(
         string $uniqueName,
         string $itemId,
-        array $translations
+        string $translations
     ) {
         $this->uniqueName = $uniqueName;
         $this->itemId = $itemId;
@@ -89,7 +89,20 @@ class ItemTranslationCache implements ArrayNotationInterface
     {
         return $this->id;
     }
-
+    /**
+     * @return string
+     */
+    public function getTranslations(): string
+    {
+        return $this->translations;
+    }
+    /**
+     * @param string $translations
+     */
+    public function setTranslations(string $translations)
+    {
+        $this->translations = $translations;
+    }
     /**
      * @return int
      */

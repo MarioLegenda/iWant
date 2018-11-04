@@ -13,12 +13,12 @@ use App\Component\Search\Ebay\Model\Response\Title;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
-use App\Translation\TranslationService;
+use App\Translation\TranslationCenter;
 
 class ModelPreparationFactory
 {
     /**
-     * @var TranslationService $translationService
+     * @var TranslationCenter $translationService
      */
     private $translationService;
     /**
@@ -27,11 +27,11 @@ class ModelPreparationFactory
     private $searchResponseCacheImplementation;
     /**
      * ModelPreparationFactory constructor.
-     * @param TranslationService $translationService
+     * @param TranslationCenter $translationService
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      */
     public function __construct(
-        TranslationService $translationService,
+        TranslationCenter $translationService,
         SearchResponseCacheImplementation $searchResponseCacheImplementation
     ) {
         $this->translationService = $translationService;

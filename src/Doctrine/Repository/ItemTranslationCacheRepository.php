@@ -6,7 +6,7 @@ use App\Doctrine\Entity\ItemTranslationCache;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
-class ItemTranslationRepositoryCache extends ServiceEntityRepository
+class ItemTranslationCacheRepository extends ServiceEntityRepository
 {
     /**
      * CategoryRepository constructor.

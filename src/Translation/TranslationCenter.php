@@ -16,7 +16,7 @@ use App\Yandex\Library\Response\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use App\Yandex\Presentation\Model\YandexRequestModel;
 
-class TranslationService
+class TranslationCenter
 {
     /**
      * @var YandexEntryPoint $yandexEntryPoint
