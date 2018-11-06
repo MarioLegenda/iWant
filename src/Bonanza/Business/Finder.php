@@ -11,7 +11,6 @@ use App\Bonanza\Library\Response\BonanzaApiResponseModelInterface;
 use App\Bonanza\Presentation\Model\BonanzaApiModelInterface;
 use App\Bonanza\Source\FinderSource;
 use App\Bonanza\Library\Processor\CallTypeProcessor;
-use App\Cache\Implementation\RequestCacheImplementation;
 use App\Library\Processor\ProcessorInterface;
 use App\Library\Util\TypedRecursion;
 use App\Library\Http\Request;
@@ -31,26 +30,19 @@ class Finder
      */
     private $apiKeyPostHeaderProcessor;
     /**
-     * @var RequestCacheImplementation $cacheImplementation
-     */
-    private $cacheImplementation;
-    /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor
-     * @param RequestCacheImplementation $cacheImplementation
      */
     public function __construct(
         FinderSource $finderSource,
         RequestBaseProcessor $requestBaseProcessor,
-        ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor,
-        RequestCacheImplementation $cacheImplementation
+        ApiKeyPostHeaderProcessor $apiKeyPostHeaderProcessor
     ) {
         $this->finderSource = $finderSource;
         $this->apiKeyPostHeaderProcessor = $apiKeyPostHeaderProcessor;
         $this->requestBaseProcessor = $requestBaseProcessor;
-        $this->cacheImplementation = $cacheImplementation;
     }
     /**
      * @param BonanzaApiModelInterface $model

@@ -271,10 +271,6 @@ services:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     # REPOSITORY
-    App\Doctrine\Repository\RequestCacheRepository:
-        arguments:
-            $registry: '@doctrine'
-
     App\Doctrine\Repository\CountryRepository:
         arguments:
             $registry: '@doctrine'
@@ -353,12 +349,6 @@ services:
             $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
             $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
             $shopsRepresentation: '@App\Library\Representation\ShopsRepresentation'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\InvalidateRequestCache:
-        arguments:
-            $requestCacheRepository: '@App\Doctrine\Repository\RequestCacheRepository'
         tags:
             - { name: 'console.command' }
 

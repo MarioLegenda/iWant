@@ -2,7 +2,6 @@
 
 namespace App\Etsy\Business;
 
-use App\Cache\Implementation\RequestCacheImplementation;
 use App\Etsy\Business\Request\FindAllListingActive;
 use App\Etsy\Business\Request\FindAllListingImages;
 use App\Etsy\Business\Request\FindAllListingShippingProfileEntries;
@@ -41,26 +40,19 @@ class Finder
      */
     private $finderSource;
     /**
-     * @var RequestCacheImplementation $cacheImplementation
-     */
-    private $cacheImplementation;
-    /**
      * Finder constructor.
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor
      * @param FinderSource $finderSource
-     * @param RequestCacheImplementation $cacheImplementation
      */
     public function __construct(
         RequestBaseProcessor $requestBaseProcessor,
         ApiKeyProcessor $apiKeyProcessor,
-        FinderSource $finderSource,
-        RequestCacheImplementation $cacheImplementation
+        FinderSource $finderSource
     ) {
         $this->requestBaseProcessor = $requestBaseProcessor;
         $this->apiKeyProcessor = $apiKeyProcessor;
         $this->finderSource = $finderSource;
-        $this->cacheImplementation = $cacheImplementation;
     }
     /**
      * @param EtsyApiModel $model
