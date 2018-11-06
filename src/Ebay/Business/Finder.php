@@ -56,7 +56,7 @@ class Finder
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
      * @throws HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -84,7 +84,7 @@ class Finder
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
      * @throws HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -108,7 +108,7 @@ class Finder
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
      * @throws HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -132,7 +132,7 @@ class Finder
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
      * @throws HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function findItemsInEbayStores(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -156,7 +156,7 @@ class Finder
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
      * @throws HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -180,7 +180,7 @@ class Finder
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
      * @throws HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function getSingleItem(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {

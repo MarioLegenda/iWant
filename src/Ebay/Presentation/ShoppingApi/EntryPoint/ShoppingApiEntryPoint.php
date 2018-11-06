@@ -24,8 +24,8 @@ class ShoppingApiEntryPoint
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -34,8 +34,8 @@ class ShoppingApiEntryPoint
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -44,8 +44,8 @@ class ShoppingApiEntryPoint
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function getSingleItem(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {

@@ -34,20 +34,25 @@ class SingleProductItem implements ArrayNotationInterface
      */
     private $itemId;
     /**
+     * @var string $response
+     * @Column(type="text")
+     */
+    private $response;
+    /**
      * @var MarketplaceType $marketplace
      * @Column(type="string")
      */
     private $marketplace;
     /**
-     * @var string $itemId
-     * @Column(type="string")
+     * @var \DateTime $storedAt
+     * @Column(type="datetime")
      */
-    private $title;
+    private $storedAt;
     /**
-     * @var string $itemId
-     * @Column(type="text")
+     * @var int $expiresAt
+     * @Column(type="integer")
      */
-    private $description;
+    private $expiresAt;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
@@ -61,20 +66,20 @@ class SingleProductItem implements ArrayNotationInterface
     /**
      * SingleProductItem constructor.
      * @param string $itemId
+     * @param string $response
      * @param MarketplaceType $marketplace
-     * @param string $title
-     * @param string $description
+     * @param int $expiresAt
      */
     public function __construct(
         string $itemId,
+        string $response,
         MarketplaceType $marketplace,
-        string $title,
-        string $description
+        int $expiresAt
     ) {
         $this->itemId = $itemId;
-        $this->marketplace = $marketplace;
-        $this->title = $title;
-        $this->description = $description;
+        $this->marketplace = (string) $marketplace;
+        $this->expiresAt = $expiresAt;
+        $this->response = $response;
     }
     /**
      * @return int
@@ -86,13 +91,6 @@ class SingleProductItem implements ArrayNotationInterface
     /**
      * @return string
      */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-    /**
-     * @return string
-     */
     public function getItemId(): string
     {
         return $this->itemId;
@@ -100,9 +98,9 @@ class SingleProductItem implements ArrayNotationInterface
     /**
      * @return string
      */
-    public function getDescription(): string
+    public function getResponse(): string
     {
-        return $this->description;
+        return $this->response;
     }
     /**
      * @return \DateTime
@@ -133,6 +131,34 @@ class SingleProductItem implements ArrayNotationInterface
         $this->updatedAt = $updatedAt;
     }
     /**
+     * @return int
+     */
+    public function getExpiresAt(): int
+    {
+        return $this->expiresAt;
+    }
+    /**
+     * @param int $expiresAt
+     */
+    public function setExpiresAt(int $expiresAt): void
+    {
+        $this->expiresAt = $expiresAt;
+    }
+    /**
+     * @return \DateTime
+     */
+    public function getStoredAt(): \DateTime
+    {
+        return $this->storedAt;
+    }
+    /**
+     * @param \DateTime $storedAt
+     */
+    public function setStoredAt(\DateTime $storedAt): void
+    {
+        $this->storedAt = $storedAt;
+    }
+    /**
      * @PrePersist()
      * @PreUpdate()
      */
@@ -144,6 +170,7 @@ class SingleProductItem implements ArrayNotationInterface
 
         if (!$this->createdAt instanceof \DateTime) {
             $this->setCreatedAt(Util::toDateTime());
+            $this->setStoredAt($this->getCreatedAt());
         }
     }
     /**
@@ -153,8 +180,6 @@ class SingleProductItem implements ArrayNotationInterface
     {
         return [
             'itemId' => $this->getItemId(),
-            'title' => $this->getTitle(),
-            'description' => $this->getDescription(),
             'createdAt' => Util::formatFromDate($this->getCreatedAt()),
             'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
         ];

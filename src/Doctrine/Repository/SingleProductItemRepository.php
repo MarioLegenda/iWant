@@ -30,19 +30,6 @@ class SingleProductItemRepository extends ServiceEntityRepository
 
         return $singleProductItem;
     }
-
-    public function getSingleItemByMarketplaceAndItemId(
-        MarketplaceType $marketplace,
-        string $itemId
-    ): ?SingleProductItem {
-        /** @var SingleProductItem $singleItem */
-        $singleItem = $this->findOneBy([
-            'marketplace' => (string) $marketplace,
-            'itemId' => $itemId,
-        ]);
-
-        return (empty($singleItem)) ? null : $singleItem;
-    }
     /**
      * @return \Doctrine\ORM\EntityManager
      */

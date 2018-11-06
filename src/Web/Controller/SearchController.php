@@ -34,6 +34,7 @@ class SearchController
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws \Throwable
      */
     public function postPrepareEbaySearch(
         EbaySearchModel $model,
@@ -62,6 +63,9 @@ class SearchController
      * @param SearchComponent $searchComponent
      * @param Environment $environment
      * @return JsonResponse
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function getEbaySearchByUniqueName(
         PreparedItemsSearchModel $model,
