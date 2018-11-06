@@ -291,10 +291,6 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\ToggleCacheRepository:
-        arguments:
-            $registry: '@doctrine'
-
     App\Doctrine\Repository\SingleProductItemRepository:
         arguments:
             $registry: '@doctrine'
@@ -363,18 +359,6 @@ services:
     App\Symfony\Command\InvalidateRequestCache:
         arguments:
             $requestCacheRepository: '@App\Doctrine\Repository\RequestCacheRepository'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\ToggleCache:
-        arguments:
-            $toggleCacheRepository: '@App\Doctrine\Repository\ToggleCacheRepository'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\InitialCacheToggle:
-        arguments:
-            $toggleCacheRepository: '@App\Doctrine\Repository\ToggleCacheRepository'
         tags:
             - { name: 'console.command' }
 

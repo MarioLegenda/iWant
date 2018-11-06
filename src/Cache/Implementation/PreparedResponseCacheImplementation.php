@@ -3,10 +3,7 @@
 namespace App\Cache\Implementation;
 
 use App\Cache\Cache\PreparedResponseCache;
-use App\Cache\Cache\SearchResponseCache;
-use App\Doctrine\Entity\ToggleCache;
 use App\Library\Util\Util;
-use App\Doctrine\Repository\ToggleCacheRepository;
 use App\Doctrine\Entity\PreparedResponseCache as PreparedResponseCacheEntity;
 
 class PreparedResponseCacheImplementation
@@ -16,20 +13,13 @@ class PreparedResponseCacheImplementation
      */
     private $preparedResponseCache;
     /**
-     * @var ToggleCacheRepository $toggleCacheRepository
-     */
-    private $toggleCacheRepository;
-    /**
      * TodayProductCacheImplementation constructor.
      * @param PreparedResponseCache $preparedResponseCache
-     * @param ToggleCacheRepository $toggleCacheRepository
      */
     public function __construct(
-        PreparedResponseCache $preparedResponseCache,
-        ToggleCacheRepository $toggleCacheRepository
+        PreparedResponseCache $preparedResponseCache
     ) {
         $this->preparedResponseCache = $preparedResponseCache;
-        $this->toggleCacheRepository = $toggleCacheRepository;
     }
     /**
      * @param string $uniqueName
@@ -40,13 +30,6 @@ class PreparedResponseCacheImplementation
      */
     public function isStored(string $uniqueName): bool
     {
-        /** @var ToggleCache $toggleCache */
-        $toggleCache = $this->toggleCacheRepository->findAll()[0];
-
-        if ($toggleCache->getTodaysKeywordsCache() === false) {
-            return false;
-        }
-
         /** @var PreparedResponseCacheEntity $preparedResponseCacheEntity */
         $preparedResponseCacheEntity = $this->preparedResponseCache->get($uniqueName);
 
@@ -65,13 +48,6 @@ class PreparedResponseCacheImplementation
         string $uniqueName,
         string $value
     ): bool {
-        /** @var ToggleCache $toggleCache */
-        $toggleCache = $this->toggleCacheRepository->findAll()[0];
-
-        if ($toggleCache->getTodaysKeywordsCache() === false) {
-            return false;
-        }
-
         $this->preparedResponseCache->set(
             $uniqueName,
             $value,

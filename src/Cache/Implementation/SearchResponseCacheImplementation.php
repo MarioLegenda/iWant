@@ -4,8 +4,6 @@ namespace App\Cache\Implementation;
 
 use App\Cache\Cache\SearchResponseCache;
 use App\Doctrine\Entity\SearchCache;
-use App\Doctrine\Entity\ToggleCache;
-use App\Doctrine\Repository\ToggleCacheRepository;
 use App\Library\Util\Util;
 
 class SearchResponseCacheImplementation
@@ -15,20 +13,13 @@ class SearchResponseCacheImplementation
      */
     private $searchResponseCache;
     /**
-     * @var SearchResponseCache $searchResponseCache
-     */
-    private $toggleCacheRepository;
-    /**
      * TodayProductCacheImplementation constructor.
      * @param SearchResponseCache $searchResponseCache
-     * @param ToggleCacheRepository $toggleCacheRepository
      */
     public function __construct(
-        SearchResponseCache $searchResponseCache,
-        ToggleCacheRepository $toggleCacheRepository
+        SearchResponseCache $searchResponseCache
     ) {
         $this->searchResponseCache = $searchResponseCache;
-        $this->toggleCacheRepository = $toggleCacheRepository;
     }
 
     /**
