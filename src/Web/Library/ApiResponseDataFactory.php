@@ -2,6 +2,7 @@
 
 namespace App\Web\Library;
 
+use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
 use App\Library\Http\Response\ApiResponseData;
@@ -68,6 +69,21 @@ class ApiResponseDataFactory
             ->addMessage('A list of paginated products')
             ->addPagination($pagination->getLimit(), $pagination->getPage())
             ->isCollection()
+            ->setStatusCode(200)
+            ->build();
+    }
+    /**
+     * @param array $resource
+     * @return ApiResponseData
+     */
+    public function createOptionsResponseData(
+        array $resource
+    ): ApiResponseData {
+        return $this->apiSdk
+            ->create($resource)
+            ->method('OPTIONS')
+            ->addMessage('Options for requesting item data')
+            ->isResource()
             ->setStatusCode(200)
             ->build();
     }
