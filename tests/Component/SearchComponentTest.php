@@ -31,6 +31,8 @@ class SearchComponentTest extends BasicSetup
 
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
 
+        static::assertInstanceOf(PreparedEbayResponse::class, $preparedEbayResponse);
+
         $conn = $this->locator->get('doctrine')->getConnection();
 
         $conn->exec('TRUNCATE prepared_response_cache');

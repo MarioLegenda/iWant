@@ -40,6 +40,7 @@ parameters:
             app_id: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
             version: "1063"
             response_encoding: XML
+
     amazon_product_advertising_api_metadata:
         base_url: http://webservices.amazon
         private_key: '1234567890'
@@ -56,6 +57,7 @@ parameters:
             aws_access_key: 'access_key_stub_to_be_replaced'
             associate_tag: 'iwouldlike855-21'
             version: '2013-08-01'
+
     etsy_api:
         base_url: https://openapi.etsy.com/v2
         api_key: 'arz83jklcrhy8o1b2wfrbzuj'
@@ -213,12 +215,6 @@ services:
         arguments:
             $nexySlack: '@nexy_slack.client'
 
-    # RESOLVER
-    app.symfony.resolver.todays_products_resolver:
-        class: 'App\Symfony\Resolver\TodaysProductsModelResolver'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
-
     app.symfony.resolver.ebay_search_model_resolver:
         class: 'App\Symfony\Resolver\EbaySearchModelResolver'
         tags:
@@ -258,7 +254,7 @@ services:
 
     App\Component\:
         resource: '../src/Component'
-        exclude: '../src/Component/{TodayProducts/Model/*,TodayProducts/Request/Model/*,TodayProducts/Selector/Ebay/Selector/*,TodayProducts/Selector/Etsy/Selector/*,Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*,Search/Etsy/Model/*}'
+        exclude: '../src/Component/{Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*,Search/Etsy/Model/*}'
 
     # EVENT LISTENER
 
@@ -292,10 +288,6 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\ApplicationShopRepository:
-        arguments:
-            $registry: '@doctrine'
-
-    App\Doctrine\Repository\TodaysProductsCacheRepository:
         arguments:
             $registry: '@doctrine'
 

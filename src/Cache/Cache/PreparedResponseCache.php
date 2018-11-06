@@ -14,7 +14,7 @@ class PreparedResponseCache
      */
     private $preparedResponseCacheRepository;
     /**
-     * TodaysProductsCache constructor.
+     * PreparedResponseCache constructor.
      * @param PreparedResponseCacheRepository $preparedResponseCacheRepository
      */
     public function __construct(

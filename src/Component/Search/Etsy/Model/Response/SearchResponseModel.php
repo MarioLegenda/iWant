@@ -45,7 +45,7 @@ class SearchResponseModel implements ArrayNotationInterface
      */
     private $shippingLocations;
     /**
-     * TodayProductRequestModel constructor.
+     * SearchResponseModel constructor.
      * @param string $itemId
      * @param Title $title
      * @param Image $image

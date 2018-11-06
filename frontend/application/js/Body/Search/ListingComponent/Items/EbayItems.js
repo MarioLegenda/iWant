@@ -76,6 +76,28 @@ const LoadMore = {
     }
 };
 
+const QuickLook = {
+    template: `
+                   <div class="Row QuickLookWrapper">
+                       <v-popover offset="16">
+                           <button class="tooltip-target b3">Quick look<i class="fas fa-caret-right"></i></button>
+
+                           <template slot="popover">
+                               <div class="QuickLookWindow">
+                               
+                                   <div class="Row TitleWrapper">
+                                       <h1>Title</h1>
+                                   </div>
+                                   
+                                   
+                               </div>
+                           </template>
+                       </v-popover>
+                   </div>
+               `,
+
+};
+
 export const EbayItems = {
     data: function() {
         return {
@@ -94,15 +116,13 @@ export const EbayItems = {
                         </div>
                     
                         <div class="Row PriceWrapper">
-                            <price 
+                            <price
                                 v-bind:price="item.price.price" 
                                 v-bind:currency="item.price.currency">
                             </price>
                         </div>
                     
-                        <div class="Row QuickLookWrapper">
-                            <button>Quick look<i class="fas fa-caret-right"></i></button>
-                        </div>
+                        <quick-look></quick-look>
                     
                         <div class="Row FullDetailsWrapper">
                             <button>Full details<i class="fas fa-caret-right"></i></button>
@@ -184,5 +204,6 @@ export const EbayItems = {
         'load-more': LoadMore,
         'site-name': SiteName,
         'image-item': ImageItem,
+        'quick-look': QuickLook,
     }
 };

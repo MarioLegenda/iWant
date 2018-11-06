@@ -14,7 +14,7 @@ class ItemTranslationCache
      */
     private $itemTranslationRepository;
     /**
-     * TodaysProductsCache constructor.
+     * ItemTranslationCache constructor.
      * @param ItemTranslationCacheRepository $itemTranslationCacheRepository
      */
     public function __construct(

@@ -92,9 +92,9 @@
   .QuickLookWrapper, .FullDetailsWrapper {
     button {
       position: relative;
-      width: 100%;
+      width: 187px;
       text-align: left;
-      display: block;
+      display: inline-block;
       border: 1px solid $lightestGray;
 
       border-radius: 10px;

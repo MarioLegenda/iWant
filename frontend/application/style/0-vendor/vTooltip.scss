@@ -1,12 +1,16 @@
+.v-popover {
+  width: 100%;
+}
+
 .tooltip {
   display: block !important;
   z-index: 10000;
 
   .tooltip-inner {
-    width: 300px;
-    background: white;
+    width: 480px;
+    background: white !important;
     color: $textColor;
-    border-radius: 16px;
+    border-radius: 30px !important;
     padding: 20px;
 
     letter-spacing: 0.02em;
@@ -28,7 +32,7 @@
   }
 
   &[x-placement^="top"] {
-    margin-bottom: 5px;
+    margin-bottom: 2px;
 
     .tooltip-arrow {
       border-width: 5px 5px 0 5px;
@@ -43,7 +47,7 @@
   }
 
   &[x-placement^="bottom"] {
-    margin-top: 5px;
+    margin-top: 2px;
 
     .tooltip-arrow {
       border-width: 0 5px 5px 5px;

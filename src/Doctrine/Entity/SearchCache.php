@@ -62,7 +62,7 @@ class SearchCache
      */
     private $updatedAt;
     /**
-     * TodaysProductsCache constructor.
+     * SearchCache constructor.
      * @param string $uniqueName
      * @param string $productsResponse
      * @param int $page

@@ -15,7 +15,7 @@ class SearchResponseCache implements UpdateableCacheInterface
      */
     private $searchCacheRepository;
     /**
-     * TodaysProductsCache constructor.
+     * SearchResponseCache constructor.
      * @param SearchCacheRepository $searchCacheRepository
      */
     public function __construct(

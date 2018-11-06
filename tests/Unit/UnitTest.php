@@ -72,28 +72,34 @@ class UnitTest extends TestCase
         $translationsArray = [
             'item' => [
                 'en' => [
+                    'locale' => 'en',
                     'original' => 'original en text',
                     'translated' => 'translated en text',
                 ],
                 'fr' => [
+                    'locale' => 'fr',
                     'original' => 'original fr text',
                     'translated' => 'translated fr text',
                 ],
                 'es' => [
+                    'locale' => 'es',
                     'original' => 'original es text',
                     'translated' => 'translated es text',
                 ]
             ],
             'description' => [
                 'en' => [
+                    'locale' => 'en',
                     'original' => 'original desc en text',
                     'translated' => 'translated desc en text',
                 ],
                 'fr' => [
+                    'locale' => 'fr',
                     'original' => 'original desc fr text',
                     'translated' => 'translated desc fr text',
                 ],
                 'es' => [
+                    'locale' => 'es',
                     'original' => 'original desc es text',
                     'translated' => 'translated desc es text',
                 ]
