@@ -30,6 +30,12 @@ class SearchComponentTest extends BasicSetup
         ]);
 
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
+
+        $conn = $this->locator->get('doctrine')->getConnection();
+
+        $conn->exec('TRUNCATE prepared_response_cache');
+        $conn->exec('TRUNCATE search_cache');
+        $conn->exec('TRUNCATE item_translation_cache');
     }
 
     public function test_search_by_unique_name()
@@ -52,7 +58,7 @@ class SearchComponentTest extends BasicSetup
         /** @var PreparedEbayResponse $preparedEbayResponse */
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
 
-        $limit = 8;
+        $limit = 80;
 
         $preparedItemsSearchModel = new PreparedItemsSearchModel(
             $preparedEbayResponse->getUniqueName(),
@@ -65,5 +71,11 @@ class SearchComponentTest extends BasicSetup
         $responseModels = $searchComponent->findEbaySearchByUniqueName($preparedItemsSearchModel);
 
         static::assertEquals(count($responseModels), $limit);
+
+        $conn = $this->locator->get('doctrine')->getConnection();
+
+        $conn->exec('TRUNCATE prepared_response_cache');
+        $conn->exec('TRUNCATE search_cache');
+        $conn->exec('TRUNCATE item_translation_cache');
     }
 }

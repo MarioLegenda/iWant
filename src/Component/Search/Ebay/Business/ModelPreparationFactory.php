@@ -72,14 +72,20 @@ class ModelPreparationFactory
             $searchResponseModels[] = new SearchResponseModel(
                 $item['uniqueName'],
                 $item['itemId'],
-                new Title($this->translationService->translateSingle($item['title']['original'], $model->getLocale())),
+                new Title($this->translationService->translateSingle(
+                    'title',
+                    $model->getUniqueName(),
+                    $item['itemId'],
+                    $item['title']['original'],
+                    $model->getLocale()
+                )),
                 new Image((is_string($item['image']['url'])) ? $item['image']['url'] : Nan::fromValue()),
                 $item['shopName'],
                 new Price($item['price']['currency'], $item['price']['price']),
                 $item['viewItemUrl'],
                 MarketplaceType::fromValue($item['marketplace']),
                 $item['staticUrl'],
-                $this->translationService->translateSingle($item['taxonomyName'], $model->getLocale()),
+                $item['taxonomyName'],
                 $item['shippingLocations'],
                 $item['globalId']
             );

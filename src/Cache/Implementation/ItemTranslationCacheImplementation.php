@@ -38,7 +38,7 @@ class ItemTranslationCacheImplementation
             $itemId
         );
 
-        return $itemTranslationCache instanceof ItemTranslationCache;
+        return $itemTranslationCache instanceof ItemTranslationCacheEntity;
     }
     /**
      * @param string $uniqueName
@@ -54,7 +54,6 @@ class ItemTranslationCacheImplementation
         string $itemId,
         array $translations
     ): bool {
-
         $this->itemTranslationCache->set(
             $uniqueName,
             $itemId,
@@ -67,11 +66,11 @@ class ItemTranslationCacheImplementation
     /**
      * @param string $uniqueName
      * @param string $itemId
-     * @return array
+     * @return ItemTranslationCacheEntity
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getStored(string $uniqueName, string $itemId): array
+    public function getStored(string $uniqueName, string $itemId): ItemTranslationCacheEntity
     {
         /** @var ItemTranslationCacheEntity $itemTranslationCache */
         $itemTranslationCache = $this->itemTranslationCache->get(
@@ -90,7 +89,7 @@ class ItemTranslationCacheImplementation
             throw new \RuntimeException($message);
         }
 
-        return json_decode($itemTranslationCache->getTranslations(), true);
+        return $itemTranslationCache;
     }
     /**
      * @param string $uniqueName

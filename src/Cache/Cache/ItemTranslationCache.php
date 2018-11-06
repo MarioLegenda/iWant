@@ -35,7 +35,7 @@ class ItemTranslationCache
         string $itemId,
         $default = null
     ): ?ItemTranslationCacheEntity {
-        /** @var ItemTranslationCacheEntity $searchCache */
+        /** @var ItemTranslationCacheEntity $itemTranslationCache */
         $itemTranslationCache = $this->itemTranslationRepository->findOneBy([
             'uniqueName' => $uniqueName,
             'itemId' => $itemId,
@@ -54,7 +54,7 @@ class ItemTranslationCache
         }
 
         return ($itemTranslationCache instanceof ItemTranslationCacheEntity) ?
-            $searchCache :
+            $itemTranslationCache :
             null;
     }
     /**
@@ -139,7 +139,8 @@ class ItemTranslationCache
         $cache = $this->createItemTranslationCache(
             $uniqueName,
             $itemId,
-            $translations
+            $translations,
+            $ttl
         );
 
         $this->itemTranslationRepository->persistAndFlush($cache);
@@ -182,17 +183,20 @@ class ItemTranslationCache
      * @param string $uniqueName
      * @param string $itemId
      * @param string $translations
+     * @param int $ttl
      * @return ItemTranslationCacheEntity
      */
     public function createItemTranslationCache(
         string $uniqueName,
         string $itemId,
-        string $translations
+        string $translations,
+        int $ttl
     ): ItemTranslationCacheEntity {
         return new ItemTranslationCacheEntity(
             $uniqueName,
             $itemId,
-            $translations
+            $translations,
+            $ttl
         );
     }
 }
