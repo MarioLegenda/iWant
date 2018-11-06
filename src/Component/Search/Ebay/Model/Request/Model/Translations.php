@@ -27,7 +27,7 @@ class Translations implements ArrayNotationInterface
                 $itemsGen = Util::createGenerator($item);
 
                 foreach ($itemsGen as $item) {
-                    $locale = $item['key'];
+                    $locale = $item['item']['locale'];
                     $original = $item['item']['original'];
                     $translation = $item['item']['translated'];
 

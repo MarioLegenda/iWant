@@ -52,20 +52,20 @@ class SearchComponentTest extends BasicSetup
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-DE',
-            'pagination' => new Pagination(4, 1),
+            'pagination' => new Pagination(80, 1),
         ]);
 
         /** @var PreparedEbayResponse $preparedEbayResponse */
         $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
 
-        $limit = 80;
+        $limit = 8;
 
         $preparedItemsSearchModel = new PreparedItemsSearchModel(
             $preparedEbayResponse->getUniqueName(),
             'EBAY-DE',
-            'de',
+            'en',
             false,
-            new Pagination($limit, 1)
+            new Pagination(8, 1)
         );
 
         $responseModels = $searchComponent->findEbaySearchByUniqueName($preparedItemsSearchModel);
@@ -73,9 +73,5 @@ class SearchComponentTest extends BasicSetup
         static::assertEquals(count($responseModels), $limit);
 
         $conn = $this->locator->get('doctrine')->getConnection();
-
-        $conn->exec('TRUNCATE prepared_response_cache');
-        $conn->exec('TRUNCATE search_cache');
-        $conn->exec('TRUNCATE item_translation_cache');
     }
 }
