@@ -386,15 +386,14 @@ services:
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\StaleRequestCacheRemove:
-        arguments:
-            $apiRequestCache: '@App\Cache\Cache\ApiRequestCache'
-            $blueDot: '@BlueDot\BlueDot'
-        tags:
-            - { name: 'console.command' }
-
     App\Symfony\Command\Util\SupportedLanguages:
         arguments:
             $yandexEntryPoint: '@App\Yandex\Presentation\EntryPoint\YandexEntryPoint'
+        tags:
+            - { name: 'console.command' }
+
+    App\Symfony\Command\CompleteCacheRemove:
+        arguments:
+            $doctrine: '@doctrine'
         tags:
             - { name: 'console.command' }
