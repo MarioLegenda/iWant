@@ -802,6 +802,16 @@ html {
   margin-top: 5px;
 }
 
+.QuickLookLoader i {
+  width: 20px;
+  height: 20px;
+  display: block;
+  overflow: hidden;
+  margin: 0 auto;
+  font-size: 1.2em;
+  color: #f78f27;
+}
+
 .FiltersWrapper {
   font-size: 16px !important;
   padding: 0 3px 3px 3px;

@@ -77,19 +77,26 @@ const LoadMore = {
 };
 
 const QuickLook = {
+    data: function() {
+        return {
+            item: null,
+        }
+    },
     template: `
                    <div class="Row QuickLookWrapper">
                        <v-popover offset="16">
                            <button class="tooltip-target b3">Quick look<i class="fas fa-caret-right"></i></button>
 
                            <template slot="popover">
-                               <div class="QuickLookWindow">
+                               <div v-if="item === null" class="QuickLookLoader">
+                                    <i class="fas fa-circle-notch fa-spin"></i>
+                               </div>
                                
+                               <div v-if="item" class="QuickLookWindow">
+                                   
                                    <div class="Row TitleWrapper">
                                        <h1>Title</h1>
                                    </div>
-                                   
-                                   
                                </div>
                            </template>
                        </v-popover>

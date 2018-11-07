@@ -174,3 +174,15 @@
     }
   }
 }
+
+.QuickLookLoader {
+  i {
+    width: 20px;
+    height: 20px;
+    display: block;
+    overflow: hidden;
+    margin: 0 auto;
+    font-size: 1.2em;
+    color: $basicOrange;
+  }
+}

@@ -48,21 +48,6 @@ class AppRepository {
     }
 }
 
-class SingleItemRepository {
-    getSingleItem(data, success) {
-        const route = routes.createRoute('app_get_item', {
-            marketplace: data.marketplace,
-            itemId: data.itemId
-        });
-
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
-    }
-}
-
 class SearchRepository {
     postPrepareEbaySearch(data, success, error) {
         return fetch(routes.app_post_prepare_ebay_search, {
@@ -95,6 +80,24 @@ class SearchRepository {
             headers: requiredHeaders,
         })
             .then(parseJson)
+            .then(success)
+            .catch(error);
+    }
+}
+
+class SingleItemRepository {
+    checkSingleItem(data, success, error) {
+        const route = routes.createRoute('app_options_check_single_item', {
+            itemId: data.itemId,
+        });
+
+        return fetch(route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
+            .then((response) => {
+                return response.json()
+            })
             .then(success)
             .catch(error);
     }
