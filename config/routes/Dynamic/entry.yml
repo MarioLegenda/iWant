@@ -42,3 +42,8 @@ app_options_check_single_item:
   path: /ebay/check-single-item/{itemId}
   controller: App\Web\Controller\SingleItemController::optionsCheckSingleItem
   methods: [GET]
+
+app_put_single_item:
+  path: /ebay/create-single-item
+  controller: App\Web\Controller\SingleItemController::putSingleItem
+  methods: [PUT]

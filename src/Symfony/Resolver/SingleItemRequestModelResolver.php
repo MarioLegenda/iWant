@@ -3,7 +3,6 @@
 namespace App\Symfony\Resolver;
 
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
-use App\Library\MarketplaceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
 use Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadata;
@@ -34,15 +33,25 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        $marketplace = $request->get('marketplace');
-        $itemId = $request->get('itemId');
-
-        if (!is_string($marketplace) or !is_string($itemId)) {
+        if ($request->get('_route') !== 'app_put_single_item') {
             return false;
         }
 
+        $content = $request->getContent();
+
+        if (empty($content)) {
+            return false;
+        }
+
+        $decodedContent = json_decode($content, true);
+
+        if (!array_key_exists('itemId', $decodedContent)) {
+            return false;
+        }
+
+        $itemId = $decodedContent['itemId'];
+
         $this->model = new SingleItemRequestModel(
-            MarketplaceType::fromValue($marketplace),
             $itemId
         );
 
