@@ -4,6 +4,7 @@ namespace App\Cache\Implementation;
 
 use App\Cache\Cache\SingleProductItemCache;
 use App\Doctrine\Entity\SingleProductItem;
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
 
@@ -38,7 +39,7 @@ class SingleProductItemCacheImplementation
     /**
      * @param string $itemId
      * @param string $response
-     * @param MarketplaceType $marketplaceType
+     * @param MarketplaceType|TypeInterface $marketplaceType
      * @return bool
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException

@@ -5,7 +5,9 @@ namespace App\Tests\App;
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
+use App\App\Presentation\Model\Response\SingleItemResponseModel;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -47,5 +49,21 @@ class AppTest extends BasicSetup
         static::assertEquals('PUT', $singleItemOptionsResponse->getMethod());
         static::assertInternalType('string', $singleItemOptionsResponse->getRoute());
         static::assertEquals($itemId, $singleItemOptionsResponse->getItemId());
+    }
+
+    public function test_put_single_item_cache()
+    {
+        /** @var SingleItemEntryPoint $singleItemEntryPoint */
+        $singleItemEntryPoint = $this->locator->get(SingleItemEntryPoint::class);
+
+        $dataProvider = $this->locator->get('data_provider.app');
+
+        /** @var SingleItemRequestModel $singleItemRequestModel */
+        $singleItemRequestModel = $dataProvider->createSingleItemRequestModel('283106139038');
+
+        /** @var SingleItemResponseModel $singleItemResponseModel */
+        $singleItemResponseModel = $singleItemEntryPoint->putSingleItem($singleItemRequestModel);
+
+        static::assertInstanceOf(SingleItemResponseModel::class, $singleItemResponseModel);
     }
 }

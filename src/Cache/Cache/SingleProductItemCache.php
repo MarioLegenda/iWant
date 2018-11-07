@@ -58,7 +58,7 @@ class SingleProductItemCache
     /**
      * @param string $itemId
      * @param string $response
-     * @param int $expiresAt
+     * @param int $ttl
      * @param MarketplaceType $marketplaceType
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -67,7 +67,7 @@ class SingleProductItemCache
     public function set(
         string $itemId,
         string $response,
-        int $expiresAt,
+        int $ttl,
         MarketplaceType $marketplaceType
     ) {
         if (empty($ttl)) {
@@ -90,7 +90,7 @@ class SingleProductItemCache
         $cache = $this->createSingleProductItem(
             $itemId,
             $response,
-            $expiresAt,
+            $ttl,
             $marketplaceType
         );
 

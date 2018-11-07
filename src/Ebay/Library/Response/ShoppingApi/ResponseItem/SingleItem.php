@@ -560,6 +560,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
             'endTime' => $this->getEndTime(),
             'viewItemUrlForNaturalSearch' => $this->getViewItemUrlForNaturalSearch(),
             'listingType' => $this->getListingType(),
+            'shipsToLocations' => $this->getShipsToLocations(),
             'location' => $this->getLocation(),
             'paymentMethods' => $this->getPaymentMethods(),
             'galleryUrl' => $this->getGalleryUrl(),

@@ -6,6 +6,7 @@ use App\App\Business\Finder;
 use App\App\Presentation\Model\Request\SingleItemOptionsModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
+use App\App\Presentation\Model\Response\SingleItemResponseModel;
 
 class SingleItemEntryPoint
 {
@@ -23,14 +24,6 @@ class SingleItemEntryPoint
         $this->finder = $finder;
     }
     /**
-     * @param SingleItemRequestModel $model
-     * @return mixed
-     */
-    public function getSingleItem(SingleItemRequestModel $model)
-    {
-        return $this->finder->getSingleItem($model);
-    }
-    /**
      * @param SingleItemOptionsModel $model
      * @return SingleItemOptionsResponse
      * @throws \Doctrine\ORM\ORMException
@@ -39,5 +32,13 @@ class SingleItemEntryPoint
     public function optionsCheckSingleItem(SingleItemOptionsModel $model): SingleItemOptionsResponse
     {
         return $this->finder->createOptionsForSingleItem($model);
+    }
+    /**
+     * @param SingleItemRequestModel $model
+     * @return SingleItemResponseModel
+     */
+    public function putSingleItem(SingleItemRequestModel $model): SingleItemResponseModel
+    {
+        return $this->finder->putSingleItemInCache($model);
     }
 }

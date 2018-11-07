@@ -6,22 +6,26 @@ use App\App\Library\Response\MarketplaceFactoryResponse;
 use App\App\Presentation\Model\Request\SingleItemOptionsModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
+use App\App\Presentation\Model\Response\SingleItemResponseModel;
 use App\Cache\Implementation\SingleProductItemCacheImplementation;
 use App\Doctrine\Entity\Country;
+use App\Doctrine\Entity\SingleProductItem;
 use App\Doctrine\Repository\CountryRepository;
+use App\Ebay\Business\Request\StaticRequestConstructor;
+use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
+use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
+use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
+use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\MarketplaceType;
 use App\Library\Util\TypedRecursion;
 
 class Finder
 {
     /**
-     * @var MarketplaceFactoryFinder $marketplaceFactoryFinder
+     * @var ShoppingApiEntryPoint $shoppingApiEntryPoint
      */
-    private $marketplaceFactoryFinder;
-    /**
-     * @var MarketplaceFactoryResponse $marketplaceFactoryResponse
-     */
-    private $marketplaceFactoryResponse;
+    private $shoppingApiEntryPoint;
     /**
      * @var CountryRepository $countryRepository
      */
@@ -32,32 +36,18 @@ class Finder
     private $singleProductItemCacheImplementation;
     /**
      * Finder constructor.
-     * @param MarketplaceFactoryFinder $marketplaceFactoryFinder
-     * @param MarketplaceFactoryResponse $marketplaceFactoryResponse
      * @param CountryRepository $countryRepository
+     * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
      * @param SingleProductItemCacheImplementation $singleProductItemCacheImplementation
      */
     public function __construct(
-        MarketplaceFactoryFinder $marketplaceFactoryFinder,
-        MarketplaceFactoryResponse $marketplaceFactoryResponse,
         CountryRepository $countryRepository,
+        ShoppingApiEntryPoint $shoppingApiEntryPoint,
         SingleProductItemCacheImplementation $singleProductItemCacheImplementation
     ) {
-        $this->marketplaceFactoryFinder = $marketplaceFactoryFinder;
-        $this->marketplaceFactoryResponse = $marketplaceFactoryResponse;
+        $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->countryRepository = $countryRepository;
         $this->singleProductItemCacheImplementation = $singleProductItemCacheImplementation;
-    }
-    /**
-     * @param SingleItemRequestModel $model
-     * @return \App\Doctrine\Entity\SingleProductItem
-     */
-    public function getSingleItem(SingleItemRequestModel $model)
-    {
-        $singleItem = $this->marketplaceFactoryFinder
-            ->getSingleItem($model->getMarketplace(), $model->getItemId());
-
-        return $singleItem;
     }
     /**
      * @return TypedArray
@@ -89,5 +79,37 @@ class Finder
                 'route',
             $model->getItemId()
         );
+    }
+
+    public function putSingleItemInCache(SingleItemRequestModel $model): SingleItemResponseModel
+    {
+        if ($this->singleProductItemCacheImplementation->isStored($model->getItemId())) {
+            /** @var SingleProductItem $singleItemDecoded */
+            $singleProductItem = $this->singleProductItemCacheImplementation->getStored($model->getItemId());
+
+            return new SingleItemResponseModel(
+                $singleProductItem->getItemId(),
+                json_decode($singleProductItem->getResponse(), true)
+            );
+        }
+
+        /** @var ShoppingApiModel|ShoppingApiRequestModelInterface $requestModel */
+        $requestModel = StaticRequestConstructor::createEbaySingleItemRequest($model->getItemId());
+
+        /** @var GetSingleItemResponse $responseModel */
+        $responseModel = $this->shoppingApiEntryPoint->getSingleItem($requestModel);
+
+        $singleItemResponseModel = new SingleItemResponseModel(
+            $model->getItemId(),
+            $responseModel->getSingleItem()->toArray()
+        );
+
+        $this->singleProductItemCacheImplementation->store(
+            $model->getItemId(),
+            json_encode($singleItemResponseModel->toArray()),
+            MarketplaceType::fromValue('Ebay')
+        );
+
+        return $singleItemResponseModel;
     }
 }

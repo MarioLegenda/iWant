@@ -86,8 +86,6 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         SeekException |
         TooManyRedirectsException |
         TransferException $e) {
-            dump($e->getMessage());
-            die();
             $message = 'A network problem on the Ebay external api has been detected';
             if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
                 $message = $e->getMessage();

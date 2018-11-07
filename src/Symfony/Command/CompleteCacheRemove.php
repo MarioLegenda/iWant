@@ -47,6 +47,7 @@ class CompleteCacheRemove extends BaseCommand
             'prepared_response_cache',
             'search_cache',
             'item_translation_cache',
+            'single_product_item',
         ];
 
         $this->output->writeln('');
