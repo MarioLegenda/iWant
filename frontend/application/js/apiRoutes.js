@@ -9,6 +9,7 @@ export const routes = {
     app_post_prepare_ebay_search: '/api/v1/ebay/prepare-search',
     app_get_prepared_ebay_search: '/api/v1/ebay/get-prepared-search/:searchData',
     app_options_check_single_item: '/api/v1/ebay/check-single-item/:itemId',
+    app_put_single_item: '/api/v1/ebay/create-single-item',
 
     createRoute: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {

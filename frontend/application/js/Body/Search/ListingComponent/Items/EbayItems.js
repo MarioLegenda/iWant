@@ -80,11 +80,12 @@ const QuickLook = {
     data: function() {
         return {
             item: null,
+            showPopover: false
         }
     },
     template: `
                    <div class="Row QuickLookWrapper">
-                       <v-popover offset="16">
+                       <v-popover :open="showPopover" offset="16">
                            <button class="tooltip-target b3" @click="loadItem">Quick look<i class="fas fa-caret-right"></i></button>
 
                            <template slot="popover">
@@ -105,21 +106,29 @@ const QuickLook = {
     props: ['itemId'],
     methods: {
         loadItem: function() {
-            console.log(this.item);
+            this.showPopover = !this.showPopover;
 
-            const singleItemRepo = RepositoryFactory.create('single-item');
+            if (this.showPopover === false) {
+                return;
+            }
 
-            singleItemRepo.checkSingleItem({
-                itemId: this.itemId
-            }, (r) => {
-                const options = r.resource.data;
+            if (this.item === null) {
+                const singleItemRepo = RepositoryFactory.create('single-item');
 
-                if (options.method === 'PUT') {
+                singleItemRepo.checkSingleItem({
+                    itemId: this.itemId
+                }, (r) => {
+                    const options = r.resource.data;
 
-                } else if (options.method === 'GET') {
-
-                }
-            });
+                    if (options.method === 'PUT') {
+                        singleItemRepo.putSingleItem({
+                            itemId: this.itemId,
+                        }, (r) => this.item = r.resource.data.singleItem)
+                    } else if (options.method === 'GET') {
+                        
+                    }
+                });
+            }
         }
     }
 };

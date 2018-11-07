@@ -101,6 +101,19 @@ class SingleItemRepository {
             .then(success)
             .catch(error);
     }
+
+    putSingleItem(data, success, error) {
+        return fetch(routes.app_put_single_item, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            headers: requiredHeaders,
+        })
+            .then((response) => {
+                return response.json()
+            })
+            .then(success)
+            .catch(error);
+    }
 }
 
 class Factory {
