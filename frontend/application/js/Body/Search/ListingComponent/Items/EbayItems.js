@@ -85,24 +85,43 @@ const QuickLook = {
     template: `
                    <div class="Row QuickLookWrapper">
                        <v-popover offset="16">
-                           <button class="tooltip-target b3">Quick look<i class="fas fa-caret-right"></i></button>
+                           <button class="tooltip-target b3" @click="loadItem">Quick look<i class="fas fa-caret-right"></i></button>
 
                            <template slot="popover">
                                <div v-if="item === null" class="QuickLookLoader">
                                     <i class="fas fa-circle-notch fa-spin"></i>
                                </div>
                                
-                               <div v-if="item" class="QuickLookWindow">
+                               <div v-if="item !== null" class="QuickLookWindow">
                                    
                                    <div class="Row TitleWrapper">
-                                       <h1>Title</h1>
+                                       <h1>{{item.title}}</h1>
                                    </div>
                                </div>
                            </template>
                        </v-popover>
                    </div>
                `,
+    props: ['itemId'],
+    methods: {
+        loadItem: function() {
+            console.log(this.item);
 
+            const singleItemRepo = RepositoryFactory.create('single-item');
+
+            singleItemRepo.checkSingleItem({
+                itemId: this.itemId
+            }, (r) => {
+                const options = r.resource.data;
+
+                if (options.method === 'PUT') {
+
+                } else if (options.method === 'GET') {
+
+                }
+            });
+        }
+    }
 };
 
 export const EbayItems = {
@@ -129,7 +148,7 @@ export const EbayItems = {
                             </price>
                         </div>
                     
-                        <quick-look></quick-look>
+                        <quick-look :item-id="item.itemId"></quick-look>
                     
                         <div class="Row FullDetailsWrapper">
                             <button>Full details<i class="fas fa-caret-right"></i></button>

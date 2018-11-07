@@ -240,6 +240,11 @@ services:
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 
+    app.symfony.resolver.single_item_options_model:
+        class: 'App\Symfony\Resolver\SingleItemOptionsModelResolver'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
+
     # CONTROLLER
 
     App\Web\:
