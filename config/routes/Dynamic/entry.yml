@@ -47,3 +47,8 @@ app_put_single_item:
   path: /ebay/create-single-item
   controller: App\Web\Controller\SingleItemController::putSingleItem
   methods: [PUT]
+
+app_get_single_item:
+  path: /ebay/get-single-item/{itemId}
+  controller: App\Web\Controller\SingleItemController:getSingleItem
+  methods: [GET]

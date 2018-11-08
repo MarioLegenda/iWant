@@ -19,6 +19,8 @@ use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\TypedRecursion;
+use App\Symfony\Exception\HttpException;
+use Symfony\Component\Routing\Router;
 
 class Finder
 {
@@ -35,19 +37,26 @@ class Finder
      */
     private $singleProductItemCacheImplementation;
     /**
+     * @var Router $router
+     */
+    private $router;
+    /**
      * Finder constructor.
      * @param CountryRepository $countryRepository
      * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
      * @param SingleProductItemCacheImplementation $singleProductItemCacheImplementation
+     * @param Router $router
      */
     public function __construct(
         CountryRepository $countryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
-        SingleProductItemCacheImplementation $singleProductItemCacheImplementation
+        SingleProductItemCacheImplementation $singleProductItemCacheImplementation,
+        Router $router
     ) {
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->countryRepository = $countryRepository;
         $this->singleProductItemCacheImplementation = $singleProductItemCacheImplementation;
+        $this->router = $router;
     }
     /**
      * @return TypedArray
@@ -57,6 +66,29 @@ class Finder
         $countries = $this->countryRepository->findAll();
 
         return TypedArray::create('integer', Country::class, $countries);
+    }
+    /**
+     * @param SingleItemRequestModel $model
+     * @return SingleItemResponseModel
+     * @throws HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getSingleItem(SingleItemRequestModel $model)
+    {
+        if (!$this->singleProductItemCacheImplementation->isStored($model->getItemId())) {
+            throw new HttpException(sprintf(
+                'Non allowed usage of getting a single item'
+            ));
+        }
+
+        /** @var SingleProductItem $singleProductItem */
+        $singleProductItem = $this->singleProductItemCacheImplementation->getStored($model->getItemId());
+
+        return new SingleItemResponseModel(
+            $model->getItemId(),
+            json_decode($singleProductItem->getResponse(), true)
+        );
     }
     /**
      * @param SingleItemOptionsModel $model
@@ -69,28 +101,34 @@ class Finder
         if ($this->singleProductItemCacheImplementation->isStored($model->getItemId())) {
             return new SingleItemOptionsResponse(
                 'GET',
-                    'route',
+                    $this->router->generate('app_get_single_item', [
+                        'itemId' => $model->getItemId(),
+                    ]),
                 $model->getItemId()
             );
         }
 
         return new SingleItemOptionsResponse(
             'PUT',
-                'route',
+                $this->router->generate('app_put_single_item'),
             $model->getItemId()
         );
     }
-
+    /**
+     * @param SingleItemRequestModel $model
+     * @return SingleItemResponseModel
+     * @throws HttpException
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function putSingleItemInCache(SingleItemRequestModel $model): SingleItemResponseModel
     {
         if ($this->singleProductItemCacheImplementation->isStored($model->getItemId())) {
-            /** @var SingleProductItem $singleItemDecoded */
-            $singleProductItem = $this->singleProductItemCacheImplementation->getStored($model->getItemId());
-
-            return new SingleItemResponseModel(
-                $singleProductItem->getItemId(),
-                json_decode($singleProductItem->getResponse(), true)
-            );
+            throw new HttpException(sprintf(
+                'Non allowed usage of getting a single item'
+            ));
         }
 
         /** @var ShoppingApiModel|ShoppingApiRequestModelInterface $requestModel */

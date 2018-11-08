@@ -104,6 +104,10 @@ services:
         resource: '../src/App/*'
         exclude: '../src/App/{Presentation/Model/*}'
 
+    App\App\Business\Finder:
+        arguments:
+            $router: '@router'
+
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'

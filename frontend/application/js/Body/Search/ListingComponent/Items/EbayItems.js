@@ -125,7 +125,7 @@ const QuickLook = {
                             itemId: this.itemId,
                         }, (r) => this.item = r.resource.data.singleItem)
                     } else if (options.method === 'GET') {
-                        
+
                     }
                 });
             }

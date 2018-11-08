@@ -36,9 +36,25 @@ class SingleItemEntryPoint
     /**
      * @param SingleItemRequestModel $model
      * @return SingleItemResponseModel
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function putSingleItem(SingleItemRequestModel $model): SingleItemResponseModel
     {
         return $this->finder->putSingleItemInCache($model);
+    }
+    /**
+     * @param SingleItemRequestModel $model
+     * @return SingleItemResponseModel
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getSingleItem(SingleItemRequestModel $model): SingleItemResponseModel
+    {
+        return $this->finder->getSingleItem($model);
     }
 }

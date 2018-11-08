@@ -50,6 +50,11 @@ class SingleItemController
      * @param SingleItemRequestModel $singleItemRequestModel
      * @param SingleItemEntryPoint $singleItemEntryPoint
      * @return JsonResponse
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function putSingleItem(
         SingleItemRequestModel $singleItemRequestModel,
@@ -57,6 +62,29 @@ class SingleItemController
     ) {
         /** @var SingleItemResponseModel $singleItemReponseModel */
         $singleItemResponseModel = $singleItemEntryPoint->putSingleItem($singleItemRequestModel);
+
+        $responseData = $this->apiResponseDataFactory->createSingleItemResponseData(
+            $singleItemResponseModel->toArray()
+        );
+
+        return new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+    }
+    /**
+     * @param SingleItemRequestModel $singleItemRequestModel
+     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @return JsonResponse
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getSingleItem(
+        SingleItemRequestModel $singleItemRequestModel,
+        SingleItemEntryPoint $singleItemEntryPoint
+    ) {
+        $singleItemResponseModel = $singleItemEntryPoint->getSingleItem($singleItemRequestModel);
 
         $responseData = $this->apiResponseDataFactory->createSingleItemResponseData(
             $singleItemResponseModel->toArray()
