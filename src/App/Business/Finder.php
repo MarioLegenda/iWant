@@ -7,7 +7,9 @@ use App\App\Presentation\Model\Request\SingleItemOptionsModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
 use App\App\Presentation\Model\Response\SingleItemResponseModel;
+use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Cache\Implementation\SingleProductItemCacheImplementation;
+use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
 use App\Doctrine\Repository\CountryRepository;
@@ -41,22 +43,29 @@ class Finder
      */
     private $router;
     /**
+     * @var ItemTranslationCacheImplementation $itemTranslationCacheImplementation
+     */
+    private $itemTranslationCacheImplementation;
+    /**
      * Finder constructor.
      * @param CountryRepository $countryRepository
      * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
      * @param SingleProductItemCacheImplementation $singleProductItemCacheImplementation
+     * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param Router $router
      */
     public function __construct(
         CountryRepository $countryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
         SingleProductItemCacheImplementation $singleProductItemCacheImplementation,
+        ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         Router $router
     ) {
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->countryRepository = $countryRepository;
         $this->singleProductItemCacheImplementation = $singleProductItemCacheImplementation;
         $this->router = $router;
+        $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
     }
     /**
      * @return TypedArray
@@ -104,6 +113,7 @@ class Finder
                 'GET',
                     $this->router->generate('app_get_single_item', [
                         'itemId' => $model->getItemId(),
+                        'locale' => $model->getLocale(),
                     ]),
                 $model->getItemId()
             );
@@ -138,9 +148,19 @@ class Finder
         /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->shoppingApiEntryPoint->getSingleItem($requestModel);
 
+        $singleItemArray = $responseModel->getSingleItem()->toArray();
+
+        $translations = $this->getTranslations($model->getItemId());
+
+        $singleItemArray = $this->putTranslationsIntoSingleItemArray(
+            $translations,
+            $model->getLocale(),
+            $singleItemArray
+        );
+
         $singleItemResponseModel = new SingleItemResponseModel(
             $model->getItemId(),
-            $responseModel->getSingleItem()->toArray()
+            $singleItemArray
         );
 
         $this->singleProductItemCacheImplementation->store(
@@ -150,5 +170,38 @@ class Finder
         );
 
         return $singleItemResponseModel;
+    }
+    /**
+     * @param string $itemId
+     * @return Translations
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function getTranslations(string $itemId): Translations
+    {
+        $itemTranslation = $this->itemTranslationCacheImplementation->getStoredByItemId($itemId);
+
+        return new Translations(json_decode($itemTranslation->getTranslations(), true));
+    }
+    /**
+     * @param Translations $translations
+     * @param string $locale
+     * @param array $singleItem
+     * @return array
+     */
+    private function putTranslationsIntoSingleItemArray(
+        Translations $translations,
+        string $locale,
+        array $singleItem
+    ): array {
+        $items = ['title'];
+
+        foreach ($items as $item) {
+            if ($translations->hasEntryByLocale($item, $locale)) {
+                $singleItem[$item] = $translations->getEntryByLocale($item, $locale)->getTranslation();
+            }
+        }
+
+        return $singleItem;
     }
 }

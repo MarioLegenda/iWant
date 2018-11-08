@@ -37,14 +37,34 @@ class SingleItemOptionsModelResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        $itemId = (string) $request->get('itemId');
+        $data = $this->extractDataFromUrl($request);
 
-        if (!is_string($itemId)) {
+        if (!is_array($data)) {
             return false;
         }
 
-        $this->model = new SingleItemOptionsModel($itemId);
+        $this->model = new SingleItemOptionsModel(
+            $data['itemId'],
+            $data['locale']
+        );
 
         return true;
+    }
+    /**
+     * @param Request $request
+     * @return null|array
+     */
+    private function extractDataFromUrl(Request $request): ?array
+    {
+        $itemId = $request->get('itemId');
+        $locale = $request->get('locale');
+        if (!is_string($itemId) OR !is_string($locale)) {
+            return null;
+        }
+
+        return [
+            'itemId' => $itemId,
+            'locale' => $locale,
+        ];
     }
 }

@@ -116,14 +116,16 @@ const QuickLook = {
                 const singleItemRepo = RepositoryFactory.create('single-item');
 
                 singleItemRepo.checkSingleItem({
-                    itemId: this.itemId
+                    itemId: this.itemId,
+                    locale: this.$localeInfo.locale,
                 }, (r) => {
                     const options = r.resource.data;
 
                     if (options.method === 'PUT') {
                         singleItemRepo.putSingleItem({
                             itemId: this.itemId,
-                            route: options.route
+                            route: options.route,
+                            locale: this.$localeInfo.locale
                         }, (r) => this.item = r.resource.data.singleItem)
                     } else if (options.method === 'GET') {
                         singleItemRepo.getSingleItem({

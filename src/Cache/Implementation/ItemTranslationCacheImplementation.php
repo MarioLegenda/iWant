@@ -41,6 +41,22 @@ class ItemTranslationCacheImplementation
         return $itemTranslationCache instanceof ItemTranslationCacheEntity;
     }
     /**
+     * @param string $itemId
+     * @return bool
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function isStoredByItemId(
+        string $itemId
+    ): bool {
+        /** @var ItemTranslationCache $itemTranslationCache */
+        $itemTranslationCache = $this->itemTranslationCache->getByItemId(
+            $itemId
+        );
+
+        return $itemTranslationCache instanceof ItemTranslationCacheEntity;
+    }
+    /**
      * @param string $uniqueName
      * @param string $itemId
      * @param array $translations
@@ -75,6 +91,32 @@ class ItemTranslationCacheImplementation
         /** @var ItemTranslationCacheEntity $itemTranslationCache */
         $itemTranslationCache = $this->itemTranslationCache->get(
             $uniqueName,
+            $itemId
+        );
+
+        if (!$itemTranslationCache instanceof ItemTranslationCacheEntity) {
+            $message = sprintf(
+                'Invalid usage of %s::getStored(). This method should always return a %s. Check if a resource is stored with %s::isStored()',
+                get_class($this),
+                ItemTranslationCache::class,
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return $itemTranslationCache;
+    }
+    /**
+     * @param string $itemId
+     * @return ItemTranslationCacheEntity
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getStoredByItemId(string $itemId)
+    {
+        /** @var ItemTranslationCacheEntity $itemTranslationCache */
+        $itemTranslationCache = $this->itemTranslationCache->getByItemId(
             $itemId
         );
 

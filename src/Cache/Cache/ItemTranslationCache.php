@@ -58,6 +58,38 @@ class ItemTranslationCache
             null;
     }
     /**
+     * @param string $itemId
+     * @param null $default
+     * @return ItemTranslationCacheEntity|null
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getByItemId(
+        string $itemId,
+        $default = null
+    ): ?ItemTranslationCacheEntity {
+        /** @var ItemTranslationCacheEntity $itemTranslationCache */
+        $itemTranslationCache = $this->itemTranslationRepository->findOneBy([
+            'itemId' => $itemId,
+        ]);
+
+        if ($itemTranslationCache instanceof ItemTranslationCacheEntity) {
+            $expiresAt = $itemTranslationCache->getExpiresAt();
+
+            $currentTimestamp = Util::toDateTime()->getTimestamp();
+
+            $ttlTimestamp = $currentTimestamp - $expiresAt;
+
+            if ($ttlTimestamp >= 0) {
+                $this->deleteObject($itemTranslationCache);
+            }
+        }
+
+        return ($itemTranslationCache instanceof ItemTranslationCacheEntity) ?
+            $itemTranslationCache :
+            null;
+    }
+    /**
      * @param ItemTranslationCacheEntity $itemTranslationCache
      * @return bool
      * @throws \Doctrine\ORM\ORMException

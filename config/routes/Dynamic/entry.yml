@@ -39,7 +39,7 @@ app_get_ebay_global_id_information:
   methods: [GET]
 
 app_options_check_single_item:
-  path: /ebay/check-single-item/{itemId}
+  path: /ebay/check-single-item/{locale}/{itemId}
   controller: App\Web\Controller\SingleItemController::optionsCheckSingleItem
   methods: [GET]
 
@@ -49,6 +49,6 @@ app_put_single_item:
   methods: [PUT]
 
 app_get_single_item:
-  path: /ebay/get-single-item/{itemId}
+  path: /ebay/get-single-item/{locale}/{itemId}
   controller: App\Web\Controller\SingleItemController:getSingleItem
   methods: [GET]

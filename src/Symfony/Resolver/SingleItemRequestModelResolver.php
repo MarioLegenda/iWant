@@ -42,28 +42,29 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        $itemId = null;
+        $data = null;
         if ($request->get('_route') === 'app_put_single_item') {
-            $itemId = $this->extractItemIdFromBody($request);
+            $data = $this->extractItemIdFromBody($request);
         } else if ($request->get('_route') === 'app_get_single_item') {
-            $itemId = $this->extractItemIdFromUrl($request);
+            $data = $this->extractDataFromUrl($request);
         }
 
-        if (!is_string($itemId)) {
+        if (!is_array($data)) {
             return false;
         }
 
         $this->model = new SingleItemRequestModel(
-            $itemId
+            $data['itemId'],
+            $data['locale']
         );
 
         return true;
     }
     /**
      * @param Request $request
-     * @return null|string
+     * @return null|array
      */
-    private function extractItemIdFromBody(Request $request): ?string
+    private function extractItemIdFromBody(Request $request): ?array
     {
         $content = $request->getContent();
 
@@ -73,24 +74,31 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
 
         $decodedContent = json_decode($content, true);
 
-        if (!array_key_exists('itemId', $decodedContent)) {
+        if (!array_key_exists('itemId', $decodedContent) OR
+            !array_key_exists('locale', $decodedContent)) {
             return null;
         }
 
-        return (string) $decodedContent['itemId'];
+        return [
+            'itemId' => $decodedContent['itemId'],
+            'locale' => $decodedContent['locale']
+        ];
     }
     /**
      * @param Request $request
-     * @return null|string
+     * @return null|array
      */
-    private function extractItemIdFromUrl(Request $request): ?string
+    private function extractDataFromUrl(Request $request): ?array
     {
         $itemId = $request->get('itemId');
-
-        if (!is_string($itemId)) {
+        $locale = $request->get('locale');
+        if (!is_string($itemId) OR !is_string($locale)) {
             return null;
         }
 
-        return $itemId;
+        return [
+            'itemId' => $itemId,
+            'locale' => $locale,
+        ];
     }
 }

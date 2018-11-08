@@ -88,6 +88,7 @@ class SearchRepository {
 class SingleItemRepository {
     checkSingleItem(data, success, error) {
         const route = routes.createRouteFromName('app_options_check_single_item', {
+            locale: data.locale,
             itemId: data.itemId,
         });
 
@@ -105,7 +106,7 @@ class SingleItemRepository {
     putSingleItem(data, success, error) {
         return fetch(data.route, {
             method: 'PUT',
-            body: JSON.stringify({itemId: data.itemId}),
+            body: JSON.stringify({itemId: data.itemId, locale: data.locale}),
             headers: requiredHeaders,
         })
             .then((response) => {
