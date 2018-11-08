@@ -91,7 +91,7 @@ class ApiResponseDataFactory
      * @param array $resource
      * @return ApiResponseData
      */
-    public function createSingleItemResponseData(
+    public function createSingleItemPutResponseData(
         array $resource
     ): ApiResponseData {
         return $this->apiSdk
@@ -100,6 +100,21 @@ class ApiResponseDataFactory
             ->addMessage('Created a single item')
             ->isResource()
             ->setStatusCode(201)
+            ->build();
+    }
+    /**
+     * @param array $resource
+     * @return ApiResponseData
+     */
+    public function createSingleItemGetResponseData(
+        array $resource
+    ) {
+        return $this->apiSdk
+            ->create($resource)
+            ->method('GET')
+            ->addMessage('Fetched a single item')
+            ->isResource()
+            ->setStatusCode(200)
             ->build();
     }
 }

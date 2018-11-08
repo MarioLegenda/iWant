@@ -69,7 +69,7 @@ class SearchRepository {
     }
 
     getPreparedEbaySearch(data, success, error) {
-        const route = routes.createRoute('app_get_prepared_ebay_search', {
+        const route = routes.createRouteFromName('app_get_prepared_ebay_search', {
             searchData: JSON.stringify({
                 searchData: data
             })
@@ -87,7 +87,7 @@ class SearchRepository {
 
 class SingleItemRepository {
     checkSingleItem(data, success, error) {
-        const route = routes.createRoute('app_options_check_single_item', {
+        const route = routes.createRouteFromName('app_options_check_single_item', {
             itemId: data.itemId,
         });
 
@@ -103,13 +103,25 @@ class SingleItemRepository {
     }
 
     putSingleItem(data, success, error) {
-        return fetch(routes.app_put_single_item, {
+        return fetch(data.route, {
             method: 'PUT',
-            body: JSON.stringify(data),
+            body: JSON.stringify({itemId: data.itemId}),
             headers: requiredHeaders,
         })
             .then((response) => {
                 return response.json()
+            })
+            .then(success)
+            .catch(error);
+    }
+
+    getSingleItem(data, success, error) {
+        return fetch(data.route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
+            .then((response) => {
+                return response.json();
             })
             .then(success)
             .catch(error);

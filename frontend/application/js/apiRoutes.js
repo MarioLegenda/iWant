@@ -9,9 +9,8 @@ export const routes = {
     app_post_prepare_ebay_search: '/api/v1/ebay/prepare-search',
     app_get_prepared_ebay_search: '/api/v1/ebay/get-prepared-search/:searchData',
     app_options_check_single_item: '/api/v1/ebay/check-single-item/:itemId',
-    app_put_single_item: '/api/v1/ebay/create-single-item',
 
-    createRoute: function(routeName, params) {
+    createRouteFromName: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {
             let resolvedItem = this[routeName];
 
@@ -31,5 +30,23 @@ export const routes = {
 
             return resolvedItem;
         }
+    },
+
+    createRoute: function(route, params) {
+        for (let param in params) {
+            if (params.hasOwnProperty(param)) {
+                let realParam = params[param];
+
+                let testReg = new RegExp(`:${param}`);
+
+                if (testReg.test(route)) {
+                    let replaceRegex = new RegExp(`:${param}`);
+
+                    route = route.replace(replaceRegex, realParam);
+                }
+            }
+        }
+
+        return route;
     }
 };

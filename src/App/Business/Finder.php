@@ -85,9 +85,10 @@ class Finder
         /** @var SingleProductItem $singleProductItem */
         $singleProductItem = $this->singleProductItemCacheImplementation->getStored($model->getItemId());
 
+        $decodedSingleItem = json_decode($singleProductItem->getResponse(), true)['singleItem'];
         return new SingleItemResponseModel(
             $model->getItemId(),
-            json_decode($singleProductItem->getResponse(), true)
+            $decodedSingleItem
         );
     }
     /**

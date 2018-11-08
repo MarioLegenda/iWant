@@ -33,28 +33,64 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        if ($request->get('_route') !== 'app_put_single_item') {
+        $supportedRoutes = [
+            'app_put_single_item',
+            'app_get_single_item',
+        ];
+
+        if (!in_array($request->get('_route'), $supportedRoutes)) {
             return false;
         }
 
-        $content = $request->getContent();
-
-        if (empty($content)) {
-            return false;
+        $itemId = null;
+        if ($request->get('_route') === 'app_put_single_item') {
+            $itemId = $this->extractItemIdFromBody($request);
+        } else if ($request->get('_route') === 'app_get_single_item') {
+            $itemId = $this->extractItemIdFromUrl($request);
         }
 
-        $decodedContent = json_decode($content, true);
-
-        if (!array_key_exists('itemId', $decodedContent)) {
+        if (!is_string($itemId)) {
             return false;
         }
-
-        $itemId = $decodedContent['itemId'];
 
         $this->model = new SingleItemRequestModel(
             $itemId
         );
 
         return true;
+    }
+    /**
+     * @param Request $request
+     * @return null|string
+     */
+    private function extractItemIdFromBody(Request $request): ?string
+    {
+        $content = $request->getContent();
+
+        if (empty($content)) {
+            return null;
+        }
+
+        $decodedContent = json_decode($content, true);
+
+        if (!array_key_exists('itemId', $decodedContent)) {
+            return null;
+        }
+
+        return (string) $decodedContent['itemId'];
+    }
+    /**
+     * @param Request $request
+     * @return null|string
+     */
+    private function extractItemIdFromUrl(Request $request): ?string
+    {
+        $itemId = $request->get('itemId');
+
+        if (!is_string($itemId)) {
+            return null;
+        }
+
+        return $itemId;
     }
 }

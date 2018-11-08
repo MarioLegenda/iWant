@@ -123,9 +123,12 @@ const QuickLook = {
                     if (options.method === 'PUT') {
                         singleItemRepo.putSingleItem({
                             itemId: this.itemId,
+                            route: options.route
                         }, (r) => this.item = r.resource.data.singleItem)
                     } else if (options.method === 'GET') {
-
+                        singleItemRepo.getSingleItem({
+                            route: options.route
+                        }, (r) => this.item = r.resource.data.singleItem);
                     }
                 });
             }

@@ -63,7 +63,7 @@ class SingleItemController
         /** @var SingleItemResponseModel $singleItemReponseModel */
         $singleItemResponseModel = $singleItemEntryPoint->putSingleItem($singleItemRequestModel);
 
-        $responseData = $this->apiResponseDataFactory->createSingleItemResponseData(
+        $responseData = $this->apiResponseDataFactory->createSingleItemPutResponseData(
             $singleItemResponseModel->toArray()
         );
 
@@ -86,7 +86,7 @@ class SingleItemController
     ) {
         $singleItemResponseModel = $singleItemEntryPoint->getSingleItem($singleItemRequestModel);
 
-        $responseData = $this->apiResponseDataFactory->createSingleItemResponseData(
+        $responseData = $this->apiResponseDataFactory->createSingleItemGetResponseData(
             $singleItemResponseModel->toArray()
         );
 
