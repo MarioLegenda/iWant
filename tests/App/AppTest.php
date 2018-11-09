@@ -12,6 +12,7 @@ use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
+use App\Library\Util\Util;
 use App\Tests\Library\BasicSetup;
 
 class AppTest extends BasicSetup

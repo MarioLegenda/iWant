@@ -3,6 +3,7 @@
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Util\Util;
 
 class SingleItem extends AbstractItem implements ArrayNotationInterface
 {
@@ -103,10 +104,6 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      */
     private $itemSpecifics;
     /**
-     * @var string $country
-     */
-    private $country;
-    /**
      * @param null $default
      * @return string
      */
@@ -195,6 +192,20 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
         }
 
         return $this->startTime;
+    }
+    /**
+     * @return \DateTime
+     */
+    public function getStartTimeObject(): \DateTime
+    {
+        return new \DateTime($this->getStartTime());
+    }
+    /**
+     * @return \DateTime
+     */
+    public function getEndTimeObject(): \DateTime
+    {
+        return new \DateTime($this->getEndTime());
     }
     /**
      * @param null $default
@@ -557,7 +568,9 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
             'bestOfferEnabled' => $this->getBestOfferEnabled(),
             'description' => $this->getDescription(),
             'startTime' => $this->getStartTime(),
+            'startTimeApplicationFormat' => $this->getStartTimeObject()->format(Util::getDateTimeApplicationFormat()),
             'endTime' => $this->getEndTime(),
+            'endTimeApplicationFormat' => $this->getEndTimeObject()->format(Util::getDateTimeApplicationFormat()),
             'viewItemUrlForNaturalSearch' => $this->getViewItemUrlForNaturalSearch(),
             'listingType' => $this->getListingType(),
             'shipsToLocations' => $this->getShipsToLocations(),

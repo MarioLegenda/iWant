@@ -1,0 +1,19 @@
+app_static:
+  prefix: /
+  resource: '../Static/'
+  methods: [GET]
+  host: iwouldlike.com
+  schemes: [http]
+  type: directory
+  requirements:
+    _format: 'text/html'
+    _locale: en|es|fr|it|ga|pl
+
+app_dynamic:
+  prefix: /api/v1
+  resource: '../Dynamic'
+  host: iwouldlike.com
+  schemes: [http]
+  type: directory
+  requirements:
+    _format: 'application/json'

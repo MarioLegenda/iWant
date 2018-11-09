@@ -9,20 +9,26 @@ class DataProvider
 {
     /**
      * @param string $itemId
+     * @param string $locale
      * @return SingleItemRequestModel
      */
     public function createSingleItemRequestModel(
-        string $itemId
+        string $itemId,
+        string $locale = 'en'
     ): SingleItemRequestModel {
-        return new SingleItemRequestModel($itemId);
+        return new SingleItemRequestModel($itemId, $locale);
     }
     /**
+     * @param string|null $itemId
+     * @param string $locale
      * @return SingleItemOptionsModel
      */
-    public function createFakeSingleItemOptionsModel(string $itemId = null): SingleItemOptionsModel
-    {
+    public function createFakeSingleItemOptionsModel(
+        string $itemId = null,
+        string $locale = 'en'
+    ): SingleItemOptionsModel {
         $itemId = (is_string($itemId)) ? $itemId : rand(99999, 9999999);
 
-        return new SingleItemOptionsModel($itemId);
+        return new SingleItemOptionsModel($itemId, $locale);
     }
 }
