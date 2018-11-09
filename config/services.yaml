@@ -70,6 +70,7 @@ parameters:
             dev_name: 'X-BONANZLE-API-DEV-NAME'
         params:
             dev_name: 'Nx901rIYSgvm2po'
+    locale: 'en'
 
 services:
     _defaults:

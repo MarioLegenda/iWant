@@ -1,19 +1,27 @@
 app_static_index:
-    path: /
+    path: /{_locale}
     controller: App\Web\Controller\StaticController::getIndex
+    defaults:
+        _locale: '%kernel.default_locale%'
 
 app_static_promise:
     path: /promise
     controller: App\Web\Controller\StaticController::getPromise
 
 app_static_single_item:
-    path: /item/{marketplace}/{title}/{itemId}
+    path: /{_locale}/item/{marketplace}/{title}/{itemId}
     controller: App\Web\Controller\StaticController::getSingleItem
+    defaults:
+        _locale: '%kernel.default_locale%'
 
 app_static_search_temp:
-    path: /search
+    path: /{_locale}/search
     controller: App\Web\Controller\StaticController::getSearch
+    defaults:
+        _locale: '%kernel.default_locale%'
 
 app_static_search:
-    path: /search/{term}
+    path: /{_locale}/search/{term}
     controller: App\Web\Controller\StaticController::getSearch
+    defaults:
+        _locale: '%kernel.default_locale%'
