@@ -8,7 +8,7 @@ use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
 use App\App\Presentation\Model\Response\SingleItemResponseModel;
 
-class SingleItemEntryPoint
+class QuickLookEntryPoint
 {
     /**
      * @var Finder $finder

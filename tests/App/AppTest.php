@@ -4,7 +4,7 @@ namespace App\Tests\App;
 
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
-use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\App\Presentation\EntryPoint\QuickLookEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
 use App\App\Presentation\Model\Response\SingleItemResponseModel;
@@ -34,8 +34,8 @@ class AppTest extends BasicSetup
 
     public function test_options_single_item()
     {
-        /** @var SingleItemEntryPoint $singleItemEntryPoint */
-        $singleItemEntryPoint = $this->locator->get(SingleItemEntryPoint::class);
+        /** @var QuickLookEntryPoint $singleItemEntryPoint */
+        $singleItemEntryPoint = $this->locator->get(QuickLookEntryPoint::class);
 
         $itemId = (string) rand(999999, 999999999);
 
@@ -53,8 +53,8 @@ class AppTest extends BasicSetup
 
     public function test_put_single_item_cache()
     {
-        /** @var SingleItemEntryPoint $singleItemEntryPoint */
-        $singleItemEntryPoint = $this->locator->get(SingleItemEntryPoint::class);
+        /** @var QuickLookEntryPoint $singleItemEntryPoint */
+        $singleItemEntryPoint = $this->locator->get(QuickLookEntryPoint::class);
 
         $dataProvider = $this->locator->get('data_provider.app');
 

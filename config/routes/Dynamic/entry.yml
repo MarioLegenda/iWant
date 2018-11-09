@@ -40,15 +40,15 @@ app_get_ebay_global_id_information:
 
 app_options_check_single_item:
   path: /ebay/check-single-item/{locale}/{itemId}
-  controller: App\Web\Controller\SingleItemController::optionsCheckSingleItem
+  controller: App\Web\Controller\QuickLookSingleItemController::optionsCheckSingleItem
   methods: [GET]
 
 app_put_single_item:
   path: /ebay/create-single-item
-  controller: App\Web\Controller\SingleItemController::putSingleItem
+  controller: App\Web\Controller\QuickLookSingleItemController::putSingleItem
   methods: [PUT]
 
 app_get_single_item:
   path: /ebay/get-single-item/{locale}/{itemId}
-  controller: App\Web\Controller\SingleItemController:getSingleItem
+  controller: App\Web\Controller\QuickLookSingleItemController:getSingleItem
   methods: [GET]

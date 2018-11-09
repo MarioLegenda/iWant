@@ -5,7 +5,7 @@ namespace App\Web\Controller;
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\App\Presentation\EntryPoint\MarketplaceEntryPoint;
 use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
-use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\App\Presentation\EntryPoint\QuickLookEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\SingleProductItem;
@@ -37,12 +37,12 @@ class AppController
     }
     /**
      * @param SingleItemRequestModel $model
-     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @param QuickLookEntryPoint $singleItemEntryPoint
      * @return JsonResponse
      */
     public function getSingleItem(
         SingleItemRequestModel $model,
-        SingleItemEntryPoint $singleItemEntryPoint
+        QuickLookEntryPoint $singleItemEntryPoint
     ): JsonResponse {
         /** @var SingleProductItem $singleItem */
         $singleItem = $singleItemEntryPoint->getSingleItem($model);

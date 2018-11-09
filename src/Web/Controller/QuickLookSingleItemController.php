@@ -2,7 +2,7 @@
 
 namespace App\Web\Controller;
 
-use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\App\Presentation\EntryPoint\QuickLookEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemOptionsModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
@@ -10,7 +10,7 @@ use App\App\Presentation\Model\Response\SingleItemResponseModel;
 use App\Web\Library\ApiResponseDataFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class SingleItemController
+class QuickLookSingleItemController
 {
     /**
      * @var ApiResponseDataFactory $apiResponseDataFactory
@@ -27,14 +27,14 @@ class SingleItemController
     }
     /**
      * @param SingleItemOptionsModel $model
-     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @param QuickLookEntryPoint $singleItemEntryPoint
      * @return JsonResponse
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function optionsCheckSingleItem(
         SingleItemOptionsModel $model,
-        SingleItemEntryPoint $singleItemEntryPoint
+        QuickLookEntryPoint $singleItemEntryPoint
     ) {
         /** @var SingleItemOptionsResponse $optionsResponseModel */
         $optionsResponseModel = $singleItemEntryPoint->optionsCheckSingleItem($model);
@@ -48,7 +48,7 @@ class SingleItemController
     }
     /**
      * @param SingleItemRequestModel $singleItemRequestModel
-     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @param QuickLookEntryPoint $singleItemEntryPoint
      * @return JsonResponse
      * @throws \App\Cache\Exception\CacheException
      * @throws \App\Symfony\Exception\ExternalApiNativeException
@@ -58,7 +58,7 @@ class SingleItemController
      */
     public function putSingleItem(
         SingleItemRequestModel $singleItemRequestModel,
-        SingleItemEntryPoint $singleItemEntryPoint
+        QuickLookEntryPoint $singleItemEntryPoint
     ) {
         /** @var SingleItemResponseModel $singleItemReponseModel */
         $singleItemResponseModel = $singleItemEntryPoint->putSingleItem($singleItemRequestModel);
@@ -74,7 +74,7 @@ class SingleItemController
     }
     /**
      * @param SingleItemRequestModel $singleItemRequestModel
-     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @param QuickLookEntryPoint $singleItemEntryPoint
      * @return JsonResponse
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
@@ -82,7 +82,7 @@ class SingleItemController
      */
     public function getSingleItem(
         SingleItemRequestModel $singleItemRequestModel,
-        SingleItemEntryPoint $singleItemEntryPoint
+        QuickLookEntryPoint $singleItemEntryPoint
     ) {
         $singleItemResponseModel = $singleItemEntryPoint->getSingleItem($singleItemRequestModel);
 
