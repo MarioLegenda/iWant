@@ -95,7 +95,7 @@ class TranslationCenter
                     $translated = $this->translate($locale, $value);
                 } catch (\Exception $e) {
                     $message = sprintf(
-                        'Translation for locale %s and value %s could not be translated by Yandex api',
+                        'Translation for locale %s and value %s could not be translated by Yandex API',
                         $locale,
                         $value
                     );

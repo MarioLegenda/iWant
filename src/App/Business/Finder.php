@@ -94,10 +94,19 @@ class Finder
         /** @var SingleProductItem $singleProductItem */
         $singleProductItem = $this->singleProductItemCacheImplementation->getStored($model->getItemId());
 
-        $decodedSingleItem = json_decode($singleProductItem->getResponse(), true)['singleItem'];
+        $singleItemArray = json_decode($singleProductItem->getResponse(), true)['singleItem'];
+
+        $translations = $this->getTranslations($model->getItemId());
+
+        $singleItemArray = $this->putTranslationsIntoSingleItemArray(
+            $translations,
+            $model->getLocale(),
+            $singleItemArray
+        );
+
         return new SingleItemResponseModel(
             $model->getItemId(),
-            $decodedSingleItem
+            $singleItemArray
         );
     }
     /**
