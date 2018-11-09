@@ -1,8 +1,3 @@
-import {TodaysPicks} from "./TodaysPicks";
-import {RepositoryFactory} from "../../services/repositoryFactory";
-import {Categories} from "./Menu/Categories";
-import {Shops} from "./Menu/Shops";
-
 export const Homepage = {
     template: `<div>
                     <div id="StartPage">
@@ -20,22 +15,4 @@ export const Homepage = {
                          </div>
                      </div>
                </div>`,
-    created() {
-/*        if (isObjectEmpty(this.$store.state.todaysProductsListing)) {
-            const todayProductsRepository = RepositoryFactory.create('todays-products');
-
-            const date = new Date();
-            todayProductsRepository.getTodaysProducts(
-                `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
-                (response) => {
-                    this.$store.commit('todaysProductsListing', response.collection.data);
-                }
-            );
-        }*/
-    },
-    components: {
-        'todays-picks': TodaysPicks,
-        'categories-menu': Categories,
-        'shops-menu': Shops,
-    }
 };

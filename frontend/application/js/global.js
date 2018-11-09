@@ -254,8 +254,8 @@ export class Init {
             },
             actions: {
                 localeChanged(context, locale) {
-                    Vue.prototype.$localeInfo.locale = locale;
-                    context.commit('translationsMap', translationsMap[locale]);
+                    Vue.prototype.$localeInfo.locale = locale.value;
+                    context.commit('translationsMap', translationsMap[locale.value]);
                 }
             },
         });
@@ -321,7 +321,12 @@ export class Init {
                     store,
                     router: createVueRouter(),
                     created() {
-                        this.$store.dispatch('localeChanged', 'en');
+                        const locale = location.pathname.split('/')[1];
+
+                        this.$store.dispatch('localeChanged', {
+                            value: locale,
+                            origin: 'Root'
+                        });
                     },
                     template: `<div class="Global">
                    <Header></Header>

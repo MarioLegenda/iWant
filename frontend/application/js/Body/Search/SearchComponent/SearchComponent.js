@@ -28,8 +28,9 @@ export const SearchComponent = {
 
         const splitted = window.location.pathname.split('/');
 
-        if (typeof splitted[2] !== 'undefined') {
-            const keyword = splitted[2];
+        console.log(splitted);
+        if (typeof splitted[3] !== 'undefined') {
+            const keyword = splitted[3];
             const replaced = keyword.replace(/-/g, ' ');
 
             this.onSearchTermChange(replaced);
@@ -143,7 +144,7 @@ export const SearchComponent = {
                 trim: true
             });
 
-            this.$router.push(`/search/${urlify(this.keyword)}`);
+            this.$router.push(`/${this.$localeInfo.locale}/search/${urlify(this.keyword)}`);
 
             const model = this.createModel();
 

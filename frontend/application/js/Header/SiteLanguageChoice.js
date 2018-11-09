@@ -15,13 +15,23 @@ export const SiteLanguageChoice = {
             ]
         }
     },
+    computed: {
+        localeChanged: function() {
+            const localeChanged = this.$store.state.localeChanged;
+
+            this.selectLocale(this.$localeInfo.locale);
+
+            return localeChanged;
+        }
+    },
     template: `
             <div class="SiteLanguageChoice">
+                <input type="hidden" :value="localeChanged" />
                 <span class="Title">All products searched will be translated to the language you select</span>
-                <v-select 
-                    v-model="selected" 
+                <v-select
+                    :value="selected"
                     :options="options"
-                    v-on:input="onInputChange"
+                    @input="onInputChange"
                     label="label"
                     :placeholder="placeholder">
                     
@@ -32,10 +42,30 @@ export const SiteLanguageChoice = {
                 </v-select>
             </div>`,
     methods: {
-        onInputChange(val) {
-            this.selected = val;
+        onInputChange(locale) {
+            if (locale.value === this.selected.value) {
+                return;
+            }
 
-            this.$store.dispatch('localeChanged', this.selected.value);
+            this.refresh(locale);
+        },
+        selectLocale(locale) {
+            for (let i = 0; i < this.options.length; i++) {
+                if (this.options[i].value === locale) {
+                    this.selected = this.options[i];
+
+                    break;
+                }
+            }
+        },
+        refresh(locale) {
+            const paths = location.pathname.split('/').splice(2);
+
+            paths.unshift(locale.value);
+
+            const path = `/${paths.join('/')}`;
+
+            location.href = path;
         }
     },
 };
