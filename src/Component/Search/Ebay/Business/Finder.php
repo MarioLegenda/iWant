@@ -38,14 +38,4 @@ class Finder
 
         return $this->findingApiEntryPoint->findItemsAdvanced($findingApiModel);
     }
-    /**
-     * @param EbaySearchModel $model
-     * @return iterable
-     * @throws \App\Symfony\Exception\HttpException
-     * @throws \Http\Client\Exception
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
-    public function findEbayProductsInEbayStores(EbaySearchModel $model): iterable
-    {
-    }
 }

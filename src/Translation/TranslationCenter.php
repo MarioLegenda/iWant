@@ -52,7 +52,6 @@ class TranslationCenter
     }
     /**
      * @param string $entryId
-     * @param string $uniqueName
      * @param string $itemId
      * @param string $value
      * @param string $locale
@@ -63,18 +62,15 @@ class TranslationCenter
      */
     public function translateSingle(
         string $entryId,
-        string $uniqueName,
         string $itemId,
         string $value,
         string $locale
     ): string {
         if ($this->itemTranslationCacheImplementation->isStored(
-            $uniqueName,
             $itemId
         )) {
             /** @var ItemTranslationCache $itemTranslationCache */
             $itemTranslationCache = $this->itemTranslationCacheImplementation->getStored(
-                $uniqueName,
                 $itemId
             );
 
@@ -114,7 +110,6 @@ class TranslationCenter
             );
 
             $this->itemTranslationCacheImplementation->update(
-                $uniqueName,
                 $itemId,
                 $translations->toArray()
             );
@@ -150,7 +145,6 @@ class TranslationCenter
         );
 
         $this->itemTranslationCacheImplementation->store(
-            $uniqueName,
             $itemId,
             $translations->toArray()
         );

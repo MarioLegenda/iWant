@@ -19,7 +19,7 @@ use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 /**
  * @Entity @Table(
  *     name="item_translation_cache",
- *     indexes={ @Index(name="unique_name_ids", columns={"unique_name"}), @Index(name="item_id_idx", columns={"item_id"}) }
+ *     indexes={ @Index(name="item_id_idx", columns={"item_id"}) }
  * )
  * @HasLifecycleCallbacks()
  **/
@@ -31,11 +31,6 @@ class ItemTranslationCache implements ArrayNotationInterface
      * @GeneratedValue
      */
     private $id;
-    /**
-     * @var string $uniqueName
-     * @Column(type="string")
-     */
-    private $uniqueName;
     /**
      * @var string $itemId
      * @Column(type="string")
@@ -68,18 +63,15 @@ class ItemTranslationCache implements ArrayNotationInterface
     private $updatedAt;
     /**
      * ItemTranslationCache constructor.
-     * @param string $uniqueName
      * @param string $itemId
      * @param string $translations
      * @param int $expiresAt
      */
     public function __construct(
-        string $uniqueName,
         string $itemId,
         string $translations,
         int $expiresAt
     ) {
-        $this->uniqueName = $uniqueName;
         $this->itemId = $itemId;
         $this->translations = $translations;
         $this->expiresAt = $expiresAt;

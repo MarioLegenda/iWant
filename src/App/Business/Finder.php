@@ -190,7 +190,7 @@ class Finder
      */
     private function getTranslations(string $itemId): Translations
     {
-        $itemTranslation = $this->itemTranslationCacheImplementation->getStoredByItemId($itemId);
+        $itemTranslation = $this->itemTranslationCacheImplementation->getStored($itemId);
 
         return new Translations(json_decode($itemTranslation->getTranslations(), true));
     }

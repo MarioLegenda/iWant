@@ -22,42 +22,22 @@ class ItemTranslationCacheImplementation
         $this->itemTranslationCache = $itemTranslationCache;
     }
     /**
-     * @param string $uniqueName
      * @param string $itemId
      * @return bool
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function isStored(
-        string $uniqueName,
         string $itemId
     ): bool {
         /** @var ItemTranslationCache $itemTranslationCache */
         $itemTranslationCache = $this->itemTranslationCache->get(
-            $uniqueName,
             $itemId
         );
 
         return $itemTranslationCache instanceof ItemTranslationCacheEntity;
     }
     /**
-     * @param string $itemId
-     * @return bool
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function isStoredByItemId(
-        string $itemId
-    ): bool {
-        /** @var ItemTranslationCache $itemTranslationCache */
-        $itemTranslationCache = $this->itemTranslationCache->getByItemId(
-            $itemId
-        );
-
-        return $itemTranslationCache instanceof ItemTranslationCacheEntity;
-    }
-    /**
-     * @param string $uniqueName
      * @param string $itemId
      * @param array $translations
      * @return bool
@@ -66,12 +46,10 @@ class ItemTranslationCacheImplementation
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function store(
-        string $uniqueName,
         string $itemId,
         array $translations
     ): bool {
         $this->itemTranslationCache->set(
-            $uniqueName,
             $itemId,
             json_encode($translations),
             $this->calculateTTL()
@@ -80,17 +58,15 @@ class ItemTranslationCacheImplementation
         return true;
     }
     /**
-     * @param string $uniqueName
      * @param string $itemId
      * @return ItemTranslationCacheEntity
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getStored(string $uniqueName, string $itemId): ItemTranslationCacheEntity
+    public function getStored(string $itemId): ItemTranslationCacheEntity
     {
         /** @var ItemTranslationCacheEntity $itemTranslationCache */
         $itemTranslationCache = $this->itemTranslationCache->get(
-            $uniqueName,
             $itemId
         );
 
@@ -108,33 +84,6 @@ class ItemTranslationCacheImplementation
         return $itemTranslationCache;
     }
     /**
-     * @param string $itemId
-     * @return ItemTranslationCacheEntity
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function getStoredByItemId(string $itemId)
-    {
-        /** @var ItemTranslationCacheEntity $itemTranslationCache */
-        $itemTranslationCache = $this->itemTranslationCache->getByItemId(
-            $itemId
-        );
-
-        if (!$itemTranslationCache instanceof ItemTranslationCacheEntity) {
-            $message = sprintf(
-                'Invalid usage of %s::getStored(). This method should always return a %s. Check if a resource is stored with %s::isStored()',
-                get_class($this),
-                ItemTranslationCache::class,
-                get_class($this)
-            );
-
-            throw new \RuntimeException($message);
-        }
-
-        return $itemTranslationCache;
-    }
-    /**
-     * @param string $uniqueName
      * @param string $itemId
      * @param array $translations
      * @throws \App\Cache\Exception\CacheException
@@ -142,12 +91,10 @@ class ItemTranslationCacheImplementation
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(
-        string $uniqueName,
         string $itemId,
         array $translations
     ) {
         $this->itemTranslationCache->update(
-            $uniqueName,
             $itemId,
             json_encode($translations)
         );

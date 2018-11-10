@@ -74,7 +74,6 @@ class ModelPreparationFactory
                 $item['itemId'],
                 new Title($this->translationService->translateSingle(
                     'title',
-                    $model->getUniqueName(),
                     $item['itemId'],
                     $item['title']['original'],
                     $model->getLocale()

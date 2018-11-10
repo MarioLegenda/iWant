@@ -23,7 +23,6 @@ class ItemTranslationCache
         $this->itemTranslationRepository = $itemTranslationCacheRepository;
     }
     /**
-     * @param string $uniqueName
      * @param string $itemId
      * @param null $default
      * @return ItemTranslationCacheEntity|null
@@ -31,13 +30,11 @@ class ItemTranslationCache
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function get(
-        string $uniqueName,
         string $itemId,
         $default = null
     ): ?ItemTranslationCacheEntity {
         /** @var ItemTranslationCacheEntity $itemTranslationCache */
         $itemTranslationCache = $this->itemTranslationRepository->findOneBy([
-            'uniqueName' => $uniqueName,
             'itemId' => $itemId,
         ]);
 
@@ -137,7 +134,6 @@ class ItemTranslationCache
         return true;
     }
     /**
-     * @param string $uniqueName
      * @param string $itemId
      * @param string $translations
      * @param int|null $ttl
@@ -146,7 +142,6 @@ class ItemTranslationCache
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function set(
-        string $uniqueName,
         string $itemId,
         string $translations,
         int $ttl = null
@@ -169,7 +164,6 @@ class ItemTranslationCache
         }
 
         $cache = $this->createItemTranslationCache(
-            $uniqueName,
             $itemId,
             $translations,
             $ttl
@@ -178,7 +172,6 @@ class ItemTranslationCache
         $this->itemTranslationRepository->persistAndFlush($cache);
     }
     /**
-     * @param string $uniqueName
      * @param string $itemId
      * @param string $translations
      * @throws CacheException
@@ -186,20 +179,17 @@ class ItemTranslationCache
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function update(
-        string $uniqueName,
         string $itemId,
         string $translations
     ): void {
         $itemTranslationCache = $this->itemTranslationRepository->findOneBy([
-            'uniqueName' => $uniqueName,
             'itemId' => $itemId,
         ]);
 
         if (!$itemTranslationCache instanceof ItemTranslationCacheEntity) {
             $message = sprintf(
-                '%s with unique name %s and itemId %s could not be found',
+                '%s with itemId %s could not be found',
                 ItemTranslationCacheEntity::class,
-                $uniqueName,
                 $itemId
             );
 
@@ -212,20 +202,17 @@ class ItemTranslationCache
         $this->itemTranslationRepository->getManager()->flush();
     }
     /**
-     * @param string $uniqueName
      * @param string $itemId
      * @param string $translations
      * @param int $ttl
      * @return ItemTranslationCacheEntity
      */
     public function createItemTranslationCache(
-        string $uniqueName,
         string $itemId,
         string $translations,
         int $ttl
     ): ItemTranslationCacheEntity {
         return new ItemTranslationCacheEntity(
-            $uniqueName,
             $itemId,
             $translations,
             $ttl
