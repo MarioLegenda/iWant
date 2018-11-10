@@ -15,7 +15,6 @@ export const SingleItem = {
             const singleItemRepo = RepositoryFactory.create('single-item');
 
             singleItemRepo.getSingleItem({
-                marketplace: this.singleItem.marketplace,
                 itemId: this.singleItem.itemId,
             }, (response) => {
                 this.item = response.resource.data;

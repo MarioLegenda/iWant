@@ -104,6 +104,8 @@ class Finder
             $singleItemArray
         );
 
+        $singleItemArray = $this->filterSingleItemValues($singleItemArray);
+
         return new SingleItemResponseModel(
             $model->getItemId(),
             $singleItemArray
@@ -212,5 +214,26 @@ class Finder
         }
 
         return $singleItem;
+    }
+    /**
+     * @param array $singleItemArray
+     * @return array
+     */
+    private function filterSingleItemValues(array $singleItemArray)
+    {
+        $toFilter = [
+            'itemId',
+            'autoPay',
+            'title',
+            'endTime',
+            'endTimeApplicationFormat',
+            'priceInfo',
+            'quantity',
+            'seller'
+        ];
+
+        return array_filter($singleItemArray, function($item, $key) use ($toFilter) {
+            return in_array($key, $toFilter);
+        }, ARRAY_FILTER_USE_BOTH);
     }
 }
