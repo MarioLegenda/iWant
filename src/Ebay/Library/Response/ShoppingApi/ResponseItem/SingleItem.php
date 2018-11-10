@@ -104,6 +104,28 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      */
     private $itemSpecifics;
     /**
+     * @var bool $autoPay
+     */
+    private $autoPay;
+    /**
+     * @param null $default
+     * @return bool|null
+     */
+    public function getAutoPay($default = null): ?bool
+    {
+        if ($this->autoPay === null) {
+            if (!empty($this->simpleXml->AutoPay)) {
+                $this->autoPay = (bool) $this->simpleXml->AutoPay;
+            }
+        }
+
+        if ($this->autoPay === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->autoPay;
+    }
+    /**
      * @param null $default
      * @return string
      */
@@ -564,6 +586,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         return [
             'itemId' => $this->getItemId(),
+            'autoPay' => $this->getAutoPay(),
             'title' => $this->getTitle(),
             'bestOfferEnabled' => $this->getBestOfferEnabled(),
             'description' => $this->getDescription(),
@@ -578,6 +601,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
             'paymentMethods' => $this->getPaymentMethods(),
             'galleryUrl' => $this->getGalleryUrl(),
             'pictureUrl' => $this->getPictureUrl(),
+            'priceInfo' => $this->getPriceInfo()->toArray(),
             'primaryCategoryId' => $this->getPrimaryCategoryId(),
             'primaryCategoryName' => $this->getPrimaryCategoryName(),
             'quantity' => $this->getQuantity(),

@@ -721,6 +721,28 @@ html {
   font-size: 1em;
   padding: 0;
 }
+.SearchItems .FullDetailsWrapper button {
+  position: relative;
+  width: 187px;
+  text-align: left;
+  display: inline-block;
+  border: 1px solid #d6d6d6;
+  font-size: 1em;
+  font-weight: normal;
+  font-family: "Quicksand", sans-serif;
+  border-radius: 10px;
+  padding: 10px;
+}
+.SearchItems .FullDetailsWrapper button:hover {
+  cursor: pointer;
+  border: 1px solid #f78f27;
+}
+.SearchItems .FullDetailsWrapper button i {
+  position: absolute;
+  right: 10px;
+  color: #f78f27;
+  font-size: 1.4em;
+}
 .SearchItems .SearchItem {
   width: 210px;
   float: left;
@@ -740,25 +762,6 @@ html {
 }
 .SearchItems .PriceWrapper {
   color: black;
-}
-.SearchItems .QuickLookWrapper button, .SearchItems .FullDetailsWrapper button {
-  position: relative;
-  width: 187px;
-  text-align: left;
-  display: inline-block;
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
-  padding: 10px;
-}
-.SearchItems .QuickLookWrapper button:hover, .SearchItems .FullDetailsWrapper button:hover {
-  cursor: pointer;
-  border: 1px solid #f78f27;
-}
-.SearchItems .QuickLookWrapper button i, .SearchItems .FullDetailsWrapper button i {
-  position: absolute;
-  right: 10px;
-  color: #f78f27;
-  font-size: 1.4em;
 }
 .SearchItems .MarketplaceWrapper a {
   display: block;
@@ -802,6 +805,48 @@ html {
   margin-top: 5px;
 }
 
+.QuickLookWrapper, .FullDetailsWrapper {
+  position: relative;
+}
+.QuickLookWrapper button, .FullDetailsWrapper button {
+  position: relative;
+  width: 187px;
+  text-align: left;
+  display: inline-block;
+  border: 1px solid #d6d6d6;
+  font-size: 1em;
+  font-weight: normal;
+  font-family: "Quicksand", sans-serif;
+  border-radius: 10px;
+  padding: 10px;
+}
+.QuickLookWrapper button:hover, .FullDetailsWrapper button:hover {
+  cursor: pointer;
+  border: 1px solid #f78f27;
+}
+.QuickLookWrapper button i, .FullDetailsWrapper button i {
+  position: absolute;
+  right: 10px;
+  color: #f78f27;
+  font-size: 1.4em;
+}
+
+.Close {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  top: 20px;
+  right: 5px;
+}
+.Close:hover {
+  cursor: pointer;
+}
+.Close i {
+  display: block;
+  margin-left: 10px;
+  color: #f78f27;
+}
+
 .QuickLookLoader i {
   width: 20px;
   height: 20px;
@@ -810,6 +855,41 @@ html {
   margin: 0 auto;
   font-size: 1.2em;
   color: #f78f27;
+}
+
+.QuickLookWindow {
+  width: 100%;
+}
+.QuickLookWindow .Independent {
+  overflow: hidden;
+  margin: 30px 0 10px 0;
+}
+.QuickLookWindow .Independent a {
+  display: block;
+  width: 200px;
+  float: right;
+  padding: 10px;
+  font-size: 1.2em;
+  text-align: right;
+  border: 1px solid #f78f27;
+  border-radius: 40px;
+}
+.QuickLookWindow .Row {
+  overflow: hidden;
+  padding: 5px 0 5px 0;
+  margin: 5px 0 5px 0;
+  border-bottom: 1px solid #d6d6d6;
+}
+.QuickLookWindow .Row .desc-left {
+  width: 250px;
+  float: left;
+}
+.QuickLookWindow .Row .desc-right {
+  width: 100px;
+  float: left;
+  margin-left: 20px;
+  color: black;
+  font-weight: bold;
 }
 
 .FiltersWrapper {
@@ -1262,6 +1342,8 @@ html {
 
 .v-popover {
   width: 100%;
+  float: left;
+  margin-bottom: 10px;
 }
 
 .tooltip {

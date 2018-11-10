@@ -8,8 +8,6 @@ export const Price = {
         <p v-else-if="currency === 'EUR'" class="Price"><i v-bind:class="decideClass()"></i> {{price}}</p>
         <p v-else-if="currency === 'GBP'" class="Price"><i v-bind:class="decideClass()"></i> {{price}}</p>
     `,
-    created() {
-    },
     props: ['price', 'currency'],
     methods: {
         decideClass() {
@@ -84,11 +82,15 @@ const QuickLook = {
         }
     },
     template: `
-                   <div class="Row QuickLookWrapper">
+                   <div class="QuickLookWrapper">
                        <v-popover :open="showPopover" offset="16">
                            <button class="tooltip-target b3" @click="loadItem">Quick look<i class="fas fa-caret-right"></i></button>
 
                            <template slot="popover">
+                               <div v-close-popover class="Close">
+                                   <i class="fas fa-times"></i>
+                               </div>
+                               
                                <div v-if="item === null" class="QuickLookLoader">
                                     <i class="fas fa-circle-notch fa-spin"></i>
                                </div>
@@ -97,6 +99,38 @@ const QuickLook = {
                                    
                                    <div class="Row TitleWrapper">
                                        <h1>{{item.title}}</h1>
+                                   </div>
+                                   
+                                   <div class="Row">
+                                       <div>
+                                           <span class="desc-left">Requires immediate payment:</span>
+                                           <span class="desc-right">{{(item.autoPay === true) ? 'Yes' : 'No'}}</span>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="Row">
+                                       <div>
+                                           <span class="desc-left">Ending on: </span>
+                                           <span class="desc-right">{{parseDate(item.endTime)}}</span>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="Row">
+                                       <div>
+                                           <span class="desc-left">Seller: </span>
+                                           <span class="desc-right">{{item.seller.userId}}</span>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="Row">
+                                       <div>
+                                           <span class="desc-left">Quantity: </span>
+                                           <span class="desc-right">{{item.quantity}}</span>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="Independent">
+                                       <a href="#">Full details</a>
                                    </div>
                                </div>
                            </template>
@@ -134,6 +168,14 @@ const QuickLook = {
                     }
                 });
             }
+        },
+
+        parseDate(date) {
+            const dateTime = new Date(date);
+
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+
+            return dateTime.toLocaleDateString('en-US', options);
         }
     }
 };
