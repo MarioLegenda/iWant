@@ -7,6 +7,7 @@ use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Doctrine\Entity\ItemTranslationCache;
 use App\Library\Util\Environment;
+use App\Library\Util\Util;
 use App\Yandex\Library\Request\RequestFactory;
 use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\TranslatedTextResponse;
@@ -150,6 +151,45 @@ class TranslationCenter
         );
 
         return $translated;
+    }
+
+    public function translateMultiple(
+        array $item,
+        array $keys,
+        Translations $existingTranslations,
+        string $locale,
+        bool $translateIfNotExists = false,
+        string $itemId = null
+    ): array {
+        if ($translateIfNotExists) {
+            if (!is_string($itemId)) {
+                $message = sprintf(
+                    'Invalid parameters passed to %s::translateMultiple(). If you choose to translate an entry if the entry does not exist, you have to provide the entries itemId. itemId has not been provided',
+                    get_class($this)
+                );
+
+                throw new \RuntimeException($message);
+            }
+        }
+
+        $keysToTranslateGen = Util::createGenerator($keys);
+
+        foreach ($keysToTranslateGen as $entry) {
+            $key = $entry['item'];
+
+            if ($existingTranslations->hasEntryByLocale($key, $locale)) {
+                $item[$key] = $existingTranslations->getEntryByLocale($key, $locale)->getTranslation();
+            } else if ($translateIfNotExists) {
+                $item[$key] = $this->translateSingle(
+                    $key,
+                    $itemId,
+                    $item[$key],
+                    $locale
+                );
+            }
+        }
+
+        return $item;
     }
     /**
      * @param string $locale

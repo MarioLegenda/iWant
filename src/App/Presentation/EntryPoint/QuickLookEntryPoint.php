@@ -55,6 +55,6 @@ class QuickLookEntryPoint
      */
     public function getSingleItem(SingleItemRequestModel $model): SingleItemResponseModel
     {
-        return $this->finder->getSingleItem($model);
+        return $this->finder->getSingleItemForQuickLook($model);
     }
 }

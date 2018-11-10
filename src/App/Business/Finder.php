@@ -22,6 +22,7 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\TypedRecursion;
 use App\Symfony\Exception\HttpException;
+use App\Translation\TranslationCenter;
 use Symfony\Component\Routing\Router;
 
 class Finder
@@ -47,25 +48,32 @@ class Finder
      */
     private $itemTranslationCacheImplementation;
     /**
+     * @var TranslationCenter $translationCenter
+     */
+    private $translationCenter;
+    /**
      * Finder constructor.
      * @param CountryRepository $countryRepository
      * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
      * @param SingleProductItemCacheImplementation $singleProductItemCacheImplementation
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param Router $router
+     * @param TranslationCenter $translationCenter
      */
     public function __construct(
         CountryRepository $countryRepository,
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
         SingleProductItemCacheImplementation $singleProductItemCacheImplementation,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
-        Router $router
+        Router $router,
+        TranslationCenter $translationCenter
     ) {
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->countryRepository = $countryRepository;
         $this->singleProductItemCacheImplementation = $singleProductItemCacheImplementation;
         $this->router = $router;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
+        $this->translationCenter = $translationCenter;
     }
     /**
      * @return TypedArray
@@ -83,7 +91,7 @@ class Finder
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getSingleItem(SingleItemRequestModel $model)
+    public function getSingleItemForQuickLook(SingleItemRequestModel $model)
     {
         if (!$this->singleProductItemCacheImplementation->isStored($model->getItemId())) {
             throw new HttpException(sprintf(
@@ -96,12 +104,11 @@ class Finder
 
         $singleItemArray = json_decode($singleProductItem->getResponse(), true)['singleItem'];
 
-        $translations = $this->getTranslations($model->getItemId());
-
-        $singleItemArray = $this->putTranslationsIntoSingleItemArray(
-            $translations,
-            $model->getLocale(),
-            $singleItemArray
+        $singleItemArray = $this->translationCenter->translateMultiple(
+            $singleItemArray,
+            ['title'],
+            $this->getTranslations($model->getItemId()),
+            $model->getLocale()
         );
 
         $singleItemArray = $this->filterSingleItemValues($singleItemArray);
@@ -161,12 +168,11 @@ class Finder
 
         $singleItemArray = $responseModel->getSingleItem()->toArray();
 
-        $translations = $this->getTranslations($model->getItemId());
-
-        $singleItemArray = $this->putTranslationsIntoSingleItemArray(
-            $translations,
-            $model->getLocale(),
-            $singleItemArray
+        $singleItemArray = $this->translationCenter->translateMultiple(
+            $singleItemArray,
+            ['title'],
+            $this->getTranslations($model->getItemId()),
+            $model->getLocale()
         );
 
         $singleItemResponseModel = new SingleItemResponseModel(
@@ -193,27 +199,6 @@ class Finder
         $itemTranslation = $this->itemTranslationCacheImplementation->getStored($itemId);
 
         return new Translations(json_decode($itemTranslation->getTranslations(), true));
-    }
-    /**
-     * @param Translations $translations
-     * @param string $locale
-     * @param array $singleItem
-     * @return array
-     */
-    private function putTranslationsIntoSingleItemArray(
-        Translations $translations,
-        string $locale,
-        array $singleItem
-    ): array {
-        $items = ['title'];
-
-        foreach ($items as $item) {
-            if ($translations->hasEntryByLocale($item, $locale)) {
-                $singleItem[$item] = $translations->getEntryByLocale($item, $locale)->getTranslation();
-            }
-        }
-
-        return $singleItem;
     }
     /**
      * @param array $singleItemArray
