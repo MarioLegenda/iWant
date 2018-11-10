@@ -249,10 +249,12 @@
 
     margin: 30px 0 10px 0;
 
-    a {
+    button {
+      font-family: $mainFont;
       display: block;
       width: 200px;
       float: right;
+      background: none;
 
       padding: 10px;
       font-size: 1.2em;
@@ -262,6 +264,10 @@
       border: 1px solid $basicOrange;
 
       border-radius: 40px;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 

@@ -9,7 +9,7 @@ app_static_promise:
     controller: App\Web\Controller\StaticController::getPromise
 
 app_static_single_item:
-    path: /{_locale}/item/{marketplace}/{title}/{itemId}
+    path: /{_locale}/item/{title}/{itemId}
     controller: App\Web\Controller\StaticController::getSingleItem
     defaults:
         _locale: '%kernel.default_locale%'

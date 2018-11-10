@@ -13,8 +13,9 @@ export const routes = [
         name: 'Home'
     },
     {
-        path: '/:locale/item/:marketplace/:name/:itemId',
-        component: SingleItem
+        path: '/:locale/item/:name/:itemId',
+        component: SingleItem,
+        name: 'SingleItem',
     },
     {
         path: '/:locale/search',

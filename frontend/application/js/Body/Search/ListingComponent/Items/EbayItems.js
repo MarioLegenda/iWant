@@ -1,6 +1,8 @@
 import {Item} from "../../../Listing/components/Item";
 import {SUPPORTED_SITES} from "../../../../global";
 import {RepositoryFactory} from "../../../../services/repositoryFactory";
+import urlifyFactory from 'urlify';
+
 
 export const Price = {
     template: `
@@ -130,7 +132,7 @@ const QuickLook = {
                                    </div>
                                    
                                    <div class="Independent">
-                                       <a href="#">Full details</a>
+                                        <button @click="goToSingleItem(item)">Full details</button>
                                    </div>
                                </div>
                            </template>
@@ -170,6 +172,25 @@ const QuickLook = {
             }
         },
 
+        goToSingleItem(item) {
+            const urlify = urlifyFactory.create({
+                addEToUmlauts: true,
+                szToSs: true,
+                spaces: "-",
+                nonPrintable: "-",
+                trim: true
+            });
+
+            this.$router.push({
+                name: 'SingleItem',
+                params: {
+                    locale: this.$localeInfo.locale,
+                    itemId: item.itemId,
+                    name: (urlify(item.title)),
+                }
+            });
+        },
+
         parseDate(date) {
             const dateTime = new Date(date);
 
@@ -207,7 +228,7 @@ export const EbayItems = {
                         <quick-look :item-id="item.itemId"></quick-look>
                     
                         <div class="Row FullDetailsWrapper">
-                            <button>Full details<i class="fas fa-caret-right"></i></button>
+                            <button @click="goToSingleItem(item)">Full details<i class="fas fa-caret-right"></i></button>
                         </div>
                     
                         <div class="Row MarketplaceWrapper">
@@ -279,6 +300,24 @@ export const EbayItems = {
                 this.currentlyLoading = false;
             });
         },
+        goToSingleItem(item) {
+            const urlify = urlifyFactory.create({
+                addEToUmlauts: true,
+                szToSs: true,
+                spaces: "-",
+                nonPrintable: "-",
+                trim: true
+            });
+
+            this.$router.push({
+                name: 'SingleItem',
+                params: {
+                    locale: this.$localeInfo.locale,
+                    itemId: item.itemId,
+                    name: (urlify(item.title.original)),
+                }
+            });
+        }
     },
     components: {
         'item': Item,

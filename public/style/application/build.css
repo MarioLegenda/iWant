@@ -864,15 +864,20 @@ html {
   overflow: hidden;
   margin: 30px 0 10px 0;
 }
-.QuickLookWindow .Independent a {
+.QuickLookWindow .Independent button {
+  font-family: "Quicksand", sans-serif;
   display: block;
   width: 200px;
   float: right;
+  background: none;
   padding: 10px;
   font-size: 1.2em;
   text-align: right;
   border: 1px solid #f78f27;
   border-radius: 40px;
+}
+.QuickLookWindow .Independent button:hover {
+  cursor: pointer;
 }
 .QuickLookWindow .Row {
   overflow: hidden;
