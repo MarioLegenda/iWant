@@ -1,33 +1,99 @@
 .SingleItemWrapper {
   width: 960px;
+  max-width: 960px;
+  min-width: 480px;
   overflow: hidden;
 
   margin: 0 auto;
+
+  .LightSeparator {
+    margin: 5px 0 5px 0;
+  }
+
+  .SingleItem {
+    width: 100%;
+    float: left;
+  }
 
   .Row {
     width: 100%;
     float: left;
   }
 
+  .CenterPanel {
+    width: 100%;
+    float: left;
+
+    margin: 30px 0 30px 0;
+  }
+
+  .Seller {
+    h1 {
+      display: inline-block;
+      font-family: $mainFont;
+      font-weight: bold;
+      font-size: 1.1em;
+
+      color: black;
+    }
+
+    span {
+      display: inline-block;
+      color: $middleGray;
+    }
+
+    p {
+      display: block;
+      color: $middleGray;
+      margin-top: 5px;
+
+      span {
+        color: black;
+      }
+    }
+  }
+
   .RightPanel {
     width: 450px;
     float: right;
-
-    margin-top: 50px;
   }
 
   .LeftPanel {
     width: 450px;
     float: left;
 
-    margin-top: 50px;
+    margin-left: 0;
+  }
+
+  .ThumbnailImageWrapper {
+    .Image {
+      display: block;
+      overflow: hidden;
+      float: left;
+
+      border-radius: 10px;
+    }
+  }
+
+  .ViewsWrapper {
+    p {
+      text-align: right;
+      color: $middleGray;
+    }
   }
 
   .TitleWrapper {
-    font-family: $emphasiseFont;
-
     .Title {
       color: black;
+      font-size: 1.4em;
+      line-height: 1.3em;
+
+      padding-bottom: 20px;
+
+      font-family: $mainFont;
+      font-weight: bold;
+
+      border-bottom: 1px solid $lightestGray;
     }
   }
 }

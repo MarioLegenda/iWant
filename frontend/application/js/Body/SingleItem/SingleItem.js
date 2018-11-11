@@ -7,17 +7,32 @@ export const SingleItem = {
         }
     },
     template: `<div v-if="item" class="SingleItemWrapper">
-                    <div class="Panel LeftPanel">
-                        <div class="Row ThumbnailImageWrapper">
-                            <img :src="item.galleryUrl" />
+                    <div class="SingleItem">
+                        <div class="CenterPanel">
+                            <div class="Seller">
+                                <h1>{{item.seller.userId}}</h1>
+                                <span>({{item.seller.feedbackScore}})</span>
+                                <p>Feedback score: <span>{{sellerFeedbackPercent}}%</span></p>
+                            </div>
                         </div>
-                    </div>
+                        
+                        <div class="Panel LeftPanel">
+                            <div class="Row ThumbnailImageWrapper">
+                                <img class="Image" :src="parsePictureUrl(item.pictureUrl)" />
+                            </div>
+                        </div>
                     
-                    <div class="Panel RightPanel">
-                        <div class="Row TitleWrapper">
-                            <h1 class="Title">{{item.title}}</h1>
+                        <div class="Panel RightPanel">
+                            <div class="Row TitleWrapper">
+                                <h1 class="Title">{{item.title}}</h1>
+                            </div>
+                            
+                            <div class="Row ViewsWrapper LightSeparator">
+                                <p>{{item.hitCount}} views</p>
+                            </div>
                         </div>
                     </div>
+
                </div>`,
     created() {
         if (this.item === null) {
@@ -36,4 +51,24 @@ export const SingleItem = {
             });
         }
     },
+    computed: {
+        sellerFeedbackPercent: function() {
+            const feedbackPercent = this.item.seller.positiveFeedbackPercent;
+
+            if (feedbackPercent === '100.0') {
+                return 100;
+            }
+
+            return feedbackPercent;
+        }
+    },
+    methods: {
+        parsePictureUrl(pictureUrl) {
+            if (pictureUrl !== null && typeof pictureUrl !== 'undefined') {
+                const regex = /\$_\d+/g;
+
+                return pictureUrl.replace(regex, '$_1');
+            }
+        }
+    }
 };

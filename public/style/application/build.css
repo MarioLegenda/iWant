@@ -209,7 +209,8 @@ html {
   background-color: white;
   overflow: hidden;
   margin: 0 0 30px 0;
-  position: relative;
+  border-bottom: 1px solid #d6d6d6;
+  padding-bottom: 30px;
 }
 #main_header .logo {
   display: block;
@@ -1335,28 +1336,73 @@ html {
 }
 .SingleItemWrapper {
   width: 960px;
+  max-width: 960px;
+  min-width: 480px;
   overflow: hidden;
   margin: 0 auto;
+}
+.SingleItemWrapper .LightSeparator {
+  margin: 5px 0 5px 0;
+}
+.SingleItemWrapper .SingleItem {
+  width: 100%;
+  float: left;
 }
 .SingleItemWrapper .Row {
   width: 100%;
   float: left;
 }
+.SingleItemWrapper .CenterPanel {
+  width: 100%;
+  float: left;
+  margin: 30px 0 30px 0;
+}
+.SingleItemWrapper .Seller h1 {
+  display: inline-block;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  font-size: 1.1em;
+  color: black;
+}
+.SingleItemWrapper .Seller span {
+  display: inline-block;
+  color: #898989;
+}
+.SingleItemWrapper .Seller p {
+  display: block;
+  color: #898989;
+  margin-top: 5px;
+}
+.SingleItemWrapper .Seller p span {
+  color: black;
+}
 .SingleItemWrapper .RightPanel {
   width: 450px;
   float: right;
-  margin-top: 50px;
 }
 .SingleItemWrapper .LeftPanel {
   width: 450px;
   float: left;
-  margin-top: 50px;
+  margin-left: 0;
 }
-.SingleItemWrapper .TitleWrapper {
-  font-family: "Playfair Display SC", "Quicksand", serif;
+.SingleItemWrapper .ThumbnailImageWrapper .Image {
+  display: block;
+  overflow: hidden;
+  float: left;
+  border-radius: 10px;
+}
+.SingleItemWrapper .ViewsWrapper p {
+  text-align: right;
+  color: #898989;
 }
 .SingleItemWrapper .TitleWrapper .Title {
   color: black;
+  font-size: 1.4em;
+  line-height: 1.3em;
+  padding-bottom: 20px;
+  font-family: "Quicksand", sans-serif;
+  font-weight: bold;
+  border-bottom: 1px solid #d6d6d6;
 }
 
 .v-select {
