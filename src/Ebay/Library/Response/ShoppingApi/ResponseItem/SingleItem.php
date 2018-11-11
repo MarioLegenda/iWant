@@ -4,6 +4,7 @@ namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\Util;
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ReturnPolicy\ReturnPolicy;
 
 class SingleItem extends AbstractItem implements ArrayNotationInterface
 {
@@ -19,6 +20,62 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      * @var bool $bestOfferEnabled
      */
     private $bestOfferEnabled;
+    /**
+     * @var ReturnPolicy|null $returnPolicy
+     */
+    private $returnPolicy;
+    /**
+     * @var int $hitCount
+     */
+    private $hitCount;
+    /**
+     * @var int $handlingTime
+     */
+    private $handlingTime;
+    /**
+     * @var bool $globalShipping
+     */
+    private $globalShipping;
+    /**
+     * @var bool $eligibleForPickupDropOff
+     */
+    private $eligibleForPickupDropOff;
+    /**
+     * @var bool $availableForPickupDropOff
+     */
+    private $availableForPickupDropOff;
+    /**
+     * @var int $conditionId
+     */
+    private $conditionId;
+    /**
+     * @var string $conditionDisplayName
+     */
+    private $conditionDisplayName;
+    /**
+     * @var bool $buyItNowAvailable
+     */
+    private $buyItNowAvailable;
+    /**
+     * @var string $country
+     */
+    private $country;
+    /**
+     * @var array $buyItNowPriceInfo
+     */
+    private $buyItNowPriceInfo = null;
+    /**
+     * @var array $convertedBuyItNowPriceInfo
+     */
+    private $convertedBuyItNowPriceInfo = null;
+    /**
+     * @var string $conditionDescription
+     */
+    private $conditionDescription;
+    /**
+     * @var int $bidCount
+     */
+    private $bidCount;
     /**
      * @var string $description
      */
@@ -107,6 +164,260 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      * @var bool $autoPay
      */
     private $autoPay;
+    /**
+     * @param null $default
+     * @return ReturnPolicy|null
+     */
+    public function getReturnPolicy($default = null): ?ReturnPolicy
+    {
+        if ($this->returnPolicy === null) {
+            if (!empty($this->simpleXml->ReturnPolicy)) {
+                $this->returnPolicy = new ReturnPolicy($this->simpleXml->ReturnPolicy);
+            }
+        }
+
+        if ($this->returnPolicy === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->returnPolicy;
+    }
+    /**
+     * @param null $default
+     * @return int|null
+     */
+    public function getHandlingTime($default = null): ?int
+    {
+        if ($this->handlingTime === null) {
+            if (!empty($this->simpleXml->HandlingTime)) {
+                $this->handlingTime = (string) $this->simpleXml->HandlingTime;
+            }
+        }
+
+        if ($this->handlingTime === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->handlingTime;
+    }
+    /**
+     * @param null $default
+     * @return int|null
+     */
+    public function getHitCount($default = null): ?int
+    {
+        if ($this->hitCount === null) {
+            if (!empty($this->simpleXml->HitCount)) {
+                $this->hitCount = (string) $this->simpleXml->HitCount;
+            }
+        }
+
+        if ($this->hitCount === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->hitCount;
+    }
+    /**
+     * @param null $default
+     * @return bool|null
+     */
+    public function getEligibleForPickupDropOff($default = null): ?bool
+    {
+        if ($this->eligibleForPickupDropOff === null) {
+            if (!empty($this->simpleXml->EligibleForPickupDropOff)) {
+                $this->eligibleForPickupDropOff = (string) $this->simpleXml->EligibleForPickupDropOff;
+            }
+        }
+
+        if ($this->eligibleForPickupDropOff === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->eligibleForPickupDropOff;
+    }
+    /**
+     * @param null $default
+     * @return bool|null
+     */
+    public function getGlobalShipping($default = null): ?bool
+    {
+        if ($this->globalShipping === null) {
+            if (!empty($this->simpleXml->GlobalShipping)) {
+                $this->globalShipping = (bool) $this->simpleXml->GlobalShipping;
+            }
+        }
+
+        if ($this->globalShipping === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->globalShipping;
+    }
+    /**
+     * @param null $default
+     * @return string
+     */
+    public function getCountry($default = null): string
+    {
+        if ($this->country === null) {
+            if (!empty($this->simpleXml->Country)) {
+                $this->country = (string) $this->simpleXml->Country;
+            }
+        }
+
+        if ($this->country === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->country;
+    }
+    /**
+     * @param null $default
+     * @return int|null
+     */
+    public function getConditionId($default = null): ?int
+    {
+        if ($this->conditionId === null) {
+            if (!empty($this->simpleXml->ConditionID)) {
+                $this->conditionId = (string) $this->simpleXml->ConditionID;
+            }
+        }
+
+        if ($this->conditionId === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->conditionId;
+    }
+    /**
+     * @param null $default
+     * @return string|null
+     */
+    public function getConditionDisplayName($default = null): ?string
+    {
+        if ($this->conditionDisplayName === null) {
+            if (!empty($this->simpleXml->ConditionDisplayName)) {
+                $this->conditionDisplayName = (string) $this->simpleXml->ConditionDisplayName;
+            }
+        }
+
+        if ($this->conditionDisplayName === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->conditionDisplayName;
+    }
+    /**
+     * @param null $default
+     * @return string|null
+     */
+    public function getConditionDescription($default = null): ?string
+    {
+        if ($this->conditionDescription === null) {
+            if (!empty($this->simpleXml->ConditionDescription)) {
+                $this->conditionDescription = (string) $this->simpleXml->ConditionDescription;
+            }
+        }
+
+        if ($this->conditionDescription === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->conditionDescription;
+    }
+    /**
+     * @param null $default
+     * @return array|null
+     */
+    public function getBuyItNowPriceInfo($default = null): ?array
+    {
+        if ($this->buyItNowPriceInfo === null) {
+            if (!empty($this->simpleXml->BuyItNowPrice)) {
+                $this->buyItNowPriceInfo['price'] = (float) $this->simpleXml->BuyItNowPrice;
+                $this->buyItNowPriceInfo['currency'] = (string) $this->simpleXml->BuyItNowPrice['currencyId'];
+            }
+        }
+
+        if ($this->buyItNowPriceInfo === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->buyItNowPriceInfo;
+    }
+    /**
+     * @param null $default
+     * @return array|null
+     */
+    public function getConvertedBuyItNowPriceInfo($default = null): ?array
+    {
+        if ($this->convertedBuyItNowPriceInfo === null) {
+            if (!empty($this->simpleXml->ConvertedBuyItNowPrice)) {
+                $this->convertedBuyItNowPriceInfo['price'] = (float) $this->simpleXml->ConvertedBuyItNowPrice;
+                $this->convertedBuyItNowPriceInfo['currency'] = (string) $this->simpleXml->ConvertedBuyItNowPrice['currencyId'];
+            }
+        }
+
+        if ($this->convertedBuyItNowPriceInfo === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->convertedBuyItNowPriceInfo;
+    }
+    /**
+     * @param null $default
+     * @return int
+     */
+    public function getBidCount($default = null): ?int
+    {
+        if ($this->bidCount === null) {
+            if (!empty($this->simpleXml->BidCount)) {
+                $this->bidCount = (bool) $this->simpleXml->BidCount;
+            }
+        }
+
+        if ($this->bidCount === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->bidCount;
+    }
+    /**
+     * @param null $default
+     * @return bool
+     */
+    public function getAvailableForPickupDropOff($default = null): ?bool
+    {
+        if ($this->availableForPickupDropOff === null) {
+            if (!empty($this->simpleXml->AvailableForPickupDropOff)) {
+                $this->autoPay = (bool) $this->simpleXml->AvailableForPickupDropOff;
+            }
+        }
+
+        if ($this->availableForPickupDropOff === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->availableForPickupDropOff;
+    }
+    /**
+     * @param null $default
+     * @return bool
+     */
+    public function getBuyItNowAvailable($default = null): ?bool
+    {
+        if ($this->buyItNowAvailable === null) {
+            if (!empty($this->simpleXml->BuyItNowAvailable)) {
+                $this->buyItNowAvailable = (bool) $this->simpleXml->BuyItNowAvailable;
+            }
+        }
+
+        if ($this->buyItNowAvailable === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->buyItNowAvailable;
+    }
     /**
      * @param null $default
      * @return bool|null
@@ -586,7 +897,20 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         return [
             'itemId' => $this->getItemId(),
+            'buyItNowAvailable' => $this->getBuyItNowAvailable(),
+            'hitCount' => $this->getHitCount(),
+            'handlingTime' => $this->getHandlingTime(),
+            'eligibleForPickupDropOff' => $this->getEligibleForPickupDropOff(),
+            'globalShipping' => $this->getGlobalShipping(),
+            'buyItNowPriceInfo' => $this->getBuyItNowPriceInfo(),
+            'convertedBuyItNowPriceInfo' => $this->getConvertedBuyItNowPriceInfo(),
+            'conditionId' => $this->getConditionId(),
+            'conditionDescription' => $this->getConditionDescription(),
+            'conditionDisplayName' => $this->getConditionDisplayName(),
+            'returnPolicy' => ($this->getReturnPolicy() instanceof ReturnPolicy) ? $this->getReturnPolicy()->toArray() : null,
             'autoPay' => $this->getAutoPay(),
+            'bidCount' => $this->getBidCount(),
+            'availableForPickupDropOff' => $this->getAvailableForPickupDropOff(),
             'title' => $this->getTitle(),
             'bestOfferEnabled' => $this->getBestOfferEnabled(),
             'description' => $this->getDescription(),

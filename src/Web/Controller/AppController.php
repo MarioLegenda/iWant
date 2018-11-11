@@ -36,36 +36,6 @@ class AppController
         $this->apiSdk = $apiSDK;
     }
     /**
-     * @param SingleItemRequestModel $model
-     * @param QuickLookEntryPoint $singleItemEntryPoint
-     * @return JsonResponse
-     */
-    public function getSingleItem(
-        SingleItemRequestModel $model,
-        QuickLookEntryPoint $singleItemEntryPoint
-    ): JsonResponse {
-        /** @var SingleProductItem $singleItem */
-        $singleItem = $singleItemEntryPoint->getSingleItem($model);
-
-        /** @var ApiResponseData $responseData */
-        $responseData = $this->apiSdk
-            ->create($singleItem->toArray())
-            ->method('GET')
-            ->addMessage('A single item')
-            ->isResource()
-            ->setStatusCode(200)
-            ->build();
-
-        $response = new JsonResponse(
-            $responseData->toArray(),
-            $responseData->getStatusCode()
-        );
-
-        $response->headers->set('Cache-Control', 'no-cache');
-
-        return $response;
-    }
-    /**
      * @param CountryEntryPoint $countryEntryPoint
      * @return JsonResponse
      */
