@@ -1,0 +1,33 @@
+.SingleItemWrapper {
+  width: 960px;
+  overflow: hidden;
+
+  margin: 0 auto;
+
+  .Row {
+    width: 100%;
+    float: left;
+  }
+
+  .RightPanel {
+    width: 450px;
+    float: right;
+
+    margin-top: 50px;
+  }
+
+  .LeftPanel {
+    width: 450px;
+    float: left;
+
+    margin-top: 50px;
+  }
+
+  .TitleWrapper {
+    font-family: $emphasiseFont;
+
+    .Title {
+      color: black;
+    }
+  }
+}

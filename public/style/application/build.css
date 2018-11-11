@@ -1333,6 +1333,32 @@ html {
     margin-bottom: 80px;
   }
 }
+.SingleItemWrapper {
+  width: 960px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.SingleItemWrapper .Row {
+  width: 100%;
+  float: left;
+}
+.SingleItemWrapper .RightPanel {
+  width: 450px;
+  float: right;
+  margin-top: 50px;
+}
+.SingleItemWrapper .LeftPanel {
+  width: 450px;
+  float: left;
+  margin-top: 50px;
+}
+.SingleItemWrapper .TitleWrapper {
+  font-family: "Playfair Display SC", "Quicksand", serif;
+}
+.SingleItemWrapper .TitleWrapper .Title {
+  color: black;
+}
+
 .v-select {
   width: 250px;
   position: absolute !important;

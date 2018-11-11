@@ -48,7 +48,12 @@ app_put_single_item:
   controller: App\Web\Controller\QuickLookSingleItemController::putSingleItem
   methods: [PUT]
 
+app_get_quick_look_single_item:
+  path: /ebay/get-quick-look-single-item/{locale}/{itemId}
+  controller: App\Web\Controller\QuickLookSingleItemController:getSingleItem
+  methods: [GET]
+
 app_get_single_item:
   path: /ebay/get-single-item/{locale}/{itemId}
-  controller: App\Web\Controller\QuickLookSingleItemController:getSingleItem
+  controller: App\Web\Controller\SingleItemController:getSingleItem
   methods: [GET]

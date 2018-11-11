@@ -90,6 +90,10 @@ class SingleItemEntryPoint
         /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->shoppingApiEntryPoint->getSingleItem($requestModel);
 
+        if ($responseModel->isErrorResponse()) {
+            return null;
+        }
+
         $singleItemArray = $responseModel->getSingleItem()->toArray();
 
         $singleItemArray = $this->translationCenter->translateMultiple(

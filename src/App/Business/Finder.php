@@ -129,7 +129,7 @@ class Finder
         if ($this->singleProductItemCacheImplementation->isStored($model->getItemId())) {
             return new SingleItemOptionsResponse(
                 'GET',
-                    $this->router->generate('app_get_single_item', [
+                    $this->router->generate('app_get_quick_look_single_item', [
                         'itemId' => $model->getItemId(),
                         'locale' => $model->getLocale(),
                     ]),

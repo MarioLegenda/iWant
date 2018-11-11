@@ -116,8 +116,23 @@ class SingleItemRepository {
             .catch(error);
     }
 
-    getSingleItem(data, success, error) {
+    getQuickLookSingleItem(data, success, error) {
         return fetch(data.route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
+            .then((response) => {
+                return response.json();
+            })
+            .then(success)
+            .catch(error);
+    }
+
+    getSingleItem(data, success, error) {
+        const route = routes.createRouteFromName('app_get_single_item', data);
+
+        console.log(route);
+        return fetch(route, {
             method: 'GET',
             headers: requiredHeaders,
         })

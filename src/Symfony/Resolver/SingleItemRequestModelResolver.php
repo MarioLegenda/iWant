@@ -35,6 +35,7 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
 
         $supportedRoutes = [
             'app_put_single_item',
+            'app_get_quick_look_single_item',
             'app_get_single_item',
         ];
 
@@ -45,7 +46,10 @@ class SingleItemRequestModelResolver implements ArgumentValueResolverInterface
         $data = null;
         if ($request->get('_route') === 'app_put_single_item') {
             $data = $this->extractItemIdFromBody($request);
-        } else if ($request->get('_route') === 'app_get_single_item') {
+        } else if (
+            $request->get('_route') === 'app_get_quick_look_single_item' OR
+            $request->get('_route') === 'app_get_single_item'
+        ) {
             $data = $this->extractDataFromUrl($request);
         }
 

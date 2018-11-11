@@ -26,6 +26,19 @@ class ApiResponseDataFactory
         $this->apiSdk = $apiSDK;
     }
     /**
+     * @return ApiResponseData
+     */
+    public function create404Response(): ApiResponseData
+    {
+        return $this->apiSdk
+            ->create([])
+            ->method('GET')
+            ->addMessage('Resource not found')
+            ->isResource()
+            ->setStatusCode(404)
+            ->build();
+    }
+    /**
      * @param PreparedEbayResponse $preparedEbayResponse
      * @return ApiResponseData
      */

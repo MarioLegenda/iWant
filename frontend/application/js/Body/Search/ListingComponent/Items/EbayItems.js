@@ -164,7 +164,7 @@ const QuickLook = {
                             locale: this.$localeInfo.locale
                         }, (r) => this.item = r.resource.data.singleItem)
                     } else if (options.method === 'GET') {
-                        singleItemRepo.getSingleItem({
+                        singleItemRepo.getQuickLookSingleItem({
                             route: options.route
                         }, (r) => this.item = r.resource.data.singleItem);
                     }

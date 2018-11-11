@@ -3,41 +3,37 @@ import {RepositoryFactory} from "../../services/repositoryFactory";
 export const SingleItem = {
     data: function() {
         return {
-            item: {},
+            item: null,
         }
     },
-    template: `<div>
-                    <p>{{item.title}}</p>
-                    <p>{{item.description}}</p>
+    template: `<div v-if="item" class="SingleItemWrapper">
+                    <div class="Panel LeftPanel">
+                        <div class="Row ThumbnailImageWrapper">
+                            <img :src="item.galleryUrl" />
+                        </div>
+                    </div>
+                    
+                    <div class="Panel RightPanel">
+                        <div class="Row TitleWrapper">
+                            <h1 class="Title">{{item.title}}</h1>
+                        </div>
+                    </div>
                </div>`,
     created() {
-        if (this.singleItem !== null) {
-            const singleItemRepo = RepositoryFactory.create('single-item');
-
-            singleItemRepo.getSingleItem({
-                itemId: this.singleItem.itemId,
-            }, (response) => {
-                this.item = response.resource.data;
-            });
-        } else if (this.singleItem === null) {
+        if (this.item === null) {
             const singleItemRepo = RepositoryFactory.create('single-item');
 
             const paths = window.location.pathname.split('/');
 
-            const marketplace = paths[2];
             const itemId = paths[4];
 
             singleItemRepo.getSingleItem({
-                marketplace: marketplace,
+                locale: this.$localeInfo.locale,
                 itemId: itemId,
-            }, (response) => {
-                this.item = response.resource.data;
+            }, (r) => {
+                console.log(r.resource.data);
+                this.item = r.resource.data;
             });
         }
     },
-    computed: {
-        singleItem: function() {
-            return this.$store.state.singleItem;
-        }
-    }
 };
