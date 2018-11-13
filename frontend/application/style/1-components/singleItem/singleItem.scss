@@ -6,6 +6,54 @@
 
   margin: 0 auto;
 
+  .IsHoverable {
+    cursor: pointer;
+  }
+
+  .NameValueContainer {
+    width: 100%;
+    float: left;
+
+    position: relative;
+
+    margin: 0 0 15px 0;
+    padding: 0 0 15px 0;
+
+    .Name {
+      width: 200px;
+      float: left;
+    }
+
+    .Value {
+      width: 180px;
+      float: right;
+
+      color: black;
+    }
+
+    .ActionIdentifier {
+      display: block;
+      position: absolute;
+      right: 20px;
+      top: 4px;
+      color: $basicOrange;
+    }
+
+    .NameValueDescription {
+      width: 100%;
+      float: left;
+
+      padding: 0 0 0 20px;
+      margin: 20px 0 0 0;
+
+      line-height: 1.4em;
+    }
+  }
+
+  .Border {
+    border-bottom: 1px solid $lightestGray;
+  }
+
   .LightSeparator {
     margin: 5px 0 5px 0;
   }
@@ -65,6 +113,63 @@
     margin-left: 0;
   }
 
+  .DescriptionWrapper {
+    width: 100%;
+    float: left;
+
+    margin: 30px 0 30px 0;
+
+    position: relative;
+
+    .DescriptionHeader {
+      font-weight: bold;
+      font-size: 1.1em;
+
+      padding-bottom: 5px;
+      border-bottom: 1px solid $lightestGray;
+
+      margin-bottom: 30px;
+    }
+
+    .Description {
+      line-height: 1.4em;
+
+      overflow: hidden;
+    }
+
+    .ShadowWrapper {
+      position: absolute;
+
+      -webkit-box-shadow: inset -5px -71px 85px -19px rgba(255,255,255,1);
+      -moz-box-shadow: inset -5px -71px 85px -19px rgba(255,255,255,1);
+      box-shadow: inset -5px -71px 85px -19px rgba(255,255,255,1);
+
+      width: 100%;
+      height: 150px;
+
+      bottom: 55px;
+    }
+
+    .MoreButton {
+      display: block;
+      font-family: $mainFont;
+      color: black;
+      font-weight: bold;
+      border: none;
+      width: 100px;
+      float: right;
+      font-size: 1.1em;
+
+      margin-top: 50px;
+      text-align: right;
+
+      &:hover {
+        cursor: pointer;
+        border-bottom: 1px solid $lightestGray;
+      }
+    }
+  }
+
   .ThumbnailImageWrapper {
     .Image {
       display: block;
@@ -94,6 +199,53 @@
       font-weight: bold;
 
       border-bottom: 1px solid $lightestGray;
+    }
+  }
+
+  .PriceWrapper {
+    width: 200px;
+    float: left;
+
+    .Price {
+      font-size: 1.3em;
+      color: black;
+      margin: 5px 0 5px 0;
+
+      .currencySign {
+        font-weight: bold;
+        display: inline-block;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .ShippingOptionsWrapper {
+    width: 200px;
+    float: right;
+
+    margin-top: 8px;
+
+    button {
+      width: 100%;
+      background: none;
+      font-family: $mainFont;
+      font-size: 1em;
+
+      padding: 10px;
+
+      border: 1px solid $lightestGray;
+
+      border-radius: 10px;
+
+      transition: border, 0.5s;
+      -webkit-transition: border, 0.5s;
+      -moz-transition: border, 0.5s;
+      -o-transition: border, 0.5s;
+
+      &:hover {
+        cursor: pointer;
+        border: 1px solid $basicOrange;
+      }
     }
   }
 }

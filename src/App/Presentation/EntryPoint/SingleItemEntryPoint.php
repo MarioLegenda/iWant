@@ -74,6 +74,7 @@ class SingleItemEntryPoint
                 [
                     'title',
                     'description',
+                    'conditionDisplayName',
                 ],
                 $this->getTranslations($model->getItemId()),
                 $model->getLocale(),
@@ -101,6 +102,7 @@ class SingleItemEntryPoint
             [
                 'title',
                 'description',
+                'conditionDisplayName',
             ],
             $this->getTranslations($model->getItemId()),
             $model->getLocale(),

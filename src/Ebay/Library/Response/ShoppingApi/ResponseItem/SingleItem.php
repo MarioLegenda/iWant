@@ -3,6 +3,7 @@
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Tools\TypeParser;
 use App\Library\Util\Util;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ReturnPolicy\ReturnPolicy;
 
@@ -226,7 +227,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->eligibleForPickupDropOff === null) {
             if (!empty($this->simpleXml->EligibleForPickupDropOff)) {
-                $this->eligibleForPickupDropOff = (string) $this->simpleXml->EligibleForPickupDropOff;
+                $this->eligibleForPickupDropOff = TypeParser::parseBooleanFromString((string) $this->simpleXml->EligibleForPickupDropOff);
             }
         }
 
@@ -244,7 +245,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->globalShipping === null) {
             if (!empty($this->simpleXml->GlobalShipping)) {
-                $this->globalShipping = (bool) $this->simpleXml->GlobalShipping;
+                $this->globalShipping = TypeParser::parseBooleanFromString((string) $this->simpleXml->GlobalShipping);
             }
         }
 
@@ -390,7 +391,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->availableForPickupDropOff === null) {
             if (!empty($this->simpleXml->AvailableForPickupDropOff)) {
-                $this->autoPay = (bool) $this->simpleXml->AvailableForPickupDropOff;
+                $this->availableForPickupDropOff = TypeParser::parseBooleanFromString((string) $this->simpleXml->AvailableForPickupDropOff);
             }
         }
 
@@ -408,7 +409,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->buyItNowAvailable === null) {
             if (!empty($this->simpleXml->BuyItNowAvailable)) {
-                $this->buyItNowAvailable = (bool) $this->simpleXml->BuyItNowAvailable;
+                $this->buyItNowAvailable = TypeParser::parseBooleanFromString((string) $this->simpleXml->BuyItNowAvailable);
             }
         }
 
@@ -426,7 +427,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->autoPay === null) {
             if (!empty($this->simpleXml->AutoPay)) {
-                $this->autoPay = (bool) $this->simpleXml->AutoPay;
+                $this->autoPay = TypeParser::parseBooleanFromString((string) $this->simpleXml->AutoPay);
             }
         }
 
@@ -480,7 +481,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->bestOfferEnabled === null) {
             if (!empty($this->simpleXml->BestOfferEnabled)) {
-                $this->bestOfferEnabled = (string) $this->simpleXml->BestOfferEnabled;
+                $this->bestOfferEnabled = TypeParser::parseBooleanFromString((string) $this->simpleXml->BestOfferEnabled);
             }
         }
 
