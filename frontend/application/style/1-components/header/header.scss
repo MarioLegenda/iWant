@@ -44,6 +44,15 @@
     .like-part {
       color: #f78f27;
     }
+
+    .version-part {
+      color: $middleGray;
+      font-size: 0.7em;
+      font-weight: normal;
+      font-family: $mainFont;
+
+      margin-left: 10px;
+    }
   }
 
   .SearchBox {

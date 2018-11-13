@@ -1,6 +1,3 @@
-import {SearchBox} from "./SearchBox";
-import {SiteLanguageChoice} from "./SiteLanguageChoice";
-
 export const Header = {
     template: `<div id="main_header">
                    <header>
@@ -8,12 +5,8 @@ export const Header = {
                            <span class="logo-part i-part">i</span>
                            <span class="logo-part would-part">Would</span>
                            <span class="logo-part like-part">Like</span>
+                           <span class="logo-part version-part">Beta version</span>
                        </router-link>
                    </header>
-                                                       
-                   <router-view name="search-box"></router-view>
                </div>`,
-    components: {
-        'search-box': SearchBox,
-    }
 };

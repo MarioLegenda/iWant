@@ -235,6 +235,13 @@ html {
 #main_header .logo .like-part {
   color: #f78f27;
 }
+#main_header .logo .version-part {
+  color: #898989;
+  font-size: 0.7em;
+  font-weight: normal;
+  font-family: "Quicksand", sans-serif;
+  margin-left: 10px;
+}
 #main_header .SearchBox {
   width: 480px;
   min-width: 480px;

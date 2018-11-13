@@ -8,7 +8,6 @@ export const routes = [
         path: '/',
         components: {
             'default': Homepage,
-            'search-box': SearchBox,
         },
         name: 'Home'
     },
