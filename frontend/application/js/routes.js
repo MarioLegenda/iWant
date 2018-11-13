@@ -1,11 +1,10 @@
 import {Homepage} from "./Body/Homepage/Homepage";
 import {SingleItem} from "./Body/SingleItem/SingleItem";
-import {SearchBox} from "./Header/SearchBox";
 import {SearchPage} from "./Body/Search/SearchPage";
 
 export const routes = [
     {
-        path: '/',
+        path: '/:locale?',
         components: {
             'default': Homepage,
         },
