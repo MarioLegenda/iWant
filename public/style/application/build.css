@@ -1344,6 +1344,17 @@ html {
 .SingleItemWrapper .IsHoverable {
   cursor: pointer;
 }
+.SingleItemWrapper .ItemLoaderWrapper {
+  width: 100%;
+  float: left;
+  margin: 30px 0 30px 0;
+}
+.SingleItemWrapper .ItemLoaderWrapper .ItemLoader {
+  text-align: center;
+  color: #d6d6d6;
+  font-size: 2.5em;
+  font-weight: bold;
+}
 .SingleItemWrapper .NameValueContainer {
   width: 100%;
   float: left;

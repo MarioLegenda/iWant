@@ -80,6 +80,14 @@ const DescriptionContainer = {
     }
 };
 
+const ItemLoader = {
+    template: `
+        <div class="ItemLoaderWrapper">
+            <p class="ItemLoader">... Loading product ...</p>
+        </div>
+    `
+};
+
 
 export const SingleItem = {
     data: function() {
@@ -87,8 +95,11 @@ export const SingleItem = {
             item: null,
         }
     },
-    template: `<div v-if="item" class="SingleItemWrapper">
-                    <div class="SingleItem">
+    template: `<div class="SingleItemWrapper">
+
+                    <item-loader v-if="item === null"></item-loader>
+                    
+                    <div v-if="item" class="SingleItem">
                         <div class="CenterPanel">
                             <div class="Seller">
                                 <h1>{{item.seller.userId}}</h1>
@@ -214,5 +225,6 @@ export const SingleItem = {
         'action-name-value-container': ActionNameValueContainer,
         'name-value-container': NameValueContainer,
         'description-container': DescriptionContainer,
+        'item-loader': ItemLoader,
     }
 };
