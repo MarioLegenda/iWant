@@ -53,7 +53,6 @@ class SingleProductItemCacheImplementation
         $this->singleProductItemCache->set(
             $itemId,
             $response,
-            $this->calculateTTL(),
             $marketplaceType
         );
 
@@ -82,15 +81,5 @@ class SingleProductItemCacheImplementation
         }
 
         return $cache;
-    }
-    /**
-     * @return int
-     */
-    private function calculateTTL(): int
-    {
-        $currentTimestamp = Util::toDateTime()->getTimestamp();
-        $hours24 = 60 * 60 * 24;
-
-        return $currentTimestamp + $hours24;
     }
 }

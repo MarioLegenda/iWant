@@ -37,7 +37,6 @@ class PreparedResponseCacheImplementation
     }
     /**
      * @param string $uniqueName
-     * @param int $page
      * @param string $value
      * @return bool
      * @throws \App\Cache\Exception\CacheException
@@ -50,8 +49,7 @@ class PreparedResponseCacheImplementation
     ): bool {
         $this->preparedResponseCache->set(
             $uniqueName,
-            $value,
-            $this->calculateTTL()
+            $value
         );
 
         return true;
@@ -80,15 +78,5 @@ class PreparedResponseCacheImplementation
         }
 
         return $cache->getResponse();
-    }
-    /**
-     * @return int
-     */
-    private function calculateTTL(): int
-    {
-        $currentTimestamp = Util::toDateTime()->getTimestamp();
-        $hours24 = 60 * 60 * 24;
-
-        return $currentTimestamp + $hours24;
     }
 }

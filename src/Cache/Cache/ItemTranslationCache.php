@@ -14,13 +14,20 @@ class ItemTranslationCache
      */
     private $itemTranslationRepository;
     /**
+     * @var int $cacheTtl
+     */
+    private $cacheTtl;
+    /**
      * ItemTranslationCache constructor.
      * @param ItemTranslationCacheRepository $itemTranslationCacheRepository
+     * @param int $cacheTtl
      */
     public function __construct(
-        ItemTranslationCacheRepository $itemTranslationCacheRepository
+        ItemTranslationCacheRepository $itemTranslationCacheRepository,
+        int $cacheTtl
     ) {
         $this->itemTranslationRepository = $itemTranslationCacheRepository;
+        $this->cacheTtl = $cacheTtl;
     }
     /**
      * @param string $itemId
@@ -143,30 +150,12 @@ class ItemTranslationCache
      */
     public function set(
         string $itemId,
-        string $translations,
-        int $ttl = null
+        string $translations
     ) {
-        if (empty($ttl)) {
-            $message = sprintf(
-                'TTL has to be implemented in %s::set()',
-                get_class($this)
-            );
-
-            throw new CacheException($message);
-        }
-
-        if (!is_int($ttl)) {
-            $message = sprintf(
-                'TTL has to be an timestamp integer'
-            );
-
-            throw new CacheException($message);
-        }
-
         $cache = $this->createItemTranslationCache(
             $itemId,
             $translations,
-            $ttl
+            Util::toDateTime()->getTimestamp() + $this->cacheTtl
         );
 
         $this->itemTranslationRepository->persistAndFlush($cache);

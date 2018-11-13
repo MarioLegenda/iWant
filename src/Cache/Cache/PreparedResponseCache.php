@@ -10,17 +10,24 @@ use App\Library\Util\Util;
 class PreparedResponseCache
 {
     /**
+     * @var int $cacheTtl
+     */
+    private $cacheTtl;
+    /**
      * @var PreparedResponseCacheRepository $preparedResponseCacheRepository
      */
     private $preparedResponseCacheRepository;
     /**
      * PreparedResponseCache constructor.
      * @param PreparedResponseCacheRepository $preparedResponseCacheRepository
+     * @param int $cacheTtl
      */
     public function __construct(
-        PreparedResponseCacheRepository $preparedResponseCacheRepository
+        PreparedResponseCacheRepository $preparedResponseCacheRepository,
+        int $cacheTtl
     ) {
         $this->preparedResponseCacheRepository = $preparedResponseCacheRepository;
+        $this->cacheTtl;
     }
     /**
      * @param $key
@@ -56,37 +63,18 @@ class PreparedResponseCache
     /**
      * @param string $key
      * @param string $value
-     * @param null|int $ttl
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function set(
         string $key,
-        string $value,
-        int $ttl = null
+        string $value
     ) {
-        if (empty($ttl)) {
-            $message = sprintf(
-                'TTL has to be implemented in %s::set()',
-                get_class($this)
-            );
-
-            throw new CacheException($message);
-        }
-
-        if (!is_int($ttl)) {
-            $message = sprintf(
-                'TTL has to be an timestamp integer'
-            );
-
-            throw new CacheException($message);
-        }
-
         $cache = $this->createPreparedResponseCache(
             $key,
             $value,
-            $ttl
+            Util::toDateTime()->getTimestamp() + $this->cacheTtl
         );
 
         $this->preparedResponseCacheRepository->persistAndFlush($cache);

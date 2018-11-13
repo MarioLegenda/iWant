@@ -52,8 +52,7 @@ class SearchResponseCacheImplementation
         $this->searchResponseCache->set(
             $uniqueName,
             $page,
-            $value,
-            $this->calculateTTL()
+            $value
         );
 
         return true;
@@ -97,15 +96,5 @@ class SearchResponseCacheImplementation
         }
 
         return $cache->getProductsResponse();
-    }
-    /**
-     * @return int
-     */
-    private function calculateTTL(): int
-    {
-        $currentTimestamp = Util::toDateTime()->getTimestamp();
-        $hours24 = 60 * 60 * 24;
-
-        return $currentTimestamp + $hours24;
     }
 }

@@ -70,7 +70,13 @@ parameters:
             dev_name: 'X-BONANZLE-API-DEV-NAME'
         params:
             dev_name: 'Nx901rIYSgvm2po'
+
     locale: 'en'
+
+    single_item_cache_ttl: 86400
+    search_response_cache_ttl: 86400
+    prepared_response_cache_ttl: 86400
+    item_translation_cache_ttl: 432000
 
 services:
     _defaults:
@@ -208,6 +214,22 @@ services:
 
     App\Cache\:
         resource: '../src/Cache'
+
+    App\Cache\Cache\SingleProductItemCache:
+        arguments:
+            $cacheTtl: '%single_item_cache_ttl%'
+
+    App\Cache\Cache\SearchResponseCache:
+        arguments:
+            $cacheTtl: '%search_response_cache_ttl%'
+
+    App\Cache\Cache\PreparedResponseCache:
+        arguments:
+            $cacheTtl: '%prepared_response_cache_ttl%'
+
+    App\Cache\Cache\ItemTranslationCache:
+        arguments:
+            $cacheTtl: '%item_translation_cache_ttl%'
 
     # SYMFONY
 

@@ -15,13 +15,20 @@ class SearchResponseCache implements UpdateableCacheInterface
      */
     private $searchCacheRepository;
     /**
+     * @var int $cacheTtl
+     */
+    private $cacheTtl;
+    /**
      * SearchResponseCache constructor.
      * @param SearchCacheRepository $searchCacheRepository
+     * @param int $cacheTtl
      */
     public function __construct(
-        SearchCacheRepository $searchCacheRepository
+        SearchCacheRepository $searchCacheRepository,
+        int $cacheTtl
     ) {
         $this->searchCacheRepository = $searchCacheRepository;
+        $this->cacheTtl = $cacheTtl;
     }
     /**
      * @param $key
@@ -58,7 +65,6 @@ class SearchResponseCache implements UpdateableCacheInterface
      * @param string $key
      * @param int $page
      * @param string $value
-     * @param null|int $ttl
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -66,31 +72,13 @@ class SearchResponseCache implements UpdateableCacheInterface
     public function set(
         string $key,
         int $page,
-        string $value,
-        int $ttl = null
+        string $value
     ) {
-        if (empty($ttl)) {
-            $message = sprintf(
-                'TTL has to be implemented in %s::set()',
-                get_class($this)
-            );
-
-            throw new CacheException($message);
-        }
-
-        if (!is_int($ttl)) {
-            $message = sprintf(
-                'TTL has to be an timestamp integer'
-            );
-
-            throw new CacheException($message);
-        }
-
         $cache = $this->createSearchCache(
             $key,
             $page,
             $value,
-            $ttl
+            Util::toDateTime()->getTimestamp() + $this->cacheTtl
         );
 
         $this->searchCacheRepository->persistAndFlush($cache);

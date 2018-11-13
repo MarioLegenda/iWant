@@ -4,7 +4,6 @@ namespace App\Cache\Implementation;
 
 use App\Doctrine\Entity\ItemTranslationCache as ItemTranslationCacheEntity;
 use App\Cache\Cache\ItemTranslationCache;
-use App\Library\Util\Util;
 
 class ItemTranslationCacheImplementation
 {
@@ -51,8 +50,7 @@ class ItemTranslationCacheImplementation
     ): bool {
         $this->itemTranslationCache->set(
             $itemId,
-            json_encode($translations),
-            $this->calculateTTL()
+            json_encode($translations)
         );
 
         return true;
@@ -98,15 +96,5 @@ class ItemTranslationCacheImplementation
             $itemId,
             json_encode($translations)
         );
-    }
-    /**
-     * @return int
-     */
-    private function calculateTTL(): int
-    {
-        $currentTimestamp = Util::toDateTime()->getTimestamp();
-        $days5 = 60 * 60 * 24 * 5;
-
-        return $currentTimestamp + $days5;
     }
 }

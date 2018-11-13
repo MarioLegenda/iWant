@@ -70,6 +70,11 @@ parameters:
         params:
             dev_name: 'Nx901rIYSgvm2po'
 
+    single_item_cache_ttl: 86400
+    search_response_cache_ttl: 86400
+    prepared_response_cache_ttl: 86400
+    item_translation_cache_ttl: 432000
+
 services:
     _defaults:
         autowire: true
@@ -180,6 +185,22 @@ services:
 
     App\Cache\:
         resource: '../src/Cache'
+
+    App\Cache\Cache\SingleProductItemCache:
+        arguments:
+            $cacheTtl: '%single_item_cache_ttl%'
+
+    App\Cache\Cache\SearchResponseCache:
+        arguments:
+            $cacheTtl: '%search_response_cache_ttl%'
+
+    App\Cache\Cache\PreparedResponseCache:
+        arguments:
+            $cacheTtl: '%prepared_response_cache_ttl%'
+
+    App\Cache\Cache\ItemTranslationCache:
+        arguments:
+            $cacheTtl: '%item_translation_cache_ttl%'
 
     # DATA PROVIDERS
     App\Tests\Ebay\FindingApi\DataProvider\:

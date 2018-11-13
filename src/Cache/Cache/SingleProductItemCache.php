@@ -15,13 +15,20 @@ class SingleProductItemCache
      */
     private $singleProductItemRepository;
     /**
+     * @var int $cacheTtl
+     */
+    private $cacheTtl;
+    /**
      * SingleProductItemCache constructor.
      * @param SingleProductItemRepository $singleProductItemRepository
+     * @param int $cacheTtl
      */
     public function __construct(
-        SingleProductItemRepository $singleProductItemRepository
+        SingleProductItemRepository $singleProductItemRepository,
+        int $cacheTtl
     ) {
         $this->singleProductItemRepository = $singleProductItemRepository;
+        $this->cacheTtl = $cacheTtl;
     }
     /**
      * @param string $itemId
@@ -47,7 +54,7 @@ class SingleProductItemCache
             $ttlTimestamp = $currentTimestamp - $expiresAt;
 
             if ($ttlTimestamp >= 0) {
-                $this->delete($singleProductItem);
+                $this->deleteObject($singleProductItem);
             }
         }
 
@@ -58,7 +65,6 @@ class SingleProductItemCache
     /**
      * @param string $itemId
      * @param string $response
-     * @param int $ttl
      * @param MarketplaceType $marketplaceType
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -67,30 +73,12 @@ class SingleProductItemCache
     public function set(
         string $itemId,
         string $response,
-        int $ttl,
         MarketplaceType $marketplaceType
     ) {
-        if (empty($ttl)) {
-            $message = sprintf(
-                'TTL has to be implemented in %s::set()',
-                get_class($this)
-            );
-
-            throw new CacheException($message);
-        }
-
-        if (!is_int($ttl)) {
-            $message = sprintf(
-                'TTL has to be an timestamp integer'
-            );
-
-            throw new CacheException($message);
-        }
-
         $cache = $this->createSingleProductItem(
             $itemId,
             $response,
-            $ttl,
+            Util::toDateTime()->getTimestamp() + $this->cacheTtl,
             $marketplaceType
         );
 
@@ -118,6 +106,19 @@ class SingleProductItemCache
         }
 
         return false;
+    }
+    /**
+     * @param SingleProductItem $singleProductItem
+     * @return bool
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteObject(SingleProductItem $singleProductItem)
+    {
+        $this->singleProductItemRepository->getManager()->remove($singleProductItem);
+        $this->singleProductItemRepository->getManager()->flush();
+
+        return true;
     }
     /**
      * @param string $itemId
