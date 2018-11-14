@@ -60,11 +60,11 @@ const DescriptionContainer = {
     },
     template: `<div class="Row DescriptionWrapper">
                    <div v-if="showShadow && charLength > charLimit" class="ShadowWrapper"></div>
-                   <h1 class="DescriptionHeader">Description:</h1>
+                   <h1 class="DescriptionHeader">{{translationsMap.productPage.description}}</h1>
                    <p class="Description" v-bind:style="style">{{normalizedDescription}}</p>
                                 
-                   <p v-if="showShadow && charLength > charLimit" @click="showMoreDescription" class="MoreButton">... more</p>
-                   <p v-if="!showShadow" @click="showLessDescription" class="MoreButton">... less</p>
+                   <p v-if="showShadow && charLength > charLimit" @click="showMoreDescription" class="MoreButton">{{translationsMap.productPage.more}}</p>
+                   <p v-if="!showShadow" @click="showLessDescription" class="MoreButton">{{translationsMap.productPage.less}}</p>
                </div>`,
     props: ['description'],
     computed: {
@@ -76,18 +76,10 @@ const DescriptionContainer = {
                 return this.description;
             }
 
-            const locale = this.$localeInfo.locale;
-
-            switch (locale) {
-                case 'en':
-                    this.noDescriptionText = 'There is no description for this item';
-
-                    break;
-                default:
-                    this.noDescriptionText = 'There is no description for this item';
-            }
-
-
+            return this.translationsMap.noDescription;
+        },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
         }
     },
     methods: {
@@ -104,9 +96,14 @@ const DescriptionContainer = {
 const ItemLoader = {
     template: `
         <div class="ItemLoaderWrapper">
-            <p class="ItemLoader">... Loading product ...</p>
+            <p class="ItemLoader">{{translationsMap.productPage.loadingProduct}}</p>
         </div>
-    `
+    `,
+    computed: {
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        }
+    }
 };
 
 
@@ -125,7 +122,7 @@ export const SingleItem = {
                             <div class="Seller">
                                 <h1>{{item.seller.userId}}</h1>
                                 <span>({{item.seller.feedbackScore}})</span>
-                                <p>Positive feedback score: <span>{{sellerFeedbackPercent}}%</span></p>
+                                <p>{{translationsMap.productPage.positiveFeedbackScore}}<span>{{sellerFeedbackPercent}}%</span></p>
                             </div>
                         </div>
                         
@@ -143,7 +140,7 @@ export const SingleItem = {
                             </div>
                             
                             <div class="Row ViewsWrapper LightSeparator">
-                                <p>{{item.hitCount}} views</p>
+                                <p>{{item.hitCount}} {{translationsMap.productPage.views}}</p>
                             </div>
                             
                             <div class="Row PriceWrapper">
@@ -159,35 +156,35 @@ export const SingleItem = {
                             </div>
                             
                             <div class="Row ShippingOptionsWrapper">
-                                <button>View ShippingDetails</button>
+                                <button>{{translationsMap.productPage.viewShippingDetails}}</button>
                             </div>
                             
                             <div class="CenterPanel Border"></div>
                             
                             <name-value-container
-                                name="Is auction: "
-                                v-bind:value="(item.bidCount !== 0) ? 'Yes' : 'No'">
+                                v-bind:name="translationsMap.productPage.isAuction"
+                                v-bind:value="(item.bidCount !== 0) ? translationsMap.yes : translationsMap.no">
                             </name-value-container>
                             
                             <name-value-container
-                                name="Handling time: "
+                                v-bind:name="translationsMap.productPage.handlingTime"
                                 v-bind:value="parseHandlingTimeString(item.handlingTime)">
                             </name-value-container>
                             
                             <name-value-container
-                                name="Condition: "
+                                v-bind:name="translationsMap.productPage.condition"
                                 v-bind:value="item.conditionDisplayName">
                             </name-value-container>
                             
                             <action-name-value-container 
-                                name="Requires immediate payment: "
-                                v-bind:value="(item.autoPay === true) ? 'Yes' : 'No'"
+                                v-bind:name="translationsMap.productPage.requiresImmediatePayment"
+                                v-bind:value="(item.autoPay === true) ? translationsMap.yes : translationsMap.no"
                                 description="The seller requires immediate payment for the item. Buyers must have a PayPal account to purchase items that require immediate payment">
                             </action-name-value-container>
                             
                             <action-name-value-container
-                                name="Best offer feature enabled: "
-                                v-bind:value="(item.bestOfferEnabled === true) ? 'Yes' : 'No'"
+                                v-bind:name="translationsMap.productPage.bestOfferFeatureEnabled"
+                                v-bind:value="(item.bestOfferEnabled === true) ? translationsMap.yes : translationsMap.no"
                                 v-bind:description="false">
                                 
                                 <div slot="description">
@@ -198,7 +195,7 @@ export const SingleItem = {
                             </action-name-value-container>
                             
                             <div class="Row ViewOnEbayButtonWrapper">
-                                <a :href="item.viewItemUrlForNaturalSearch" target="_blank">View on eBay<i class="fas fa fa-link"></i></a>
+                                <a :href="item.viewItemUrlForNaturalSearch" target="_blank">{{translationsMap.productPage.viewOnEbay}}<i class="fas fa fa-link"></i></a>
                             </div>
                            
                         </div>
@@ -231,6 +228,9 @@ export const SingleItem = {
             }
 
             return feedbackPercent;
+        },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
         }
     },
     methods: {

@@ -25,12 +25,15 @@ export const SiteLanguageChoice = {
             this.selectLocale(this.$localeInfo.locale);
 
             return localeChanged;
+        },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
         }
     },
     template: `
             <div class="SiteLanguageChoice">
                 <input type="hidden" :value="localeChanged" />
-                <span class="Title">All products searched will be translated to the language you select</span>
+                <span class="Title">{{translationsMap.languageChoiceExplanation}}</span>
                 <v-select
                     :value="selected"
                     :options="options"

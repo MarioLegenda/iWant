@@ -22,7 +22,7 @@ export const SearchBox = {
                                     v-on:keydown.enter="submit"
                                     type="text" v-model="text"
                                     v-bind:class="[activeClass, errorClass]"
-                                    placeholder="what would you like?"/>
+                                    :placeholder="translationsMap.searchInputPlaceholder"/>
 
                                 <div class="SearchBox_SubmitBox">
                                     <button @click="submit"><i class="fas fa-chevron-right"></i></button>
@@ -31,6 +31,11 @@ export const SearchBox = {
                                                       
                            <p v-if="enterToSearch" class="SearchBoxAdvanced-enter-to-search">* Press Enter to search</p>
                </div>`,
+    computed: {
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        }
+    },
     methods: {
         submit: function() {
             if (this.text === null) {

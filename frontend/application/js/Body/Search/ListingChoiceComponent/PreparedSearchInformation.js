@@ -13,15 +13,15 @@ export const PreparedSearchInformation = {
                   <input type="hidden" :value="searchInitialiseEvent" />
                   
                   <div class="InfoRow">
-                      <span class="InfoTitle">Total products found: </span><span class="Information">{{totalProducts}}</span>
+                      <span class="InfoTitle">{{translationsMap.searchInformation.totalProductsFound}}</span><span class="Information">{{totalProducts}}</span>
                   </div>
                 
                   <div class="InfoRow">
-                      <span class="InfoTitle">eBay sites searched: </span><span class="Information">{{successSitesString}}</span>
+                      <span class="InfoTitle">{{translationsMap.searchInformation.ebaySitesSearched}}</span><span class="Information">{{successSitesString}}</span>
                   </div>
                 
                   <div class="InfoRow">
-                      <span class="InfoTitle">Failed searches: </span><span class="Information">{{failedSitesString}}</span>
+                      <span class="InfoTitle">{{translationsMap.searchInformation.failedSearches}}</span><span class="Information">{{failedSitesString}}</span>
                   </div>
                </div>`,
     methods: {
@@ -78,5 +78,8 @@ export const PreparedSearchInformation = {
 
             return preparedEbayRequestEvent;
         },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        }
     }
 };

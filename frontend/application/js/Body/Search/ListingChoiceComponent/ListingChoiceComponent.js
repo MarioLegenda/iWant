@@ -24,7 +24,8 @@ const ListingChoice = {
 };
 
 const NoItems = {
-    template: `<div class="NoItems">No items found</div>`
+    template: `<div class="NoItems">{{noItemsFoundTranslation}}</div>`,
+    props: ['noItemsFoundTranslation']
 };
 
 export const ListingChoiceComponent = {
@@ -44,7 +45,7 @@ export const ListingChoiceComponent = {
             <prepared-search-information></prepared-search-information>
             
             <div class="ListingChoiceWrapper">
-                <h1 class="Title">Choose eBay site</h1>
+                <h1 class="Title">{{translationsMap.chooseEbaySite}}</h1>
 
                 <div
                     v-for="(item, globalId, index) in resolvedSites"
@@ -60,11 +61,14 @@ export const ListingChoiceComponent = {
                     </transition>
                 </div>
                 
-                <no-items v-if="hasItems === false"></no-items>
+                <no-items v-if="hasItems === false" :no-items-found-translation="translationsMap.noItemsFound"></no-items>
             </div>
         </div>
     `,
     computed: {
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        },
         preparedSearchInformation: function() {
             const preparedSearchInformation = this.$store.state.preparedSearchInformation;
 

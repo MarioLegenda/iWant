@@ -66,7 +66,7 @@ const QuickLook = {
     template: `
                    <div class="QuickLookWrapper">
                        <v-popover :open="showPopover" offset="16">
-                           <button class="tooltip-target b3" @click="loadItem">Quick look<i class="fas fa-caret-right"></i></button>
+                           <button class="tooltip-target b3" @click="loadItem">{{translationsMap.searchItem.quickLookTitle}}<i class="fas fa-caret-right"></i></button>
 
                            <template slot="popover">
                                <div v-close-popover class="Close">
@@ -85,40 +85,45 @@ const QuickLook = {
                                    
                                    <div class="Row">
                                        <div>
-                                           <span class="desc-left">Requires immediate payment:</span>
-                                           <span class="desc-right">{{(item.autoPay === true) ? 'Yes' : 'No'}}</span>
+                                           <span class="desc-left">{{translationsMap.quickLook.requiresImmediatePayment}}</span>
+                                           <span class="desc-right">{{(item.autoPay === true) ? translationsMap.yes : translationsMap.no}}</span>
                                        </div>
                                    </div>
                                    
                                    <div class="Row">
                                        <div>
-                                           <span class="desc-left">Ending on: </span>
+                                           <span class="desc-left">{{translationsMap.quickLook.endingOn}}</span>
                                            <span class="desc-right">{{parseDate(item.endTime)}}</span>
                                        </div>
                                    </div>
                                    
                                    <div class="Row">
                                        <div>
-                                           <span class="desc-left">Seller: </span>
+                                           <span class="desc-left">{{translationsMap.quickLook.seller}}</span>
                                            <span class="desc-right">{{item.seller.userId}}</span>
                                        </div>
                                    </div>
                                    
                                    <div class="Row">
                                        <div>
-                                           <span class="desc-left">Quantity: </span>
+                                           <span class="desc-left">{{translationsMap.quickLook.quantity}}</span>
                                            <span class="desc-right">{{item.quantity}}</span>
                                        </div>
                                    </div>
                                    
                                    <div class="Independent">
-                                        <button @click="goToSingleItem(item)">Full details</button>
+                                        <button @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}</button>
                                    </div>
                                </div>
                            </template>
                        </v-popover>
                    </div>
                `,
+    computed: {
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        }
+    },
     props: ['itemId'],
     methods: {
         loadItem: function() {
@@ -208,11 +213,11 @@ export const EbayItems = {
                         <quick-look :item-id="item.itemId"></quick-look>
                     
                         <div class="Row FullDetailsWrapper">
-                            <button @click="goToSingleItem(item)">Full details<i class="fas fa-caret-right"></i></button>
+                            <button @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></button>
                         </div>
                     
                         <div class="Row MarketplaceWrapper">
-                            <a :href="item.viewItemUrl" target="_blank">View on eBay</a>
+                            <a :href="item.viewItemUrl" target="_blank">{{translationsMap.searchItem.viewOnEbay}}</a>
                         </div>
                     </div>
                 
@@ -224,7 +229,7 @@ export const EbayItems = {
                 </div>
                 
                 <div v-if="ebaySearchListingLoading" class="EbayResultsLoading">
-                    Loading search results
+                    {{translationsMap.loadingSearchResults}}
                 </div>
             </div>
             `,
@@ -251,6 +256,9 @@ export const EbayItems = {
 
             return this.$store.state.filtersEvent;
         },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        }
     },
     methods: {
         onLoadMore: function(pagination) {

@@ -179,11 +179,14 @@
       margin-top: 30px;
       text-align: right;
 
-      border: 1px solid white;
+      transition: color 0.5s;
+      -webkit-transition: color 0.5s;
+      -moz-transition: color 0.5s;
+      -o-transition: color 0.5s;
 
       &:hover {
         cursor: pointer;
-        border-bottom: 1px solid $lightestGray;
+        color: $basicOrange;
       }
     }
   }
