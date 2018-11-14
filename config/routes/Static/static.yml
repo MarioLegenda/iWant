@@ -4,10 +4,6 @@ app_static_index:
     defaults:
         _locale: '%kernel.default_locale%'
 
-app_static_promise:
-    path: /promise
-    controller: App\Web\Controller\StaticController::getPromise
-
 app_static_single_item:
     path: /{_locale}/item/{title}/{itemId}
     controller: App\Web\Controller\StaticController::getSingleItem

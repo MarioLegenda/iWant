@@ -36,6 +36,17 @@ class SupportedSites {
         return false;
     }
 
+    findAny(globalId) {
+        for (const site of this.sites) {
+            if (site.globalId === globalId.toUpperCase()) {
+
+                return site;
+            }
+        }
+
+        return false;
+    }
+
     has(globalId) {
         return this.tryFind(globalId);
     }
@@ -52,5 +63,6 @@ export const SUPPORTED_SITES = new SupportedSites([
     { globalId: 'EBAY-US', icon: `/images/country_icons/ebay-us.svg`, enabled: true},
     { globalId: 'EBAY-IE', icon: `/images/country_icons/ebay-ie.svg`, enabled: true},
     { globalId: 'EBAY-PL', icon: `/images/country_icons/ebay-pl.svg`, enabled: true},
-    { globalId: 'czech', icon: `/images/country_icons/ebay-pl.svg`, enabled: false},
+    { globalId: 'CZECH', icon: `/images/country_icons/czech-republic.svg`, enabled: false},
+    { globalId: 'SLOVAKIA', icon: `/images/country_icons/slovakia.svg`, enabled: false},
 ]);

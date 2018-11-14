@@ -3,11 +3,6 @@ app_post_activity_message:
   controller: App\Web\Controller\AppController::postActivity
   methods: [POST]
 
-app_get_item:
-  path: /item/{marketplace}/{itemId}
-  controller: App\Web\Controller\AppController::getSingleItem
-  methods: [GET]
-
 app_get_countries:
   path: /get-countries
   controller: App\Web\Controller\AppController::getCountries

@@ -7,7 +7,7 @@ app_static:
   type: directory
   requirements:
     _format: 'text/html'
-    _locale: en|es|fr|it|ga|pl
+    _locale: en|es|fr|it|ga|pl|cs|sk|de
 
 app_dynamic:
   prefix: /api/v1
