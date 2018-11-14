@@ -5,7 +5,7 @@ import urlifyFactory from 'urlify';
 import {marketplacesList} from "../../../global";
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
-import {SUPPORTED_SITES} from "../../../global";
+import {SUPPORTED_SITES} from "../../../supportedSites";
 import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const SearchComponent = {

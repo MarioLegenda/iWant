@@ -1,5 +1,5 @@
 import {Item} from "../../../Listing/components/Item";
-import {SUPPORTED_SITES} from "../../../../global";
+import {SUPPORTED_SITES} from "../../../../supportedSites";
 import {RepositoryFactory} from "../../../../services/repositoryFactory";
 import urlifyFactory from 'urlify';
 import {Price} from "../../../../services/util";

@@ -1,4 +1,4 @@
-import {SUPPORTED_SITES} from "../global";
+import {SUPPORTED_SITES} from "../supportedSites";
 
 export const SiteLanguageChoice = {
     data: function() {

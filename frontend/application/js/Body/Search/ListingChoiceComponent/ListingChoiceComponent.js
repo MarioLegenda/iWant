@@ -1,6 +1,6 @@
-import {SUPPORTED_SITES} from "../../../global";
 import {RepositoryFactory} from "../../../services/repositoryFactory";
 import {PreparedSearchInformation} from "./PreparedSearchInformation";
+import {SUPPORTED_SITES} from "../../../supportedSites";
 
 const ListingChoice = {
     template: `
