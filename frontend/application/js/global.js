@@ -264,13 +264,17 @@ export class Init {
                             origin: 'Root'
                         });
                     },
-                    template: `<div class="Global">
-                   <Header></Header>
+                    template: `
+                        <transition name="fade">
+                            <div class="Global">
+                                <Header></Header>
                    
-                   <site-language-choice></site-language-choice>
+                                <site-language-choice></site-language-choice>
+
+                                <router-view></router-view>
                    
-                   <router-view></router-view>
-               </div>`,
+                            </div>
+                        </transition>`,
                     components: {
                         Header,
                         'site-language-choice': SiteLanguageChoice,

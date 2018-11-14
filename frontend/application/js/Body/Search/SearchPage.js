@@ -10,7 +10,7 @@ export const SearchPage = {
             ebayHttpInProgress: false,
         }
     },
-    template: `<div id="search_page">
+    template: `<transition name="fade"><div id="search_page">
                     <input type="hidden" :input="searchInitialiseEvent" />
          
                     <filters></filters>
@@ -26,7 +26,7 @@ export const SearchPage = {
                     
                         <listing-component></listing-component>
                     </div>
-               </div>`,
+               </div></transition>`,
     computed: {
         searchTerm: function() {
             return this.$store.state.searchTerm;

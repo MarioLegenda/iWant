@@ -61,7 +61,6 @@ body {
   max-width: 1280px;
   min-width: 480px;
   font-size: 16px;
-  background-color: white;
   font-family: "Quicksand", sans-serif;
   color: #5b5b5b;
 }
@@ -80,13 +79,6 @@ html {
   -o-box-sizing: inherit;
 }
 
-.container {
-  width: 1280px;
-  max-width: 1280px;
-  margin: 0 auto;
-  overflow: hidden;
-}
-
 .LeftPanel {
   width: 75%;
   float: left;
@@ -95,11 +87,6 @@ html {
 
 .RightPanel {
   width: 200px;
-  float: left;
-}
-
-.wrap {
-  width: 100%;
   float: left;
 }
 
@@ -136,7 +123,7 @@ html {
 }
 
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+  transition: opacity 2s;
 }
 
 .fade-enter, .fade-leave-to {
@@ -208,7 +195,6 @@ html {
   position: relative;
   background-color: white;
   overflow: hidden;
-  margin: 0 0 30px 0;
   border-bottom: 1px solid #d6d6d6;
   padding-bottom: 30px;
 }
@@ -230,10 +216,10 @@ html {
   color: #2E53F3;
 }
 #main_header .logo .would-part {
-  color: #46ea25;
+  color: #15ba00;
 }
 #main_header .logo .like-part {
-  color: #f78f27;
+  color: #f44d00;
 }
 #main_header .logo .version-part {
   color: #898989;
@@ -284,7 +270,7 @@ html {
   float: left;
   border: none;
   color: white;
-  background-color: #f78f27;
+  background-color: #f44d00;
 }
 #main_header .SearchBox .SearchBox_SubmitBox button:hover {
   cursor: pointer;
@@ -308,10 +294,10 @@ html {
   -o-transition: border-bottom 0.5s;
 }
 #main_header .SearchBox .SearchBox_AdvancedSearch a i {
-  color: #f78f27;
+  color: #f44d00;
 }
 #main_header .SearchBox .SearchBox_AdvancedSearch a:hover {
-  border-bottom: 3px solid #f78f27;
+  border-bottom: 3px solid #f44d00;
 }
 
 .SiteLanguageChoice {
@@ -355,27 +341,76 @@ html {
   transition: border-top 0.5s;
 }
 #main_menu nav .menu-item a:hover {
-  border-top: 2px solid #f78f27;
+  border-top: 2px solid #f44d00;
   cursor: pointer;
 }
 
-#StartPage {
+.HomepageWrapper {
+  width: 100%;
+  height: 600px;
+  float: left;
+  background: no-repeat url("/images/background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.Homepage {
+  width: 100%;
+  float: left;
+  height: 600px;
+  background-color: rgba(255, 255, 255, 0.7);
+  font-weight: bold;
+  margin: 0 auto;
+  padding: 0 10px 0 10px;
+  position: relative;
+}
+.Homepage .OrangeHighlight {
+  color: #f44d00;
+}
+.Homepage .BlueHighlight {
+  color: #2E53F3;
+}
+.Homepage .GreenHighlight {
+  color: #15ba00;
+}
+.Homepage .Row {
+  width: 100%;
+  float: left;
+  overflow: hidden;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+.Homepage .Row .Advert {
   width: 480px;
   overflow: hidden;
   margin: 0 auto;
-  border: 1px solid red;
-  padding: 10px;
-  position: relative;
-}
-#StartPage .Row {
-  width: 100%;
-  float: left;
-  margin: 0 0 50px 0;
-}
-#StartPage .Row .Advert {
   font-size: 2em;
-  color: #898989;
+  color: #5b5b5b;
+  padding: 20px;
   text-align: center;
+}
+.Homepage .Row .HomepageRouter {
+  width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  font-size: 1em;
+  color: #5b5b5b;
+}
+.Homepage .Row .HomepageRouter .RouterText {
+  font-weight: normal;
+  font-size: 1.4em;
+}
+.Homepage .Row .HomepageRouter .Link {
+  display: inline-block;
+  padding: 20px;
+  color: white;
+  background-color: #f44d00;
+  font-weight: bold;
+  font-size: 1.5em;
+  border-radius: 50px;
+}
+.Homepage .LightFontWeight {
+  font-weight: normal;
 }
 
 .ItemList {
@@ -495,8 +530,8 @@ html {
   border-radius: 10px;
 }
 .Item .Item_ItemLink .ItemLink-closer-look:hover {
-  border: 1px solid #f78f27;
-  color: #f78f27;
+  border: 1px solid #f44d00;
+  color: #f44d00;
 }
 
 .TodayProductItem {
@@ -590,7 +625,7 @@ html {
   float: left;
   border: none;
   color: white;
-  background-color: #f78f27;
+  background-color: #f44d00;
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox button:hover {
   cursor: pointer;
@@ -627,10 +662,10 @@ html {
   color: black;
 }
 .SearchItems .LoadMoreWrapper .LoadMoreButton:hover i {
-  color: #f78f27;
+  color: #f44d00;
 }
 .SearchItems .LoadMoreWrapper .LoadMoreButton .CurrentlyLoading {
-  color: #f78f27;
+  color: #f44d00;
 }
 .SearchItems .Row {
   width: 100%;
@@ -658,12 +693,12 @@ html {
 }
 .SearchItems .FullDetailsWrapper button:hover {
   cursor: pointer;
-  border: 1px solid #f78f27;
+  border: 1px solid #f44d00;
 }
 .SearchItems .FullDetailsWrapper button i {
   position: absolute;
   right: 10px;
-  color: #f78f27;
+  color: #f44d00;
   font-size: 1.4em;
 }
 .SearchItems .SearchItem {
@@ -745,12 +780,12 @@ html {
 }
 .QuickLookWrapper button:hover, .FullDetailsWrapper button:hover {
   cursor: pointer;
-  border: 1px solid #f78f27;
+  border: 1px solid #f44d00;
 }
 .QuickLookWrapper button i, .FullDetailsWrapper button i {
   position: absolute;
   right: 10px;
-  color: #f78f27;
+  color: #f44d00;
   font-size: 1.4em;
 }
 
@@ -767,7 +802,7 @@ html {
 .Close i {
   display: block;
   margin-left: 10px;
-  color: #f78f27;
+  color: #f44d00;
 }
 
 .QuickLookLoader i {
@@ -777,7 +812,7 @@ html {
   overflow: hidden;
   margin: 0 auto;
   font-size: 1.2em;
-  color: #f78f27;
+  color: #f44d00;
 }
 
 .QuickLookWindow {
@@ -796,7 +831,7 @@ html {
   padding: 10px;
   font-size: 1.2em;
   text-align: right;
-  border: 1px solid #f78f27;
+  border: 1px solid #f44d00;
   border-radius: 40px;
 }
 .QuickLookWindow .Independent button:hover {
@@ -892,7 +927,7 @@ html {
 }
 .FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Body p:hover, .FiltersWrapper .Filter-select .Modal .Modal_Body p:hover {
   cursor: pointer;
-  border-bottom: 1px solid #f78f27;
+  border-bottom: 1px solid #f44d00;
 }
 .FiltersWrapper .Filter-select #ShippingCountryModal .Modal_Body p i, .FiltersWrapper .Filter-select .Modal .Modal_Body p i {
   position: absolute;
@@ -922,7 +957,7 @@ html {
 }
 .FiltersWrapper .Filter-select #ShippingCountryModal .Modal_ChooseButton:hover, .FiltersWrapper .Filter-select .Modal .Modal_ChooseButton:hover {
   cursor: pointer;
-  border: 1px solid #f78f27;
+  border: 1px solid #f44d00;
 }
 .FiltersWrapper .Filter-select #TaxonomyModal .Modal_Body {
   height: auto;
@@ -983,7 +1018,7 @@ html {
   box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
 }
 .FiltersWrapper .SingleFilter:hover i {
-  color: #f78f27;
+  color: #f44d00;
 }
 
 .SelectedFilters {
@@ -1010,7 +1045,7 @@ html {
 }
 .SelectedFilters .SelectedFilter i:hover {
   cursor: pointer;
-  color: #f78f27;
+  color: #f44d00;
 }
 
 #search_page .Sentence {
@@ -1092,7 +1127,7 @@ html {
 }
 #search_page .EbayLoading .Header i {
   margin-right: 10px;
-  color: #f78f27;
+  color: #f44d00;
 }
 
 .ListingChoiceComponent {
@@ -1299,7 +1334,7 @@ html {
   position: absolute;
   right: 20px;
   top: 4px;
-  color: #f78f27;
+  color: #f44d00;
 }
 .SingleItemWrapper .NameValueContainer .NameValueDescription {
   width: 100%;
@@ -1402,7 +1437,7 @@ html {
 }
 .SingleItemWrapper .DescriptionWrapper .MoreButton:hover {
   cursor: pointer;
-  color: #f78f27;
+  color: #f44d00;
 }
 .SingleItemWrapper .ThumbnailImageWrapper .Image {
   display: block;
@@ -1457,7 +1492,7 @@ html {
 }
 .SingleItemWrapper .ShippingOptionsWrapper button:hover {
   cursor: pointer;
-  border: 1px solid #f78f27;
+  border: 1px solid #f44d00;
 }
 .SingleItemWrapper .ViewOnEbayButtonWrapper {
   width: 100%;
@@ -1478,10 +1513,10 @@ html {
   -moz-transition: border 0.5s;
 }
 .SingleItemWrapper .ViewOnEbayButtonWrapper a:hover {
-  border: 1px solid #f78f27;
+  border: 1px solid #f44d00;
 }
 .SingleItemWrapper .ViewOnEbayButtonWrapper a:hover i {
-  color: #f78f27;
+  color: #f44d00;
 }
 .SingleItemWrapper .ViewOnEbayButtonWrapper a i {
   display: block;

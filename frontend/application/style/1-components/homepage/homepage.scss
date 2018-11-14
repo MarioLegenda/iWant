@@ -1,0 +1,86 @@
+.HomepageWrapper {
+  width: 100%;
+  height: 600px;
+  float: left;
+
+  background: no-repeat url("/images/background.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.Homepage {
+  width: 100%;
+  float: left;
+
+  height: 600px;
+
+  background-color: rgba(255, 255, 255, 0.7);
+
+  font-weight: bold;
+
+  margin: 0 auto;
+
+  padding: 0 10px 0 10px;
+
+  position: relative;
+
+  .OrangeHighlight {
+    color: $basicOrange;
+  }
+
+  .BlueHighlight {
+    color: $darkBlue;
+  }
+
+  .GreenHighlight {
+    color: $basicGreen;
+  }
+
+  .Row {
+    width: 100%;
+    float: left;
+    overflow: hidden;
+    margin: 0 auto;
+
+    margin-bottom: 40px;
+
+    .Advert {
+      width: 480px;
+      overflow: hidden;
+      margin: 0 auto;
+      font-size: 2em;
+      color: #5b5b5b;
+
+      padding: 20px;
+
+      text-align: center;
+    }
+
+    .HomepageRouter {
+      width: 480px;
+      overflow: hidden;
+      margin: 0 auto;
+      font-size: 1em;
+      color: #5b5b5b;
+
+      .RouterText {
+        font-weight: normal;
+        font-size: 1.4em;
+      }
+
+      .Link {
+        display: inline-block;
+        padding: 20px;
+        color: white;
+        background-color: $basicOrange;
+        font-weight: bold;
+        font-size: 1.5em;
+        border-radius: 50px;
+      }
+    }
+  }
+
+  .LightFontWeight {
+    font-weight: normal;
+  }
+}

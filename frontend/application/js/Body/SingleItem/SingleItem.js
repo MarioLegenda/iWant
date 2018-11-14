@@ -113,7 +113,7 @@ export const SingleItem = {
             item: null,
         }
     },
-    template: `<div class="SingleItemWrapper">
+    template: `<transition name="fade"><div class="SingleItemWrapper">
 
                     <item-loader v-if="item === null"></item-loader>
                     
@@ -206,7 +206,7 @@ export const SingleItem = {
                         </div>
                     </div>
 
-               </div>`,
+               </div></transition>`,
     created() {
         if (this.item === null) {
             const singleItemRepo = RepositoryFactory.create('single-item');

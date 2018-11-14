@@ -11,10 +11,10 @@ $lightestGray: #d6d6d6;
 $darkBlue: #2E53F3;
 $lightBlue: #b3bff2;
 
-$basicOrange: #f78f27;
+$basicOrange: #f44d00;
 $lightOrange: #f48e5f;
 
-$basicGreen: #46ea25;
+$basicGreen: #15ba00;
 
 $errorColor: #f41f1f;
 
@@ -22,7 +22,6 @@ body {
   max-width: 1280px;
   min-width: 480px;
   font-size: 16px;
-  background-color: white;
   font-family: $mainFont;
   color: $textColor;
 }
@@ -41,15 +40,6 @@ html {
   -o-box-sizing: inherit;
 }
 
-.container {
-  width: 1280px;
-  max-width: 1280px;
-
-  margin: 0 auto;
-
-  overflow: hidden;
-}
-
 .LeftPanel {
   width: 75%;
   float:left;
@@ -59,11 +49,6 @@ html {
 
 .RightPanel {
   width: 200px;
-  float: left;
-}
-
-.wrap {
-  width: 100%;
   float: left;
 }
 
