@@ -360,9 +360,22 @@ html {
 }
 
 #StartPage {
+  width: 480px;
+  overflow: hidden;
+  margin: 0 auto;
+  border: 1px solid red;
+  padding: 10px;
+  position: relative;
+}
+#StartPage .Row {
   width: 100%;
   float: left;
-  position: relative;
+  margin: 0 0 50px 0;
+}
+#StartPage .Row .Advert {
+  font-size: 2em;
+  color: #898989;
+  text-align: center;
 }
 
 .ItemList {
