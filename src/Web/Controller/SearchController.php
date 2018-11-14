@@ -10,6 +10,7 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Environment;
 use App\Web\Library\ApiResponseDataFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class SearchController
 {
@@ -62,7 +63,7 @@ class SearchController
      * @param PreparedItemsSearchModel $model
      * @param SearchComponent $searchComponent
      * @param Environment $environment
-     * @return JsonResponse
+     * @return Response|JsonResponse
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -86,11 +87,13 @@ class SearchController
             );
         }
 
-        $response = new JsonResponse(
-            $responseData->toArray(),
+        $encodedResponse = new Response(
+            jsonEncodeWithFix($responseData->toArray()),
             $responseData->getStatusCode()
         );
 
-        return $response;
+        $encodedResponse->headers->set('Content-Type', 'application/json');
+
+        return $encodedResponse;
     }
 }

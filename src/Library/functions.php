@@ -30,7 +30,8 @@ function apply_on_iterable(iterable $iterable, \Closure $callback)
     return $newResult;
 }
 
-function utf8ize($mixed) {
+function utf8ize($mixed)
+{
     if (is_array($mixed)) {
         $gen = Util::createGenerator($mixed);
 
@@ -44,4 +45,16 @@ function utf8ize($mixed) {
         return mb_convert_encoding($mixed, "UTF-8", "UTF-8");
     }
     return $mixed;
+}
+
+function jsonEncodeWithFix($toEncode): string
+{
+    $encodedSearchResponse = json_encode($toEncode);
+
+    if ($encodedSearchResponse === false) {
+        $fixed = utf8ize($toEncode);
+        $encodedSearchResponse = json_encode($fixed);
+    }
+
+    return $encodedSearchResponse;
 }

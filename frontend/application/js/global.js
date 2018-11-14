@@ -236,7 +236,11 @@ export class Init {
                     store,
                     router: createVueRouter(),
                     created() {
-                        const locale = location.pathname.split('/')[1];
+                        let locale = location.pathname.split('/')[1];
+
+                        if (locale === null || typeof locale === 'undefined' || locale.length === 0) {
+                            locale = 'en';
+                        }
 
                         this.$store.dispatch('localeChanged', {
                             value: locale,
