@@ -107,6 +107,12 @@
       font-weight: bold;
       font-size: 1.1em;
 
+      border: 1px solid $lightestGray;
+
+      border-radius: 20px;
+
+      padding: 7px;
+
       color: black;
     }
 
@@ -213,7 +219,7 @@
     margin-bottom: 30px;
     p {
       text-align: right;
-      color: $middleGray;
+      color: $basicOrange;
     }
   }
 

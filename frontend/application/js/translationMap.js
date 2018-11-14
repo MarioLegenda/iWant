@@ -12,7 +12,7 @@ export const translationsMap = {
         },
         noItemsFound: 'No items found',
         searchingEbaySite: 'Searching eBay sites',
-        loadingSearchResults: 'Loading search results',
+        loadingSearchResults: '... Loading search results ...',
         quickLook: {
             requiresImmediatePayment: 'Requires immediate payment: ',
             endingOn: 'Ending on: ',
@@ -63,7 +63,7 @@ export const translationsMap = {
         },
         noItemsFound: 'No se encontraron artículos',
         searchingEbaySite: 'Buscando en los sitios de eBay',
-        loadingSearchResults: 'Cargando resultados de búsqueda',
+        loadingSearchResults: '... Cargando resultados de búsqueda ...',
         quickLook: {
             requiresImmediatePayment: 'Requiere pago inmediato: ',
             endingOn: 'Terminando en: ',
@@ -114,7 +114,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Aucun élément trouvé',
         searchingEbaySite: 'Recherche de sites eBay',
-        loadingSearchResults: 'Chargement des résultats de recherche',
+        loadingSearchResults: '... Chargement des résultats de recherche ...',
         quickLook: {
             requiresImmediatePayment: 'Nécessite un paiement immédiat: ',
             endingOn: 'Se terminant sur: ',
@@ -165,7 +165,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Nessun articolo trovato',
         searchingEbaySite: 'Ricerca nei siti eBay',
-        loadingSearchResults: 'Caricamento dei risultati di ricerca',
+        loadingSearchResults: '... Caricamento dei risultati di ricerca ...',
         quickLook: {
             requiresImmediatePayment: 'Richiede pagamento immediato: ',
             endingOn: 'Finire: ',
@@ -216,7 +216,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Níor aimsíodh aon rud',
         searchingEbaySite: 'Cuardach suímh eBay',
-        loadingSearchResults: 'Ag luchtú torthaí cuardaigh',
+        loadingSearchResults: '... Ag luchtú torthaí cuardaigh ...',
         quickLook: {
             requiresImmediatePayment: 'Éilíonn íocaíocht láithreach: ',
             endingOn: 'Ag críochnú ar: ',
@@ -267,7 +267,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Nie znaleziono żadnych przedmiotów',
         searchingEbaySite: 'Wyszukiwanie witryn serwisu eBay',
-        loadingSearchResults: 'Ładowanie wyników wyszukiwania',
+        loadingSearchResults: '... Ładowanie wyników wyszukiwania ...',
         quickLook: {
             requiresImmediatePayment: 'Wymaga natychmiastowej płatności: ',
             endingOn: 'Zakończenie na: ',
@@ -305,57 +305,6 @@ export const translationsMap = {
         }
     },
 
-    cz: {
-        yes: 'Yes',
-        no: 'No',
-        languageChoiceExplanation: 'All products searched will be translated to the language you select',
-        searchInputPlaceholder: 'what would you like?',
-        searchingEbaySites: 'Searching eBay sites',
-        searchInformation: {
-            totalProductsFound: 'Total products found: ',
-            ebaySitesSearched: 'eBay sites searched: ',
-            failedSearches: 'Failed searches: ',
-        },
-        noItemsFound: 'No items found',
-        searchingEbaySite: 'Searching eBay sites',
-        loadingSearchResults: 'Loading search results',
-        quickLook: {
-            requiresImmediatePayment: 'Requires immediate payment: ',
-            endingOn: 'Ending on: ',
-            seller: 'Seller: ',
-            quantity: 'Quantity: ',
-        },
-        searchItem: {
-            quickLookTitle: 'Quick look',
-            fullDetailsTitle: 'Full details',
-            viewOnEbay: 'View on eBay',
-        },
-        productPage: {
-            endsOn: 'Ukončí: ',
-            loadingProduct: '... Loading product ...',
-            positiveFeedbackScore: 'Positive feedback score: ',
-            views: 'views',
-            viewShippingDetails: 'View shipping details',
-            isAuction: 'Is auction: ',
-            handlingTime: 'Handling time: ',
-            condition: 'Condition: ',
-            requiresImmediatePayment: 'Requires immediate payment: ',
-            bestOfferFeatureEnabled: 'Best offer feature enabled: ',
-            viewOnEbay: 'View on eBay',
-            description: 'Description: ',
-            noDescription: 'There is no description for this item',
-            more: '... more',
-            less: '... less',
-        },
-        chooseEbaySite: 'Choose eBay site',
-        filters: {
-            title: 'Sort your search results',
-            lowestPriceFilter: 'Lowest price',
-            highestPriceFilter: 'Highest price',
-            highQualityFilter: 'High quality',
-        }
-    },
-
     de: {
         yes: 'Ja',
         no: 'Nein',
@@ -369,7 +318,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Keine Elemente gefunden',
         searchingEbaySite: 'eBay-Websites durchsuchen',
-        loadingSearchResults: 'Suchergebnisse laden',
+        loadingSearchResults: '... Suchergebnisse laden ...',
         quickLook: {
             requiresImmediatePayment: 'Sofortige Zahlung erforderlich: ',
             endingOn: 'Endet am: ',
@@ -420,7 +369,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Nenašli sa žiadne položky',
         searchingEbaySite: 'Vyhľadávanie stránok eBay',
-        loadingSearchResults: 'Načítavajú sa výsledky vyhľadávania',
+        loadingSearchResults: '... Načítavajú sa výsledky vyhľadávania ...',
         quickLook: {
             requiresImmediatePayment: 'Vyžaduje okamžitú platbu: ',
             endingOn: 'Ukončenie: ',
@@ -471,7 +420,7 @@ export const translationsMap = {
         },
         noItemsFound: 'Žádné předměty nenalezeny',
         searchingEbaySite: 'Vyhledávání stránek eBay',
-        loadingSearchResults: 'Načítání výsledků vyhledávání',
+        loadingSearchResults: '... Načítání výsledků vyhledávání ...',
         quickLook: {
             requiresImmediatePayment: 'Vyžaduje okamžitou platbu: ',
             endingOn: 'Ukončení: ',

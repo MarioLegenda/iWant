@@ -147,6 +147,7 @@
     text-align: center;
 
     color: $middleGray;
+    font-weight: bold;
   }
 
   .EbayItems {
@@ -252,7 +253,7 @@
     button {
       font-family: $mainFont;
       display: block;
-      width: 200px;
+      width: 100%;
       float: right;
       background: none;
 
