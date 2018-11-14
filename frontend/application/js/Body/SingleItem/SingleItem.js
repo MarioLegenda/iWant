@@ -44,6 +44,8 @@ const NameValueContainer = {
 const DescriptionContainer = {
     data: function() {
         return {
+            charLimit: 163,
+            charLength: 0,
             showShadow: true,
             nonRevealedStyle: {
                 height: '150px',
@@ -53,13 +55,27 @@ const DescriptionContainer = {
             }
         }
     },
+    created() {
+        this.charLength = this.description.length;
+
+        const locale = this.$localeInfo.locale;
+
+        switch (locale) {
+            case 'en':
+                this.description = 'There is no description for this item';
+
+                break;
+            default:
+                this.description = 'There is no description for this item';
+        }
+    },
     template: `<div class="Row DescriptionWrapper">
-                   <div v-if="showShadow" class="ShadowWrapper"></div>
+                   <div v-if="showShadow && charLength > charLimit" class="ShadowWrapper"></div>
                    <h1 class="DescriptionHeader">Description:</h1>
                    <p class="Description" v-bind:style="style">{{description}}</p>
                                 
-                   <p v-if="showShadow" @click="showMoreDescription($event)" class="MoreButton">... more</p>
-                   <p v-if="!showShadow" @click="showLessDescription($event)" class="MoreButton">... less</p>
+                   <p v-if="showShadow && charLength > charLimit" @click="showMoreDescription" class="MoreButton">... more</p>
+                   <p v-if="!showShadow" @click="showLessDescription" class="MoreButton">... less</p>
                </div>`,
     props: ['description'],
     computed: {
@@ -68,13 +84,11 @@ const DescriptionContainer = {
         }
     },
     methods: {
-        showMoreDescription: function(e) {
+        showMoreDescription: function() {
             this.showShadow = false;
+         },
 
-            console.log(e);
-        },
-
-        showLessDescription: function(e) {
+        showLessDescription: function() {
             this.showShadow = true;
         }
     }
@@ -175,6 +189,10 @@ export const SingleItem = {
                                 </div>
                                 
                             </action-name-value-container>
+                            
+                            <div class="Row ViewOnEbayButtonWrapper">
+                                <a :href="item.viewItemUrlForNaturalSearch" target="_blank">View on eBay<i class="fas fa fa-link"></i></a>
+                            </div>
                            
                         </div>
                     </div>
@@ -193,6 +211,7 @@ export const SingleItem = {
                 itemId: itemId,
             }, (r) => {
                 this.item = r.resource.data;
+                console.log(this.item);
             });
         }
     },

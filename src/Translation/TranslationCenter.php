@@ -177,6 +177,12 @@ class TranslationCenter
         foreach ($keysToTranslateGen as $entry) {
             $key = $entry['item'];
 
+            if ($item[$key] === null) {
+                $item[$key] = '';
+
+                continue;
+            }
+
             if ($existingTranslations->hasEntryByLocale($key, $locale)) {
                 $item[$key] = $existingTranslations->getEntryByLocale($key, $locale)->getTranslation();
             } else if ($translateIfNotExists) {

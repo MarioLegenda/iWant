@@ -25,8 +25,8 @@ class FindingApiEntryPoint
     /**
      * @param FindingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -35,8 +35,8 @@ class FindingApiEntryPoint
     /**
      * @param FindingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsAdvanced(FindingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -45,8 +45,8 @@ class FindingApiEntryPoint
     /**
      * @param FindingApiRequestModelInterface $model
      * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
      */
     public function findItemsInEbayStores(FindingApiRequestModelInterface $model): ResponseModelInterface
     {

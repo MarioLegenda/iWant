@@ -28,7 +28,6 @@ export const SearchComponent = {
 
         const splitted = window.location.pathname.split('/');
 
-        console.log(splitted);
         if (typeof splitted[3] !== 'undefined') {
             const keyword = splitted[3];
             const replaced = keyword.replace(/-/g, ' ');

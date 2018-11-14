@@ -69,6 +69,11 @@ class SearchComponent
 
         return $searchResponseModels;
     }
+
+    public function getOptionsForSearchListing()
+    {
+
+    }
     /**
      * @param EbaySearchModel $model
      * @return PreparedEbayResponse
