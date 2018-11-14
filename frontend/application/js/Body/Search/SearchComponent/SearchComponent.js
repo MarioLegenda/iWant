@@ -106,7 +106,7 @@ export const SearchComponent = {
             }
 
             if (!this.sitesPrepared) {
-                if (SUPPORTED_SITES.sites.length === this.preparedEbaySites.length) {
+                if (SUPPORTED_SITES.enabledLength === this.preparedEbaySites.length) {
                     setTimeout(() => {
                         this.$store.commit('searchInitialiseEvent', {
                             initialised: false,
@@ -158,10 +158,12 @@ export const SearchComponent = {
             const searchRepo = RepositoryFactory.create('search');
 
             for (const site of SUPPORTED_SITES.sites) {
-                let model = this.createModel();
-                model.globalId = site.globalId.toUpperCase();
+                if (site.enabled) {
+                    let model = this.createModel();
+                    model.globalId = site.globalId.toUpperCase();
 
-                models.push(model);
+                    models.push(model);
+                }
             }
 
             let promises = [];

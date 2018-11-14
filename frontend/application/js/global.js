@@ -8,60 +8,28 @@ import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
 import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 import {LocaleInfo} from "./services/localeInfo";
-
-const translationsMap = {
-    en: {
-        filterHeader: 'Sort your search results',
-        lowestPriceFilter: 'Lowest price',
-        highestPriceFilter: 'Highest price',
-        highQualityFilter: 'High quality',
-    },
-
-    fr: {
-        filterHeader: 'Trier vos résultats de recherche',
-        lowestPriceFilter: 'Prix ​​le plus bas',
-        highestPriceFilter: 'Le prix le plus élevé',
-        highQualityFilter: 'Haute qualité',
-    },
-
-    es: {
-        filterHeader: 'Ordena tus resultados de búsqueda',
-        lowestPriceFilter: 'El precio más bajo',
-        highestPriceFilter: 'Precio más alto',
-        highQualityFilter: 'Alta calidad',
-    },
-
-    ga: {
-        filterHeader: 'Sórtáil do thorthaí cuardaigh',
-        lowestPriceFilter: 'Praghas is ísle',
-        highestPriceFilter: 'An praghas is airde',
-        highQualityFilter: 'Ardchaighdeáin',
-    },
-
-    it: {
-        filterHeader: 'Ordina i risultati della tua ricerca',
-        lowestPriceFilter: 'Prezzo più basso',
-        highestPriceFilter: 'Il prezzo più alto',
-        highQualityFilter: 'Alta qualità',
-    },
-
-    pl: {
-        filterHeader: 'Sortuj swoje wyniki wyszukiwania',
-        lowestPriceFilter: 'Najniższa cena',
-        highestPriceFilter: 'Wyzsza cena',
-        highQualityFilter: 'Wysoka jakość',
-    }
-};
+import {translationsMap} from "./translationMap";
 
 class SupportedSites {
     constructor(sites) {
         this.sites = sites;
+
+        let len = 0;
+        for (const site of this.sites) {
+            if (site.enabled) {
+                len++;
+            }
+        }
+
+        this.enabledLength = len;
     }
 
     find(globalId) {
         for (const site of this.sites) {
-            if (site.globalId === globalId.toUpperCase()) {
-                return site;
+            if (site.enabled) {
+                if (site.globalId === globalId.toUpperCase()) {
+                    return site;
+                }
             }
         }
 
@@ -70,8 +38,10 @@ class SupportedSites {
 
     tryFind(globalId) {
         for (const site of this.sites) {
-            if (site.globalId === globalId.toUpperCase()) {
-                return site;
+            if (site.enabled) {
+                if (site.globalId === globalId.toUpperCase()) {
+                    return site;
+                }
             }
         }
 
@@ -92,16 +62,17 @@ export const marketplacesList = {
 };
 
 export const SUPPORTED_SITES = new SupportedSites([
-    {globalId: 'EBAY-AT', icon: `/images/country_icons/ebay-at.svg`},
-    {globalId: 'EBAY-DE', icon: `/images/country_icons/ebay-de.svg`},
-    {globalId: 'EBAY-ES', icon: `/images/country_icons/ebay-es.svg`},
-    {globalId: 'EBAY-FR', icon: `/images/country_icons/ebay-fr.svg`},
-    {globalId: 'EBAY-FRBE', icon: `/images/country_icons/ebay-frbe.svg`},
-    {globalId: 'EBAY-GB', icon: `/images/country_icons/ebay-gb.svg`},
-    {globalId: 'EBAY-IT', icon: `/images/country_icons/ebay-it.svg`},
-    {globalId: 'EBAY-US', icon: `/images/country_icons/ebay-us.svg`},
-    {globalId: 'EBAY-IE', icon: `/images/country_icons/ebay-ie.svg`},
-    {globalId: 'EBAY-PL', icon: `/images/country_icons/ebay-pl.svg`},
+    { globalId: 'EBAY-AT', icon: `/images/country_icons/ebay-at.svg`, enabled: true},
+    { globalId: 'EBAY-DE', icon: `/images/country_icons/ebay-de.svg`, enabled: true},
+    { globalId: 'EBAY-ES', icon: `/images/country_icons/ebay-es.svg`, enabled: true},
+    { globalId: 'EBAY-FR', icon: `/images/country_icons/ebay-fr.svg`, enabled: true},
+    { globalId: 'EBAY-FRBE', icon: `/images/country_icons/ebay-frbe.svg`, enabled: true},
+    { globalId: 'EBAY-GB', icon: `/images/country_icons/ebay-gb.svg`, enabled: true},
+    { globalId: 'EBAY-IT', icon: `/images/country_icons/ebay-it.svg`, enabled: true},
+    { globalId: 'EBAY-US', icon: `/images/country_icons/ebay-us.svg`, enabled: true},
+    { globalId: 'EBAY-IE', icon: `/images/country_icons/ebay-ie.svg`, enabled: true},
+    { globalId: 'EBAY-PL', icon: `/images/country_icons/ebay-pl.svg`, enabled: true},
+    { globalId: 'czech', icon: `/images/country_icons/ebay-pl.svg`, enabled: false},
 ]);
 
 export class Init {
@@ -255,6 +226,7 @@ export class Init {
             actions: {
                 localeChanged(context, locale) {
                     Vue.prototype.$localeInfo.locale = locale.value;
+
                     context.commit('translationsMap', translationsMap[locale.value]);
                 }
             },

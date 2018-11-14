@@ -57,22 +57,11 @@ const DescriptionContainer = {
     },
     created() {
         this.charLength = this.description.length;
-
-        const locale = this.$localeInfo.locale;
-
-        switch (locale) {
-            case 'en':
-                this.description = 'There is no description for this item';
-
-                break;
-            default:
-                this.description = 'There is no description for this item';
-        }
     },
     template: `<div class="Row DescriptionWrapper">
                    <div v-if="showShadow && charLength > charLimit" class="ShadowWrapper"></div>
                    <h1 class="DescriptionHeader">Description:</h1>
-                   <p class="Description" v-bind:style="style">{{description}}</p>
+                   <p class="Description" v-bind:style="style">{{normalizedDescription}}</p>
                                 
                    <p v-if="showShadow && charLength > charLimit" @click="showMoreDescription" class="MoreButton">... more</p>
                    <p v-if="!showShadow" @click="showLessDescription" class="MoreButton">... less</p>
@@ -81,6 +70,24 @@ const DescriptionContainer = {
     computed: {
         style: function() {
             return (this.showShadow) ? this.nonRevealedStyle : this.revealedStyle;
+        },
+        normalizedDescription: function() {
+            if (this.charLength > 0) {
+                return this.description;
+            }
+
+            const locale = this.$localeInfo.locale;
+
+            switch (locale) {
+                case 'en':
+                    this.noDescriptionText = 'There is no description for this item';
+
+                    break;
+                default:
+                    this.noDescriptionText = 'There is no description for this item';
+            }
+
+
         }
     },
     methods: {

@@ -10,7 +10,9 @@ export const EbayLoading = {
     },
     created() {
         for (const site of this.supportedSites.sites) {
-            this.information[site.globalId] = {};
+            if (site.enabled) {
+                this.information[site.globalId] = {};
+            }
         }
 
         for (const globalId in this.$globalIdInformation.all) {

@@ -13,7 +13,7 @@ export const Filters = {
                     <input type="hidden" :value="filtersEvent" />
                     
                     <div class="FiltersList">
-                        <h1 class="Title">{{translationsMap.filterHeader}}</h1>
+                        <h1 class="Title">{{translationsMap.filters.title}}</h1>
                         
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
@@ -21,19 +21,19 @@ export const Filters = {
                             <single-add-filter
                                 v-on:add-lowest-price="addLowestPrice"
                                 event-name="add-lowest-price"
-                                :filter-text="translationsMap.lowestPriceFilter">
+                                :filter-text="translationsMap.filters.lowestPriceFilter">
                             </single-add-filter>
                         
                             <single-add-filter
                                 v-on:add-highest-price="addHighestPrice"
                                 event-name="add-highest-price"
-                                :filter-text="translationsMap.highestPriceFilter">
+                                :filter-text="translationsMap.filters.highestPriceFilter">
                             </single-add-filter>
                         
                             <single-add-filter
                                 v-on:add-high-quality="addHighQuality"
                                 event-name="add-high-quality"
-                                :filter-text="translationsMap.highQualityFilter">
+                                :filter-text="translationsMap.filters.highQualityFilter">
                             </single-add-filter>
                         </div>
                     </div>

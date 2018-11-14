@@ -1,5 +1,3 @@
-import {SUPPORTED_SITES} from "../../../global";
-
 export const PreparedSearchInformation = {
     data: function() {
         return {
