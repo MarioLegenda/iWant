@@ -1292,6 +1292,7 @@ html {
   width: 180px;
   float: right;
   color: black;
+  line-height: 1.4em;
 }
 .SingleItemWrapper .NameValueContainer .ActionIdentifier {
   display: block;
@@ -1306,6 +1307,7 @@ html {
   padding: 0 0 0 20px;
   margin: 20px 0 0 0;
   line-height: 1.4em;
+  color: black;
 }
 .SingleItemWrapper .Border {
   border-bottom: 1px solid #d6d6d6;
@@ -1325,6 +1327,9 @@ html {
   width: 100%;
   float: left;
   margin: 30px 0 30px 0;
+}
+.SingleItemWrapper .Seller {
+  margin-bottom: 40px;
 }
 .SingleItemWrapper .Seller h1 {
   display: inline-block;

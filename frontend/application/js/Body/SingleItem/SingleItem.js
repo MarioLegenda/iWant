@@ -118,15 +118,14 @@ export const SingleItem = {
                     <item-loader v-if="item === null"></item-loader>
                     
                     <div v-if="item" class="SingleItem">
-                        <div class="CenterPanel">
-                            <div class="Seller">
+                       
+                        <div class="Panel LeftPanel">
+                            <div class="Row Seller">
                                 <h1>{{item.seller.userId}}</h1>
                                 <span>({{item.seller.feedbackScore}})</span>
                                 <p>{{translationsMap.productPage.positiveFeedbackScore}}<span>{{sellerFeedbackPercent}}%</span></p>
                             </div>
-                        </div>
-                        
-                        <div class="Panel LeftPanel">
+                            
                             <div class="Row ThumbnailImageWrapper">
                                 <img class="Image" :src="parsePictureUrl(item.pictureUrl)" />
                             </div>
@@ -160,6 +159,12 @@ export const SingleItem = {
                             </div>
                             
                             <div class="CenterPanel Border"></div>
+                            
+                            <name-value-container
+                                v-bind:name="translationsMap.productPage.endsOn"
+                                v-bind:value="item.endTime | userFriendlyDate">
+                            
+                            </name-value-container>
                             
                             <name-value-container
                                 v-bind:name="translationsMap.productPage.isAuction"

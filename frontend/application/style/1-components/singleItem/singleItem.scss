@@ -46,6 +46,8 @@
       float: right;
 
       color: black;
+
+      line-height: 1.4em;
     }
 
     .ActionIdentifier {
@@ -64,6 +66,8 @@
       margin: 20px 0 0 0;
 
       line-height: 1.4em;
+
+      color: black;
     }
   }
 
@@ -93,6 +97,8 @@
   }
 
   .Seller {
+    margin-bottom: 40px;
+
     h1 {
       display: inline-block;
       font-family: $mainFont;

@@ -231,6 +231,23 @@ export class Init {
                 Vue.prototype.$globalIdInformation = new GlobalIdInformation(response.collection.data);
                 Vue.prototype.$localeInfo = new LocaleInfo('en', 'en');
 
+                Vue.filter('userFriendlyDate', function(date) {
+                    const dateTime = new Date(date);
+
+                    const options = {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        second: '2-digit',
+                        timeZone: 'UTC',
+                        timeZoneName: 'short',
+                    };
+
+                    return `${dateTime.toLocaleDateString('en-US', options)}`;
+                });
+
                 new Vue({
                     el: '#vue_app',
                     store,

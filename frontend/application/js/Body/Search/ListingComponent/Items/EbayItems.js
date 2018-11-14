@@ -93,7 +93,7 @@ const QuickLook = {
                                    <div class="Row">
                                        <div>
                                            <span class="desc-left">{{translationsMap.quickLook.endingOn}}</span>
-                                           <span class="desc-right">{{parseDate(item.endTime)}}</span>
+                                           <span class="desc-right">{{ item.endTime | userFriendlyDate }}</span>
                                        </div>
                                    </div>
                                    
@@ -175,14 +175,6 @@ const QuickLook = {
                 }
             });
         },
-
-        parseDate(date) {
-            const dateTime = new Date(date);
-
-            const options = { year: 'numeric', month: 'short', day: 'numeric' };
-
-            return dateTime.toLocaleDateString('en-US', options);
-        }
     }
 };
 
