@@ -155,7 +155,7 @@ export const SingleItem = {
                             </div>
                             
                             <div class="Row ShippingOptionsWrapper">
-                                <button>{{translationsMap.productPage.viewShippingDetails}}</button>
+                                <button>{{translationsMap.productPage.viewShippingDetails}}<i class="fas fa-truck"></i></button>
                             </div>
                             
                             <div class="CenterPanel Border"></div>

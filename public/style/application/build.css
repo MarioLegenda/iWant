@@ -573,6 +573,7 @@ html {
 #search_page {
   width: 100%;
   float: left;
+  margin-top: 50px;
 }
 #search_page .AdvancedSearch {
   width: 100%;
@@ -1353,6 +1354,7 @@ html {
 .SingleItemWrapper .SingleItem {
   width: 100%;
   float: left;
+  margin-top: 50px;
 }
 .SingleItemWrapper .Row {
   width: 100%;
@@ -1445,6 +1447,9 @@ html {
   float: left;
   border-radius: 10px;
 }
+.SingleItemWrapper .ViewsWrapper {
+  margin-bottom: 30px;
+}
 .SingleItemWrapper .ViewsWrapper p {
   text-align: right;
   color: #898989;
@@ -1478,6 +1483,7 @@ html {
   margin-top: 8px;
 }
 .SingleItemWrapper .ShippingOptionsWrapper button {
+  position: relative;
   width: 100%;
   background: none;
   font-family: "Quicksand", sans-serif;
@@ -1489,10 +1495,27 @@ html {
   -webkit-transition: border, 0.5s;
   -moz-transition: border, 0.5s;
   -o-transition: border, 0.5s;
+  text-align: left;
+}
+.SingleItemWrapper .ShippingOptionsWrapper button i {
+  display: block;
+  position: absolute;
+  top: 13px;
+  right: 5px;
+  width: 20px;
+  height: 20px;
+  color: #898989;
+  transition: color, 0.5s;
+  -webkit-transition: color, 0.5s;
+  -moz-transition: color, 0.5s;
+  -o-transition: color, 0.5s;
 }
 .SingleItemWrapper .ShippingOptionsWrapper button:hover {
   cursor: pointer;
   border: 1px solid #f44d00;
+}
+.SingleItemWrapper .ShippingOptionsWrapper button:hover i {
+  color: #f44d00;
 }
 .SingleItemWrapper .ViewOnEbayButtonWrapper {
   width: 100%;
