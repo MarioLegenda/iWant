@@ -1,6 +1,8 @@
 .FiltersWrapper {
   font-size: 16px !important;
 
+  position: relative;
+
   padding: 0 3px 3px 3px;
 
   z-index: -1;
@@ -9,6 +11,10 @@
     width: 100%;
     overflow: hidden;
     margin: 0 auto;
+  }
+
+  .FilterMenuOpener {
+    display: none;
   }
 
   .Error {

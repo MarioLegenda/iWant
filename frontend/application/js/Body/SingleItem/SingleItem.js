@@ -118,20 +118,6 @@ export const SingleItem = {
                     <item-loader v-if="item === null"></item-loader>
                     
                     <div v-if="item" class="SingleItem">
-                       
-                        <div class="Panel LeftPanel">
-                            <div class="Row Seller">
-                                <h1>{{item.seller.userId}}</h1>
-                                <span>({{item.seller.feedbackScore}})</span>
-                                <p>{{translationsMap.productPage.positiveFeedbackScore}}<span>{{sellerFeedbackPercent}}%</span></p>
-                            </div>
-                            
-                            <div class="Row ThumbnailImageWrapper">
-                                <img class="Image" :src="parsePictureUrl(item.pictureUrl)" />
-                            </div>
-                            
-                            <description-container v-bind:description="item.description"></description-container>
-                        </div>
                     
                         <div class="Panel RightPanel">
                             <div class="Row TitleWrapper">
@@ -203,6 +189,20 @@ export const SingleItem = {
                                 <a :href="item.viewItemUrlForNaturalSearch" target="_blank">{{translationsMap.productPage.viewOnEbay}}<i class="fas fa fa-link"></i></a>
                             </div>
                            
+                        </div>
+                        
+                        <div class="Panel LeftPanel">
+                            <div class="Row Seller">
+                                <h1>{{item.seller.userId}}</h1>
+                                <span>({{item.seller.feedbackScore}})</span>
+                                <p>{{translationsMap.productPage.positiveFeedbackScore}}<span>{{sellerFeedbackPercent}}%</span></p>
+                            </div>
+                            
+                            <div class="Row ThumbnailImageWrapper">
+                                <img class="Image" :src="parsePictureUrl(item.pictureUrl)" />
+                            </div>
+                            
+                            <description-container v-bind:description="item.description"></description-container>
                         </div>
                     </div>
 

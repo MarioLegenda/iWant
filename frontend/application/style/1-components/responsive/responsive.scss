@@ -1,0 +1,104 @@
+@media only screen and (max-width: 960px) {
+  .LeftPanel {
+    width: 92%;
+  }
+
+  .FiltersWrapper {
+    width: 280px;
+    position: absolute;
+    background-color: white !important;
+
+    left: -260px;
+
+    padding: 20px;
+
+    z-index: 1000;
+
+    border-right: 1px solid $lightestGray !important;
+    border-top: 1px solid $lightestGray !important;
+    border-bottom: 1px solid $lightestGray !important;
+
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+
+    transition: left 0.5s;
+    -webkit-transition: left 0.5s;
+    -moz-transition: left 0.5s;
+    -o-transition: left 0.5s;
+
+    .FilterMenuOpener {
+      display: block;
+      width: 50px;
+      height: 50px;
+
+      font-size: 2em;
+
+      position: absolute;
+      top: 100px;
+      right: -31px;
+
+      color: $basicOrange;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .ClickableFilterMenuOpener {
+    left: 0 !important;
+  }
+
+  .SearchItems {
+    .SearchItem {
+      margin-right: 20px;
+    }
+
+    .ImageWrapper {
+      img {
+        height: 170px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 970px) {
+  .SingleItemWrapper {
+    width: 100% !important;
+
+    .SingleItem {
+      .RightPanel, .LeftPanel {
+        width: 480px;
+        float: none;
+        overflow: hidden;
+        margin: 0 auto;
+
+        margin-bottom: 50px;
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  .SearchItems {
+    .SearchItem {
+      width: 280px;
+
+      margin: 0 auto;
+    }
+  }
+}
+
+@media only screen and (max-width: 740px) {
+  .SearchItems {
+    .SearchItem {
+      width: 280px;
+      float: none;
+      overflow: hidden;
+
+      margin: 0 auto;
+
+      margin-bottom: 30px;
+    }
+  }
+}

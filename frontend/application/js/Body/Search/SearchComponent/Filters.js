@@ -4,6 +4,7 @@ import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
 export const Filters = {
     data: function() {
         return {
+            responsiveMenuOpened: true,
             lowestPrice: false,
             highestPrice: false,
             errors: [],
@@ -11,6 +12,8 @@ export const Filters = {
     },
     template: `<div class="RightPanel FiltersWrapper">
                     <input type="hidden" :value="filtersEvent" />
+                    
+                    <i class="FilterMenuOpener fas fa-bars" @click="openResponsiveMenu(...arguments)"></i>
                     
                     <div class="FiltersList">
                         <h1 class="Title">{{translationsMap.filters.title}}</h1>
@@ -52,9 +55,20 @@ export const Filters = {
         },
         translationsMap: function() {
             return this.$store.state.translationsMap;
-        }
+        },
+
     },
     methods: {
+        openResponsiveMenu(event) {
+            this.responsiveMenuOpened = !this.responsiveMenuOpened;
+
+            if (this.responsiveMenuOpened) {
+                event.target.parentNode.classList.remove('ClickableFilterMenuOpener');
+            } else {
+                event.target.parentNode.classList.add('ClickableFilterMenuOpener');
+            }
+        },
+
         addLowestPrice() {
             this.errors = [];
 

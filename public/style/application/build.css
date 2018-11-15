@@ -859,6 +859,7 @@ html {
 
 .FiltersWrapper {
   font-size: 16px !important;
+  position: relative;
   padding: 0 3px 3px 3px;
   z-index: -1;
 }
@@ -866,6 +867,9 @@ html {
   width: 100%;
   overflow: hidden;
   margin: 0 auto;
+}
+.FiltersWrapper .FilterMenuOpener {
+  display: none;
 }
 .FiltersWrapper .Error {
   width: 100%;
@@ -1238,59 +1242,78 @@ html {
   display: block;
 }
 
-@media only screen and (max-width: 1180px) {
-  .SearchItemItem {
-    width: 430px;
-    margin: 0 5% 80px 0;
-  }
-}
 @media only screen and (max-width: 960px) {
-  .SearchItemItem {
-    width: 360px !important;
+  .LeftPanel {
+    width: 92%;
+  }
+
+  .FiltersWrapper {
+    width: 280px;
+    position: absolute;
+    background-color: white !important;
+    left: -260px;
+    padding: 20px;
+    z-index: 1000;
+    border-right: 1px solid #d6d6d6 !important;
+    border-top: 1px solid #d6d6d6 !important;
+    border-bottom: 1px solid #d6d6d6 !important;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+    transition: left 0.5s;
+    -webkit-transition: left 0.5s;
+    -moz-transition: left 0.5s;
+    -o-transition: left 0.5s;
+  }
+  .FiltersWrapper .FilterMenuOpener {
+    display: block;
+    width: 50px;
+    height: 50px;
+    font-size: 2em;
+    position: absolute;
+    top: 100px;
+    right: -31px;
+    color: #f44d00;
+  }
+  .FiltersWrapper .FilterMenuOpener:hover {
+    cursor: pointer;
+  }
+
+  .ClickableFilterMenuOpener {
+    left: 0 !important;
+  }
+
+  .SearchItems .SearchItem {
+    margin-right: 20px;
+  }
+  .SearchItems .ImageWrapper img {
+    height: 170px;
   }
 }
-@media only screen and (max-width: 810px) {
-  .SearchItemItem {
-    width: 400px !important;
-    float: none !important;
-    margin: 0 auto;
-    margin-bottom: 80px;
-  }
-}
-@media only screen and (max-width: 600px) {
-  .SearchBox {
-    width: 100% !important;
-    float: left;
-    border: 1px solid red;
-  }
-
-  .AdvancedSearch {
-    width: 480px !important;
-  }
-
-  .SearchBox_InputBox {
-    width: 90% !important;
-  }
-
-  .InputBox {
+@media only screen and (max-width: 970px) {
+  .SingleItemWrapper {
     width: 100% !important;
   }
-
-  .SearchBoxAdvanced {
-    width: 100% !important;
-  }
-
-  .GenericFiltersWrapper {
-    width: 100% !important;
+  .SingleItemWrapper .SingleItem .RightPanel, .SingleItemWrapper .SingleItem .LeftPanel {
+    width: 480px;
+    float: none;
     overflow: hidden;
     margin: 0 auto;
+    margin-bottom: 50px;
   }
-
-  .SearchItemItem {
-    width: 410px !important;
-    float: none !important;
+}
+@media only screen and (max-width: 700px) {
+  .SearchItems .SearchItem {
+    width: 280px;
     margin: 0 auto;
-    margin-bottom: 80px;
+  }
+}
+@media only screen and (max-width: 740px) {
+  .SearchItems .SearchItem {
+    width: 280px;
+    float: none;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-bottom: 30px;
   }
 }
 .SingleItemWrapper {
