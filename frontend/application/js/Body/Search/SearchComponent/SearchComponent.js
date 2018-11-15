@@ -168,21 +168,23 @@ export const SearchComponent = {
 
             let promises = [];
             for (const m of models) {
-                let promise = searchRepo.postPrepareEbaySearch(m, (r) => {
-                    const response = r.content;
+                setTimeout(() => {
+                    let promise = searchRepo.postPrepareEbaySearch(m, (r) => {
+                        const response = r.content;
 
-                    const eventData = {
-                        preparedData: response.resource.data,
-                        isError: response.isError,
-                        globalId: r.request.globalId,
-                    };
+                        const eventData = {
+                            preparedData: response.resource.data,
+                            isError: response.isError,
+                            globalId: r.request.globalId,
+                        };
 
-                    this.$store.commit('preparedEbayRequestEvent', eventData);
+                        this.$store.commit('preparedEbayRequestEvent', eventData);
 
-                    return r.content;
-                });
+                        return r.content;
+                    });
 
-                promises.push(promise);
+                    promises.push(promise);
+                }, 200);
             }
 
             Promise.all(promises).then((responses) => {

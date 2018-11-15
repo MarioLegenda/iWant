@@ -33,7 +33,6 @@ export const EbayLoading = {
             if (this.searchInitialiseEvent.initialised) {
                 const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
 
-
                 if (preparedEbayRequestEvent !== null && typeof preparedEbayRequestEvent !== 'undefined') {
                     if (preparedEbayRequestEvent.isError) {
                         this.information[preparedEbayRequestEvent.globalId].isError = preparedEbayRequestEvent.isError;
