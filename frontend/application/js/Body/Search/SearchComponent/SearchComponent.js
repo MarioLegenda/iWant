@@ -183,11 +183,9 @@ export const SearchComponent = {
             let promises = [];
             for (const m of models) {
                 if (this.$isMobile) {
-                    setTimeout(() => {
-                        let promise = searchRepo.asyncPostPrepareEbaySearch(m, successFunc);
+                    let promise = searchRepo.asyncPostPrepareEbaySearch(m, successFunc);
 
-                        promises.push(promise);
-                    }, 500);
+                    promises.push(promise);
                 } else if (!this.$isMobile) {
                     let promise = searchRepo.postPrepareEbaySearch(m, successFunc);
 
