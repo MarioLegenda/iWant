@@ -59,7 +59,6 @@ a {
 
 body {
   max-width: 1280px;
-  min-width: 480px;
   font-size: 16px;
   font-family: "Quicksand", sans-serif;
   color: #5b5b5b;
@@ -230,7 +229,6 @@ html {
 }
 #main_header .SearchBox {
   width: 480px;
-  min-width: 480px;
   margin: 0 auto;
   margin-top: 50px;
   margin-bottom: 120px;
@@ -1319,7 +1317,6 @@ html {
 .SingleItemWrapper {
   width: 960px;
   max-width: 960px;
-  min-width: 480px;
   overflow: hidden;
   margin: 0 auto;
 }

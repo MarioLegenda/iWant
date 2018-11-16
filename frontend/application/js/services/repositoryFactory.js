@@ -49,6 +49,23 @@ class AppRepository {
 }
 
 class SearchRepository {
+    async asyncPostPrepareEbaySearch(data, success, error) {
+        const response = await fetch(routes.app_post_prepare_ebay_search, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: requiredHeaders,
+        });
+
+        const content = await response.json();
+
+        const normalized = {
+            content: content,
+            request: data,
+        };
+
+        return success(normalized);
+    }
+
     postPrepareEbaySearch(data, success, error) {
         return fetch(routes.app_post_prepare_ebay_search, {
             method: 'POST',

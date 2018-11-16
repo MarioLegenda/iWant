@@ -166,25 +166,33 @@ export const SearchComponent = {
                 }
             }
 
+            const successFunc = (r) => {
+                const response = r.content;
+
+                const eventData = {
+                    preparedData: response.resource.data,
+                    isError: response.isError,
+                    globalId: r.request.globalId,
+                };
+
+                this.$store.commit('preparedEbayRequestEvent', eventData);
+
+                return r.content;
+            };
+
             let promises = [];
             for (const m of models) {
-                setTimeout(() => {
-                    let promise = searchRepo.postPrepareEbaySearch(m, (r) => {
-                        const response = r.content;
+                if (this.$isMobile) {
+                    setTimeout(() => {
+                        let promise = searchRepo.asyncPostPrepareEbaySearch(m, successFunc);
 
-                        const eventData = {
-                            preparedData: response.resource.data,
-                            isError: response.isError,
-                            globalId: r.request.globalId,
-                        };
-
-                        this.$store.commit('preparedEbayRequestEvent', eventData);
-
-                        return r.content;
-                    });
+                        promises.push(promise);
+                    }, 200);
+                } else if (!this.$isMobile) {
+                    let promise = searchRepo.postPrepareEbaySearch(m, successFunc);
 
                     promises.push(promise);
-                }, 200);
+                }
             }
 
             Promise.all(promises).then((responses) => {

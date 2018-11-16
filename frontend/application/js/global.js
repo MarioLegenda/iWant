@@ -230,6 +230,13 @@ export class Init {
             appRepo.asyncGetEbayGlobalIdsInformation((response) => {
                 Vue.prototype.$globalIdInformation = new GlobalIdInformation(response.collection.data);
                 Vue.prototype.$localeInfo = new LocaleInfo('en', 'en');
+                Vue.prototype.$isMobile = false;
+
+                if (/Mobi|Android/i.test(navigator.userAgent)) {
+                    console.log(`Is mobile with user agent: ${navigator.userAgent}`);
+
+                    Vue.prototype.$isMobile = true;
+                }
 
                 Vue.filter('userFriendlyDate', function(date) {
                     const dateTime = new Date(date);

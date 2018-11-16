@@ -3,7 +3,7 @@ magephp:
   environments:
     production:
       user: root
-      branch: master
+      branch: dev
       from: ./
       host_path: /var/www/iwouldlike
       releases: 4
@@ -13,6 +13,6 @@ magephp:
       hosts:
           - 142.93.111.72
       pre-deploy:
-          - 'App\Symfony\Command\Deploy\GitUpdate': { branch: 'master' }
+          - 'App\Symfony\Command\Deploy\GitUpdate': { branch: 'dev' }
           - composer/install: { timeout: 3600 }
           - composer/dump-autoload
