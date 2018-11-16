@@ -82,13 +82,13 @@ export const ListingChoiceComponent = {
             const preparedSearchInformation = this.preparedSearchInformation;
 
             if (typeof preparedSearchInformation === 'undefined' || preparedSearchInformation === null) {
-                return null;
+                return false;
             }
 
             const responses = preparedSearchInformation.responses;
 
             if (!Array.isArray(responses)) {
-                return null;
+                return false;
             }
 
             for (const r of responses) {

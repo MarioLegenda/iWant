@@ -860,7 +860,6 @@ html {
   font-size: 16px !important;
   position: relative;
   padding: 0 3px 3px 3px;
-  z-index: -1;
 }
 .FiltersWrapper .GenericFiltersWrapper {
   width: 100%;
