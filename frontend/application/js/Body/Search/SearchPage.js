@@ -23,7 +23,7 @@ export const SearchPage = {
                         </search-component>
                         
                         <transition name="fade">
-                            <listing-choice-component></listing-choice-component>
+                            <listing-choice-component v-if="searchInitialiseEvent.initialised"></listing-choice-component>
                         </transition>
                     
                         <listing-component></listing-component>

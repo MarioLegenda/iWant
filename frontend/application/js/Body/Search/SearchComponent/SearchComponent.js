@@ -37,6 +37,7 @@ export const SearchComponent = {
         }
     },
     template: `<div class="AdvancedSearch" id="AdvancedSearchId">
+
                     <input type="hidden" :value="preparedEbayRequestEvent" />
                     
                     <search-box
@@ -53,10 +54,6 @@ export const SearchComponent = {
                            v-bind:sentenceData="sentenceData"
                            v-bind:showSentence="showSentence">
                         </sentence>
-                    </transition>
-                                        
-                    <transition name="fade">
-                        <loading-component v-if="searchInitialiseEvent.initialised"></loading-component>
                     </transition>
                     
                </div>`,
@@ -152,51 +149,6 @@ export const SearchComponent = {
                 model: model,
                 initialised: true,
                 finished: false
-            });
-
-            let models = [];
-            const searchRepo = RepositoryFactory.create('search');
-
-            for (const site of SUPPORTED_SITES.sites) {
-                if (site.enabled) {
-                    let model = this.createModel();
-                    model.globalId = site.globalId.toUpperCase();
-
-                    models.push(model);
-                }
-            }
-
-            const successFunc = (r) => {
-                const response = r.content;
-
-                const eventData = {
-                    preparedData: response.resource.data,
-                    isError: response.isError,
-                    globalId: r.request.globalId,
-                };
-
-                this.$store.commit('preparedEbayRequestEvent', eventData);
-
-                return r.content;
-            };
-
-            let promises = [];
-            for (const m of models) {
-                if (this.$isMobile) {
-                    let promise = searchRepo.asyncPostPrepareEbaySearch(m, successFunc);
-
-                    promises.push(promise);
-                } else if (!this.$isMobile) {
-                    let promise = searchRepo.postPrepareEbaySearch(m, successFunc);
-
-                    promises.push(promise);
-                }
-            }
-
-            Promise.all(promises).then((responses) => {
-                this.$store.commit('preparedSearchInformation', {
-                    responses: responses,
-                });
             });
         },
 

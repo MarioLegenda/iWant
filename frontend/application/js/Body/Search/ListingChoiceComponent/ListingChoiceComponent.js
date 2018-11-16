@@ -1,5 +1,4 @@
 import {RepositoryFactory} from "../../../services/repositoryFactory";
-import {PreparedSearchInformation} from "./PreparedSearchInformation";
 import {SUPPORTED_SITES} from "../../../supportedSites";
 
 const ListingChoice = {
@@ -35,15 +34,25 @@ export const ListingChoiceComponent = {
             supportedSites: SUPPORTED_SITES
         }
     },
+    created() {
+        for (const globalIdKey in this.$globalIdInformation.all) {
+            if (this.$globalIdInformation.all.hasOwnProperty(globalIdKey)) {
+                if (this.supportedSites.has(globalIdKey)) {
+                    const site = this.$globalIdInformation.all[globalIdKey];
+
+                    this.resolvedSites[site.global_id] = {
+                        siteName: site.site_name
+                    }
+                }
+            }
+        }
+    },
     template: `
-        <div 
+        <div
             class="ListingChoiceComponent">
             
-            <input type="hidden" :value="preparedEbayRequestEvent" />
             <input type="hidden" :value="searchInitialiseEvent" />
-            
-            <prepared-search-information></prepared-search-information>
-            
+
             <div class="ListingChoiceWrapper">
                 <h1 class="Title">{{translationsMap.chooseEbaySite}}</h1>
 
@@ -54,14 +63,11 @@ export const ListingChoiceComponent = {
                     <transition name="fade">
                         <listing-choice
                             v-bind:image="supportedSites.find(globalId).icon"
-                            v-bind:site-name="item.preparedData.globalIdInformation.site_name"
-                            v-bind:prepared-data="item.preparedData"
+                            v-bind:site-name="item.site_name"
                             v-on:on-ebay-site-choice="onEbaySiteChoice">
                         </listing-choice>
                     </transition>
                 </div>
-                
-                <no-items v-if="hasItems === false" :no-items-found-translation="translationsMap.noItemsFound"></no-items>
             </div>
         </div>
     `,
@@ -69,15 +75,7 @@ export const ListingChoiceComponent = {
         translationsMap: function() {
             return this.$store.state.translationsMap;
         },
-        preparedSearchInformation: function() {
-            const preparedSearchInformation = this.$store.state.preparedSearchInformation;
 
-            if (typeof preparedSearchInformation === 'undefined' || preparedSearchInformation === null) {
-                return null;
-            }
-
-            return this.$store.state.preparedSearchInformation;
-        },
         hasItems: function() {
             const preparedSearchInformation = this.preparedSearchInformation;
 
@@ -99,34 +97,9 @@ export const ListingChoiceComponent = {
 
             return false;
         },
-        preparedEbayRequestEvent: function () {
-            const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
-
-            if (typeof preparedEbayRequestEvent === 'object' && preparedEbayRequestEvent !== null) {
-                if (preparedEbayRequestEvent.isError) {
-                    return preparedEbayRequestEvent;
-                }
-
-                if (preparedEbayRequestEvent.preparedData.totalEntries === 0) {
-                    return preparedEbayRequestEvent;
-                }
-
-                this.resolvedSites[preparedEbayRequestEvent.preparedData.globalId] = preparedEbayRequestEvent;
-
-                return preparedEbayRequestEvent;
-            }
-
-            return preparedEbayRequestEvent;
-        },
 
         searchInitialiseEvent: function () {
-            const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
-
-            if (searchInitialiseEvent.initialised) {
-                this.resolvedSites = {};
-            }
-
-            return searchInitialiseEvent;
+            return this.$store.state.searchInitialiseEvent;
         },
 
         filtersEvent: function() {
@@ -163,7 +136,6 @@ export const ListingChoiceComponent = {
     },
     components: {
         'listing-choice': ListingChoice,
-        'prepared-search-information': PreparedSearchInformation,
         'no-items': NoItems,
     }
 };
