@@ -187,7 +187,7 @@ export const SearchComponent = {
                         let promise = searchRepo.asyncPostPrepareEbaySearch(m, successFunc);
 
                         promises.push(promise);
-                    }, 200);
+                    }, 500);
                 } else if (!this.$isMobile) {
                     let promise = searchRepo.postPrepareEbaySearch(m, successFunc);
 
