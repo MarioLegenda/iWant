@@ -35,33 +35,38 @@ export const ListingChoiceComponent = {
             supportedSites: SUPPORTED_SITES
         }
     },
+    created() {
+        const allInfo = this.$globalIdInformation.all;
+        for (const globalId in allInfo) {
+            if (allInfo.hasOwnProperty(globalId)) {
+                if (this.supportedSites.has(globalId)) {
+                    this.resolvedSites[globalId] = {
+                        siteName: allInfo[globalId].site_name,
+                    };
+                }
+            }
+        }
+    },
     template: `
-        <div 
+        <div
             class="ListingChoiceComponent">
             
-            <input type="hidden" :value="preparedEbayRequestEvent" />
             <input type="hidden" :value="searchInitialiseEvent" />
-            
-            <prepared-search-information></prepared-search-information>
-            
+                        
             <div class="ListingChoiceWrapper">
                 <h1 class="Title">{{translationsMap.chooseEbaySite}}</h1>
 
                 <div
                     v-for="(item, globalId, index) in resolvedSites"
-                    v-if="item !== null"
                     :key="index">
                     <transition name="fade">
                         <listing-choice
-                            v-bind:image="supportedSites.find(globalId).icon"
-                            v-bind:site-name="item.preparedData.globalIdInformation.site_name"
-                            v-bind:prepared-data="item.preparedData"
+                            v-bind:image="supportedSites.find(globalId.toUpperCase()).icon"
+                            v-bind:site-name="item.siteName"
                             v-on:on-ebay-site-choice="onEbaySiteChoice">
                         </listing-choice>
                     </transition>
                 </div>
-                
-                <no-items v-if="hasItems === false" :no-items-found-translation="translationsMap.noItemsFound"></no-items>
             </div>
         </div>
     `,
@@ -69,77 +74,24 @@ export const ListingChoiceComponent = {
         translationsMap: function() {
             return this.$store.state.translationsMap;
         },
-        preparedSearchInformation: function() {
-            const preparedSearchInformation = this.$store.state.preparedSearchInformation;
-
-            if (typeof preparedSearchInformation === 'undefined' || preparedSearchInformation === null) {
-                return null;
-            }
-
-            return this.$store.state.preparedSearchInformation;
-        },
-        hasItems: function() {
-            const preparedSearchInformation = this.preparedSearchInformation;
-
-            if (typeof preparedSearchInformation === 'undefined' || preparedSearchInformation === null) {
-                return false;
-            }
-
-            const responses = preparedSearchInformation.responses;
-
-            if (!Array.isArray(responses)) {
-                return false;
-            }
-
-            for (const r of responses) {
-                if (r.resource.data.totalEntries > 0) {
-                    return true;
-                }
-            }
-
-            return false;
-        },
-        preparedEbayRequestEvent: function () {
-            const preparedEbayRequestEvent = this.$store.state.preparedEbayRequestEvent;
-
-            if (typeof preparedEbayRequestEvent === 'object' && preparedEbayRequestEvent !== null) {
-                if (preparedEbayRequestEvent.isError) {
-                    return preparedEbayRequestEvent;
-                }
-
-                if (preparedEbayRequestEvent.preparedData.totalEntries === 0) {
-                    return preparedEbayRequestEvent;
-                }
-
-                this.resolvedSites[preparedEbayRequestEvent.preparedData.globalId] = preparedEbayRequestEvent;
-
-                return preparedEbayRequestEvent;
-            }
-
-            return preparedEbayRequestEvent;
-        },
 
         searchInitialiseEvent: function () {
-            const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
-
-            if (searchInitialiseEvent.initialised) {
-                this.resolvedSites = {};
-            }
-
-            return searchInitialiseEvent;
+            return this.$store.state.searchInitialiseEvent;
         },
 
         filtersEvent: function() {
             return this.$store.state.filtersEvent;
         }
     },
+
     methods: {
         onEbaySiteChoice: function (preparedData) {
             const searchRepo = RepositoryFactory.create('search');
 
             this.$store.commit('ebaySearchListing', null);
 
-            searchRepo.getPreparedEbaySearch({
+            console.log('debil');
+/*            searchRepo.getPreparedEbaySearch({
                 uniqueName: preparedData.uniqueName,
                 globalId: preparedData.globalId,
                 locale: this.$localeInfo.locale,
@@ -158,9 +110,10 @@ export const ListingChoiceComponent = {
                     pagination: r.collection.pagination,
                     preparedData: preparedData,
                 });
-            });
+            });*/
         }
     },
+
     components: {
         'listing-choice': ListingChoice,
         'prepared-search-information': PreparedSearchInformation,

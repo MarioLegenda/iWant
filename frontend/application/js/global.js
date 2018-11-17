@@ -238,8 +238,6 @@ export class Init {
                     Vue.prototype.$isMobile = true;
                 }
 
-                Vue.prototype.$isMobile = true;
-
                 Vue.filter('userFriendlyDate', function(date) {
                     const dateTime = new Date(date);
 
