@@ -4,6 +4,7 @@ namespace App\Component\Search\Ebay\Business;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\Title;
 use App\Doctrine\Entity\SearchCache;
@@ -42,22 +43,29 @@ class SearchAbstraction
      */
     private $searchResponseCacheImplementation;
     /**
+     * @var PaginationHandler $paginationHandler
+     */
+    private $paginationHandler;
+    /**
      * PreparedEbayResponseAbstraction constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param TranslationCenter $translationCenter
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
+     * @param PaginationHandler $paginationHandler
      */
     public function __construct(
         ResponseFetcher $responseFetcher,
         TranslationCenter $translationCenter,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
-        ItemTranslationCacheImplementation $itemTranslationCacheImplementation
+        ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
+        PaginationHandler $paginationHandler
     ) {
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->responseFetcher = $responseFetcher;
         $this->translationCenter = $translationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
+        $this->paginationHandler = $paginationHandler;
     }
 
     public function getEbayProductsByGlobalId(SearchModel $model)
@@ -70,7 +78,12 @@ class SearchAbstraction
 
             $presentationResultsArray = json_decode($presentationResults->getProductsResponse(), true);
 
-            return $this->translateSearchResults($presentationResultsArray, $model->getLocale());
+            $paginatedProducts = $this->paginationHandler->paginateListing(
+                $presentationResultsArray,
+                $model->getPagination()
+            );
+
+            return $this->translateSearchResults($paginatedProducts, $model->getLocale());
         }
 
         /** @var TypedArray $presentationResults */
@@ -84,7 +97,12 @@ class SearchAbstraction
             jsonEncodeWithFix($presentationResultsArray)
         );
 
-        return $this->translateSearchResults($presentationResultsArray, $model->getLocale());
+        $paginatedProducts = $this->paginationHandler->paginateListing(
+            $presentationResultsArray,
+            $model->getPagination()
+        );
+
+        return $this->translateSearchResults($paginatedProducts, $model->getLocale());
     }
     /**
      * @param array $searchResults
