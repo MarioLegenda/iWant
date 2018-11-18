@@ -260,28 +260,9 @@ export const EbayItems = {
             this.currentlyLoading = true;
 
             const searchRepo = RepositoryFactory.create('search');
-            const uniqueName = this.ebaySearchListing.preparedData.uniqueName;
+            const uniqueName = this.ebaySearchListing.uniqueName;
 
-            searchRepo.getPreparedEbaySearch({
-                uniqueName: uniqueName,
-                globalId: this.ebaySearchListing.preparedData.globalId,
-                locale: this.$localeInfo.locale,
-                lowestPrice: this.filtersEvent.lowestPrice,
-                pagination: pagination
-            }, (r) => {
-                const fetchedItems = r.collection.data;
-                let existingData = this.ebaySearchListing.items;
 
-                fetchedItems.map((i) => existingData.push(i));
-
-                this.$store.commit('ebaySearchListing', {
-                    items: existingData,
-                    pagination: r.collection.pagination,
-                    preparedData: this.ebaySearchListing.preparedData,
-                });
-
-                this.currentlyLoading = false;
-            });
         },
         goToSingleItem(item) {
             const urlify = urlifyFactory.create({

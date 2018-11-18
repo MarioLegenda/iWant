@@ -2,15 +2,12 @@
 
 namespace App\Web\Controller;
 
-use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
-use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\SearchComponent;
+use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
-use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Util\Environment;
 use App\Web\Library\ApiResponseDataFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 
 class SearchController
 {
@@ -28,30 +25,48 @@ class SearchController
         $this->apiResponseDataFactory = $apiResponseDataFactory;
     }
     /**
-     * @param EbaySearchModel $model
+     * @param SearchModel $model
      * @param SearchComponent $searchComponent
-     * @param Environment $environment
      * @return JsonResponse
      */
-    public function getEbayProductsByGlobalId(
-        EbaySearchModel $model,
-        SearchComponent $searchComponent,
-        Environment $environment
+    public function prepareProducts(
+        SearchModel $model,
+        SearchComponent $searchComponent
     ): JsonResponse {
-        $productsList = $searchComponent->getEbayProductsByGlobalId($model);
+        $searchComponent->saveProducts($model);
         /** @var ApiResponseData $apiResponseData */
-        $apiResponseData = $this->apiResponseDataFactory->createSearchedProductResponseData($productsList);
+        $apiResponseData = $this->apiResponseDataFactory->createPreparedProductsResponseData([
+            'uniqueName' => $model->getUniqueName(),
+        ]);
 
         $response = new JsonResponse(
             $apiResponseData->toArray(),
             $apiResponseData->getStatusCode()
         );
 
-        if ((string) $environment === 'dev') {
-            $response->headers->set('Cache-Control', 'no-cache');
-        } else if ((string) $environment === 'prod') {
-            $response->setMaxAge(60 * 60 * 24);
-        }
+        return $response;
+    }
+    /**
+     * @param SearchModel $model
+     * @param SearchComponent $searchComponent
+     * @return JsonResponse
+     */
+    public function getProducts(
+        SearchModel $model,
+        SearchComponent $searchComponent
+    ): JsonResponse {
+        $listing = $searchComponent->getProductsPaginated($model);
+
+        /** @var ApiResponseData $apiResponseData */
+        $apiResponseData = $this->apiResponseDataFactory->createSearchListingResponseData([
+            'siteInformation' => GlobalIdInformation::instance()->getTotalInformation($model->getGlobalId()),
+            'items' => $listing
+        ]);
+
+        $response = new JsonResponse(
+            $apiResponseData->toArray(),
+            $apiResponseData->getStatusCode()
+        );
 
         return $response;
     }

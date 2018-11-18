@@ -4,6 +4,7 @@ namespace App\Component\Search\Ebay\Business;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Business\ResultsFetcher\ResultsFetcher;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\Title;
@@ -27,10 +28,6 @@ use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 class SearchAbstraction
 {
     /**
-     * @var ResponseFetcher $responseFetcher
-     */
-    private $responseFetcher;
-    /**
      * @var TranslationCenter $translationCenter
      */
     private $translationCenter;
@@ -39,70 +36,47 @@ class SearchAbstraction
      */
     private $itemTranslationCacheImplementation;
     /**
-     * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
-     */
-    private $searchResponseCacheImplementation;
-    /**
      * @var PaginationHandler $paginationHandler
      */
     private $paginationHandler;
     /**
-     * PreparedEbayResponseAbstraction constructor.
-     * @param ResponseFetcher $responseFetcher
-     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
-     * @param TranslationCenter $translationCenter
-     * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
-     * @param PaginationHandler $paginationHandler
+     * @var ResultsFetcher $resultsFetcher
      */
+    private $resultsFetcher;
+
     public function __construct(
-        ResponseFetcher $responseFetcher,
+        ResultsFetcher $resultsFetcher,
         TranslationCenter $translationCenter,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         PaginationHandler $paginationHandler
     ) {
-        $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
-        $this->responseFetcher = $responseFetcher;
         $this->translationCenter = $translationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->paginationHandler = $paginationHandler;
+        $this->resultsFetcher = $resultsFetcher;
     }
 
-    public function getEbayProductsByGlobalId(SearchModel $model)
+    public function getProducts(SearchModel $model)
     {
-        if ($this->searchResponseCacheImplementation->isStored($model->getUniqueName())) {
-            /** @var SearchCache $presentationResults */
-            $presentationResults = $this->searchResponseCacheImplementation->getStored(
-                $model->getUniqueName()
-            );
+        return $this->resultsFetcher->getResults($model);
+    }
 
-            $presentationResultsArray = json_decode($presentationResults->getProductsResponse(), true);
+    public function paginateListing(array $listing, SearchModel $model)
+    {
+        return $this->paginationHandler->paginateListing($listing, $model->getPagination());
+    }
 
-            $paginatedProducts = $this->paginationHandler->paginateListing(
-                $presentationResultsArray,
-                $model->getPagination()
-            );
-
-            return $this->translateSearchResults($paginatedProducts, $model->getLocale());
-        }
-
-        /** @var TypedArray $presentationResults */
-        $presentationResults = $this->responseFetcher->getResponse($model);
-
-        $presentationResultsArray = $presentationResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
-
-        $this->searchResponseCacheImplementation->store(
-            $model->getUniqueName(),
-            $model->getInternalPagination()->getPage(),
-            jsonEncodeWithFix($presentationResultsArray)
+    public function paginateListingAutomatic(SearchModel $model)
+    {
+        return $this->paginateListing(
+            $this->getProducts($model),
+            $model
         );
+    }
 
-        $paginatedProducts = $this->paginationHandler->paginateListing(
-            $presentationResultsArray,
-            $model->getPagination()
-        );
-
-        return $this->translateSearchResults($paginatedProducts, $model->getLocale());
+    public function translateListing(array $listing, SearchModel $model)
+    {
+        return $this->translateSearchResults($listing, $model->getLocale());
     }
     /**
      * @param array $searchResults

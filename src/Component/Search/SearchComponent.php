@@ -4,7 +4,6 @@ namespace App\Component\Search;
 
 use App\Component\Search\Ebay\Business\SearchAbstraction;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
-use App\Ebay\Library\Information\GlobalIdInformation;
 
 class SearchComponent
 {
@@ -21,17 +20,16 @@ class SearchComponent
     ) {
         $this->searchAbstraction = $searchAbstraction;
     }
-    /**
-     * @param SearchModel $model
-     * @return array
-     */
-    public function getEbayProductsByGlobalId(SearchModel $model): array
-    {
-        $products = $this->searchAbstraction->getEbayProductsByGlobalId($model);
 
-        return [
-            'globalIdInformation' => GlobalIdInformation::instance()->getTotalInformation($model->getGlobalId()),
-            'items' => $products
-        ];
+    public function saveProducts(SearchModel $model): void
+    {
+        $this->searchAbstraction->getProducts($model);
+    }
+
+    public function getProductsPaginated(SearchModel $model)
+    {
+        $listing = $this->searchAbstraction->paginateListingAutomatic($model);
+
+        return $this->searchAbstraction->translateListing($listing, $model);
     }
 }

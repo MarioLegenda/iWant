@@ -39,16 +39,25 @@ class ApiResponseDataFactory
             ->build();
     }
     /**
-     * @param array $productsList
+     * @param array $data
      * @return ApiResponseData
      */
-    public function createSearchedProductResponseData(
-        array $productsList
-    ): ApiResponseData {
+    public function createPreparedProductsResponseData(array $data): ApiResponseData {
         return $this->apiSdk
-            ->create($productsList)
+            ->create($data)
+            ->method('POST')
+            ->addMessage('Search products created')
+            ->isCollection()
+            ->setStatusCode(201)
+            ->build();
+    }
+
+    public function createSearchListingResponseData(array $listing)
+    {
+        return $this->apiSdk
+            ->create($listing)
             ->method('GET')
-            ->addMessage('List of searched products')
+            ->addMessage('Products listing')
             ->isCollection()
             ->setStatusCode(200)
             ->build();
