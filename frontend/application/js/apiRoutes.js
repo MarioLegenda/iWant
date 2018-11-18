@@ -8,7 +8,7 @@ export const routes = {
     app_post_activity_message: '/api/v1/activity-message',
     app_post_prepare_ebay_search: '/api/v1/ebay/prepare-search',
     app_get_single_item: '/api/v1/ebay/get-single-item/:locale/:itemId',
-    app_get_prepared_ebay_search: '/api/v1/ebay/get-prepared-search/:searchData',
+    app_get_prepared_ebay_search: '/api/v1/ebay/get-products-by-global-id/:searchData',
     app_options_check_single_item: '/api/v1/ebay/check-single-item/:locale/:itemId',
 
     createRouteFromName: function(routeName, params) {

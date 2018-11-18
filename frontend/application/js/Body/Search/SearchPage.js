@@ -10,6 +10,14 @@ export const SearchPage = {
             ebayHttpInProgress: false,
         }
     },
+    beforeDestroy() {
+        this.$store.commit('searchInitialiseEvent', {
+            searchUrl: null,
+            model: null,
+            initialised: false,
+            finished: false,
+        });
+    },
     template: `<transition name="fade">
                 
                 <div id="search_page">

@@ -121,9 +121,6 @@ export class Init {
                     taxonomies: [],
                     globalIds: [],
                 },
-                preparedEbayRequestEvent: null,
-                preparedEbayRequestEvents: [],
-                preparedSearchInformation: {},
                 translationsMap: {}
             },
             mutations: {
@@ -151,17 +148,6 @@ export class Init {
                     this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
                 },
 
-                preparedEbayRequestEvent(state, value) {
-                    this.state.preparedEbayRequestEvent = value;
-                },
-
-                preparedEbayRequestEvents(state, value) {
-                    this.state.preparedEbayRequestEvents = value;
-                },
-
-                preparedSearchInformation(state, value) {
-                    this.state.preparedSearchInformation = value;
-                },
                 translationsMap(state, value) {
                     this.state.translationsMap = value;
                 }

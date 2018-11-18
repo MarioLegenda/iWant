@@ -5,8 +5,6 @@ import urlifyFactory from 'urlify';
 import {marketplacesList} from "../../../global";
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
-import {SUPPORTED_SITES} from "../../../supportedSites";
-import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const SearchComponent = {
     data: function() {
@@ -15,7 +13,6 @@ export const SearchComponent = {
             showSentence: false,
             keyword: null,
             preparedEbaySites: [],
-            sitesPrepared: false
         }
     },
     props: ['externalSearchTerm'],
@@ -36,9 +33,7 @@ export const SearchComponent = {
             this.submit(replaced);
         }
     },
-    template: `<div class="AdvancedSearch" id="AdvancedSearchId">
-                    <input type="hidden" :value="preparedEbayRequestEvent" />
-                    
+    template: `<div class="AdvancedSearch" id="AdvancedSearchId">                    
                     <search-box
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"
@@ -79,46 +74,8 @@ export const SearchComponent = {
         },
 
         searchInitialiseEvent: function() {
-            const searchInitialisedEvent = this.$store.state.searchInitialiseEvent;
-
-            if (typeof searchInitialisedEvent === 'object' && searchInitialisedEvent !== null) {
-                if (searchInitialisedEvent.initialised === false) {
-                    this.sitesPrepared = false;
-                }
-            }
-
-            return searchInitialisedEvent;
+            return this.$store.state.searchInitialiseEvent;
         },
-
-        preparedEbayRequestEvent: function() {
-            const preparedSite = this.$store.state.preparedEbayRequestEvent;
-
-            if (preparedSite === null) {
-                return this.$store.state.preparedEbayRequestEvent;
-            }
-
-            if (!this.preparedEbaySites.includes(preparedSite.globalId)) {
-                this.preparedEbaySites.push(preparedSite);
-            }
-
-            if (!this.sitesPrepared) {
-                if (SUPPORTED_SITES.enabledLength === this.preparedEbaySites.length) {
-                    setTimeout(() => {
-                        this.$store.commit('searchInitialiseEvent', {
-                            initialised: false,
-                            finished: true,
-                        });
-
-                        this.$store.commit('preparedEbayRequestEvent', null);
-
-                        this.sitesPrepared = true;
-                        this.preparedEbaySites = [];
-
-                        return this.$store.state.preparedEbayRequestEvent;
-                    }, 1000);
-                }
-            }
-        }
     },
     methods: {
         onSearchTermChange(searchTerm) {
@@ -126,6 +83,7 @@ export const SearchComponent = {
 
             this.keyword = searchTerm;
         },
+
         submit(keyword) {
             this.$store.commit('ebaySearchListing', null);
 
