@@ -49,54 +49,20 @@ class AppRepository {
 }
 
 class SearchRepository {
-    async asyncPostPrepareEbaySearch(data, success, error) {
-        const response = await fetch(routes.app_post_prepare_ebay_search, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: requiredHeaders,
+    getEbayProductsByGlobalId(data, success, error) {
+        const route = routes.createRouteFromName('app_get_products_by_global_id', {
+            searchData: JSON.stringify(data)
         });
 
-        const content = await response.json();
+        console.log(route);
 
-        const normalized = {
-            content: content,
-            request: data,
-        };
-
-        return success(normalized);
-    }
-
-    postPrepareEbaySearch(data, success, error) {
-        return fetch(routes.app_post_prepare_ebay_search, {
-            method: 'POST',
-            body: JSON.stringify(data),
+        return fetch(route, {
+            method: 'GET',
             headers: requiredHeaders,
         })
             .then((response) => {
                 return response.json()
             })
-            .then((response) => {
-                return {
-                    content: response,
-                    request: data,
-                };
-            })
-            .then(success)
-            .catch(error);
-    }
-
-    getPreparedEbaySearch(data, success, error) {
-        const route = routes.createRouteFromName('app_get_prepared_ebay_search', {
-            searchData: JSON.stringify({
-                searchData: data
-            })
-        });
-
-        fetch(route, {
-            method: 'GET',
-            headers: requiredHeaders,
-        })
-            .then(parseJson)
             .then(success)
             .catch(error);
     }

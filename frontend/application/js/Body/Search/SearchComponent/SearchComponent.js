@@ -61,6 +61,7 @@ export const SearchComponent = {
             this.submit(newVal);
         }
     },
+
     computed: {
         sentenceData: function() {
             return {
@@ -77,11 +78,22 @@ export const SearchComponent = {
             return this.$store.state.searchInitialiseEvent;
         },
     },
+
     methods: {
         onSearchTermChange(searchTerm) {
             this.showSentence = true;
 
             this.keyword = searchTerm;
+
+            this.$store.commit('searchInitialiseEvent', {
+                searchUrl: null,
+                model: null,
+                initialised: false,
+            });
+
+            this.$store.commit('ebaySearchListingLoading', false);
+
+            this.$store.commit('ebaySearchListing', null);
         },
 
         submit(keyword) {
@@ -105,7 +117,6 @@ export const SearchComponent = {
                 searchUrl: `/search/${urlify(this.keyword)}`,
                 model: model,
                 initialised: true,
-                finished: false
             });
         },
 
@@ -128,22 +139,17 @@ export const SearchComponent = {
         },
 
         createModel() {
-
-            // DO NOT FORGET TO REMOVE THIS IF THE USER WILL HAVE THE POSSIBILITY TO CHOOSE
-            // A BEST MATCH FILTERS OPTION
-
-            let filters = this.filtersEvent;
-
-            if (!filters.highestPrice) {
-                filters.bestMatch = true;
-            }
-
             return {
                 keyword: this.keyword,
-                filters: filters,
+                filters: this.filtersEvent,
                 pagination: {
-                    limit: 80,
+                    limit: 8,
                     page: 1,
+                },
+                locale: this.$localeInfo.locale,
+                internalPagination: {
+                    limit: 80,
+                    page: 1
                 },
                 viewType: 'globalIdView',
                 globalId: null,

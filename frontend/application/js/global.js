@@ -113,6 +113,7 @@ export class Init {
                     finished: false,
                 },
                 filtersEvent: {
+                    bestMatch: true,
                     lowestPrice: false,
                     highestPrice: false,
                     highQuality: false,
@@ -121,7 +122,8 @@ export class Init {
                     taxonomies: [],
                     globalIds: [],
                 },
-                translationsMap: {}
+                translationsMap: {},
+                modelWasCreated: null,
             },
             mutations: {
                 searchTerm(state, value) {
@@ -146,6 +148,10 @@ export class Init {
 
                 filtersEvent(state, value) {
                     this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
+                },
+
+                modelWasCreated(state, value) {
+                    this.state.modelWasCreated = value;
                 },
 
                 translationsMap(state, value) {

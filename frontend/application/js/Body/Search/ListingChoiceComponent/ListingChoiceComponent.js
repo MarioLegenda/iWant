@@ -12,12 +12,12 @@ const ListingChoice = {
             </div>
         </div>
     `,
-    props: ['image', 'siteName'],
+    props: ['globalId', 'image', 'siteName'],
     methods: {
         onListingChoice: function() {
             this.$store.commit('ebaySearchListingLoading', true);
 
-            this.$emit('on-ebay-site-choice', this.preparedData);
+            this.$emit('on-ebay-site-choice', this.globalId);
         }
     }
 };
@@ -68,6 +68,7 @@ export const ListingChoiceComponent = {
                         <listing-choice
                             v-bind:image="supportedSites.find(globalId).icon"
                             v-bind:site-name="item.siteName"
+                            v-bind:global-id="globalId.toUpperCase()"
                             v-on:on-ebay-site-choice="onEbaySiteChoice">
                         </listing-choice>
                     </transition>
@@ -86,33 +87,21 @@ export const ListingChoiceComponent = {
 
         filtersEvent: function() {
             return this.$store.state.filtersEvent;
-        }
+        },
     },
     methods: {
-        onEbaySiteChoice: function (preparedData) {
-            const searchRepo = RepositoryFactory.create('search');
-
+        onEbaySiteChoice: function (globalId) {
             this.$store.commit('ebaySearchListing', null);
 
-            searchRepo.getPreparedEbaySearch({
-                uniqueName: preparedData.uniqueName,
-                globalId: preparedData.globalId,
-                locale: this.$localeInfo.locale,
-                lowestPrice: this.filtersEvent.lowestPrice,
-                pagination: {
-                    limit: 8,
-                    page: 1
-                }
-            }, (r) => {
-                const data = r.collection.data;
+            let model = this.searchInitialiseEvent.model;
+            model.filters = this.filtersEvent;
+            model.globalId = globalId;
 
+            const searchRepo = RepositoryFactory.create('search');
+
+            searchRepo.getEbayProductsByGlobalId(model, (r) => {
+                this.$store.commit('ebaySearchListing', r.collection.data);
                 this.$store.commit('ebaySearchListingLoading', false);
-
-                this.$store.commit('ebaySearchListing', {
-                    items: data,
-                    pagination: r.collection.pagination,
-                    preparedData: preparedData,
-                });
             });
         }
     },

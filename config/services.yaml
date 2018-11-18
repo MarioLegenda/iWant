@@ -247,11 +247,6 @@ services:
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 
-    app.symfony.resolver.etsy_search_model_resolver:
-        class: 'App\Symfony\Resolver\EtsySearchModelResolver'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
-
     app.symfony.resolver.single_item_resolver:
         class: 'App\Symfony\Resolver\SingleItemRequestModelResolver'
         tags:
@@ -259,11 +254,6 @@ services:
 
     app.symfony.resolver.acitivity_message_resolver:
         class: 'App\Symfony\Resolver\ActivityMessageResolver'
-        tags:
-            - { name: controller.argument_value_resolver, priority: 50 }
-
-    app.symfony.resolver.prepared_ebay_items_model_resolver:
-        class: 'App\Symfony\Resolver\PreparedItemsEbaySearchModelResolver'
         tags:
             - { name: controller.argument_value_resolver, priority: 50 }
 

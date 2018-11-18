@@ -17,6 +17,10 @@ export const SearchPage = {
             initialised: false,
             finished: false,
         });
+
+        this.$store.commit('ebaySearchListing', null);
+
+        this.$store.commit('ebaySearchListingLoading', false);
     },
     template: `<transition name="fade">
                 
@@ -36,6 +40,7 @@ export const SearchPage = {
                     
                         <listing-component></listing-component>
                     </div>
+                    
                </div>
                
                </transition>`,

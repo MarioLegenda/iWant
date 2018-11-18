@@ -187,7 +187,7 @@ export const EbayItems = {
     template: `
             <div class="EbayItemsWrapper">
                 <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
-                    <site-name v-bind:global-id-information="ebaySearchListing.preparedData.globalIdInformation"></site-name>
+                    <site-name v-bind:global-id-information="ebaySearchListing.globalIdInformation"></site-name>
                     <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
                         <image-item :url="item.image.url"></image-item>
                     
@@ -213,7 +213,7 @@ export const EbayItems = {
                         </div>
                     </div>
                 
-                    <load-more 
+                    <load-more
                         @load-more="onLoadMore"
                         :pagination="ebaySearchListing.pagination"
                         :currently-loading="currentlyLoading">
@@ -230,6 +230,7 @@ export const EbayItems = {
         ebaySearchListingLoading() {
             return this.$store.state.ebaySearchListingLoading;
         },
+
         ebaySearchListing: function() {
             const ebaySearchListing = this.$store.state.ebaySearchListing;
 
@@ -239,6 +240,7 @@ export const EbayItems = {
 
             return ebaySearchListing;
         },
+
         filtersEvent: function() {
             const filtersEvent = this.$store.state.filtersEvent;
 
@@ -248,6 +250,7 @@ export const EbayItems = {
 
             return this.$store.state.filtersEvent;
         },
+
         translationsMap: function() {
             return this.$store.state.translationsMap;
         }

@@ -38,9 +38,9 @@ class SearchController
         SearchComponent $searchComponent,
         Environment $environment
     ): JsonResponse {
-        $preparedEbayResponse = $searchComponent->getEbayProductsByGlobalId($model);
+        $productsList = $searchComponent->getEbayProductsByGlobalId($model);
         /** @var ApiResponseData $apiResponseData */
-        $apiResponseData = $this->apiResponseDataFactory->createPreparedEbayResponseData($preparedEbayResponse);
+        $apiResponseData = $this->apiResponseDataFactory->createSearchedProductResponseData($productsList);
 
         $response = new JsonResponse(
             $apiResponseData->toArray(),

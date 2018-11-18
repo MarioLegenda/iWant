@@ -36,17 +36,21 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             return false;
         }
 
-        $searchData = json_decode($request->getContent(), true);
+        $searchData = $request->get('searchData');
 
         if (empty($searchData) and !is_string($searchData)) {
             return false;
         }
+
+        $searchData = json_decode($searchData, true);
 
         $filters = $searchData['filters'];
         $keyword = $searchData['keyword'];
         $pagination = $searchData['pagination'];
         $globalId = $searchData['globalId'];
         $viewType = EbaySearchViewType::fromValue($searchData['viewType']);
+        $locale = $searchData['locale'];
+        $internalPagination = $searchData['internalPagination'];
 
         $this->model = new SearchModel(
             $keyword,
@@ -59,7 +63,9 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['taxonomies'],
             new Pagination($pagination['limit'], $pagination['page']),
             $viewType,
-            $globalId
+            $globalId,
+            $locale,
+            new Pagination($internalPagination['limit'], $internalPagination['page'])
         );
 
         return true;

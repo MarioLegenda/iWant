@@ -39,17 +39,17 @@ class ApiResponseDataFactory
             ->build();
     }
     /**
-     * @param PreparedEbayResponse $preparedEbayResponse
+     * @param array $productsList
      * @return ApiResponseData
      */
-    public function createPreparedEbayResponseData(
-        PreparedEbayResponse $preparedEbayResponse
+    public function createSearchedProductResponseData(
+        array $productsList
     ): ApiResponseData {
         return $this->apiSdk
-            ->create($preparedEbayResponse->toArray())
-            ->method('POST')
-            ->addMessage('Prepared ebay response for getting the items from the cache')
-            ->isResource()
+            ->create($productsList)
+            ->method('GET')
+            ->addMessage('List of searched products')
+            ->isCollection()
             ->setStatusCode(200)
             ->build();
     }

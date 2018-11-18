@@ -706,8 +706,7 @@ html {
   float: left;
   margin: 0 14px 14px 0;
   padding: 10px;
-  border: 1px solid #d6d6d6;
-  border-radius: 10px;
+  border-bottom: 1px solid #d6d6d6;
   transition: box-shadow 0.5s;
   -webkit-transition: box-shadow 0.5s;
   -moz-transition: box-shadow 0.5s;
