@@ -91,7 +91,7 @@ class EbayModelFactory
 
         $queries[] = new Query(
             'paginationInput.entriesPerPage',
-            $model->getPagination()->getLimit()
+            $model->getInternalPagination()->getLimit()
         );
 
         $queries[] = new Query(

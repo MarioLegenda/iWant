@@ -2,88 +2,30 @@
 
 namespace App\Component\Search;
 
-use App\Cache\Implementation\SearchResponseCacheImplementation;
-use App\Component\Search\Ebay\Business\Finder as EbayFinder;
-use App\Component\Search\Ebay\Business\ModelPreparationFactory;
-use App\Component\Search\Ebay\Business\PreparedEbayResponseAbstraction;
-use App\Component\Search\Ebay\Model\Request\PreparedItemsSearchModel;
-use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
-use App\Component\Search\Etsy\Business\Finder as EtsyFinder;
-use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Ebay\Business\SearchAbstraction;
+use App\Component\Search\Ebay\Model\Request\SearchModel;
 
 class SearchComponent
 {
     /**
-     * @var EbayFinder $ebayFinder
+     * @var SearchAbstraction $searchAbstraction
      */
-    private $ebayFinder;
-    /**
-     * @var EtsyFinder $etsyFinder
-     */
-    private $etsyFinder;
-    /**
-     * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
-     */
-    private $searchResponseCacheImplementation;
-    /**
-     * @var ModelPreparationFactory $modelPreparationFactory
-     */
-    private $modelPreparationFactory;
-    /**
-     * @var PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
-     */
-    private $preparedEbayResponseAbstraction;
+    private $searchAbstraction;
     /**
      * SearchComponent constructor.
-     * @param EbayFinder $ebayFinder
-     * @param EtsyFinder $etsyFinder
-     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
-     * @param ModelPreparationFactory $modelPreparationFactory
-     * @param PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
+     * @param SearchAbstraction $searchAbstraction
      */
     public function __construct(
-        EbayFinder $ebayFinder,
-        EtsyFinder $etsyFinder,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation,
-        ModelPreparationFactory $modelPreparationFactory,
-        PreparedEbayResponseAbstraction $preparedEbayResponseAbstraction
+        SearchAbstraction $searchAbstraction
     ) {
-        $this->ebayFinder = $ebayFinder;
-        $this->etsyFinder = $etsyFinder;
-        $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
-        $this->modelPreparationFactory = $modelPreparationFactory;
-        $this->preparedEbayResponseAbstraction = $preparedEbayResponseAbstraction;
+        $this->searchAbstraction = $searchAbstraction;
     }
     /**
-     * @param PreparedItemsSearchModel $model
-     * @return iterable|null
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @param SearchModel $model
+     * @return array
      */
-    public function findEbaySearchByUniqueName(PreparedItemsSearchModel $model): ?iterable
+    public function getEbayProductsByGlobalId(SearchModel $model): array
     {
-        $searchResponseModels = $this->modelPreparationFactory->prepareSearchItems(
-            $model
-        );
-
-        return $searchResponseModels;
-    }
-
-    public function getOptionsForSearchListing()
-    {
-
-    }
-    /**
-     * @param EbaySearchModel $model
-     * @return PreparedEbayResponse
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Throwable
-     */
-    public function prepareEbayProductsAdvanced(EbaySearchModel $model): PreparedEbayResponse
-    {
-        return $this->preparedEbayResponseAbstraction->getPreparedResponse($model);
+        return $this->searchAbstraction->getEbayProductsByGlobalId($model);
     }
 }

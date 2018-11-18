@@ -291,7 +291,7 @@ services:
 
     App\Component\:
         resource: '../src/Component'
-        exclude: '../src/Component/{Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*,Search/Etsy/Model/*}'
+        exclude: '../src/Component/{Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*,Search/Etsy/Model/*,Search/Ebay/Business/ResultHandling/HandledResult.php}'
 
     # EVENT LISTENER
 

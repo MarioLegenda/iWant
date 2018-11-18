@@ -13,14 +13,9 @@ app_get_marketplaces:
   controller: App\Web\Controller\AppController::getMarketplaces
   methods: [GET]
 
-app_post_prepare_ebay_search:
-  path: /ebay/prepare-search
-  controller: App\Web\Controller\SearchController::postPrepareEbaySearch
-  methods: [POST]
-
-app_get_prepared_ebay_search:
+app_get_products_by_global_id:
   path: /ebay/get-prepared-search/{searchData}
-  controller: App\Web\Controller\SearchController::getEbaySearchByUniqueName
+  controller: App\Web\Controller\SearchController::getEbayProductsByGlobalId
   methods: [GET]
 
 app_get_taxonomies:

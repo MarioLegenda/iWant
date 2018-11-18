@@ -74,12 +74,12 @@ class SearchResponseCacheImplementation
     }
     /**
      * @param string $uniqueName
-     * @return string
+     * @return SearchCache
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getStored(string $uniqueName): string
+    public function getStored(string $uniqueName): SearchCache
     {
         /** @var SearchCache $cache */
         $cache = $this->searchResponseCache->get($uniqueName);
@@ -95,6 +95,6 @@ class SearchResponseCacheImplementation
             throw new \RuntimeException($message);
         }
 
-        return $cache->getProductsResponse();
+        return $cache;
     }
 }

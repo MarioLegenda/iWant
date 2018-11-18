@@ -3,6 +3,7 @@
 namespace App\Tests\Component\DataProvider;
 
 use App\Component\Search\Ebay\Model\Request\Pagination as EbayPagination;
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Etsy\Model\Request\Pagination as EtsyPagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
 use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
@@ -31,9 +32,15 @@ class DataProvider
         $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
         $globalIds = $data['globalId'];
-        $pagination = (isset($data['pagination']) and $data['pagination'] instanceof Pagination)
+        $pagination = (isset($data['pagination']) and $data['pagination'] instanceof EbayPagination)
             ? $data['pagination']
+            : new EbayPagination(4, 1);
+
+        $internalPagination = (isset($data['internalPagination']) and $data['internalPagination'] instanceof EbayPagination)
+            ? $data['internalPagination']
             : new EbayPagination(80, 1);
+
+        $locale = (isset($data['locale']) ? $data['locale'] : 'en');
 
         $viewType = (isset($data['viewType'])) ? $data['viewType'] : EbaySearchViewType::fromValue('globalIdView');
 
@@ -48,7 +55,9 @@ class DataProvider
             $taxonomies,
             $pagination,
             $viewType,
-            $globalIds
+            $globalIds,
+            $locale,
+            $internalPagination
         );
     }
     /**

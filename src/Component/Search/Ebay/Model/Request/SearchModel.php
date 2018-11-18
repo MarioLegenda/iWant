@@ -53,6 +53,14 @@ class SearchModel implements ArrayNotationInterface
      */
     private $viewType;
     /**
+     * @var string $locale
+     */
+    private $locale;
+    /**
+     * @var Pagination $internalPagination
+     */
+    private $internalPagination;
+    /**
      * SearchModel constructor.
      * @param string $keyword
      * @param bool $lowestPrice
@@ -65,6 +73,8 @@ class SearchModel implements ArrayNotationInterface
      * @param Pagination $pagination
      * @param EbaySearchViewType|TypeInterface $viewType
      * @param string $globalId
+     * @param string $locale
+     * @param Pagination $internalPagination
      */
     public function __construct(
         string $keyword,
@@ -77,7 +87,9 @@ class SearchModel implements ArrayNotationInterface
         array $taxonomies,
         Pagination $pagination,
         EbaySearchViewType $viewType,
-        string $globalId
+        string $globalId,
+        string $locale,
+        Pagination $internalPagination
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -90,6 +102,8 @@ class SearchModel implements ArrayNotationInterface
         $this->pagination = $pagination;
         $this->viewType = $viewType;
         $this->globalId = $globalId;
+        $this->locale = $locale;
+        $this->internalPagination = $internalPagination;
     }
     /**
      * @return string
@@ -176,6 +190,27 @@ class SearchModel implements ArrayNotationInterface
         return $this->bestMatch;
     }
     /**
+     * @return string
+     */
+    public function getLocale(): string
+    {
+        return $this->locale;
+    }
+    /**
+     * @return Pagination
+     */
+    public function getInternalPagination(): Pagination
+    {
+        return $this->internalPagination;
+    }
+    /**
+     * @return string
+     */
+    public function getUniqueName(): string
+    {
+        return md5(serialize($this));
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -190,8 +225,10 @@ class SearchModel implements ArrayNotationInterface
             'marketplaces' => $this->getMarketplaces(),
             'taxonomies' => $this->getTaxonomies(),
             'pagination' => $this->getPagination()->toArray(),
+            'internalPagination' => $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),
             'viewType' => $this->getViewType(),
+            'locale' => $this->getLocale(),
         ];
     }
 }

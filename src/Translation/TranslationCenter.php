@@ -152,47 +152,50 @@ class TranslationCenter
 
         return $translated;
     }
-
+    /**
+     * @param array $item
+     * @param array $keys
+     * @param string $locale
+     * @param string $identifier
+     * @return array
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function translateMultiple(
         array $item,
         array $keys,
-        Translations $existingTranslations,
         string $locale,
-        bool $translateIfNotExists = false,
-        string $itemId = null
+        string $identifier
     ): array {
-        if ($translateIfNotExists) {
-            if (!is_string($itemId)) {
-                $message = sprintf(
-                    'Invalid parameters passed to %s::translateMultiple(). If you choose to translate an entry if the entry does not exist, you have to provide the entries itemId. itemId has not been provided',
-                    get_class($this)
-                );
-
-                throw new \RuntimeException($message);
-            }
-        }
-
         $keysToTranslateGen = Util::createGenerator($keys);
 
         foreach ($keysToTranslateGen as $entry) {
-            $key = $entry['item'];
+            $translationConfig = $this->createTranslationConfig(
+                $entry['key'],
+                $entry['item']
+            );
 
-            if ($item[$key] === null) {
-                $item[$key] = '';
+            if ($translationConfig->isEventTranslation()) {
+                $value = $translationConfig->getPreTranslationEvent()->__invoke(
+                    $translationConfig->getKey(),
+                    $item
+                );
 
-                continue;
-            }
-
-            if ($existingTranslations->hasEntryByLocale($key, $locale)) {
-                $item[$key] = $existingTranslations->getEntryByLocale($key, $locale)->getTranslation();
-            } else if ($translateIfNotExists) {
-                $item[$key] = $this->translateSingle(
-                    $key,
-                    $itemId,
-                    $item[$key],
+                $translated = $this->translateSingle(
+                    $translationConfig->getKey(),
+                    $identifier,
+                    $value,
                     $locale
                 );
+
+                $item[$translationConfig->getKey()] = $translationConfig->getPostTranslationEvent()->__invoke(
+                    $translationConfig->getKey(),
+                    $translated
+                );
             }
+
+            // post translate event
         }
 
         return $item;
@@ -232,4 +235,97 @@ class TranslationCenter
     {
         return new Translations($translations);
     }
+    /**
+     * @param $key
+     * @param $item
+     * @return object
+     */
+    private function createTranslationConfig($key, $item): object
+    {
+        return new class($key, $item)
+        {
+            /**
+             * @var string $key
+             */
+            private $key;
+            /**
+             * @var string $item
+             */
+            private $item;
+            /**
+             * @var bool $isEventTranslation
+             */
+            private $isEventTranslation = false;
+            /**
+             * @var \Closure $preTranslateEvent
+             */
+            private $preTranslateEvent;
+            /**
+             * @var \Closure $postTranslateEvent
+             */
+            private $postTranslateEvent;
+            /**
+             *  constructor.
+             * @param $key
+             * @param $item
+             */
+            public function __construct($key, $item)
+            {
+                if (is_string($key) and is_array($item)) {
+                    if (array_key_exists('pre_translate', $item) and
+                        array_key_exists('post_translate', $item)) {
+
+                        if (!$item['pre_translate'] instanceof \Closure) {
+                            throw new \RuntimeException('pre_translate event should be an anonymous function');
+                        }
+
+                        if (!$item['post_translate'] instanceof \Closure) {
+                            throw new \RuntimeException('post_translate event should be an anonymous function');
+                        }
+
+                        $this->preTranslateEvent = $item['pre_translate'];
+                        $this->postTranslateEvent = $item['post_translate'];
+
+                        $this->isEventTranslation = true;
+                    }
+                }
+
+                $this->key = $key;
+                $this->item = $item;
+            }
+            /**
+             * @return string
+             */
+            public function getKey(): string
+            {
+                if ($this->isEventTranslation()) {
+                    return $this->key;
+                }
+
+                return $this->item;
+            }
+            /**
+             * @return bool
+             */
+            public function isEventTranslation(): bool
+            {
+                return $this->isEventTranslation;
+            }
+            /**
+             * @return \Closure
+             */
+            public function getPreTranslationEvent(): \Closure
+            {
+                return $this->preTranslateEvent;
+            }
+            /**
+             * @return \Closure
+             */
+            public function getPostTranslationEvent(): \Closure
+            {
+                return $this->postTranslateEvent;
+            }
+        };
+    }
+
 }

@@ -32,17 +32,13 @@ class SearchController
      * @param SearchComponent $searchComponent
      * @param Environment $environment
      * @return JsonResponse
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @throws \Throwable
      */
-    public function postPrepareEbaySearch(
+    public function getEbayProductsByGlobalId(
         EbaySearchModel $model,
         SearchComponent $searchComponent,
         Environment $environment
     ): JsonResponse {
-        $preparedEbayResponse = $searchComponent->prepareEbayProductsAdvanced($model);
+        $preparedEbayResponse = $searchComponent->getEbayProductsByGlobalId($model);
         /** @var ApiResponseData $apiResponseData */
         $apiResponseData = $this->apiResponseDataFactory->createPreparedEbayResponseData($preparedEbayResponse);
 
@@ -58,42 +54,5 @@ class SearchController
         }
 
         return $response;
-    }
-    /**
-     * @param PreparedItemsSearchModel $model
-     * @param SearchComponent $searchComponent
-     * @param Environment $environment
-     * @return Response|JsonResponse
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function getEbaySearchByUniqueName(
-        PreparedItemsSearchModel $model,
-        SearchComponent $searchComponent,
-        Environment $environment
-    ) {
-        /** @var TypedArray $searchResults */
-        $searchResults = $searchComponent->findEbaySearchByUniqueName($model);
-
-        $responseData = null;
-
-        if (is_null($searchResults)) {
-            $responseData = $this->apiResponseDataFactory->createErrorUniqueNameSearchResultsResponseData();
-        } else if ($searchResults instanceof TypedArray) {
-            $responseData = $this->apiResponseDataFactory->createSuccessUniqueNameSearchResultsResponseData(
-                $searchResults,
-                $model->getPagination()
-            );
-        }
-
-        $encodedResponse = new Response(
-            jsonEncodeWithFix($responseData->toArray()),
-            $responseData->getStatusCode()
-        );
-
-        $encodedResponse->headers->set('Content-Type', 'application/json');
-
-        return $encodedResponse;
     }
 }
