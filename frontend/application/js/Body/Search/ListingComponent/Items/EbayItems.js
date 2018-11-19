@@ -49,18 +49,22 @@ const LoadMore = {
         }
     },
     created() {
-        this.limit = this.model.pagination.limit;
-        this.page = this.model.pagination.page;
-        this.internalLimit = this.model.internalPagination.limit;
-        this.internalPage = this.model.internalPagination.page;
+        this.resetPagination();
     },
-    props: ['currentlyLoading', 'model'],
+    props: ['currentlyLoading', 'model', 'globalId'],
     template: `<div class="LoadMoreWrapper">
                    <p
                         class="LoadMoreButton"
                         @click="loadMore">Load more <i v-if="!currentlyLoading" class="fas fa-chevron-down"></i><i v-if="currentlyLoading" class="CurrentlyLoading fas fa-circle-notch fa-spin"></i>
                    </p>
                </div>`,
+    watch: {
+        globalId: function(newVal, oldVal) {
+            this.resetPagination();
+
+            return newVal;
+        }
+    },
     methods: {
         loadMore: function() {
             this.model.pagination.page = ++this.page;
@@ -68,7 +72,6 @@ const LoadMore = {
             const internalLimitIncrease = this.page * this.limit;
 
             if (internalLimitIncrease >= this.internalLimit) {
-                console.log('internal limit increase');
                 this.model.internalPagination.page = ++this.internalPage;
                 this.model.pagination.page = 1;
                 this.page = 1;
@@ -79,6 +82,13 @@ const LoadMore = {
             }
 
             this.$emit('load-more', this.model);
+        },
+
+        resetPagination() {
+            this.limit = 8;
+            this.page = 1;
+            this.internalLimit = 80;
+            this.internalPage = 1;
         }
     }
 };
@@ -249,7 +259,8 @@ export const EbayItems = {
                     <load-more
                         @load-more="onLoadMore"
                         :currently-loading="currentlyLoading"
-                        :model="model">
+                        :model="model"
+                        :global-id="siteInformation.global_id">
                     </load-more>
                 </div>
                 

@@ -203,10 +203,10 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
      */
     private function getTimeout()
     {
-        $timeout = 30;
+        $timeout = 60;
 
         if ((string) $this->environment === 'dev') {
-            $timeout = 30;
+            $timeout = 60;
         }
 
         if ((string) $this->environment === 'test') {
