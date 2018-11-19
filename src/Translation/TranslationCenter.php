@@ -195,6 +195,15 @@ class TranslationCenter
                 );
             }
 
+            if (!$translationConfig->isEventTranslation()) {
+                $item[$translationConfig->getKey()] = $this->translateSingle(
+                    $translationConfig->getKey(),
+                    $identifier,
+                    $item[$translationConfig->getKey()],
+                    $locale
+                );
+            }
+
             // post translate event
         }
 

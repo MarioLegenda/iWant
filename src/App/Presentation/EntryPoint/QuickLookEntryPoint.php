@@ -49,6 +49,7 @@ class QuickLookEntryPoint
     /**
      * @param SingleItemRequestModel $model
      * @return SingleItemResponseModel
+     * @throws \App\Cache\Exception\CacheException
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException

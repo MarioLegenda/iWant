@@ -35,7 +35,7 @@ class AppTest extends BasicSetup
 
     public function test_options_single_item()
     {
-        /** @var QuickLookEntryPoint $singleItemEntryPoint */
+        /** @var QuickLookEntryPointTest $singleItemEntryPoint */
         $singleItemEntryPoint = $this->locator->get(QuickLookEntryPoint::class);
 
         $itemId = (string) rand(999999, 999999999);
@@ -54,7 +54,7 @@ class AppTest extends BasicSetup
 
     public function test_put_single_item_cache()
     {
-        /** @var QuickLookEntryPoint $singleItemEntryPoint */
+        /** @var QuickLookEntryPointTest $singleItemEntryPoint */
         $singleItemEntryPoint = $this->locator->get(QuickLookEntryPoint::class);
 
         $dataProvider = $this->locator->get('data_provider.app');

@@ -10,6 +10,7 @@ use App\App\Presentation\Model\Response\SingleItemResponseModel;
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Cache\Implementation\SingleProductItemCacheImplementation;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
+use App\Component\Search\Ebay\Model\Response\Title;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
 use App\Doctrine\Repository\CountryRepository;
@@ -23,6 +24,7 @@ use App\Library\MarketplaceType;
 use App\Library\Util\TypedRecursion;
 use App\Symfony\Exception\HttpException;
 use App\Translation\TranslationCenter;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 
 class Finder
@@ -88,6 +90,7 @@ class Finder
      * @param SingleItemRequestModel $model
      * @return SingleItemResponseModel
      * @throws HttpException
+     * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -106,9 +109,13 @@ class Finder
 
         $singleItemArray = $this->translationCenter->translateMultiple(
             $singleItemArray,
-            ['title'],
-            $this->getTranslations($model->getItemId()),
-            $model->getLocale()
+            [
+                'title',
+                'description',
+                'conditionDisplayName',
+            ],
+            $model->getLocale(),
+            $model->getItemId()
         );
 
         $singleItemArray = $this->filterSingleItemValues($singleItemArray);
@@ -132,14 +139,14 @@ class Finder
                     $this->router->generate('app_get_quick_look_single_item', [
                         'itemId' => $model->getItemId(),
                         'locale' => $model->getLocale(),
-                    ]),
+                    ], UrlGeneratorInterface::ABSOLUTE_URL),
                 $model->getItemId()
             );
         }
 
         return new SingleItemOptionsResponse(
             'PUT',
-                $this->router->generate('app_put_single_item'),
+                $this->router->generate('app_put_single_item', [], UrlGeneratorInterface::ABSOLUTE_URL),
             $model->getItemId()
         );
     }
@@ -170,9 +177,13 @@ class Finder
 
         $singleItemArray = $this->translationCenter->translateMultiple(
             $singleItemArray,
-            ['title'],
-            $this->getTranslations($model->getItemId()),
-            $model->getLocale()
+            [
+                'title',
+                'description',
+                'conditionDisplayName',
+            ],
+            $model->getLocale(),
+            $model->getItemId()
         );
 
         $singleItemResponseModel = new SingleItemResponseModel(
@@ -182,7 +193,7 @@ class Finder
 
         $this->singleProductItemCacheImplementation->store(
             $model->getItemId(),
-            json_encode($singleItemResponseModel->toArray()),
+            jsonEncodeWithFix($singleItemResponseModel->toArray()),
             MarketplaceType::fromValue('Ebay')
         );
 
