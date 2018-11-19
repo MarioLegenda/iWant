@@ -1314,7 +1314,7 @@ html {
 }
 @media only screen and (max-width: 480px) {
   .SiteLanguageChoice {
-    right: 50px;
+    right: 45px;
   }
 
   .v-select {
