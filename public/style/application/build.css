@@ -59,7 +59,6 @@ a {
 
 body {
   max-width: 1280px;
-  min-width: 480px;
   font-size: 16px;
   font-family: "Quicksand", sans-serif;
   color: #5b5b5b;
@@ -304,7 +303,7 @@ html {
   height: 50px;
   z-index: 1000;
   position: absolute;
-  right: 122px;
+  right: 120px;
   top: 30px;
   font-size: 1em;
 }
@@ -1311,6 +1310,15 @@ html {
     overflow: hidden;
     margin: 0 auto;
     margin-bottom: 30px;
+  }
+}
+@media only screen and (max-width: 480px) {
+  .SiteLanguageChoice {
+    right: 60px;
+  }
+
+  .v-select {
+    width: 200px !important;
   }
 }
 .SingleItemWrapper {

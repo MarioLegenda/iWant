@@ -81,6 +81,22 @@ export const SearchComponent = {
 
     methods: {
         onSearchTermChange(searchTerm) {
+            if (isEmpty(searchTerm)) {
+                if (this.searchInitialiseEvent.initialised === true) {
+                    this.$store.commit('searchInitialiseEvent', {
+                        searchUrl: null,
+                        model: null,
+                        initialised: false,
+                    });
+                }
+
+                this.$store.commit('ebaySearchListing', null);
+
+                this.showSentence = false;
+
+                return false;
+            }
+
             this.showSentence = true;
 
             this.keyword = searchTerm;
@@ -97,6 +113,20 @@ export const SearchComponent = {
         },
 
         submit(keyword) {
+            if (isEmpty(keyword)) {
+                if (this.searchInitialiseEvent.initialised === true) {
+                    this.$store.commit('searchInitialiseEvent', {
+                        searchUrl: null,
+                        model: null,
+                        initialised: false,
+                    });
+                }
+
+                this.$store.commit('ebaySearchListing', null);
+
+                return false;
+            }
+
             this.$store.commit('ebaySearchListing', null);
 
             this.keyword = keyword;
