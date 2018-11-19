@@ -39,16 +39,21 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
         $searchData = $request->get('searchData');
 
         if (empty($searchData) and !is_string($searchData)) {
-            return false;
+            $searchData = $request->getContent();
+
+            $searchData = json_decode($searchData, true)['searchData'];
+        } else {
+            $searchData = json_decode($searchData, true);
         }
 
-        $searchData = json_decode($searchData, true);
+        if (is_null($searchData)) {
+            return false;
+        }
 
         $filters = $searchData['filters'];
         $keyword = $searchData['keyword'];
         $pagination = $searchData['pagination'];
         $globalId = $searchData['globalId'];
-        $viewType = EbaySearchViewType::fromValue($searchData['viewType']);
         $locale = $searchData['locale'];
         $internalPagination = $searchData['internalPagination'];
 
@@ -62,7 +67,6 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['marketplaces'],
             $filters['taxonomies'],
             new Pagination($pagination['limit'], $pagination['page']),
-            $viewType,
             $globalId,
             $locale,
             new Pagination($internalPagination['limit'], $internalPagination['page'])

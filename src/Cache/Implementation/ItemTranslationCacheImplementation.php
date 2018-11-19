@@ -50,7 +50,7 @@ class ItemTranslationCacheImplementation
     ): bool {
         $this->itemTranslationCache->set(
             $itemId,
-            json_encode($translations)
+            jsonEncodeWithFix($translations)
         );
 
         return true;
@@ -94,7 +94,7 @@ class ItemTranslationCacheImplementation
     ) {
         $this->itemTranslationCache->update(
             $itemId,
-            json_encode($translations)
+            jsonEncodeWithFix($translations)
         );
     }
 }

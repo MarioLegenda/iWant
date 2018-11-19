@@ -1,9 +1,5 @@
 import {routes} from "../apiRoutes";
 
-function parseJson(response) {
-    return response.json();
-}
-
 const requiredHeaders = {
     'X-Requested-With': 'XMLHttpRequest',
 };
@@ -49,12 +45,41 @@ class AppRepository {
 }
 
 class SearchRepository {
-    getEbayProductsByGlobalId(data, success, error) {
+    getProducts(data, success, error) {
         const route = routes.createRouteFromName('app_get_products_by_global_id', {
             searchData: JSON.stringify(data)
         });
 
-        console.log(route);
+        return fetch(route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
+            .then((response) => {
+                return response.json()
+            })
+            .then(success)
+            .catch(error);
+    }
+
+    postPrepareSearchProducts(data, success, error) {
+        const route = routes.app_post_products_by_global_id;
+
+        return fetch(route, {
+            method: 'POST',
+            headers: requiredHeaders,
+            body: data,
+        })
+            .then((response) => {
+                return response.json()
+            })
+            .then(success)
+            .catch(error);
+    }
+
+    optionsForProductListing(data, success, error) {
+        const route = routes.createRouteFromName('app_options_products_listing', {
+            searchData: JSON.stringify(data)
+        });
 
         return fetch(route, {
             method: 'GET',

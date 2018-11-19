@@ -9,15 +9,15 @@ const SiteName = {
                    <img :src="decideImage()" />
                    <h1>{{decideTitle()}}</h1>
                </div>`,
-    props: ['globalIdInformation'],
+    props: ['siteInformation'],
     methods: {
         decideImage() {
-            const globalId = this.globalIdInformation.global_id;
+            const globalId = this.siteInformation.global_id;
 
             return SUPPORTED_SITES.find(globalId).icon;
         },
         decideTitle() {
-            return this.globalIdInformation.site_name;
+            return this.siteInformation.site_name;
         }
     }
 };
@@ -40,18 +40,45 @@ const ImageItem = {
 };
 
 const LoadMore = {
-    props: ['pagination', 'currentlyLoading'],
+    data: function() {
+        return {
+            limit: 8,
+            page: 1,
+            internalLimit: 80,
+            internalPage: 1,
+        }
+    },
+    created() {
+        this.limit = this.model.pagination.limit;
+        this.page = this.model.pagination.page;
+        this.internalLimit = this.model.internalPagination.limit;
+        this.internalPage = this.model.internalPagination.page;
+    },
+    props: ['currentlyLoading', 'model'],
     template: `<div class="LoadMoreWrapper">
-                   <p 
+                   <p
                         class="LoadMoreButton"
                         @click="loadMore">Load more <i v-if="!currentlyLoading" class="fas fa-chevron-down"></i><i v-if="currentlyLoading" class="CurrentlyLoading fas fa-circle-notch fa-spin"></i>
                    </p>
                </div>`,
     methods: {
         loadMore: function() {
-            this.$emit('load-more', Object.assign({}, this.pagination, {
-                page: ++this.pagination.page
-            }));
+            this.model.pagination.page = ++this.page;
+
+            const internalLimitIncrease = this.page * this.limit;
+
+            if (internalLimitIncrease >= this.internalLimit) {
+                console.log('internal limit increase');
+                this.model.internalPagination.page = ++this.internalPage;
+                this.model.pagination.page = 1;
+                this.page = 1;
+
+                this.$emit('load-more', this.model);
+
+                return;
+            }
+
+            this.$emit('load-more', this.model);
         }
     }
 };
@@ -182,13 +209,19 @@ export const EbayItems = {
     data: function() {
         return {
             currentlyLoading: false,
+            items: null,
+            siteInformation: null,
+            model: null
         }
     },
     template: `
             <div class="EbayItemsWrapper">
-                <div v-if="ebaySearchListing !== null" class="EbayItems" id="EbayItemsId">
-                    <site-name v-bind:global-id-information="ebaySearchListing.globalIdInformation"></site-name>
-                    <div v-for="(item, index) in ebaySearchListing.items" :key="index" class="EbayItem SearchItem">
+                <input type="hidden" :value="ebaySearchListing">
+                <input type="hidden" :value="searchInitialiseEvent">
+                
+                <div v-if="items !== null" class="EbayItems" id="EbayItemsId">
+                    <site-name v-bind:site-information="siteInformation"></site-name>
+                    <div v-for="(item, index) in items" :key="index" class="EbayItem SearchItem">
                         <image-item :url="item.image.url"></image-item>
                     
                         <div class="Row TitleWrapper">
@@ -215,8 +248,8 @@ export const EbayItems = {
                 
                     <load-more
                         @load-more="onLoadMore"
-                        :pagination="ebaySearchListing.pagination"
-                        :currently-loading="currentlyLoading">
+                        :currently-loading="currentlyLoading"
+                        :model="model">
                     </load-more>
                 </div>
                 
@@ -231,12 +264,39 @@ export const EbayItems = {
             return this.$store.state.ebaySearchListingLoading;
         },
 
+        searchInitialiseEvent() {
+            const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
+
+            this.model = searchInitialiseEvent.model;
+
+            return searchInitialiseEvent;
+        },
+
         ebaySearchListing: function() {
             const ebaySearchListing = this.$store.state.ebaySearchListing;
 
             if (ebaySearchListing === null) {
+                this.items = null;
+                this.siteInformation = null;
+
                 return null;
             }
+
+            const concatItems = (items) => {
+                for (const item of items) {
+                    if (!Array.isArray(this.items)) {
+                        this.items = [];
+                    }
+
+                    this.items.push(item);
+                }
+            };
+
+            this.siteInformation  = ebaySearchListing.siteInformation;
+
+            setTimeout(() => {
+                concatItems(ebaySearchListing.items);
+            }, 200);
 
             return ebaySearchListing;
         },
@@ -256,14 +316,37 @@ export const EbayItems = {
         }
     },
     methods: {
-        onLoadMore: function(pagination) {
+        onLoadMore: function(model) {
             this.currentlyLoading = true;
 
             const searchRepo = RepositoryFactory.create('search');
-            const uniqueName = this.ebaySearchListing.uniqueName;
 
+            searchRepo.optionsForProductListing(model, (r) => {
+                const data = r.resource.data;
 
+                switch (data.method) {
+                    case 'POST':
+                        searchRepo.postPrepareSearchProducts(JSON.stringify({
+                            searchData: model,
+                        })).then(() => {
+                            searchRepo.getProducts(model).then((r) => {
+                                this.$store.commit('ebaySearchListing', r.collection.data);
+                                this.currentlyLoading = false;
+                            });
+                        });
+                        break;
+                    case 'GET':
+                        searchRepo.getProducts(model, (r) => {
+                            this.$store.commit('ebaySearchListing', r.collection.data);
+                            this.currentlyLoading = false;
+                        });
+                        break;
+                    default:
+                        throw new Error(`Invalid option for search listing given. Method can only be POST or GET, ${data.method} given`)
+                }
+            });
         },
+
         goToSingleItem(item) {
             const urlify = urlifyFactory.create({
                 addEToUmlauts: true,

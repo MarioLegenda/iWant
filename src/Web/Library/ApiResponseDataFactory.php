@@ -38,6 +38,17 @@ class ApiResponseDataFactory
             ->setStatusCode(404)
             ->build();
     }
+
+    public function createOptionsForProductsListing(array $data): ApiResponseData
+    {
+        return $this->apiSdk
+            ->create($data)
+            ->method('OPTIONS')
+            ->addMessage('Options for products listing')
+            ->isResource()
+            ->setStatusCode(200)
+            ->build();
+    }
     /**
      * @param array $data
      * @return ApiResponseData

@@ -151,7 +151,6 @@ export const SearchComponent = {
                     limit: 80,
                     page: 1
                 },
-                viewType: 'globalIdView',
                 globalId: null,
             }
         }

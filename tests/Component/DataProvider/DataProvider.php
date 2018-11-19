@@ -42,8 +42,6 @@ class DataProvider
 
         $locale = (isset($data['locale']) ? $data['locale'] : 'en');
 
-        $viewType = (isset($data['viewType'])) ? $data['viewType'] : EbaySearchViewType::fromValue('globalIdView');
-
         return new EbaySearchModel(
             $keyword,
             $lowestPrice,
@@ -54,7 +52,6 @@ class DataProvider
             $marketplaces,
             $taxonomies,
             $pagination,
-            $viewType,
             $globalIds,
             $locale,
             $internalPagination

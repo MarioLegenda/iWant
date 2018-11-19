@@ -3,28 +3,12 @@
 namespace App\Component\Search\Ebay\Business;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
-use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\ResultsFetcher\ResultsFetcher;
-use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\Title;
-use App\Doctrine\Entity\SearchCache;
-use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 use App\Translation\TranslationCenter;
-use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 
-/**
- * Class PreparedEbayResponseAbstraction
- * @package App\Component\Search\Ebay\Business
- *
- * ********************
- *
- * THIS IS JUST A FUCKING ABSTRACTION OVER THE SEARCH COMPONENT
- *
- * **********************
- */
 class SearchAbstraction
 {
     /**
@@ -78,6 +62,8 @@ class SearchAbstraction
     {
         return $this->translateSearchResults($listing, $model->getLocale());
     }
+
+
     /**
      * @param array $searchResults
      * @param string $locale

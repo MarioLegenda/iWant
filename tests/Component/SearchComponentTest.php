@@ -24,7 +24,7 @@ class SearchComponentTest extends BasicSetup
         $internalPage = 1;
 
         $modelArray = [
-            'keyword' => 'iphone 7',
+            'keyword' => 'harry potter',
             'locale' => 'en',
             'lowestPrice' => false,
             'highQuality' => false,

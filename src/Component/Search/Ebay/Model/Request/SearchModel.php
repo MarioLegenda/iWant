@@ -49,10 +49,6 @@ class SearchModel implements ArrayNotationInterface
      */
     private $pagination;
     /**
-     * @var string $viewType
-     */
-    private $viewType;
-    /**
      * @var string $locale
      */
     private $locale;
@@ -71,7 +67,6 @@ class SearchModel implements ArrayNotationInterface
      * @param array $marketplaces
      * @param array $taxonomies
      * @param Pagination $pagination
-     * @param EbaySearchViewType|TypeInterface $viewType
      * @param string $globalId
      * @param string $locale
      * @param Pagination $internalPagination
@@ -86,7 +81,6 @@ class SearchModel implements ArrayNotationInterface
         array $marketplaces,
         array $taxonomies,
         Pagination $pagination,
-        EbaySearchViewType $viewType,
         string $globalId,
         string $locale,
         Pagination $internalPagination
@@ -100,7 +94,6 @@ class SearchModel implements ArrayNotationInterface
         $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
-        $this->viewType = $viewType;
         $this->globalId = $globalId;
         $this->locale = $locale;
         $this->internalPagination = $internalPagination;
@@ -176,13 +169,6 @@ class SearchModel implements ArrayNotationInterface
         return $this->globalId;
     }
     /**
-     * @return string
-     */
-    public function getViewType(): string
-    {
-        return $this->viewType;
-    }
-    /**
      * @return bool
      */
     public function isBestMatch(): bool
@@ -234,7 +220,6 @@ class SearchModel implements ArrayNotationInterface
             'pagination' => $this->getPagination()->toArray(),
             'internalPagination' => $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),
-            'viewType' => $this->getViewType(),
             'locale' => $this->getLocale(),
         ];
     }

@@ -99,9 +99,29 @@ export const ListingChoiceComponent = {
 
             const searchRepo = RepositoryFactory.create('search');
 
-            searchRepo.getEbayProductsByGlobalId(model, (r) => {
-                this.$store.commit('ebaySearchListing', r.collection.data);
-                this.$store.commit('ebaySearchListingLoading', false);
+            searchRepo.optionsForProductListing(model, (r) => {
+                const data = r.resource.data;
+
+                switch (data.method) {
+                    case 'POST':
+                            searchRepo.postPrepareSearchProducts(JSON.stringify({
+                                searchData: model,
+                            })).then(() => {
+                                searchRepo.getProducts(model).then((r) => {
+                                    this.$store.commit('ebaySearchListing', r.collection.data);
+                                    this.$store.commit('ebaySearchListingLoading', false);
+                                });
+                            });
+                        break;
+                    case 'GET':
+                        searchRepo.getProducts(model, (r) => {
+                            this.$store.commit('ebaySearchListing', r.collection.data);
+                            this.$store.commit('ebaySearchListingLoading', false);
+                        });
+                        break;
+                    default:
+                        throw new Error(`Invalid option for search listing given. Method can only be POST or GET, ${data.method} given`)
+                }
             });
         }
     },

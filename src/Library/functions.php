@@ -44,16 +44,26 @@ function utf8ize($mixed)
     } elseif (is_string($mixed)) {
         return mb_convert_encoding($mixed, "UTF-8", "UTF-8");
     }
+
     return $mixed;
 }
 
-function jsonEncodeWithFix($toEncode): string
+function jsonEncodeWithFix($toEncode, $iterations = 1, $maxIterations = 5): ?string
 {
+    if ($iterations === $maxIterations) {
+        return null;
+    }
+
     $encodedSearchResponse = json_encode($toEncode);
 
     if ($encodedSearchResponse === false) {
-        $fixed = utf8ize($toEncode);
-        $encodedSearchResponse = json_encode($fixed);
+        $encodedSearchResponse = utf8ize($toEncode);
+
+        $encodedSearchResponse = json_encode($encodedSearchResponse);
+
+        if ($encodedSearchResponse === false) {
+            jsonEncodeWithFix($toEncode, ++$iterations);
+        }
     }
 
     return $encodedSearchResponse;
