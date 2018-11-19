@@ -76,9 +76,7 @@ class SingleItemEntryPoint
                     'description',
                     'conditionDisplayName',
                 ],
-                $this->getTranslations($model->getItemId()),
                 $model->getLocale(),
-                true,
                 $model->getItemId()
             );
 
@@ -104,9 +102,7 @@ class SingleItemEntryPoint
                 'description',
                 'conditionDisplayName',
             ],
-            $this->getTranslations($model->getItemId()),
             $model->getLocale(),
-            true,
             $model->getItemId()
         );
 
@@ -122,21 +118,5 @@ class SingleItemEntryPoint
         );
 
         return $singleItemArray;
-    }
-    /**
-     * @param string $itemId
-     * @return Translations
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    private function getTranslations(string $itemId): Translations
-    {
-        if (!$this->itemTranslationCacheImplementation->isStored($itemId)) {
-            return new Translations();
-        }
-
-        $itemTranslation = $this->itemTranslationCacheImplementation->getStored($itemId);
-
-        return new Translations(json_decode($itemTranslation->getTranslations(), true));
     }
 }
