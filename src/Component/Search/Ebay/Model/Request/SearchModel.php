@@ -208,7 +208,15 @@ class SearchModel implements ArrayNotationInterface
      */
     public function getUniqueName(): string
     {
-        return md5(serialize($this));
+        return md5(serialize([
+            'keyword' => $this->getKeyword(),
+            'bestMatch' => $this->isBestMatch(),
+            'highQuality' => $this->isHighQuality(),
+            'shippingCountries' => $this->getShippingCountries(),
+            'internalPagination' => $this->getInternalPagination()->toArray(),
+            'taxonomies' => $this->getTaxonomies(),
+            'globalId' => $this->getGlobalId(),
+        ]));
     }
     /**
      * @return iterable
@@ -222,7 +230,6 @@ class SearchModel implements ArrayNotationInterface
             'highestPrice' => $this->isHighestPrice(),
             'highQuality' => $this->isHighQuality(),
             'shippingCountries' => $this->getShippingCountries(),
-            'marketplaces' => $this->getMarketplaces(),
             'taxonomies' => $this->getTaxonomies(),
             'pagination' => $this->getPagination()->toArray(),
             'internalPagination' => $this->getInternalPagination()->toArray(),

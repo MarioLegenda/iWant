@@ -96,7 +96,7 @@ class EbayModelFactory
 
         $queries[] = new Query(
             'paginationInput.pageNumber',
-            $model->getPagination()->getPage()
+            $model->getInternalPagination()->getPage()
         );
     }
     /**
