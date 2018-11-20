@@ -10,12 +10,15 @@ import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 import {LocaleInfo} from "./services/localeInfo";
 import {translationsMap} from "./translationMap";
 
-export const EBAY = 'Ebay';
-export const ETSY = 'Etsy';
-
-export const marketplacesList = {
-    ebay: EBAY,
-    etsy: ETSY,
+const defaultFilters = {
+    bestMatch: true,
+    lowestPrice: false,
+    highestPrice: false,
+    highQuality: false,
+    shippingCountries: [],
+    marketplaces: [],
+    taxonomies: [],
+    globalIds: [],
 };
 
 export class Init {
@@ -122,16 +125,7 @@ export class Init {
                     initialised: false,
                     finished: false,
                 },
-                filtersEvent: {
-                    bestMatch: true,
-                    lowestPrice: false,
-                    highestPrice: false,
-                    highQuality: false,
-                    shippingCountries: [],
-                    marketplaces: [],
-                    taxonomies: [],
-                    globalIds: [],
-                },
+                filtersEvent: defaultFilters,
                 translationsMap: {},
                 modelWasCreated: null,
             },
@@ -234,6 +228,7 @@ export class Init {
                 Vue.prototype.$localeInfo = new LocaleInfo('en', 'en');
                 Vue.prototype.$isMobile = false;
                 Vue.prototype.$viewportDimensions = getViewportDimensions();
+                Vue.prototype.$defaultFilters = defaultFilters;
 
                 if (/Mobi|Android/i.test(navigator.userAgent)) {
                     console.log(`Is mobile with user agent: ${navigator.userAgent}`);

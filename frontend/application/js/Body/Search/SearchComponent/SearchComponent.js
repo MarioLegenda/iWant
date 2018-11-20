@@ -2,7 +2,6 @@ import {SearchBox} from "./SearchBox";
 import {Filters} from "./Filters";
 import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
-import {marketplacesList} from "../../../global";
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
 
@@ -180,6 +179,10 @@ export const SearchComponent = {
                 internalPagination: {
                     limit: 80,
                     page: 1
+                },
+                range: {
+                    to: 1,
+                    from: 1,
                 },
                 globalId: null,
             }

@@ -21,6 +21,8 @@ export const SearchPage = {
         this.$store.commit('ebaySearchListing', null);
 
         this.$store.commit('ebaySearchListingLoading', false);
+
+        this.$store.commit('filtersEvent', this.$defaultFilters);
     },
     template: `<transition name="fade">
                 
