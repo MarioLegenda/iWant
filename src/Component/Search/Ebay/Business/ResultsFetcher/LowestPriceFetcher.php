@@ -34,7 +34,14 @@ class LowestPriceFetcher implements FetcherInterface
         $this->sourceUnFilteredFetcher = $sourceUnFilteredFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
     }
-
+    /**
+     * @param SearchModel $model
+     * @param array $replacementData
+     * @return TypedArray|mixed
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function getResults(SearchModel $model, array $replacementData = [])
     {
         if (!empty($replacementData)) {
@@ -57,7 +64,7 @@ class LowestPriceFetcher implements FetcherInterface
             return json_decode($presentationResults->getProductsResponse(), true);
         }
 
-        $sourceUnFilteredResults = $this->sourceUnFilteredFetcher->getUnStoredResults($model);
+        $sourceUnFilteredResults = $this->sourceUnFilteredFetcher->getFreshResults($model);
 
         /** @var TypedArray $lowestPriceGroupedResults */
         $lowestPriceGroupedResults = Grouping::inst()->groupByPriceLowest(

@@ -70,6 +70,28 @@ class SearchController
         return $response;
     }
 
+    public function getProductsByRange(
+        SearchModel $model,
+        SearchComponent $searchComponent
+    ): Response {
+        $listing = $searchComponent->getProductsRange($model);
+
+        /** @var ApiResponseData $apiResponseData */
+        $apiResponseData = $this->apiResponseDataFactory->createSearchListingResponseData([
+            'siteInformation' => GlobalIdInformation::instance()->getTotalInformation($model->getGlobalId()),
+            'items' => $listing
+        ]);
+
+        $response = new Response(
+            jsonEncodeWithFix($apiResponseData->toArray()),
+            $apiResponseData->getStatusCode()
+        );
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+    }
+
     public function getProductsListingOptions(
         SearchModel $model,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,

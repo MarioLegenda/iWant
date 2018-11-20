@@ -50,10 +50,10 @@ class SourceUnFilteredFetcher implements FetcherInterface
             return json_decode($presentationResults->getProductsResponse(), true);
         }
 
-        $presentationResultsArray = $this->getUnStoredResults($model);
+        $presentationResultsArray = $this->getFreshResults($model, $identifier);
 
         $this->searchResponseCacheImplementation->store(
-            $model->getUniqueName(),
+            $identifier,
             $model->getInternalPagination()->getPage(),
             jsonEncodeWithFix($presentationResultsArray)
         );
@@ -62,12 +62,13 @@ class SourceUnFilteredFetcher implements FetcherInterface
     }
     /**
      * @param SearchModel $model
+     * @param string|null $identifier
      * @return iterable
      */
-    public function getUnStoredResults(SearchModel $model)
+    public function getFreshResults(SearchModel $model, string $identifier = null)
     {
         /** @var TypedArray $presentationResults */
-        $presentationResults = $this->responseFetcher->getResponse($model);
+        $presentationResults = $this->responseFetcher->getResponse($model, $identifier);
 
         $presentationResultsArray = $presentationResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 

@@ -120,12 +120,12 @@ class SearchComponentTest extends BasicSetup
 
     public function test_range_result_fetching()
     {
-        static::markTestSkipped();
-
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component');
+
+        $to = 97;
 
         $modelArray = [
             'keyword' => 'harry potter',
@@ -136,11 +136,13 @@ class SearchComponentTest extends BasicSetup
             'globalId' => 'EBAY-DE',
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
-            'range' => new Range(1, 97),
+            'range' => new Range(1, $to),
         ];
 
         $searchRequestModel = $dataProvider->createEbaySearchRequestModel($modelArray);
 
-        $searchComponent->getProductsRange($searchRequestModel);
+        $productsInRange = $searchComponent->getProductsRange($searchRequestModel);
+
+        static::assertEquals(count($productsInRange), $to);
     }
 }

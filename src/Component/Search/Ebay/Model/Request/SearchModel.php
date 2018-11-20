@@ -3,8 +3,6 @@
 namespace App\Component\Search\Ebay\Model\Request;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
-use App\Library\Infrastructure\Type\TypeInterface;
-use App\Web\Library\View\EbaySearchViewType;
 
 class SearchModel implements ArrayNotationInterface
 {
@@ -215,7 +213,7 @@ class SearchModel implements ArrayNotationInterface
             'bestMatch' => (isset($replacementData['bestMatch'])) ? $replacementData['bestMatch'] : $this->isBestMatch(),
             'highQuality' => (isset($replacementData['highQuality'])) ? $replacementData['highQuality'] : $this->isHighQuality(),
             'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),
-            'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination'] : $this->getInternalPagination()->toArray(),
+            'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination']->toArray() : $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),
         ]));
     }

@@ -5,13 +5,11 @@ namespace App\Component\Search\Ebay\Business\ResponseFetcher;
 use App\Component\Search\Ebay\Business\Factory\SearchResponseModelFactory;
 use App\Component\Search\Ebay\Business\Finder;
 use App\Component\Search\Ebay\Business\InvalidResponseHandler;
-use App\Component\Search\Ebay\Business\ModelPreparationFactory;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Util\TypedRecursion;
 
 class ResponseFetcher
 {
@@ -44,9 +42,10 @@ class ResponseFetcher
     }
     /**
      * @param SearchModel $model
+     * @param string|null $identifier
      * @return iterable
      */
-    public function getResponse(SearchModel $model): iterable
+    public function getResponse(SearchModel $model, string $identifier = null): iterable
     {
         /** @var XmlFindingApiResponseModel $findingApiResponse */
         $findingApiResponse = $this->searchEbayAdvanced($model);
@@ -57,7 +56,7 @@ class ResponseFetcher
 
         /** @var TypedArray $typedArrayResults */
         return $this->searchResponseModelFactory->fromSearchResults(
-            $model->getUniqueName(),
+            (is_string($identifier)) ? $identifier : $model->getUniqueName(),
             $model->getGlobalId(),
             $searchResults
         );
