@@ -3,7 +3,9 @@
 namespace App\Component\Search\Ebay\Business;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
-use App\Component\Search\Ebay\Business\ResultsFetcher\ResultsFetcher;
+use App\Component\Search\Ebay\Business\ResultsFetcher\SourceUnFilteredFetcher;
+use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherFactory;
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\Title;
 use App\Library\Util\Util;
@@ -24,12 +26,12 @@ class SearchAbstraction
      */
     private $paginationHandler;
     /**
-     * @var ResultsFetcher $resultsFetcher
+     * @var FetcherFactory $fetcherFactory
      */
-    private $resultsFetcher;
+    private $fetcherFactory;
 
     public function __construct(
-        ResultsFetcher $resultsFetcher,
+        FetcherFactory $fetcherFactory,
         TranslationCenter $translationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         PaginationHandler $paginationHandler
@@ -37,33 +39,86 @@ class SearchAbstraction
         $this->translationCenter = $translationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->paginationHandler = $paginationHandler;
-        $this->resultsFetcher = $resultsFetcher;
+        $this->fetcherFactory = $fetcherFactory;
     }
 
-    public function getProducts(SearchModel $model)
+    public function getProducts(SearchModel $model): iterable
     {
-        return $this->resultsFetcher->getResults($model);
-    }
+        $products = $this->fetcherFactory->decideFetcher($model)->getResults($model);
 
-    public function paginateListing(array $listing, SearchModel $model)
+        return $products;
+    }
+    /**
+     * @param array $listing
+     * @param SearchModel $model
+     * @return iterable
+     */
+    public function paginateListing(array $listing, SearchModel $model): iterable
     {
         return $this->paginationHandler->paginateListing($listing, $model->getPagination());
     }
-
-    public function paginateListingAutomatic(SearchModel $model)
+    /**
+     * @param SearchModel $model
+     * @return iterable
+     */
+    public function paginateListingAutomatic(SearchModel $model): iterable
     {
+        $products = $this->getProducts($model);
+
         return $this->paginateListing(
-            $this->getProducts($model),
+            $products,
             $model
         );
     }
 
-    public function translateListing(array $listing, SearchModel $model)
+    public function getListingRange(SearchModel $model): iterable
+    {
+        $range = $model->getRange();
+
+        $to = $range->getTo();
+
+        if ($to <= 0) {
+            $message = sprintf(
+                'Invalid products range. Range has to be between 1 and an integer greater than 1'
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $pages = $to / 80;
+
+        if (is_float($pages)) {
+            $pages = (int) number_format(intval($pages), 0) + 1;
+        }
+
+        $combinedResults = [];
+        for ($i = 1; $i <= $pages; $i++) {
+            $results = $this->fetcherFactory->decideFetcher($model)->getResults($model, [
+                'internalPagination' => new Pagination(80, $i),
+            ]);
+
+            $combinedResults = array_merge($combinedResults, $results);
+        }
+
+        $finalResult = [];
+        for ($i = $range->getFrom(); $i <= $range->getTo(); $i++) {
+            $finalResult[] = $combinedResults[$i];
+        }
+
+        return $finalResult;
+    }
+    /**
+     * @param array $listing
+     * @param SearchModel $model
+     * @return iterable
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function translateListing(array $listing, SearchModel $model): iterable
     {
         return $this->translateSearchResults($listing, $model->getLocale());
     }
-
-
     /**
      * @param array $searchResults
      * @param string $locale

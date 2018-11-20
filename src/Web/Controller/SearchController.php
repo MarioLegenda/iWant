@@ -3,6 +3,7 @@
 namespace App\Web\Controller;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Business\SearchModelValidator;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\SearchComponent;
 use App\Ebay\Library\Information\GlobalIdInformation;
@@ -28,11 +29,7 @@ class SearchController
     ) {
         $this->apiResponseDataFactory = $apiResponseDataFactory;
     }
-    /**
-     * @param SearchModel $model
-     * @param SearchComponent $searchComponent
-     * @return JsonResponse
-     */
+
     public function prepareProducts(
         SearchModel $model,
         SearchComponent $searchComponent
@@ -50,11 +47,7 @@ class SearchController
 
         return $response;
     }
-    /**
-     * @param SearchModel $model
-     * @param SearchComponent $searchComponent
-     * @return JsonResponse
-     */
+
     public function getProducts(
         SearchModel $model,
         SearchComponent $searchComponent

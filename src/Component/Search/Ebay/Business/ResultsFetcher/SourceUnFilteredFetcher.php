@@ -9,7 +9,7 @@ use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 
-class ResultsFetcher
+class SourceUnFilteredFetcher implements FetcherInterface
 {
     /**
      * @var ResponseFetcher $responseFetcher
@@ -31,10 +31,17 @@ class ResultsFetcher
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
     }
-
-    public function getResults(SearchModel $model): iterable
+    /**
+     * @param SearchModel $model
+     * @param array $replacementData
+     * @return iterable
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getResults(SearchModel $model, array $replacementData = []): iterable
     {
-        $identifier = $model->getUniqueName();
+        $identifier = $model->getUniqueName($replacementData);
 
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {
             /** @var SearchCache $presentationResults */
@@ -43,16 +50,26 @@ class ResultsFetcher
             return json_decode($presentationResults->getProductsResponse(), true);
         }
 
-        /** @var TypedArray $presentationResults */
-        $presentationResults = $this->responseFetcher->getResponse($model);
-
-        $presentationResultsArray = $presentationResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+        $presentationResultsArray = $this->getUnStoredResults($model);
 
         $this->searchResponseCacheImplementation->store(
             $model->getUniqueName(),
             $model->getInternalPagination()->getPage(),
             jsonEncodeWithFix($presentationResultsArray)
         );
+
+        return $presentationResultsArray;
+    }
+    /**
+     * @param SearchModel $model
+     * @return iterable
+     */
+    public function getUnStoredResults(SearchModel $model)
+    {
+        /** @var TypedArray $presentationResults */
+        $presentationResults = $this->responseFetcher->getResponse($model);
+
+        $presentationResultsArray = $presentationResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
         return $presentationResultsArray;
     }

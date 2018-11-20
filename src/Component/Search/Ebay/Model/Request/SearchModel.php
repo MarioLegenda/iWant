@@ -13,6 +13,10 @@ class SearchModel implements ArrayNotationInterface
      */
     private $keyword;
     /**
+     * @var Range $range
+     */
+    private $range;
+    /**
      * @var bool $lowestPrice
      */
     private $lowestPrice;
@@ -70,6 +74,7 @@ class SearchModel implements ArrayNotationInterface
      * @param string $globalId
      * @param string $locale
      * @param Pagination $internalPagination
+     * @param Range $range
      */
     public function __construct(
         string $keyword,
@@ -83,7 +88,8 @@ class SearchModel implements ArrayNotationInterface
         Pagination $pagination,
         string $globalId,
         string $locale,
-        Pagination $internalPagination
+        Pagination $internalPagination,
+        Range $range
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -97,6 +103,7 @@ class SearchModel implements ArrayNotationInterface
         $this->globalId = $globalId;
         $this->locale = $locale;
         $this->internalPagination = $internalPagination;
+        $this->range = $range;
     }
     /**
      * @return string
@@ -190,17 +197,25 @@ class SearchModel implements ArrayNotationInterface
         return $this->internalPagination;
     }
     /**
+     * @return Range
+     */
+    public function getRange(): Range
+    {
+        return $this->range;
+    }
+    /**
+     * @param array $replacementData
      * @return string
      */
-    public function getUniqueName(): string
+    public function getUniqueName(array $replacementData = []): string
     {
         return md5(serialize([
-            'keyword' => $this->getKeyword(),
-            'bestMatch' => $this->isBestMatch(),
-            'highQuality' => $this->isHighQuality(),
-            'shippingCountries' => $this->getShippingCountries(),
-            'internalPagination' => $this->getInternalPagination()->toArray(),
-            'taxonomies' => $this->getTaxonomies(),
+            'keyword' => (isset($replacementData['keyword'])) ? $replacementData['keyword'] : $this->getKeyword(),
+            'lowestPrice' => (isset($replacementData['lowestPrice'])) ? $replacementData['lowestPrice'] : $this->isLowestPrice(),
+            'bestMatch' => (isset($replacementData['bestMatch'])) ? $replacementData['bestMatch'] : $this->isBestMatch(),
+            'highQuality' => (isset($replacementData['highQuality'])) ? $replacementData['highQuality'] : $this->isHighQuality(),
+            'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),
+            'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination'] : $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),
         ]));
     }

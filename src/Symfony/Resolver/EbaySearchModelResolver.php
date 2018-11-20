@@ -3,6 +3,7 @@
 namespace App\Symfony\Resolver;
 
 use App\Component\Search\Ebay\Model\Request\Pagination;
+use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Library\MarketplaceType;
 use App\Web\Library\View\EbaySearchViewType;
@@ -56,6 +57,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
         $globalId = $searchData['globalId'];
         $locale = $searchData['locale'];
         $internalPagination = $searchData['internalPagination'];
+        $range = $searchData['range'];
 
         $this->model = new SearchModel(
             $keyword,
@@ -69,7 +71,8 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             new Pagination($pagination['limit'], $pagination['page']),
             $globalId,
             $locale,
-            new Pagination($internalPagination['limit'], $internalPagination['page'])
+            new Pagination($internalPagination['limit'], $internalPagination['page']),
+            new Range($range['from'], $range['to'])
         );
 
         return true;

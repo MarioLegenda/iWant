@@ -5,21 +5,21 @@ export const SelectedFilters = {
                 <transition name="fade">
                     <div
                         v-if="filtersEvent.lowestPrice"
-                        class="SelectedFilter">Lowest price <i @click="removeFilter('lowestPrice')" class="fas fa-times"></i>
+                        class="SelectedFilter">{{translationsMap.filters.lowestPriceFilter}} <i @click="removeFilter('lowestPrice')" class="fas fa-times"></i>
                     </div>
                 </transition>         
                    
                 <transition name="fade">
                     <div
                         v-if="filtersEvent.highestPrice"
-                        class="SelectedFilter">Highest price <i @click="removeFilter('highestPrice')" class="fas fa-times"></i>
+                        class="SelectedFilter">{{translationsMap.filters.highestPriceFilter}} <i @click="removeFilter('highestPrice')" class="fas fa-times"></i>
                    </div>
                 </transition>
                    
                 <transition name="fade">
                     <div
                         v-if="filtersEvent.highQuality"
-                        class="SelectedFilter">High quality <i @click="removeFilter('highQuality')" class="fas fa-times"></i>
+                        class="SelectedFilter">{{translationsMap.filters.highQualityFilter}} <i @click="removeFilter('highQuality')" class="fas fa-times"></i>
                    </div>
                 </transition>
              </div>
@@ -46,7 +46,10 @@ export const SelectedFilters = {
             }
 
             return false;
-        }
+        },
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        },
     },
     methods: {
         removeFilter(name) {

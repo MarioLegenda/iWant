@@ -3,8 +3,10 @@
 namespace App\Tests\Component;
 
 use App\Component\Search\Ebay\Model\Request\Pagination;
+use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\SearchComponent;
+use App\Library\Util\Util;
 use App\Tests\Component\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 
@@ -26,7 +28,7 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'harry potter',
             'locale' => 'en',
-            'lowestPrice' => false,
+            'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-DE',
@@ -63,5 +65,82 @@ class SearchComponentTest extends BasicSetup
 
         static::assertTrue($hasIncreasedInternalPagination);
         static::assertEquals(count($totalProducts), $maxProducts);
+    }
+
+    public function test_lowest_price_filtered_result()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'harry potter',
+            'locale' => 'en',
+            'lowestPrice' => true,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-DE',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        static::assertEquals(count($products), $model->getPagination()->getLimit());
+
+        $productsGen = Util::createGenerator($products);
+
+        $previous = null;
+        foreach ($productsGen as $entry) {
+            $item = $entry['item'];
+            $key = $entry['key'];
+            $current = (float) $item['price']['price'];
+
+            if ($key === 0) {
+                $previous = (float) $item['price']['price'];
+
+                continue;
+            }
+
+            if ($previous > $current) {
+                throw new \RuntimeException(sprintf(
+                    'Failed asserting that %f is less or equal to %f',
+                    $previous,
+                    $current
+                ));
+            }
+        }
+    }
+
+    public function test_range_result_fetching()
+    {
+        static::markTestSkipped();
+
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'harry potter',
+            'locale' => 'en',
+            'lowestPrice' => false,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-DE',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
+            'range' => new Range(1, 97),
+        ];
+
+        $searchRequestModel = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->getProductsRange($searchRequestModel);
     }
 }
