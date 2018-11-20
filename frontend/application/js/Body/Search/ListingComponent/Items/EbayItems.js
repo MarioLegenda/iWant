@@ -100,10 +100,11 @@ const QuickLook = {
             showPopover: false
         }
     },
+    props: ['itemId', 'popoverButtonOptions'],
     template: `
                    <div class="QuickLookWrapper">
                        <v-popover :open="showPopover" offset="16">
-                           <button class="tooltip-target b3" @click="loadItem">{{translationsMap.searchItem.quickLookTitle}}<i class="fas fa-caret-right"></i></button>
+                           <button :class="popoverButtonOptions.className" @click="loadItem">{{popoverButtonOptions.title}}<i v-if="popoverButtonOptions.includeIcon" class="fas fa-caret-right"></i></button>
 
                            <template slot="popover">
                                <div v-close-popover class="Close">
@@ -161,7 +162,6 @@ const QuickLook = {
             return this.$store.state.translationsMap;
         }
     },
-    props: ['itemId'],
     methods: {
         loadItem: function() {
             this.showPopover = !this.showPopover;
@@ -215,6 +215,15 @@ const QuickLook = {
     }
 };
 
+const Title = {
+    template: `
+        <div class="Row TitleWrapper">
+            <h1>{{titleText}}</h1>
+        </div>
+    `,
+    props: ['titleText']
+};
+
 export const EbayItems = {
     data: function() {
         return {
@@ -235,20 +244,23 @@ export const EbayItems = {
                         <image-item :url="item.image.url"></image-item>
                     
                         <div class="Row TitleWrapper">
-                            <p>{{item.title.truncated}}</p>
+                            <h1>{{chooseTitle(item.title)}}</h1>
                         </div>
                     
                         <div class="Row PriceWrapper">
                             <price
-                                v-bind:price="item.price.price" 
+                                v-bind:price="item.price.price"
                                 v-bind:currency="item.price.currency">
                             </price>
                         </div>
                     
-                        <quick-look :item-id="item.itemId"></quick-look>
+                        <quick-look
+                            :item-id="item.itemId"
+                            :popover-button-options="{className: 'tooltip-target b3 PopoverButton', title: translationsMap.searchItem.quickLookTitle, includeIcon: true}">
+                        </quick-look>
                     
                         <div class="Row FullDetailsWrapper">
-                            <button @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></button>
+                            <button class="FullDetailsButton" @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></button>
                         </div>
                     
                         <div class="Row MarketplaceWrapper">
@@ -324,7 +336,7 @@ export const EbayItems = {
 
         translationsMap: function() {
             return this.$store.state.translationsMap;
-        }
+        },
     },
     methods: {
         onLoadMore: function(model) {
@@ -375,6 +387,14 @@ export const EbayItems = {
                     name: (urlify(item.title.original)),
                 }
             });
+        },
+
+        chooseTitle(title) {
+            if (this.$viewportDimensions.width < 480) {
+                return title.original;
+            }
+
+            return title.truncated;
         }
     },
     components: {

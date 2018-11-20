@@ -108,6 +108,27 @@
     right: 45px;
   }
 
+  .SearchItems {
+    .SearchItem {
+      width: 400px;
+
+      padding: 10px;
+
+      margin: 0 auto;
+
+      margin-bottom: 30px;
+    }
+
+    .ImageWrapper {
+      img {
+        width: 200px;
+        height: 170px;
+
+        margin: 0 auto;
+      }
+    }
+  }
+
   .v-select {
     width: 200px !important;
   }

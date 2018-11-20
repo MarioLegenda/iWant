@@ -43,6 +43,16 @@ export class Init {
             return val === '' || val === null || typeof val === 'undefined';
         };
 
+        window.getViewportDimensions = function() {
+            const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+            return {
+                width: w,
+                height: h,
+            }
+        };
+
         window.scrollToBoundingElement = function(el) {
             const rect = el.getBoundingClientRect();
 
@@ -223,6 +233,7 @@ export class Init {
                 Vue.prototype.$globalIdInformation = new GlobalIdInformation(response.collection.data);
                 Vue.prototype.$localeInfo = new LocaleInfo('en', 'en');
                 Vue.prototype.$isMobile = false;
+                Vue.prototype.$viewportDimensions = getViewportDimensions();
 
                 if (/Mobi|Android/i.test(navigator.userAgent)) {
                     console.log(`Is mobile with user agent: ${navigator.userAgent}`);
