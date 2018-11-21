@@ -44,15 +44,6 @@ class LowestPriceFetcher implements FetcherInterface
      */
     public function getResults(SearchModel $model, array $replacementData = [])
     {
-        if (!empty($replacementData)) {
-            $message = sprintf(
-                'Invalid usage of lowest price filter. %s is a specific custom filter and cannot be controlled as he is its only source of truth',
-                get_class($this)
-            );
-
-            throw new \RuntimeException($message);
-        }
-
         $lowestPriceIdentifier = $model->getUniqueName([
             'lowestPrice' => true,
         ]);

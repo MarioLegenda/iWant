@@ -3,6 +3,7 @@ import {SUPPORTED_SITES} from "../../../../supportedSites";
 import {RepositoryFactory} from "../../../../services/repositoryFactory";
 import urlifyFactory from 'urlify';
 import {Price} from "../../../../services/util";
+import {mapGetters} from 'vuex'
 
 const SiteName = {
     template: `<div class="SiteName">
@@ -234,10 +235,7 @@ export const EbayItems = {
         }
     },
     template: `
-            <div class="EbayItemsWrapper">
-                <input type="hidden" :value="ebaySearchListing">
-                <input type="hidden" :value="searchInitialiseEvent">
-                
+            <div class="EbayItemsWrapper">                
                 <div v-if="items !== null" class="EbayItems" id="EbayItemsId">
                     <site-name v-bind:site-information="siteInformation"></site-name>
                     <div v-for="(item, index) in items" :key="index" class="EbayItem SearchItem">
@@ -256,15 +254,15 @@ export const EbayItems = {
                     
                         <quick-look
                             :item-id="item.itemId"
-                            :popover-button-options="{className: 'tooltip-target b3 PopoverButton', title: translationsMap.searchItem.quickLookTitle, includeIcon: true}">
+                            :popover-button-options="{className: 'tooltip-target b3 PopoverButton', title: getTranslationsMap.searchItem.quickLookTitle, includeIcon: true}">
                         </quick-look>
                     
                         <div class="Row FullDetailsWrapper">
-                            <button class="FullDetailsButton" @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></button>
+                            <button class="FullDetailsButton" @click="goToSingleItem(item)">{{getTranslationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></button>
                         </div>
                     
                         <div class="Row MarketplaceWrapper">
-                            <a :href="item.viewItemUrl" target="_blank">{{translationsMap.searchItem.viewOnEbay}}</a>
+                            <a :href="item.viewItemUrl" target="_blank">{{getTranslationsMap.searchItem.viewOnEbay}}</a>
                         </div>
                     </div>
                 
@@ -276,30 +274,100 @@ export const EbayItems = {
                     </load-more>
                 </div>
                 
-                <div v-if="ebaySearchListingLoading" class="EbayResultsLoading">
-                    {{translationsMap.loadingSearchResults}}
+                <div v-if="getEbaySearchListingLoading" class="EbayResultsLoading">
+                    {{getTranslationsMap.loadingSearchResults}}
                 </div>
             </div>
             `,
     props: ['classList'],
+    watch: {
+        getSearchInitialiseEvent: (prev, next) => {
+        },
+
+        getSearchListing: (prev, next) => {
+        },
+
+        getRangeEvent: (prev, next) => {
+        },
+    },
     computed: {
-        ebaySearchListingLoading() {
+        getEbaySearchListingLoading() {
             return this.$store.state.ebaySearchListingLoading;
         },
 
-        searchInitialiseEvent() {
+        getSearchInitialiseEvent() {
             const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
+
+            if (searchInitialiseEvent === null) {
+                return null;
+            }
 
             this.model = searchInitialiseEvent.model;
 
             return searchInitialiseEvent;
         },
 
-        ebaySearchListing: function() {
-            const ebaySearchListing = this.$store.state.ebaySearchListing;
+        getRangeEvent: function() {
+            const rangeEvent = this.$store.state.rangeEvent;
+
+            if (rangeEvent === null) {
+                return null;
+            }
+
+            if (this.$store.state.searchInitialiseEvent === null) {
+                return null;
+            }
+
+            if (this.$store.state.searchInitialiseEvent.initialised === false) {
+                return null;
+            }
+
+            if (rangeEvent.lowestPrice === true) {
+                this.model.filters.lowestPrice = true;
+
+                if (this.$store.state.ebaySearchListing === null) {
+                    return null;
+                }
+
+                this.model.filters.lowestPrice = true;
+                this.model.range = {
+                    from: 1,
+                    to: this.items.length,
+                };
+
+                this.$store.commit('ebaySearchListingLoading', true);
+                this.$store.commit('ebaySearchListing', {
+                    siteInformation: null,
+                    items: null,
+                });
+
+                const searchRepo = RepositoryFactory.create('search');
+
+                searchRepo.getProductsByRange(this.model, (r) => {
+                    this.$store.commit('ebaySearchListingLoading', false);
+                    this.$store.commit('ebaySearchListing', r.collection.data);
+                });
+            } else if (rangeEvent.lowestPrice === false) {
+                this.model.filters.lowestPrice = false;
+            }
+
+            return rangeEvent;
+        },
+
+        getSearchListing: function() {
+            const ebaySearchListing = this.$store.getters.getSearchListing;
 
             if (ebaySearchListing === null) {
                 this.items = null;
+
+                this.siteInformation = null;
+
+                return null;
+            }
+
+            if (ebaySearchListing.items === null) {
+                this.items = null;
+
                 this.siteInformation = null;
 
                 return null;
@@ -317,24 +385,12 @@ export const EbayItems = {
 
             this.siteInformation  = ebaySearchListing.siteInformation;
 
-            setTimeout(() => {
-                concatItems(ebaySearchListing.items);
-            }, 200);
+            concatItems(ebaySearchListing.items);
 
             return ebaySearchListing;
         },
 
-        filtersEvent: function() {
-            const filtersEvent = this.$store.state.filtersEvent;
-
-            if (filtersEvent === null) {
-                return null;
-            }
-
-            return this.$store.state.filtersEvent;
-        },
-
-        translationsMap: function() {
+        getTranslationsMap: function() {
             return this.$store.state.translationsMap;
         },
     },

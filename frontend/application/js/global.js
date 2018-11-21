@@ -10,16 +10,11 @@ import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 import {LocaleInfo} from "./services/localeInfo";
 import {translationsMap} from "./translationMap";
 
-const defaultFilters = {
-    bestMatch: true,
-    lowestPrice: false,
-    highestPrice: false,
-    highQuality: false,
-    shippingCountries: [],
-    marketplaces: [],
-    taxonomies: [],
-    globalIds: [],
-};
+import {state} from "./store/state";
+import {mutations} from "./store/mutations";
+import {actions} from "./store/actions";
+import {defaultFilters} from "./store/state";
+import {getters} from "./store/getters";
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -115,60 +110,10 @@ export class Init {
 
     static createVueInstance() {
         const store =  new Vuex.Store({
-            state: {
-                ebaySearchListingLoading: false,
-                ebaySearchListing: null,
-                searchTerm: null,
-                searchInitialiseEvent: {
-                    searchUrl: null,
-                    model: null,
-                    initialised: false,
-                    finished: false,
-                },
-                filtersEvent: defaultFilters,
-                translationsMap: {},
-                modelWasCreated: null,
-            },
-            mutations: {
-                searchTerm(state, value) {
-                    this.state.searchTerm = value;
-                },
-
-                ebaySearchListing(state, value) {
-                    this.state.ebaySearchListing = value;
-                },
-
-                ebaySearchListingLoading(state, value) {
-                    this.state.ebaySearchListingLoading = value;
-                },
-
-                foundSearchProducts(state, value) {
-                    this.state.foundSearchProducts = Object.assign({}, this.state.foundSearchProducts, value);
-                },
-
-                searchInitialiseEvent(state, value) {
-                    this.state.searchInitialiseEvent = Object.assign({}, this.state.searchInitialiseEvent, value);
-                },
-
-                filtersEvent(state, value) {
-                    this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
-                },
-
-                modelWasCreated(state, value) {
-                    this.state.modelWasCreated = value;
-                },
-
-                translationsMap(state, value) {
-                    this.state.translationsMap = value;
-                }
-            },
-            actions: {
-                localeChanged(context, locale) {
-                    Vue.prototype.$localeInfo.locale = locale.value;
-
-                    context.commit('translationsMap', translationsMap[locale.value]);
-                }
-            },
+            state: state,
+            mutations: mutations,
+            actions: actions,
+            getters: getters
         });
 
         const createVueRouter = () => {

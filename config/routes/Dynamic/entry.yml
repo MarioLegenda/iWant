@@ -23,6 +23,11 @@ app_get_products_by_global_id:
   controller: App\Web\Controller\SearchController::getProducts
   methods: [GET]
 
+app_get_products_range:
+  path: /ebay/get-products-by-range/{searchData}
+  controller: App\Web\Controller\SearchController::getProductsByRange
+  methods: [GET]
+
 app_options_products_listing:
   path: /ebay/get-product-listing-options/{searchData}
   controller: App\Web\Controller\SearchController::getProductsListingOptions

@@ -10,6 +10,7 @@ export const routes = {
     app_get_products_by_global_id: '/api/v1/ebay/get-products-by-global-id/:searchData',
     app_options_products_listing: '/api/v1/ebay/get-product-listing-options/:searchData',
     app_options_check_single_item: '/api/v1/ebay/check-single-item/:locale/:itemId',
+    app_get_products_range: '/api/v1/ebay/get-products-by-range/:searchData',
 
     createRouteFromName: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {

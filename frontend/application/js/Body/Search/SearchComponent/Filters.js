@@ -83,6 +83,10 @@ export const Filters = {
             this.$store.commit('filtersEvent', {
                 lowestPrice: true,
             });
+
+            this.$store.commit('rangeEvent', {
+                lowestPrice: true,
+            });
         },
         removeLowestPrice() {
             this.errors = [];
@@ -90,6 +94,10 @@ export const Filters = {
             this.lowestPrice = false;
 
             this.$store.commit('filtersEvent', {
+                lowestPrice: false,
+            });
+
+            this.$store.commit('rangeEvent', {
                 lowestPrice: false,
             })
         },

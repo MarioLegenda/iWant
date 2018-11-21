@@ -32,7 +32,9 @@ export const SearchComponent = {
             this.submit(replaced);
         }
     },
-    template: `<div class="AdvancedSearch" id="AdvancedSearchId">                    
+    template: `<div class="AdvancedSearch" id="AdvancedSearchId">    
+                    <input type="hidden" :value="filtersEvent" />
+                                    
                     <search-box
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"
@@ -126,7 +128,10 @@ export const SearchComponent = {
                 return false;
             }
 
-            this.$store.commit('ebaySearchListing', null);
+            this.$store.commit('ebaySearchListing', {
+                siteInformation: null,
+                items: null
+            });
 
             this.keyword = keyword;
 
