@@ -125,7 +125,7 @@ class SearchComponentTest extends BasicSetup
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component');
 
-        $to = 97;
+        $to = 8;
 
         $modelArray = [
             'keyword' => 'harry potter',

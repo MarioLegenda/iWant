@@ -229,16 +229,14 @@ export const EbayItems = {
     data: function() {
         return {
             currentlyLoading: false,
-            items: null,
-            siteInformation: null,
             model: null
         }
     },
     template: `
             <div class="EbayItemsWrapper">                
-                <div v-if="items !== null" class="EbayItems" id="EbayItemsId">
-                    <site-name v-bind:site-information="siteInformation"></site-name>
-                    <div v-for="(item, index) in items" :key="index" class="EbayItem SearchItem">
+                <div v-if="getSearchListing.items !== null && getSearchListing.siteInformation !== null" class="EbayItems" id="EbayItemsId">
+                    <site-name v-bind:site-information="getSearchListing.siteInformation"></site-name>
+                    <div v-for="(item, index) in getSearchListing.items" :key="index" class="EbayItem SearchItem">
                         <image-item :url="item.image.url"></image-item>
                     
                         <div class="Row TitleWrapper">
@@ -270,7 +268,7 @@ export const EbayItems = {
                         @load-more="onLoadMore"
                         :currently-loading="currentlyLoading"
                         :model="model"
-                        :global-id="siteInformation.global_id">
+                        :global-id="getSearchListing.siteInformation.global_id">
                     </load-more>
                 </div>
                 
@@ -288,6 +286,9 @@ export const EbayItems = {
         },
 
         getRangeEvent: (prev, next) => {
+        },
+
+        getMoreLoadedSearchListings: (prev, next) => {
         },
     },
     computed: {
@@ -323,75 +324,68 @@ export const EbayItems = {
             }
 
             if (rangeEvent.lowestPrice === true) {
-                this.model.filters.lowestPrice = true;
+                let model = Object.assign({}, this.model);
 
-                if (this.$store.state.ebaySearchListing === null) {
+                model.filters.lowestPrice = true;
+
+                if (this.$store.state.ebaySearchListing.items === null) {
                     return null;
                 }
 
-                this.model.filters.lowestPrice = true;
-                this.model.range = {
+                model.filters.lowestPrice = true;
+
+                model.filters.lowestPrice = true;
+                model.range = {
                     from: 1,
-                    to: this.items.length,
+                    to: this.getSearchListing.items.length,
                 };
 
                 this.$store.commit('ebaySearchListingLoading', true);
-                this.$store.commit('ebaySearchListing', {
-                    siteInformation: null,
-                    items: null,
-                });
 
                 const searchRepo = RepositoryFactory.create('search');
 
-                searchRepo.getProductsByRange(this.model, (r) => {
+                searchRepo.getProductsByRange(model, (r) => {
                     this.$store.commit('ebaySearchListingLoading', false);
                     this.$store.commit('ebaySearchListing', r.collection.data);
                 });
             } else if (rangeEvent.lowestPrice === false) {
-                this.model.filters.lowestPrice = false;
             }
 
             return rangeEvent;
         },
 
         getSearchListing: function() {
+            console.log('getSearchListing called');
             const ebaySearchListing = this.$store.getters.getSearchListing;
 
-            if (ebaySearchListing === null) {
-                this.items = null;
-
-                this.siteInformation = null;
-
-                return null;
+            if (ebaySearchListing.siteInformation === null) {
+                return ebaySearchListing;
             }
-
-            if (ebaySearchListing.items === null) {
-                this.items = null;
-
-                this.siteInformation = null;
-
-                return null;
-            }
-
-            const concatItems = (items) => {
-                for (const item of items) {
-                    if (!Array.isArray(this.items)) {
-                        this.items = [];
-                    }
-
-                    this.items.push(item);
-                }
-            };
-
-            this.siteInformation  = ebaySearchListing.siteInformation;
-
-            concatItems(ebaySearchListing.items);
 
             return ebaySearchListing;
         },
 
         getTranslationsMap: function() {
             return this.$store.state.translationsMap;
+        },
+
+        getMoreLoadedSearchListings: function() {
+            console.log('load more event');
+            const loadMoreSearchListing = this.$store.state.loadMoreSearchListing;
+
+            if (loadMoreSearchListing.siteInformation === null) {
+                return loadMoreSearchListing;
+            }
+
+            const concatItems = (items) => {
+                for (const item of items) {
+                    this.getSearchListing.items.push(item);
+                }
+            };
+
+            concatItems(loadMoreSearchListing.items);
+
+            return loadMoreSearchListing;
         },
     },
     methods: {
@@ -409,14 +403,14 @@ export const EbayItems = {
                             searchData: model,
                         })).then(() => {
                             searchRepo.getProducts(model).then((r) => {
-                                this.$store.commit('ebaySearchListing', r.collection.data);
+                                this.$store.commit('loadMoreSearchListing', r.collection.data);
                                 this.currentlyLoading = false;
                             });
                         });
                         break;
                     case 'GET':
                         searchRepo.getProducts(model, (r) => {
-                            this.$store.commit('ebaySearchListing', r.collection.data);
+                            this.$store.commit('loadMoreSearchListing', r.collection.data);
                             this.currentlyLoading = false;
                         });
                         break;

@@ -209,7 +209,6 @@ class SearchModel implements ArrayNotationInterface
     {
         return md5(serialize([
             'keyword' => (isset($replacementData['keyword'])) ? $replacementData['keyword'] : $this->getKeyword(),
-            'lowestPrice' => (isset($replacementData['lowestPrice'])) ? $replacementData['lowestPrice'] : $this->isLowestPrice(),
             'bestMatch' => (isset($replacementData['bestMatch'])) ? $replacementData['bestMatch'] : $this->isBestMatch(),
             'highQuality' => (isset($replacementData['highQuality'])) ? $replacementData['highQuality'] : $this->isHighQuality(),
             'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),

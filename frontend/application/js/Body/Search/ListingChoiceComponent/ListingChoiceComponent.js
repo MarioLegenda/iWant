@@ -91,7 +91,10 @@ export const ListingChoiceComponent = {
     },
     methods: {
         onEbaySiteChoice: function (globalId) {
-            this.$store.commit('ebaySearchListing', null);
+            this.$store.commit('ebaySearchListing', {
+                siteInformation: null,
+                items: null,
+            });
 
             let model = this.searchInitialiseEvent.model;
             model.filters = this.filtersEvent;

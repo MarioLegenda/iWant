@@ -17,5 +17,9 @@ export const getters = {
 
     getTranslationsMap(state, getters) {
         return state.translationsMap;
+    },
+
+    getMoreLoadedSearchListings(state, getters) {
+        return state.loadMoreSearchListing;
     }
 };

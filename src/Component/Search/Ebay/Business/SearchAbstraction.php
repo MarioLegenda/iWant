@@ -8,6 +8,8 @@ use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherFactory;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Response\Title;
+use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
 use App\Translation\TranslationCenter;
 
@@ -93,11 +95,12 @@ class SearchAbstraction
 
         $combinedResults = [];
         for ($i = 1; $i <= $pages; $i++) {
+            /** @var TypedArray $results */
             $results = $this->fetcherFactory->decideFetcher($model)->getResults($model, [
                 'internalPagination' => new Pagination(80, $i),
             ]);
 
-            $combinedResults = array_merge($combinedResults, $results);
+            $combinedResults = array_merge($combinedResults, $results->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION));
         }
 
         $finalResult = [];

@@ -15,6 +15,10 @@ export const state = {
         siteInformation: null,
         items: null
     },
+    loadMoreSearchListing: {
+        siteInformation: null,
+        items: null
+    },
     searchTerm: null,
     searchInitialiseEvent: {
         searchUrl: null,

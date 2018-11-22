@@ -37,35 +37,15 @@ class LowestPriceFetcher implements FetcherInterface
     /**
      * @param SearchModel $model
      * @param array $replacementData
-     * @return TypedArray|mixed
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return TypedArray
      */
     public function getResults(SearchModel $model, array $replacementData = [])
     {
-        $lowestPriceIdentifier = $model->getUniqueName([
-            'lowestPrice' => true,
-        ]);
-
-        if ($this->searchResponseCacheImplementation->isStored($lowestPriceIdentifier)) {
-            /** @var SearchCache $presentationResults */
-            $presentationResults = $this->searchResponseCacheImplementation->getStored($lowestPriceIdentifier);
-
-            return json_decode($presentationResults->getProductsResponse(), true);
-        }
-
         $sourceUnFilteredResults = $this->sourceUnFilteredFetcher->getFreshResults($model);
 
         /** @var TypedArray $lowestPriceGroupedResults */
         $lowestPriceGroupedResults = Grouping::inst()->groupByPriceLowest(
             $this->convertToPriceGrouping($sourceUnFilteredResults)
-        );
-
-        $this->searchResponseCacheImplementation->store(
-            $model->getUniqueName(['lowestPrice' => true]),
-            $model->getInternalPagination()->getPage(),
-            jsonEncodeWithFix($lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
         );
 
         return $lowestPriceGroupedResults;

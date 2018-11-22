@@ -18,7 +18,10 @@ export const SearchPage = {
             finished: false,
         });
 
-        this.$store.commit('ebaySearchListing', null);
+        this.$store.commit('ebaySearchListing', {
+            siteInformation: null,
+            items: null
+        });
 
         this.$store.commit('ebaySearchListingLoading', false);
 

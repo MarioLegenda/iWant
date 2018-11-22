@@ -91,7 +91,10 @@ export const SearchComponent = {
                     });
                 }
 
-                this.$store.commit('ebaySearchListing', null);
+                this.$store.commit('ebaySearchListing', {
+                    siteInformation: null,
+                    items: null
+                });
 
                 this.showSentence = false;
 
@@ -110,7 +113,10 @@ export const SearchComponent = {
 
             this.$store.commit('ebaySearchListingLoading', false);
 
-            this.$store.commit('ebaySearchListing', null);
+            this.$store.commit('ebaySearchListing', {
+                siteInformation: null,
+                items: null
+            });
         },
 
         submit(keyword) {
@@ -123,7 +129,10 @@ export const SearchComponent = {
                     });
                 }
 
-                this.$store.commit('ebaySearchListing', null);
+                this.$store.commit('ebaySearchListing', {
+                    siteInformation: null,
+                    items: null
+                });
 
                 return false;
             }

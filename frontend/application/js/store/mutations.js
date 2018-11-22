@@ -25,5 +25,9 @@ export const mutations = {
 
     rangeEvent(state, value) {
         this.state.rangeEvent = Object.assign({}, value);
+    },
+
+    loadMoreSearchListing(state, value) {
+        this.state.loadMoreSearchListing = value;
     }
 };
