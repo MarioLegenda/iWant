@@ -76,6 +76,10 @@ export const ListingChoiceComponent = {
             </div>
         </div>
     `,
+    watch: {
+        modelWasUpdated: (prev, next) => {
+        }
+    },
     computed: {
         translationsMap: function() {
             return this.$store.state.translationsMap;
@@ -88,6 +92,10 @@ export const ListingChoiceComponent = {
         filtersEvent: function() {
             return this.$store.state.filtersEvent;
         },
+
+        modelWasUpdated: function() {
+            return this.$store.state.modelWasUpdated;
+        }
     },
     methods: {
         onEbaySiteChoice: function (globalId) {
@@ -96,9 +104,11 @@ export const ListingChoiceComponent = {
                 items: null,
             });
 
-            let model = this.searchInitialiseEvent.model;
+            let model = Object.assign({}, this.modelWasUpdated);
+
             model.filters = this.filtersEvent;
             model.globalId = globalId;
+            model.range = {from: 1, to: 1};
 
             const searchRepo = RepositoryFactory.create('search');
 

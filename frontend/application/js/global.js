@@ -8,7 +8,6 @@ import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
 import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 import {LocaleInfo} from "./services/localeInfo";
-import {translationsMap} from "./translationMap";
 
 import {state} from "./store/state";
 import {mutations} from "./store/mutations";

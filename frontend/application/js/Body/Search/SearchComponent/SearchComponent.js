@@ -60,6 +60,9 @@ export const SearchComponent = {
 
             this.onSearchTermChange(newVal);
             this.submit(newVal);
+        },
+
+        modelWasUpdated: (prev, next) => {
         }
     },
 
@@ -71,8 +74,18 @@ export const SearchComponent = {
             }
         },
 
+        modelWasUpdated: function() {
+            return this.$store.state.modelWasUpdated;
+        },
+
         filtersEvent: function() {
-            return this.$store.state.filtersEvent;
+            const filtersEvent = this.$store.state.filtersEvent;
+
+            this.modelWasUpdated.filters = filtersEvent;
+
+            this.$store.commit('modelWasUpdated', this.modelWasUpdated);
+
+            return filtersEvent;
         },
 
         searchInitialiseEvent: function() {
@@ -86,7 +99,6 @@ export const SearchComponent = {
                 if (this.searchInitialiseEvent.initialised === true) {
                     this.$store.commit('searchInitialiseEvent', {
                         searchUrl: null,
-                        model: null,
                         initialised: false,
                     });
                 }
@@ -156,6 +168,9 @@ export const SearchComponent = {
 
             const model = this.createModel();
 
+            this.$store.commit('modelWasCreated', model);
+            this.$store.commit('modelWasUpdated', model);
+
             this.$store.commit('searchInitialiseEvent', {
                 searchUrl: `/search/${urlify(this.keyword)}`,
                 model: model,
@@ -194,10 +209,7 @@ export const SearchComponent = {
                     limit: 80,
                     page: 1
                 },
-                range: {
-                    to: 1,
-                    from: 1,
-                },
+                range: null,
                 globalId: null,
             }
         }

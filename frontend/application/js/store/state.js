@@ -22,13 +22,39 @@ export const state = {
     searchTerm: null,
     searchInitialiseEvent: {
         searchUrl: null,
-        model: null,
         initialised: false,
         finished: false,
     },
     filtersEvent: defaultFilters,
     translationsMap: {},
-    rangeEvent: {
-        lowestPrice: false,
+    modelWasCreated: {
+        keyword: null,
+        filters: {},
+        pagination: {
+            limit: 8,
+            page: 1,
+        },
+        locale: 'en',
+        internalPagination: {
+            limit: 80,
+            page: 1
+        },
+        range: null,
+        globalId: null,
+    },
+    modelWasUpdated: {
+        keyword: null,
+        filters: {},
+        pagination: {
+            limit: 8,
+            page: 1,
+        },
+        locale: 'en',
+        internalPagination: {
+            limit: 80,
+            page: 1
+        },
+        range: null,
+        globalId: null,
     },
 };

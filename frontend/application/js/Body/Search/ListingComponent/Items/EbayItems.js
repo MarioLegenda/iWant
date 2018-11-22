@@ -68,21 +68,23 @@ const LoadMore = {
     },
     methods: {
         loadMore: function() {
-            this.model.pagination.page = ++this.page;
+            let model = Object.assign({}, this.model);
+
+            model.pagination.page = ++this.page;
 
             const internalLimitIncrease = this.page * this.limit;
 
             if (internalLimitIncrease >= this.internalLimit) {
-                this.model.internalPagination.page = ++this.internalPage;
-                this.model.pagination.page = 1;
+                model.internalPagination.page = ++this.internalPage;
+                model.pagination.page = 1;
                 this.page = 1;
 
-                this.$emit('load-more', this.model);
+                this.$emit('load-more', model);
 
                 return;
             }
 
-            this.$emit('load-more', this.model);
+            this.$emit('load-more', model);
         },
 
         resetPagination() {
@@ -229,7 +231,6 @@ export const EbayItems = {
     data: function() {
         return {
             currentlyLoading: false,
-            model: null
         }
     },
     template: `
@@ -267,7 +268,7 @@ export const EbayItems = {
                     <load-more
                         @load-more="onLoadMore"
                         :currently-loading="currentlyLoading"
-                        :model="model"
+                        :model="modelWasUpdated"
                         :global-id="getSearchListing.siteInformation.global_id">
                     </load-more>
                 </div>
@@ -285,11 +286,11 @@ export const EbayItems = {
         getSearchListing: (prev, next) => {
         },
 
-        getRangeEvent: (prev, next) => {
-        },
-
         getMoreLoadedSearchListings: (prev, next) => {
         },
+
+        modelWasUpdated: (prev, next) => {
+        }
     },
     computed: {
         getEbaySearchListingLoading() {
@@ -303,59 +304,10 @@ export const EbayItems = {
                 return null;
             }
 
-            this.model = searchInitialiseEvent.model;
-
             return searchInitialiseEvent;
         },
 
-        getRangeEvent: function() {
-            const rangeEvent = this.$store.state.rangeEvent;
-
-            if (rangeEvent === null) {
-                return null;
-            }
-
-            if (this.$store.state.searchInitialiseEvent === null) {
-                return null;
-            }
-
-            if (this.$store.state.searchInitialiseEvent.initialised === false) {
-                return null;
-            }
-
-            if (rangeEvent.lowestPrice === true) {
-                let model = Object.assign({}, this.model);
-
-                model.filters.lowestPrice = true;
-
-                if (this.$store.state.ebaySearchListing.items === null) {
-                    return null;
-                }
-
-                model.filters.lowestPrice = true;
-
-                model.filters.lowestPrice = true;
-                model.range = {
-                    from: 1,
-                    to: this.getSearchListing.items.length,
-                };
-
-                this.$store.commit('ebaySearchListingLoading', true);
-
-                const searchRepo = RepositoryFactory.create('search');
-
-                searchRepo.getProductsByRange(model, (r) => {
-                    this.$store.commit('ebaySearchListingLoading', false);
-                    this.$store.commit('ebaySearchListing', r.collection.data);
-                });
-            } else if (rangeEvent.lowestPrice === false) {
-            }
-
-            return rangeEvent;
-        },
-
         getSearchListing: function() {
-            console.log('getSearchListing called');
             const ebaySearchListing = this.$store.getters.getSearchListing;
 
             if (ebaySearchListing.siteInformation === null) {
@@ -365,12 +317,21 @@ export const EbayItems = {
             return ebaySearchListing;
         },
 
+        modelWasUpdated: function() {
+            const model = this.$store.state.modelWasUpdated;
+
+            if (model.range !== null) {
+                console.log('range here');
+            }
+
+            return model;
+        },
+
         getTranslationsMap: function() {
             return this.$store.state.translationsMap;
         },
 
         getMoreLoadedSearchListings: function() {
-            console.log('load more event');
             const loadMoreSearchListing = this.$store.state.loadMoreSearchListing;
 
             if (loadMoreSearchListing.siteInformation === null) {

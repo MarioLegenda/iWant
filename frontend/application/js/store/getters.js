@@ -21,5 +21,13 @@ export const getters = {
 
     getMoreLoadedSearchListings(state, getters) {
         return state.loadMoreSearchListing;
-    }
+    },
+
+    getUpdatedModel(state, getters) {
+        return state.modelWasUpdated;
+    },
+
+    getCreatedModel(state, getters) {
+        return state.modelWasCreated;
+    },
 };

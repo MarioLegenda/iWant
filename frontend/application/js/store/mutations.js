@@ -29,5 +29,13 @@ export const mutations = {
 
     loadMoreSearchListing(state, value) {
         this.state.loadMoreSearchListing = value;
+    },
+
+    modelWasCreated(state, value) {
+        this.state.modelWasCreated = value;
+    },
+
+    modelWasUpdated(state, value) {
+        this.state.modelWasUpdated = Object.assign({}, this.state.modelWasUpdated, value);
     }
 };
