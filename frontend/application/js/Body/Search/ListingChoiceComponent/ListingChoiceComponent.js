@@ -1,4 +1,3 @@
-import {RepositoryFactory} from "../../../services/repositoryFactory";
 import {SUPPORTED_SITES} from "../../../supportedSites";
 
 const ListingChoice = {
@@ -109,9 +108,6 @@ export const ListingChoiceComponent = {
 
             model.filters = this.getFilters;
             model.globalId = globalId;
-            model.range = {from: 1, to: 1};
-
-            this.$store.commit('ebaySearchListingLoading', true);
 
             this.$store.dispatch('loadProductListing', model);
         }

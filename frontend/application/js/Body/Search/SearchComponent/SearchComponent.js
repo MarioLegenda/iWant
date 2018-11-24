@@ -4,7 +4,6 @@ import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
-import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const SearchComponent = {
     data: function() {
@@ -60,18 +59,6 @@ export const SearchComponent = {
             this.onSearchTermChange(newVal);
             this.submit(newVal);
         },
-
-        isListingInitialised: (prev, next) => {
-        },
-
-        getModel: (prev, next) => {
-        },
-
-        getFilters: (prev, next) => {
-        },
-
-        getTotalListings: (prev, next) => {
-        }
     },
 
     computed: {
@@ -81,47 +68,32 @@ export const SearchComponent = {
                 keyword: this.keyword,
             }
         },
-
-        isListingInitialised: function() {
-            return this.$store.getters.isListingInitialised;
-        },
-
-        getModel: function() {
-            return this.$store.getters.getModel;
-        },
-
-        getFilters: function() {
-            return this.$store.getters.getFilters;
-        },
-
-        getTotalListings: function() {
-            return this.$store.getters.getTotalListings;
-        },
-
-        searchInitialiseEvent: function() {
-            return this.$store.state.searchInitialiseEvent;
-        },
     },
 
     methods: {
         onSearchTermChange(searchTerm) {
             if (isEmpty(searchTerm)) {
-                if (this.searchInitialiseEvent.initialised === true) {
-                    this.$store.commit('searchInitialiseEvent', {
-                        searchUrl: null,
-                        initialised: false,
-                    });
-                }
-
-                this.$store.commit('ebaySearchListing', {
-                    siteInformation: null,
-                    items: null
-                });
+                this.$store.dispatch('destroyEntireState');
 
                 this.showSentence = false;
 
                 return false;
             }
+
+            this.$store.commit('searchInitialiseEvent', {
+                initialised: false,
+            });
+
+            this.$store.commit('listingInitialiseEvent', {
+                initialised: false,
+            });
+
+            this.$store.commit('ebaySearchListing', {
+                siteInformation: null,
+                items: null,
+            });
+
+            this.$store.commit('totalListing', []);
 
             this.showSentence = true;
 
@@ -130,25 +102,10 @@ export const SearchComponent = {
 
         submit(keyword) {
             if (isEmpty(keyword)) {
-                if (this.searchInitialiseEvent.initialised === true) {
-                    this.$store.commit('searchInitialiseEvent', {
-                        searchUrl: null,
-                        initialised: false,
-                    });
-                }
-
-                this.$store.commit('ebaySearchListing', {
-                    siteInformation: null,
-                    items: null
-                });
+                this.$store.dispatch('destroyEntireState');
 
                 return false;
             }
-
-            this.$store.commit('ebaySearchListing', {
-                siteInformation: null,
-                items: null
-            });
 
             this.keyword = keyword;
 
@@ -163,6 +120,13 @@ export const SearchComponent = {
             this.$router.push(`/${this.$localeInfo.locale}/search/${urlify(this.keyword)}`);
 
             const model = this.createModel();
+
+            this.$store.commit('ebaySearchListing', {
+                siteInformation: null,
+                items: null,
+            });
+
+            this.$store.commit('totalListing', []);
 
             this.$store.commit('modelWasCreated', model);
             this.$store.commit('modelWasUpdated', model);

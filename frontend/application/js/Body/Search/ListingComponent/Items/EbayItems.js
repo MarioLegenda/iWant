@@ -239,10 +239,9 @@ export const EbayItems = {
     },
     created() {
         this.$store.subscribe((mutation, state) => {
-            if (mutation.type === 'lowestPrice') {
-                const lowestPrice = this.$store.state.lowestPrice;
-
-                if (lowestPrice) {
+            if (mutation.type === 'modelWasUpdated') {
+                console.log(state.modelWasUpdated);
+                if (state.modelWasUpdated.filters.lowestPrice) {
                     let model = Object.assign({}, this.getModel, {
                         filters: this.getFilters,
                     });
@@ -304,9 +303,6 @@ export const EbayItems = {
             `,
     props: ['classList'],
     watch: {
-        getSearchListing: (prev, next) => {
-        },
-
         isListingInitialised: (prev, next) => {
         },
 

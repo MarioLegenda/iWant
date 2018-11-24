@@ -11,27 +11,11 @@ export const SearchPage = {
         }
     },
     beforeDestroy() {
-        this.$store.commit('searchInitialiseEvent', {
-            searchUrl: null,
-            initialised: false,
-        });
-
-        this.$store.commit('ebaySearchListing', {
-            siteInformation: null,
-            items: null
-        });
-
-        this.$store.commit('ebaySearchListingLoading', false);
-
-        this.$store.commit('filtersEvent', this.$defaultFilters);
-
-        this.$store.commit('listingInitialiseEvent', {
-            initialised: false,
-        });
+        this.$store.dispatch('destroyEntireState');
     },
     template: `<transition name="fade">
                 
-                <div id="search_page">         
+                <div id="search_page">     
                     <filters></filters>
                     
                     <div class="LeftPanel">

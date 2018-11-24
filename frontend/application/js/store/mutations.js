@@ -4,11 +4,6 @@ export const mutations = {
         this.state.searchTerm = value;
     },
 
-    lowestPrice(state, value) {
-        console.log('lowestPrice event');
-        this.state.lowestPrice = value;
-    },
-
     ebaySearchListing(state, value) {
         console.log('ebaySearchListing event');
         this.state.ebaySearchListing = value;

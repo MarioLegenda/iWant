@@ -9,13 +9,28 @@ export const defaultFilters = {
     globalIds: [],
 };
 
+export const defaultModel = {
+    keyword: null,
+    filters: {},
+    pagination: {
+        limit: 8,
+        page: 1,
+    },
+    locale: 'en',
+    internalPagination: {
+        limit: 80,
+        page: 1
+    },
+    range: null,
+    globalId: null,
+};
+
 export const state = {
     ebaySearchListingLoading: false,
     ebaySearchListing: {
         siteInformation: null,
         items: null
     },
-    lowestPrice: false,
     totalListing: [],
     searchTerm: null,
     searchInitialiseEvent: {

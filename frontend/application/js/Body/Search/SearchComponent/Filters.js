@@ -71,8 +71,6 @@ export const Filters = {
             this.$store.commit('filtersEvent', {
                 lowestPrice: true,
             });
-
-            this.$store.commit('lowestPrice', true);
         },
         removeLowestPrice() {
             this.errors = [];
