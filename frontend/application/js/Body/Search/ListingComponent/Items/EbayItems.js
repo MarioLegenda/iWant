@@ -72,6 +72,8 @@ const LoadMore = {
 
             model.pagination.page = ++this.page;
 
+            model.globalId = this.globalId;
+
             const internalLimitIncrease = this.page * this.limit;
 
             if (internalLimitIncrease >= this.internalLimit) {
@@ -227,17 +229,39 @@ const Title = {
     props: ['titleText']
 };
 
+
+
 export const EbayItems = {
     data: function() {
         return {
             currentlyLoading: false,
         }
     },
+    created() {
+        this.$store.subscribe((mutation, state) => {
+            if (mutation.type === 'lowestPrice') {
+                const lowestPrice = this.$store.state.lowestPrice;
+
+                if (lowestPrice) {
+                    let model = Object.assign({}, this.getModel, {
+                        filters: this.getFilters,
+                    });
+
+                    model.range = {
+                        from: 1,
+                        to: this.getTotalListings.length
+                    };
+
+                    this.$store.dispatch('totalListingUpdate', model);
+                }
+            }
+        });
+    },
     template: `
-            <div class="EbayItemsWrapper">                
-                <div v-if="getSearchListing.items !== null && getSearchListing.siteInformation !== null" class="EbayItems" id="EbayItemsId">
-                    <site-name v-bind:site-information="getSearchListing.siteInformation"></site-name>
-                    <div v-for="(item, index) in getSearchListing.items" :key="index" class="EbayItem SearchItem">
+            <div class="EbayItemsWrapper">                                
+                <div v-if="isListingInitialised" class="EbayItems" id="EbayItemsId">
+                    <site-name v-bind:site-information="getSiteInformation"></site-name>
+                    <div v-for="(item, index) in getTotalListings" :key="index" class="EbayItem SearchItem">
                         <image-item :url="item.image.url"></image-item>
                     
                         <div class="Row TitleWrapper">
@@ -268,8 +292,8 @@ export const EbayItems = {
                     <load-more
                         @load-more="onLoadMore"
                         :currently-loading="currentlyLoading"
-                        :model="modelWasUpdated"
-                        :global-id="getSearchListing.siteInformation.global_id">
+                        :model="getModel"
+                        :global-id="getSiteInformation.global_id">
                     </load-more>
                 </div>
                 
@@ -280,16 +304,22 @@ export const EbayItems = {
             `,
     props: ['classList'],
     watch: {
-        getSearchInitialiseEvent: (prev, next) => {
-        },
-
         getSearchListing: (prev, next) => {
         },
 
-        getMoreLoadedSearchListings: (prev, next) => {
+        isListingInitialised: (prev, next) => {
         },
 
-        modelWasUpdated: (prev, next) => {
+        getSiteInformation: (prev, next) => {
+        },
+
+        getTotalListings: (prev, next) => {
+        },
+
+        getModel: (prev, next) => {
+        },
+
+        getFilters: (prev, next) => {
         }
     },
     computed: {
@@ -297,56 +327,32 @@ export const EbayItems = {
             return this.$store.state.ebaySearchListingLoading;
         },
 
-        getSearchInitialiseEvent() {
-            const searchInitialiseEvent = this.$store.state.searchInitialiseEvent;
+        getTotalListings: function() {
+            return this.$store.getters.getTotalListings;
+        },
 
-            if (searchInitialiseEvent === null) {
-                return null;
-            }
-
-            return searchInitialiseEvent;
+        isListingInitialised() {
+            return this.$store.getters.isListingInitialised;
         },
 
         getSearchListing: function() {
-            const ebaySearchListing = this.$store.getters.getSearchListing;
-
-            if (ebaySearchListing.siteInformation === null) {
-                return ebaySearchListing;
-            }
-
-            return ebaySearchListing;
+            return this.$store.getters.getSearchListing;
         },
 
-        modelWasUpdated: function() {
-            const model = this.$store.state.modelWasUpdated;
+        getSiteInformation: function() {
+            return this.$store.getters.getSiteInformation;
+        },
 
-            if (model.range !== null) {
-                console.log('range here');
-            }
+        getModel: function() {
+            return this.$store.getters.getModel;
+        },
 
-            return model;
+        getFilters: function() {
+            return this.$store.getters.getFilters;
         },
 
         getTranslationsMap: function() {
             return this.$store.state.translationsMap;
-        },
-
-        getMoreLoadedSearchListings: function() {
-            const loadMoreSearchListing = this.$store.state.loadMoreSearchListing;
-
-            if (loadMoreSearchListing.siteInformation === null) {
-                return loadMoreSearchListing;
-            }
-
-            const concatItems = (items) => {
-                for (const item of items) {
-                    this.getSearchListing.items.push(item);
-                }
-            };
-
-            concatItems(loadMoreSearchListing.items);
-
-            return loadMoreSearchListing;
         },
     },
     methods: {
@@ -364,14 +370,14 @@ export const EbayItems = {
                             searchData: model,
                         })).then(() => {
                             searchRepo.getProducts(model).then((r) => {
-                                this.$store.commit('loadMoreSearchListing', r.collection.data);
+                                this.$store.commit('totalListing', r.collection.data.items);
                                 this.currentlyLoading = false;
                             });
                         });
                         break;
                     case 'GET':
                         searchRepo.getProducts(model, (r) => {
-                            this.$store.commit('loadMoreSearchListing', r.collection.data);
+                            this.$store.commit('totalListing', r.collection.data.items);
                             this.currentlyLoading = false;
                         });
                         break;

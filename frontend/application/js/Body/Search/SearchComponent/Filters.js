@@ -11,7 +11,6 @@ export const Filters = {
         }
     },
     template: `<div class="RightPanel FiltersWrapper">
-                    <input type="hidden" :value="filtersEvent" />
                     
                     <i class="FilterMenuOpener fas fa-bars" @click="openResponsiveMenu(...arguments)"></i>
                     
@@ -43,20 +42,9 @@ export const Filters = {
                     
                </div>`,
     computed: {
-        filtersEvent: function() {
-            const filtersEvent = this.$store.state.filtersEvent;
-
-            this.errors = [];
-
-            this.highestPrice = filtersEvent.highestPrice;
-            this.lowestPrice = filtersEvent.lowestPrice;
-
-            return filtersEvent;
-        },
         translationsMap: function() {
             return this.$store.state.translationsMap;
         },
-
     },
     methods: {
         openResponsiveMenu(event) {
@@ -83,6 +71,8 @@ export const Filters = {
             this.$store.commit('filtersEvent', {
                 lowestPrice: true,
             });
+
+            this.$store.commit('lowestPrice', true);
         },
         removeLowestPrice() {
             this.errors = [];

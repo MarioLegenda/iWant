@@ -54,8 +54,6 @@ export const ListingChoiceComponent = {
     template: `
         <div
             class="ListingChoiceComponent">
-            
-            <input type="hidden" :value="searchInitialiseEvent" />
 
             <div class="ListingChoiceWrapper">
                 <h1 class="Title">{{translationsMap.chooseEbaySite}}</h1>
@@ -77,7 +75,10 @@ export const ListingChoiceComponent = {
         </div>
     `,
     watch: {
-        modelWasUpdated: (prev, next) => {
+        getModel: (prev, next) => {
+        },
+
+        getFilters: (prev, next) => {
         }
     },
     computed: {
@@ -89,12 +90,12 @@ export const ListingChoiceComponent = {
             return this.$store.state.searchInitialiseEvent;
         },
 
-        filtersEvent: function() {
-            return this.$store.state.filtersEvent;
+        getModel: function() {
+            return this.$store.getters.getModel;
         },
 
-        modelWasUpdated: function() {
-            return this.$store.state.modelWasUpdated;
+        getFilters: function() {
+            return this.$store.getters.getFilters;
         }
     },
     methods: {
@@ -104,38 +105,15 @@ export const ListingChoiceComponent = {
                 items: null,
             });
 
-            let model = Object.assign({}, this.modelWasUpdated);
+            let model = Object.assign({}, this.getModel);
 
-            model.filters = this.filtersEvent;
+            model.filters = this.getFilters;
             model.globalId = globalId;
             model.range = {from: 1, to: 1};
 
-            const searchRepo = RepositoryFactory.create('search');
+            this.$store.commit('ebaySearchListingLoading', true);
 
-            searchRepo.optionsForProductListing(model, (r) => {
-                const data = r.resource.data;
-
-                switch (data.method) {
-                    case 'POST':
-                            searchRepo.postPrepareSearchProducts(JSON.stringify({
-                                searchData: model,
-                            })).then(() => {
-                                searchRepo.getProducts(model).then((r) => {
-                                    this.$store.commit('ebaySearchListing', r.collection.data);
-                                    this.$store.commit('ebaySearchListingLoading', false);
-                                });
-                            });
-                        break;
-                    case 'GET':
-                        searchRepo.getProducts(model, (r) => {
-                            this.$store.commit('ebaySearchListing', r.collection.data);
-                            this.$store.commit('ebaySearchListingLoading', false);
-                        });
-                        break;
-                    default:
-                        throw new Error(`Invalid option for search listing given. Method can only be POST or GET, ${data.method} given`)
-                }
-            });
+            this.$store.dispatch('loadProductListing', model);
         }
     },
     components: {

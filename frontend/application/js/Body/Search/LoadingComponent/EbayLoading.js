@@ -54,9 +54,7 @@ export const EbayLoading = {
         }
     },
     template: `
-            <div class="EbayLoading">
-                <input type="hidden" :value="preparedEbayRequestEvent" />
-                
+            <div class="EbayLoading">                
                 <h1 class="Header"><i class="fa fa-circle-notch fa-spin"></i>{{translationsMap.searchingEbaySites}}</h1>
                 
                 <div

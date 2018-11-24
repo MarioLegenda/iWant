@@ -72,7 +72,7 @@ class SearchModel implements ArrayNotationInterface
      * @param string $globalId
      * @param string $locale
      * @param Pagination $internalPagination
-     * @param Range $range
+     * @param Range|null $range
      */
     public function __construct(
         string $keyword,
@@ -87,7 +87,7 @@ class SearchModel implements ArrayNotationInterface
         string $globalId,
         string $locale,
         Pagination $internalPagination,
-        Range $range
+        Range $range = null
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -195,9 +195,9 @@ class SearchModel implements ArrayNotationInterface
         return $this->internalPagination;
     }
     /**
-     * @return Range
+     * @return Range|null
      */
-    public function getRange(): Range
+    public function getRange(): ?Range
     {
         return $this->range;
     }

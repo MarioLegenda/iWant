@@ -4,6 +4,7 @@ import {Sentence} from "./Sentence";
 import urlifyFactory from 'urlify';
 import {SelectedFilters} from "./SelectedFilters";
 import {LoadingComponent} from "../LoadingComponent/LoadingComponent";
+import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const SearchComponent = {
     data: function() {
@@ -32,9 +33,7 @@ export const SearchComponent = {
             this.submit(replaced);
         }
     },
-    template: `<div class="AdvancedSearch" id="AdvancedSearchId">    
-                    <input type="hidden" :value="filtersEvent" />
-                                    
+    template: `<div class="AdvancedSearch" id="AdvancedSearchId">                                    
                     <search-box
                         v-bind:external-keyword="keyword"
                         v-on:submit="submit"
@@ -62,7 +61,16 @@ export const SearchComponent = {
             this.submit(newVal);
         },
 
-        modelWasUpdated: (prev, next) => {
+        isListingInitialised: (prev, next) => {
+        },
+
+        getModel: (prev, next) => {
+        },
+
+        getFilters: (prev, next) => {
+        },
+
+        getTotalListings: (prev, next) => {
         }
     },
 
@@ -74,18 +82,20 @@ export const SearchComponent = {
             }
         },
 
-        modelWasUpdated: function() {
-            return this.$store.state.modelWasUpdated;
+        isListingInitialised: function() {
+            return this.$store.getters.isListingInitialised;
         },
 
-        filtersEvent: function() {
-            const filtersEvent = this.$store.state.filtersEvent;
+        getModel: function() {
+            return this.$store.getters.getModel;
+        },
 
-            this.modelWasUpdated.filters = filtersEvent;
+        getFilters: function() {
+            return this.$store.getters.getFilters;
+        },
 
-            this.$store.commit('modelWasUpdated', this.modelWasUpdated);
-
-            return filtersEvent;
+        getTotalListings: function() {
+            return this.$store.getters.getTotalListings;
         },
 
         searchInitialiseEvent: function() {
@@ -116,19 +126,6 @@ export const SearchComponent = {
             this.showSentence = true;
 
             this.keyword = searchTerm;
-
-            this.$store.commit('searchInitialiseEvent', {
-                searchUrl: null,
-                model: null,
-                initialised: false,
-            });
-
-            this.$store.commit('ebaySearchListingLoading', false);
-
-            this.$store.commit('ebaySearchListing', {
-                siteInformation: null,
-                items: null
-            });
         },
 
         submit(keyword) {
@@ -136,7 +133,6 @@ export const SearchComponent = {
                 if (this.searchInitialiseEvent.initialised === true) {
                     this.$store.commit('searchInitialiseEvent', {
                         searchUrl: null,
-                        model: null,
                         initialised: false,
                     });
                 }
@@ -173,7 +169,6 @@ export const SearchComponent = {
 
             this.$store.commit('searchInitialiseEvent', {
                 searchUrl: `/search/${urlify(this.keyword)}`,
-                model: model,
                 initialised: true,
             });
         },
@@ -199,7 +194,7 @@ export const SearchComponent = {
         createModel() {
             return {
                 keyword: this.keyword,
-                filters: this.filtersEvent,
+                filters: this.getFilters,
                 pagination: {
                     limit: 8,
                     page: 1,

@@ -9,8 +9,6 @@ export const PreparedSearchInformation = {
         }
     },
     template: `<div class="PreparedSearchInformation">
-                  <input type="hidden" :value="preparedEbayRequestEvent" />
-                  <input type="hidden" :value="searchInitialiseEvent" />
                   
                   <div class="InfoRow">
                       <span class="InfoTitle">{{translationsMap.searchInformation.totalProductsFound}}</span><span class="Information">{{totalProducts}}</span>

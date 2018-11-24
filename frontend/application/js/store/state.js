@@ -15,15 +15,15 @@ export const state = {
         siteInformation: null,
         items: null
     },
-    loadMoreSearchListing: {
-        siteInformation: null,
-        items: null
-    },
+    lowestPrice: false,
+    totalListing: [],
     searchTerm: null,
     searchInitialiseEvent: {
         searchUrl: null,
         initialised: false,
-        finished: false,
+    },
+    listingInitialiseEvent: {
+        initialised: false,
     },
     filtersEvent: defaultFilters,
     translationsMap: {},

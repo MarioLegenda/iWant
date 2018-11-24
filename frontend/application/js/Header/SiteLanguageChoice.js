@@ -32,7 +32,6 @@ export const SiteLanguageChoice = {
     },
     template: `
             <div class="SiteLanguageChoice">
-                <input type="hidden" :value="localeChanged" />
                 <span class="Title">{{translationsMap.languageChoiceExplanation}}</span>
                 <v-select
                     :value="selected"

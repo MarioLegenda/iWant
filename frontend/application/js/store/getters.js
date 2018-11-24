@@ -1,6 +1,18 @@
 export const getters = {
     getSearchListing(state, getters) {
-        return state.ebaySearchListing;
+        return state.ebaySearchListing.items;
+    },
+
+    getTotalListings(state, getters) {
+        return state.totalListing;
+    },
+
+    getSiteInformation(state, getters) {
+        return state.ebaySearchListing.siteInformation;
+    },
+
+    isListingInitialised(state, getters) {
+        return state.listingInitialiseEvent.initialised;
     },
 
     getEbaySearchListingLoading(state, getters) {
@@ -11,23 +23,19 @@ export const getters = {
         return state.searchInitialiseEvent;
     },
 
-    getRangeEvent(state, getters) {
-        return state.rangeEvent;
+    isSearchInitialised(state, getters) {
+        return getters.getSearchInitialiseEvent.initialised;
     },
 
     getTranslationsMap(state, getters) {
         return state.translationsMap;
     },
 
-    getMoreLoadedSearchListings(state, getters) {
-        return state.loadMoreSearchListing;
-    },
-
-    getUpdatedModel(state, getters) {
+    getModel(state, getters) {
         return state.modelWasUpdated;
     },
 
-    getCreatedModel(state, getters) {
-        return state.modelWasCreated;
-    },
+    getFilters(state, getters) {
+        return state.filtersEvent;
+    }
 };

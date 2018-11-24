@@ -13,9 +13,7 @@ export const SearchPage = {
     beforeDestroy() {
         this.$store.commit('searchInitialiseEvent', {
             searchUrl: null,
-            model: null,
             initialised: false,
-            finished: false,
         });
 
         this.$store.commit('ebaySearchListing', {
@@ -26,12 +24,14 @@ export const SearchPage = {
         this.$store.commit('ebaySearchListingLoading', false);
 
         this.$store.commit('filtersEvent', this.$defaultFilters);
+
+        this.$store.commit('listingInitialiseEvent', {
+            initialised: false,
+        });
     },
     template: `<transition name="fade">
                 
-                <div id="search_page">
-                    <input type="hidden" :input="searchInitialiseEvent" />
-         
+                <div id="search_page">         
                     <filters></filters>
                     
                     <div class="LeftPanel">
@@ -40,7 +40,7 @@ export const SearchPage = {
                         </search-component>
                         
                         <transition name="fade">
-                            <listing-choice-component v-if="searchInitialiseEvent.initialised"></listing-choice-component>
+                            <listing-choice-component v-if="isSearchInitialised"></listing-choice-component>
                         </transition>
                     
                         <listing-component></listing-component>
@@ -53,10 +53,9 @@ export const SearchPage = {
         searchTerm: function() {
             return this.$store.state.searchTerm;
         },
-
-        searchInitialiseEvent: function() {
-            return this.$store.state.searchInitialiseEvent;
-        },
+        isSearchInitialised() {
+            return this.$store.getters.isSearchInitialised;
+        }
     },
     components: {
         'listing-component': ListingComponent,
