@@ -58,7 +58,11 @@ export const mutations = {
     },
 
     totalListing(state, value) {
-        console.log('totalListing event');
+        if (value === null) {
+            state.totalListing = [];
+
+            return;
+        }
 
         state.totalListing = state.totalListing.concat(value);
     }

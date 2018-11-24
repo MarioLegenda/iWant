@@ -68,6 +68,9 @@ export const SearchComponent = {
                 keyword: this.keyword,
             }
         },
+        getFilters() {
+            return this.$store.getters.getFilters;
+        }
     },
 
     methods: {
@@ -93,7 +96,7 @@ export const SearchComponent = {
                 items: null,
             });
 
-            this.$store.commit('totalListing', []);
+            this.$store.commit('totalListing', null);
 
             this.showSentence = true;
 
@@ -121,12 +124,14 @@ export const SearchComponent = {
 
             const model = this.createModel();
 
+            console.log(model);
+
             this.$store.commit('ebaySearchListing', {
                 siteInformation: null,
                 items: null,
             });
 
-            this.$store.commit('totalListing', []);
+            this.$store.commit('totalListing', null);
 
             this.$store.commit('modelWasCreated', model);
             this.$store.commit('modelWasUpdated', model);

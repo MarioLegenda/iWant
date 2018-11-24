@@ -16,7 +16,7 @@ export const actions = {
             items: null,
         });
 
-        context.commit('totalListing', []);
+        context.commit('totalListing', null);
 
         context.commit('ebaySearchListing', {
             siteInformation: null,
@@ -52,7 +52,7 @@ export const actions = {
             items: null,
         });
 
-        context.commit('totalListing', []);
+        context.commit('totalListing', null);
         context.commit('ebaySearchListingLoading', true);
         context.commit('modelWasUpdated', model);
 

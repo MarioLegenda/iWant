@@ -3,7 +3,6 @@ import {SUPPORTED_SITES} from "../../../../supportedSites";
 import {RepositoryFactory} from "../../../../services/repositoryFactory";
 import urlifyFactory from 'urlify';
 import {Price} from "../../../../services/util";
-import {mapGetters} from 'vuex'
 
 const SiteName = {
     template: `<div class="SiteName">
@@ -220,17 +219,6 @@ const QuickLook = {
     }
 };
 
-const Title = {
-    template: `
-        <div class="Row TitleWrapper">
-            <h1>{{titleText}}</h1>
-        </div>
-    `,
-    props: ['titleText']
-};
-
-
-
 export const EbayItems = {
     data: function() {
         return {
@@ -239,9 +227,8 @@ export const EbayItems = {
     },
     created() {
         this.$store.subscribe((mutation, state) => {
-            if (mutation.type === 'modelWasUpdated') {
-                console.log(state.modelWasUpdated);
-                if (state.modelWasUpdated.filters.lowestPrice) {
+            if (mutation.type === 'filtersEvent') {
+                if (state.filtersEvent.lowestPrice) {
                     let model = Object.assign({}, this.getModel, {
                         filters: this.getFilters,
                     });
