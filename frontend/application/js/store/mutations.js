@@ -64,6 +64,6 @@ export const mutations = {
             return;
         }
 
-        state.totalListing = state.totalListing.concat(value);
+        value.forEach((item) => state.totalListing.push(item));
     }
 };

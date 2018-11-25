@@ -81,7 +81,6 @@ export const SearchComponent = {
         },
 
         areSingleAddFiltersSelected() {
-            console.log(this.$store.getters.areSingleAddFiltersSelected);
             return this.$store.getters.areSingleAddFiltersSelected;
         }
     },

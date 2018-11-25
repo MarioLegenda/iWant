@@ -1,7 +1,7 @@
 import Vue from "vue";
 import {translationsMap} from "../translationMap";
-import {defaultModel} from "./state";
 import {RepositoryFactory} from "../services/repositoryFactory";
+import {defaultFilters, defaultModel} from "./state";
 
 export const actions = {
     localeChanged(context, locale) {
@@ -11,6 +11,15 @@ export const actions = {
     },
 
     destroyEntireState(context) {
+        context.commit('searchInitialiseEvent', {
+            searchUrl: null,
+            initialised: false,
+        });
+
+        context.commit('listingInitialiseEvent', {
+            initialised: false,
+        });
+
         context.commit('ebaySearchListing', {
             siteInformation: null,
             items: null,
@@ -25,29 +34,18 @@ export const actions = {
 
         context.commit('ebaySearchListingLoading', false);
 
-        context.commit('filtersEvent', this.$defaultFilters);
-
-        context.commit('searchInitialiseEvent', {
-            searchUrl: null,
-            initialised: false,
-        });
-
-        context.commit('listingInitialiseEvent', {
-            initialised: false,
-        });
-
         context.commit('searchTerm', null);
 
-        context.commit('modelWasCreated', defaultModel);
+        context.commit('filtersEvent', defaultFilters);
     },
 
     totalListingUpdate(context, model) {
         const searchRepo = RepositoryFactory.create('search');
 
-        console.log(model);
         context.commit('listingInitialiseEvent', {
             initialised: false,
         });
+
         context.commit('ebaySearchListing', {
             siteInformation: null,
             items: null,

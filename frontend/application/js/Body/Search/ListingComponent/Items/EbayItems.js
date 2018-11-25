@@ -154,7 +154,7 @@ const QuickLook = {
                                    </div>
                                    
                                    <div class="Independent">
-                                        <button @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}</button>
+                                        <button class="PopoverButton" @click="goToSingleItem(item)">{{translationsMap.searchItem.fullDetailsTitle}}</button>
                                    </div>
                                </div>
                            </template>

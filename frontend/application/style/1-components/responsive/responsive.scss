@@ -66,6 +66,12 @@
   .SingleItemWrapper {
     width: 100% !important;
 
+    .ItemLoaderWrapper {
+      .ItemLoader {
+        font-size: 2.5em !important;
+      }
+    }
+
     .SingleItem {
       .RightPanel, .LeftPanel {
         width: 480;
@@ -142,6 +148,12 @@
         margin-bottom: 50px;
       }
     }
+
+    .ItemLoaderWrapper {
+      .ItemLoader {
+        font-size: 1.5em !important;
+      }
+    }
   }
 
   .Homepage {
@@ -158,7 +170,11 @@
 
   .SearchItems {
     width: 97%;
-    
+
+    .EbayResultsLoading {
+      font-size: 1.5em;
+    }
+
     .SearchItem {
       width: 100%;
 
@@ -179,7 +195,42 @@
     }
   }
 
+  .tooltip {
+    .tooltip-inner {
+      width: 97% !important;
+    }
+  }
+
+  .popover {
+    .popover-inner {
+      width: 97% !important;
+    }
+  }
+
   .v-select {
     width: 200px !important;
+  }
+
+  .QuickLookWindow {
+    width: 100%;
+
+    .Row {
+      .desc-left {
+        width: 250px;
+        float: left;
+
+        margin-bottom: 10px;
+      }
+
+      .desc-right {
+        width: 100%;
+        overflow: hidden;
+
+        margin: 0 auto;
+
+        color: black;
+        font-weight: bold;
+      }
+    }
   }
 }

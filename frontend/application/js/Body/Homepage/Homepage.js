@@ -36,7 +36,6 @@ export const Homepage = {
                </transition>`,
     methods: {
         pushGetStartedLink: function() {
-            console.log('click');
             this.$router.push({
                 name: 'SearchHome',
                 params: { locale: this.$localeInfo.locale }
