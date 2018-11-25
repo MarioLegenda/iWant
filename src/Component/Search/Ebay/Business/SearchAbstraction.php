@@ -3,7 +3,6 @@
 namespace App\Component\Search\Ebay\Business;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
-use App\Component\Search\Ebay\Business\ResultsFetcher\SourceUnFilteredFetcher;
 use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherFactory;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
@@ -44,11 +43,9 @@ class SearchAbstraction
         $this->fetcherFactory = $fetcherFactory;
     }
 
-    public function getProducts(SearchModel $model): iterable
+    public function getProducts(SearchModel $model): array
     {
-        $products = $this->fetcherFactory->decideFetcher($model)->getResults($model);
-
-        return $products;
+        return $this->fetcherFactory->decideFetcher($model)->getResults($model);
     }
     /**
      * @param array $listing
@@ -72,7 +69,12 @@ class SearchAbstraction
             $model
         );
     }
-
+    /**
+     * @param SearchModel $model
+     * @return iterable
+     *
+     * @deprecated Will be implemented after prototype is finished
+     */
     public function getListingRange(SearchModel $model): iterable
     {
         $range = $model->getRange();

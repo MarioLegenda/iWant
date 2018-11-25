@@ -44,6 +44,7 @@ export const actions = {
     totalListingUpdate(context, model) {
         const searchRepo = RepositoryFactory.create('search');
 
+        console.log(model);
         context.commit('listingInitialiseEvent', {
             initialised: false,
         });
@@ -56,7 +57,7 @@ export const actions = {
         context.commit('ebaySearchListingLoading', true);
         context.commit('modelWasUpdated', model);
 
-        searchRepo.getProductsByRange(model, (r) => {
+        searchRepo.getProducts(model, (r) => {
             context.commit('ebaySearchListing', r.collection.data);
             context.commit('totalListing', r.collection.data.items);
             context.commit('ebaySearchListingLoading', false);

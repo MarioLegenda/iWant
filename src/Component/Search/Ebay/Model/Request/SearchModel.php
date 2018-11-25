@@ -11,10 +11,6 @@ class SearchModel implements ArrayNotationInterface
      */
     private $keyword;
     /**
-     * @var Range $range
-     */
-    private $range;
-    /**
      * @var bool $lowestPrice
      */
     private $lowestPrice;
@@ -72,7 +68,6 @@ class SearchModel implements ArrayNotationInterface
      * @param string $globalId
      * @param string $locale
      * @param Pagination $internalPagination
-     * @param Range|null $range
      */
     public function __construct(
         string $keyword,
@@ -86,8 +81,7 @@ class SearchModel implements ArrayNotationInterface
         Pagination $pagination,
         string $globalId,
         string $locale,
-        Pagination $internalPagination,
-        Range $range = null
+        Pagination $internalPagination
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -101,7 +95,6 @@ class SearchModel implements ArrayNotationInterface
         $this->globalId = $globalId;
         $this->locale = $locale;
         $this->internalPagination = $internalPagination;
-        $this->range = $range;
     }
     /**
      * @return string
@@ -130,6 +123,13 @@ class SearchModel implements ArrayNotationInterface
     public function isHighestPrice(): bool
     {
         return $this->highestPrice;
+    }
+    /**
+     * @param bool $highestPrice
+     */
+    public function setHighestPrice(bool $highestPrice): void
+    {
+        $this->highestPrice = $highestPrice;
     }
     /**
      * @return bool
@@ -193,13 +193,6 @@ class SearchModel implements ArrayNotationInterface
     public function getInternalPagination(): Pagination
     {
         return $this->internalPagination;
-    }
-    /**
-     * @return Range|null
-     */
-    public function getRange(): ?Range
-    {
-        return $this->range;
     }
     /**
      * @param array $replacementData

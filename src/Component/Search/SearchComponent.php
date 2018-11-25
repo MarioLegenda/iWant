@@ -30,9 +30,6 @@ class SearchComponent
     }
     /**
      * @param SearchModel $model
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function saveProducts(SearchModel $model): void
     {
@@ -40,14 +37,15 @@ class SearchComponent
 
         $this->searchAbstraction->getProducts($model);
     }
-    /**
-     * @param SearchModel $model
-     * @return iterable
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function getProductsPaginated(SearchModel $model)
+
+    public function getProductsGrouped(SearchModel $model): iterable
+    {
+        $products = $this->searchAbstraction->getProducts($model);
+
+        return $products;
+    }
+
+    public function getProductsPaginated(SearchModel $model): iterable
     {
         $this->searchModelValidator->validate($model);
 
@@ -56,6 +54,12 @@ class SearchComponent
         return $this->searchAbstraction->translateListing($listing, $model);
     }
 
+    /**
+     * @param SearchModel $model
+     * @return array
+     *
+     * @deprecated Will be implemented later when ? users ? come
+     */
     public function getProductsRange(SearchModel $model): array
     {
         $this->searchModelValidator->validate($model);

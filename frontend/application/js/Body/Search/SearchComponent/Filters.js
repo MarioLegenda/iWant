@@ -7,6 +7,7 @@ export const Filters = {
             responsiveMenuOpened: true,
             lowestPrice: false,
             highestPrice: false,
+            highQuality: false,
             errors: [],
         }
     },
@@ -66,7 +67,11 @@ export const Filters = {
                 return false;
             }
 
-            this.highestPrice = true;
+            if (this.lowestPrice) {
+                return;
+            }
+
+            this.lowestPrice = true;
 
             this.$store.commit('filtersEvent', {
                 lowestPrice: true,
@@ -90,12 +95,20 @@ export const Filters = {
                 return false;
             }
 
+            if (this.highestPrice) {
+                return;
+            }
+
+            this.highestPrice = true;
+
             this.$store.commit('filtersEvent', {
                 highestPrice: true,
             });
         },
         removeHighestPrice() {
             this.errors = [];
+
+            this.highestPrice = false;
 
             this.$store.commit('filtersEvent', {
                 lowestPrice: false,
@@ -104,12 +117,20 @@ export const Filters = {
         addHighQuality() {
             this.errors = [];
 
+            if (this.highQuality) {
+                return;
+            }
+
+            this.highQuality = true;
+
             this.$store.commit('filtersEvent', {
                 highQuality: true,
             });
         },
         removeHighQuality() {
             this.errors = [];
+
+            this.highQuality = false;
 
             this.$store.commit('filtersEvent', {
                 highQuality: false,

@@ -43,8 +43,6 @@ class DataProvider
 
         $locale = (isset($data['locale']) ? $data['locale'] : 'en');
 
-        $range = (isset($data['range'])) ? $data['range'] : new Range(1, 95);
-
         return new EbaySearchModel(
             $keyword,
             $lowestPrice,
@@ -57,8 +55,7 @@ class DataProvider
             $pagination,
             $globalIds,
             $locale,
-            $internalPagination,
-            $range
+            $internalPagination
         );
     }
     /**

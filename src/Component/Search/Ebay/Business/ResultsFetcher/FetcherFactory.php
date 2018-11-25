@@ -15,16 +15,23 @@ class FetcherFactory
      */
     private $lowestPriceFetcher;
     /**
+     * @var HighestPriceFetcher $highestPriceFetcher
+     */
+    private $highestPriceFetcher;
+    /**
      * FetcherFactory constructor.
      * @param SourceUnFilteredFetcher $sourceUnFilteredFetcher
      * @param LowestPriceFetcher $lowestPriceFetcher
+     * @param HighestPriceFetcher $highestPriceFetcher
      */
     public function __construct(
         SourceUnFilteredFetcher $sourceUnFilteredFetcher,
-        LowestPriceFetcher $lowestPriceFetcher
+        LowestPriceFetcher $lowestPriceFetcher,
+        HighestPriceFetcher $highestPriceFetcher
     ) {
         $this->sourceUnFilteredFetcher = $sourceUnFilteredFetcher;
         $this->lowestPriceFetcher = $lowestPriceFetcher;
+        $this->highestPriceFetcher = $highestPriceFetcher;
     }
 
     public function decideFetcher(SearchModel $model): object
@@ -34,7 +41,7 @@ class FetcherFactory
         }
 
         if ($model->isHighestPrice()) {
-
+            return $this->highestPriceFetcher;
         }
 
         return $this->sourceUnFilteredFetcher;

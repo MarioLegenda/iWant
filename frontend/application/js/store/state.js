@@ -21,7 +21,6 @@ export const defaultModel = {
         limit: 80,
         page: 1
     },
-    range: null,
     globalId: null,
 };
 
@@ -54,7 +53,6 @@ export const state = {
             limit: 80,
             page: 1
         },
-        range: null,
         globalId: null,
     },
     modelWasUpdated: {
@@ -69,7 +67,6 @@ export const state = {
             limit: 80,
             page: 1
         },
-        range: null,
         globalId: null,
     },
 };

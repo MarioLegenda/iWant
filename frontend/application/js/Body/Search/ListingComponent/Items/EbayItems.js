@@ -228,15 +228,10 @@ export const EbayItems = {
     created() {
         this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'filtersEvent') {
-                if (state.filtersEvent.lowestPrice) {
+                if (state.filtersEvent.lowestPrice || state.filtersEvent.highestPrice) {
                     let model = Object.assign({}, this.getModel, {
                         filters: this.getFilters,
                     });
-
-                    model.range = {
-                        from: 1,
-                        to: this.getTotalListings.length
-                    };
 
                     this.$store.dispatch('totalListingUpdate', model);
                 }

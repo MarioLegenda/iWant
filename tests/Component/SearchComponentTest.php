@@ -118,31 +118,57 @@ class SearchComponentTest extends BasicSetup
         }
     }
 
-    public function test_range_result_fetching()
+    public function test_highest_price_filtered_result()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component');
 
-        $to = 8;
-
         $modelArray = [
             'keyword' => 'harry potter',
             'locale' => 'en',
             'lowestPrice' => false,
             'highQuality' => false,
-            'highestPrice' => false,
+            'highestPrice' => true,
             'globalId' => 'EBAY-DE',
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
-            'range' => new Range(1, $to),
         ];
 
-        $searchRequestModel = $dataProvider->createEbaySearchRequestModel($modelArray);
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
 
-        $productsInRange = $searchComponent->getProductsRange($searchRequestModel);
+        $searchComponent->saveProducts($model);
 
-        static::assertEquals(count($productsInRange), $to);
+        $products = $searchComponent->getProductsPaginated($model);
+
+        dump($products);
+        die();
+
+        static::assertEquals(count($products), $model->getPagination()->getLimit());
+
+        $productsGen = Util::createGenerator($products);
+
+        $previous = null;
+        foreach ($productsGen as $entry) {
+            $item = $entry['item'];
+            $key = $entry['key'];
+            $current = (float) $item['price']['price'];
+
+            if ($key === 0) {
+                $previous = (float) $item['price']['price'];
+
+                continue;
+            }
+
+            if ($previous < $current) {
+                throw new \RuntimeException(sprintf(
+                    'Failed asserting that %f is higher or equal to %f',
+                    $previous,
+                    $current
+                ));
+            }
+        }
     }
 }

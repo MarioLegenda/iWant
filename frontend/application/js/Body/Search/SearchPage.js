@@ -19,15 +19,6 @@ export const SearchPage = {
                 let modelCopy = Object.assign({}, this.getModel);
                 modelCopy.filters = state.filtersEvent;
 
-                if (modelCopy.filters.lowestPrice) {
-                    if (this.isListingInitialised) {
-                        modelCopy.range = {
-                            to: 1,
-                            from: this.getTotalListings.length
-                        }
-                    }
-                }
-
                 this.$store.commit('modelWasUpdated', modelCopy);
             }
         });

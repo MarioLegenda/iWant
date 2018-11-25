@@ -57,7 +57,6 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
         $globalId = $searchData['globalId'];
         $locale = $searchData['locale'];
         $internalPagination = $searchData['internalPagination'];
-        $range = (isset($searchData['range']) and is_array($searchData['range'])) ? new Range($searchData['range']['from'], $searchData['range']['to']) : null;
 
         $this->model = new SearchModel(
             $keyword,
@@ -71,8 +70,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             new Pagination($pagination['limit'], $pagination['page']),
             $globalId,
             $locale,
-            new Pagination($internalPagination['limit'], $internalPagination['page']),
-            $range
+            new Pagination($internalPagination['limit'], $internalPagination['page'])
         );
 
         return true;

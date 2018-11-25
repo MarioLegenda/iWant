@@ -65,6 +65,6 @@ class Grouping
             return $a->getPriceForGrouping() <= $b->getPriceForGrouping();
         });
 
-        return TypedArray::create('integer', UniformedResponseModel::class, $dataArray);
+        return TypedArray::create('integer', PriceGroupingInterface::class, $dataArray);
     }
 }

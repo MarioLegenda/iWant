@@ -173,7 +173,6 @@ export const SearchComponent = {
                     limit: 80,
                     page: 1
                 },
-                range: null,
                 globalId: null,
             }
         }

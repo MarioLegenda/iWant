@@ -11,7 +11,7 @@ use App\Library\Util\Util;
 use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 use App\Web\Library\Grouping\Grouping;
 
-class LowestPriceFetcher implements FetcherInterface
+class HighestPriceFetcher
 {
     /**
      * @var SourceUnFilteredFetcher $sourceUnFilteredFetcher
@@ -36,16 +36,16 @@ class LowestPriceFetcher implements FetcherInterface
 
     public function getResults(SearchModel $model, array $replacementData = [])
     {
-        $model->setLowestPrice(false);
+        $model->setHighestPrice(false);
 
         $results = $this->sourceUnFilteredFetcher->getResults($model);
 
         /** @var TypedArray $lowestPriceGroupedResults */
-        $lowestPriceGroupedResults = Grouping::inst()->groupByPriceLowest(
+        $lowestPriceGroupedResults = Grouping::inst()->groupByPriceHighest(
             $this->convertToPriceGrouping($results)
         );
 
-        $model->setLowestPrice(true);
+        $model->setHighestPrice(true);
 
         return $lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
     }

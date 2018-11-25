@@ -61,22 +61,6 @@ class SearchRepository {
             .catch(error);
     }
 
-    getProductsByRange(data, success, error) {
-        const route = routes.createRouteFromName('app_get_products_range', {
-            searchData: JSON.stringify(data)
-        });
-
-        return fetch(route, {
-            method: 'GET',
-            headers: requiredHeaders,
-        })
-            .then((response) => {
-                return response.json()
-            })
-            .then(success)
-            .catch(error);
-    }
-
     postPrepareSearchProducts(data, success, error) {
         const route = routes.app_post_products_by_global_id;
 

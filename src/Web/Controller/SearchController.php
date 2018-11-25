@@ -70,10 +70,23 @@ class SearchController
         return $response;
     }
 
+    /**
+     * @param SearchModel $model
+     * @param SearchComponent $searchComponent
+     * @return Response
+     *
+     * @deprecated Will be used later but for now is deprecated
+     */
     public function getProductsByRange(
         SearchModel $model,
         SearchComponent $searchComponent
     ): Response {
+        $message = sprintf(
+            'Deprecated'
+        );
+
+        throw new \RuntimeException($message);
+
         $listing = $searchComponent->getProductsRange($model);
 
         /** @var ApiResponseData $apiResponseData */
