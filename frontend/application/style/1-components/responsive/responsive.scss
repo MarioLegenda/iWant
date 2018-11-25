@@ -68,7 +68,7 @@
 
     .SingleItem {
       .RightPanel, .LeftPanel {
-        width: 480px;
+        width: 480;
         float: none;
         overflow: hidden;
         margin: 0 auto;
@@ -108,9 +108,59 @@
     right: 45px;
   }
 
+  #main_header {
+    .SearchBox {
+      width: 100%;
+    }
+  }
+
+  .ListingChoiceComponent {
+    width: 97%;
+  }
+
+  #search_page {
+    .Sentence {
+      width: 97%;
+    }
+
+    .SearchBoxAdvanced {
+      width: 97%;
+    }
+  }
+
+  .SingleItemWrapper {
+    width: 100% !important;
+    padding: 5px;
+
+    .SingleItem {
+      .RightPanel, .LeftPanel {
+        width: 100%;
+        float: none;
+        overflow: hidden;
+        margin: 0 auto;
+
+        margin-bottom: 50px;
+      }
+    }
+  }
+
+  .Homepage {
+    .Row {
+      .Advert {
+        width: 100%;
+      }
+
+      .HomepageRouter {
+        width: 100%;
+      }
+    }
+  }
+
   .SearchItems {
+    width: 97%;
+    
     .SearchItem {
-      width: 400px;
+      width: 100%;
 
       padding: 10px;
 

@@ -39,8 +39,12 @@ export const SearchComponent = {
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box>
                     
-                    <selected-filters></selected-filters>
-                             
+                    <div class="GlobalBottomSpacing"></div>
+                    
+                    <selected-filters v-if="areSingleAddFiltersSelected"></selected-filters>
+                    
+                    <div class="GlobalTopSpacing"></div>
+                                                 
                     <transition name="fade">
                         <sentence
                            v-if="showSentence"
@@ -48,6 +52,9 @@ export const SearchComponent = {
                            v-bind:showSentence="showSentence">
                         </sentence>
                     </transition>
+                    
+                    <div class="GlobalTopSpacing"></div>
+                    <div class="GlobalBottomSpacing"></div>
                     
                </div>`,
     watch: {
@@ -68,8 +75,14 @@ export const SearchComponent = {
                 keyword: this.keyword,
             }
         },
+
         getFilters() {
             return this.$store.getters.getFilters;
+        },
+
+        areSingleAddFiltersSelected() {
+            console.log(this.$store.getters.areSingleAddFiltersSelected);
+            return this.$store.getters.areSingleAddFiltersSelected;
         }
     },
 

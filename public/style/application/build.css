@@ -78,6 +78,18 @@ html {
   -o-box-sizing: inherit;
 }
 
+.GlobalBottomSpacing {
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+}
+
+.GlobalTopSpacing {
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+}
+
 .LeftPanel {
   width: 75%;
   float: left;
@@ -576,13 +588,11 @@ html {
 #search_page .AdvancedSearch {
   width: 100%;
   float: left;
-  margin: 0 0 30px 0;
 }
 #search_page .SearchBoxAdvanced {
   width: 100%;
   float: left;
   position: relative;
-  margin-bottom: 20px;
   border: 1px solid white;
 }
 #search_page .SearchBoxAdvanced .SearchBoxAdvanced-enter-to-search {
@@ -1049,7 +1059,6 @@ html {
 .SelectedFilters {
   width: 100%;
   float: left;
-  margin: 0 0 20px 0;
 }
 .SelectedFilters .SelectedFilter {
   display: inline-block;
@@ -1079,7 +1088,6 @@ html {
   -webkit-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
   -moz-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
   box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
-  margin-top: 10px;
   border-radius: 10px;
   padding: 20px;
 }
@@ -1158,7 +1166,6 @@ html {
 .ListingChoiceComponent {
   width: 100%;
   float: left;
-  margin: 0 0 30px 0;
   padding: 20px;
   border-radius: 10px;
   -webkit-box-shadow: 1px 2px 8px 1px rgba(156, 156, 156, 0.79);
@@ -1313,7 +1320,7 @@ html {
     width: 100% !important;
   }
   .SingleItemWrapper .SingleItem .RightPanel, .SingleItemWrapper .SingleItem .LeftPanel {
-    width: 480px;
+    width: 480;
     float: none;
     overflow: hidden;
     margin: 0 auto;
@@ -1340,8 +1347,45 @@ html {
     right: 45px;
   }
 
+  #main_header .SearchBox {
+    width: 100%;
+  }
+
+  .ListingChoiceComponent {
+    width: 97%;
+  }
+
+  #search_page .Sentence {
+    width: 97%;
+  }
+  #search_page .SearchBoxAdvanced {
+    width: 97%;
+  }
+
+  .SingleItemWrapper {
+    width: 100% !important;
+    padding: 5px;
+  }
+  .SingleItemWrapper .SingleItem .RightPanel, .SingleItemWrapper .SingleItem .LeftPanel {
+    width: 100%;
+    float: none;
+    overflow: hidden;
+    margin: 0 auto;
+    margin-bottom: 50px;
+  }
+
+  .Homepage .Row .Advert {
+    width: 100%;
+  }
+  .Homepage .Row .HomepageRouter {
+    width: 100%;
+  }
+
+  .SearchItems {
+    width: 97%;
+  }
   .SearchItems .SearchItem {
-    width: 400px;
+    width: 100%;
     padding: 10px;
     margin: 0 auto;
     margin-bottom: 30px;

@@ -15,6 +15,31 @@ export const getters = {
         return state.listingInitialiseEvent.initialised;
     },
 
+    areSingleAddFiltersSelected(state, getters) {
+        const filtersEvent = state.filtersEvent;
+        const excludes = ['bestMatch'];
+
+        for (const evn in filtersEvent) {
+            if (filtersEvent.hasOwnProperty(evn)) {
+                if (excludes.includes(evn)) {
+                    continue;
+                }
+
+                if (Array.isArray(filtersEvent[evn])) {
+                    if (filtersEvent[evn].length > 0) {
+                        return true;
+                    }
+                }
+
+                if (isBoolean(filtersEvent[evn]) && filtersEvent[evn] === true) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    },
+
     getEbaySearchListingLoading(state, getters) {
         return state.ebaySearchListingLoading;
     },

@@ -39,6 +39,20 @@ html {
   -o-box-sizing: inherit;
 }
 
+.GlobalBottomSpacing {
+  width: 100%;
+  float: left;
+
+  margin-bottom: 30px;
+}
+
+.GlobalTopSpacing {
+  width: 100%;
+  float: left;
+
+  margin-bottom: 30px;
+}
+
 .LeftPanel {
   width: 75%;
   float:left;
