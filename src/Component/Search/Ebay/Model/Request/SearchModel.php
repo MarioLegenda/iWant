@@ -204,6 +204,8 @@ class SearchModel implements ArrayNotationInterface
             'keyword' => (isset($replacementData['keyword'])) ? $replacementData['keyword'] : $this->getKeyword(),
             'bestMatch' => (isset($replacementData['bestMatch'])) ? $replacementData['bestMatch'] : $this->isBestMatch(),
             'highQuality' => (isset($replacementData['highQuality'])) ? $replacementData['highQuality'] : $this->isHighQuality(),
+            'lowestPrice' => (isset($replacementData['lowestPrice'])) ? $replacementData['lowestPrice'] : $this->isLowestPrice(),
+            'highestPrice' => (isset($replacementData['highestPrice'])) ? $replacementData['highestPrice'] : $this->isHighestPrice(),
             'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),
             'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination']->toArray() : $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),

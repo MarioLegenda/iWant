@@ -4,6 +4,7 @@ namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\TypedRecursion;
@@ -36,6 +37,15 @@ class LowestPriceFetcher implements FetcherInterface
 
     public function getResults(SearchModel $model, array $replacementData = [])
     {
+        $identifier = $model->getUniqueName();
+
+        if ($this->searchResponseCacheImplementation->isStored($identifier)) {
+            /** @var SearchCache $presentationResults */
+            $presentationResults = $this->searchResponseCacheImplementation->getStored($identifier);
+
+            return json_decode($presentationResults->getProductsResponse(), true);
+        }
+
         $model->setLowestPrice(false);
 
         $results = $this->sourceUnFilteredFetcher->getResults($model);
@@ -46,6 +56,12 @@ class LowestPriceFetcher implements FetcherInterface
         );
 
         $model->setLowestPrice(true);
+
+        $this->searchResponseCacheImplementation->store(
+            $model->getUniqueName(),
+            $model->getPagination()->getPage(),
+            jsonEncodeWithFix($lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
+        );
 
         return $lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
     }

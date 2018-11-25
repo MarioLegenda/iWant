@@ -11,6 +11,23 @@ export const Filters = {
             errors: [],
         }
     },
+    created() {
+        this.$store.subscribe((mutation, state) => {
+            if (mutation.type === 'filtersEvent') {
+                if (!state.filtersEvent.lowestPrice) {
+                    this.removeLowestPrice();
+                }
+
+                if (!state.filtersEvent.highestPrice) {
+                    this.removeHighestPrice();
+                }
+
+                if (!state.filtersEvent.highQuality) {
+                    this.removeHighQuality();
+                }
+            }
+        });
+    },
     template: `<div class="RightPanel FiltersWrapper">
                     
                     <i class="FilterMenuOpener fas fa-bars" @click="openResponsiveMenu(...arguments)"></i>
@@ -82,9 +99,6 @@ export const Filters = {
 
             this.lowestPrice = false;
 
-            this.$store.commit('filtersEvent', {
-                lowestPrice: false,
-            });
         },
         addHighestPrice() {
             this.errors = [];
@@ -109,10 +123,6 @@ export const Filters = {
             this.errors = [];
 
             this.highestPrice = false;
-
-            this.$store.commit('filtersEvent', {
-                lowestPrice: false,
-            });
         },
         addHighQuality() {
             this.errors = [];
@@ -131,10 +141,6 @@ export const Filters = {
             this.errors = [];
 
             this.highQuality = false;
-
-            this.$store.commit('filtersEvent', {
-                highQuality: false,
-            });
         },
     },
     components: {

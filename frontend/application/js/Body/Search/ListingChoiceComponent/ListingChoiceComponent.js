@@ -99,17 +99,12 @@ export const ListingChoiceComponent = {
     },
     methods: {
         onEbaySiteChoice: function (globalId) {
-            this.$store.commit('ebaySearchListing', {
-                siteInformation: null,
-                items: null,
-            });
-
             let model = Object.assign({}, this.getModel);
 
             model.filters = this.getFilters;
             model.globalId = globalId;
 
-            this.$store.dispatch('loadProductListing', model);
+            this.$store.dispatch('totalListingUpdate', model);
         }
     },
     components: {
