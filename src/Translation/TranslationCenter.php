@@ -187,7 +187,7 @@ class TranslationCenter
                 );
 
                 if (is_null($value)) {
-                    $item[$translationConfig->getKey()] = null;
+                    $item[$translationConfig->getKey()] = '';
 
                     continue;
                 }
@@ -209,7 +209,7 @@ class TranslationCenter
                 $value = $item[$translationConfig->getKey()];
 
                 if (is_null($value)) {
-                    $item[$translationConfig->getKey()] = null;
+                    $item[$translationConfig->getKey()] = '';
 
                     continue;
                 }
