@@ -28,9 +28,7 @@ export const SiteLanguageChoice = {
             if (localeChanged === null || typeof localeChanged === 'undefined') {
                 return;
             }
-
-            console.log(localeChanged);
-
+            
             this.selectLocale(localeChanged.value);
 
             return localeChanged;
