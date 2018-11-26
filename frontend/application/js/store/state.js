@@ -7,6 +7,7 @@ export const defaultFilters = {
     marketplaces: [],
     taxonomies: [],
     globalIds: [],
+    hideDuplicateItems: false,
 };
 
 export const defaultModel = {
@@ -41,20 +42,7 @@ export const state = {
     },
     filtersEvent: defaultFilters,
     translationsMap: {},
-    modelWasCreated: {
-        keyword: null,
-        filters: {},
-        pagination: {
-            limit: 8,
-            page: 1,
-        },
-        locale: 'en',
-        internalPagination: {
-            limit: 80,
-            page: 1
-        },
-        globalId: null,
-    },
+    modelWasCreated: defaultModel,
     modelWasUpdated: {
         keyword: null,
         filters: {},

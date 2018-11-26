@@ -1,5 +1,6 @@
 import {Sentence} from "./Sentence";
 import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
+import {HideDuplicateItems} from "../Filters/Choosing/HideDuplicateItems";
 
 export const Filters = {
     data: function() {
@@ -38,6 +39,11 @@ export const Filters = {
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
                         <div class="GenericFiltersWrapper">
+                        
+                            <hide-duplicate-items-filter></hide-duplicate-items-filter>
+                            
+                            <h1 class="OrganisedFiltersSeparator">Price</h1>
+                            
                             <single-add-filter
                                 v-on:add-lowest-price="addLowestPrice"
                                 event-name="add-lowest-price"
@@ -146,5 +152,6 @@ export const Filters = {
     components: {
         'sentence': Sentence,
         'single-add-filter': SingleAddFilter,
+        'hide-duplicate-items-filter': HideDuplicateItems,
     }
 };

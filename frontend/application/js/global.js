@@ -14,6 +14,7 @@ import {mutations} from "./store/mutations";
 import {actions} from "./store/actions";
 import {defaultFilters} from "./store/state";
 import {getters} from "./store/getters";
+import ToggleButton from 'vue-js-toggle-button'
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -214,6 +215,8 @@ export class Init {
 
                     return `${dateTime.toLocaleDateString('en-US', options)}`;
                 });
+
+                Vue.use(ToggleButton);
 
                 new Vue({
                     el: '#vue_app',

@@ -30,6 +30,10 @@ class RequestListener
     {
         $request = $event->getRequest();
 
+        if ($event->getRequest()->isXmlHttpRequest()) {
+            return;
+        }
+
         $ipAddress = (string) $request->getClientIp();
 
         $existingModel = $this->ipAddressRepository->findOneBy([
