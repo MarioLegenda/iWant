@@ -4,8 +4,10 @@ import {RepositoryFactory} from "../services/repositoryFactory";
 import {defaultFilters, defaultModel} from "./state";
 
 export const actions = {
-    localeChanged(context, locale) {
+    localeChangedAction(context, locale) {
         Vue.prototype.$localeInfo.locale = locale.value;
+
+        context.commit('localeChanged', locale);
 
         context.commit('translationsMap', translationsMap[locale.value]);
     },

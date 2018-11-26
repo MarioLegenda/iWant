@@ -18,11 +18,20 @@ export const SiteLanguageChoice = {
             ]
         }
     },
+    watch: {
+        localeChanged: function(prev, next) {}
+    },
     computed: {
         localeChanged: function() {
             const localeChanged = this.$store.state.localeChanged;
 
-            this.selectLocale(this.$localeInfo.locale);
+            if (localeChanged === null || typeof localeChanged === 'undefined') {
+                return;
+            }
+
+            console.log(localeChanged);
+
+            this.selectLocale(localeChanged.value);
 
             return localeChanged;
         },
@@ -54,6 +63,7 @@ export const SiteLanguageChoice = {
 
             this.refresh(locale);
         },
+
         selectLocale(locale) {
             for (let i = 0; i < this.options.length; i++) {
                 if (this.options[i].value === locale) {
@@ -63,6 +73,7 @@ export const SiteLanguageChoice = {
                 }
             }
         },
+
         refresh(locale) {
             const paths = location.pathname.split('/').splice(2);
 

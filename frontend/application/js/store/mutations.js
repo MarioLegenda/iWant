@@ -27,6 +27,12 @@ export const mutations = {
         this.state.filtersEvent = Object.assign({}, this.state.filtersEvent, value);
     },
 
+    localeChanged(state, value) {
+        console.log('localeChanged event');
+
+        this.state.localeChanged = value;
+    },
+
     translationsMap(state, value) {
         console.log('translationsMap event');
 

@@ -229,7 +229,7 @@ export class Init {
                             locale = 'en';
                         }
 
-                        this.$store.dispatch('localeChanged', {
+                        this.$store.dispatch('localeChangedAction', {
                             value: locale,
                             origin: 'Root'
                         });

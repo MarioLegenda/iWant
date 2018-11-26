@@ -40,6 +40,10 @@ export const state = {
     listingInitialiseEvent: {
         initialised: false,
     },
+    localeChanged: {
+        value: '',
+        origin: null,
+    },
     filtersEvent: defaultFilters,
     translationsMap: {},
     modelWasCreated: defaultModel,
