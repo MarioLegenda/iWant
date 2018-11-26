@@ -70,6 +70,10 @@ class TranslationCenter
         if ($this->itemTranslationCacheImplementation->isStored(
             $itemId
         )) {
+            if (is_null($value)) {
+                return '';
+            }
+
             /** @var ItemTranslationCache $itemTranslationCache */
             $itemTranslationCache = $this->itemTranslationCacheImplementation->getStored(
                 $itemId
@@ -182,6 +186,12 @@ class TranslationCenter
                     $item
                 );
 
+                if (is_null($value)) {
+                    $item[$translationConfig->getKey()] = null;
+
+                    continue;
+                }
+
                 $translated = $this->translateSingle(
                     $translationConfig->getKey(),
                     $identifier,
@@ -196,10 +206,18 @@ class TranslationCenter
             }
 
             if (!$translationConfig->isEventTranslation()) {
+                $value = $item[$translationConfig->getKey()];
+
+                if (is_null($value)) {
+                    $item[$translationConfig->getKey()] = null;
+
+                    continue;
+                }
+
                 $item[$translationConfig->getKey()] = $this->translateSingle(
                     $translationConfig->getKey(),
                     $identifier,
-                    $item[$translationConfig->getKey()],
+                    $value,
                     $locale
                 );
             }

@@ -19,7 +19,7 @@ class SingleItemEntryPointTest extends BasicSetup
 
         /** @var SingleItemRequestModel $singleItemRequestModel */
         $singleItemRequestModel = $dataProvider->createSingleItemRequestModel(
-            '233001470198',
+            '382619664080',
             'en'
         );
 
