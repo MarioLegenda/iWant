@@ -59,7 +59,7 @@ const LoadMore = {
                    <p
                         v-if="!currentlyLoading"
                         class="LoadMoreButton"
-                        @click="loadMore">Load more <i class="fas fa-chevron-down"></i>
+                        @click="loadMore">Load more</i>
                    </p>
                    
                    <sync-loader v-if="currentlyLoading" class="CurrentlyLoading" color="#f44d00" :size="10" siteUnit="px"></sync-loader>

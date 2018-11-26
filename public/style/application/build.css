@@ -1430,6 +1430,9 @@ html {
     height: 170px;
     margin: 0 auto;
   }
+  .SearchItems .LoadMoreWrapper .LoadMoreButton {
+    width: 97%;
+  }
 
   .tooltip .tooltip-inner {
     width: 97% !important;
