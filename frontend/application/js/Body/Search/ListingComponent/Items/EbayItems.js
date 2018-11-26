@@ -243,6 +243,10 @@ export const EbayItems = {
                     });
 
                     this.$store.dispatch('totalListingUpdate', model);
+
+                    const timeout = (this.$isMobile) ? 500 : 0;
+
+                    setTimeout(() => scrollToElement(document.getElementById('EbayResultsLoadingId'), 200), timeout);
                 }
             }
         });

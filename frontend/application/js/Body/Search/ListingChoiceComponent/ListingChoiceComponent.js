@@ -106,7 +106,7 @@ export const ListingChoiceComponent = {
 
             this.$store.dispatch('totalListingUpdate', model);
 
-            const timeout = (this.$isMobile) ? 1000 : 0;
+            const timeout = (this.$isMobile) ? 500 : 0;
 
             setTimeout(() => scrollToElement(document.getElementById('EbayResultsLoadingId'), 200), timeout);
         }

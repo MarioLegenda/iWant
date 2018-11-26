@@ -56,6 +56,8 @@ export const Filters = {
                                 :filter-text="translationsMap.filters.highestPriceFilter">
                             </single-add-filter>
                         
+                            <h1 class="OrganisedFiltersSeparator">Quality</h1>
+
                             <single-add-filter
                                 v-on:add-high-quality="addHighQuality"
                                 event-name="add-high-quality"
