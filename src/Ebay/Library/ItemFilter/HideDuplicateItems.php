@@ -31,15 +31,4 @@ class HideDuplicateItems extends BaseDynamic implements ItemFilterInterface
 
         return true;
     }
-    /**
-     * @param int|null $counter
-     * @return string
-     */
-    public function urlify(int $counter = null): string
-    {
-        $value = $this->getDynamicMetadata()->getDynamicValue()[0];
-        $name = $this->getDynamicMetadata()->getName();
-
-        return ($value) ? sprintf('%s=%s', $name, 'true') : sprintf('%s=%s', $name, 'false') ;
-    }
 }

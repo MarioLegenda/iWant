@@ -70,6 +70,17 @@ class EbayModelFactory
                 })]
             ));
         }
+
+        if ($model->isHideDuplicateItems()) {
+            $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::HIDE_DUPLICATE_ITEMS,
+                [$model->isHideDuplicateItems()]
+            ));
+
+            $itemFilters[] = $hideDuplicatedItems;
+        }
     }
     /**
      * @param SearchModel $model
@@ -148,17 +159,6 @@ class EbayModelFactory
                     ['BestMatch']
                 ));
             }
-        }
-
-        if ($model->isHideDuplicateItems()) {
-            $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::HIDE_DUPLICATE_ITEMS,
-                [true]
-            ));
-
-            $itemFilters[] = $hideDuplicatedItems;
         }
     }
     /**
