@@ -55,6 +55,10 @@ class SearchModel implements ArrayNotationInterface
      */
     private $internalPagination;
     /**
+     * @var bool $hideDuplicateItems
+     */
+    private $hideDuplicateItems = false;
+    /**
      * SearchModel constructor.
      * @param string $keyword
      * @param bool $lowestPrice
@@ -68,6 +72,7 @@ class SearchModel implements ArrayNotationInterface
      * @param string $globalId
      * @param string $locale
      * @param Pagination $internalPagination
+     * @param bool $hideDuplicateItems
      */
     public function __construct(
         string $keyword,
@@ -81,7 +86,8 @@ class SearchModel implements ArrayNotationInterface
         Pagination $pagination,
         string $globalId,
         string $locale,
-        Pagination $internalPagination
+        Pagination $internalPagination,
+        bool $hideDuplicateItems
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -95,6 +101,7 @@ class SearchModel implements ArrayNotationInterface
         $this->globalId = $globalId;
         $this->locale = $locale;
         $this->internalPagination = $internalPagination;
+        $this->hideDuplicateItems = $hideDuplicateItems;
     }
     /**
      * @return string
@@ -195,6 +202,13 @@ class SearchModel implements ArrayNotationInterface
         return $this->internalPagination;
     }
     /**
+     * @return bool
+     */
+    public function isHideDuplicateItems(): bool
+    {
+        return $this->hideDuplicateItems;
+    }
+    /**
      * @param array $replacementData
      * @return string
      */
@@ -209,6 +223,7 @@ class SearchModel implements ArrayNotationInterface
             'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),
             'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination']->toArray() : $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),
+            'hideDuplicateItems' => (isset($replacementData['hideDuplicateItems'])) ? $replacementData['hideDuplicateItems'] : $this->isHideDuplicateItems(),
         ]));
     }
     /**

@@ -34,6 +34,7 @@ class SearchComponentTest extends BasicSetup
             'globalId' => 'EBAY-DE',
             'internalPagination' => new Pagination($internalLimit, $internalPage),
             'pagination' => new Pagination($limit, $page),
+            'hideDuplicateItems' => true,
         ];
 
         /** @var SearchModel $model */
@@ -142,9 +143,6 @@ class SearchComponentTest extends BasicSetup
         $searchComponent->saveProducts($model);
 
         $products = $searchComponent->getProductsPaginated($model);
-
-        dump($products);
-        die();
 
         static::assertEquals(count($products), $model->getPagination()->getLimit());
 

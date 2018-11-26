@@ -105,14 +105,7 @@ class EbayModelFactory
     public function createRequiredItemFilters(
         TypedArray $itemFilters
     ) {
-        $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
-            'name',
-            'value',
-            ItemFilterConstants::HIDE_DUPLICATE_ITEMS,
-            [true]
-        ));
 
-        //$itemFilters[] = $hideDuplicatedItems;
     }
     /**
      * @param array $selectors
@@ -155,6 +148,17 @@ class EbayModelFactory
                     ['BestMatch']
                 ));
             }
+        }
+
+        if ($model->isHideDuplicateItems()) {
+            $hideDuplicatedItems = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::HIDE_DUPLICATE_ITEMS,
+                [true]
+            ));
+
+            $itemFilters[] = $hideDuplicatedItems;
         }
     }
     /**

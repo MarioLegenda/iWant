@@ -43,6 +43,8 @@ class DataProvider
 
         $locale = (isset($data['locale']) ? $data['locale'] : 'en');
 
+        $hideDuplicateItems = (isset($data['hideDuplicateItems'])) ? $data['hideDuplicateItems'] : false;
+
         return new EbaySearchModel(
             $keyword,
             $lowestPrice,
@@ -55,7 +57,8 @@ class DataProvider
             $pagination,
             $globalIds,
             $locale,
-            $internalPagination
+            $internalPagination,
+            $hideDuplicateItems
         );
     }
     /**

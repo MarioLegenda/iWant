@@ -57,6 +57,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
         $globalId = $searchData['globalId'];
         $locale = $searchData['locale'];
         $internalPagination = $searchData['internalPagination'];
+        $hideDuplicateItems = $searchData['hideDuplicateItems'];
 
         $this->model = new SearchModel(
             $keyword,
@@ -70,7 +71,8 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             new Pagination($pagination['limit'], $pagination['page']),
             $globalId,
             $locale,
-            new Pagination($internalPagination['limit'], $internalPagination['page'])
+            new Pagination($internalPagination['limit'], $internalPagination['page']),
+            $hideDuplicateItems
         );
 
         return true;
