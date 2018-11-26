@@ -52,7 +52,7 @@ export const ListingChoiceComponent = {
     },
     template: `
         <div
-            class="ListingChoiceComponent">
+            class="ListingChoiceComponent" id="ListingChoiceComponentId">
 
             <div class="ListingChoiceWrapper">
                 <h1 class="Title">{{translationsMap.chooseEbaySite}}</h1>
@@ -105,6 +105,10 @@ export const ListingChoiceComponent = {
             model.globalId = globalId;
 
             this.$store.dispatch('totalListingUpdate', model);
+
+            const timeout = (this.$isMobile) ? 1000 : 0;
+
+            setTimeout(() => scrollToElement(document.getElementById('EbayResultsLoadingId'), 200), timeout);
         }
     },
     components: {

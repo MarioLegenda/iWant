@@ -136,8 +136,6 @@ export const SearchComponent = {
 
             const model = this.createModel();
 
-            console.log(model);
-
             this.$store.commit('ebaySearchListing', {
                 siteInformation: null,
                 items: null,
@@ -152,6 +150,8 @@ export const SearchComponent = {
                 searchUrl: `/search/${urlify(this.keyword)}`,
                 initialised: true,
             });
+
+            setTimeout(() => scrollToElement(document.getElementById('ListingChoiceComponentId'), 200));
         },
 
         determineMarketplaces(model) {

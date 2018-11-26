@@ -32,6 +32,7 @@ export const translationsMap = {
             viewShippingDetails: 'View shipping details',
             isAuction: 'Is auction: ',
             handlingTime: 'Handling time: ',
+            handlingTimeDescription: 'Ships within (0) day(s) upon receiving a clear payment',
             condition: 'Condition: ',
             requiresImmediatePayment: 'Requires immediate payment: ',
             bestOfferFeatureEnabled: 'Best offer feature enabled: ',

@@ -61,6 +61,24 @@ export class Init {
             }, 1000);
         };
 
+        window.scrollToElement = function(pageElement, increment) {
+            var positionX = 0,
+                positionY = 0;
+
+            while(pageElement != null){
+                positionX += pageElement.offsetLeft;
+                positionY += pageElement.offsetTop;
+                pageElement = pageElement.offsetParent;
+
+                if (Number.isInteger(increment)) {
+                    positionX += increment;
+                    positionY += increment;
+                }
+
+                window.scrollTo(positionX, positionY);
+            }
+        };
+
         window.getElementGeometry = function getOffset( el ) {
             let _x = 0, _y = 0, _w = 0, _h = 0, temp = el;
 

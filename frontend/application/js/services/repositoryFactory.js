@@ -139,7 +139,6 @@ class SingleItemRepository {
     getSingleItem(data, success, error) {
         const route = routes.createRouteFromName('app_get_single_item', data);
 
-        console.log(route);
         return fetch(route, {
             method: 'GET',
             headers: requiredHeaders,

@@ -159,7 +159,7 @@ export const SingleItem = {
                             
                             <name-value-container
                                 v-bind:name="translationsMap.productPage.handlingTime"
-                                v-bind:value="parseHandlingTimeString(item.handlingTime)">
+                                v-bind:value="translationsMap.productPage.handlingTimeDescription | replace(item.handlingTime)">
                             </name-value-container>
                             
                             <name-value-container
@@ -246,9 +246,17 @@ export const SingleItem = {
                 return pictureUrl.replace(regex, '$_1');
             }
         },
+    },
+    filters: {
+        replace: function(messageString, ...replacements) {
+            for (const num in replacements) {
+                const rgx = new RegExp(`\\(${num}\\)`);
+                const replacement = replacements[num];
 
-        parseHandlingTimeString(handlingTime) {
-            return `Ships within ${handlingTime} days upon receiving a clear payment`
+                messageString = messageString.replace(rgx, replacement);
+            }
+
+            return messageString;
         }
     },
     components: {

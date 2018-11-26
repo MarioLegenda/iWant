@@ -278,7 +278,7 @@ export const EbayItems = {
                     </load-more>
                 </div>
                 
-                <div v-if="getEbaySearchListingLoading" class="EbayResultsLoading">
+                <div v-if="getEbaySearchListingLoading" id="EbayResultsLoadingId" class="EbayResultsLoading">
                     {{getTranslationsMap.loadingSearchResults}}
                 </div>
             </div>
