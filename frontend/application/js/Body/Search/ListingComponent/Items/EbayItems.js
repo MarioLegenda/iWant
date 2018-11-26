@@ -3,6 +3,9 @@ import {SUPPORTED_SITES} from "../../../../supportedSites";
 import {RepositoryFactory} from "../../../../services/repositoryFactory";
 import urlifyFactory from 'urlify';
 import {Price} from "../../../../services/util";
+import { SyncLoader } from '@saeris/vue-spinners'
+import { GridLoader } from '@saeris/vue-spinners'
+
 
 const SiteName = {
     template: `<div class="SiteName">
@@ -54,9 +57,12 @@ const LoadMore = {
     props: ['currentlyLoading', 'model', 'globalId'],
     template: `<div class="LoadMoreWrapper">
                    <p
+                        v-if="!currentlyLoading"
                         class="LoadMoreButton"
-                        @click="loadMore">Load more <i v-if="!currentlyLoading" class="fas fa-chevron-down"></i><i v-if="currentlyLoading" class="CurrentlyLoading fas fa-circle-notch fa-spin"></i>
+                        @click="loadMore">Load more <i class="fas fa-chevron-down"></i>
                    </p>
+                   
+                   <sync-loader v-if="currentlyLoading" class="CurrentlyLoading" color="#f44d00" :size="10" siteUnit="px"></sync-loader>
                </div>`,
     watch: {
         globalId: function(newVal, oldVal) {
@@ -94,6 +100,9 @@ const LoadMore = {
             this.internalLimit = 80;
             this.internalPage = 1;
         }
+    },
+    components: {
+        'sync-loader': SyncLoader,
     }
 };
 
@@ -279,7 +288,7 @@ export const EbayItems = {
                 </div>
                 
                 <div v-if="getEbaySearchListingLoading" id="EbayResultsLoadingId" class="EbayResultsLoading">
-                    {{getTranslationsMap.loadingSearchResults}}
+                    <grid-loader :size="20" sizeUnit="px" color="#f44d00"></grid-loader>
                 </div>
             </div>
             `,
@@ -399,5 +408,6 @@ export const EbayItems = {
         'site-name': SiteName,
         'image-item': ImageItem,
         'quick-look': QuickLook,
+        'grid-loader': GridLoader,
     }
 };

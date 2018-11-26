@@ -1,5 +1,6 @@
 import {RepositoryFactory} from "../../services/repositoryFactory";
 import {Price} from "../../services/util";
+import { GridLoader } from '@saeris/vue-spinners'
 
 const ActionNameValueContainer = {
     data: function() {
@@ -96,13 +97,16 @@ const DescriptionContainer = {
 const ItemLoader = {
     template: `
         <div class="ItemLoaderWrapper">
-            <p class="ItemLoader">{{translationsMap.productPage.loadingProduct}}</p>
+            <grid-loader :size="30" sizeUnit="px" color="#f44d00"></grid-loader>
         </div>
     `,
     computed: {
         translationsMap: function() {
             return this.$store.state.translationsMap;
         }
+    },
+    components: {
+        'grid-loader': GridLoader,
     }
 };
 

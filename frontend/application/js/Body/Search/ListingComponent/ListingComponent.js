@@ -1,5 +1,4 @@
 import {EbayItems} from "./Items/EbayItems";
-import {RepositoryFactory} from "../../../services/repositoryFactory";
 
 export const ListingComponent = {
     template: `

@@ -6,6 +6,7 @@
     "test": "tests"
   },
   "devDependencies": {
+    "@saeris/vue-spinners": "^1.0.8",
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
     "babel-polyfill": "^6.26.0",
