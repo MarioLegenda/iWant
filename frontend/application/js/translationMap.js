@@ -325,8 +325,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Pokaż duplikaty',
             hideDuplicateItemsHide: 'Ukryj duplikaty',
             highQualityFilter: 'Wysoka jakość',
-            hideDuplicateItemsExplanation: '\n' +
-                'Wielu sprzedawców przesyła ten sam produkt wiele razy, więc może być większa szansa, że ​​pojawi się w liście wyszukiwania. Ta opcja jest domyślnie włączona, ale możesz ją wyłączyć, klikając przycisk \'Pokaż duplikaty\'',
+            hideDuplicateItemsExplanation: 'Wielu sprzedawców przesyła ten sam produkt wiele razy, więc może być większa szansa, że ​​pojawi się w liście wyszukiwania. Ta opcja jest domyślnie włączona, ale możesz ją wyłączyć, klikając przycisk \'Pokaż duplikaty\'',
         }
     },
 
@@ -491,8 +490,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Zobrazit duplikáty',
             hideDuplicateItemsHide: 'Skrýt duplikáty',
             highQualityFilter: 'Vysoká kvalita',
-            hideDuplicateItemsExplanation: '\n' +
-                'Mnoho prodejců nahrát tentýž produkt několikrát, takže by mohlo být větší šance, že se objeví ve výpisu vyhledávání. Tato možnost je ve výchozím nastavení povolena, ale můžete ji deaktivovat klepnutím na tlačítko \'Zobrazit duplikáty\'',
+            hideDuplicateItemsExplanation: 'Mnoho prodejců nahrát tentýž produkt několikrát, takže by mohlo být větší šance, že se objeví ve výpisu vyhledávání. Tato možnost je ve výchozím nastavení povolena, ale můžete ji deaktivovat klepnutím na tlačítko \'Zobrazit duplikáty\'',
         }
     },
 };
