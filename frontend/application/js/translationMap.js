@@ -105,7 +105,7 @@ export const translationsMap = {
             highQualityFilter: 'Alta calidad',
             hideDuplicateItemsShow: 'Mostrar duplicados',
             hideDuplicateItemsHide: 'Ocultar duplicados',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: 'Muchos vendedores suben el mismo producto varias veces, por lo que podría haber más posibilidades de que aparezca en la lista de búsqueda. Esta opción está habilitada de forma predeterminada, pero puede deshabilitarla haciendo clic en el botón \'Mostrar duplicados\'',
         }
     },
 
@@ -160,7 +160,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Afficher les doublons',
             hideDuplicateItemsHide: 'Masquer les doublons',
             highQualityFilter: 'Haute qualité',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: 'De nombreux vendeurs téléchargent plusieurs fois le même produit, ce qui leur donne plus de chance de figurer dans la liste de recherche. Cette option est activée par défaut mais vous pouvez la désactiver en cliquant sur le bouton \'Afficher les doublons\'',
         }
     },
 
@@ -215,7 +215,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Mostra duplicati',
             hideDuplicateItemsHide: 'Nascondi duplicati',
             highQualityFilter: 'Alta qualità',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: 'Molti venditori caricano lo stesso prodotto più volte, quindi potrebbero esserci più possibilità che compaia nell\'elenco di ricerca. Questa opzione è abilitata per impostazione predefinita, ma puoi disabilitarla facendo clic sul pulsante \'Mostra duplicati\'',
         }
     },
 
@@ -270,7 +270,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Taispeáin dúbailt',
             hideDuplicateItemsHide: 'Folaigh dúbailt',
             highQualityFilter: 'Ardchaighdeáin',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: 'Uaslódáil go leor díoltóirí ar an táirge céanna i gcónaí agus mar sin d\'fhéadfadh go mbeadh seans níos mó ann a léiríonn sé sa liosta cuardaigh. Cumasaítear an rogha seo de réir réamhshocraithe ach is féidir leat é a dhíchumasú trí chliceáil ar an gcnaipe \'Taispeáin dúbailt\'',
         }
     },
 
@@ -325,7 +325,8 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Pokaż duplikaty',
             hideDuplicateItemsHide: 'Ukryj duplikaty',
             highQualityFilter: 'Wysoka jakość',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: '\n' +
+                'Wielu sprzedawców przesyła ten sam produkt wiele razy, więc może być większa szansa, że ​​pojawi się w liście wyszukiwania. Ta opcja jest domyślnie włączona, ale możesz ją wyłączyć, klikając przycisk \'Pokaż duplikaty\'',
         }
     },
 
@@ -380,7 +381,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Duplikate anzeigen',
             hideDuplicateItemsHide: 'Duplikate ausblenden',
             highQualityFilter: 'Gute Qualität',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: 'Viele Verkäufer laden ein und dasselbe Produkt mehrmals hoch, sodass die Wahrscheinlichkeit erhöht wird, dass es im Sucheintrag angezeigt wird. Diese Option ist standardmäßig aktiviert. Sie können sie jedoch deaktivieren, indem Sie auf die Schaltfläche \'Duplikate anzeigen\' klicken',
         }
     },
 
@@ -435,7 +436,7 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Zobraziť duplikáty',
             hideDuplicateItemsHide: 'Skryť duplikáty',
             highQualityFilter: 'Vysoká kvalita',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: 'Mnohí predajcovia nahrávajú ten istý produkt viackrát, takže by sa mohlo vyskytnúť väčšia šanca, že sa zobrazí v zozname vyhľadávania. Táto možnosť je predvolene povolená, ale môžete ju zakázať kliknutím na tlačidlo \'Zobraziť duplikáty\'',
         }
     },
 
@@ -490,7 +491,8 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Zobrazit duplikáty',
             hideDuplicateItemsHide: 'Skrýt duplikáty',
             highQualityFilter: 'Vysoká kvalita',
-            hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            hideDuplicateItemsExplanation: '\n' +
+                'Mnoho prodejců nahrát tentýž produkt několikrát, takže by mohlo být větší šance, že se objeví ve výpisu vyhledávání. Tato možnost je ve výchozím nastavení povolena, ale můžete ji deaktivovat klepnutím na tlačítko \'Zobrazit duplikáty\'',
         }
     },
 };
