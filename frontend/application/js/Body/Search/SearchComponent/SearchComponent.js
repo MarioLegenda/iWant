@@ -39,7 +39,7 @@ export const SearchComponent = {
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box>
                     
-                    <div class="GlobalBottomSpacing"></div>
+                    <div class="GlobalTopSpacing"></div>
                     
                     <selected-filters v-if="areSingleAddFiltersSelected"></selected-filters>
                     

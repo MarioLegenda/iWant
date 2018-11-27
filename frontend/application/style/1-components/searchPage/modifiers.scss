@@ -1,0 +1,30 @@
+.ModifiersWrapper {
+  width: 100%;
+  float: left;
+
+  margin: 10px 0 0 0;
+
+  .ModifierWrapper {
+    width: 230px;
+    float: left;
+
+    padding: 10px;
+    border: 1px solid $lightestGray;
+    border-radius: 50px;
+
+    margin-right: 5px;
+  }
+
+  .TooltipContent {
+    width: 20px;
+    height: 20px;
+
+    float: right;
+
+    margin: 5px 0 0 0;
+
+    .TooltipContentButton:hover {
+      cursor: pointer;
+    }
+  }
+}

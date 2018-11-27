@@ -17,35 +17,6 @@
     margin: 20px 0 10px 0;
   }
 
-  .TooltipContentButton {
-    width: 20px;
-    height: 20px;
-
-    position: absolute;
-
-    right: -7px;
-    top: 6px;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .TooltipContent {
-    position: relative;
-
-    border: 1px solid red;
-
-    .TooltipClose {
-      position: absolute;
-
-      top: 0;
-      right: 0;
-    }
-  }
-
-
-
   .GenericFiltersWrapper {
     width: 100%;
     overflow: hidden;

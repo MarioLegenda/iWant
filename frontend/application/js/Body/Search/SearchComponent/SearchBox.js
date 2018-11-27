@@ -1,3 +1,5 @@
+import {HideDuplicateItems} from "../Modifiers/HideDuplicateItems";
+
 export const SearchBox = {
     data: function() {
         return {
@@ -30,6 +32,10 @@ export const SearchBox = {
                            </div>
                                                       
                            <p v-if="enterToSearch" class="SearchBoxAdvanced-enter-to-search">* Press Enter to search</p>
+                           
+                           <div class="ModifiersWrapper">
+                               <hide-duplicate-items-modifier></hide-duplicate-items-modifier>
+                           </div>
                </div>`,
     computed: {
         translationsMap: function() {
@@ -60,5 +66,8 @@ export const SearchBox = {
 
             this.$emit('on-search-term-change', this.text);
         }
+    },
+    components: {
+        'hide-duplicate-items-modifier': HideDuplicateItems,
     }
 };
