@@ -5,7 +5,7 @@ export const HideDuplicateItems = {
                 id="changed-font"
                 :sync="true" 
                 @change="onChange" 
-                :labels="{checked: 'Hide duplicates', unchecked: 'Show duplicates'}"
+                :labels="{checked: translationsMap.filters.hideDuplicateItemsHide, unchecked: translationsMap.filters.hideDuplicateItemsShow}"
                 :width="150"
                 :height="40"></toggle-button>
                 

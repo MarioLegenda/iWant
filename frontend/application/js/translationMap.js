@@ -48,6 +48,8 @@ export const translationsMap = {
             lowestPriceFilter: 'Lowest price',
             highestPriceFilter: 'Highest price',
             highQualityFilter: 'High quality',
+            hideDuplicateItemsShow: 'Show duplicates',
+            hideDuplicateItemsHide: 'Hide duplicates',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
     },
@@ -101,6 +103,8 @@ export const translationsMap = {
             lowestPriceFilter: 'El precio más bajo',
             highestPriceFilter: 'Precio más alto',
             highQualityFilter: 'Alta calidad',
+            hideDuplicateItemsShow: 'Mostrar duplicados',
+            hideDuplicateItemsHide: 'Ocultar duplicados',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
     },
@@ -153,6 +157,8 @@ export const translationsMap = {
             title: 'Trier vos résultats de recherche',
             lowestPriceFilter: 'Prix ​​le plus bas',
             highestPriceFilter: 'Le prix le plus élevé',
+            hideDuplicateItemsShow: 'Afficher les doublons',
+            hideDuplicateItemsHide: 'Masquer les doublons',
             highQualityFilter: 'Haute qualité',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
@@ -206,6 +212,8 @@ export const translationsMap = {
             title: 'Ordina i risultati della tua ricerca',
             lowestPriceFilter: 'Prezzo più basso',
             highestPriceFilter: 'Il prezzo più alto',
+            hideDuplicateItemsShow: 'Mostra duplicati',
+            hideDuplicateItemsHide: 'Nascondi duplicati',
             highQualityFilter: 'Alta qualità',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
@@ -259,6 +267,8 @@ export const translationsMap = {
             title: 'Sórtáil do thorthaí cuardaigh',
             lowestPriceFilter: 'Praghas is ísle',
             highestPriceFilter: 'An praghas is airde',
+            hideDuplicateItemsShow: 'Taispeáin dúbailt',
+            hideDuplicateItemsHide: 'Folaigh dúbailt',
             highQualityFilter: 'Ardchaighdeáin',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
@@ -312,6 +322,8 @@ export const translationsMap = {
             title: 'Sortuj swoje wyniki wyszukiwania',
             lowestPriceFilter: 'Najniższa cena',
             highestPriceFilter: 'Wyzsza cena',
+            hideDuplicateItemsShow: 'Pokaż duplikaty',
+            hideDuplicateItemsHide: 'Ukryj duplikaty',
             highQualityFilter: 'Wysoka jakość',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
@@ -365,6 +377,8 @@ export const translationsMap = {
             title: 'Sortieren Sie Ihre Suchergebnisse',
             lowestPriceFilter: 'Geringster Preis',
             highestPriceFilter: 'Höchster Preis',
+            hideDuplicateItemsShow: 'Duplikate anzeigen',
+            hideDuplicateItemsHide: 'Duplikate ausblenden',
             highQualityFilter: 'Gute Qualität',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
@@ -418,6 +432,8 @@ export const translationsMap = {
             title: 'Zoradiť výsledky vyhľadávania',
             lowestPriceFilter: 'Najnižšia cena',
             highestPriceFilter: 'Najvyššia cena',
+            hideDuplicateItemsShow: 'Zobraziť duplikáty',
+            hideDuplicateItemsHide: 'Skryť duplikáty',
             highQualityFilter: 'Vysoká kvalita',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
@@ -471,6 +487,8 @@ export const translationsMap = {
             title: 'Řazení výsledků vyhledávání',
             lowestPriceFilter: 'Nejnižší cena',
             highestPriceFilter: 'Nejvyšší cena',
+            hideDuplicateItemsShow: 'Zobrazit duplikáty',
+            hideDuplicateItemsHide: 'Skrýt duplikáty',
             highQualityFilter: 'Vysoká kvalita',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
         }
