@@ -1,114 +1,9 @@
 import {RepositoryFactory} from "../../services/repositoryFactory";
 import {Price} from "../../services/util";
-import { GridLoader } from '@saeris/vue-spinners'
-
-const ActionNameValueContainer = {
-    data: function() {
-        return {
-            showDescription: false
-        }
-    },
-    template: `<div @click="onShowDescription" class="Row NameValueContainer IsHoverable">
-                   <p class="Name">{{name}}</p>
-                   <p class="Value">{{value}}</p>
-                                
-                   <i v-bind:class="toggleChevronClass"></i>
-                   <transition name="fade">
-                       <p v-if="showDescription && description !== false" class="NameValueDescription">{{description}}</p>
-                   </transition>
-                   
-                   <transition name="fade">
-                       <slot v-if="showDescription" name="description"></slot>
-                   </transition>
-               </div>`,
-    props: ['name', 'value', 'description'],
-    computed: {
-        toggleChevronClass: function() {
-            return (this.showDescription === false) ? 'ActionIdentifier fas fa-chevron-right' : 'ActionIdentifier fas fa-chevron-down'
-        }
-    },
-    methods: {
-        onShowDescription() {
-            this.showDescription = !this.showDescription;
-        }
-    }
-};
-
-const NameValueContainer = {
-    template: `<div class="Row NameValueContainer">
-                   <p class="Name">{{name}}</p>
-                   <p class="Value">{{value}}</p>
-               </div>`,
-    props: ['name', 'value']
-};
-
-const DescriptionContainer = {
-    data: function() {
-        return {
-            charLimit: 163,
-            charLength: 0,
-            showShadow: true,
-            nonRevealedStyle: {
-                height: '150px',
-            },
-            revealedStyle: {
-                height: 'auto',
-            }
-        }
-    },
-    created() {
-        this.charLength = this.description.length;
-    },
-    template: `<div class="Row DescriptionWrapper">
-                   <div v-if="showShadow && charLength > charLimit" class="ShadowWrapper"></div>
-                   <h1 class="DescriptionHeader">{{translationsMap.productPage.description}}</h1>
-                   <p class="Description" v-bind:style="style">{{normalizedDescription}}</p>
-                                
-                   <p v-if="showShadow && charLength > charLimit" @click="showMoreDescription" class="MoreButton">{{translationsMap.productPage.more}}</p>
-                   <p v-if="!showShadow" @click="showLessDescription" class="MoreButton">{{translationsMap.productPage.less}}</p>
-               </div>`,
-    props: ['description'],
-    computed: {
-        style: function() {
-            return (this.showShadow) ? this.nonRevealedStyle : this.revealedStyle;
-        },
-        normalizedDescription: function() {
-            if (this.charLength > 0) {
-                return this.description;
-            }
-
-            return this.translationsMap.noDescription;
-        },
-        translationsMap: function() {
-            return this.$store.state.translationsMap;
-        }
-    },
-    methods: {
-        showMoreDescription: function() {
-            this.showShadow = false;
-         },
-
-        showLessDescription: function() {
-            this.showShadow = true;
-        }
-    }
-};
-
-const ItemLoader = {
-    template: `
-        <div class="ItemLoaderWrapper">
-            <grid-loader :size="30" sizeUnit="px" color="#f44d00"></grid-loader>
-        </div>
-    `,
-    computed: {
-        translationsMap: function() {
-            return this.$store.state.translationsMap;
-        }
-    },
-    components: {
-        'grid-loader': GridLoader,
-    }
-};
+import {ActionNameValueContainer} from "./ActionNameValueContainer";
+import {NameValueContainer} from "./NameValueContainer";
+import {DescriptionContainer} from "./DescriptionContainer";
+import {ItemLoader} from "./ItemLoader";
 
 
 export const SingleItem = {
@@ -174,7 +69,7 @@ export const SingleItem = {
                             <action-name-value-container 
                                 v-bind:name="translationsMap.productPage.requiresImmediatePayment"
                                 v-bind:value="(item.autoPay === true) ? translationsMap.yes : translationsMap.no"
-                                description="The seller requires immediate payment for the item. Buyers must have a PayPal account to purchase items that require immediate payment">
+                                :description="translationsMap.productPage.requiresImmediatePaymentExplanation">
                             </action-name-value-container>
                             
                             <action-name-value-container
@@ -183,8 +78,8 @@ export const SingleItem = {
                                 v-bind:description="false">
                                 
                                 <div slot="description">
-                                    <p class="NameValueDescription">This feature indicates whether the seller will accept a Best Offer for the item. The Best Offer feature allows a buyer to make a lower-priced, binding offer on an item. Buyers can't see how many offers have been made (only the seller can see this information)</p>
-                                    <p class="NameValueDescription">The Best Offer feature has not been available for auction listings, but beginning with Version 1027, sellers in the US, UK, and DE sites will be able to offer the Best Offer feature in auction listings. The seller can offer Buy It Now or Best Offer in an auction listing, but not both.</p>
+                                    <p class="NameValueDescription">{{translationsMap.productPage.bestOfferFeatureExplanation_1}}</p>
+                                    <p class="NameValueDescription">{{translationsMap.productPage.bestOfferFeatureExplanation_2}}</p>
                                 </div>
                                 
                             </action-name-value-container>
