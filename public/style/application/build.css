@@ -926,15 +926,24 @@ html {
   padding: 10px 0 7px 8px;
   margin: 20px 0 10px 0;
 }
-.FiltersWrapper .TooltipContent {
+.FiltersWrapper .TooltipContentButton {
   width: 20px;
   height: 20px;
   position: absolute;
   right: -7px;
   top: 6px;
 }
-.FiltersWrapper .TooltipContent:hover, .FiltersWrapper .TooltipContent:active, .FiltersWrapper .TooltipContent:focus {
+.FiltersWrapper .TooltipContentButton:hover {
   cursor: pointer;
+}
+.FiltersWrapper .TooltipContent {
+  position: relative;
+  border: 1px solid red;
+}
+.FiltersWrapper .TooltipContent .TooltipClose {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .FiltersWrapper .GenericFiltersWrapper {
   width: 100%;
