@@ -6,7 +6,7 @@ export const HideDuplicateItems = {
                 :sync="true" 
                 @change="onChange" 
                 :labels="{checked: translationsMap.filters.hideDuplicateItemsHide, unchecked: translationsMap.filters.hideDuplicateItemsShow}"
-                :width="150"
+                :width="180"
                 :height="40"></toggle-button>
                 
             <div class="fas fa-question TooltipContent" v-tooltip="translationsMap.filters.hideDuplicateItemsExplanation"></div>
