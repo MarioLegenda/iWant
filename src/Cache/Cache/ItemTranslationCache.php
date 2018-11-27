@@ -54,6 +54,8 @@ class ItemTranslationCache
 
             if ($ttlTimestamp >= 0) {
                 $this->deleteObject($itemTranslationCache);
+
+                return null;
             }
         }
 

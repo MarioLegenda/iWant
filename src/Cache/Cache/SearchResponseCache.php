@@ -54,6 +54,8 @@ class SearchResponseCache implements UpdateableCacheInterface
 
             if ($ttlTimestamp >= 0) {
                 $this->delete($searchCache);
+
+                return null;
             }
         }
 

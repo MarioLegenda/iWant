@@ -55,6 +55,8 @@ class SingleProductItemCache
 
             if ($ttlTimestamp >= 0) {
                 $this->deleteObject($singleProductItem);
+
+                return null;
             }
         }
 
