@@ -8,7 +8,7 @@ use App\Doctrine\Entity\SearchCache;
 use App\Doctrine\Repository\SearchCacheRepository;
 use App\Library\Util\Util;
 
-class SearchResponseCache implements UpdateableCacheInterface
+class SearchResponseCache
 {
     /**
      * @var SearchCacheRepository $searchCacheRepository
@@ -65,7 +65,6 @@ class SearchResponseCache implements UpdateableCacheInterface
     }
     /**
      * @param string $key
-     * @param int $page
      * @param string $value
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -73,22 +72,18 @@ class SearchResponseCache implements UpdateableCacheInterface
      */
     public function set(
         string $key,
-        int $page,
         string $value
     ) {
         $cache = $this->createSearchCache(
             $key,
-            $page,
             $value,
             Util::toDateTime()->getTimestamp() + $this->cacheTtl
         );
 
         $this->searchCacheRepository->persistAndFlush($cache);
-
     }
     /**
      * @param string $key
-     * @param int $page
      * @param string $value
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -96,14 +91,12 @@ class SearchResponseCache implements UpdateableCacheInterface
      */
     public function update(
         string $key,
-        int $page,
         string $value
     ): void {
         /** @var SearchCache $searchCache */
         $searchCache = $this->get($key);
 
         $searchCache->setProductsResponse($value);
-        $searchCache->setPage($page);
 
         $this->searchCacheRepository->persistAndFlush($searchCache);
     }
@@ -213,21 +206,18 @@ class SearchResponseCache implements UpdateableCacheInterface
     }
     /**
      * @param string $uniqueName
-     * @param int $page
      * @param string $value
      * @param int $ttl
      * @return SearchCache
      */
     private function createSearchCache(
         string $uniqueName,
-        int $page,
         string $value,
         int $ttl
     ) {
         return new SearchCache(
             $uniqueName,
             $value,
-            $page,
             $ttl
         );
     }

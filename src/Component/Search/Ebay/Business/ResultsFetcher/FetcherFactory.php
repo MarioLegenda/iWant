@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
+use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 
 class FetcherFactory
@@ -11,9 +12,9 @@ class FetcherFactory
      */
     private $sourceUnFilteredFetcher;
     /**
-     * @var LowestPriceFetcher $lowestPriceFetcher
+     * @var LowestPriceFetcher $lowestPrice
      */
-    private $lowestPriceFetcher;
+    private $lowestPrice;
     /**
      * @var HighestPriceFetcher $highestPriceFetcher
      */
@@ -21,23 +22,23 @@ class FetcherFactory
     /**
      * FetcherFactory constructor.
      * @param SourceUnFilteredFetcher $sourceUnFilteredFetcher
-     * @param LowestPriceFetcher $lowestPriceFetcher
+     * @param LowestPriceFetcher $lowestPrice
      * @param HighestPriceFetcher $highestPriceFetcher
      */
     public function __construct(
         SourceUnFilteredFetcher $sourceUnFilteredFetcher,
-        LowestPriceFetcher $lowestPriceFetcher,
+        LowestPriceFetcher $lowestPrice,
         HighestPriceFetcher $highestPriceFetcher
     ) {
         $this->sourceUnFilteredFetcher = $sourceUnFilteredFetcher;
-        $this->lowestPriceFetcher = $lowestPriceFetcher;
+        $this->lowestPrice = $lowestPrice;
         $this->highestPriceFetcher = $highestPriceFetcher;
     }
 
     public function decideFetcher(SearchModel $model): object
     {
         if ($model->isLowestPrice()) {
-            return $this->lowestPriceFetcher;
+            return $this->lowestPrice;
         }
 
         if ($model->isHighestPrice()) {

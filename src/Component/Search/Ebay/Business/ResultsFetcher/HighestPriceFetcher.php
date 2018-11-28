@@ -37,33 +37,16 @@ class HighestPriceFetcher
 
     public function getResults(SearchModel $model, array $replacementData = [])
     {
-        $identifier = $model->getUniqueName();
-
-        if ($this->searchResponseCacheImplementation->isStored($identifier)) {
-            /** @var SearchCache $presentationResults */
-            $presentationResults = $this->searchResponseCacheImplementation->getStored($identifier);
-
-            return json_decode($presentationResults->getProductsResponse(), true);
-        }
-
-        $model->setHighestPrice(false);
-
         $results = $this->sourceUnFilteredFetcher->getResults($model);
 
-        /** @var TypedArray $lowestPriceGroupedResults */
-        $lowestPriceGroupedResults = Grouping::inst()->groupByPriceHighest(
+        /** @var TypedArray $highestPriceGroupedResult */
+        $highestPriceGroupedResult = Grouping::inst()->groupByPriceHighest(
             $this->convertToPriceGrouping($results)
         );
 
         $model->setHighestPrice(true);
 
-        $this->searchResponseCacheImplementation->store(
-            $model->getUniqueName(),
-            $model->getPagination()->getPage(),
-            jsonEncodeWithFix($lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
-        );
-
-        return $lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+        return $highestPriceGroupedResult->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
     }
     /**
      * @param iterable $iterable

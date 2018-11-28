@@ -5,10 +5,12 @@ namespace App\Tests\Unit;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
+use App\Tests\Library\BasicSetup;
 use PHPUnit\Framework\TestCase;
 
-class UnitTest extends TestCase
+class UnitTest extends BasicSetup
 {
     public function test_recursive_closure_util()
     {
@@ -167,5 +169,25 @@ class UnitTest extends TestCase
         foreach ($dataKeys as $key) {
             static::assertTrue(isset($staticArray[$key]));
         }
+    }
+
+    public function test_language_translation_representation()
+    {
+        $languageTranslationRepresentation = $this->locator->get(LanguageTranslationsRepresentation::class);
+
+        static::assertTrue($languageTranslationRepresentation->areLocalesIdentical('EBAY-IE'));
+        static::assertTrue($languageTranslationRepresentation->areLocalesIdentical('EBAY-GB'));
+        static::assertFalse($languageTranslationRepresentation->areLocalesIdentical('EBAY-DE'));
+
+        $locales = $languageTranslationRepresentation->getLocalesByGlobalId('EBAY-DE');
+
+        static::assertEquals('de', $locales['locale']);
+        static::assertEquals('en', $locales['mainLocale']);
+
+        static::assertEquals('de', $languageTranslationRepresentation->getLocaleByGlobalId('EBAY-DE'));
+        static::assertEquals('en', $languageTranslationRepresentation->getMainLocaleByGlobalId('EBAY-DE'));
+
+        static::assertNotEmpty($languageTranslationRepresentation->toArray());
+        static::assertInternalType('array', $languageTranslationRepresentation->toArray());
     }
 }

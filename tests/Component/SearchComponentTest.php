@@ -170,4 +170,27 @@ class SearchComponentTest extends BasicSetup
             }
         }
     }
+
+    public function test_double_locale_search()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'harry potter',
+            'locale' => 'en',
+            'lowestPrice' => false,
+            'highQuality' => false,
+            'highestPrice' => true,
+            'globalId' => 'EBAY-DE',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(80, 1),
+            'doubleLocaleSearch' => true,
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+    }
 }

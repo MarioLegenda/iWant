@@ -4,7 +4,6 @@ namespace App\Cache\Implementation;
 
 use App\Cache\Cache\SearchResponseCache;
 use App\Doctrine\Entity\SearchCache;
-use App\Library\Util\Util;
 
 class SearchResponseCacheImplementation
 {
@@ -13,7 +12,7 @@ class SearchResponseCacheImplementation
      */
     private $searchResponseCache;
     /**
-     * TodayProductCacheImplementation constructor.
+     * SearchResponseCacheImplementation constructor.
      * @param SearchResponseCache $searchResponseCache
      */
     public function __construct(
@@ -37,7 +36,6 @@ class SearchResponseCacheImplementation
     }
     /**
      * @param string $uniqueName
-     * @param int $page
      * @param string $value
      * @return bool
      * @throws \App\Cache\Exception\CacheException
@@ -46,12 +44,10 @@ class SearchResponseCacheImplementation
      */
     public function store(
         string $uniqueName,
-        int $page,
         string $value
     ): bool {
         $this->searchResponseCache->set(
             $uniqueName,
-            $page,
             $value
         );
 
@@ -59,7 +55,6 @@ class SearchResponseCacheImplementation
     }
     /**
      * @param string $key
-     * @param int $page
      * @param string $value
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -67,10 +62,9 @@ class SearchResponseCacheImplementation
      */
     public function update(
         string $key,
-        int $page,
         string $value
     ): void {
-        $this->searchResponseCache->update($key, $page, $value);
+        $this->searchResponseCache->update($key, $value);
     }
     /**
      * @param string $uniqueName

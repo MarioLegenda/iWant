@@ -4,10 +4,17 @@ parameters:
         amazon: Amazon
         etsy: Etsy
 
-    yandex_translation_languages:
-        'EBAY-DE': en
-        'EBAY-NL': en
-        'EBAY-FR': en
+    ebay_site_lang_locale_mapping:
+        'EBAY-DE': { locale: de, mainLocale: en }
+        'EBAY-AT': { locale: de, mainLocale: en }
+        'EBAY-ES': { locale: es, mainLocale: en }
+        'EBAY-FR': { locale: fr, mainLocale: en }
+        'EBAY-FRBE': { locale: fr, mainLocale: en }
+        'EBAY-GB': { locale: en, mainLocale: en }
+        'EBAY-IT': { locale: it, mainLocale: en }
+        'EBAY-US': { locale: en, mainLocale: en }
+        'EBAY-IE': { locale: en, mainLocale: en }
+        'EBAY-PL': { locale: pl, mainLocale: en }
 
     yandex_api:
         base_url: 'https://translate.yandex.net/api/v1.5/tr.json/'
@@ -148,7 +155,7 @@ services:
 
     App\Library\Representation\LanguageTranslationsRepresentation:
         arguments:
-            $yandexTranslationLanguages: '%yandex_translation_languages%'
+            $ebaySiteLanguageLocaleMapping: '%ebay_site_lang_locale_mapping%'
 
     App\Library\Representation\ApplicationShopRepresentation:
         arguments:

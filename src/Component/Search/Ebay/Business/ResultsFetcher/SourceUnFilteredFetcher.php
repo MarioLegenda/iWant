@@ -54,7 +54,6 @@ class SourceUnFilteredFetcher implements FetcherInterface
 
         $this->searchResponseCacheImplementation->store(
             $identifier,
-            $model->getInternalPagination()->getPage(),
             jsonEncodeWithFix($presentationResultsArray)
         );
 
