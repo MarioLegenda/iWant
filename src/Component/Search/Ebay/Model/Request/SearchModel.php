@@ -220,6 +220,7 @@ class SearchModel implements ArrayNotationInterface
             'highQuality' => (isset($replacementData['highQuality'])) ? $replacementData['highQuality'] : $this->isHighQuality(),
             'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),
             'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination']->toArray() : $this->getInternalPagination()->toArray(),
+            'page' => $this->getInternalPagination()->getPage(),
             'globalId' => $this->getGlobalId(),
             'hideDuplicateItems' => (isset($replacementData['hideDuplicateItems'])) ? $replacementData['hideDuplicateItems'] : $this->isHideDuplicateItems(),
         ]));
