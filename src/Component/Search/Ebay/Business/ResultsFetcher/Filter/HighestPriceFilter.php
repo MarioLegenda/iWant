@@ -1,11 +1,7 @@
 <?php
 
-namespace App\Component\Search\Ebay\Business\ResultsFetcher;
+namespace App\Component\Search\Ebay\Business\ResultsFetcher\Filter;
 
-use App\Cache\Implementation\SearchResponseCacheImplementation;
-use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterInterface;
-use App\Component\Search\Ebay\Model\Request\SearchModel;
-use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Util\TypedRecursion;
@@ -13,39 +9,16 @@ use App\Library\Util\Util;
 use App\Web\Library\Grouping\GroupContract\PriceGroupingInterface;
 use App\Web\Library\Grouping\Grouping;
 
-class LowestPriceFetcher implements FetcherInterface
+class HighestPriceFilter implements FilterInterface
 {
-    /**
-     * @var SourceUnFilteredFetcher $sourceUnFilteredFetcher
-     */
-    private $sourceUnFilteredFetcher;
-    /**
-     * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
-     */
-    private $searchResponseCacheImplementation;
-    /**
-     * LowestPriceFetcher constructor.
-     * @param SourceUnFilteredFetcher $sourceUnFilteredFetcher
-     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
-     */
-    public function __construct(
-        SourceUnFilteredFetcher $sourceUnFilteredFetcher,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation
-    ) {
-        $this->sourceUnFilteredFetcher = $sourceUnFilteredFetcher;
-        $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
-    }
-
-    public function getResults(SearchModel $model, array $replacementData = [])
+    public function filter(array $results)
     {
-        $results = $this->sourceUnFilteredFetcher->getResults($model);
-
-        /** @var TypedArray $lowestPriceGroupedResults */
-        $lowestPriceGroupedResults = Grouping::inst()->groupByPriceLowest(
+        /** @var TypedArray $highestPriceGroupedResult */
+        $highestPriceGroupedResult = Grouping::inst()->groupByPriceHighest(
             $this->convertToPriceGrouping($results)
         );
 
-        return $lowestPriceGroupedResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+        return $highestPriceGroupedResult->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
     }
     /**
      * @param iterable $iterable

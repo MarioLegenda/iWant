@@ -4,6 +4,7 @@ namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
+use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -19,6 +20,10 @@ class SourceUnFilteredFetcher implements FetcherInterface
      * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
      */
     private $searchResponseCacheImplementation;
+    /**
+     * @var FilterApplierInterface $filterApplier
+     */
+    private $filterApplier;
     /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
@@ -47,17 +52,35 @@ class SourceUnFilteredFetcher implements FetcherInterface
             /** @var SearchCache $presentationResults */
             $presentationResults = $this->searchResponseCacheImplementation->getStored($identifier);
 
-            return json_decode($presentationResults->getProductsResponse(), true);
+
+            $results = json_decode($presentationResults->getProductsResponse(), true);
+
+            if ($this->filterApplier instanceof FilterApplierInterface) {
+                return $this->filterApplier->apply($results);
+            }
+
+            return $results;
         }
 
-        $presentationResultsArray = $this->getFreshResults($model, $identifier);
+        $results = $this->getFreshResults($model, $identifier);
 
         $this->searchResponseCacheImplementation->store(
             $identifier,
-            jsonEncodeWithFix($presentationResultsArray)
+            jsonEncodeWithFix($results)
         );
 
-        return $presentationResultsArray;
+        if ($this->filterApplier instanceof FilterApplierInterface) {
+            return $this->filterApplier->apply($results);
+        }
+
+        return $results;
+    }
+    /**
+     * @param FilterApplierInterface $filterApplier
+     */
+    public function addFilterApplier(FilterApplierInterface $filterApplier)
+    {
+        $this->filterApplier = $filterApplier;
     }
     /**
      * @param SearchModel $model
