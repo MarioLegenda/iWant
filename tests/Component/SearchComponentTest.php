@@ -173,13 +173,14 @@ class SearchComponentTest extends BasicSetup
 
     public function test_double_locale_search()
     {
+        static::markTestSkipped();
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.component');
 
         $modelArray = [
-            'keyword' => 'harry potter',
+            'keyword' => 'maceta de jardín',
             'locale' => 'en',
             'lowestPrice' => false,
             'highQuality' => false,
@@ -192,5 +193,7 @@ class SearchComponentTest extends BasicSetup
 
         /** @var SearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
     }
 }

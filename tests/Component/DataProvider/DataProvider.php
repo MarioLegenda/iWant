@@ -25,7 +25,6 @@ class DataProvider
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
-        $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
         $globalIds = $data['globalId'];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof EbayPagination)
@@ -48,7 +47,6 @@ class DataProvider
             $highQuality,
             $bestMatch,
             $shippingCountries,
-            $marketplaces,
             $taxonomies,
             $pagination,
             $globalIds,

@@ -31,10 +31,6 @@ class SearchModel implements ArrayNotationInterface
      */
     private $shippingCountries;
     /**
-     * @var iterable $marketplaces
-     */
-    private $marketplaces;
-    /**
      * @var iterable $taxonomies
      */
     private $taxonomies;
@@ -59,6 +55,10 @@ class SearchModel implements ArrayNotationInterface
      */
     private $hideDuplicateItems = false;
     /**
+     * @var bool $doubleLocaleSearch
+     */
+    private $doubleLocaleSearch = false;
+    /**
      * SearchModel constructor.
      * @param string $keyword
      * @param bool $lowestPrice
@@ -66,13 +66,13 @@ class SearchModel implements ArrayNotationInterface
      * @param bool $highQuality
      * @param bool $bestMatch
      * @param array $shippingCountries
-     * @param array $marketplaces
      * @param array $taxonomies
      * @param Pagination $pagination
      * @param string $globalId
      * @param string $locale
      * @param Pagination $internalPagination
      * @param bool $hideDuplicateItems
+     * @param bool $doubleLocaleSearch
      */
     public function __construct(
         string $keyword,
@@ -81,13 +81,13 @@ class SearchModel implements ArrayNotationInterface
         bool $highQuality,
         bool $bestMatch,
         array $shippingCountries,
-        array $marketplaces,
         array $taxonomies,
         Pagination $pagination,
         string $globalId,
         string $locale,
         Pagination $internalPagination,
-        bool $hideDuplicateItems
+        bool $hideDuplicateItems,
+        bool $doubleLocaleSearch
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -95,13 +95,13 @@ class SearchModel implements ArrayNotationInterface
         $this->highestPrice = $highestPrice;
         $this->bestMatch = $bestMatch;
         $this->shippingCountries = $shippingCountries;
-        $this->marketplaces = $marketplaces;
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
         $this->globalId = $globalId;
         $this->locale = $locale;
         $this->internalPagination = $internalPagination;
         $this->hideDuplicateItems = $hideDuplicateItems;
+        $this->doubleLocaleSearch = $doubleLocaleSearch;
     }
     /**
      * @return string
@@ -155,13 +155,6 @@ class SearchModel implements ArrayNotationInterface
     /**
      * @return iterable
      */
-    public function getMarketplaces(): iterable
-    {
-        return $this->marketplaces;
-    }
-    /**
-     * @return iterable
-     */
     public function getTaxonomies(): iterable
     {
         return $this->taxonomies;
@@ -209,6 +202,13 @@ class SearchModel implements ArrayNotationInterface
         return $this->hideDuplicateItems;
     }
     /**
+     * @return bool
+     */
+    public function isDoubleLocaleSearch(): bool
+    {
+        return $this->doubleLocaleSearch;
+    }
+    /**
      * @param array $replacementData
      * @return string
      */
@@ -242,6 +242,25 @@ class SearchModel implements ArrayNotationInterface
             'internalPagination' => $this->getInternalPagination()->toArray(),
             'globalId' => $this->getGlobalId(),
             'locale' => $this->getLocale(),
+            'hideDuplicateItems' => $this->isHideDuplicateItems(),
+            'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
         ];
+    }
+
+    public static function createInternalSearchModelFromSearchModel(SearchModel $model)
+    {
+        $keyword = $model->getKeyword();
+        $lowestPrice = $model->isLowestPrice();
+        $highestPrice = $model->isHighestPrice();
+        $bestMatch = $model->isBestMatch();
+        $highQuality = $model->isHighQuality();
+        $shippingCountries = $model->getShippingCountries();
+        $taxonomies = $model->getTaxonomies();
+        $globalId = $model->getGlobalId();
+        $pagination = $model->getPagination();
+        $locale = $model->getLocale();
+        $internalPagination = $model->getInternalPagination();
+        $hideDuplicateItems = $model->isHideDuplicateItems();
+        $doubleLocaleSearch = $model->isDoubleLocaleSearch();
     }
 }

@@ -2,17 +2,19 @@
 
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
+use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\HighestPriceFilter;
+use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\SingleSearchFetcher;
 
 class FetcherFactory
 {
     /**
-     * @var SourceUnFilteredFetcher $sourceUnfilteredFetcher
+     * @var SingleSearchFetcher $singleSearchFetcher
      */
-    private $sourceUnFilteredFetcher;
+    private $singleSearchFetcher;
     /**
      * @var LowestPriceFilter $lowestPriceFilter
      */
@@ -26,22 +28,29 @@ class FetcherFactory
      */
     private $filterApplier;
     /**
+     * @var DoubleLocaleSearchFetcher $doubleLocaleSearchFetcher
+     */
+    private $doubleLocaleSearchFetcher;
+    /**
      * FetcherFactory constructor.
-     * @param SourceUnFilteredFetcher $sourceUnFilteredFetcher
+     * @param SingleSearchFetcher $singleSearchFetcher
+     * @param DoubleLocaleSearchFetcher $doubleLocaleSearchFetcher
      * @param LowestPriceFilter $lowestPriceFilter
      * @param HighestPriceFilter $highestPriceFilter
      * @param FilterApplierInterface $filterApplier
      */
     public function __construct(
-        SourceUnFilteredFetcher $sourceUnFilteredFetcher,
+        SingleSearchFetcher $singleSearchFetcher,
+        DoubleLocaleSearchFetcher $doubleLocaleSearchFetcher,
         LowestPriceFilter $lowestPriceFilter,
         HighestPriceFilter $highestPriceFilter,
         FilterApplierInterface $filterApplier
     ) {
-        $this->sourceUnFilteredFetcher = $sourceUnFilteredFetcher;
+        $this->singleSearchFetcher = $singleSearchFetcher;
         $this->lowestPriceFilter = $lowestPriceFilter;
         $this->highestPriceFilter = $highestPriceFilter;
         $this->filterApplier = $filterApplier;
+        $this->doubleLocaleSearchFetcher = $doubleLocaleSearchFetcher;
     }
     /**
      * @param SearchModel $model
@@ -49,6 +58,8 @@ class FetcherFactory
      */
     public function decideFetcher(SearchModel $model): object
     {
+        $decidedFetcher = ($model->isDoubleLocaleSearch()) ? $this->doubleLocaleSearchFetcher : $this->singleSearchFetcher;
+
         if ($model->isHighestPrice()) {
             $this->filterApplier->add($this->highestPriceFilter, 100);
         }
@@ -58,9 +69,9 @@ class FetcherFactory
         }
 
         if ($this->filterApplier->hasFilters()) {
-            $this->sourceUnFilteredFetcher->addFilterApplier($this->filterApplier);
+            $this->singleSearchFetcher->addFilterApplier($this->filterApplier);
         }
 
-        return $this->sourceUnFilteredFetcher;
+        return $decidedFetcher;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Search\Ebay\Business\ResultsFetcher;
+namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
@@ -9,8 +9,9 @@ use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
+use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherInterface;
 
-class SourceUnFilteredFetcher implements FetcherInterface
+class SingleSearchFetcher implements FetcherInterface
 {
     /**
      * @var ResponseFetcher $responseFetcher
