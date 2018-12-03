@@ -173,7 +173,6 @@ class SearchComponentTest extends BasicSetup
 
     public function test_double_locale_search()
     {
-        static::markTestSkipped();
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */
@@ -186,7 +185,7 @@ class SearchComponentTest extends BasicSetup
             'highQuality' => false,
             'highestPrice' => true,
             'globalId' => 'EBAY-DE',
-            'internalPagination' => new Pagination(80, 1),
+            'internalPagination' => new Pagination(8, 1),
             'pagination' => new Pagination(80, 1),
             'doubleLocaleSearch' => true,
         ];
@@ -195,5 +194,11 @@ class SearchComponentTest extends BasicSetup
         $model = $dataProvider->createEbaySearchRequestModel($modelArray);
 
         $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        static::assertNotEmpty($products);
+        static::assertInternalType('array', $products);
+        static::assertEquals($model->getPagination()->getLimit(), count($products));
     }
 }

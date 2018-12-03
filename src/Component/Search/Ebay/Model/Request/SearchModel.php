@@ -4,7 +4,7 @@ namespace App\Component\Search\Ebay\Model\Request;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class SearchModel implements ArrayNotationInterface
+class SearchModel implements SearchModelInterface, ArrayNotationInterface
 {
     /**
      * @var string $keyword
@@ -118,25 +118,11 @@ class SearchModel implements ArrayNotationInterface
         return $this->lowestPrice;
     }
     /**
-     * @param bool $lowestPrice
-     */
-    public function setLowestPrice(bool $lowestPrice)
-    {
-        $this->lowestPrice = $lowestPrice;
-    }
-    /**
      * @return bool
      */
     public function isHighestPrice(): bool
     {
         return $this->highestPrice;
-    }
-    /**
-     * @param bool $highestPrice
-     */
-    public function setHighestPrice(bool $highestPrice): void
-    {
-        $this->highestPrice = $highestPrice;
     }
     /**
      * @return bool
@@ -247,7 +233,7 @@ class SearchModel implements ArrayNotationInterface
         ];
     }
 
-    public static function createInternalSearchModelFromSearchModel(SearchModel $model)
+    public static function createInternalSearchModelFromSearchModel(SearchModel $model): SearchModelInterface
     {
         $keyword = $model->getKeyword();
         $lowestPrice = $model->isLowestPrice();
@@ -262,5 +248,21 @@ class SearchModel implements ArrayNotationInterface
         $internalPagination = $model->getInternalPagination();
         $hideDuplicateItems = $model->isHideDuplicateItems();
         $doubleLocaleSearch = $model->isDoubleLocaleSearch();
+
+        return new InternalSearchModel(
+            $keyword,
+            $lowestPrice,
+            $highestPrice,
+            $highQuality,
+            $bestMatch,
+            $shippingCountries,
+            $taxonomies,
+            $pagination,
+            $globalId,
+            $locale,
+            $internalPagination,
+            $hideDuplicateItems,
+            $doubleLocaleSearch
+        );
     }
 }

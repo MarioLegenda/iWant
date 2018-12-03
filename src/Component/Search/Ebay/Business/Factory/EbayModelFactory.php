@@ -2,7 +2,9 @@
 
 namespace App\Component\Search\Ebay\Business\Factory;
 
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
@@ -15,11 +17,11 @@ use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 class EbayModelFactory
 {
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return FindingApiModel
      */
     public function createFindItemsAdvancedModel(
-        SearchModel $model
+        SearchModelInterface $model
     ): FindingApiModel {
         $this->validateModel($model);
 
@@ -43,11 +45,11 @@ class EbayModelFactory
         return new FindingApiModel($findItemsInEbayStores, $itemFilters);
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param TypedArray $itemFilters
      */
     public function createModelSpecificItemFilters(
-        SearchModel $model,
+        SearchModelInterface $model,
         TypedArray $itemFilters
     ) {
 
@@ -83,11 +85,11 @@ class EbayModelFactory
         }
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface|InternalSearchModel $model
      * @param TypedArray $queries
      */
     public function createRequiredQueries(
-        SearchModel $model,
+        SearchModelInterface $model,
         TypedArray $queries
     ) {
         $queries[] = new Query(
@@ -134,11 +136,11 @@ class EbayModelFactory
         $itemFilters[] = $outputSelector;
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param TypedArray $itemFilters
      */
     private function createSortOrder(
-        SearchModel $model,
+        SearchModelInterface $model,
         TypedArray $itemFilters
     ) {
         if ($model->isHighestPrice()) {
@@ -162,9 +164,9 @@ class EbayModelFactory
         }
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModel|SearchModel|InternalSearchModel $model
      */
-    private function validateModel(SearchModel $model)
+    private function validateModel(SearchModelInterface $model)
     {
         if ($model->isHighestPrice() and $model->isLowestPrice()) {
             $message = sprintf(
