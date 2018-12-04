@@ -85,7 +85,8 @@ parameters:
     single_item_cache_ttl: 86400
     search_response_cache_ttl: 86400
     prepared_response_cache_ttl: 86400
-    item_translation_cache_ttl: 432000
+    item_translation_cache_ttl: 86400
+    keyword_translation_cache_ttl: 108000
 
 services:
     _defaults:
@@ -246,6 +247,10 @@ services:
         arguments:
             $cacheTtl: '%item_translation_cache_ttl%'
 
+    App\Cache\Cache\KeywordTranslationCache:
+        arguments:
+            $cacheTtl: '%keyword_translation_cache_ttl%'
+
     # SYMFONY
 
     # UTIL
@@ -350,6 +355,10 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\ItemTranslationCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    App\Doctrine\Repository\KeywordTranslationCacheRepository:
         arguments:
             $registry: '@doctrine'
 

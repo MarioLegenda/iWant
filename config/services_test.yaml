@@ -73,7 +73,8 @@ parameters:
     single_item_cache_ttl: 86400
     search_response_cache_ttl: 86400
     prepared_response_cache_ttl: 86400
-    item_translation_cache_ttl: 432000
+    item_translation_cache_ttl: 86400
+    keyword_translation_cache_ttl: 108000
 
 services:
     _defaults:
@@ -201,6 +202,10 @@ services:
     App\Cache\Cache\ItemTranslationCache:
         arguments:
             $cacheTtl: '%item_translation_cache_ttl%'
+
+    App\Cache\Cache\KeywordTranslationCache:
+        arguments:
+            $cacheTtl: '%keyword_translation_cache_ttl%'
 
     # DATA PROVIDERS
     App\Tests\Ebay\FindingApi\DataProvider\:
