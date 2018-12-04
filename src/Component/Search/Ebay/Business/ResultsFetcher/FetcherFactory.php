@@ -3,13 +3,15 @@
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
+use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
+use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\SingleSearchFetcher;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 
 class FetcherFactory
 {
     /**
-     * @var SingleResultFetcher $singleResultFetcher
+     * @var SingleSearchFetcher $singleResultFetcher
      */
     private $singleResultFetcher;
     /**
@@ -18,11 +20,11 @@ class FetcherFactory
     private $filterApplier;
     /**
      * FetcherFactory constructor.
-     * @param SingleResultFetcher $singleResultFetcher
+     * @param SingleSearchFetcher $singleResultFetcher
      * @param FilterApplierInterface $filterApplier
      */
     public function __construct(
-        SingleResultFetcher $singleResultFetcher,
+        SingleSearchFetcher $singleResultFetcher,
         FilterApplierInterface $filterApplier
     ) {
         $this->singleResultFetcher = $singleResultFetcher;
@@ -36,6 +38,10 @@ class FetcherFactory
     {
         if ($model->isLowestPrice()) {
             $this->filterApplier->add(new LowestPriceFilter());
+        }
+
+        if ($model->isHighestPrice()) {
+            $this->filterApplier->add(new HighestPriceFilter());
         }
 
         if ($this->filterApplier->hasFilters()) {

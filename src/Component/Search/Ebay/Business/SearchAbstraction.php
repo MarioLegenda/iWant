@@ -45,7 +45,9 @@ class SearchAbstraction
 
     public function getProducts(SearchModel $model): array
     {
-        return $this->fetcherFactory->decideFetcher($model)->getResults($model);
+        $products = $this->fetcherFactory->decideFetcher($model)->getResults($model);
+
+        return $products;
     }
     /**
      * @param array $listing

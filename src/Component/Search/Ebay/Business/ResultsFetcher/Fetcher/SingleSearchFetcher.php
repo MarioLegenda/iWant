@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Search\Ebay\Business\ResultsFetcher;
+namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
@@ -11,7 +11,7 @@ use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 
-class SingleResultFetcher implements FetcherInterface
+class SingleSearchFetcher implements FetcherInterface
 {
     /**
      * @var ResponseFetcher $responseFetcher
@@ -52,6 +52,7 @@ class SingleResultFetcher implements FetcherInterface
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {
             /** @var SearchCache $presentationResults */
             $presentationResults = $this->searchResponseCacheImplementation->getStored($identifier);
+
             $presentationResultsArray =  json_decode($presentationResults->getProductsResponse(), true);
 
             if ($this->filterApplier instanceof FilterApplierInterface) {
@@ -65,7 +66,6 @@ class SingleResultFetcher implements FetcherInterface
 
         $this->searchResponseCacheImplementation->store(
             $identifier,
-            $model->getInternalPagination()->getPage(),
             jsonEncodeWithFix($presentationResultsArray)
         );
 

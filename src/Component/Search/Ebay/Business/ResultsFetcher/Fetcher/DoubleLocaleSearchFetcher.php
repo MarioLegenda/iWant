@@ -4,14 +4,12 @@ namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
-use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherInterface;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
-use App\Yandex\Business\Request\DetectLanguage;
 use App\Yandex\Library\Request\RequestFactory;
 use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\TranslatedTextResponse;

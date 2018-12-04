@@ -12,7 +12,7 @@ use App\Tests\Library\BasicSetup;
 
 class SearchComponentTest extends BasicSetup
 {
-    public function test_ebay_prepared_search()
+    public function test_internal_pagination_flow()
     {
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
@@ -136,6 +136,7 @@ class SearchComponentTest extends BasicSetup
             'globalId' => 'EBAY-DE',
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
+            'hideDuplicateItems' => true,
         ];
 
         /** @var SearchModel $model */

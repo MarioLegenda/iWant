@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Component\Search\Ebay\Business\ResultsFetcher;
+namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 
