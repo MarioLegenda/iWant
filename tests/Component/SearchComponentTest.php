@@ -174,6 +174,7 @@ class SearchComponentTest extends BasicSetup
 
     public function test_double_locale_search()
     {
+        static::markTestSkipped();
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */

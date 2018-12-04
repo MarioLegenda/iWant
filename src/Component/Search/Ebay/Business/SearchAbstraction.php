@@ -10,12 +10,12 @@ use App\Component\Search\Ebay\Model\Response\Title;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
-use App\Translation\TranslationCenter;
+use App\Translation\YandexCacheableTranslationCenter;
 
 class SearchAbstraction
 {
     /**
-     * @var TranslationCenter $translationCenter
+     * @var YandexCacheableTranslationCenter $translationCenter
      */
     private $translationCenter;
     /**
@@ -33,7 +33,7 @@ class SearchAbstraction
 
     public function __construct(
         FetcherFactory $fetcherFactory,
-        TranslationCenter $translationCenter,
+        YandexCacheableTranslationCenter $translationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         PaginationHandler $paginationHandler
     ) {
@@ -144,7 +144,7 @@ class SearchAbstraction
         foreach ($presentationResultsGen as $entry) {
             $item = $entry['item'];
 
-            $translatedPresentationResults[] = $this->translationCenter->translateMultiple(
+            $translatedPresentationResults[] = $this->translationCenter->translateArray(
                 $item,
                 [
                     'title' => [

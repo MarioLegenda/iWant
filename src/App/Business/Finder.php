@@ -23,7 +23,7 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\TypedRecursion;
 use App\Symfony\Exception\HttpException;
-use App\Translation\TranslationCenter;
+use App\Translation\YandexCacheableTranslationCenter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\Router;
 
@@ -50,7 +50,7 @@ class Finder
      */
     private $itemTranslationCacheImplementation;
     /**
-     * @var TranslationCenter $translationCenter
+     * @var YandexCacheableTranslationCenter $translationCenter
      */
     private $translationCenter;
     /**
@@ -60,7 +60,7 @@ class Finder
      * @param SingleProductItemCacheImplementation $singleProductItemCacheImplementation
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param Router $router
-     * @param TranslationCenter $translationCenter
+     * @param YandexCacheableTranslationCenter $translationCenter
      */
     public function __construct(
         CountryRepository $countryRepository,
@@ -68,7 +68,7 @@ class Finder
         SingleProductItemCacheImplementation $singleProductItemCacheImplementation,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         Router $router,
-        TranslationCenter $translationCenter
+        YandexCacheableTranslationCenter $translationCenter
     ) {
         $this->shoppingApiEntryPoint = $shoppingApiEntryPoint;
         $this->countryRepository = $countryRepository;
@@ -107,7 +107,7 @@ class Finder
 
         $singleItemArray = json_decode($singleProductItem->getResponse(), true)['singleItem'];
 
-        $singleItemArray = $this->translationCenter->translateMultiple(
+        $singleItemArray = $this->translationCenter->translateArray(
             $singleItemArray,
             [
                 'title',
@@ -175,7 +175,7 @@ class Finder
 
         $singleItemArray = $responseModel->getSingleItem()->toArray();
 
-        $singleItemArray = $this->translationCenter->translateMultiple(
+        $singleItemArray = $this->translationCenter->translateArray(
             $singleItemArray,
             [
                 'title',

@@ -14,7 +14,7 @@ use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\MarketplaceType;
-use App\Translation\TranslationCenter;
+use App\Translation\YandexCacheableTranslationCenter;
 
 class SingleItemEntryPoint
 {
@@ -27,7 +27,7 @@ class SingleItemEntryPoint
      */
     private $itemTranslationCacheImplementation;
     /**
-     * @var TranslationCenter $translationCenter
+     * @var YandexCacheableTranslationCenter $translationCenter
      */
     private $translationCenter;
     /**
@@ -37,13 +37,13 @@ class SingleItemEntryPoint
     /**
      * SingleItemEntryPoint constructor.
      * @param ShoppingApiEntryPoint $shoppingApiEntryPoint
-     * @param TranslationCenter $translationCenter
+     * @param YandexCacheableTranslationCenter $translationCenter
      * @param SingleProductItemCacheImplementation $singleProductItemCacheImplementation
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      */
     public function __construct(
         ShoppingApiEntryPoint $shoppingApiEntryPoint,
-        TranslationCenter $translationCenter,
+        YandexCacheableTranslationCenter $translationCenter,
         SingleProductItemCacheImplementation $singleProductItemCacheImplementation,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation
     ) {
@@ -69,7 +69,7 @@ class SingleItemEntryPoint
 
             $singleItemArray = json_decode($singleProductItem->getResponse(), true)['singleItem'];
 
-            $singleItemArray = $this->translationCenter->translateMultiple(
+            $singleItemArray = $this->translationCenter->translateArray(
                 $singleItemArray,
                 [
                     'title',
@@ -95,7 +95,7 @@ class SingleItemEntryPoint
 
         $singleItemArray = $responseModel->getSingleItem()->toArray();
 
-        $singleItemArray = $this->translationCenter->translateMultiple(
+        $singleItemArray = $this->translationCenter->translateArray(
             $singleItemArray,
             [
                 'title',

@@ -8,14 +8,12 @@ use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Doctrine\Entity\ItemTranslationCache;
 use App\Library\Util\Environment;
 use App\Library\Util\Util;
-use App\Yandex\Library\Request\RequestFactory;
-use App\Yandex\Library\Response\DetectLanguageResponse;
-use App\Yandex\Library\Response\TranslatedTextResponse;
+use App\Translation\Model\TranslatedEntryInterface;
+use App\Translation\Model\Translation;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
-use App\Yandex\Presentation\Model\YandexRequestModel;
 use Psr\Log\LoggerInterface;
 
-class TranslationCenter
+class YandexCacheableTranslationCenter implements TranslationCenterInterface
 {
     /**
      * @var YandexEntryPoint $yandexEntryPoint
@@ -41,7 +39,7 @@ class TranslationCenter
      * @param Environment $environment
      */
     public function __construct(
-        YandexEntryPoint $yandexEntryPoint,
+        YandexTranslationCenter $yandexEntryPoint,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         LoggerInterface $logger,
         Environment $environment
@@ -51,32 +49,33 @@ class TranslationCenter
         $this->logger = $logger;
         $this->environment = $environment;
     }
-    /**
-     * @param string $entryId
-     * @param string $itemId
-     * @param string $value
-     * @param string $locale
-     * @return string
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function translateSingle(
-        string $entryId,
-        string $itemId,
+
+    public function translate(
         string $value,
-        string $locale
-    ): string {
+        string $locale,
+        string $entryId = null,
+        string $identifier = null
+    ): TranslatedEntryInterface {
+        if (!is_string($locale) or !is_string($identifier)) {
+            $message = sprintf(
+                '$locale and $identifier have to be for %s::%s',
+                get_class($this),
+                __FUNCTION__
+            );
+
+            throw new \RuntimeException($message);
+        }
+
         if ($this->itemTranslationCacheImplementation->isStored(
-            $itemId
+            $identifier
         )) {
             if (is_null($value)) {
-                return '';
+                return new Translation('');
             }
 
             /** @var ItemTranslationCache $itemTranslationCache */
             $itemTranslationCache = $this->itemTranslationCacheImplementation->getStored(
-                $itemId
+                $identifier
             );
 
             /** @var Translations $translations */
@@ -86,14 +85,14 @@ class TranslationCenter
                 /** @var TranslationEntry $translationEntry */
                 $translationEntry = $translations->getEntryByLocale($entryId, $locale);
 
-                return $translationEntry->getTranslation();
+                return new Translation($translationEntry->getTranslation());
             }
 
             if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
-                $translated = $this->translate($locale, $value);
+                $translated = $this->yandexEntryPoint->translate($locale, $value);
             } else if ((string) $this->environment === 'prod') {
                 try {
-                    $translated = $this->translate($locale, $value);
+                    $translated = $this->yandexEntryPoint->translate($locale, $value);
                 } catch (\Exception $e) {
                     $message = sprintf(
                         'Translation for locale %s and value %s could not be translated by Yandex API',
@@ -115,20 +114,20 @@ class TranslationCenter
             );
 
             $this->itemTranslationCacheImplementation->update(
-                $itemId,
+                $identifier,
                 $translations->toArray()
             );
 
-            return $translated;
+            return new Translation($translated);
         }
 
         $translations = $this->createTranslations();
 
         if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
-            $translated = $this->translate($locale, $value);
+            $translated = $this->yandexEntryPoint->translate($locale, $value);
         } else if ((string) $this->environment === 'prod') {
             try {
-                $translated = $this->translate($locale, $value);
+                $translated = $this->yandexEntryPoint->translate($locale, $value);
             } catch (\Exception $e) {
                 $message = sprintf(
                     'Translation for locale %s and value %s could not be translated by Yandex api',
@@ -150,28 +149,29 @@ class TranslationCenter
         );
 
         $this->itemTranslationCacheImplementation->store(
-            $itemId,
+            $identifier,
             $translations->toArray()
         );
 
-        return $translated;
+        return new Translation($translated);
     }
-    /**
-     * @param array $item
-     * @param array $keys
-     * @param string $locale
-     * @param string $identifier
-     * @return array
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function translateMultiple(
+
+    public function translateArray(
         array $item,
         array $keys,
-        string $locale,
-        string $identifier
+        string $locale = null,
+        string $identifier = null
     ): array {
+        if (!is_string($locale) or !is_string($identifier)) {
+            $message = sprintf(
+                '$locale and $identifier have to be for %s::%s',
+                get_class($this),
+                __FUNCTION__
+            );
+
+            throw new \RuntimeException($message);
+        }
+
         $keysToTranslateGen = Util::createGenerator($keys);
 
         foreach ($keysToTranslateGen as $entry) {
@@ -186,40 +186,42 @@ class TranslationCenter
                     $item
                 );
 
-                if (is_null($value)) {
+                if (empty($value)) {
                     $item[$translationConfig->getKey()] = '';
 
                     continue;
                 }
 
-                $translated = $this->translateSingle(
-                    $translationConfig->getKey(),
-                    $identifier,
+                $translated = $this->translate(
                     $value,
-                    $locale
+                    $locale,
+                    $translationConfig->getKey(),
+                    $identifier
                 );
 
                 $item[$translationConfig->getKey()] = $translationConfig->getPostTranslationEvent()->__invoke(
                     $translationConfig->getKey(),
-                    $translated
+                    $translated->getEntry()
                 );
             }
 
             if (!$translationConfig->isEventTranslation()) {
                 $value = $item[$translationConfig->getKey()];
 
-                if (is_null($value)) {
+                if (empty($value)) {
                     $item[$translationConfig->getKey()] = '';
 
                     continue;
                 }
 
-                $item[$translationConfig->getKey()] = $this->translateSingle(
-                    $translationConfig->getKey(),
-                    $identifier,
+                $translation = $this->translate(
                     $value,
-                    $locale
+                    $locale,
+                    $translationConfig->getKey(),
+                    $identifier
                 );
+
+                $item[$translationConfig->getKey()] = $translation->getEntry();
             }
 
             // post translate event
@@ -227,33 +229,12 @@ class TranslationCenter
 
         return $item;
     }
-    /**
-     * @param string $locale
-     * @param string $value
-     * @return string
-     */
-    private function translate(
-        string $locale,
-        string $value
-    ): string {
-        /** @var YandexRequestModel $detectLanguageModel */
-        $detectLanguageModel = RequestFactory::createDetectLanguageRequestModel($value);
 
-        /** @var DetectLanguageResponse $detectLanguageResponse */
-        $detectLanguageResponse = $this->yandexEntryPoint->detectLanguage($detectLanguageModel);
-
-        if ($detectLanguageResponse->getLang() === $locale) {
-            return $value;
-        }
-
-        /** @var YandexRequestModel $translationRequestModel */
-        $translationRequestModel = RequestFactory::createTranslateRequestModel($value, $locale);
-
-        /** @var TranslatedTextResponse $translated */
-        $translated = $this->yandexEntryPoint->translate($translationRequestModel);
-
-        return $translated->getText();
+    public function detectLanguage(string $text): TranslatedEntryInterface
+    {
+        // TODO: Implement detectLanguage() method.
     }
+
     /**
      * @param array $translations
      * @return Translations

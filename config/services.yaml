@@ -135,6 +135,7 @@ services:
 
     App\Translation\:
         resource: '../src/Translation'
+        exclude: '../src/Translation/Model/*'
 
     App\Library\Http\HttpCommunicator:
 
