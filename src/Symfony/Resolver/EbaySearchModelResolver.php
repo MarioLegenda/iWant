@@ -5,6 +5,7 @@ namespace App\Symfony\Resolver;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Library\MarketplaceType;
 use App\Web\Library\View\EbaySearchViewType;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
      */
     public function supports(Request $request, ArgumentMetadata $argument)
     {
-        if ($argument->getType() !== SearchModel::class) {
+        if ($argument->getType() !== SearchModelInterface::class) {
             return false;
         }
 

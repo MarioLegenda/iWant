@@ -287,23 +287,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->hideDuplicateItems = $hideDuplicateItems;
     }
     /**
-     * @param array $replacementData
-     * @return string
-     */
-    public function getUniqueName(array $replacementData = []): string
-    {
-        return md5(serialize([
-            'keyword' => (isset($replacementData['keyword'])) ? $replacementData['keyword'] : $this->getKeyword(),
-            'bestMatch' => (isset($replacementData['bestMatch'])) ? $replacementData['bestMatch'] : $this->isBestMatch(),
-            'highQuality' => (isset($replacementData['highQuality'])) ? $replacementData['highQuality'] : $this->isHighQuality(),
-            'shippingCountries' => (isset($replacementData['shippingCountries'])) ? $replacementData['shippingCountries'] : $this->getShippingCountries(),
-            'internalPagination' => (isset($replacementData['internalPagination']) and $replacementData['internalPagination'] instanceof Pagination) ? $replacementData['internalPagination']->toArray() : $this->getInternalPagination()->toArray(),
-            'page' => $this->getInternalPagination()->getPage(),
-            'globalId' => $this->getGlobalId(),
-            'hideDuplicateItems' => (isset($replacementData['hideDuplicateItems'])) ? $replacementData['hideDuplicateItems'] : $this->isHideDuplicateItems(),
-        ]));
-    }
-    /**
      * @return iterable
      */
     public function toArray(): iterable

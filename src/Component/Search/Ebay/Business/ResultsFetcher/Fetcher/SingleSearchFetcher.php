@@ -6,11 +6,15 @@ use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
+use App\Translation\Model\Language;
+use App\Translation\Model\Translation;
+use App\Translation\YandexTranslationCenter;
 
 class SingleSearchFetcher implements FetcherInterface
 {
@@ -27,16 +31,23 @@ class SingleSearchFetcher implements FetcherInterface
      */
     private $filterApplier;
     /**
+     * @var YandexTranslationCenter $yandexTranslationCenter
+     */
+    private $yandexTranslationCenter;
+    /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
+     * @param YandexTranslationCenter $yandexTranslationCenter
      */
     public function __construct(
         ResponseFetcher $responseFetcher,
+        YandexTranslationCenter $yandexTranslationCenter,
         SearchResponseCacheImplementation $searchResponseCacheImplementation
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
+        $this->yandexTranslationCenter = $yandexTranslationCenter;
     }
     /**
      * @param SearchModelInterface|SearchModel $model
@@ -48,6 +59,8 @@ class SingleSearchFetcher implements FetcherInterface
      */
     public function getResults(SearchModelInterface $model, array $replacementData = []): iterable
     {
+        $model = $this->translateKeywordsToEnglishIfRequired($model);
+
         $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {
@@ -96,5 +109,38 @@ class SingleSearchFetcher implements FetcherInterface
         $presentationResultsArray = $presentationResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
         return $presentationResultsArray;
+    }
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return SearchModelInterface
+     */
+    private function translateKeywordsToEnglishIfRequired(SearchModelInterface $model): SearchModelInterface
+    {
+        /** @var Language $language */
+        $language = $this->yandexTranslationCenter->detectLanguage($model->getKeyword());
+
+        if ($language->getEntry() === 'en') {
+            return $model;
+        }
+
+        if ($language->getEntry() !== 'en') {
+            /** @var Translation $translation */
+            $translation = $this->yandexTranslationCenter->translate('en', $model->getKeyword());
+
+            /** @var InternalSearchModel $internalSearchModel */
+            $internalSearchModel = SearchModel::createInternalSearchModelFromSearchModel($model);
+
+            $internalSearchModel->setKeyword($translation->getEntry());
+
+            return $internalSearchModel;
+        }
+
+        $message = sprintf(
+            'An unhandled condition error. This part of the code should never been reached in %s::%s',
+            get_class($this),
+            __FUNCTION__
+        );
+
+        throw new \RuntimeException($message);
     }
 }

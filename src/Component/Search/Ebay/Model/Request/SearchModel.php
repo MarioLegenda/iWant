@@ -215,9 +215,13 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
         ];
     }
-
-    public static function createInternalSearchModelFromSearchModel(SearchModel $model): SearchModelInterface
-    {
+    /**
+     * @param SearchModel $model
+     * @return SearchModelInterface
+     */
+    public static function createInternalSearchModelFromSearchModel(
+        SearchModel $model
+    ): SearchModelInterface {
         $keyword = $model->getKeyword();
         $lowestPrice = $model->isLowestPrice();
         $highestPrice = $model->isHighestPrice();

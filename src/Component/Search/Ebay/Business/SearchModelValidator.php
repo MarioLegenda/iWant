@@ -3,13 +3,14 @@
 namespace App\Component\Search\Ebay\Business;
 
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 
 class SearchModelValidator
 {
     /**
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface $model
      */
-    public function validate(SearchModel $model)
+    public function validate(SearchModelInterface $model)
     {
         if ($model->isLowestPrice() and $model->isHighestPrice()) {
             $message = sprintf(

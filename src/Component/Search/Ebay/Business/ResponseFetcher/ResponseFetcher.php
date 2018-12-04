@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business\ResponseFetcher;
 
+use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\Factory\SearchResponseModelFactory;
 use App\Component\Search\Ebay\Business\Finder;
 use App\Component\Search\Ebay\Business\InvalidResponseHandler;
@@ -56,9 +57,11 @@ class ResponseFetcher
 
         $searchResults = $findingApiResponse->getSearchResults();
 
+        $identifier = (is_string($identifier)) ? $identifier : UniqueIdentifierFactory::createIdentifier($model);
+
         /** @var TypedArray $typedArrayResults */
         return $this->searchResponseModelFactory->fromSearchResults(
-            (is_string($identifier)) ? $identifier : $model->getUniqueName(),
+            $identifier,
             $model->getGlobalId(),
             $searchResults
         );

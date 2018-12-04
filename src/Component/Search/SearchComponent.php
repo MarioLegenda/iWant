@@ -38,7 +38,6 @@ class SearchComponent
 
         $this->searchAbstraction->getProducts($model);
     }
-
     /**
      * @param SearchModelInterface|SearchModel $model
      * @return iterable
@@ -49,7 +48,6 @@ class SearchComponent
 
         return $products;
     }
-
     /**
      * @param SearchModel|SearchModelInterface $model
      * @return iterable
@@ -65,7 +63,6 @@ class SearchComponent
 
         return $this->searchAbstraction->translateListing($listing, $model);
     }
-
     /**
      * @param SearchModel $model
      * @return array
