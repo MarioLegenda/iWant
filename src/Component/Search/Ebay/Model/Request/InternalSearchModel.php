@@ -4,7 +4,7 @@ namespace App\Component\Search\Ebay\Model\Request;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class SearchModel implements SearchModelInterface, ArrayNotationInterface
+class InternalSearchModel implements SearchModelInterface, ArrayNotationInterface
 {
     /**
      * @var string $keyword
@@ -111,11 +111,25 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->keyword;
     }
     /**
+     * @param string $keyword
+     */
+    public function setKeyword(string $keyword): void
+    {
+        $this->keyword = $keyword;
+    }
+    /**
      * @return bool
      */
     public function isLowestPrice(): bool
     {
         return $this->lowestPrice;
+    }
+    /**
+     * @param bool $lowestPrice
+     */
+    public function setLowestPrice(bool $lowestPrice): void
+    {
+        $this->lowestPrice = $lowestPrice;
     }
     /**
      * @return bool
@@ -125,39 +139,11 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->highestPrice;
     }
     /**
-     * @return bool
+     * @param bool $highestPrice
      */
-    public function isHighQuality(): bool
+    public function setHighestPrice(bool $highestPrice): void
     {
-        return $this->highQuality;
-    }
-    /**
-     * @return iterable
-     */
-    public function getShippingCountries(): iterable
-    {
-        return $this->shippingCountries;
-    }
-    /**
-     * @return iterable
-     */
-    public function getTaxonomies(): iterable
-    {
-        return $this->taxonomies;
-    }
-    /**
-     * @return Pagination
-     */
-    public function getPagination(): Pagination
-    {
-        return $this->pagination;
-    }
-    /**
-     * @return string
-     */
-    public function getGlobalId(): string
-    {
-        return $this->globalId;
+        $this->highestPrice = $highestPrice;
     }
     /**
      * @return bool
@@ -167,11 +153,96 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->bestMatch;
     }
     /**
+     * @param bool $bestMatch
+     */
+    public function setBestMatch(bool $bestMatch): void
+    {
+        $this->bestMatch = $bestMatch;
+    }
+    /**
+     * @return bool
+     */
+    public function isHighQuality(): bool
+    {
+        return $this->highQuality;
+    }
+    /**
+     * @param bool $highQuality
+     */
+    public function setHighQuality(bool $highQuality): void
+    {
+
+        $this->highQuality = $highQuality;
+    }
+    /**
+     * @return iterable
+     */
+    public function getShippingCountries(): iterable
+    {
+        return $this->shippingCountries;
+    }
+    /**
+     * @param iterable $shippingCountries
+     */
+    public function setShippingCountries(iterable $shippingCountries): void
+    {
+        $this->shippingCountries = $shippingCountries;
+    }
+    /**
+     * @return iterable
+     */
+    public function getTaxonomies(): iterable
+    {
+        return $this->taxonomies;
+    }
+    /**
+     * @param iterable $taxonomies
+     */
+    public function setTaxonomies(iterable $taxonomies): void
+    {
+        $this->taxonomies = $taxonomies;
+    }
+    /**
+     * @return string
+     */
+    public function getGlobalId(): string
+    {
+        return $this->globalId;
+    }
+    /**
+     * @param string $globalId
+     */
+    public function setGlobalId(string $globalId): void
+    {
+        $this->globalId = $globalId;
+    }
+    /**
+     * @return Pagination
+     */
+    public function getPagination(): Pagination
+    {
+        return $this->pagination;
+    }
+    /**
+     * @param Pagination $pagination
+     */
+    public function setPagination(Pagination $pagination): void
+    {
+        $this->pagination = $pagination;
+    }
+    /**
      * @return string
      */
     public function getLocale(): string
     {
         return $this->locale;
+    }
+    /**
+     * @param string $locale
+     */
+    public function setLocale(string $locale): void
+    {
+        $this->locale = $locale;
     }
     /**
      * @return Pagination
@@ -181,11 +252,11 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->internalPagination;
     }
     /**
-     * @return bool
+     * @param Pagination $internalPagination
      */
-    public function isHideDuplicateItems(): bool
+    public function setInternalPagination(Pagination $internalPagination): void
     {
-        return $this->hideDuplicateItems;
+        $this->internalPagination = $internalPagination;
     }
     /**
      * @return bool
@@ -193,6 +264,27 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     public function isDoubleLocaleSearch(): bool
     {
         return $this->doubleLocaleSearch;
+    }
+    /**
+     * @param bool $doubleLocaleSearch
+     */
+    public function setDoubleLocaleSearch(bool $doubleLocaleSearch): void
+    {
+        $this->doubleLocaleSearch = $doubleLocaleSearch;
+    }
+    /**
+     * @return bool
+     */
+    public function isHideDuplicateItems(): bool
+    {
+        return $this->hideDuplicateItems;
+    }
+    /**
+     * @param bool $hideDuplicateItems
+     */
+    public function setHideDuplicateItems(bool $hideDuplicateItems): void
+    {
+        $this->hideDuplicateItems = $hideDuplicateItems;
     }
     /**
      * @param array $replacementData
@@ -231,38 +323,5 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'hideDuplicateItems' => $this->isHideDuplicateItems(),
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
         ];
-    }
-
-    public static function createInternalSearchModelFromSearchModel(SearchModel $model): SearchModelInterface
-    {
-        $keyword = $model->getKeyword();
-        $lowestPrice = $model->isLowestPrice();
-        $highestPrice = $model->isHighestPrice();
-        $bestMatch = $model->isBestMatch();
-        $highQuality = $model->isHighQuality();
-        $shippingCountries = $model->getShippingCountries();
-        $taxonomies = $model->getTaxonomies();
-        $globalId = $model->getGlobalId();
-        $pagination = $model->getPagination();
-        $locale = $model->getLocale();
-        $internalPagination = $model->getInternalPagination();
-        $hideDuplicateItems = $model->isHideDuplicateItems();
-        $doubleLocaleSearch = $model->isDoubleLocaleSearch();
-
-        return new InternalSearchModel(
-            $keyword,
-            $lowestPrice,
-            $highestPrice,
-            $highQuality,
-            $bestMatch,
-            $shippingCountries,
-            $taxonomies,
-            $pagination,
-            $globalId,
-            $locale,
-            $internalPagination,
-            $hideDuplicateItems,
-            $doubleLocaleSearch
-        );
     }
 }

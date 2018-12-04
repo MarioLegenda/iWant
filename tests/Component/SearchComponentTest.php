@@ -170,4 +170,35 @@ class SearchComponentTest extends BasicSetup
             }
         }
     }
+
+    public function test_double_locale_search()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'maceta de jardín',
+            'locale' => 'en',
+            'lowestPrice' => false,
+            'highQuality' => false,
+            'highestPrice' => true,
+            'globalId' => 'EBAY-DE',
+            'internalPagination' => new Pagination(8, 1),
+            'pagination' => new Pagination(80, 1),
+            'doubleLocaleSearch' => true,
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        static::assertNotEmpty($products);
+        static::assertInternalType('array', $products);
+        static::assertEquals($model->getPagination()->getLimit(), count($products));
+    }
 }

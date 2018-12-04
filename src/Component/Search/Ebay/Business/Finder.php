@@ -2,7 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business;
 
-use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Component\Search\Ebay\Business\Factory\EbayModelFactory;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
@@ -31,7 +31,7 @@ class Finder
         $this->ebayModelFactory = $ebayModelFactory;
     }
 
-    public function findEbayProductsAdvanced(EbaySearchModel $model): ResponseModelInterface
+    public function findEbayProductsAdvanced(SearchModelInterface $model): ResponseModelInterface
     {
         /** @var FindingApiModel $findingApiModel */
         $findingApiModel = $this->ebayModelFactory->createFindItemsAdvancedModel($model);

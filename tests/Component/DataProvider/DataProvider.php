@@ -3,17 +3,12 @@
 namespace App\Tests\Component\DataProvider;
 
 use App\Component\Search\Ebay\Model\Request\Pagination as EbayPagination;
-use App\Component\Search\Ebay\Model\Request\Pagination;
-use App\Component\Search\Ebay\Model\Request\Range;
-use App\Component\Search\Etsy\Model\Request\Pagination as EtsyPagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
-use App\Component\Search\Etsy\Model\Request\SearchModel as EtsySearchModel;
 use App\Doctrine\Entity\ApplicationShop;
 use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Library\MarketplaceType;
 use App\Tests\Library\FakerTrait;
-use App\Web\Library\View\EbaySearchViewType;
 
 class DataProvider
 {
@@ -30,7 +25,6 @@ class DataProvider
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
-        $marketplaces = (isset($data['marketplaces'])) ? $data['marketplaces']: [];
         $taxonomies = (isset($data['taxonomies'])) ? $data['taxonomies']: [];
         $globalIds = $data['globalId'];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof EbayPagination)
@@ -44,6 +38,7 @@ class DataProvider
         $locale = (isset($data['locale']) ? $data['locale'] : 'en');
 
         $hideDuplicateItems = (isset($data['hideDuplicateItems'])) ? $data['hideDuplicateItems'] : false;
+        $doubleLocaleSearch = (isset($data['doubleLocaleSearch'])) ? $data['doubleLocaleSearch'] : false;
 
         return new EbaySearchModel(
             $keyword,
@@ -52,13 +47,13 @@ class DataProvider
             $highQuality,
             $bestMatch,
             $shippingCountries,
-            $marketplaces,
             $taxonomies,
             $pagination,
             $globalIds,
             $locale,
             $internalPagination,
-            $hideDuplicateItems
+            $hideDuplicateItems,
+            $doubleLocaleSearch
         );
     }
     /**

@@ -37,11 +37,6 @@ class SearchCache
      */
     private $productsResponse;
     /**
-     * @var int $page
-     * @Column(type="integer")
-     */
-    private $page;
-    /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
      */
@@ -65,16 +60,13 @@ class SearchCache
      * SearchCache constructor.
      * @param string $uniqueName
      * @param string $productsResponse
-     * @param int $page
      * @param int $expiresAt
      */
     public function __construct(
         string $uniqueName,
         string $productsResponse,
-        int $page,
         int $expiresAt
     ) {
-        $this->page = $page;
         $this->uniqueName = $uniqueName;
         $this->productsResponse = $productsResponse;
         $this->expiresAt = $expiresAt;
@@ -113,20 +105,6 @@ class SearchCache
     public function setProductsResponse(string $productsResponse): void
     {
         $this->productsResponse = $productsResponse;
-    }
-    /**
-     * @return int
-     */
-    public function getPage(): int
-    {
-        return $this->page;
-    }
-    /**
-     * @param int $page
-     */
-    public function setPage(int $page): void
-    {
-        $this->page = $page;
     }
     /**
      * @return int

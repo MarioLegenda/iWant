@@ -5,7 +5,9 @@ namespace App\Component\Search\Ebay\Business\ResponseFetcher;
 use App\Component\Search\Ebay\Business\Factory\SearchResponseModelFactory;
 use App\Component\Search\Ebay\Business\Finder;
 use App\Component\Search\Ebay\Business\InvalidResponseHandler;
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Response\ResponseModelInterface;
@@ -41,11 +43,11 @@ class ResponseFetcher
         $this->searchResponseModelFactory = $searchResponseModelFactory;
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param string|null $identifier
      * @return iterable
      */
-    public function getResponse(SearchModel $model, string $identifier = null): iterable
+    public function getResponse(SearchModelInterface $model, string $identifier = null): iterable
     {
         /** @var XmlFindingApiResponseModel $findingApiResponse */
         $findingApiResponse = $this->searchEbayAdvanced($model);
@@ -62,10 +64,10 @@ class ResponseFetcher
         );
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return FindingApiResponseModelInterface
      */
-    private function searchEbayAdvanced(SearchModel $model): ResponseModelInterface
+    private function searchEbayAdvanced(SearchModelInterface $model): ResponseModelInterface
     {
         return $this->finder->findEbayProductsAdvanced($model);
     }
