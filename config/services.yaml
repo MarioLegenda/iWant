@@ -4,6 +4,8 @@ parameters:
         amazon: Amazon
         etsy: Etsy
 
+    ebay_pagination_limit: 80
+
     ebay_site_lang_locale_mapping:
         'EBAY-DE': { locale: de, mainLocale: en }
         'EBAY-AT': { locale: de, mainLocale: en }
