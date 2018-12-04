@@ -8,6 +8,7 @@ use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Doctrine\Entity\ItemTranslationCache;
 use App\Library\Util\Environment;
 use App\Library\Util\Util;
+use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
@@ -50,6 +51,20 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
         $this->environment = $environment;
     }
 
+    public function translateFromTo(Language $from, Language $to, string $text): Translation
+    {
+        throw new \RuntimeException('Not yet implemented');
+    }
+    /**
+     * @param string $value
+     * @param string $locale
+     * @param string|null $entryId
+     * @param string|null $identifier
+     * @return TranslatedEntryInterface
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function translate(
         string $value,
         string $locale,
@@ -155,7 +170,16 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
 
         return new Translation($translated);
     }
-
+    /**
+     * @param array $item
+     * @param array $keys
+     * @param string|null $locale
+     * @param string|null $identifier
+     * @return array
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function translateArray(
         array $item,
         array $keys,

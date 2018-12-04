@@ -28,6 +28,24 @@ class YandexTranslationCenter implements TranslationCenterInterface
         $this->yandexEntryPoint = $yandexEntryPoint;
     }
     /**
+     * @param Language $from
+     * @param Language $to
+     * @param string $text
+     * @return Translation
+     */
+    public function translateFromTo(Language $from, Language $to, string $text): Translation
+    {
+        $fromTo = sprintf('%s-%s', (string) $from, (string) $to);
+
+        /** @var YandexRequestModel $translationRequestModel */
+        $translationRequestModel = RequestFactory::createTranslateRequestModel($text, $fromTo);
+
+        /** @var TranslatedTextResponse $translated */
+        $translated = $this->yandexEntryPoint->translate($translationRequestModel);
+
+        return new Translation($translated->getText());
+    }
+    /**
      * @param string $locale
      * @param string $value
      * @return TranslatedEntryInterface

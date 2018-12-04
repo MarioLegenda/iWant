@@ -11,6 +11,7 @@ use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Representation\MainLocaleRepresentation;
 use App\Library\Util\TypedRecursion;
 use App\Translation\Model\Language;
 use App\Translation\Model\Translation;
@@ -35,19 +36,26 @@ class SingleSearchFetcher implements FetcherInterface
      */
     private $yandexTranslationCenter;
     /**
+     * @var MainLocaleRepresentation $mainLocaleRepresentation
+     */
+    private $mainLocaleRepresentation;
+    /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param YandexTranslationCenter $yandexTranslationCenter
+     * @param MainLocaleRepresentation $mainLocaleRepresentation
      */
     public function __construct(
         ResponseFetcher $responseFetcher,
         YandexTranslationCenter $yandexTranslationCenter,
-        SearchResponseCacheImplementation $searchResponseCacheImplementation
+        SearchResponseCacheImplementation $searchResponseCacheImplementation,
+        MainLocaleRepresentation $mainLocaleRepresentation
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->yandexTranslationCenter = $yandexTranslationCenter;
+        $this->mainLocaleRepresentation = $mainLocaleRepresentation;
     }
     /**
      * @param SearchModelInterface|SearchModel $model
@@ -119,13 +127,17 @@ class SingleSearchFetcher implements FetcherInterface
         /** @var Language $language */
         $language = $this->yandexTranslationCenter->detectLanguage($model->getKeyword());
 
-        if ($language->getEntry() === 'en') {
+        if ($language->getEntry() === (string) $this->mainLocaleRepresentation) {
             return $model;
         }
 
-        if ($language->getEntry() !== 'en') {
+        if ($language->getEntry() !== (string) $this->mainLocaleRepresentation) {
             /** @var Translation $translation */
-            $translation = $this->yandexTranslationCenter->translate('en', $model->getKeyword());
+            $translation = $this->yandexTranslationCenter->translateFromTo(
+                $language,
+                new Language((string) $this->mainLocaleRepresentation),
+                $model->getKeyword()
+            );
 
             /** @var InternalSearchModel $internalSearchModel */
             $internalSearchModel = SearchModel::createInternalSearchModelFromSearchModel($model);

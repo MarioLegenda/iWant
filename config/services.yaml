@@ -164,6 +164,10 @@ services:
         arguments:
             $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
 
+    App\Library\Representation\MainLocaleRepresentation:
+        arguments:
+            $mainLocale: '%locale%'
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:
