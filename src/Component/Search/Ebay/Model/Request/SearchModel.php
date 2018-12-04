@@ -4,7 +4,7 @@ namespace App\Component\Search\Ebay\Model\Request;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class SearchModel implements ArrayNotationInterface
+class SearchModel implements SearchModelInterface, ArrayNotationInterface
 {
     /**
      * @var string $keyword

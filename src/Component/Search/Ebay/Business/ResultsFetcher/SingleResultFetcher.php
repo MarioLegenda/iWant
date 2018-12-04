@@ -3,13 +3,15 @@
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
+use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 
-class SourceUnFilteredFetcher implements FetcherInterface
+class SingleResultFetcher implements FetcherInterface
 {
     /**
      * @var ResponseFetcher $responseFetcher
@@ -19,6 +21,10 @@ class SourceUnFilteredFetcher implements FetcherInterface
      * @var SearchResponseCacheImplementation $searchResponseCacheImplementation
      */
     private $searchResponseCacheImplementation;
+    /**
+     * @var FilterApplierInterface $filterApplier
+     */
+    private $filterApplier;
     /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
@@ -41,13 +47,18 @@ class SourceUnFilteredFetcher implements FetcherInterface
      */
     public function getResults(SearchModel $model, array $replacementData = []): iterable
     {
-        $identifier = $model->getUniqueName($replacementData);
+        $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {
             /** @var SearchCache $presentationResults */
             $presentationResults = $this->searchResponseCacheImplementation->getStored($identifier);
+            $presentationResultsArray =  json_decode($presentationResults->getProductsResponse(), true);
 
-            return json_decode($presentationResults->getProductsResponse(), true);
+            if ($this->filterApplier instanceof FilterApplierInterface) {
+                return $this->filterApplier->apply($presentationResultsArray);
+            }
+
+            return $presentationResultsArray;
         }
 
         $presentationResultsArray = $this->getFreshResults($model, $identifier);
@@ -58,7 +69,18 @@ class SourceUnFilteredFetcher implements FetcherInterface
             jsonEncodeWithFix($presentationResultsArray)
         );
 
+        if ($this->filterApplier instanceof FilterApplierInterface) {
+            return $this->filterApplier->apply($presentationResultsArray);
+        }
+
         return $presentationResultsArray;
+    }
+    /**
+     * @param FilterApplierInterface $filterApplier
+     */
+    public function addFilterApplier(FilterApplierInterface $filterApplier)
+    {
+        $this->filterApplier = $filterApplier;
     }
     /**
      * @param SearchModel $model

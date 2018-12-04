@@ -2,48 +2,46 @@
 
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
+use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
+use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 
 class FetcherFactory
 {
     /**
-     * @var SourceUnFilteredFetcher $sourceUnfilteredFetcher
+     * @var SingleResultFetcher $singleResultFetcher
      */
-    private $sourceUnFilteredFetcher;
+    private $singleResultFetcher;
     /**
-     * @var LowestPriceFetcher $lowestPriceFetcher
+     * @var FilterApplierInterface $filterApplier
      */
-    private $lowestPriceFetcher;
-    /**
-     * @var HighestPriceFetcher $highestPriceFetcher
-     */
-    private $highestPriceFetcher;
+    private $filterApplier;
     /**
      * FetcherFactory constructor.
-     * @param SourceUnFilteredFetcher $sourceUnFilteredFetcher
-     * @param LowestPriceFetcher $lowestPriceFetcher
-     * @param HighestPriceFetcher $highestPriceFetcher
+     * @param SingleResultFetcher $singleResultFetcher
+     * @param FilterApplierInterface $filterApplier
      */
     public function __construct(
-        SourceUnFilteredFetcher $sourceUnFilteredFetcher,
-        LowestPriceFetcher $lowestPriceFetcher,
-        HighestPriceFetcher $highestPriceFetcher
+        SingleResultFetcher $singleResultFetcher,
+        FilterApplierInterface $filterApplier
     ) {
-        $this->sourceUnFilteredFetcher = $sourceUnFilteredFetcher;
-        $this->lowestPriceFetcher = $lowestPriceFetcher;
-        $this->highestPriceFetcher = $highestPriceFetcher;
+        $this->singleResultFetcher = $singleResultFetcher;
+        $this->filterApplier = $filterApplier;
     }
-
+    /**
+     * @param SearchModel $model
+     * @return object
+     */
     public function decideFetcher(SearchModel $model): object
     {
         if ($model->isLowestPrice()) {
-            return $this->lowestPriceFetcher;
+            $this->filterApplier->add(new LowestPriceFilter());
         }
 
-        if ($model->isHighestPrice()) {
-            return $this->highestPriceFetcher;
+        if ($this->filterApplier->hasFilters()) {
+            $this->singleResultFetcher->addFilterApplier($this->filterApplier);
         }
 
-        return $this->sourceUnFilteredFetcher;
+        return $this->singleResultFetcher;
     }
 }
