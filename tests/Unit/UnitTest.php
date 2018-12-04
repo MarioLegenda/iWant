@@ -2,8 +2,10 @@
 
 namespace App\Tests\Unit;
 
+use App\Component\Search\Ebay\Business\PaginationHandler;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
+use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
@@ -189,5 +191,23 @@ class UnitTest extends BasicSetup
 
         static::assertNotEmpty($languageTranslationRepresentation->toArray());
         static::assertInternalType('array', $languageTranslationRepresentation->toArray());
+    }
+
+    public function test_pagination_handler()
+    {
+        $listing = range(1, 80);
+
+        /** @var PaginationHandler $paginationHandler */
+        $paginationHandler = $this->locator->get(PaginationHandler::class);
+
+        $pagination = new Pagination(8, 1);
+        $paginatedListing = $paginationHandler->paginateListing($listing, $pagination);
+
+        static::assertEquals(1, $paginatedListing[0]);
+
+        $pagination = new Pagination(8, 2);
+        $paginatedListing = $paginationHandler->paginateListing($listing, $pagination);
+
+        static::assertEquals(9, $paginatedListing[0]);
     }
 }

@@ -69,6 +69,12 @@ const LoadMore = {
             this.resetPagination();
 
             return newVal;
+        },
+        getFilters: (prev, next) => {}
+    },
+    computed: {
+        getFilters: function() {
+            this.resetPagination();
         }
     },
     methods: {
@@ -241,6 +247,9 @@ export const EbayItems = {
                     let model = Object.assign({}, this.getModel, {
                         filters: this.getFilters,
                     });
+
+                    model.pagination = { limit: 8, page: 1 };
+                    model.internalPagination = { limit: 80, page: 1 };
 
                     this.$store.dispatch('totalListingUpdate', model);
 

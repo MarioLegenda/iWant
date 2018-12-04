@@ -136,7 +136,7 @@ class SearchComponentTest extends BasicSetup
             'globalId' => 'EBAY-DE',
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
-            'hideDuplicateItems' => true,
+            'hideDuplicateItems' => false,
         ];
 
         /** @var SearchModel $model */

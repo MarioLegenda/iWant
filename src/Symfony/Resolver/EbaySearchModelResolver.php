@@ -65,13 +65,13 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['highQuality'],
             $filters['bestMatch'],
             $filters['shippingCountries'],
-            $filters['marketplaces'],
             $filters['taxonomies'],
             new Pagination($pagination['limit'], $pagination['page']),
             $globalId,
             $locale,
             new Pagination($internalPagination['limit'], $internalPagination['page']),
-            $filters['hideDuplicateItems']
+            $filters['hideDuplicateItems'],
+            false
         );
 
         return true;
