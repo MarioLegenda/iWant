@@ -6,6 +6,7 @@ use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherFactory;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Component\Search\Ebay\Model\Response\Title;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
@@ -43,7 +44,11 @@ class SearchAbstraction
         $this->fetcherFactory = $fetcherFactory;
     }
 
-    public function getProducts(SearchModel $model): array
+    /**
+     * @param SearchModelInterface|SearchModel $model
+     * @return array
+     */
+    public function getProducts(SearchModelInterface $model): array
     {
         $products = $this->fetcherFactory->decideFetcher($model)->getResults($model);
 
@@ -51,18 +56,18 @@ class SearchAbstraction
     }
     /**
      * @param array $listing
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface $model
      * @return iterable
      */
-    public function paginateListing(array $listing, SearchModel $model): iterable
+    public function paginateListing(array $listing, SearchModelInterface $model): iterable
     {
         return $this->paginationHandler->paginateListing($listing, $model->getPagination());
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface $model
      * @return iterable
      */
-    public function paginateListingAutomatic(SearchModel $model): iterable
+    public function paginateListingAutomatic(SearchModelInterface $model): iterable
     {
         $products = $this->getProducts($model);
 
@@ -116,13 +121,13 @@ class SearchAbstraction
     }
     /**
      * @param array $listing
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface $model
      * @return iterable
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function translateListing(array $listing, SearchModel $model): iterable
+    public function translateListing(array $listing, SearchModelInterface $model): iterable
     {
         return $this->translateSearchResults($listing, $model->getLocale());
     }

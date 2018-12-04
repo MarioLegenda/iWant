@@ -2,6 +2,8 @@
 
 namespace App\Component\Search\Ebay\Business;
 
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Component\Search\Ebay\Business\Factory\EbayModelFactory;
 use App\Ebay\Library\Response\ResponseModelInterface;
@@ -30,7 +32,12 @@ class Finder
         $this->findingApiEntryPoint = $findingApiEntryPoint;
         $this->ebayModelFactory = $ebayModelFactory;
     }
-
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
+     */
     public function findEbayProductsAdvanced(SearchModelInterface $model): ResponseModelInterface
     {
         /** @var FindingApiModel $findingApiModel */

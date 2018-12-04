@@ -7,6 +7,7 @@ use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
@@ -38,14 +39,14 @@ class SingleSearchFetcher implements FetcherInterface
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel $model
      * @param array $replacementData
      * @return iterable
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function getResults(SearchModel $model, array $replacementData = []): iterable
+    public function getResults(SearchModelInterface $model, array $replacementData = []): iterable
     {
         $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
@@ -83,11 +84,11 @@ class SingleSearchFetcher implements FetcherInterface
         $this->filterApplier = $filterApplier;
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModelInterface|SearchModel $model
      * @param string|null $identifier
      * @return iterable
      */
-    public function getFreshResults(SearchModel $model, string $identifier = null)
+    public function getFreshResults(SearchModelInterface $model, string $identifier = null)
     {
         /** @var TypedArray $presentationResults */
         $presentationResults = $this->responseFetcher->getResponse($model, $identifier);

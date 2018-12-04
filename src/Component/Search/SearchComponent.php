@@ -5,6 +5,7 @@ namespace App\Component\Search;
 use App\Component\Search\Ebay\Business\SearchAbstraction;
 use App\Component\Search\Ebay\Business\SearchModelValidator;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 
 class SearchComponent
 {
@@ -29,23 +30,34 @@ class SearchComponent
         $this->searchModelValidator = $searchModelValidator;
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface $model
      */
-    public function saveProducts(SearchModel $model): void
+    public function saveProducts(SearchModelInterface $model): void
     {
         $this->searchModelValidator->validate($model);
 
         $this->searchAbstraction->getProducts($model);
     }
 
-    public function getProductsGrouped(SearchModel $model): iterable
+    /**
+     * @param SearchModelInterface|SearchModel $model
+     * @return iterable
+     */
+    public function getProductsGrouped(SearchModelInterface $model): iterable
     {
         $products = $this->searchAbstraction->getProducts($model);
 
         return $products;
     }
 
-    public function getProductsPaginated(SearchModel $model): iterable
+    /**
+     * @param SearchModel|SearchModelInterface $model
+     * @return iterable
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function getProductsPaginated(SearchModelInterface $model): iterable
     {
         $this->searchModelValidator->validate($model);
 

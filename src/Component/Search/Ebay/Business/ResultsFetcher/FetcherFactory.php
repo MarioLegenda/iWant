@@ -7,6 +7,7 @@ use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\SingleSearchFetcher;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 
 class FetcherFactory
 {
@@ -31,10 +32,10 @@ class FetcherFactory
         $this->filterApplier = $filterApplier;
     }
     /**
-     * @param SearchModel $model
+     * @param SearchModel|SearchModelInterface $model
      * @return object
      */
-    public function decideFetcher(SearchModel $model): object
+    public function decideFetcher(SearchModelInterface $model): object
     {
         if ($model->isLowestPrice()) {
             $this->filterApplier->add(new LowestPriceFilter());

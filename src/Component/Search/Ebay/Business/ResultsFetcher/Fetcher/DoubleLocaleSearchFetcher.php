@@ -8,6 +8,7 @@ use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterf
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
 use App\Yandex\Library\Request\RequestFactory;
@@ -64,7 +65,7 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         $this->singleSearchFetcher = $singleSearchFetcher;
     }
 
-    public function getResults(SearchModel $model, array $replacements = []): array
+    public function getResults(SearchModelInterface $model, array $replacements = []): array
     {
         $uniqueName = $model->getUniqueName();
 
