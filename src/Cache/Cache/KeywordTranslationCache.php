@@ -51,7 +51,7 @@ class KeywordTranslationCache
         ]);
 
         if ($keywordTranslationEntity instanceof KeywordTranslationCacheEntity) {
-            $expiresAt = $itemTranslationCache->getExpiresAt();
+            $expiresAt = $keywordTranslationEntity->getExpiresAt();
 
             $currentTimestamp = Util::toDateTime()->getTimestamp();
 
@@ -61,6 +61,22 @@ class KeywordTranslationCache
                 return null;
             }
         }
+
+        return ($keywordTranslationEntity instanceof KeywordTranslationCacheEntity) ?
+            $keywordTranslationEntity :
+            null;
+    }
+    /**
+     * @param string $original
+     * @return KeywordTranslationCacheEntity|null
+     */
+    public function getWithoutExpireTime(string $original): ?KeywordTranslationCacheEntity
+    {
+        /** @var KeywordTranslationCacheEntity $itemTranslationCache */
+        $keywordTranslationEntity = $this->keywordTranslationCacheRepository->findOneBy([
+            'original' => $original,
+            'languageDirection' => (string) $this->mainLocaleRepresentation
+        ]);
 
         return ($keywordTranslationEntity instanceof KeywordTranslationCacheEntity) ?
             $itemTranslationCache :

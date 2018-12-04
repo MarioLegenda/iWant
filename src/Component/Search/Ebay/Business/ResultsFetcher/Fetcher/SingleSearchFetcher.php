@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
+use App\Cache\Implementation\KeywordTranslationCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
@@ -9,6 +10,7 @@ use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
+use App\Doctrine\Entity\KeywordTranslationCache;
 use App\Doctrine\Entity\SearchCache;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\MainLocaleRepresentation;
@@ -40,22 +42,29 @@ class SingleSearchFetcher implements FetcherInterface
      */
     private $mainLocaleRepresentation;
     /**
+     * @var KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation
+     */
+    private $keywordTranslationCacheImplementation;
+    /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param YandexTranslationCenter $yandexTranslationCenter
      * @param MainLocaleRepresentation $mainLocaleRepresentation
+     * @param KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation
      */
     public function __construct(
         ResponseFetcher $responseFetcher,
         YandexTranslationCenter $yandexTranslationCenter,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
-        MainLocaleRepresentation $mainLocaleRepresentation
+        MainLocaleRepresentation $mainLocaleRepresentation,
+        KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->yandexTranslationCenter = $yandexTranslationCenter;
         $this->mainLocaleRepresentation = $mainLocaleRepresentation;
+        $this->keywordTranslationCacheImplementation = $keywordTranslationCacheImplementation;
     }
     /**
      * @param SearchModelInterface|SearchModel $model
@@ -118,12 +127,28 @@ class SingleSearchFetcher implements FetcherInterface
 
         return $presentationResultsArray;
     }
+
     /**
-     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
-     * @return SearchModelInterface
+     * @param SearchModelInterface|SearchModel $model
+     * @return SearchModelInterface|InternalSearchModel
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
     private function translateKeywordsToEnglishIfRequired(SearchModelInterface $model): SearchModelInterface
     {
+        if ($this->keywordTranslationCacheImplementation->isStored($model->getKeyword())) {
+            $storedKeyword = $this->keywordTranslationCacheImplementation->getStored($model->getKeyword());
+
+            if ($storedKeyword instanceof KeywordTranslationCache) {
+                /** @var InternalSearchModel $internalSearchModel */
+                $internalSearchModel = SearchModel::createInternalSearchModelFromSearchModel($model);
+                $internalSearchModel->setKeyword($storedKeyword->getTranslation());
+
+                return $internalSearchModel;
+            }
+        }
+
         /** @var Language $language */
         $language = $this->yandexTranslationCenter->detectLanguage($model->getKeyword());
 
@@ -143,6 +168,11 @@ class SingleSearchFetcher implements FetcherInterface
             $internalSearchModel = SearchModel::createInternalSearchModelFromSearchModel($model);
 
             $internalSearchModel->setKeyword($translation->getEntry());
+
+            $this->keywordTranslationCacheImplementation->upsert(
+                $model->getKeyword(),
+                $translation->getEntry()
+            );
 
             return $internalSearchModel;
         }

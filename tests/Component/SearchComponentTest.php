@@ -76,7 +76,7 @@ class SearchComponentTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.component');
 
         $modelArray = [
-            'keyword' => 'harry potter',
+            'keyword' => 'manguera de Jardín',
             'locale' => 'en',
             'lowestPrice' => true,
             'highQuality' => false,

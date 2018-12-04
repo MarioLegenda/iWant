@@ -37,6 +37,23 @@ class KeywordTranslationCacheImplementation
     /**
      * @param string $original
      * @param string $translation
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function upsert(string $original, string $translation): void
+    {
+        $keywordTranslationEntity = $this->keywordTranslationCache->getWithoutExpireTime($original);
+
+        if ($keywordTranslationEntity instanceof KeywordTranslationCacheEntity) {
+            $this->update($original, $translation);
+        }
+
+        $this->keywordTranslationCache->set($original, $translation);
+    }
+    /**
+     * @param string $original
+     * @param string $translation
      * @return bool
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
