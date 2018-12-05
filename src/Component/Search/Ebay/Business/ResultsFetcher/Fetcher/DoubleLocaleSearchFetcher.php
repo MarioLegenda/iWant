@@ -12,6 +12,8 @@ use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
+use App\Translation\Model\Language;
+use App\Translation\YandexTranslationCenter;
 use App\Yandex\Library\Request\RequestFactory;
 use App\Yandex\Library\Response\DetectLanguageResponse;
 use App\Yandex\Library\Response\TranslatedTextResponse;
@@ -45,25 +47,29 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
      */
     private $singleSearchFetcher;
     /**
+     * @var YandexTranslationCenter $yandexTranslationCenter
+     */
+    private $yandexTranslationCenter;
+    /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param LanguageTranslationsRepresentation $languageTranslationsRepresentation
-     * @param YandexEntryPoint $yandexEntryPoint
      * @param SingleSearchFetcher $singleSearchFetcher
+     * @param YandexTranslationCenter $yandexTranslationCenter
      */
     public function __construct(
         SingleSearchFetcher $singleSearchFetcher,
         ResponseFetcher $responseFetcher,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         LanguageTranslationsRepresentation $languageTranslationsRepresentation,
-        YandexEntryPoint $yandexEntryPoint
+        YandexTranslationCenter $yandexTranslationCenter
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->languageTranslationRepresentation = $languageTranslationsRepresentation;
-        $this->yandexEntryPoint = $yandexEntryPoint;
         $this->singleSearchFetcher = $singleSearchFetcher;
+        $this->yandexTranslationCenter = $yandexTranslationCenter;
     }
 
     /**
@@ -76,10 +82,10 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
      */
     public function getResults(SearchModelInterface $model, array $replacements = []): array
     {
-        $uniqueName = UniqueIdentifierFactory::createIdentifier($model);
+        $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
-        if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
-            $searchCache = $this->searchResponseCacheImplementation->getStored($uniqueName);
+        if ($this->searchResponseCacheImplementation->isStored($identifier)) {
+            $searchCache = $this->searchResponseCacheImplementation->getStored($identifier);
 
             return json_decode($searchCache->getProductsResponse(), true);
         }
@@ -97,18 +103,27 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
 
         $keyword = $model->getKeyword();
 
-        $usedLanguage = $this->detectKeywordsLanguage($keyword);
+        $usedLanguage = $this->yandexTranslationCenter->detectLanguage((string) $keyword);
 
-        $siteLocaleTranslatedKeyword = $this->translateKeyword($keyword, sprintf('%s-%s', $usedLanguage, $siteLocale));
-        $mainLocaleTranslatedKeyword = $this->translateKeyword($keyword, sprintf('%s-%s', $usedLanguage, $mainLocale));
+        $siteLocaleTranslatedKeyword = $this->yandexTranslationCenter->translateFromTo(
+            new Language($usedLanguage),
+            new Language($siteLocale),
+            (string) $keyword
+        );
 
-        $siteLocaleResults = $this->getResultsWithTranslatedKeyword($model, $siteLocaleTranslatedKeyword);
-        $mainLocaleResults = $this->getResultsWithTranslatedKeyword($model, $mainLocaleTranslatedKeyword);
+        $mainLocaleTranslatedKeyword = $this->yandexTranslationCenter->translateFromTo(
+            new Language($usedLanguage),
+            new Language($mainLocale),
+            (string) $keyword
+        );
+
+        $siteLocaleResults = $this->getResultsWithTranslatedKeyword($model, (string) $siteLocaleTranslatedKeyword);
+        $mainLocaleResults = $this->getResultsWithTranslatedKeyword($model, (string) $mainLocaleTranslatedKeyword);
 
         $results = $this->arrangeResults($siteLocaleResults, $mainLocaleResults);
 
         $this->searchResponseCacheImplementation->store(
-            $uniqueName,
+            $identifier,
             jsonEncodeWithFix($results)
         );
 
@@ -165,7 +180,11 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
 
         return $arrangeFinalResultFunction($mainIterationArray, $secondaryIterationArray);
     }
-
+    /**
+     * @param SearchModel $model
+     * @param string $keyword
+     * @return iterable
+     */
     private function getResultsWithTranslatedKeyword(
         SearchModel $model,
         string $keyword
@@ -174,31 +193,9 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         $internalSearchModel = SearchModel::createInternalSearchModelFromSearchModel($model);
         $internalPagination = new Pagination(40, $model->getInternalPagination()->getPage());
 
-        $internalSearchModel->setKeyword($keyword);
+        $internalSearchModel->setKeyword(new Language($keyword));
         $internalSearchModel->setInternalPagination($internalPagination);
 
         return $this->singleSearchFetcher->getFreshResults($internalSearchModel);
-    }
-
-    private function detectKeywordsLanguage(string $keywords): string
-    {
-        /** @var YandexRequestModel $detectLanguageRequest */
-        $detectLanguageRequest = RequestFactory::createDetectLanguageRequestModel($keywords);
-
-        /** @var DetectLanguageResponse $response */
-        $response = $this->yandexEntryPoint->detectLanguage($detectLanguageRequest);
-
-        return $response->getLang();
-    }
-
-    private function translateKeyword(string $keywords, string $locale): string
-    {
-        /** @var YandexRequestModel $detectLanguageRequest */
-        $detectLanguageRequest = RequestFactory::createTranslateRequestModel($keywords, $locale);
-
-        /** @var TranslatedTextResponse $response */
-        $response = $this->yandexEntryPoint->translate($detectLanguageRequest);
-
-        return $response->getText();
     }
 }
