@@ -4,8 +4,8 @@ namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
+use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
-use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
@@ -14,11 +14,7 @@ use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
 use App\Translation\Model\Language;
 use App\Translation\YandexTranslationCenter;
-use App\Yandex\Library\Request\RequestFactory;
-use App\Yandex\Library\Response\DetectLanguageResponse;
-use App\Yandex\Library\Response\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
-use App\Yandex\Presentation\Model\YandexRequestModel;
 
 class DoubleLocaleSearchFetcher implements FetcherInterface
 {
@@ -38,10 +34,6 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
      * @var FilterApplierInterface $filterApplier
      */
     private $filterApplier;
-    /**
-     * @var YandexEntryPoint $yandexEntryPoint
-     */
-    private $yandexEntryPoint;
     /**
      * @var SingleSearchFetcher $singleSearchFetcher
      */
@@ -129,6 +121,7 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
 
         return $results;
     }
+
     /**
      * @param FilterApplierInterface $filterApplier
      */

@@ -216,13 +216,13 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'maceta de jardín',
             'locale' => 'en',
-            'lowestPrice' => false,
+            'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-ES',
             'internalPagination' => new Pagination(8, 1),
             'pagination' => new Pagination(80, 1),
-            'doubleLocaleSearch' => false,
+            'doubleLocaleSearch' => true,
             'fixedPriceOnly' => true,
         ];
 
