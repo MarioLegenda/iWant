@@ -40,6 +40,7 @@ class DataProvider
 
         $hideDuplicateItems = (isset($data['hideDuplicateItems'])) ? $data['hideDuplicateItems'] : false;
         $doubleLocaleSearch = (isset($data['doubleLocaleSearch'])) ? $data['doubleLocaleSearch'] : false;
+        $fixedPriceOnly = (isset($data['fixedPriceOnly'])) ? $data['fixedPriceOnly'] : false;
 
         return new EbaySearchModel(
             $keyword,
@@ -54,7 +55,8 @@ class DataProvider
             $locale,
             $internalPagination,
             $hideDuplicateItems,
-            $doubleLocaleSearch
+            $doubleLocaleSearch,
+            $fixedPriceOnly
         );
     }
     /**

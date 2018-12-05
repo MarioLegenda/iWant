@@ -47,6 +47,8 @@ class ResponseFetcher
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param string|null $identifier
      * @return iterable
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
      */
     public function getResponse(SearchModelInterface $model, string $identifier = null): iterable
     {
@@ -66,9 +68,12 @@ class ResponseFetcher
             $searchResults
         );
     }
+
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
-     * @return FindingApiResponseModelInterface
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
      */
     private function searchEbayAdvanced(SearchModelInterface $model): ResponseModelInterface
     {

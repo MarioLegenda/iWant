@@ -19,7 +19,9 @@ class PaginationHandler
 
         $paginatedListing = [];
         for ($i = $firstIndex; $i <= $lastIndex; $i++) {
-            $paginatedListing[] = $listing[$i];
+            if (array_key_exists($i, $listing)) {
+                $paginatedListing[] = $listing[$i];
+            }
         }
 
         return $paginatedListing;

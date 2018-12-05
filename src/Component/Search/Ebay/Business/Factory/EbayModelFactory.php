@@ -52,6 +52,14 @@ class EbayModelFactory
         SearchModelInterface $model,
         TypedArray $itemFilters
     ) {
+        if ($model->isFixedPriceOnly()) {
+            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::LISTING_TYPE,
+                ['FixedPrice', 'StoreInventory']
+            ));
+        }
 
         if ($model->isHighQuality()) {
             $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
@@ -59,17 +67,6 @@ class EbayModelFactory
                 'value',
                 ItemFilterConstants::CONDITION,
                 ['New', 2000, 2500]
-            ));
-        }
-
-        if (!empty($model->getShippingCountries())) {
-            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::CONDITION,
-                [apply_on_iterable($model->getShippingCountries(), function(array $val) {
-                    return $val['alpha2Code'];
-                })]
             ));
         }
 

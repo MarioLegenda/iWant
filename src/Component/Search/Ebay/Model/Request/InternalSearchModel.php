@@ -60,6 +60,10 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $doubleLocaleSearch = false;
     /**
+     * @var bool $fixedPriceOnly
+     */
+    private $fixedPriceOnly = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -74,6 +78,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param Pagination $internalPagination
      * @param bool $hideDuplicateItems
      * @param bool $doubleLocaleSearch
+     * @param bool $fixedPriceOnly
      */
     public function __construct(
         Language $keyword,
@@ -88,7 +93,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         string $locale,
         Pagination $internalPagination,
         bool $hideDuplicateItems,
-        bool $doubleLocaleSearch
+        bool $doubleLocaleSearch,
+        bool $fixedPriceOnly
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -103,6 +109,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->internalPagination = $internalPagination;
         $this->hideDuplicateItems = $hideDuplicateItems;
         $this->doubleLocaleSearch = $doubleLocaleSearch;
+        $this->fixedPriceOnly = $fixedPriceOnly;
     }
     /**
      * @return Language
@@ -286,6 +293,20 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     public function setHideDuplicateItems(bool $hideDuplicateItems): void
     {
         $this->hideDuplicateItems = $hideDuplicateItems;
+    }
+    /**
+     * @return bool
+     */
+    public function isFixedPriceOnly(): bool
+    {
+        return $this->fixedPriceOnly;
+    }
+    /**
+     * @param bool $fixedPriceOnly
+     */
+    public function setFixedPriceOnly(bool $fixedPriceOnly): void
+    {
+        $this->fixedPriceOnly = $fixedPriceOnly;
     }
     /**
      * @return iterable

@@ -60,6 +60,10 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     private $doubleLocaleSearch = false;
     /**
+     * @var bool $fixedPriceOnly
+     */
+    private $fixedPriceOnly = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -74,6 +78,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param Pagination $internalPagination
      * @param bool $hideDuplicateItems
      * @param bool $doubleLocaleSearch
+     * @param bool $fixedPriceOnly
      */
     public function __construct(
         Language $keyword,
@@ -88,7 +93,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         string $locale,
         Pagination $internalPagination,
         bool $hideDuplicateItems,
-        bool $doubleLocaleSearch
+        bool $doubleLocaleSearch,
+        bool $fixedPriceOnly
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -103,6 +109,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->internalPagination = $internalPagination;
         $this->hideDuplicateItems = $hideDuplicateItems;
         $this->doubleLocaleSearch = $doubleLocaleSearch;
+        $this->fixedPriceOnly = $fixedPriceOnly;
     }
     /**
      * @return Language
@@ -196,6 +203,13 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->doubleLocaleSearch;
     }
     /**
+     * @return bool
+     */
+    public function isFixedPriceOnly(): bool
+    {
+        return $this->fixedPriceOnly;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -214,6 +228,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'locale' => $this->getLocale(),
             'hideDuplicateItems' => $this->isHideDuplicateItems(),
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
+            'fixedPriceOnly' => $this->isFixedPriceOnly(),
         ];
     }
     /**
@@ -236,6 +251,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $internalPagination = $model->getInternalPagination();
         $hideDuplicateItems = $model->isHideDuplicateItems();
         $doubleLocaleSearch = $model->isDoubleLocaleSearch();
+        $fixedPriceOnly = $model->isFixedPriceOnly();
 
         return new InternalSearchModel(
             $keyword,
@@ -250,7 +266,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $locale,
             $internalPagination,
             $hideDuplicateItems,
-            $doubleLocaleSearch
+            $doubleLocaleSearch,
+            $fixedPriceOnly
         );
     }
 }
