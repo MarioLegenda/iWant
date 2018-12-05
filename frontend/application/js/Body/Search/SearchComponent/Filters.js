@@ -1,4 +1,3 @@
-import {Sentence} from "./Sentence";
 import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
 
 export const Filters = {
@@ -8,6 +7,7 @@ export const Filters = {
             lowestPrice: false,
             highestPrice: false,
             highQuality: false,
+            fixedPrice: false,
             errors: [],
         }
     },
@@ -24,6 +24,10 @@ export const Filters = {
 
                 if (!state.filtersEvent.highQuality) {
                     this.removeHighQuality();
+                }
+
+                if (!state.filtersEvent.fixedPrice) {
+                    this.removeFixedPrice();
                 }
             }
         });
@@ -51,6 +55,12 @@ export const Filters = {
                                 v-on:add-highest-price="addHighestPrice"
                                 event-name="add-highest-price"
                                 :filter-text="translationsMap.filters.highestPriceFilter">
+                            </single-add-filter>
+                            
+                            <single-add-filter
+                                v-on:add-fixed-price="addFixedPrice"
+                                event-name="add-fixed-price"
+                                :filter-text="translationsMap.filters.fixedPriceFilter">
                             </single-add-filter>
                         
                             <h1 class="OrganisedFiltersSeparator">Quality</h1>
@@ -80,6 +90,16 @@ export const Filters = {
             }
         },
 
+        addFixedPrice() {
+            this.errors = [];
+
+            this.fixedPrice = true;
+
+            this.$store.commit('filtersEvent', {
+                fixedPrice: true,
+            });
+        },
+
         addLowestPrice() {
             this.errors = [];
 
@@ -99,12 +119,14 @@ export const Filters = {
                 lowestPrice: true,
             });
         },
+
         removeLowestPrice() {
             this.errors = [];
 
             this.lowestPrice = false;
 
         },
+
         addHighestPrice() {
             this.errors = [];
 
@@ -124,11 +146,13 @@ export const Filters = {
                 highestPrice: true,
             });
         },
+
         removeHighestPrice() {
             this.errors = [];
 
             this.highestPrice = false;
         },
+
         addHighQuality() {
             this.errors = [];
 
@@ -142,14 +166,20 @@ export const Filters = {
                 highQuality: true,
             });
         },
+
         removeHighQuality() {
             this.errors = [];
 
             this.highQuality = false;
         },
+
+        removeFixedPrice() {
+            this.errors = [];
+
+            this.fixedPrice = false;
+        }
     },
     components: {
-        'sentence': Sentence,
         'single-add-filter': SingleAddFilter,
     }
 };

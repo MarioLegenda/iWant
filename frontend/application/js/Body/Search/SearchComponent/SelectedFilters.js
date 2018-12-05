@@ -22,6 +22,13 @@ export const SelectedFilters = {
                         class="SelectedFilter">{{translationsMap.filters.highQualityFilter}} <i @click="removeFilter('highQuality')" class="fas fa-times"></i>
                    </div>
                 </transition>
+                
+                <transition name="fade">
+                    <div
+                        v-if="filtersEvent.fixedPrice"
+                        class="SelectedFilter">{{translationsMap.filters.fixedPriceFilter}} <i @click="removeFilter('fixedPrice')" class="fas fa-times"></i>
+                   </div>
+                </transition>
              </div>
         </transition>`,
     computed: {

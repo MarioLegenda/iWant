@@ -19,6 +19,15 @@ class SentenceCreator {
             finalSentence += ` with the highest prices showed first`
         }
 
+        if (filters.fixedPrice) {
+            if (filters.highQuality || filters.lowestPrice || filters.highestPrice) {
+                finalSentence += ` and with a fixed price.`;
+            } else {
+                finalSentence += ` with a fixed price.`;
+            }
+
+        }
+
         if (filters.shippingCountries.length > 0) {
             if (filters.shippingCountries[0].hasOwnProperty('worldwide')) {
                 finalSentence += ` and I would like it to be shipped worldwide`;
@@ -29,32 +38,6 @@ class SentenceCreator {
                 }
 
                 finalSentence += `. I would like it to be shipped to ${countryNames.join(', ')}.`;
-            }
-        }
-
-        if (filters.marketplaces.length > 0) {
-            if (filters.marketplaces.length === 1) {
-                if (finalSentence.charAt(finalSentence.length - 1) !== '.') {
-                    finalSentence += '.';
-                }
-
-                finalSentence += ` Also, search only in the ${filters.marketplaces[0].name} marketplace.`
-            } else {
-                let marketplaceNames = [];
-
-                for (const marketplace of filters.marketplaces) {
-                    marketplaceNames.push(marketplace.name);
-                }
-
-                if (finalSentence.charAt(finalSentence.length - 1) !== '.') {
-                    finalSentence += '.';
-                }
-
-                if (marketplaceNames.length === 2) {
-                    finalSentence += ` Also, search only in ${marketplaceNames[0]} and ${marketplaceNames[1]}.`;
-                } else {
-                    finalSentence += ` Also, search only in ${marketplaceNames.join(', ')} marketplaces.`;
-                }
             }
         }
 

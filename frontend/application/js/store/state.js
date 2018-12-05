@@ -4,11 +4,11 @@ export const defaultFilters = {
     highestPrice: false,
     highQuality: false,
     shippingCountries: [],
-    marketplaces: [],
     taxonomies: [],
     globalIds: [],
     hideDuplicateItems: false,
     doubleLocaleSearch: false,
+    fixedPrice: false,
 };
 
 export const defaultModel = {

@@ -73,7 +73,8 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $locale,
             new Pagination($internalPagination['limit'], $internalPagination['page']),
             $filters['hideDuplicateItems'],
-            $filters['doubleLocaleSearch']
+            $filters['doubleLocaleSearch'],
+            $filters['fixedPrice']
         );
 
         return true;

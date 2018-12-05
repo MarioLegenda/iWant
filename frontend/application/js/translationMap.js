@@ -48,6 +48,7 @@ export const translationsMap = {
         chooseEbaySite: 'Choose eBay site',
         filters: {
             title: 'Sort your search results',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Lowest price',
             highestPriceFilter: 'Highest price',
             highQualityFilter: 'High quality',
@@ -109,6 +110,7 @@ export const translationsMap = {
         chooseEbaySite: 'Elija el sitio de eBay',
         filters: {
             title: 'Ordena tus resultados de búsqueda',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'El precio más bajo',
             highestPriceFilter: 'Precio más alto',
             highQualityFilter: 'Alta calidad',
@@ -170,6 +172,7 @@ export const translationsMap = {
         chooseEbaySite: 'Choisissez le site eBay',
         filters: {
             title: 'Trier vos résultats de recherche',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Prix ​​le plus bas',
             highestPriceFilter: 'Le prix le plus élevé',
             hideDuplicateItemsShow: 'Afficher les doublons',
@@ -231,6 +234,7 @@ export const translationsMap = {
         chooseEbaySite: 'Scegli il sito eBay',
         filters: {
             title: 'Ordina i risultati della tua ricerca',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Prezzo più basso',
             highestPriceFilter: 'Il prezzo più alto',
             hideDuplicateItemsShow: 'Mostra duplicati',
@@ -293,6 +297,7 @@ export const translationsMap = {
         filters: {
             title: 'Sórtáil do thorthaí cuardaigh',
             lowestPriceFilter: 'Praghas is ísle',
+            fixedPriceFilter: 'Fixed price',
             highestPriceFilter: 'An praghas is airde',
             hideDuplicateItemsShow: 'Taispeáin dúbailt',
             hideDuplicateItemsHide: 'Folaigh dúbailt',
@@ -353,6 +358,7 @@ export const translationsMap = {
         chooseEbaySite: 'Wybierz stronę eBay',
         filters: {
             title: 'Sortuj swoje wyniki wyszukiwania',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Najniższa cena',
             highestPriceFilter: 'Wyzsza cena',
             hideDuplicateItemsShow: 'Pokaż duplikaty',
@@ -414,6 +420,7 @@ export const translationsMap = {
         chooseEbaySite: 'Wählen Sie die eBay-Site',
         filters: {
             title: 'Sortieren Sie Ihre Suchergebnisse',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Geringster Preis',
             highestPriceFilter: 'Höchster Preis',
             hideDuplicateItemsShow: 'Duplikate anzeigen',
@@ -475,6 +482,7 @@ export const translationsMap = {
         chooseEbaySite: 'Vyberte si stránku eBay',
         filters: {
             title: 'Zoradiť výsledky vyhľadávania',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Najnižšia cena',
             highestPriceFilter: 'Najvyššia cena',
             hideDuplicateItemsShow: 'Zobraziť duplikáty',
@@ -536,6 +544,7 @@ export const translationsMap = {
         chooseEbaySite: 'Zvolte stránky eBay',
         filters: {
             title: 'Řazení výsledků vyhledávání',
+            fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Nejnižší cena',
             highestPriceFilter: 'Nejvyšší cena',
             hideDuplicateItemsShow: 'Zobrazit duplikáty',
