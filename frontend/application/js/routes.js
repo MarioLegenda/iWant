@@ -22,11 +22,4 @@ export const routes = [
         },
         name: 'SearchHome'
     },
-    {
-        path: '/:locale/search/:term',
-        components: {
-            'default': SearchPage,
-        },
-        name: 'SearchTerm'
-    }
 ];

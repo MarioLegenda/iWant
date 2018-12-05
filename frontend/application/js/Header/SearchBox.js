@@ -16,7 +16,7 @@ export const SearchBox = {
                            </div>
                            
                            <div class="SearchBox_SubmitBox">
-                                <button @click="submit"><i class="fas fa-chevron-right"></i></button>
+                                <button><i class="fas fa-chevron-right"></i></button>
                            </div>
                            
                            <p v-if="enterToSearch" class="SearchBox-enter-to-search">* Press Enter to search</p>
@@ -26,20 +26,6 @@ export const SearchBox = {
                            </div>
                </div>`,
     methods: {
-        submit() {
-            if (!isEmpty(this.term)) {
-                const urlify = urlifyFactory.create({
-                    addEToUmlauts: true,
-                    szToSs: true,
-                    spaces: "-",
-                    nonPrintable: "-",
-                    trim: true
-                });
-
-                this.$store.commit('searchTerm', this.term);
-                this.$router.push(`/search/${urlify(this.term)}`);
-            }
-        },
         onInputChange() {
             if (!isEmpty(this.term)) {
                 this.enterToSearch = true;

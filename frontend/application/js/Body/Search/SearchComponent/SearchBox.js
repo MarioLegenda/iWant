@@ -10,11 +10,6 @@ export const SearchBox = {
             errorClass: '',
         }
     },
-    created() {
-        if (!isEmpty(this.externalKeyword)) {
-            this.text = this.externalKeyword;
-        }
-    },
     props: ['externalKeyword'],
     template: `<div class="SearchBoxAdvanced">
                            

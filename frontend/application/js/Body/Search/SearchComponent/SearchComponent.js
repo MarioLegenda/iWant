@@ -14,27 +14,8 @@ export const SearchComponent = {
             preparedEbaySites: [],
         }
     },
-    props: ['externalSearchTerm'],
-    created() {
-        if (!isEmpty(this.externalSearchTerm)) {
-            this.submit(this.externalSearchTerm);
-
-            return;
-        }
-
-        const splitted = window.location.pathname.split('/');
-
-        if (typeof splitted[3] !== 'undefined') {
-            const keyword = splitted[3];
-            const replaced = keyword.replace(/-/g, ' ');
-
-            this.onSearchTermChange(replaced);
-            this.submit(replaced);
-        }
-    },
     template: `<div class="AdvancedSearch" id="AdvancedSearchId">                                    
                     <search-box
-                        v-bind:external-keyword="keyword"
                         v-on:submit="submit"
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box>
@@ -57,17 +38,6 @@ export const SearchComponent = {
                     <div class="GlobalBottomSpacing"></div>
                     
                </div>`,
-    watch: {
-        externalSearchTerm: function(newVal, oldVal) {
-            if (newVal === oldVal) {
-                return null;
-            }
-
-            this.onSearchTermChange(newVal);
-            this.submit(newVal);
-        },
-    },
-
     computed: {
         sentenceData: function() {
             return {
@@ -131,8 +101,6 @@ export const SearchComponent = {
                 nonPrintable: "-",
                 trim: true
             });
-
-            this.$router.push(`/${this.$localeInfo.locale}/search/${urlify(this.keyword)}`);
 
             const model = this.createModel();
 

@@ -32,7 +32,6 @@ export const state = {
         items: null
     },
     totalListing: [],
-    searchTerm: null,
     searchInitialiseEvent: {
         searchUrl: null,
         initialised: false,

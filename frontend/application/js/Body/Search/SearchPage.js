@@ -29,8 +29,7 @@ export const SearchPage = {
                     <filters></filters>
                     
                     <div class="LeftPanel">
-                        <search-component
-                            v-bind:external-search-term="searchTerm">
+                        <search-component>
                         </search-component>
                         
                         <transition name="fade">
@@ -44,9 +43,6 @@ export const SearchPage = {
                
                </transition>`,
     computed: {
-        searchTerm: function() {
-            return this.$store.state.searchTerm;
-        },
         isSearchInitialised() {
             return this.$store.getters.isSearchInitialised;
         },

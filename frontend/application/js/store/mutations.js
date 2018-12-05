@@ -1,9 +1,4 @@
 export const mutations = {
-    searchTerm(state, value) {
-        console.log('searchTerm event');
-        this.state.searchTerm = value;
-    },
-
     ebaySearchListing(state, value) {
         console.log('ebaySearchListing event');
         this.state.ebaySearchListing = value;

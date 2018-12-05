@@ -36,8 +36,6 @@ export const actions = {
 
         context.commit('ebaySearchListingLoading', false);
 
-        context.commit('searchTerm', null);
-
         context.commit('filtersEvent', defaultFilters);
     },
 
