@@ -14,7 +14,7 @@ class Language implements TranslatedEntryInterface
      */
     public function __construct(string $entry)
     {
-        $this->entry = $entry;
+        $this->entry = trim($entry);
     }
     /**
      * @return string

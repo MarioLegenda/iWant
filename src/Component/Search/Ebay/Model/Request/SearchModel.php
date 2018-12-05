@@ -3,6 +3,7 @@
 namespace App\Component\Search\Ebay\Model\Request;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Translation\Model\Language;
 
 class SearchModel implements SearchModelInterface, ArrayNotationInterface
 {
@@ -60,7 +61,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     private $doubleLocaleSearch = false;
     /**
      * SearchModel constructor.
-     * @param string $keyword
+     * @param Language $keyword
      * @param bool $lowestPrice
      * @param bool $highestPrice
      * @param bool $highQuality
@@ -75,7 +76,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $doubleLocaleSearch
      */
     public function __construct(
-        string $keyword,
+        Language $keyword,
         bool $lowestPrice,
         bool $highestPrice,
         bool $highQuality,
@@ -104,9 +105,9 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->doubleLocaleSearch = $doubleLocaleSearch;
     }
     /**
-     * @return string
+     * @return Language
      */
-    public function getKeyword(): string
+    public function getKeyword(): Language
     {
         return $this->keyword;
     }

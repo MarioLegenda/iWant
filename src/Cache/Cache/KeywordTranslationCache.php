@@ -67,6 +67,21 @@ class KeywordTranslationCache
             null;
     }
     /**
+     * @param string $text
+     * @return KeywordTranslationCacheEntity|null
+     */
+    public function getByTranslation(string $text): ?KeywordTranslationCacheEntity
+    {
+        /** @var KeywordTranslationCacheEntity $itemTranslationCache */
+        $keywordTranslationEntity = $this->keywordTranslationCacheRepository->findOneBy([
+            'translation' => $text,
+        ]);
+
+        return ($keywordTranslationEntity instanceof KeywordTranslationCacheEntity) ?
+            $keywordTranslationEntity :
+            null;
+    }
+    /**
      * @param string $original
      * @return KeywordTranslationCacheEntity|null
      */

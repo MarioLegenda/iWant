@@ -5,6 +5,7 @@ namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
+use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\FetcherInterface;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\SingleSearchFetcher;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
@@ -33,9 +34,9 @@ class FetcherFactory
     }
     /**
      * @param SearchModel|SearchModelInterface $model
-     * @return object
+     * @return FetcherInterface
      */
-    public function decideFetcher(SearchModelInterface $model): object
+    public function decideFetcher(SearchModelInterface $model): FetcherInterface
     {
         if ($model->isLowestPrice()) {
             $this->filterApplier->add(new LowestPriceFilter());

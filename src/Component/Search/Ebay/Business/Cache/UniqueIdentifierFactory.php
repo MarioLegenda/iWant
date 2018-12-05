@@ -19,6 +19,7 @@ class UniqueIdentifierFactory
             'highQuality' => $model->isHighQuality(),
             'globalId' => $model->getGlobalId(),
             'hideDuplicateItems' => $model->isHideDuplicateItems(),
+            'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
         ]));
     }
 }

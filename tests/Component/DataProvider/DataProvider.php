@@ -9,6 +9,7 @@ use App\Doctrine\Entity\NativeTaxonomy;
 use App\Doctrine\Repository\ApplicationShopRepository;
 use App\Library\MarketplaceType;
 use App\Tests\Library\FakerTrait;
+use App\Translation\Model\Language;
 
 class DataProvider
 {
@@ -19,7 +20,7 @@ class DataProvider
      */
     public function createEbaySearchRequestModel(array $data = []): EbaySearchModel
     {
-        $keyword = (isset($data['keyword'])) ? $data['keyword']: 'harry potter book';
+        $keyword = (isset($data['keyword'])) ? new Language($data['keyword']): new Language('harry potter book');
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
         $bestMatch = (isset($data['bestMatch'])) ? $data['bestMatch'] : true;
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;

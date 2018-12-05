@@ -3,6 +3,7 @@
 namespace App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher;
 
 use App\Cache\Implementation\SearchResponseCacheImplementation;
+use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
@@ -65,9 +66,17 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         $this->singleSearchFetcher = $singleSearchFetcher;
     }
 
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @param array $replacements
+     * @return array
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function getResults(SearchModelInterface $model, array $replacements = []): array
     {
-        $uniqueName = $model->getUniqueName();
+        $uniqueName = UniqueIdentifierFactory::createIdentifier($model);
 
         if ($this->searchResponseCacheImplementation->isStored($uniqueName)) {
             $searchCache = $this->searchResponseCacheImplementation->getStored($uniqueName);
@@ -104,6 +113,13 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         );
 
         return $results;
+    }
+    /**
+     * @param FilterApplierInterface $filterApplier
+     */
+    public function addFilterApplier(FilterApplierInterface $filterApplier)
+    {
+        $this->filterApplier = $filterApplier;
     }
     /**
      * @param array $siteLocaleResults
@@ -148,13 +164,6 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         }
 
         return $arrangeFinalResultFunction($mainIterationArray, $secondaryIterationArray);
-    }
-    /**
-     * @param FilterApplierInterface $filterApplier
-     */
-    public function addFilterApplier(FilterApplierInterface $filterApplier)
-    {
-        $this->filterApplier = $filterApplier;
     }
 
     private function getResultsWithTranslatedKeyword(

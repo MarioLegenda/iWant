@@ -35,6 +35,7 @@ class SearchComponentTest extends BasicSetup
             'internalPagination' => new Pagination($internalLimit, $internalPage),
             'pagination' => new Pagination($limit, $page),
             'hideDuplicateItems' => true,
+            'doubleLocaleSearch' => false,
         ];
 
         /** @var SearchModel $model */
@@ -85,6 +86,7 @@ class SearchComponentTest extends BasicSetup
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
             'hideDuplicateItems' => true,
+            'doubleLocaleSearch' => false,
         ];
 
         /** @var SearchModel $model */
@@ -137,6 +139,7 @@ class SearchComponentTest extends BasicSetup
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
             'hideDuplicateItems' => false,
+            'doubleLocaleSearch' => false,
         ];
 
         /** @var SearchModel $model */
@@ -186,7 +189,7 @@ class SearchComponentTest extends BasicSetup
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => true,
-            'globalId' => 'EBAY-DE',
+            'globalId' => 'EBAY-ES',
             'internalPagination' => new Pagination(8, 1),
             'pagination' => new Pagination(80, 1),
             'doubleLocaleSearch' => true,

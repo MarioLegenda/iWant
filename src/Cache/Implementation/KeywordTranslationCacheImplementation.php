@@ -35,6 +35,20 @@ class KeywordTranslationCacheImplementation
         return $keywordTranslationCache instanceof KeywordTranslationCacheEntity;
     }
     /**
+     * @param string $text
+     * @return bool
+     */
+    public function isTranslation(
+        string $text
+    ): bool {
+        /** @var KeywordTranslationCache $keywordTranslationCache */
+        $keywordTranslationCache = $this->keywordTranslationCache->getByTranslation(
+            $text
+        );
+
+        return $keywordTranslationCache instanceof KeywordTranslationCacheEntity;
+    }
+    /**
      * @param string $original
      * @param string $translation
      * @throws \App\Cache\Exception\CacheException
@@ -79,6 +93,10 @@ class KeywordTranslationCacheImplementation
         $keywordTranslationCache = $this->keywordTranslationCache->get(
             $original
         );
+
+        if (!$keywordTranslationCache instanceof KeywordTranslationCacheEntity) {
+            $keywordTranslationCache = $this->keywordTranslationCache->getByTranslation($original);
+        }
 
         if (!$keywordTranslationCache instanceof KeywordTranslationCacheEntity) {
             $message = sprintf(
