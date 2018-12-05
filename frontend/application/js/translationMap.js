@@ -54,6 +54,9 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Show duplicates',
             hideDuplicateItemsHide: 'Hide duplicates',
             hideDuplicateItemsExplanation: 'Many sellers upload the same product multiple times so there could be more chance it shows up in the search listing. This option is enabled by default but you can disable it by clicking on the \'Show duplicates\' button',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -112,6 +115,9 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Mostrar duplicados',
             hideDuplicateItemsHide: 'Ocultar duplicados',
             hideDuplicateItemsExplanation: 'Muchos vendedores suben el mismo producto varias veces, por lo que podría haber más posibilidades de que aparezca en la lista de búsqueda. Esta opción está habilitada de forma predeterminada, pero puede deshabilitarla haciendo clic en el botón \'Mostrar duplicados\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -170,6 +176,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Masquer les doublons',
             highQualityFilter: 'Haute qualité',
             hideDuplicateItemsExplanation: 'De nombreux vendeurs téléchargent plusieurs fois le même produit, ce qui leur donne plus de chance de figurer dans la liste de recherche. Cette option est activée par défaut mais vous pouvez la désactiver en cliquant sur le bouton \'Afficher les doublons\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -228,6 +237,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Nascondi duplicati',
             highQualityFilter: 'Alta qualità',
             hideDuplicateItemsExplanation: 'Molti venditori caricano lo stesso prodotto più volte, quindi potrebbero esserci più possibilità che compaia nell\'elenco di ricerca. Questa opzione è abilitata per impostazione predefinita, ma puoi disabilitarla facendo clic sul pulsante \'Mostra duplicati\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -286,6 +298,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Folaigh dúbailt',
             highQualityFilter: 'Ardchaighdeáin',
             hideDuplicateItemsExplanation: 'Uaslódáil go leor díoltóirí ar an táirge céanna i gcónaí agus mar sin d\'fhéadfadh go mbeadh seans níos mó ann a léiríonn sé sa liosta cuardaigh. Cumasaítear an rogha seo de réir réamhshocraithe ach is féidir leat é a dhíchumasú trí chliceáil ar an gcnaipe \'Taispeáin dúbailt\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -344,6 +359,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Ukryj duplikaty',
             highQualityFilter: 'Wysoka jakość',
             hideDuplicateItemsExplanation: 'Wielu sprzedawców przesyła ten sam produkt wiele razy, więc może być większa szansa, że ​​pojawi się w liście wyszukiwania. Ta opcja jest domyślnie włączona, ale możesz ją wyłączyć, klikając przycisk \'Pokaż duplikaty\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -402,6 +420,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Duplikate ausblenden',
             highQualityFilter: 'Gute Qualität',
             hideDuplicateItemsExplanation: 'Viele Verkäufer laden ein und dasselbe Produkt mehrmals hoch, sodass die Wahrscheinlichkeit erhöht wird, dass es im Sucheintrag angezeigt wird. Diese Option ist standardmäßig aktiviert. Sie können sie jedoch deaktivieren, indem Sie auf die Schaltfläche \'Duplikate anzeigen\' klicken',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -460,6 +481,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Skryť duplikáty',
             highQualityFilter: 'Vysoká kvalita',
             hideDuplicateItemsExplanation: 'Mnohí predajcovia nahrávajú ten istý produkt viackrát, takže by sa mohlo vyskytnúť väčšia šanca, že sa zobrazí v zozname vyhľadávania. Táto možnosť je predvolene povolená, ale môžete ju zakázať kliknutím na tlačidlo \'Zobraziť duplikáty\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 
@@ -518,6 +542,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Skrýt duplikáty',
             highQualityFilter: 'Vysoká kvalita',
             hideDuplicateItemsExplanation: 'Mnoho prodejců nahrát tentýž produkt několikrát, takže by mohlo být větší šance, že se objeví ve výpisu vyhledávání. Tato možnost je ve výchozím nastavení povolena, ale můžete ji deaktivovat klepnutím na tlačítko \'Zobrazit duplikáty\'',
+            doubleLocaleSearchShow: 'Search site language',
+            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
         }
     },
 };

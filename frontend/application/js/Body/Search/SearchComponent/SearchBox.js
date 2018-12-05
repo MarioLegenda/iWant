@@ -1,4 +1,5 @@
 import {HideDuplicateItems} from "../Modifiers/HideDuplicateItems";
+import {DoubleLocaleSearch} from "../Modifiers/DoubleLocaleSearch";
 
 export const SearchBox = {
     data: function() {
@@ -30,6 +31,7 @@ export const SearchBox = {
                            
                            <div class="ModifiersWrapper">
                                <hide-duplicate-items-modifier></hide-duplicate-items-modifier>
+                               <double-locale-search-modifier></double-locale-search-modifier>
                            </div>
                </div>`,
     computed: {
@@ -64,5 +66,6 @@ export const SearchBox = {
     },
     components: {
         'hide-duplicate-items-modifier': HideDuplicateItems,
+        'double-locale-search-modifier': DoubleLocaleSearch,
     }
 };

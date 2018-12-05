@@ -7,6 +7,7 @@ use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Library\MarketplaceType;
+use App\Translation\Model\Language;
 use App\Web\Library\View\EbaySearchViewType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -60,7 +61,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
         $internalPagination = $searchData['internalPagination'];
 
         $this->model = new SearchModel(
-            $keyword,
+            new Language($keyword),
             $filters['lowestPrice'],
             $filters['highestPrice'],
             $filters['highQuality'],
@@ -72,7 +73,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $locale,
             new Pagination($internalPagination['limit'], $internalPagination['page']),
             $filters['hideDuplicateItems'],
-            false
+            $filters['doubleLocaleSearch']
         );
 
         return true;

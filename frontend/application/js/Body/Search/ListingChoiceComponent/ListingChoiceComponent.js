@@ -104,6 +104,8 @@ export const ListingChoiceComponent = {
             model.filters = this.getFilters;
             model.globalId = globalId;
 
+            console.log(model);
+
             this.$store.dispatch('totalListingUpdate', model);
 
             const timeout = (this.$isMobile) ? 500 : 0;

@@ -8,6 +8,7 @@ export const defaultFilters = {
     taxonomies: [],
     globalIds: [],
     hideDuplicateItems: false,
+    doubleLocaleSearch: false,
 };
 
 export const defaultModel = {
