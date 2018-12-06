@@ -68,6 +68,10 @@ export const actions = {
                             context.commit('totalListing', r.collection.data.items);
                             context.commit('ebaySearchListingLoading', false);
                             context.commit('modelWasUpdated', model);
+                            context.commit('preparedSearchMetadata', {
+                                pagination: r.collection.pagination,
+                                totalItems: r.collection.data.totalItems,
+                            });
                             context.commit('listingInitialiseEvent', {
                                 initialised: true,
                             });

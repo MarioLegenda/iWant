@@ -69,15 +69,20 @@ class ApiResponseDataFactory
     }
     /**
      * @param array $listing
+     * @param int $productsCount
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return ApiResponseData
      */
     public function createSearchListingResponseData(
-        array $listing
+        array $listing,
+        int $productsCount,
+        SearchModelInterface $model
     ) {
         return $this->apiSdk
             ->create($listing)
             ->method('GET')
             ->addMessage('Products listing')
+            ->addPagination($productsCount, $model->getInternalPagination()->getPage())
             ->isCollection()
             ->setStatusCode(200)
             ->build();

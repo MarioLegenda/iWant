@@ -78,7 +78,7 @@ const LoadMore = {
             this.resetPagination();
         },
         getPreparedSearchMetadata() {
-            console.log(this.$store.state.preparedSearchMetadata);
+
         }
     },
     methods: {

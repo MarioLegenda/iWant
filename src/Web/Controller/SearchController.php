@@ -31,7 +31,6 @@ class SearchController
     ) {
         $this->apiResponseDataFactory = $apiResponseDataFactory;
     }
-
     /**
      * @param SearchModelInterface|SearchModel $model
      * @param SearchComponent $searchComponent
@@ -57,6 +56,7 @@ class SearchController
     /**
      * @param SearchModelInterface|SearchModel $model
      * @param SearchComponent $searchComponent
+     * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @return Response
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -64,15 +64,18 @@ class SearchController
      */
     public function getProducts(
         SearchModelInterface $model,
-        SearchComponent $searchComponent
+        SearchComponent $searchComponent,
+        SearchResponseCacheImplementation $searchResponseCacheImplementation
     ): Response {
         $listing = $searchComponent->getProductsPaginated($model);
 
+        $productsCount = $searchResponseCacheImplementation->getStored(UniqueIdentifierFactory::createIdentifier($model))->getProductsCount();
         /** @var ApiResponseData $apiResponseData */
         $apiResponseData = $this->apiResponseDataFactory->createSearchListingResponseData([
             'siteInformation' => GlobalIdInformation::instance()->getTotalInformation($model->getGlobalId()),
             'items' => $listing,
-        ]);
+            'totalItems' => $productsCount,
+        ], $productsCount, $model);
 
         $response = new Response(
             jsonEncodeWithFix($apiResponseData->toArray()),
