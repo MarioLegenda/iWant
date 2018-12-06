@@ -18,7 +18,7 @@ function to_float($num) {
     );
 }
 
-function advanced_array_filter(array $array, \Closure $callback)
+function advanced_array_filter(array $array, \Closure $callback): array
 {
     $retainedValues = [];
     $arrayGen = Util::createGenerator($array);
@@ -33,6 +33,8 @@ function advanced_array_filter(array $array, \Closure $callback)
             $result[] = $item;
         }
     }
+
+    $retainedValues = [];
 
     return $result;
 }

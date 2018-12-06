@@ -156,20 +156,30 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
             return $finalResults;
         };
 
+        $filterByItemId = function($results): array {
+            $duplicates = [];
+            $resultsGen = Util::createGenerator($results);
+            $finalResults = [];
+
+            foreach ($resultsGen as $entry) {
+                $item = $entry['item'];
+
+                if (in_array($item['itemId'], $duplicates) === true) {
+                    continue;
+                }
+
+                $finalResults[] = $item;
+
+                $duplicates[] = $item['itemId'];
+            }
+
+            return $finalResults;
+        };
+
         if (count($siteLocaleResults) === count($mainLocaleResults)) {
             $finalResults = $arrangeFinalResultFunction($siteLocaleResults, $mainLocaleResults);
 
-            $finalResults = advanced_array_filter($finalResults, function(array $item, array &$retainedData) {
-                if (in_array($item['itemId'], $retainedData) === true) {
-                    return false;
-                }
-
-                $retainedData[] = $item['itemId'];
-
-                return true;
-            });
-
-            return $finalResults;
+            return $filterByItemId($finalResults);
         }
 
         $mainIterationArray = null;
@@ -185,22 +195,14 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
 
         $finalResults = $arrangeFinalResultFunction($mainIterationArray, $secondaryIterationArray);
 
-        $finalResults = advanced_array_filter($finalResults, function(array $item, array &$retainedData) {
-            if (in_array($item['itemId'], $retainedData) === true) {
-                return false;
-            }
-
-            $retainedData[] = $item['itemId'];
-
-            return true;
-        });
-
-        return $finalResults;
+        return $filterByItemId($finalResults);
     }
     /**
      * @param SearchModel $model
      * @param string $keyword
      * @return iterable
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
      */
     private function getResultsWithTranslatedKeyword(
         SearchModel $model,
