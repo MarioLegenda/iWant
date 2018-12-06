@@ -18,6 +18,25 @@ function to_float($num) {
     );
 }
 
+function advanced_array_filter(array $array, \Closure $callback)
+{
+    $retainedValues = [];
+    $arrayGen = Util::createGenerator($array);
+    $result = [];
+
+    foreach ($arrayGen as $entry) {
+        $item = $entry['item'];
+
+        $product = $callback->__invoke($item, $retainedValues);
+
+        if ($product === true) {
+            $result[] = $item;
+        }
+    }
+
+    return $result;
+}
+
 function apply_on_iterable(iterable $iterable, \Closure $callback)
 {
     $newResult = [];

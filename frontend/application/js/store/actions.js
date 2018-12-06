@@ -55,14 +55,41 @@ export const actions = {
         context.commit('ebaySearchListingLoading', true);
         context.commit('modelWasUpdated', model);
 
-        searchRepo.getProducts(model, (r) => {
-            context.commit('ebaySearchListing', r.collection.data);
-            context.commit('totalListing', r.collection.data.items);
-            context.commit('ebaySearchListingLoading', false);
-            context.commit('modelWasUpdated', model);
-            context.commit('listingInitialiseEvent', {
-                initialised: true,
-            });
+        searchRepo.optionsForProductListing(model, (r) => {
+            const data = r.resource.data;
+
+            switch (data.method) {
+                case 'POST':
+                    searchRepo.postPrepareSearchProducts(JSON.stringify({
+                        searchData: model,
+                    })).then(() => {
+                        searchRepo.getProducts(model).then((r) => {
+                            context.commit('ebaySearchListing', r.collection.data);
+                            context.commit('totalListing', r.collection.data.items);
+                            context.commit('ebaySearchListingLoading', false);
+                            context.commit('modelWasUpdated', model);
+                            context.commit('listingInitialiseEvent', {
+                                initialised: true,
+                            });
+                        });
+                    });
+
+                    break;
+                case 'GET':
+                    searchRepo.getProducts(model, (r) => {
+                        context.commit('ebaySearchListing', r.collection.data);
+                        context.commit('totalListing', r.collection.data.items);
+                        context.commit('ebaySearchListingLoading', false);
+                        context.commit('modelWasUpdated', model);
+                        context.commit('listingInitialiseEvent', {
+                            initialised: true,
+                        });
+                    });
+
+                    break;
+                default:
+                    throw new Error(`Invalid option for search listing given. Method can only be POST or GET, ${data.method} given`)
+            }
         });
     },
 

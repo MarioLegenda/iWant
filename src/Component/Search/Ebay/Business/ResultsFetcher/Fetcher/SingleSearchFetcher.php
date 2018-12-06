@@ -97,7 +97,8 @@ class SingleSearchFetcher implements FetcherInterface
 
         $this->searchResponseCacheImplementation->store(
             $identifier,
-            jsonEncodeWithFix($presentationResultsArray)
+            jsonEncodeWithFix($presentationResultsArray),
+            count($presentationResultsArray)
         );
 
         if ($this->filterApplier instanceof FilterApplierInterface) {
@@ -114,9 +115,11 @@ class SingleSearchFetcher implements FetcherInterface
         $this->filterApplier = $filterApplier;
     }
     /**
-     * @param SearchModelInterface|SearchModel $model
+     * @param SearchModelInterface $model
      * @param string|null $identifier
      * @return iterable
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
      */
     public function getFreshResults(SearchModelInterface $model, string $identifier = null)
     {

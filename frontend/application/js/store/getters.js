@@ -15,6 +15,10 @@ export const getters = {
         return state.listingInitialiseEvent.initialised;
     },
 
+    getPreparedSearchMetadata(state, getters) {
+        return state.preparedSearchMetadata;
+    },
+
     areSingleAddFiltersSelected(state, getters) {
         const filtersEvent = state.filtersEvent;
         const excludes = ['bestMatch'];

@@ -70,11 +70,15 @@ const LoadMore = {
 
             return newVal;
         },
-        getFilters: (prev, next) => {}
+        getFilters: (prev, next) => {},
+        getPreparedSearchMetadata(prev, next) {}
     },
     computed: {
         getFilters: function() {
             this.resetPagination();
+        },
+        getPreparedSearchMetadata() {
+            console.log(this.$store.state.preparedSearchMetadata);
         }
     },
     methods: {

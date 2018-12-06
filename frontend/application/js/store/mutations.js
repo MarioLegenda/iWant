@@ -16,6 +16,12 @@ export const mutations = {
         this.state.searchInitialiseEvent = Object.assign({}, this.state.searchInitialiseEvent, value);
     },
 
+    preparedSearchMetadata(state, value) {
+        console.log('preparedSearchMetadata event');
+
+        this.state.preparedSearchMetadata = value;
+    },
+
     filtersEvent(state, value) {
         console.log('filtersEvent event');
 

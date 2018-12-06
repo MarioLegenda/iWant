@@ -71,7 +71,7 @@ class SearchController
         /** @var ApiResponseData $apiResponseData */
         $apiResponseData = $this->apiResponseDataFactory->createSearchListingResponseData([
             'siteInformation' => GlobalIdInformation::instance()->getTotalInformation($model->getGlobalId()),
-            'items' => $listing
+            'items' => $listing,
         ]);
 
         $response = new Response(

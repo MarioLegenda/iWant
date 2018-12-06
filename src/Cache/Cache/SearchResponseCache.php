@@ -66,17 +66,20 @@ class SearchResponseCache
     /**
      * @param string $key
      * @param string $value
+     * @param int $productCount
      * @throws CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function set(
         string $key,
-        string $value
+        string $value,
+        int $productCount
     ) {
         $cache = $this->createSearchCache(
             $key,
             $value,
+            $productCount,
             Util::toDateTime()->getTimestamp() + $this->cacheTtl
         );
 
@@ -207,17 +210,20 @@ class SearchResponseCache
     /**
      * @param string $uniqueName
      * @param string $value
+     * @param int $productCount
      * @param int $ttl
      * @return SearchCache
      */
     private function createSearchCache(
         string $uniqueName,
         string $value,
+        int $productCount,
         int $ttl
     ) {
         return new SearchCache(
             $uniqueName,
             $value,
+            $productCount,
             $ttl
         );
     }

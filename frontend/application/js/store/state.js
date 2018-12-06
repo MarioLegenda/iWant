@@ -32,6 +32,10 @@ export const state = {
         siteInformation: null,
         items: null
     },
+    preparedSearchMetadata: {
+        pagination: {limit: null, page: null},
+        totalItems: null
+    },
     totalListing: [],
     searchInitialiseEvent: {
         searchUrl: null,

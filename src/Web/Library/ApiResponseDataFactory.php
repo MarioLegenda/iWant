@@ -3,7 +3,10 @@
 namespace App\Web\Library;
 
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\Pagination;
+use App\Component\Search\Ebay\Model\Request\SearchModel;
+use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Component\Search\Ebay\Model\Response\PreparedEbayResponse;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
@@ -53,7 +56,9 @@ class ApiResponseDataFactory
      * @param array $data
      * @return ApiResponseData
      */
-    public function createPreparedProductsResponseData(array $data): ApiResponseData {
+    public function createPreparedProductsResponseData(
+        array $data
+    ): ApiResponseData {
         return $this->apiSdk
             ->create($data)
             ->method('POST')
@@ -62,9 +67,13 @@ class ApiResponseDataFactory
             ->setStatusCode(201)
             ->build();
     }
-
-    public function createSearchListingResponseData(array $listing)
-    {
+    /**
+     * @param array $listing
+     * @return ApiResponseData
+     */
+    public function createSearchListingResponseData(
+        array $listing
+    ) {
         return $this->apiSdk
             ->create($listing)
             ->method('GET')

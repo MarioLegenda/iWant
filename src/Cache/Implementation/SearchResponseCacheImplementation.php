@@ -37,6 +37,7 @@ class SearchResponseCacheImplementation
     /**
      * @param string $uniqueName
      * @param string $value
+     * @param int $productCount
      * @return bool
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -44,11 +45,13 @@ class SearchResponseCacheImplementation
      */
     public function store(
         string $uniqueName,
-        string $value
+        string $value,
+        int $productCount
     ): bool {
         $this->searchResponseCache->set(
             $uniqueName,
-            $value
+            $value,
+            $productCount
         );
 
         return true;

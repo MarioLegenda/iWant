@@ -14,7 +14,6 @@ use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
 use App\Translation\Model\Language;
 use App\Translation\YandexTranslationCenter;
-use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 
 class DoubleLocaleSearchFetcher implements FetcherInterface
 {
@@ -116,7 +115,8 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
 
         $this->searchResponseCacheImplementation->store(
             $identifier,
-            jsonEncodeWithFix($results)
+            jsonEncodeWithFix($results),
+            count($results)
         );
 
         return $results;
@@ -157,7 +157,19 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         };
 
         if (count($siteLocaleResults) === count($mainLocaleResults)) {
-            return $arrangeFinalResultFunction($siteLocaleResults, $mainLocaleResults);
+            $finalResults = $arrangeFinalResultFunction($siteLocaleResults, $mainLocaleResults);
+
+            $finalResults = advanced_array_filter($finalResults, function(array $item, array &$retainedData) {
+                if (in_array($item['itemId'], $retainedData) === true) {
+                    return false;
+                }
+
+                $retainedData[] = $item['itemId'];
+
+                return true;
+            });
+
+            return $finalResults;
         }
 
         $mainIterationArray = null;
@@ -171,7 +183,19 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
             $secondaryIterationArray = $siteLocaleResults;
         }
 
-        return $arrangeFinalResultFunction($mainIterationArray, $secondaryIterationArray);
+        $finalResults = $arrangeFinalResultFunction($mainIterationArray, $secondaryIterationArray);
+
+        $finalResults = advanced_array_filter($finalResults, function(array $item, array &$retainedData) {
+            if (in_array($item['itemId'], $retainedData) === true) {
+                return false;
+            }
+
+            $retainedData[] = $item['itemId'];
+
+            return true;
+        });
+
+        return $finalResults;
     }
     /**
      * @param SearchModel $model
