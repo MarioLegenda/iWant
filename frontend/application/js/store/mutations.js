@@ -30,7 +30,7 @@ export const mutations = {
         if (value === null) {
             console.log('savedStateMode restored to default search state mode');
 
-            this.state.savedSearchStateMode = defaultSearchState;
+            this.state.savedSearchStateMode = Object.assign({}, this.state.savedSearchStateMode, defaultSearchState);
 
             return;
         }
