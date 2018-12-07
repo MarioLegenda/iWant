@@ -78,7 +78,7 @@ const LoadMore = {
             this.resetPagination();
         },
         getPreparedSearchMetadata() {
-
+            return this.$store.getters.getPreparedSearchMetadata;
         }
     },
     methods: {
@@ -89,12 +89,23 @@ const LoadMore = {
 
             model.globalId = this.globalId;
 
+            if (model.filters.doubleLocaleSearch) {
+                const totalItems = this.getPreparedSearchMetadata.totalItems;
+                const internalLimitIncrease = this.page * this.limit;
+
+                if (internalLimitIncrease >= totalItems) {
+                    this._increasePagination(model);
+
+                    this.$emit('load-more', model);
+
+                    return;
+                }
+            }
+
             const internalLimitIncrease = this.page * this.limit;
 
             if (internalLimitIncrease >= this.internalLimit) {
-                model.internalPagination.page = ++this.internalPage;
-                model.pagination.page = 1;
-                this.page = 1;
+                this._increasePagination(model);
 
                 this.$emit('load-more', model);
 
@@ -102,6 +113,12 @@ const LoadMore = {
             }
 
             this.$emit('load-more', model);
+        },
+
+        _increasePagination(model) {
+            model.internalPagination.page = ++this.internalPage;
+            model.pagination.page = 1;
+            this.page = 1;
         },
 
         resetPagination() {
