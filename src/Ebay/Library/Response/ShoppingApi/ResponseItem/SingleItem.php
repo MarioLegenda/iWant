@@ -166,6 +166,24 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      */
     private $autoPay;
     /**
+     * @return bool
+     */
+    public function isFixedPrice(): bool
+    {
+        return $this->listingType === 'FixedPriceItem';
+    }
+    /**
+     * @return bool
+     */
+    public function isAuction(): bool
+    {
+        if ($this->bidCount !== null) {
+            return is_int($this->bidCount);
+        }
+
+        return false;
+    }
+    /**
      * @param null $default
      * @return ReturnPolicy|null
      */
@@ -931,6 +949,8 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
             'primaryCategoryName' => $this->getPrimaryCategoryName(),
             'quantity' => $this->getQuantity(),
             'seller' => $this->getSeller()->toArray(),
+            'isFixedPrice' => $this->isFixedPrice(),
+            'isAuction' => $this->isAuction(),
         ];
     }
 }

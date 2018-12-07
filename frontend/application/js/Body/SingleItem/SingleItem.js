@@ -48,12 +48,11 @@ export const SingleItem = {
                             <name-value-container
                                 v-bind:name="translationsMap.productPage.endsOn"
                                 v-bind:value="item.endTime | userFriendlyDate">
-                            
                             </name-value-container>
                             
                             <name-value-container
                                 v-bind:name="translationsMap.productPage.isAuction"
-                                v-bind:value="(item.bidCount !== 0) ? translationsMap.yes : translationsMap.no">
+                                v-bind:value="item.isAuction ? translationsMap.yes : translationsMap.no">
                             </name-value-container>
                             
                             <name-value-container
