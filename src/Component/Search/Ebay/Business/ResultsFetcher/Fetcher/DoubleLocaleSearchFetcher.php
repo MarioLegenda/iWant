@@ -62,12 +62,13 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         $this->singleSearchFetcher = $singleSearchFetcher;
         $this->yandexTranslationCenter = $yandexTranslationCenter;
     }
-
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param array $replacements
      * @return array
      * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -78,7 +79,11 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {
             $searchCache = $this->searchResponseCacheImplementation->getStored($identifier);
 
-            return json_decode($searchCache->getProductsResponse(), true);
+            $results = json_decode($searchCache->getProductsResponse(), true);
+
+            if ($this->filterApplier instanceof FilterApplierInterface) {
+                return $this->filterApplier->apply($results);
+            }
         }
         /*
          * 1. Detect the keyword language
@@ -118,6 +123,10 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
             jsonEncodeWithFix($results),
             count($results)
         );
+
+        if ($this->filterApplier instanceof FilterApplierInterface) {
+            return $this->filterApplier->apply($results);
+        }
 
         return $results;
     }

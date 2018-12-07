@@ -67,10 +67,12 @@ class SingleSearchFetcher implements FetcherInterface
         $this->keywordTranslationCacheImplementation = $keywordTranslationCacheImplementation;
     }
     /**
-     * @param SearchModelInterface|SearchModel $model
+     * @param SearchModelInterface $model
      * @param array $replacementData
      * @return iterable
      * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
