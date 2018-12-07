@@ -8,7 +8,6 @@ export const DoubleLocaleSearch = {
         }
     },
     created() {
-        console.log(this.getCurrentSearchStateMode);
         if (this.getCurrentSearchStateMode === SAVED_STATE_MODE) {
             const filtersEvent = this.$store.state.filtersEvent;
 
