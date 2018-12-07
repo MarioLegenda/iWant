@@ -19,6 +19,20 @@ export const getters = {
         return state.preparedSearchMetadata;
     },
 
+    getCurrentSearchStateMode(state, getters) {
+        const searchState = state.savedSearchStateMode;
+
+        for (const s in searchState) {
+            if (searchState.hasOwnProperty(s)) {
+                if (searchState[s] === true) {
+                    return s;
+                }
+            }
+        }
+
+        return null;
+    },
+
     areSingleAddFiltersSelected(state, getters) {
         const filtersEvent = state.filtersEvent;
         const excludes = ['bestMatch'];

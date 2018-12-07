@@ -1,13 +1,26 @@
+import {SAVED_STATE_MODE} from "../../../store/constants";
+
 export const HideDuplicateItems = {
     data: function() {
         return {
             isToggleOpen: false,
+            toggle: false,
+        }
+    },
+    created() {
+        if (this.getCurrentSearchStateMode === SAVED_STATE_MODE) {
+            const filtersEvent = this.$store.state.filtersEvent;
+
+            if (filtersEvent.hideDuplicateItems === true) {
+                this.toggle = true;
+            }
         }
     },
     template: `
         <div class="ModifierWrapper">
             <div class="Modifier">
                 <toggle-button
+                    :value="toggle"
                     id="changed-font"
                     :sync="true"
                     @change="onChange"
@@ -33,6 +46,10 @@ export const HideDuplicateItems = {
         translationsMap: function() {
             return this.$store.state.translationsMap;
         },
+
+        getCurrentSearchStateMode: function() {
+            return this.$store.getters.getCurrentSearchStateMode;
+        }
     },
     methods: {
         openInformation: function() {

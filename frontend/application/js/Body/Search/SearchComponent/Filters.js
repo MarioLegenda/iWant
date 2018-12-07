@@ -1,4 +1,5 @@
 import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
+import {SAVED_STATE_MODE} from "../../../store/constants";
 
 export const Filters = {
     data: function() {
@@ -11,7 +12,20 @@ export const Filters = {
             errors: [],
         }
     },
+
     created() {
+        if (this.getCurrentSearchStateMode === SAVED_STATE_MODE) {
+            const filtersEvent = this.$store.state.filtersEvent;
+
+            const filters = ['lowestPrice', 'highestPrice', 'highQuality', 'fixedPrice'];
+
+            for (const f of filters) {
+                if (filtersEvent[f] === true) {
+                    this[f] = filtersEvent[f];
+                }
+            }
+        }
+
         this.$store.subscribe((mutation, state) => {
             if (mutation.type === 'filtersEvent') {
                 if (!state.filtersEvent.lowestPrice) {
@@ -32,6 +46,7 @@ export const Filters = {
             }
         });
     },
+
     template: `<div class="RightPanel FiltersWrapper">
                     
                     <i class="FilterMenuOpener fas fa-bars" @click="openResponsiveMenu(...arguments)"></i>
@@ -74,11 +89,17 @@ export const Filters = {
                     </div>
                     
                </div>`,
+
     computed: {
         translationsMap: function() {
             return this.$store.state.translationsMap;
         },
+
+        getCurrentSearchStateMode: function() {
+            return this.$store.getters.getCurrentSearchStateMode;
+        }
     },
+
     methods: {
         openResponsiveMenu(event) {
             this.responsiveMenuOpened = !this.responsiveMenuOpened;
@@ -179,6 +200,7 @@ export const Filters = {
             this.fixedPrice = false;
         }
     },
+
     components: {
         'single-add-filter': SingleAddFilter,
     }

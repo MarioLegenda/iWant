@@ -122,24 +122,6 @@ export const SearchComponent = {
             setTimeout(() => scrollToElement(document.getElementById('ListingChoiceComponentId'), 200));
         },
 
-        determineMarketplaces(model) {
-            let marketplaces = {};
-
-            if (model.filters.marketplaces.length === 0) {
-                marketplaces = marketplacesList;
-            }
-
-            if (model.filters.marketplaces.length > 0) {
-                const marketplaceFilters = model.filters.marketplaces;
-
-                for (const m of marketplaceFilters) {
-                    marketplaces[m.normalized] = m.name;
-                }
-            }
-
-            return marketplaces;
-        },
-
         createModel() {
             return {
                 keyword: this.keyword,

@@ -1,3 +1,5 @@
+import {defaultSearchState} from "./state";
+
 export const mutations = {
     ebaySearchListing(state, value) {
         console.log('ebaySearchListing event');
@@ -20,6 +22,20 @@ export const mutations = {
         console.log('preparedSearchMetadata event');
 
         this.state.preparedSearchMetadata = value;
+    },
+
+    savedSearchStateMode(state, value) {
+        console.log('savedStateMode event');
+
+        if (value === null) {
+            console.log('savedStateMode restored to default search state mode');
+
+            this.state.savedSearchStateMode = defaultSearchState;
+
+            return;
+        }
+
+        this.state.savedSearchStateMode = Object.assign({}, this.state.savedSearchStateMode, value);
     },
 
     filtersEvent(state, value) {

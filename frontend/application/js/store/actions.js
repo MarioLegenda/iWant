@@ -1,7 +1,8 @@
 import Vue from "vue";
 import {translationsMap} from "../translationMap";
 import {RepositoryFactory} from "../services/repositoryFactory";
-import {defaultFilters, defaultModel} from "./state";
+import {defaultFilters} from "./state";
+import {RESTORING_STATE_MODE, SAVED_STATE_MODE, STATE_RESTORE_MODE} from "./constants";
 
 export const actions = {
     localeChangedAction(context, locale) {
@@ -12,7 +13,55 @@ export const actions = {
         context.commit('translationsMap', translationsMap[locale.value]);
     },
 
+    saveSearchState(context) {
+        context.commit('savedSearchStateMode', {
+            savedStateMode: true,
+        });
+
+        context.commit('searchInitialiseEvent', {
+            searchUrl: null,
+            initialised: false,
+        });
+
+        context.commit('listingInitialiseEvent', {
+            initialised: false,
+        });
+
+        context.commit('ebaySearchListingLoading', false);
+    },
+
+    restoreSearchState(context) {
+        context.commit('searchInitialiseEvent', {
+            searchUrl: null,
+            initialised: true,
+        });
+
+        context.commit('listingInitialiseEvent', {
+            initialised: true,
+        });
+
+        setTimeout(() => {
+            context.commit('savedSearchStateMode', {
+                [SAVED_STATE_MODE]: false,
+                [RESTORING_STATE_MODE]: true,
+            });
+
+            setTimeout(() => {
+                context.commit('savedSearchStateMode', {
+                    [RESTORING_STATE_MODE]: false,
+                    [STATE_RESTORE_MODE]: true,
+                });
+
+                setTimeout(() => {
+                    context.commit('savedSearchStateMode', null);
+                }, 500);
+            }, 500);
+        }, 500);
+    },
+
     destroyEntireState(context) {
+        context.commit('savedSearchStateMode', null);
+
         context.commit('searchInitialiseEvent', {
             searchUrl: null,
             initialised: false,
