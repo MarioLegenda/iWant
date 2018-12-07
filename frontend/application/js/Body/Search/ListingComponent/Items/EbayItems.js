@@ -305,7 +305,7 @@ export const EbayItems = {
                         </quick-look>
                     
                         <div class="Row FullDetailsWrapper">
-                            <button class="FullDetailsButton" @click="goToSingleItem(item)">{{getTranslationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></button>
+                            <a :href="_generateSingleItemLink(item)" class="FullDetailsButton" @click="goToSingleItem(item, $event)">{{getTranslationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></a>
                         </div>
                     
                         <div class="Row MarketplaceWrapper">
@@ -408,7 +408,19 @@ export const EbayItems = {
             });
         },
 
-        goToSingleItem(item) {
+        _generateSingleItemLink: function(item) {
+            const urlify = urlifyFactory.create({
+                addEToUmlauts: true,
+                szToSs: true,
+                spaces: "-",
+                nonPrintable: "-",
+                trim: true
+            });
+
+            return `/${this.$localeInfo.locale}/item/${urlify(item.title.original)}/${item.itemId}`;
+        },
+
+        goToSingleItem(item, $event) {
             const urlify = urlifyFactory.create({
                 addEToUmlauts: true,
                 szToSs: true,
@@ -422,9 +434,13 @@ export const EbayItems = {
                 params: {
                     locale: this.$localeInfo.locale,
                     itemId: item.itemId,
-                    name: (urlify(item.title.original)),
+                    name: urlify(item.title.original),
                 }
             });
+
+            $event.preventDefault();
+
+            return false;
         },
 
         chooseTitle(title) {
