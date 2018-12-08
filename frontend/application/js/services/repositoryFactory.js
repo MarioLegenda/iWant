@@ -2,41 +2,28 @@ import {routes} from "../apiRoutes";
 
 const requiredHeaders = {
     'X-Requested-With': 'XMLHttpRequest',
+    'HTTP-API-I-WOULD-LIKE': 'api',
 };
 
 class AppRepository {
     async asyncGetEbayGlobalIdsInformation(success) {
         const route = routes.app_get_ebay_global_id_information;
 
-        const response = await fetch(route);
+        const response = await fetch(route,{
+            method: 'GET',
+            headers: requiredHeaders,
+        });
 
         success(await response.json());
-    }
-
-    getMarketplaces(data, success) {
-        const route = routes.app_get_marketplaces;
-
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
     }
 
     getCountries(data, success) {
         const route = routes.app_get_countries;
 
-        fetch(route)
-            .then(function(response) {
-                return response.json();
-            })
-            .then(success);
-    }
-
-    getNativeTaxonomies(data, success) {
-        const route = routes.app_get_taxonomies;
-
-        fetch(route)
+        fetch(route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
             .then(function(response) {
                 return response.json();
             })

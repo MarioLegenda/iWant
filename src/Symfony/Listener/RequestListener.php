@@ -4,6 +4,9 @@ namespace App\Symfony\Listener;
 
 use App\Doctrine\Entity\IpAddress;
 use App\Doctrine\Repository\IpAddressRepository;
+use App\Library\Http\Request\Type\HttpHeader;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
 class RequestListener
@@ -13,12 +16,19 @@ class RequestListener
      */
     private $ipAddressRepository;
     /**
+     * @var LoggerInterface $logger
+     */
+    private $logger;
+    /**
      * RequestListener constructor.
      * @param IpAddressRepository $ipAddressRepository
+     * @param LoggerInterface $logger
      */
     public function __construct(
-        IpAddressRepository $ipAddressRepository
+        IpAddressRepository $ipAddressRepository,
+        LoggerInterface $logger
     ) {
+        $this->logger = $logger;
         $this->ipAddressRepository = $ipAddressRepository;
     }
     /**
@@ -31,9 +41,38 @@ class RequestListener
         $request = $event->getRequest();
 
         if ($event->getRequest()->isXmlHttpRequest()) {
-            return;
+
+            if ($request->headers->has(HttpHeader::HTTP_API_HEADER)) {
+                $httpHeader = $request->headers->get(HttpHeader::HTTP_API_HEADER);
+                if ($httpHeader !== 'api') {
+                    $message = sprintf(
+                        'Unauthorised request with a non %s',
+                        HttpHeader::HTTP_API_HEADER
+                    );
+
+                    $this->logger->alert($message);
+
+                    throw new \RuntimeException('Unauthorised access');
+                }
+
+                return;
+            }
+
+            $message = sprintf(
+                'Unauthorised request with a non %s',
+                HttpHeader::HTTP_API_HEADER
+            );
+
+            $this->logger->alert($message);
+
+            throw new \RuntimeException('Unauthorised access');
         }
 
+        $this->saveVisitorIp($request);
+    }
+
+    private function saveVisitorIp(Request $request)
+    {
         $ipAddress = (string) $request->getClientIp();
 
         $existingModel = $this->ipAddressRepository->findOneBy([
