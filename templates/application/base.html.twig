@@ -12,15 +12,90 @@
 
         <link href="https://fonts.googleapis.com/css?family=Paytone+One|Quicksand:400,500,700|Taviraj:400,600,600i&amp;subset=latin-ext,thai,vietnamese" rel="stylesheet">        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
     </head>
+
     <body>
         <div id="vue_app" class="container">
             {% block body %}{% endblock %}
         </div>
 
         {% block javascripts %}
-            {% set cacheClear = 'random'~random(999999) %}
+            <script>
+                var env = 'dev';
+                var currentVersion = 'aUfNnxRqb9x8jg3dqQfnpuQscvzATKFxCTtYy';
+                var src = '/js/dist/build.js';
 
-            <script src={{ asset("js/dist/build.js?v="~cacheClear) }}></script>
+                function createCookie(name, value, days) {
+                    var expires;
+
+                    if (days) {
+                        var date = new Date();
+                        date.setTime(date.getTime()+(days*24*60*60*1000));
+                        expires = "; expires="+date.toGMTString();
+                    }
+                    else {
+                        expires = "";
+                    }
+
+                    document.cookie = name+"="+value+expires+"; path=/";
+                }
+
+                function readCookie(name) {
+                    var nameEQ = name + "=";
+
+                    var ca = document.cookie.split(';');
+
+                    for(var i=0;i < ca.length;i++) {
+                        var c = ca[i];
+
+                        while (c.charAt(0) === ' ') {
+                            c = c.substring(1,c.length);
+                        }
+
+                        if (c.indexOf(nameEQ) === 0) {
+                            return c.substring(nameEQ.length,c.length);
+                        }
+                    }
+
+                    return null;
+                }
+
+                function eraseCookie(name) {
+                    createCookie(name,"",-1);
+                }
+
+                function addScript(src) {
+                    var s = document.createElement( 'script' );
+                    s.setAttribute( 'src', src );
+                    document.body.appendChild( s );
+                }
+
+                function handleProdBuild() {
+                    if (readCookie('version') === null) {
+                        createCookie('version', currentVersion, 30);
+
+                        addScript(src + '?v=' + currentVersion);
+
+                        return false;
+                    }
+
+                    if (readCookie('version') !== null) {
+                        var version = readCookie('version');
+
+                        if (version !== currentVersion) {
+                            addScript(src + '?v=' + currentVersion);
+                        } else if (version === currentVersion) {
+                            addScript(src);
+                        }
+                    }
+                }
+
+                if (env === 'prod') {
+                    handleProdBuild();
+                } else if (env === 'dev') {
+                    addScript(src + '?v=' + currentVersion + Math.floor(Math.random() * Math.floor(999999999)));
+                }
+
+            </script>
         {% endblock %}
     </body>
 </html>
