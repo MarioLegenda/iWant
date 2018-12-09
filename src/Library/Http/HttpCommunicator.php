@@ -46,18 +46,34 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
             throw new ExternalApiNativeException($e);
         }
     }
-    /**
-     * @param Request $request
-     * @return Response
-     */
+
     public function post(Request $request): Response
     {
-        $message = sprintf(
-            'Method %s::post() is not implemented and should not be used',
-            get_class($this)
-        );
+        try {
+            $baseUrl = $request->getBaseUrl();
+            $headers = $request->getHeaders();
+            $data = $request->getData();
+            /** @var GuzzleResponse $response */
+            $response = $this->createClient()->post($baseUrl, [
+                'body' => $data,
+                'headers' => $headers,
+            ]);
 
-        throw new \RuntimeException($message);
+            return $this->createResponse($response, $request);
+        } catch (
+        ServerException |
+        RequestException |
+        BadResponseException |
+        ClientException  |
+        ConnectException |
+        SeekException |
+        TooManyRedirectsException |
+        TransferException $e) {
+
+            throw new ExternalApiNativeException($e);
+        } catch (\Exception $e) {
+            throw new ExternalApiNativeException($e);
+        }
     }
     /**
      * @return Client

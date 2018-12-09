@@ -2,7 +2,8 @@
 
 namespace App\Library\Util;
 
-use Nexy\Slack\Client;
+use App\Library\Slack\Metadata;
+use App\Library\Slack\SlackClient;
 use Psr\Log\LoggerInterface;
 
 class SlackImplementation
@@ -12,9 +13,9 @@ class SlackImplementation
      */
     private $logger;
     /**
-     * @var Client $nexySlack
+     * @var SlackClient $slackClient
      */
-    private $nexySlack;
+    private $slackClient;
     /**
      * @var Environment $env
      */
@@ -22,17 +23,17 @@ class SlackImplementation
     /**
      * SlackImplementation constructor.
      * @param Environment $environment
-     * @param Client $nexySlack
      * @param LoggerInterface $logger
+     * @param SlackClient $slackClient
      */
     public function __construct(
         Environment $environment,
-        Client $nexySlack,
+        SlackClient $slackClient,
         LoggerInterface $logger
     ) {
         $this->logger = $logger;
-        $this->nexySlack = $nexySlack;
         $this->env = $environment;
+        $this->slackClient = $slackClient;
     }
     /**
      * @param string $channel
@@ -44,13 +45,12 @@ class SlackImplementation
         string $text
     ) {
         try {
-            $message = $this->nexySlack->createMessage();
+            $metadata = new Metadata(
+                $channel,
+                [$text]
+            );
 
-            $message
-                ->to($channel)
-                ->setText($text);
-
-            $this->nexySlack->sendMessage($message);
+            $this->slackClient->send($metadata);
         } catch (\Exception $e) {
             $this->logger->warning(sprintf(
                 'Slack failed to send a message to channel \'%s\'. An exception occurred. The message was: %s. Exception message: %s',

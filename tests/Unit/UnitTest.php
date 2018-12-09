@@ -8,6 +8,8 @@ use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\LanguageTranslationsRepresentation;
+use App\Library\Slack\Metadata;
+use App\Library\Slack\SlackClient;
 use App\Library\Util\Util;
 use App\Tests\Library\BasicSetup;
 use PHPUnit\Framework\TestCase;
@@ -209,5 +211,26 @@ class UnitTest extends BasicSetup
         $paginatedListing = $paginationHandler->paginateListing($listing, $pagination);
 
         static::assertEquals(9, $paginatedListing[0]);
+    }
+
+    public function test_slack_client()
+    {
+        $slackConfig = $this->locator->getParameter('slack')['webhooksMap'];
+        $slackClient = $this->locator->get(SlackClient::class);
+
+        foreach ($slackConfig as $config) {
+            $channel = $config['channel'];
+
+            $metadata = new Metadata(
+                $channel,
+                [
+                    'Message 1',
+                    'Message 2',
+                ],
+                sprintf('Testing %s', $channel)
+            );
+
+            $slackClient->send($metadata);
+        }
     }
 }
