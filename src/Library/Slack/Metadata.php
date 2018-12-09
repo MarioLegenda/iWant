@@ -30,7 +30,7 @@ class Metadata
         if (!is_string($title)) {
             $title = 'A generic title';
         }
-        
+
         $this->title = sprintf("*%s*\n\n", $title);
         $this->channel = $channel;
 
