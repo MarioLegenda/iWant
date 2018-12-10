@@ -10,6 +10,9 @@ use App\Symfony\Exception\ExceptionType;
 use App\Symfony\Exception\NetworkExceptionBody;
 use GuzzleHttp\Client;
 use App\Library\Http\Request;
+use GuzzleHttp\Handler\CurlHandler;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
 use App\Library\Response as HttpResponse;
 use GuzzleHttp\Exception\BadResponseException;
@@ -23,6 +26,8 @@ use GuzzleHttp\Exception\TransferException;
 use App\Symfony\Exception\ExternalApiNativeException;
 use Http\Client\Exception\NetworkException;
 use Psr\Log\LoggerInterface;
+use GuzzleHttp\Psr7\Request as Psr7Request;
+use GuzzleHttp\Psr7\Response as Psr7Response;
 
 class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 {
@@ -155,21 +160,6 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
         throw new \RuntimeException($message);
     }
     /**
-     * @return Client
-     */
-    private function createClient(): Client
-    {
-        $options = [
-            'timeout' => $this->getTimeout(),
-        ];
-
-        if (!$this->client instanceof Client) {
-            $this->client = new Client($options);
-        }
-
-        return $this->client;
-    }
-    /**
      * @param $name
      */
     public function __get($name)
@@ -181,6 +171,54 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
 
             throw new \RuntimeException($message);
         }
+    }
+    /**
+     * @return Client
+     */
+    private function createClient(): Client
+    {
+        $stack = HandlerStack::create(new CurlHandler());
+        $stack->push(Middleware::retry($this->createRetryHandler()));
+        $options = [
+            'timeout' => $this->getTimeout(),
+            'handler' => $stack,
+        ];
+
+        if (!$this->client instanceof Client) {
+            $this->client = new Client($options);
+        }
+
+        return $this->client;
+    }
+    /**
+     * @return \Closure
+     */
+    private function createRetryHandler()
+    {
+        $logger = $this->logger;
+
+        return function (
+            $retries,
+            Psr7Request $request,
+            Psr7Response $response = null,
+            RequestException $exception = null
+        ) use ($logger) {
+            $maxRetries = 2;
+
+            if ($retries >= $maxRetries) {
+                return false;
+            }
+
+            $logger->warning(sprintf(
+                'Retrying %s %s %s/%s, %s',
+                $request->getMethod(),
+                $request->getUri(),
+                $retries + 1,
+                $maxRetries,
+                $response ? 'status code: ' . $response->getStatusCode() : $exception->getMessage()
+            ), [$request->getHeader('Host')[0]]);
+            return true;
+        };
     }
     /**
      * @param GuzzleResponse $response

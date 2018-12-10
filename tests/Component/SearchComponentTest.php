@@ -77,7 +77,7 @@ class SearchComponentTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.component');
 
         $modelArray = [
-            'keyword' => 'dell xps 13 developer edition',
+            'keyword' => 'iphone 7',
             'locale' => 'en',
             'lowestPrice' => true,
             'highQuality' => false,
