@@ -77,15 +77,15 @@ class SearchComponentTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.component');
 
         $modelArray = [
-            'keyword' => 'manguera de Jardín',
+            'keyword' => 'dell xps 13 developer edition',
             'locale' => 'en',
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
-            'globalId' => 'EBAY-DE',
+            'globalId' => 'EBAY-GB',
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 1),
-            'hideDuplicateItems' => true,
+            'hideDuplicateItems' => false,
             'doubleLocaleSearch' => false,
         ];
 
