@@ -160,11 +160,6 @@ services:
 
     # REPRESENTATIONS
 
-    App\Library\Representation\ShopsRepresentation:
-        arguments:
-            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
-            $marketplaceRepresentation: '@App\Library\Representation\MarketplaceRepresentation'
-
     App\Library\Representation\MarketplaceRepresentation:
         arguments:
             $marketplaces: '%marketplaces%'
@@ -176,10 +171,6 @@ services:
     App\Library\Representation\LanguageTranslationsRepresentation:
         arguments:
             $ebaySiteLanguageLocaleMapping: '%ebay_site_lang_locale_mapping%'
-
-    App\Library\Representation\ApplicationShopRepresentation:
-        arguments:
-            $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
 
     App\Library\Representation\MainLocaleRepresentation:
         arguments:
@@ -254,10 +245,6 @@ services:
     App\Cache\Cache\SearchResponseCache:
         arguments:
             $cacheTtl: '%search_response_cache_ttl%'
-
-    App\Cache\Cache\PreparedResponseCache:
-        arguments:
-            $cacheTtl: '%prepared_response_cache_ttl%'
 
     App\Cache\Cache\ItemTranslationCache:
         arguments:
@@ -340,19 +327,7 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\EbayRootCategoryRepository:
-        arguments:
-            $registry: '@doctrine'
-
-    App\Doctrine\Repository\ApplicationShopRepository:
-        arguments:
-            $registry: '@doctrine'
-
     App\Doctrine\Repository\SingleProductItemRepository:
-        arguments:
-            $registry: '@doctrine'
-
-    App\Doctrine\Repository\SearchRequestRepository:
         arguments:
             $registry: '@doctrine'
 
@@ -361,10 +336,6 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\IpAddressRepository:
-        arguments:
-            $registry: '@doctrine'
-
-    App\Doctrine\Repository\PreparedResponseCacheRepository:
         arguments:
             $registry: '@doctrine'
 
@@ -384,36 +355,9 @@ services:
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\LoadProductsFromEbayStore:
-        arguments:
-            $finder: '@App\Ebay\Business\Finder'
-        tags:
-            - { name: 'console.command' }
-
     App\Symfony\Command\GetUserProfile:
         arguments:
             $finder: '@App\Ebay\Business\Finder'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\UpsertNativeTaxonomy:
-        arguments:
-            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\CategoryConnection\ConnectEbayCategories:
-        arguments:
-            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\CreateNativeShops:
-        arguments:
-            $shoppingApiEntryPoint: '@App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint'
-            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
-            $applicationShopRepository: '@App\Doctrine\Repository\ApplicationShopRepository'
-            $shopsRepresentation: '@App\Library\Representation\ShopsRepresentation'
         tags:
             - { name: 'console.command' }
 

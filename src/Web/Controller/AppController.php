@@ -60,65 +60,6 @@ class AppController
         return $response;
     }
     /**
-     * @param MarketplaceEntryPoint $marketplaceEntryPoint
-     * @return JsonResponse
-     */
-    public function getMarketplaces(MarketplaceEntryPoint $marketplaceEntryPoint)
-    {
-        $marketplaces = $marketplaceEntryPoint->getMarketplaces();
-
-        /** @var ApiResponseData $responseData */
-        $responseData = $this->apiSdk
-            ->create($marketplaces->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
-            ->method('GET')
-            ->addMessage('A list of marketplaces')
-            ->isCollection()
-            ->setStatusCode(200)
-            ->build();
-
-        $response = new JsonResponse(
-            $responseData->toArray(),
-            $responseData->getStatusCode()
-        );
-
-        $response->setCache([
-            'max_age' => 60 * 60 * 24 * 30
-        ]);
-
-        return $response;
-    }
-    /**
-     * @param NativeTaxonomyEntryPoint $nativeTaxonomyEntryPoint
-     * @return JsonResponse
-     */
-    public function getNativeTaxonomies(NativeTaxonomyEntryPoint $nativeTaxonomyEntryPoint)
-    {
-        $taxonomies = $nativeTaxonomyEntryPoint->getNativeTaxonomies();
-
-        /** @var ApiResponseData $responseData */
-        $responseData = $this->apiSdk
-            ->create($taxonomies->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION))
-            ->method('GET')
-            ->addMessage('A list of marketplaces')
-            ->isCollection()
-            ->setStatusCode(200)
-            ->build();
-
-        $response = new JsonResponse(
-            $responseData->toArray(),
-            $responseData->getStatusCode()
-        );
-
-        $cacheControl = sprintf(
-            'must-revalidate, max-age=%d',
-            60 * 60 * 24 * 30
-        );
-
-        $response->headers->set('Cache-Control', $cacheControl);
-
-        return $response;
-    }
-    /**
      * @return JsonResponse
      */
     public function getGlobalIdsInformation(): JsonResponse
