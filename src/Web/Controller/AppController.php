@@ -5,18 +5,12 @@ namespace App\Web\Controller;
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\App\Presentation\EntryPoint\MarketplaceEntryPoint;
 use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
-use App\App\Presentation\EntryPoint\QuickLookEntryPoint;
-use App\App\Presentation\Model\Request\SingleItemRequestModel;
-use App\Doctrine\Entity\ApplicationShop;
-use App\Doctrine\Entity\SingleProductItem;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Representation\ApplicationShopRepresentation;
 use App\Library\Util\SlackImplementation;
 use App\Library\Util\TypedRecursion;
-use App\Library\Util\Util;
 use App\Web\Model\Request\ActivityMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -161,6 +155,7 @@ class AppController
     ) {
         $slackImplementation
             ->sendMessageToChannel(
+                'Recording app activity trough external HTTP. Its probably the browser',
                 '#app_activity',
                 json_encode($model->toArray())
             );

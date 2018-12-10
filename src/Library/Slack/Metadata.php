@@ -23,14 +23,10 @@ class Metadata
      * @param array $messages
      */
     public function __construct(
+        string $title,
         string $channel,
-        array $messages,
-        string $title = null
+        array $messages
     ) {
-        if (!is_string($title)) {
-            $title = 'A generic title';
-        }
-
         $this->title = sprintf("*%s*\n\n", $title);
         $this->channel = $channel;
 

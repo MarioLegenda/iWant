@@ -36,16 +36,19 @@ class SlackImplementation
         $this->slackClient = $slackClient;
     }
     /**
+     * @param string $title
      * @param string $channel
      * @param string $text
      * @throws \Http\Client\Exception
      */
     public function sendMessageToChannel(
+        string $title,
         string $channel,
         string $text
     ) {
         try {
             $metadata = new Metadata(
+                $title,
                 $channel,
                 [$text]
             );

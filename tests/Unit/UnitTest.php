@@ -6,6 +6,7 @@ use App\Component\Search\Ebay\Business\PaginationHandler;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Component\Search\Ebay\Model\Request\Pagination;
+use App\Library\Async\StaticAsyncHandler;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Slack\Metadata;
@@ -222,12 +223,12 @@ class UnitTest extends BasicSetup
             $channel = $config['channel'];
 
             $metadata = new Metadata(
+                sprintf('Testing %s', $channel),
                 $channel,
                 [
                     'Message 1',
                     'Message 2',
-                ],
-                sprintf('Testing %s', $channel)
+                ]
             );
 
             $slackClient->send($metadata);
