@@ -2,43 +2,61 @@
 
 namespace App\Reporting\Presentation\Model;
 
-use App\Library\Infrastructure\Type\TypeInterface;
 use App\Reporting\Library\ReportInterface;
-use App\Reporting\Library\ReportPresentationInterface;
-use App\Reporting\Library\Type\YandexReportType;
 
 class YandexTranslationServiceReport implements ReportInterface
 {
     /**
-     * @var TypeInterface|YandexReportType $reportType
+     * @var array $report
      */
-    private $reportType;
+    private $report = [
+        'hitCount' => 0,
+        'characterCount' => 0,
+    ];
     /**
-     * @var ReportPresentationInterface $reportPresentation
+     * @void
      */
-    private $reportPresentation;
-    /**
-     * YandexTranslationService constructor.
-     * @param ReportPresentationInterface $reportPresentation
-     */
-    public function __construct(
-        ReportPresentationInterface $reportPresentation
-    ) {
-        $this->reportType = YandexReportType::fromValue();
-        $this->reportPresentation = $reportPresentation;
+    public function incrementHitCount(): void
+    {
+        $this->report['hitCount']++;
     }
     /**
-     * @return ReportPresentationInterface
+     * @return int
      */
-    public function getReport(): ReportPresentationInterface
+    public function getHitCount(): int
     {
-        return $this->reportPresentation;
+        return $this->report['hitCount'];
     }
     /**
-     * @return TypeInterface|YandexReportType
+     * @return int
      */
-    public function getReportType(): TypeInterface
+    public function getCharacterCount(): int
     {
-        return $this->reportType;
+        return $this->report['characterCount'];
+    }
+    /**
+     * @param int $count
+     */
+    public function incrementCharacterCount(int $count): void
+    {
+        $currentCharCount = $this->report['characterCount'];
+
+        $currentCharCount += $count;
+
+        $this->report['characterCount'] = $currentCharCount;
+    }
+    /**
+     * @return array
+     */
+    public function getArrayReport(): array
+    {
+        return $this->report;
+    }
+    /**
+     * @return string
+     */
+    public function getJsonReport(): string
+    {
+        return jsonEncodeWithFix($this->report);
     }
 }

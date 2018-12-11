@@ -2,98 +2,51 @@
 
 namespace App\Reporting\Library;
 
-
-use App\Doctrine\Entity\ExternalServiceReport;
-use App\Doctrine\Repository\ExternalServiceReportRepository;
-use App\Library\Infrastructure\Helper\TypedArray;
-use App\Reporting\Library\Factory\ReportConverter;
+use App\Reporting\Library\Type\YandexReportType;
+use App\Reporting\Presentation\Model\YandexTranslationServiceReport;
 
 class ReportsCollector
 {
+    /**
+     * @var bool $isUpdated
+     */
+    private $isUpdated = false;
     /**
      * @var ReportInterface[] $reports
      */
     private $reports = [];
     /**
-     * @var ExternalServiceReport[] $reportsObjects
-     */
-    private $reportsObjects = [];
-    /**
-     * @var ExternalServiceReportRepository $externalServiceReportRepository
-     */
-    private $externalServiceReportRepository;
-    /**
-     * @var ReportConverter $reportConverter
-     */
-    private $reportConverter;
-    /**
      * ReportsCollector constructor.
-     * @param ExternalServiceReportRepository $externalServiceReportRepository
-     * @param ReportConverter $reportConverter
      */
-    public function __construct(
-        ExternalServiceReportRepository $externalServiceReportRepository,
-        ReportConverter $reportConverter
-    ) {
-        $this->externalServiceReportRepository = $externalServiceReportRepository;
-        $this->reportConverter = $reportConverter;
-    }
-    /**
-     * @param ReportInterface $report
-     */
-    public function addReport(
-        ReportInterface $report
-    ): void {
-        $externalServiceType = (string) $report->getReportType();
-
-        if (!array_key_exists($externalServiceType, $this->reports)) {
-            /** @var ExternalServiceReport $externalServiceReport */
-            $externalServiceReport = $this->externalServiceReportRepository->tryGetByType($externalServiceType);
-
-            if ($externalServiceReport instanceof ExternalServiceReport) {
-                $this->reports[$externalServiceReport->getExternalServiceType()] =
-                    $this->reportConverter->createReport(
-                        $externalServiceReport->getExternalServiceType(),
-                        $externalServiceReport->getReportAsArray()
-                    );
-
-                return;
-            }
-
-            $this->reports[(string) $externalServiceType] = $report;
-        }
-    }
-    /**
-     * @return ExternalServiceReport[]|iterable|TypedArray
-     */
-    public function getCollectedReports(): ?iterable
+    public function __construct()
     {
-        $collectedReports = TypedArray::create('integer', ExternalServiceReport::class);
+        $this->reports[(string) YandexReportType::fromValue()] = new YandexTranslationServiceReport();
+    }
+    /**
+     * @param string $type
+     * @return ReportInterface
+     */
+    public function getReport(string $type)
+    {
+        if (!array_key_exists($type, $this->reports)) {
+            $message = sprintf(
+                'Unknown report %s. Valid reports are %s',
+                $type,
+                implode(',', array_keys($this->reports))
+            );
 
-        /**
-         * @var string $reportType
-         * @var ReportInterface $report
-         */
-        foreach ($this->reports as $reportType => $report) {
-            if (!array_key_exists($reportType, $this->reportsObjects)) {
-                $collectedReports[] = new ExternalServiceReport(
-                    $reportType,
-                    $report->getReport()->getArrayReport()
-                );
-            } else if (array_key_exists($reportType, $this->reportsObjects)) {
-                /** @var ExternalServiceReport $reportObject */
-                $reportObject = $this->reportsObjects[$reportType];
-
-                $reportObject->setReport($report->getReport()->getArrayReport());
-
-                $collectedReports[] = $reportObject;
-            }
+            throw new \RuntimeException($message);
         }
 
-        if ($collectedReports->isEmpty()) {
-            return null;
-        }
+        $this->isUpdated = true;
 
-        return $collectedReports;
+        return $this->reports[$type];
+    }
+    /**
+     * @return bool
+     */
+    public function isUpdated(): bool
+    {
+        return $this->isUpdated;
     }
 }

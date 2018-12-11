@@ -240,80 +240,19 @@ class UnitTest extends BasicSetup
         }
     }
 
-    public function test_yandex_translation_report_presentation()
+    public function test_yandex_service_report()
     {
-        $yandexTranslationReportPresentation = new YandexTranslationServiceReportPresentation([
-            'hitCount' => 1000,
-            'characterCount' => 1000,
-            'additionalInformation' => [],
-        ]);
-
-        static::assertEquals(1000, $yandexTranslationReportPresentation->getHitCount());
-        static::assertEquals(1000, $yandexTranslationReportPresentation->getCharacterCount());
+        $yandexTranslationReportPresentation = new YandexTranslationServiceReport();
 
         $yandexTranslationReportPresentation->incrementCharacterCount(1000);
         $yandexTranslationReportPresentation->incrementHitCount();
 
-        static::assertEquals(2000, $yandexTranslationReportPresentation->getCharacterCount());
-        static::assertEquals(1001, $yandexTranslationReportPresentation->getHitCount());
-
-        $entersException = false;
-
-        try {
-            $yandexTranslationReportPresentation->addReportEntryByType('hitCount', []);
-        } catch (\Exception $e) {
-            $entersException = true;
-        }
-
-        static::assertTrue($entersException);
-
-        $entersException = false;
-
-        try {
-            $yandexTranslationReportPresentation->addReportEntryByType('characterCount', []);
-        } catch (\Exception $e) {
-            $entersException = true;
-        }
-
-        static::assertTrue($entersException);
-
-        $yandexTranslationReportPresentation->addReportEntryByType('additionalInformation', [
-            'key1' => 'information',
-            'key2' => 'information',
-        ]);
+        static::assertEquals(1000, $yandexTranslationReportPresentation->getCharacterCount());
+        static::assertEquals(1, $yandexTranslationReportPresentation->getHitCount());
 
         $reportArray = $yandexTranslationReportPresentation->getArrayReport();
 
         static::assertArrayHasKey('hitCount', $reportArray);
         static::assertArrayHasKey('characterCount', $reportArray);
-        static::assertArrayHasKey('additionalInformation', $reportArray);
-
-        static::assertArrayHasKey('key1', $reportArray['additionalInformation']);
-        static::assertArrayHasKey('key2', $reportArray['additionalInformation']);
-    }
-
-    public function test_reports_collector()
-    {
-        /** @var ReportsCollector $reportsCollector */
-        $reportsCollector = $this->locator->get(ReportsCollector::class);
-
-        $yandexTranslationReportPresentation = new YandexTranslationServiceReportPresentation([
-            'hitCount' => 1000,
-            'characterCount' => 1000,
-            'additionalInformation' => [],
-        ]);
-
-        $yandexTranslationReport = new YandexTranslationServiceReport($yandexTranslationReportPresentation);
-
-        $reportsCollector->addReport($yandexTranslationReport);
-
-        $collectedReports = $reportsCollector->getCollectedReports();
-
-        static::assertInstanceOf(TypedArray::class, $collectedReports);
-        static::assertEquals(count($collectedReports), 1);
-
-        foreach ($collectedReports as $report) {
-            static::assertInstanceOf(ExternalServiceReport::class, $report);
-        }
     }
 }

@@ -57,7 +57,7 @@ class ExternalServiceReport implements ArrayNotationInterface
         array $report
     ) {
         $this->externalServiceType = $externalServiceType;
-        $this->report = $report;
+        $this->report = jsonEncodeWithFix($report);
     }
     /**
      * @return int

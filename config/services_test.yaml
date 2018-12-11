@@ -4,6 +4,9 @@ parameters:
         amazon: Amazon
         etsy: Etsy
 
+    external_service_reports:
+        - yandex_translation_service
+
     yandex_translation_languages:
         'EBAY-DE': en
         'EBAY-NL': en
@@ -241,5 +244,19 @@ services:
     App\Symfony\Listener\HttpExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 100 }
+
+    App\Symfony\Listener\FlushReportsListener:
+        arguments:
+            $externalServiceReports: '%external_service_reports%'
+        tags:
+            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
+
+    # COMMANDS
+    App\Symfony\Command\AddServiceReportTypes:
+        arguments:
+            $externalServiceReportRepository: '@App\Doctrine\Repository\ExternalServiceReportRepository'
+            $externalServiceReports: '%external_service_reports%'
+        tags:
+            - { name: 'console.command' }
 
 

@@ -2,17 +2,14 @@
 
 namespace App\Reporting\Library;
 
-use App\Library\Infrastructure\Type\TypeInterface;
-use App\Reporting\Library\Type\YandexReportType;
-
 interface ReportInterface
 {
     /**
-     * @return TypeInterface|YandexReportType
+     * @return string
      */
-    public function getReportType(): TypeInterface;
+    public function getJsonReport(): string;
     /**
-     * @return ReportPresentationInterface
+     * @return array
      */
-    public function getReport(): ReportPresentationInterface;
+    public function getArrayReport(): array;
 }
