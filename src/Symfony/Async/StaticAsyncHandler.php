@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Library\Async;
+namespace App\Symfony\Async;
 
 class StaticAsyncHandler
 {
     /**
+     * @param string $commandName
      * @param string $title
      * @param string $channel
      * @param string $message
      */
     public static function sendSlackMessage(
+        string $commandName,
         string $title,
         string $channel,
         string $message
-    ) {
+    ): void {
         $phpDest = 'sudo /usr/bin/php';
         $consoleDest = '/var/www/iwouldlike/bin/console';
-        $actualCommand = 'app:send_slack_message';
         $backgroundComand = ' > /dev/null &';
         $command = sprintf(
             '%s %s %s "%s" "%s" "%s" %s',
             $phpDest,
             $consoleDest,
-            $actualCommand,
+            $commandName,
             $title,
             $channel,
             $message,
@@ -30,5 +31,12 @@ class StaticAsyncHandler
         );
 
         exec($command);
+    }
+
+    public static function upsertExternalServiceReport(
+        string $commandName,
+        AsyncJsonMessageInterface $asyncJsonMessage
+    ): void {
+
     }
 }

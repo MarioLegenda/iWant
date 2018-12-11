@@ -2,7 +2,7 @@
 
 namespace App\Symfony\Listener;
 
-use App\Library\Async\StaticAsyncHandler;
+use App\Symfony\Async\StaticAsyncHandler;
 use App\Library\Util\SlackImplementation;
 use App\Symfony\Exception\ImplementsExceptionBodyInterface;
 use Psr\Log\LoggerInterface;
@@ -65,6 +65,7 @@ class HttpExceptionListener
         ));
 
         StaticAsyncHandler::sendSlackMessage(
+            'app:send_slack_message',
             'An http error occurred',
             '#http_exceptions',
             json_encode($event->getException()->getBody()->toArray())

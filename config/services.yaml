@@ -145,6 +145,10 @@ services:
         resource: '../src/Translation'
         exclude: '../src/Translation/Model/*'
 
+    App\Reporting\:
+        resource: '../src/Reporting'
+        exclude: '../src/Reporting/Presentation/Model/*'
+
     App\Library\Http\HttpCommunicator:
 
     App\Library\Http\Response\ApiSDK:
@@ -162,10 +166,6 @@ services:
     App\Library\Representation\MarketplaceRepresentation:
         arguments:
             $marketplaces: '%marketplaces%'
-
-    App\Library\Representation\NativeTaxonomyRepresentation:
-        arguments:
-            $nativeTaxonomyRepository: '@App\Doctrine\Repository\NativeTaxonomyRepository'
 
     App\Library\Representation\LanguageTranslationsRepresentation:
         arguments:
@@ -322,7 +322,7 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\NativeTaxonomyRepository:
+    App\Doctrine\Repository\ExternalServiceReportRepository:
         arguments:
             $registry: '@doctrine'
 

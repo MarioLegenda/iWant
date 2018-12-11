@@ -2,7 +2,7 @@
 
 namespace App\Symfony\Listener;
 
-use App\Library\Async\StaticAsyncHandler;
+use App\Symfony\Async\StaticAsyncHandler;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Util\Environment;
@@ -82,6 +82,7 @@ class SystemExceptionListener
             ->build();
 
         StaticAsyncHandler::sendSlackMessage(
+            'app:send_slack_message',
             'An application exception occurred. This is a system exception. The application does not work properly.',
             '#http_exceptions',
             sprintf(

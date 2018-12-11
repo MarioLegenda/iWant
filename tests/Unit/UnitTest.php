@@ -12,6 +12,9 @@ use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Slack\Metadata;
 use App\Library\Slack\SlackClient;
 use App\Library\Util\Util;
+use App\Reporting\Library\ReportsCollector;
+use App\Reporting\Presentation\Model\YandexTranslationServiceReport;
+use App\Reporting\Presentation\Model\YandexTranslationServiceReportPresentation;
 use App\Tests\Library\BasicSetup;
 use PHPUnit\Framework\TestCase;
 
@@ -233,5 +236,57 @@ class UnitTest extends BasicSetup
 
             $slackClient->send($metadata);
         }
+    }
+
+    public function test_yandex_translation_report_presentation()
+    {
+        $yandexTranslationReportPresentation = new YandexTranslationServiceReportPresentation([
+            'hitCount' => 1000,
+            'characterCount' => 1000,
+            'additionalInformation' => [],
+        ]);
+
+        static::assertEquals(1000, $yandexTranslationReportPresentation->getHitCount());
+        static::assertEquals(1000, $yandexTranslationReportPresentation->getCharacterCount());
+
+        $yandexTranslationReportPresentation->incrementCharacterCount(1000);
+        $yandexTranslationReportPresentation->incrementHitCount();
+
+        static::assertEquals(2000, $yandexTranslationReportPresentation->getCharacterCount());
+        static::assertEquals(1001, $yandexTranslationReportPresentation->getHitCount());
+
+        $entersException = false;
+
+        try {
+            $yandexTranslationReportPresentation->addReportEntryByType('hitCount', []);
+        } catch (\Exception $e) {
+            $entersException = true;
+        }
+
+        static::assertTrue($entersException);
+
+        $entersException = false;
+
+        try {
+            $yandexTranslationReportPresentation->addReportEntryByType('characterCount', []);
+        } catch (\Exception $e) {
+            $entersException = true;
+        }
+
+        static::assertTrue($entersException);
+
+        $yandexTranslationReportPresentation->addReportEntryByType('additionalInformation', [
+            'key1' => 'information',
+            'key2' => 'information',
+        ]);
+
+        $reportArray = $yandexTranslationReportPresentation->getArrayReport();
+
+        static::assertArrayHasKey('hitCount', $reportArray);
+        static::assertArrayHasKey('characterCount', $reportArray);
+        static::assertArrayHasKey('additionalInformation', $reportArray);
+
+        static::assertArrayHasKey('key1', $reportArray['additionalInformation']);
+        static::assertArrayHasKey('key2', $reportArray['additionalInformation']);
     }
 }
