@@ -6,12 +6,14 @@ use App\Component\Search\Ebay\Business\PaginationHandler;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Component\Search\Ebay\Model\Request\Pagination;
+use App\Doctrine\Entity\ExternalServiceReport;
 use App\Library\Async\StaticAsyncHandler;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Slack\Metadata;
 use App\Library\Slack\SlackClient;
 use App\Library\Util\Util;
+use App\Reporting\Library\Factory\ReportConverter;
 use App\Reporting\Library\ReportsCollector;
 use App\Reporting\Presentation\Model\YandexTranslationServiceReport;
 use App\Reporting\Presentation\Model\YandexTranslationServiceReportPresentation;
@@ -288,5 +290,30 @@ class UnitTest extends BasicSetup
 
         static::assertArrayHasKey('key1', $reportArray['additionalInformation']);
         static::assertArrayHasKey('key2', $reportArray['additionalInformation']);
+    }
+
+    public function test_reports_collector()
+    {
+        /** @var ReportsCollector $reportsCollector */
+        $reportsCollector = $this->locator->get(ReportsCollector::class);
+
+        $yandexTranslationReportPresentation = new YandexTranslationServiceReportPresentation([
+            'hitCount' => 1000,
+            'characterCount' => 1000,
+            'additionalInformation' => [],
+        ]);
+
+        $yandexTranslationReport = new YandexTranslationServiceReport($yandexTranslationReportPresentation);
+
+        $reportsCollector->addReport($yandexTranslationReport);
+
+        $collectedReports = $reportsCollector->getCollectedReports();
+
+        static::assertInstanceOf(TypedArray::class, $collectedReports);
+        static::assertEquals(count($collectedReports), 1);
+
+        foreach ($collectedReports as $report) {
+            static::assertInstanceOf(ExternalServiceReport::class, $report);
+        }
     }
 }

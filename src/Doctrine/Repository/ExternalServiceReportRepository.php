@@ -38,14 +38,24 @@ class ExternalServiceReportRepository extends ServiceEntityRepository
     }
     /**
      * @param string $type
-     * @return ExternalServiceReport
+     * @return ExternalServiceReport|null
      */
-    public function getByType(string $type): ExternalServiceReport
+    public function tryGetByType(string $type): ?ExternalServiceReport
     {
         /** @var ExternalServiceReport $externalServiceType */
         $externalServiceType = $this->findOneBy([
             'externalServiceType' => $type,
         ]);
+
+        return ($externalServiceType instanceof ExternalServiceReport) ? $externalServiceType : null;
+    }
+    /**
+     * @param string $type
+     * @return ExternalServiceReport
+     */
+    public function getByType(string $type): ExternalServiceReport
+    {
+
 
         return $externalServiceType;
     }

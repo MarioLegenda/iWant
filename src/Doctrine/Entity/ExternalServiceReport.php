@@ -31,7 +31,6 @@ class ExternalServiceReport implements ArrayNotationInterface
      * @GeneratedValue
      */
     private $id;
-
     /**
      * @var string $externalServiceType
      * @Column(type="string")
@@ -52,6 +51,14 @@ class ExternalServiceReport implements ArrayNotationInterface
      * @Column(type="datetime", nullable=true)
      */
     private $updatedAt;
+
+    public function __construct(
+        string $externalServiceType,
+        array $report
+    ) {
+        $this->externalServiceType = $externalServiceType;
+        $this->report = $report;
+    }
     /**
      * @return int
      */
@@ -71,7 +78,37 @@ class ExternalServiceReport implements ArrayNotationInterface
      */
     public function getReport(): string
     {
+        if (is_array($this->report)) {
+            return jsonEncodeWithFix($this->report);
+        }
+
         return $this->report;
+    }
+    /**
+     * @param array|string $report
+     */
+    public function setReport($report)
+    {
+        if (is_array($report)) {
+            $this->report = jsonEncodeWithFix($report);
+        }
+
+        if (is_string($report)) {
+            $this->report = $report;
+        }
+    }
+    /**
+     * @return array
+     */
+    public function getReportAsArray(): array
+    {
+        if (is_array($this->report)) {
+            return $this->report;
+        }
+
+        if (is_string($this->report)) {
+            return json_decode($this->report, true);
+        }
     }
     /**
      * @return \DateTime
@@ -121,7 +158,7 @@ class ExternalServiceReport implements ArrayNotationInterface
     public function toArray(): iterable
     {
         return [
-            'serviceType' => $this->getExternalServiceType(),
+            'externalServiceType' => $this->getExternalServiceType(),
             'report' => $this->getReport(),
             'createdAt' => Util::formatFromDate($this->getCreatedAt()),
             'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),

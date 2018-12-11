@@ -1,22 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: macbook
- * Date: 2018-12-10
- * Time: 20:01
- */
 
 namespace App\Reporting\Presentation\Model;
 
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Reporting\Library\ReportInterface;
 use App\Reporting\Library\ReportPresentationInterface;
+use App\Reporting\Library\Type\YandexReportType;
 
 class YandexTranslationServiceReport implements ReportInterface
 {
     /**
-     * @var string $reportType
+     * @var TypeInterface|YandexReportType $reportType
      */
-    private $reportType = 'yandex_translation_report';
+    private $reportType;
     /**
      * @var ReportPresentationInterface $reportPresentation
      */
@@ -28,6 +24,7 @@ class YandexTranslationServiceReport implements ReportInterface
     public function __construct(
         ReportPresentationInterface $reportPresentation
     ) {
+        $this->reportType = YandexReportType::fromValue();
         $this->reportPresentation = $reportPresentation;
     }
     /**
@@ -38,9 +35,9 @@ class YandexTranslationServiceReport implements ReportInterface
         return $this->reportPresentation;
     }
     /**
-     * @return string
+     * @return TypeInterface|YandexReportType
      */
-    public function getReportType(): string
+    public function getReportType(): TypeInterface
     {
         return $this->reportType;
     }
