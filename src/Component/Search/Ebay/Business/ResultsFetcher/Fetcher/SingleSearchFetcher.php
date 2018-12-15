@@ -18,6 +18,7 @@ use App\Library\Util\TypedRecursion;
 use App\Translation\Model\Language;
 use App\Translation\Model\Translation;
 use App\Translation\YandexTranslationCenter;
+use App\Yandex\Library\Model\ErrorResponse;
 
 class SingleSearchFetcher implements FetcherInterface
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Yandex\Library\Response;
+namespace App\Yandex\Library\Model;
 
 class Language
 {

@@ -26,7 +26,7 @@ class StaticAsyncHandler
             $commandName,
             $title,
             $channel,
-            $message,
+            htmlentities($message),
             $backgroundComand
         );
 

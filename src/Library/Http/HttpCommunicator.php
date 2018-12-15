@@ -3,7 +3,7 @@
 namespace App\Library\Http;
 
 
-use App\Library\Response;
+use App\Library\Http\Response\ResponseModelInterface;
 use App\Symfony\Exception\ExternalApiNativeException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
@@ -15,16 +15,16 @@ use GuzzleHttp\Exception\ServerException;
 use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Response as GuzzleResponse;
-use App\Library\Response as HttpResponse;
+use App\Library\Http\Response\Response;
 
 class HttpCommunicator implements GenericHttpCommunicatorInterface
 {
     /**
      * @param Request $request
-     * @return HttpResponse
+     * @return ResponseModelInterface
      * @throws ExternalApiNativeException
      */
-    public function get(Request $request): Response
+    public function get(Request $request): ResponseModelInterface
     {
         try {
             /** @var GuzzleResponse $response */
@@ -47,7 +47,7 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
         }
     }
 
-    public function post(Request $request): Response
+    public function post(Request $request): ResponseModelInterface
     {
         try {
             $baseUrl = $request->getBaseUrl();
@@ -85,31 +85,20 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
     /**
      * @param GuzzleResponse $response
      * @param Request $request
-     * @return HttpResponse
+     * @return ResponseModelInterface
      */
     private function createResponse(
         GuzzleResponse $response,
         Request $request
-    ): HttpResponse
-    {
-        return new HttpResponse(
-            $request,
-            (string) $response->getBody(),
-            $response->getStatusCode(),
-            $response
-        );
-    }
-    /**
-     * @param $name
-     */
-    public function __get($name)
-    {
-        if ($name === 'client') {
-            $message = sprintf(
-                'Accessing $client property is forbidden. User GenericHttpCommunicator::createClient() private method instead'
-            );
+    ): ResponseModelInterface {
+        $body = (string) $response->getBody();
+        $statusCode = $response->getStatusCode();
 
-            throw new \RuntimeException($message);
-        }
+        return new Response(
+            $statusCode,
+            $body,
+            'generic_api_call',
+            $request
+        );
     }
 }

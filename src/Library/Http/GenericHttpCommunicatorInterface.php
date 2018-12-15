@@ -2,18 +2,18 @@
 
 namespace App\Library\Http;
 
-use App\Library\Response;
+use App\Library\Http\Response\ResponseModelInterface;
 
 interface GenericHttpCommunicatorInterface
 {
     /**
      * @param Request $request
-     * @return Response
+     * @return ResponseModelInterface
      */
-    public function get(Request $request): Response;
+    public function get(Request $request): ResponseModelInterface;
     /**
      * @param Request $request
-     * @return Response
+     * @return ResponseModelInterface
      */
-    public function post(Request $request): Response;
+    public function post(Request $request): ResponseModelInterface;
 }

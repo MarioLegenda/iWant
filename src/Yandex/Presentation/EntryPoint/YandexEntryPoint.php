@@ -3,7 +3,10 @@
 namespace App\Yandex\Presentation\EntryPoint;
 
 use App\Yandex\Business\Finder;
-use App\Yandex\Library\Response\ResponseModelInterface;
+use App\Yandex\Library\Model\DetectLanguageResponse;
+use App\Yandex\Library\Model\ResponseModelInterface;
+use App\Yandex\Library\Model\SupportedLanguagesResponse;
+use App\Yandex\Library\Model\TranslatedTextResponse;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
 
 class YandexEntryPoint
@@ -23,25 +26,27 @@ class YandexEntryPoint
     }
     /**
      * @param YandexRequestModelInterface $model
-     * @return ResponseModelInterface
+     * @return SupportedLanguagesResponse
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
-    public function getSupportedLanguages(YandexRequestModelInterface $model): ResponseModelInterface
+    public function getSupportedLanguages(YandexRequestModelInterface $model): SupportedLanguagesResponse
     {
         return $this->finder->getSupportedLanguages($model);
     }
     /**
      * @param YandexRequestModelInterface $model
-     * @return ResponseModelInterface
+     * @return DetectLanguageResponse
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
-    public function detectLanguage(YandexRequestModelInterface $model): ResponseModelInterface
+    public function detectLanguage(YandexRequestModelInterface $model): DetectLanguageResponse
     {
         return $this->finder->detectLanguage($model);
     }
     /**
      * @param YandexRequestModelInterface $model
-     * @return ResponseModelInterface
+     * @return TranslatedTextResponse
      */
-    public function translate(YandexRequestModelInterface $model): ResponseModelInterface
+    public function translate(YandexRequestModelInterface $model): TranslatedTextResponse
     {
         return $this->finder->translate($model);
     }

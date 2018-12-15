@@ -4,7 +4,7 @@ namespace App\Symfony\Command\Util;
 
 use App\Symfony\Command\BaseCommand;
 use App\Yandex\Library\Request\RequestFactory;
-use App\Yandex\Library\Response\SupportedLanguagesResponse;
+use App\Yandex\Library\Model\SupportedLanguagesResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

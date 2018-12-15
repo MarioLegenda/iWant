@@ -43,7 +43,6 @@ class CompleteCacheRemove extends BaseCommand
         $conn = $this->doctrine->getConnection();
 
         $caches = [
-            'prepared_response_cache',
             'search_cache',
             'item_translation_cache',
             'single_product_item',

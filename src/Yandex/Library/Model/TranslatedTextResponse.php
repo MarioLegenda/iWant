@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Yandex\Library\Response;
+namespace App\Yandex\Library\Model;
 
-class DetectLanguageResponse implements ResponseModelInterface
+class TranslatedTextResponse
 {
     /**
      * @var int $statusCode
@@ -13,16 +13,23 @@ class DetectLanguageResponse implements ResponseModelInterface
      */
     private $lang;
     /**
-     * DetectLanguageResponse constructor.
+     * @var string $text
+     */
+    private $text;
+    /**
+     * TranslatedTextResponse constructor.
      * @param int $statusCode
      * @param string $lang
+     * @param array $text
      */
     public function __construct(
         int $statusCode,
-        string $lang
+        string $lang,
+        array $text
     ) {
         $this->statusCode = $statusCode;
         $this->lang = $lang;
+        $this->text = rtrim(implode(' ', $text), ' ');
     }
     /**
      * @return int
@@ -38,4 +45,13 @@ class DetectLanguageResponse implements ResponseModelInterface
     {
         return $this->lang;
     }
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+
 }

@@ -4,7 +4,7 @@ namespace App\Yandex\Source\Repository;
 
 use App\Library\Http\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
-use App\Library\Response;
+use App\Library\Http\Response\ResponseModelInterface;
 
 class Repository
 {
@@ -30,9 +30,9 @@ class Repository
     }
     /**
      * @param Request $request
-     * @return Response
+     * @return ResponseModelInterface
      */
-    public function getResource(Request $request): Response
+    public function getResource(Request $request): ResponseModelInterface
     {
         return $this->communicator->post($request);
     }

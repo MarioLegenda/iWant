@@ -4,7 +4,7 @@ namespace App\Ebay\Source\Repository;
 
 use App\Ebay\Source\GenericHttpCommunicator;
 use App\Library\Http\Request;
-use App\Library\Response;
+use App\Library\Http\Response\ResponseModelInterface;
 
 class FindingApiRepository
 {
@@ -23,10 +23,9 @@ class FindingApiRepository
     }
     /**
      * @param Request $request
-     * @return Response
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @return ResponseModelInterface
      */
-    public function getResource(Request $request): Response
+    public function getResource(Request $request): ResponseModelInterface
     {
         return $this->communicator->get($request);
     }

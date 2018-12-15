@@ -89,25 +89,13 @@ services:
 
     # APPLICATION
 
-    App\Amazon\:
-        resource: '../src/Amazon/*'
-        exclude: '../src/Amazon/{Library/*,Presentation/ProductAdvertising/Model/*}'
-
     App\Ebay\:
         resource: '../src/Ebay/*'
         exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/FindingApi/Model,Presentation/Model,Presentation/ShoppingApi/Model,Business/Request/*}'
 
-    App\Etsy\:
-        resource: '../src/Etsy/*'
-        exclude: '../src/Etsy/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Processor/*,Library/RequestProducer.php,Request.php,Presentation/Model/*,Library/Response/*,Business/Request/*}'
-
-    App\Bonanza\:
-        resource: '../src/Bonanza/*'
-        exclude: '../src/Bonanza/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Type/*,Library/Processor/*,Library/RequestProducer.php,Library/Request.php,Presentation/Model/*,Library/Response/*}'
-
     App\Yandex\:
         resource: '../src/Yandex/*'
-        exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Response/*}'
+        exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Model/*}'
 
     App\App\:
         resource: '../src/App/*'
@@ -144,22 +132,6 @@ services:
         arguments:
             $amazonProductAdvertisingApiMetadata: '%amazon_product_advertising_api_metadata%'
 
-    App\Etsy\Library\Processor\RequestBaseProcessor:
-        arguments:
-            $etsyApi: '%etsy_api%'
-
-    App\Etsy\Library\Processor\ApiKeyProcessor:
-        arguments:
-            $etsyApi: '%etsy_api%'
-
-    App\Bonanza\Library\Processor\RequestBaseProcessor:
-        arguments:
-            $bonanzaApi: '%bonanza_api%'
-
-    App\Bonanza\Library\Processor\ApiKeyPostHeaderProcessor:
-        arguments:
-            $bonanzaApi: '%bonanza_api%'
-
     App\Yandex\Library\Processor\RequestBaseProcessor:
         arguments:
             $yandexApi: '%yandex_api%'
@@ -168,16 +140,6 @@ services:
     App\Ebay\Source\Repository\FindingApiRepository:
         arguments:
             $communicator: '@App\Ebay\Source\GenericHttpCommunicator'
-
-    App\Etsy\Source\Repository\EtsyRepository:
-        arguments:
-            $env: '%env(APP_ENV)%'
-            $communicator: '@App\Etsy\Source\GenericHttpCommunicator'
-
-    App\Bonanza\Source\Repository\BonanzaRepository:
-        arguments:
-            $env: '%env(APP_ENV)%'
-            $communicator: '@App\Bonanza\Source\GenericHttpCommunicator'
 
     App\Yandex\Source\Repository\Repository:
       arguments:
@@ -212,10 +174,6 @@ services:
 
     data_provider.finding_api:
         class: App\Tests\Ebay\FindingApi\DataProvider\DataProvider
-        autowire: false
-
-    data_provider.etsy_api:
-        class: App\Tests\Etsy\DataProvider\DataProvider
         autowire: false
 
     data_provider.uniformed_request:

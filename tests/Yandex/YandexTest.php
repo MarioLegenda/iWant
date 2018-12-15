@@ -4,10 +4,10 @@ namespace App\Tests\Yandex;
 
 use App\Tests\Library\BasicSetup;
 use App\Tests\Yandex\DataProvider\DataProvider;
-use App\Yandex\Library\Response\DetectLanguageResponse;
-use App\Yandex\Library\Response\Language;
-use App\Yandex\Library\Response\SupportedLanguagesResponse;
-use App\Yandex\Library\Response\TranslatedTextResponse;
+use App\Yandex\Library\Model\DetectLanguageResponse;
+use App\Yandex\Library\Model\Language;
+use App\Yandex\Library\Model\SupportedLanguagesResponse;
+use App\Yandex\Library\Model\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
 
@@ -47,7 +47,7 @@ class YandexTest extends BasicSetup
         /** @var DetectLanguageResponse $response */
         $response = $entryPoint->detectLanguage($model);
 
-        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals(200, $response->getCode());
         static::assertEquals('en', $response->getLang());
 
         $model = $dataProvider->getDetectLanguage('Eso es espanyol');
@@ -55,7 +55,7 @@ class YandexTest extends BasicSetup
         /** @var DetectLanguageResponse $response */
         $response = $entryPoint->detectLanguage($model);
 
-        static::assertEquals(200, $response->getStatusCode());
+        static::assertEquals(200, $response->getCode());
         static::assertEquals('es', $response->getLang());
     }
 

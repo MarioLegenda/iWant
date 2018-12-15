@@ -4,7 +4,7 @@ namespace App\Ebay\Source;
 
 use App\Ebay\Source\Repository\FindingApiRepository;
 use App\Library\Http\Request;
-use App\Library\Response;
+use App\Library\Http\Response\ResponseModelInterface;
 
 class FinderSource
 {
@@ -23,12 +23,11 @@ class FinderSource
     }
     /**
      * @param Request $request
-     * @return Response
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @return ResponseModelInterface
      */
-    public function getApiResource(Request $request): Response
+    public function getApiResource(Request $request): ResponseModelInterface
     {
-        /** @var Response $response */
+        /** @var ResponseModelInterface $response */
         return $this->repository->getResource($request);
     }
 }

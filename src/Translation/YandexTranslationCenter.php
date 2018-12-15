@@ -7,8 +7,8 @@ use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
 use App\Yandex\Library\Request\RequestFactory;
-use App\Yandex\Library\Response\DetectLanguageResponse;
-use App\Yandex\Library\Response\TranslatedTextResponse;
+use App\Yandex\Library\Model\DetectLanguageResponse;
+use App\Yandex\Library\Model\TranslatedTextResponse;
 use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use App\Yandex\Presentation\Model\YandexRequestModel;
 

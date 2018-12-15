@@ -3,15 +3,17 @@
 namespace App\Yandex\Business;
 
 use App\Library\Http\Request;
+use App\Reporting\Library\ReportsCollector;
+use App\Symfony\Async\StaticAsyncHandler;
 use App\Yandex\Business\Request\DetectLanguage;
 use App\Yandex\Business\Request\GetSupportedLanguages;
 use App\Yandex\Business\Request\TranslateText;
 use App\Yandex\Library\Processor\ApiKeyProcessor;
 use App\Yandex\Library\Processor\RequestBaseProcessor;
-use App\Yandex\Library\Response\DetectLanguageResponse;
-use App\Yandex\Library\Response\ResponseModelInterface;
-use App\Yandex\Library\Response\SupportedLanguagesResponse;
-use App\Yandex\Library\Response\TranslatedTextResponse;
+use App\Yandex\Library\Model\DetectLanguageResponse;
+use App\Yandex\Library\Model\ErrorResponse;
+use App\Yandex\Library\Model\SupportedLanguagesResponse;
+use App\Yandex\Library\Model\TranslatedTextResponse;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
 use App\Yandex\Source\FinderSource;
 
@@ -30,25 +32,33 @@ class Finder
      */
     private $apiKeyProcessor;
     /**
+     * @var ReportsCollector $reportsCollector
+     */
+    private $reportsCollector;
+    /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor
+     * @param ReportsCollector $reportsCollector
      */
     public function __construct(
         FinderSource $finderSource,
         RequestBaseProcessor $requestBaseProcessor,
-        ApiKeyProcessor $apiKeyProcessor
+        ApiKeyProcessor $apiKeyProcessor,
+        ReportsCollector $reportsCollector
     ) {
         $this->finderSource = $finderSource;
         $this->requestBaseProcessor = $requestBaseProcessor;
         $this->apiKeyProcessor = $apiKeyProcessor;
+        $this->reportsCollector = $reportsCollector;
     }
     /**
      * @param YandexRequestModelInterface $model
-     * @return ResponseModelInterface
+     * @return SupportedLanguagesResponse
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
-    public function getSupportedLanguages(YandexRequestModelInterface $model): ResponseModelInterface
+    public function getSupportedLanguages(YandexRequestModelInterface $model): SupportedLanguagesResponse
     {
         $getSupportedLanguages = new GetSupportedLanguages(
             $model,
@@ -56,18 +66,15 @@ class Finder
             $this->apiKeyProcessor
         );
 
-        /** @var Request $request */
-        $request = $getSupportedLanguages->getRequest();
-
-        $resource = $this->finderSource->getApiResource($request);
-
-        return $this->createSupportedLanguagesResponse($resource);
+        /** @var SupportedLanguagesResponse $response */
+        return $this->finderSource->getSupportedLanguageModel($getSupportedLanguages->getRequest());
     }
     /**
      * @param YandexRequestModelInterface $model
-     * @return ResponseModelInterface
+     * @return DetectLanguageResponse
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
-    public function detectLanguage(YandexRequestModelInterface $model): ResponseModelInterface
+    public function detectLanguage(YandexRequestModelInterface $model): DetectLanguageResponse
     {
         $detectLanguage = new DetectLanguage(
             $model,
@@ -75,18 +82,13 @@ class Finder
             $this->apiKeyProcessor
         );
 
-        /** @var Request $request */
-        $request = $detectLanguage->getRequest();
-
-        $resource = $this->finderSource->getApiResource($request);
-
-        return $this->createDetectLanguageResponse($resource);
+        return $this->finderSource->getDetectLanguageModel($detectLanguage->getRequest());
     }
     /**
      * @param YandexRequestModelInterface $model
-     * @return ResponseModelInterface
+     * @return TranslatedTextResponse
      */
-    public function translate(YandexRequestModelInterface $model): ResponseModelInterface
+    public function translate(YandexRequestModelInterface $model): TranslatedTextResponse
     {
         $translateText = new TranslateText(
             $model,
@@ -94,22 +96,7 @@ class Finder
             $this->apiKeyProcessor
         );
 
-        /** @var Request $request */
-        $request = $translateText->getRequest();
-
-        $resource = $this->finderSource->getApiResource($request);
-
-        return $this->createTranslationResponse($resource);
-    }
-    /**
-     * @param string $response
-     * @return SupportedLanguagesResponse
-     */
-    private function createSupportedLanguagesResponse(string $response): SupportedLanguagesResponse
-    {
-        $responseArray = json_decode($response, true);
-
-        return new SupportedLanguagesResponse($responseArray['langs']);
+        return $this->finderSource->getTranslatedTextModel($translateText->getRequest());
     }
     /**
      * @param string $response
@@ -137,5 +124,15 @@ class Finder
         $text = $responseArray['text'];
 
         return new TranslatedTextResponse($statusCode, $lang, $text);
+    }
+    /**
+     * @param string $response
+     * @return ErrorResponse
+     */
+    private function createErrorResponse(string $response): ErrorResponse
+    {
+        $responseArray = json_decode($response, true);
+
+        return new ErrorResponse($responseArray);
     }
 }
