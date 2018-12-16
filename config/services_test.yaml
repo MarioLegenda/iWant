@@ -176,9 +176,6 @@ services:
         class: App\Tests\Ebay\FindingApi\DataProvider\DataProvider
         autowire: false
 
-    data_provider.uniformed_request:
-        class: App\Tests\Web\DataProvider\DataProvider
-
     data_provider.shopping_api:
         class: App\Tests\Ebay\ShoppingApi\DataProvider\DataProvider
 

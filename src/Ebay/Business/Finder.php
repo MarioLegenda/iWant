@@ -20,7 +20,6 @@ use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\FindingApiRequestBaseProcessor;
 use App\Ebay\Source\FinderSource;
-use App\Symfony\Exception\HttpException;
 
 class Finder
 {
@@ -37,24 +36,31 @@ class Finder
      */
     private $shoppingApiRequestBaseProcessor;
     /**
+     * @var ErrorHandler $errorHandler
+     */
+    private $errorHandler;
+    /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param FindingApiRequestBaseProcessor $requestBase
      * @param ShoppingApiRequestBaseProcessor $shoppingApiRequestBaseProcessor
+     * @param ErrorHandler $errorHandler
      */
     public function __construct(
         FinderSource $finderSource,
         FindingApiRequestBaseProcessor $requestBase,
-        ShoppingApiRequestBaseProcessor $shoppingApiRequestBaseProcessor
+        ShoppingApiRequestBaseProcessor $shoppingApiRequestBaseProcessor,
+        ErrorHandler $errorHandler
     ) {
         $this->finderSource = $finderSource;
         $this->requestBase = $requestBase;
         $this->shoppingApiRequestBaseProcessor = $shoppingApiRequestBaseProcessor;
+        $this->errorHandler = $errorHandler;
     }
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
-     * @throws HttpException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -73,7 +79,7 @@ class Finder
         $responseModel = $this->createKeywordsModelResponse($response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($response->getBody());
+            $this->errorHandler->handleError($responseModel, $response);
         }
 
         return $responseModel;
@@ -81,7 +87,7 @@ class Finder
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
-     * @throws HttpException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -96,7 +102,7 @@ class Finder
         $responseModel = $this->createKeywordsModelResponse($response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($response->getBody());
+            $this->errorHandler->handleError($responseModel, $response);
         }
 
         return $responseModel;
@@ -104,7 +110,7 @@ class Finder
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
-     * @throws HttpException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function getUserProfile(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -119,7 +125,7 @@ class Finder
         $responseModel = $this->createUserProfileResponse($response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($responseModel->getRawResponse());
+            $this->errorHandler->handleError($responseModel, $response);
         }
 
         return $responseModel;
@@ -127,7 +133,7 @@ class Finder
     /**
      * @param FindingApiRequestModelInterface $model
      * @return FindingApiResponseModelInterface
-     * @throws HttpException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function findItemsInEbayStores(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
@@ -142,7 +148,7 @@ class Finder
         $responseModel = $this->createKeywordsModelResponse($response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($response->getBody());
+            $this->errorHandler->handleError($responseModel, $response);
         }
 
         return $responseModel;
@@ -150,7 +156,7 @@ class Finder
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
-     * @throws HttpException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function getCategoryInfo(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -165,7 +171,7 @@ class Finder
         $responseModel = $this->createCategoryInfoResponse($response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($response->getBody());
+            $this->errorHandler->handleError($responseModel, $response);
         }
 
         return $responseModel;
@@ -173,7 +179,7 @@ class Finder
     /**
      * @param ShoppingApiRequestModelInterface $model
      * @return ResponseModelInterface
-     * @throws HttpException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function getSingleItem(ShoppingApiRequestModelInterface $model): ResponseModelInterface
     {
@@ -188,7 +194,7 @@ class Finder
         $responseModel = $this->createSingleItemResponse($response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
-            throw new HttpException($response->getBody());
+            $this->errorHandler->handleError($responseModel, $response);
         }
 
         return $responseModel;
