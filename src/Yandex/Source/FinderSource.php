@@ -91,7 +91,7 @@ class FinderSource
      * @return TranslatedTextResponse
      * @throws ExternalApiNativeException
      */
-    public function getTranslatedTextModel(Request $request)
+    public function getTranslatedTextModel(Request $request): TranslatedTextResponse
     {
         $response = $this->repository->getResource($request);
 
@@ -115,18 +115,46 @@ class FinderSource
             $errorResponse = new ErrorResponse($response->getBodyArrayIfJson());
 
             if ($response->getStatusCode() === 401) {
+                StaticAsyncHandler::sendSlackMessage(
+                    'app:send_slack_message',
+                    'Yandex Translation API 401 error occurred',
+                    '#translations_api',
+                    'Invalid API key'
+                );
+
                 $errorResponse->invalidApiKey();
             }
 
             if ($response->getStatusCode() === 402) {
+                StaticAsyncHandler::sendSlackMessage(
+                    'app:send_slack_message',
+                    'Yandex Translation API 401 error occurred',
+                    '#translations_api',
+                    'Authentication key has been blocked',
+                );
+
                 $errorResponse->blockedApiKey();
             }
 
             if ($response->getStatusCode() === 404) {
+                StaticAsyncHandler::sendSlackMessage(
+                    'app:send_slack_message',
+                    'Yandex Translation API 404 error occurred',
+                    '#translations_api',
+                    'Daily limit has been exceeded'
+                );
+
                 $errorResponse->dailyLimitExceeded();
             }
 
             if ($response->is500Range()) {
+                StaticAsyncHandler::sendSlackMessage(
+                    'app:send_slack_message',
+                    'Yandex Translation API 404 error occurred',
+                    '#translations_api',
+                    sprintf('An unhandled error has been detected with body %s', $response->getBody())
+                );
+
                 $errorResponse->unhandledError();
             }
 
@@ -142,7 +170,6 @@ class FinderSource
         ErrorResponse $response,
         ResponseModelInterface $responseModel
     ) {
-
         $logMessage = sprintf(
             'An exception was caught with message: %s',
             $response->getMessage()
