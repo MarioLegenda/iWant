@@ -2,15 +2,12 @@
 
 namespace App\Symfony\Listener;
 
-use App\Symfony\Async\StaticAsyncHandler;
-use App\Library\Http\Response\ApiResponseData;
+use App\Library\Exception\HttpException;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
-use App\Symfony\Exception\ExceptionType;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
 class SystemExceptionListener
@@ -51,64 +48,43 @@ class SystemExceptionListener
     }
     /**
      * @param GetResponseForExceptionEvent $event
-     * @throws \Http\Client\Exception
+     * @return JsonResponse|null
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
-        $this->logger->critical($event->getException()->getMessage());
+        /** @var HttpException $exception */
+        $exception = $event->getException();
 
-        $data = [
-            'type' => ExceptionType::SYSTEM_EXCEPTION,
-            'message' => 'A system exception occurred',
-            'environment' => (string) $this->environment,
-        ];
+        if (!$exception instanceof HttpException) {
+            $event->setException($exception);
 
-        $devData = [
-            'exception' => $event->getException()->getMessage(),
-            'exceptionTrace' => $event->getException()->getTraceAsString(),
-        ];
-
-        if ((string) $this->environment === 'dev') {
-            $data = array_merge($data, $devData);
+            return null;
         }
 
-        /** @var ApiResponseData $builtData */
+        $httpInformation = $exception->getHttpInformation();
+
+        $logMessage = sprintf(
+            'An unhandled HTTP error occurred with message %s',
+            $httpInformation->getBody()
+        );
+
         $builtData = $this->apiSdk
-            ->create($data)
-            ->method(strtoupper($event->getRequest()->getMethod()))
+            ->create([
+                'type' => $httpInformation->getType(),
+                'message' => $logMessage,
+                'url' => $httpInformation->getRequest()->getBaseUrl(),
+                'external_api' => $httpInformation->getType(),
+                'environment' => (string) $this->environment,
+            ])
             ->isError()
-            ->setStatusCode(500)
+            ->method('GET')
+            ->setStatusCode(503)
             ->isResource()
             ->build();
 
-        StaticAsyncHandler::sendSlackMessage(
-            'app:send_slack_message',
-            'An application exception occurred. This is a system exception. The application does not work properly.',
-            '#http_exceptions',
-            sprintf(
-                'An error occurred with message: %s. The actual response sent to the server: %s. Stack trace: %s',
-                $event->getException()->getMessage(),
-                json_encode($builtData->toArray()),
-                $event->getException()->getTraceAsString()
-            )
-        );
-
-        $response = $event->getResponse();
-
-        if ($response instanceof Response) {
-            $response->setContent($builtData->toArray());
-            $response->setStatusCode($builtData->getStatusCode());
-
-            $event->setResponse($response);
-
-            return;
-        }
-
-        $response = new JsonResponse(
+        return new JsonResponse(
             $builtData->toArray(),
             $builtData->getStatusCode()
         );
-
-        $event->setResponse($response);
     }
 }

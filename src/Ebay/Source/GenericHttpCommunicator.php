@@ -2,12 +2,16 @@
 
 namespace App\Ebay\Source;
 
+use App\Library\Exception\HttpTransferException;
+use App\Library\Exception\TransferExceptionInformationWrapper;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\Http\Response\Response;
 use App\Library\Http\Response\ResponseModelInterface;
 use App\Library\Util\Environment;
 use GuzzleHttp\Client;
 use App\Library\Http\Request;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\TooManyRedirectsException;
 use GuzzleHttp\Handler\CurlHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -49,6 +53,17 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             $response = $this->createClient()->get($request->getBaseUrl());
 
             return $this->createResponse($response, $request);
+        } catch (
+            ConnectException |
+            TooManyRedirectsException $e
+        ) {
+            throw new HttpTransferException(
+                new TransferExceptionInformationWrapper(
+                    $request,
+                    'eBay API',
+                    'An HTTP transfer exception occurred'
+                )
+            );
         } catch (\Exception $e) {
             return $this->createResponse($response, $request);
         }

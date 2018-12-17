@@ -91,11 +91,11 @@ services:
 
     App\Ebay\:
         resource: '../src/Ebay/*'
-        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/FindingApi/Model,Presentation/Model,Presentation/ShoppingApi/Model,Business/Request/*}'
+        exclude: '../src/Ebay/{Library/Dynamic/*,Library/Information/*,Library/ItemFilter/*,Library/Tools/*,Library/Type/*,Library/Response/*,Library/Processor/*,Library/RequestProducer.php,Presentation/FindingApi/Model,Presentation/Model,Presentation/ShoppingApi/Model,Business/Request/*,Library/Exception/*}'
 
     App\Yandex\:
         resource: '../src/Yandex/*'
-        exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Model/*}'
+        exclude: '../src/Yandex/{Library/Processor/*,Presentation/Model/*,Business/Request/*,Library/RequestProducer.php,Library/Model/*,Library/Exception/*}'
 
     App\App\:
         resource: '../src/App/*'
@@ -127,10 +127,6 @@ services:
     App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor:
         arguments:
             $ebayShoppingApiMetadata: '%ebay_shopping_api_metadata%'
-
-    App\Amazon\Library\Processor\RequestBaseProcessor:
-        arguments:
-            $amazonProductAdvertisingApiMetadata: '%amazon_product_advertising_api_metadata%'
 
     App\Yandex\Library\Processor\RequestBaseProcessor:
         arguments:
@@ -196,9 +192,26 @@ services:
         exclude: '../src/Web/{Model/*}'
 
     # EVENT LISTENER
-    App\Symfony\Listener\HttpExceptionListener:
+
+    App\Symfony\Listener\ExternalApiExceptionListener:
         tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 100 }
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 300 }
+
+    App\Symfony\Listener\EbayExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 300 }
+
+    App\Symfony\Listener\SystemExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 0 }
+
+    App\Symfony\Listener\YandexExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 300 }
+
+    App\Symfony\Listener\RequestListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
     App\Symfony\Listener\FlushReportsListener:
         arguments:

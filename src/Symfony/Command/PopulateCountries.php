@@ -80,7 +80,7 @@ class PopulateCountries extends BaseCommand
             ));
 
             $normalizedResponse = $this->normalizeResponse(
-                json_decode($response->getResponseString(), true)
+                json_decode($response->getBody(), true)
             );
 
             $responseGen = Util::createGenerator($normalizedResponse);

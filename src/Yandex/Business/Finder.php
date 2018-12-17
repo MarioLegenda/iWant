@@ -2,16 +2,13 @@
 
 namespace App\Yandex\Business;
 
-use App\Library\Http\Request;
 use App\Reporting\Library\ReportsCollector;
-use App\Symfony\Async\StaticAsyncHandler;
 use App\Yandex\Business\Request\DetectLanguage;
 use App\Yandex\Business\Request\GetSupportedLanguages;
 use App\Yandex\Business\Request\TranslateText;
 use App\Yandex\Library\Processor\ApiKeyProcessor;
 use App\Yandex\Library\Processor\RequestBaseProcessor;
 use App\Yandex\Library\Model\DetectLanguageResponse;
-use App\Yandex\Library\Model\ErrorResponse;
 use App\Yandex\Library\Model\SupportedLanguagesResponse;
 use App\Yandex\Library\Model\TranslatedTextResponse;
 use App\Yandex\Presentation\Model\YandexRequestModelInterface;
@@ -56,7 +53,7 @@ class Finder
     /**
      * @param YandexRequestModelInterface $model
      * @return SupportedLanguagesResponse
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Yandex\Library\Exception\YandexException
      */
     public function getSupportedLanguages(YandexRequestModelInterface $model): SupportedLanguagesResponse
     {
@@ -72,7 +69,7 @@ class Finder
     /**
      * @param YandexRequestModelInterface $model
      * @return DetectLanguageResponse
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Yandex\Library\Exception\YandexException
      */
     public function detectLanguage(YandexRequestModelInterface $model): DetectLanguageResponse
     {
@@ -87,6 +84,7 @@ class Finder
     /**
      * @param YandexRequestModelInterface $model
      * @return TranslatedTextResponse
+     * @throws \App\Yandex\Library\Exception\YandexException
      */
     public function translate(YandexRequestModelInterface $model): TranslatedTextResponse
     {
@@ -97,42 +95,5 @@ class Finder
         );
 
         return $this->finderSource->getTranslatedTextModel($translateText->getRequest());
-    }
-    /**
-     * @param string $response
-     * @return DetectLanguageResponse
-     */
-    private function createDetectLanguageResponse(string $response): DetectLanguageResponse
-    {
-        $responseArray = json_decode($response, true);
-
-        $statusCode = $responseArray['code'];
-        $lang = $responseArray['lang'];
-
-        return new DetectLanguageResponse($statusCode, $lang);
-    }
-    /**
-     * @param string $response
-     * @return TranslatedTextResponse
-     */
-    private function createTranslationResponse(string $response): TranslatedTextResponse
-    {
-        $responseArray = json_decode($response, true);
-
-        $statusCode = $responseArray['code'];
-        $lang = $responseArray['lang'];
-        $text = $responseArray['text'];
-
-        return new TranslatedTextResponse($statusCode, $lang, $text);
-    }
-    /**
-     * @param string $response
-     * @return ErrorResponse
-     */
-    private function createErrorResponse(string $response): ErrorResponse
-    {
-        $responseArray = json_decode($response, true);
-
-        return new ErrorResponse($responseArray);
     }
 }

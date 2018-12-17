@@ -4,7 +4,7 @@ namespace App\Yandex\Library\Model;
 
 use App\Library\Util\Util;
 
-class SupportedLanguagesResponse implements ResponseModelInterface
+class SupportedLanguagesResponse
 {
     /**
      * @var array $languages

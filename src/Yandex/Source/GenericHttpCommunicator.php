@@ -2,10 +2,14 @@
 
 namespace App\Yandex\Source;
 
+use App\Library\Exception\HttpTransferException;
+use App\Library\Exception\TransferExceptionInformationWrapper;
 use App\Library\Http\Request;
 use App\Library\Http\GenericHttpCommunicatorInterface;
 use App\Library\Http\Response\ResponseModelInterface;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
+use GuzzleHttp\Exception\TooManyRedirectsException;
 use Psr\Http\Message\ResponseInterface as GuzzleResponse;
 use App\Library\Http\Response\Response;
 
@@ -39,6 +43,17 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             return $this->createResponse(
                 $response,
                 $request
+            );
+        } catch (
+            ConnectException |
+            TooManyRedirectsException $e
+        ) {
+            throw new HttpTransferException(
+                new TransferExceptionInformationWrapper(
+                    $request,
+                    'Yandex Translation API',
+                    'An HTTP transfer exception occurred'
+                )
             );
         } catch (\Exception $e) {
             return $this->createResponse(

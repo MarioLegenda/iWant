@@ -10,6 +10,9 @@ use App\Symfony\Async\StaticAsyncHandler;
 use App\Symfony\Exception\ExceptionType;
 use App\Symfony\Exception\ExternalApiNativeException;
 use App\Symfony\Exception\NetworkExceptionBody;
+use App\Yandex\Library\Exception\ExceptionInformationWrapper;
+use App\Yandex\Library\Exception\YandexBaseException;
+use App\Yandex\Library\Exception\YandexException;
 use App\Yandex\Library\Model\DetectLanguageResponse;
 use App\Yandex\Library\Model\ErrorResponse;
 use App\Yandex\Library\Model\SupportedLanguagesResponse;
@@ -56,7 +59,7 @@ class FinderSource
     /**
      * @param Request $request
      * @return DetectLanguageResponse
-     * @throws ExternalApiNativeException
+     * @throws YandexException
      */
     public function getDetectLanguageModel(Request $request): DetectLanguageResponse
     {
@@ -74,7 +77,7 @@ class FinderSource
     /**
      * @param Request $request
      * @return SupportedLanguagesResponse
-     * @throws ExternalApiNativeException
+     * @throws YandexException
      */
     public function getSupportedLanguageModel(Request $request): SupportedLanguagesResponse
     {
@@ -89,7 +92,7 @@ class FinderSource
     /**
      * @param Request $request
      * @return TranslatedTextResponse
-     * @throws ExternalApiNativeException
+     * @throws YandexException
      */
     public function getTranslatedTextModel(Request $request): TranslatedTextResponse
     {
@@ -107,92 +110,16 @@ class FinderSource
     }
     /**
      * @param ResponseModelInterface $response
-     * @throws ExternalApiNativeException
+     * @throws YandexException
      */
     private function handleException(ResponseModelInterface $response): void
     {
-        if ($response->is400Range()) {
-            $errorResponse = new ErrorResponse($response->getBodyArrayIfJson());
+        $statusCode = $response->getStatusCode();
 
-            if ($response->getStatusCode() === 401) {
-                StaticAsyncHandler::sendSlackMessage(
-                    'app:send_slack_message',
-                    'Yandex Translation API 401 error occurred',
-                    '#translations_api',
-                    'Invalid API key'
-                );
+        if (HttpStatusCodes::isFailure($statusCode)) {
+            $exceptionInformation = new ExceptionInformationWrapper($response);
 
-                $errorResponse->invalidApiKey();
-            }
-
-            if ($response->getStatusCode() === 402) {
-                StaticAsyncHandler::sendSlackMessage(
-                    'app:send_slack_message',
-                    'Yandex Translation API 401 error occurred',
-                    '#translations_api',
-                    'Authentication key has been blocked',
-                );
-
-                $errorResponse->blockedApiKey();
-            }
-
-            if ($response->getStatusCode() === 404) {
-                StaticAsyncHandler::sendSlackMessage(
-                    'app:send_slack_message',
-                    'Yandex Translation API 404 error occurred',
-                    '#translations_api',
-                    'Daily limit has been exceeded'
-                );
-
-                $errorResponse->dailyLimitExceeded();
-            }
-
-            if ($response->is500Range()) {
-                StaticAsyncHandler::sendSlackMessage(
-                    'app:send_slack_message',
-                    'Yandex Translation API 404 error occurred',
-                    '#translations_api',
-                    sprintf('An unhandled error has been detected with body %s', $response->getBody())
-                );
-
-                $errorResponse->unhandledError();
-            }
-
-            $this->buildException($errorResponse, $response);
+            throw new YandexException($exceptionInformation);
         }
-    }
-    /**
-     * @param ErrorResponse $response
-     * @param ResponseModelInterface $responseModel
-     * @throws ExternalApiNativeException
-     */
-    private function buildException(
-        ErrorResponse $response,
-        ResponseModelInterface $responseModel
-    ) {
-        $logMessage = sprintf(
-            'An exception was caught with message: %s',
-            $response->getMessage()
-        );
-
-        $this->logger->critical($logMessage);
-
-        $builtData = $this->apiSdk
-            ->create([
-                'type' => ExceptionType::HTTP_EXCEPTION,
-                'message' => $logMessage,
-                'url' => $responseModel->getRequest()->getBaseUrl(),
-                'external_api' => 'yandex',
-                'environment' => (string) $this->environment,
-            ])
-            ->isError()
-            ->method('GET')
-            ->setStatusCode(503)
-            ->isResource()
-            ->build();
-
-        $networkExceptionBody = new NetworkExceptionBody($responseModel->getStatusCode(), $builtData->toArray());
-
-        throw new ExternalApiNativeException($networkExceptionBody);
     }
 }
