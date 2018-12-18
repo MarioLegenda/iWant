@@ -80,7 +80,9 @@ class AppController
             $responseData->getStatusCode()
         );
 
-        $response->headers->set('Cache-Control', 'no-cache');
+        $response->setCache([
+            'max_age' => 60 * 60 * 24 * 30
+        ]);
 
         return $response;
     }

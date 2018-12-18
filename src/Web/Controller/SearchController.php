@@ -51,6 +51,10 @@ class SearchController
             $apiResponseData->getStatusCode()
         );
 
+        $response->setCache([
+            'max_age' => 60 * 60 * 24
+        ]);
+
         return $response;
     }
     /**
@@ -83,6 +87,10 @@ class SearchController
         );
 
         $response->headers->set('Content-Type', 'application/json');
+
+        $response->setCache([
+            'max_age' => 60 * 60 * 24
+        ]);
 
         return $response;
     }

@@ -23,7 +23,16 @@ class SingleItemController
     ) {
         $this->apiResponseDataFactory = $apiResponseDataFactory;
     }
-
+    /**
+     * @param SingleItemRequestModel $model
+     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @return JsonResponse
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function getSingleItem(
         SingleItemRequestModel $model,
         SingleItemEntryPoint $singleItemEntryPoint
@@ -43,9 +52,13 @@ class SingleItemController
         /** @var ApiResponseData $singleItemResponseData */
         $singleItemResponseData = $this->apiResponseDataFactory->createSingleItemGetResponseData($singleItemArray);
 
-        return new JsonResponse(
+        $response = new JsonResponse(
             $singleItemResponseData->toArray(),
             $singleItemResponseData->getStatusCode()
         );
+
+        $response->setCache([
+            'max_age' => 60 * 60 * 24
+        ]);
     }
 }

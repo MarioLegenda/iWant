@@ -8,11 +8,6 @@ app_get_countries:
   controller: App\Web\Controller\AppController::getCountries
   methods: [GET]
 
-app_get_marketplaces:
-  path: /get-marketplaces
-  controller: App\Web\Controller\AppController::getMarketplaces
-  methods: [GET]
-
 app_post_products_by_global_id:
   path: /ebay/prepare-products
   controller: App\Web\Controller\SearchController::prepareProducts
@@ -26,11 +21,6 @@ app_get_products_by_global_id:
 app_options_products_listing:
   path: /ebay/get-product-listing-options/{searchData}
   controller: App\Web\Controller\SearchController::getProductsListingOptions
-  methods: [GET]
-
-app_get_taxonomies:
-  path: /get-taxonomies
-  controller: App\Web\Controller\AppController::getNativeTaxonomies
   methods: [GET]
 
 app_get_ebay_global_id_information:
