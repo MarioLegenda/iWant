@@ -137,6 +137,9 @@ services:
 
     App\Library\Http\Response\ApiSDK:
 
+    App\Google\:
+        resource: '../src/Google'
+
     App\Library\Slack\:
         resource: '../src/Library/Slack'
         exclude: '../src/Library/Slack/Metadata.php'
@@ -256,6 +259,10 @@ services:
     App\Component\:
         resource: '../src/Component'
         exclude: '../src/Component/{Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*,Search/Ebay/Business/ResultHandling/HandledResult.php}'
+
+    App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher:
+        arguments:
+            $translationCenter: "@=container.getParameter('kernel.environment') === 'prod' ? service('App\\\\Translation\\\\GoogleTranslationCenter') : service('App\\\\Translation\\\\YandexTranslationCenter')"
 
     # EVENT LISTENER
 

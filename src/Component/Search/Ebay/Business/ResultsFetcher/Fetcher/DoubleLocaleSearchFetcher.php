@@ -13,7 +13,7 @@ use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Library\Representation\LanguageTranslationsRepresentation;
 use App\Library\Util\Util;
 use App\Translation\Model\Language;
-use App\Translation\YandexTranslationCenter;
+use App\Translation\TranslationCenterInterface;
 
 class DoubleLocaleSearchFetcher implements FetcherInterface
 {
@@ -38,29 +38,29 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
      */
     private $singleSearchFetcher;
     /**
-     * @var YandexTranslationCenter $yandexTranslationCenter
+     * @var TranslationCenterInterface $translationCenter
      */
-    private $yandexTranslationCenter;
+    private $translationCenter;
     /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param LanguageTranslationsRepresentation $languageTranslationsRepresentation
      * @param SingleSearchFetcher $singleSearchFetcher
-     * @param YandexTranslationCenter $yandexTranslationCenter
+     * @param TranslationCenterInterface $translationCenter
      */
     public function __construct(
         SingleSearchFetcher $singleSearchFetcher,
         ResponseFetcher $responseFetcher,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         LanguageTranslationsRepresentation $languageTranslationsRepresentation,
-        YandexTranslationCenter $yandexTranslationCenter
+        TranslationCenterInterface $translationCenter
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->languageTranslationRepresentation = $languageTranslationsRepresentation;
         $this->singleSearchFetcher = $singleSearchFetcher;
-        $this->yandexTranslationCenter = $yandexTranslationCenter;
+        $this->translationCenter = $translationCenter;
     }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
@@ -99,21 +99,23 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
 
         $keyword = $model->getKeyword();
 
-        $usedLanguage = $this->yandexTranslationCenter->detectLanguage((string) $keyword);
+        $usedLanguage = $this->translationCenter->detectLanguage((string) $keyword);
 
-        $siteLocaleTranslatedKeyword = $this->yandexTranslationCenter->translateFromTo(
+        $siteLocaleTranslatedKeyword = $this->translationCenter->translateFromTo(
             new Language($usedLanguage),
             new Language($siteLocale),
             (string) $keyword
         );
 
-        $mainLocaleTranslatedKeyword = $this->yandexTranslationCenter->translateFromTo(
+        $mainLocaleTranslatedKeyword = $this->translationCenter->translateFromTo(
             new Language($usedLanguage),
             new Language($mainLocale),
             (string) $keyword
         );
 
+        /** @var array $siteLocaleResults */
         $siteLocaleResults = $this->getResultsWithTranslatedKeyword($model, (string) $siteLocaleTranslatedKeyword);
+        /** @var array $mainLocaleResults */
         $mainLocaleResults = $this->getResultsWithTranslatedKeyword($model, (string) $mainLocaleTranslatedKeyword);
 
         $results = $this->arrangeResults($siteLocaleResults, $mainLocaleResults);

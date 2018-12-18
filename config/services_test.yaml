@@ -119,6 +119,10 @@ services:
         resource: '../src/Component'
         exclude: '../src/Component/{Search/Ebay/Model/*,Search/Ebay/Business/Factory/Metadata/*,Search/Etsy/Model/*,Search/Ebay/Business/ResultHandling/HandledResult.php}'
 
+    App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher:
+        arguments:
+            $translationCenter: "@=container.getParameter('kernel.environment') === 'prod' ? service('App\\\\Translation\\\\GoogleTranslationCenter') : service('App\\\\Translation\\\\YandexTranslationCenter')"
+
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:
         arguments:

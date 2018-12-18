@@ -3,9 +3,6 @@
 namespace App\Translation;
 
 use App\Library\Util\Util;
-use App\Reporting\Library\ReportsCollector;
-use App\Reporting\Library\Type\YandexReportType;
-use App\Reporting\Presentation\Model\YandexTranslationServiceReport;
 use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
