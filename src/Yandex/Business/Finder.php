@@ -2,7 +2,6 @@
 
 namespace App\Yandex\Business;
 
-use App\Reporting\Library\ReportsCollector;
 use App\Yandex\Business\Request\DetectLanguage;
 use App\Yandex\Business\Request\GetSupportedLanguages;
 use App\Yandex\Business\Request\TranslateText;
@@ -29,26 +28,19 @@ class Finder
      */
     private $apiKeyProcessor;
     /**
-     * @var ReportsCollector $reportsCollector
-     */
-    private $reportsCollector;
-    /**
      * Finder constructor.
      * @param FinderSource $finderSource
      * @param RequestBaseProcessor $requestBaseProcessor
      * @param ApiKeyProcessor $apiKeyProcessor
-     * @param ReportsCollector $reportsCollector
      */
     public function __construct(
         FinderSource $finderSource,
         RequestBaseProcessor $requestBaseProcessor,
-        ApiKeyProcessor $apiKeyProcessor,
-        ReportsCollector $reportsCollector
+        ApiKeyProcessor $apiKeyProcessor
     ) {
         $this->finderSource = $finderSource;
         $this->requestBaseProcessor = $requestBaseProcessor;
         $this->apiKeyProcessor = $apiKeyProcessor;
-        $this->reportsCollector = $reportsCollector;
     }
     /**
      * @param YandexRequestModelInterface $model

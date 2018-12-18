@@ -14,9 +14,6 @@ parameters:
 
     ebay_pagination_limit: 80
 
-    external_service_reports:
-        - yandex_translation_service
-
     ebay_site_lang_locale_mapping:
         'EBAY-DE': { locale: de, mainLocale: en }
         'EBAY-AT': { locale: de, mainLocale: en }
@@ -135,10 +132,6 @@ services:
     App\Translation\:
         resource: '../src/Translation'
         exclude: '../src/Translation/Model/*'
-
-    App\Reporting\:
-        resource: '../src/Reporting'
-        exclude: '../src/Reporting/Presentation/Model/*'
 
     App\Library\Http\HttpCommunicator:
 
@@ -286,12 +279,6 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
-    App\Symfony\Listener\FlushReportsListener:
-        arguments:
-            $externalServiceReports: '%external_service_reports%'
-        tags:
-            - { name: kernel.event_listener, event: kernel.terminate, method: onKernelTerminate }
-
     # REPOSITORY
     App\Doctrine\Repository\CountryRepository:
         arguments:
@@ -344,12 +331,5 @@ services:
     App\Symfony\Command\CompleteCacheRemove:
         arguments:
             $doctrine: '@doctrine'
-        tags:
-            - { name: 'console.command' }
-
-    App\Symfony\Command\AddServiceReportTypes:
-        arguments:
-            $externalServiceReportRepository: '@App\Doctrine\Repository\ExternalServiceReportRepository'
-            $externalServiceReports: '%external_service_reports%'
         tags:
             - { name: 'console.command' }

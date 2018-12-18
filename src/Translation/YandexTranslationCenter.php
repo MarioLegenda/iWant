@@ -3,6 +3,9 @@
 namespace App\Translation;
 
 use App\Library\Util\Util;
+use App\Reporting\Library\ReportsCollector;
+use App\Reporting\Library\Type\YandexReportType;
+use App\Reporting\Presentation\Model\YandexTranslationServiceReport;
 use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
@@ -49,6 +52,7 @@ class YandexTranslationCenter implements TranslationCenterInterface
      * @param string $locale
      * @param string $value
      * @return TranslatedEntryInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function translate(
         string $locale,
@@ -70,12 +74,12 @@ class YandexTranslationCenter implements TranslationCenterInterface
      * @param array $item
      * @param array $keysToTranslate
      * @return array
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function translateArray(
         array $item,
         array $keysToTranslate
     ): array {
-
         $keysToTranslateGen = Util::createGenerator($keysToTranslate);
 
         foreach ($keysToTranslateGen as $entry) {
@@ -131,7 +135,8 @@ class YandexTranslationCenter implements TranslationCenterInterface
     }
     /**
      * @param string $text
-     * @return Language
+     * @return TranslatedEntryInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function detectLanguage(string $text): TranslatedEntryInterface
     {
