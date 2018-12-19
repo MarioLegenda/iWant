@@ -1,0 +1,33 @@
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    providers:
+        in_memory:
+            memory:
+                users:
+                    UD3iy4Lj7qYsvt8SPMZe9GPm6wHELsPpzrBhTWer: { password: 'KvgEBD3sHjkJV5ymFRhf4TuZY3cCQP9tkQ5qU4pm', roles: ['ROLE_USER'] }
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+            pattern: /
+            anonymous: true
+            http_basic:
+                realm: Secured Area
+            provider: in_memory
+
+            # activate different ways to authenticate
+
+            # http_basic: true
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+
+            # form_login: true
+            # https://symfony.com/doc/current/security/form_login_setup.html
+
+    # Easy way to control access for large sections of your site
+    # Note: Only the *first* access control that matches will be used
+    access_control:
+        - { path: ^/, roles: ROLE_USER }
