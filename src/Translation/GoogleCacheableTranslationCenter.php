@@ -2,24 +2,19 @@
 
 namespace App\Translation;
 
+use App\Cache\Cache\ItemTranslationCache;
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
-use App\Doctrine\Entity\ItemTranslationCache;
 use App\Library\Util\Environment;
 use App\Library\Util\Util;
 use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
-use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use Psr\Log\LoggerInterface;
 
-class YandexCacheableTranslationCenter implements TranslationCenterInterface
+class GoogleCacheableTranslationCenter implements TranslationCenterInterface
 {
-    /**
-     * @var YandexEntryPoint $yandexEntryPoint
-     */
-    private $yandexEntryPoint;
     /**
      * @var ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      */
@@ -33,19 +28,23 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
      */
     private $environment;
     /**
+     * @var GoogleTranslationCenter $googleTranslationCenter
+     */
+    private $googleTranslationCenter;
+    /**
      * TranslationService constructor.
-     * @param YandexEntryPoint $yandexEntryPoint
+     * @param GoogleTranslationCenter $googleTranslationCenter
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param LoggerInterface $logger
      * @param Environment $environment
      */
     public function __construct(
-        YandexTranslationCenter $yandexEntryPoint,
+        GoogleTranslationCenter $googleTranslationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         LoggerInterface $logger,
         Environment $environment
     ) {
-        $this->yandexEntryPoint = $yandexEntryPoint;
+        $this->googleTranslationCenter = $googleTranslationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->logger = $logger;
         $this->environment = $environment;
@@ -77,9 +76,9 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
         string $entryId = null,
         string $identifier = null
     ): TranslatedEntryInterface {
-        if (!is_string($locale) or !is_string($identifier)) {
+        if (!is_string($entryId) or !is_string($identifier)) {
             $message = sprintf(
-                '$locale and $identifier have to be strings in %s::%s',
+                '$entryId and $identifier have to be for %s::%s',
                 get_class($this),
                 __FUNCTION__
             );
@@ -110,10 +109,10 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
             }
 
             if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
-                $translated = $this->yandexEntryPoint->translate($locale, $value);
+                $translated = $this->googleTranslationCenter->translate($locale, $value);
             } else if ((string) $this->environment === 'prod') {
                 try {
-                    $translated = $this->yandexEntryPoint->translate($locale, $value);
+                    $translated = $this->googleTranslationCenter->translate($locale, $value);
                 } catch (\Exception $e) {
                     $message = sprintf(
                         'Translation for locale %s and value %s could not be translated by Yandex API',
@@ -145,10 +144,10 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
         $translations = $this->createTranslations();
 
         if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
-            $translated = $this->yandexEntryPoint->translate($locale, $value);
+            $translated = $this->googleTranslationCenter->translate($value, $locale);
         } else if ((string) $this->environment === 'prod') {
             try {
-                $translated = $this->yandexEntryPoint->translate($locale, $value);
+                $translated = $this->googleTranslationCenter->translate($value, $locale);
             } catch (\Exception $e) {
                 $message = sprintf(
                     'Translation for locale %s and value %s could not be translated by Yandex api',
@@ -195,7 +194,7 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
     ): array {
         if (!is_string($locale) or !is_string($identifier)) {
             $message = sprintf(
-                '$locale and $identifier have to exist and cannot be null for %s::%s',
+                '$locale and $identifier have to be for %s::%s',
                 get_class($this),
                 __FUNCTION__
             );
@@ -260,10 +259,13 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
 
         return $item;
     }
-
+    /**
+     * @param string $text
+     * @return TranslatedEntryInterface
+     */
     public function detectLanguage(string $text): TranslatedEntryInterface
     {
-        // TODO: Implement detectLanguage() method.
+        return $this->googleTranslationCenter->detectLanguage($text);
     }
 
     /**

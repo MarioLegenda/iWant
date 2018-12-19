@@ -14,13 +14,14 @@ class UniqueIdentifierFactory
     public static function createIdentifier(SearchModelInterface $model): string
     {
         return md5(serialize([
-            'keyword' => $model->getKeyword(),
+            'keyword' => (string) $model->getKeyword(),
             'page' => $model->getInternalPagination()->getPage(),
             'bestMatch' => $model->isBestMatch(),
             'highQuality' => $model->isHighQuality(),
             'globalId' => $model->getGlobalId(),
             'hideDuplicateItems' => $model->isHideDuplicateItems(),
             'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
+            'fixedPrice' => $model->isFixedPriceOnly(),
         ]));
     }
 }

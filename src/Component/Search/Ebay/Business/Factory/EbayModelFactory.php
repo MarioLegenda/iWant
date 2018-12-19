@@ -58,7 +58,7 @@ class EbayModelFactory
                 'name',
                 'value',
                 ItemFilterConstants::LISTING_TYPE,
-                ['FixedPrice', 'StoreInventory']
+                ['FixedPrice']
             ));
         }
 

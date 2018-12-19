@@ -69,6 +69,11 @@ function utf8ize($mixed)
     return $mixed;
 }
 
+function strToLowerWithEncoding(string $str)
+{
+    return mb_strtolower($str, mb_detect_encoding($str));
+}
+
 function jsonEncodeWithFix($toEncode, $iterations = 1, $maxIterations = 5): ?string
 {
     if ($iterations === $maxIterations) {

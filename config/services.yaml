@@ -4,6 +4,8 @@ parameters:
         amazon: Amazon
         etsy: Etsy
 
+    google_translation_api_id: '103091491679748249212'
+
     slack:
         webhooksMap:
             - { channel: '#http_exceptions', webhook: 'https://hooks.slack.com/services/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' }
@@ -133,12 +135,13 @@ services:
         resource: '../src/Translation'
         exclude: '../src/Translation/Model/*'
 
+    App\Translation\GoogleTranslationCenter:
+        arguments:
+            $googleTranslationApiId: '%google_translation_api_id%'
+
     App\Library\Http\HttpCommunicator:
 
     App\Library\Http\Response\ApiSDK:
-
-    App\Google\:
-        resource: '../src/Google'
 
     App\Library\Slack\:
         resource: '../src/Library/Slack'
@@ -262,7 +265,7 @@ services:
 
     App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher:
         arguments:
-            $translationCenter: "@=container.getParameter('kernel.environment') === 'prod' ? service('App\\\\Translation\\\\GoogleTranslationCenter') : service('App\\\\Translation\\\\YandexTranslationCenter')"
+            $translationCenter: "@=container.getParameter('kernel.environment') === 'prod' ? service('App\\\\Translation\\\\GoogleCacheableTranslationCenter') : service('App\\\\Translation\\\\YandexCacheableTranslationCenter')"
 
     # EVENT LISTENER
 
@@ -315,6 +318,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\ModifiedKeywordRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
@@ -338,5 +345,9 @@ services:
     App\Symfony\Command\CompleteCacheRemove:
         arguments:
             $doctrine: '@doctrine'
+        tags:
+            - { name: 'console.command' }
+
+    App\Symfony\Command\AddKeywordModifier:
         tags:
             - { name: 'console.command' }

@@ -18,6 +18,10 @@ use App\Reporting\Library\ReportsCollector;
 use App\Reporting\Presentation\Model\YandexTranslationServiceReport;
 use App\Reporting\Presentation\Model\YandexTranslationServiceReportPresentation;
 use App\Tests\Library\BasicSetup;
+use App\Translation\GoogleCacheableTranslationCenter;
+use App\Translation\GoogleTranslationCenter;
+use App\Translation\Model\Language;
+use App\Translation\Model\Translation;
 use PHPUnit\Framework\TestCase;
 
 class UnitTest extends BasicSetup
@@ -240,19 +244,41 @@ class UnitTest extends BasicSetup
         }
     }
 
-    public function test_yandex_service_report()
+    public function test_google_translation()
     {
-        $yandexTranslationReportPresentation = new YandexTranslationServiceReport();
+        $googleTranslationCenter = $this->locator->get(GoogleTranslationCenter::class);
 
-        $yandexTranslationReportPresentation->incrementCharacterCount(1000);
-        $yandexTranslationReportPresentation->incrementHitCount();
+        $language = $googleTranslationCenter->detectLanguage('azúcar');
 
-        static::assertEquals(1000, $yandexTranslationReportPresentation->getCharacterCount());
-        static::assertEquals(1, $yandexTranslationReportPresentation->getHitCount());
+        static::assertInstanceOf(Language::class, $language);
+        static::assertEquals('es', (string) $language);
 
-        $reportArray = $yandexTranslationReportPresentation->getArrayReport();
+        $translated = $googleTranslationCenter->translate('azúcar', 'en');
 
-        static::assertArrayHasKey('hitCount', $reportArray);
-        static::assertArrayHasKey('characterCount', $reportArray);
+        static::assertInstanceOf(Translation::class, $translated);
+        static::assertEquals('sugar', (string) $translated);
+    }
+
+    public function test_cacheable_google_translation()
+    {
+        $googleTranslationCenter = $this->locator->get(GoogleCacheableTranslationCenter::class);
+
+        $language = $googleTranslationCenter->detectLanguage('azúcar');
+
+        static::assertInstanceOf(Language::class, $language);
+        static::assertEquals('es', (string) $language);
+
+        $cacheIdentifier = md5(serialize(['word' => 'azúcar']));
+        $entryId = 'word';
+
+        $translated = $googleTranslationCenter->translate(
+            'azúcar',
+            'en',
+            $entryId,
+            $cacheIdentifier
+        );
+
+        static::assertInstanceOf(Translation::class, $translated);
+        static::assertEquals('sugar', (string) $translated);
     }
 }

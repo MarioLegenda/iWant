@@ -77,6 +77,20 @@ class SearchAbstraction
         );
     }
     /**
+     * @param SearchModelInterface|SearchModel $model
+     * @return array
+     */
+    public function paginateListingWithInformation(
+        SearchModelInterface $model
+    ) {
+        $listing = $this->getProducts($model);
+
+        return [
+            'totalItems' => count($listing),
+            'items' => $this->paginationHandler->paginateListing($listing, $model->getPagination())
+        ];
+    }
+    /**
      * @param SearchModel $model
      * @return iterable
      *

@@ -12,13 +12,13 @@ use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Doctrine\Entity\KeywordTranslationCache;
 use App\Doctrine\Entity\SearchCache;
+use App\Ebay\Library\Component\ModifiedKeywordImplementation;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\MainLocaleRepresentation;
 use App\Library\Util\TypedRecursion;
 use App\Translation\Model\Language;
 use App\Translation\Model\Translation;
 use App\Translation\YandexTranslationCenter;
-use App\Yandex\Library\Model\ErrorResponse;
 
 class SingleSearchFetcher implements FetcherInterface
 {
@@ -47,25 +47,32 @@ class SingleSearchFetcher implements FetcherInterface
      */
     private $keywordTranslationCacheImplementation;
     /**
+     * @var ModifiedKeywordImplementation $modifiedKeywordsImplementation
+     */
+    private $modifiedKeywordsImplementation;
+    /**
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
      * @param YandexTranslationCenter $yandexTranslationCenter
      * @param MainLocaleRepresentation $mainLocaleRepresentation
      * @param KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation
+     * @param ModifiedKeywordImplementation $modifiedKeywordImplementation
      */
     public function __construct(
         ResponseFetcher $responseFetcher,
         YandexTranslationCenter $yandexTranslationCenter,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         MainLocaleRepresentation $mainLocaleRepresentation,
-        KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation
+        KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation,
+        ModifiedKeywordImplementation $modifiedKeywordImplementation
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
         $this->yandexTranslationCenter = $yandexTranslationCenter;
         $this->mainLocaleRepresentation = $mainLocaleRepresentation;
         $this->keywordTranslationCacheImplementation = $keywordTranslationCacheImplementation;
+        $this->modifiedKeywordsImplementation = $modifiedKeywordImplementation;
     }
     /**
      * @param SearchModelInterface $model
@@ -80,6 +87,8 @@ class SingleSearchFetcher implements FetcherInterface
     public function getResults(SearchModelInterface $model, array $replacementData = []): iterable
     {
         $model = $this->translateKeywordsToEnglishIfRequired($model);
+
+        $model = $this->makeKeywordExactSearch($model);
 
         $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
@@ -133,11 +142,11 @@ class SingleSearchFetcher implements FetcherInterface
 
         return $presentationResultsArray;
     }
-
     /**
-     * @param SearchModelInterface|SearchModel $model
-     * @return SearchModelInterface|InternalSearchModel
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return SearchModelInterface
      * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -198,5 +207,22 @@ class SingleSearchFetcher implements FetcherInterface
         );
 
         throw new \RuntimeException($message);
+    }
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @param SearchModelInterface
+     * @return SearchModelInterface
+     */
+    private function makeKeywordExactSearch(SearchModelInterface $model): SearchModelInterface
+    {
+        if (!$model instanceof InternalSearchModel) {
+            $model = SearchModel::createInternalSearchModelFromSearchModel($model);
+        }
+
+        $exactSearchKeyword = $this->modifiedKeywordsImplementation->makeExactSearch($model->getKeyword());
+
+        $model->setKeyword(new Language($exactSearchKeyword));
+
+        return $model;
     }
 }

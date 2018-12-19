@@ -98,8 +98,20 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
+    "firebase/php-jwt": {
+        "version": "v5.0.0"
+    },
     "fzaninotto/faker": {
         "version": "v1.8.0"
+    },
+    "google/auth": {
+        "version": "v1.4.0"
+    },
+    "google/cloud-core": {
+        "version": "v1.25.1"
+    },
+    "google/cloud-translate": {
+        "version": "v1.2.7"
     },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
@@ -151,6 +163,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "rize/uri-template": {
+        "version": "0.3.2"
     },
     "robmorgan/phinx": {
         "version": "0.10.6"

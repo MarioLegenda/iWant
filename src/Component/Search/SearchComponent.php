@@ -64,6 +64,26 @@ class SearchComponent
         return $this->searchAbstraction->translateListing($listing, $model);
     }
     /**
+     * @param SearchModelInterface $model
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return iterable
+     */
+    public function getProductPaginatedWithInformation(SearchModelInterface $model): iterable
+    {
+        $this->searchModelValidator->validate($model);
+
+        $listing = $this->searchAbstraction->paginateListingWithInformation($model);
+
+        $translatedListing = $this->searchAbstraction->translateListing($listing['items'], $model);
+
+        return [
+            'totalItems' => $listing['totalItems'],
+            'items' => $translatedListing,
+        ];
+    }
+    /**
      * @param SearchModel $model
      * @return array
      *
