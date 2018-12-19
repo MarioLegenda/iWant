@@ -2,7 +2,8 @@
 
 namespace App\Doctrine\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\MarketplaceType;
 use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\Entity;
 use Doctrine\ORM\Mapping\GeneratedValue;
@@ -11,19 +12,15 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
-use Doctrine\ORM\Mapping\UniqueConstraint;
-use Doctrine\ORM\Mapping\Index;
 use App\Library\Util\Util;
-use App\Library\Infrastructure\Notation\ArrayNotationInterface;
-
 
 /**
  * @Entity @Table(
- *     name="modified_keywords"
+ *     name="translation_center_switch"
  * )
  * @HasLifecycleCallbacks()
  **/
-class ModifiedKeyword
+class TranslationCenterSwitch
 {
     /**
      * @var int $id
@@ -32,15 +29,15 @@ class ModifiedKeyword
      */
     private $id;
     /**
-     * @var string $keyword
+     * @var string $name
      * @Column(type="string", nullable=false)
      */
-    private $keyword;
+    private $name;
     /**
-     * @var string $original
-     * @Column(type="text")
+     * @var bool $enabled
+     * @Column(type="boolean")
      */
-    private $excluded;
+    private $enabled = false;
     /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
@@ -52,16 +49,13 @@ class ModifiedKeyword
      */
     private $updatedAt;
     /**
-     * ModifiedKeyword constructor.
-     * @param string $keyword
-     * @param string $excluded
+     * TranslationCenterSwitch constructor.
+     * @param string $name
      */
     public function __construct(
-        string $keyword,
-        string $excluded
+        string $name
     ) {
-        $this->keyword = $keyword;
-        $this->excluded = $excluded;
+        $this->name = $name;
     }
     /**
      * @return int
@@ -73,16 +67,23 @@ class ModifiedKeyword
     /**
      * @return string
      */
-    public function getKeyword(): string
+    public function getName(): string
     {
-        return $this->keyword;
+        return $this->name;
     }
     /**
-     * @return string
+     * @return bool
      */
-    public function getExcluded(): string
+    public function isEnabled(): bool
     {
-        return $this->excluded;
+        return $this->enabled;
+    }
+    /**
+     * @param bool $enabled
+     */
+    public function setEnabled(bool $enabled): void
+    {
+        $this->enabled = $enabled;
     }
     /**
      * @return \DateTime
@@ -99,9 +100,9 @@ class ModifiedKeyword
         $this->createdAt = $createdAt;
     }
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -111,18 +112,6 @@ class ModifiedKeyword
     public function setUpdatedAt(\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-    }
-    /**
-     * @return iterable
-     */
-    public function toArray(): iterable
-    {
-        return [
-            'keyword' => $this->getKeyword(),
-            'excluded' => $this->getExcluded(),
-            'createdAt' => Util::formatFromDate($this->getCreatedAt()),
-            'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
-        ];
     }
     /**
      * @PrePersist()

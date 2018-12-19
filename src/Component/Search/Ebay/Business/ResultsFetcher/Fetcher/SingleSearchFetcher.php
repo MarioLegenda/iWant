@@ -208,6 +208,7 @@ class SingleSearchFetcher implements FetcherInterface
 
         throw new \RuntimeException($message);
     }
+
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param SearchModelInterface

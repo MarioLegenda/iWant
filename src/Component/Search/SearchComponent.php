@@ -48,13 +48,7 @@ class SearchComponent
 
         return $products;
     }
-    /**
-     * @param SearchModel|SearchModelInterface $model
-     * @return iterable
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
+
     public function getProductsPaginated(SearchModelInterface $model): iterable
     {
         $this->searchModelValidator->validate($model);
@@ -63,13 +57,7 @@ class SearchComponent
 
         return $this->searchAbstraction->translateListing($listing, $model);
     }
-    /**
-     * @param SearchModelInterface $model
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * @return iterable
-     */
+
     public function getProductPaginatedWithInformation(SearchModelInterface $model): iterable
     {
         $this->searchModelValidator->validate($model);
@@ -82,17 +70,5 @@ class SearchComponent
             'totalItems' => $listing['totalItems'],
             'items' => $translatedListing,
         ];
-    }
-    /**
-     * @param SearchModel $model
-     * @return array
-     *
-     * @deprecated Will be implemented later when ? users ? come
-     */
-    public function getProductsRange(SearchModel $model): array
-    {
-        $this->searchModelValidator->validate($model);
-
-        return $this->searchAbstraction->getListingRange($model);
     }
 }

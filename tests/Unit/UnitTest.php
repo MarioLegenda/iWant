@@ -246,6 +246,8 @@ class UnitTest extends BasicSetup
 
     public function test_google_translation()
     {
+        static::markTestSkipped();
+
         $googleTranslationCenter = $this->locator->get(GoogleTranslationCenter::class);
 
         $language = $googleTranslationCenter->detectLanguage('azúcar');
@@ -261,6 +263,8 @@ class UnitTest extends BasicSetup
 
     public function test_cacheable_google_translation()
     {
+        static::markTestSkipped();
+
         $googleTranslationCenter = $this->locator->get(GoogleCacheableTranslationCenter::class);
 
         $language = $googleTranslationCenter->detectLanguage('azúcar');
