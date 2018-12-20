@@ -2,7 +2,6 @@
 
 namespace App\App\Business;
 
-use App\App\Library\Response\MarketplaceFactoryResponse;
 use App\App\Presentation\Model\Request\SingleItemOptionsModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
@@ -10,7 +9,6 @@ use App\App\Presentation\Model\Response\SingleItemResponseModel;
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Cache\Implementation\SingleProductItemCacheImplementation;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
-use App\Component\Search\Ebay\Model\Response\Title;
 use App\Doctrine\Entity\Country;
 use App\Doctrine\Entity\SingleProductItem;
 use App\Doctrine\Repository\CountryRepository;
@@ -21,7 +19,6 @@ use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
-use App\Library\Util\TypedRecursion;
 use App\Symfony\Exception\HttpException;
 use App\Translation\YandexCacheableTranslationCenter;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -91,6 +88,7 @@ class Finder
      * @return SingleItemResponseModel
      * @throws HttpException
      * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */

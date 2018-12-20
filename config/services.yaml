@@ -342,13 +342,13 @@ services:
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\Util\GetUserProfile:
+    App\Symfony\Command\Util\ViewUserProfile:
         arguments:
             $finder: '@App\Ebay\Business\Finder'
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\Util\SupportedLanguages:
+    App\Symfony\Command\Util\YandexSupportedLanguages:
         arguments:
             $yandexEntryPoint: '@App\Yandex\Presentation\EntryPoint\YandexEntryPoint'
         tags:

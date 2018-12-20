@@ -28,7 +28,9 @@ abstract class AbstractItem implements ResponseItemInterface
     {
         return $this->itemName;
     }
-    
+    /**
+     * @return \SimpleXMLElement
+     */
     public function getSimpleXml() 
     {
         return $this->simpleXml;

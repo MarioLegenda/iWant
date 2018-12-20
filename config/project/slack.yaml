@@ -1,7 +1,0 @@
-slack:
-  webhooksMap:
-    - { channel: '#http_exceptions', webhook: 'https://hooks.slack.com/services/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' }
-    - { channel: '#app_activity', webhook: 'https://hooks.slack.com/services/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' }
-    - { channel: '#finding_api_limit', webhook: 'https://hooks.slack.com/services/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' }
-    - { channel: '#shopping_api_limit', webhook: 'https://hooks.slack.com/services/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' }
-    - { channel: '#translations_api', webhook: 'https://hooks.slack.com/services/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' }

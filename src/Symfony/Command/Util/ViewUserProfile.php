@@ -17,7 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Ebay\Presentation\ShoppingApi\Model\GetUserProfile as GetUserProfileModel;
 
-class GetUserProfile extends BaseCommand
+class ViewUserProfile extends BaseCommand
 {
     /**
      * @var Finder $finder
@@ -39,17 +39,11 @@ class GetUserProfile extends BaseCommand
      */
     public function configure()
     {
-        $this->setName('app:get_user_profile');
+        $this->setName('app:view_user_profile');
 
         $this->addArgument('store_name', InputArgument::REQUIRED, 'Store name');
     }
-    /**
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int|null|void
-     * @throws \App\Symfony\Exception\HttpException
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     */
+
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->makeEasier($input, $output);
@@ -63,13 +57,15 @@ class GetUserProfile extends BaseCommand
             '<info>Store name: %s</info>', $response->getUser()->getStoreName()
         ));
 
-        $output->writeln(sprintf(
-            '<info>User ID: %s</info>', $response->getUser()->getUserId()
-        ));
+        $userAsArray = $response->getUser()->toArray();
+
+        foreach ($userAsArray as $keyType => $keyValue) {
+            $output->writeln(
+                sprintf('<info>%s: %s</info>', ucfirst($keyType), $keyValue)
+            );
+        }
     }
-    /**
-     * @return FindingApiRequestModelInterface
-     */
+
     private function createFindingApiRequestModel(): ShoppingApiRequestModelInterface
     {
         $callnameQuery = new Query(

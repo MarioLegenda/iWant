@@ -50,6 +50,11 @@ class EbayBusinessEntity
      */
     private $globalId;
     /**
+     * @var string $displayData
+     * @Column(type="text", nullable=false)
+     */
+    private $displayData;
+    /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
      */
@@ -65,14 +70,17 @@ class EbayBusinessEntity
      * @param string $globalId
      * @param string $displayName
      * @param string $type
+     * @param string $displayData
      */
     public function __construct(
         string $displayName,
         string $globalId,
+        string $displayData,
         string $name = null,
         string $type = null
     ) {
         $this->name = $name;
+        $this->displayData = $displayData;
         $this->displayName = $displayName;
         $this->type = $type;
         $this->globalId = $globalId;
@@ -92,6 +100,13 @@ class EbayBusinessEntity
         return $this->name;
     }
     /**
+     * @param string $name
+     */
+    public function setName(string $name)
+    {
+        $this->name = $name;
+    }
+    /**
      * @return string
      */
     public function getDisplayName(): string
@@ -106,11 +121,39 @@ class EbayBusinessEntity
         return $this->type;
     }
     /**
+     * @param string $type
+     */
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+    /**
+     * @param string $globalId
+     */
+    public function setGlobalId(string $globalId): void
+    {
+        $this->globalId = $globalId;
+    }
+    /**
      * @return string
      */
     public function getGlobalId(): string
     {
         return $this->globalId;
+    }
+    /**
+     * @return string
+     */
+    public function getDisplayData(): string
+    {
+        return $this->displayData;
+    }
+    /**
+     * @return array
+     */
+    public function getDisplayDataNormalized(): array
+    {
+        return json_decode($this->getDisplayData(), true);
     }
     /**
      * @return \DateTime
