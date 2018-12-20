@@ -4,6 +4,7 @@ namespace App\Component\Search;
 
 use App\Component\Search\Ebay\Business\SearchAbstraction;
 use App\Component\Search\Ebay\Business\SearchModelValidator;
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 
@@ -48,7 +49,10 @@ class SearchComponent
 
         return $products;
     }
-
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return iterable
+     */
     public function getProductsPaginated(SearchModelInterface $model): iterable
     {
         $this->searchModelValidator->validate($model);
@@ -57,7 +61,10 @@ class SearchComponent
 
         return $this->searchAbstraction->translateListing($listing, $model);
     }
-
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return iterable
+     */
     public function getProductPaginatedWithInformation(SearchModelInterface $model): iterable
     {
         $this->searchModelValidator->validate($model);

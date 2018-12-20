@@ -52,6 +52,9 @@ class ResponseFetcher
      */
     public function getResponse(SearchModelInterface $model, string $identifier = null): iterable
     {
+        if ($model->isSearchStores()) {
+            // search ebay stores here
+        }
         /** @var XmlFindingApiResponseModel $findingApiResponse */
         $findingApiResponse = $this->searchEbayAdvanced($model);
 
@@ -68,7 +71,6 @@ class ResponseFetcher
             $searchResults
         );
     }
-
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return ResponseModelInterface

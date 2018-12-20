@@ -306,10 +306,6 @@ services:
         arguments:
             $registry: '@doctrine'
 
-    App\Doctrine\Repository\ExternalServiceReportRepository:
-        arguments:
-            $registry: '@doctrine'
-
     App\Doctrine\Repository\SingleProductItemRepository:
         arguments:
             $registry: '@doctrine'
@@ -334,6 +330,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\EbayBusinessEntityRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
@@ -342,7 +342,7 @@ services:
         tags:
             - { name: 'console.command' }
 
-    App\Symfony\Command\GetUserProfile:
+    App\Symfony\Command\Util\GetUserProfile:
         arguments:
             $finder: '@App\Ebay\Business\Finder'
         tags:

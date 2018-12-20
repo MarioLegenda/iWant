@@ -64,6 +64,10 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $fixedPriceOnly = false;
     /**
+     * @var bool $searchStores
+     */
+    private $searchStores = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -79,6 +83,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param bool $hideDuplicateItems
      * @param bool $doubleLocaleSearch
      * @param bool $fixedPriceOnly
+     * @param bool $isSearchStores
      */
     public function __construct(
         Language $keyword,
@@ -94,7 +99,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         Pagination $internalPagination,
         bool $hideDuplicateItems,
         bool $doubleLocaleSearch,
-        bool $fixedPriceOnly
+        bool $fixedPriceOnly,
+        bool $isSearchStores
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -110,6 +116,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->hideDuplicateItems = $hideDuplicateItems;
         $this->doubleLocaleSearch = $doubleLocaleSearch;
         $this->fixedPriceOnly = $fixedPriceOnly;
+        $this->searchStores = $isSearchStores;
     }
     /**
      * @return Language
@@ -309,6 +316,20 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->fixedPriceOnly = $fixedPriceOnly;
     }
     /**
+     * @return bool
+     */
+    public function isSearchStores(): bool
+    {
+        return $this->searchStores;
+    }
+    /**
+     * @param bool $searchStores
+     */
+    public function setSearchStores(bool $searchStores): void
+    {
+        $this->searchStores = $searchStores;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -327,6 +348,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
             'locale' => $this->getLocale(),
             'hideDuplicateItems' => $this->isHideDuplicateItems(),
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
+            'fixedPriceOnly' => $this->isFixedPriceOnly(),
+            'searchStores' => $this->isSearchStores(),
         ];
     }
 }

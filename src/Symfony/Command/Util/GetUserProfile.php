@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Symfony\Command;
+namespace App\Symfony\Command\Util;
 
 use App\Ebay\Business\Finder;
 use App\Ebay\Library\ItemFilter\ItemFilter;
@@ -8,10 +8,11 @@ use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponseInterface;
-use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Symfony\Command\BaseCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use App\Ebay\Presentation\ShoppingApi\Model\GetUserProfile as GetUserProfileModel;
@@ -39,6 +40,8 @@ class GetUserProfile extends BaseCommand
     public function configure()
     {
         $this->setName('app:get_user_profile');
+
+        $this->addArgument('store_name', InputArgument::REQUIRED, 'Store name');
     }
     /**
      * @param InputInterface $input
@@ -55,6 +58,14 @@ class GetUserProfile extends BaseCommand
 
         /** @var GetUserProfileResponseInterface|ResponseModelInterface $response */
         $response = $this->finder->getUserProfile($shoppingApiModel);
+
+        $output->writeln(sprintf(
+            '<info>Store name: %s</info>', $response->getUser()->getStoreName()
+        ));
+
+        $output->writeln(sprintf(
+            '<info>User ID: %s</info>', $response->getUser()->getUserId()
+        ));
     }
     /**
      * @return FindingApiRequestModelInterface
@@ -68,7 +79,7 @@ class GetUserProfile extends BaseCommand
 
         $userIdQuery = new Query(
             'UserId',
-            'kayfast1'
+            $this->input->getArgument('store_name')
         );
 
         $includeSelectorQuery = new Query(

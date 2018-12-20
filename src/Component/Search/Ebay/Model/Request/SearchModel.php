@@ -64,6 +64,10 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     private $fixedPriceOnly = false;
     /**
+     * @var bool $searchStores
+     */
+    private $searchStores = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -117,6 +121,13 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     public function getKeyword(): Language
     {
         return $this->keyword;
+    }
+    /**
+     * @return bool
+     */
+    public function isSearchStores(): bool
+    {
+        return $this->searchStores;
     }
     /**
      * @return bool
@@ -229,6 +240,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'hideDuplicateItems' => $this->isHideDuplicateItems(),
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
             'fixedPriceOnly' => $this->isFixedPriceOnly(),
+            'searchStores' => $this->isSearchStores(),
         ];
     }
     /**
@@ -252,6 +264,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $hideDuplicateItems = $model->isHideDuplicateItems();
         $doubleLocaleSearch = $model->isDoubleLocaleSearch();
         $fixedPriceOnly = $model->isFixedPriceOnly();
+        $searchStores = $model->isSearchStores();
 
         return new InternalSearchModel(
             $keyword,
@@ -267,7 +280,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $internalPagination,
             $hideDuplicateItems,
             $doubleLocaleSearch,
-            $fixedPriceOnly
+            $fixedPriceOnly,
+            $searchStores
         );
     }
 }
