@@ -4,8 +4,9 @@ parameters:
         amazon: Amazon
         etsy: Etsy
 
-    external_service_reports:
-        - yandex_translation_service
+    translation_centers:
+        - google_translation_center
+        - yandex_translation_center
 
     yandex_translation_languages:
         'EBAY-DE': en
@@ -216,5 +217,11 @@ services:
     App\Symfony\Listener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
+    App\Symfony\Command\TranslationCenterSwitcher:
+        arguments:
+            $translationCenters: '%translation_centers%'
+        tags:
+            - { name: 'console.command' }
 
 

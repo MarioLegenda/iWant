@@ -16,7 +16,7 @@ class NullTranslationCenter implements TranslationCenterInterface
      */
     public function translateFromTo(Language $from, Language $to, string $text): Translation
     {
-        $this->throwException();
+        return new Translation($text);
     }
     /**
      * @param string $text
@@ -24,7 +24,7 @@ class NullTranslationCenter implements TranslationCenterInterface
      */
     public function detectLanguage(string $text): TranslatedEntryInterface
     {
-        $this->throwException();
+        return new Language('en');
     }
     /**
      * @param array $item
@@ -33,7 +33,7 @@ class NullTranslationCenter implements TranslationCenterInterface
      */
     public function translateArray(array $item, array $keysToTranslate): array
     {
-        $this->throwException();
+        return $item;
     }
     /**
      * @param string $value
@@ -42,17 +42,6 @@ class NullTranslationCenter implements TranslationCenterInterface
      */
     public function translate(string $value, string $locale): TranslatedEntryInterface
     {
-        $this->throwException();
-    }
-    /**
-     * @throws \RuntimeException
-     */
-    private function throwException()
-    {
-        $message = sprintf(
-            'NullTranslationCenter called. There has to be a valid translation center present'
-        );
-
-        throw new \RuntimeException($message);
+        return new Translation($value);
     }
 }

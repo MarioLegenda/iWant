@@ -32,11 +32,4 @@ class StaticAsyncHandler
 
         exec($command);
     }
-
-    public static function upsertExternalServiceReport(
-        string $commandName,
-        AsyncJsonMessageInterface $asyncJsonMessage
-    ): void {
-
-    }
 }

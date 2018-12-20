@@ -8,6 +8,7 @@ use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Library\Util\Environment;
 use App\Library\Util\Util;
+use App\Symfony\Async\StaticAsyncHandler;
 use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
@@ -108,22 +109,31 @@ class GoogleCacheableTranslationCenter implements TranslationCenterInterface
                 return new Translation($translationEntry->getTranslation());
             }
 
-            if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
+            try {
                 $translated = $this->googleTranslationCenter->translate($locale, $value);
-            } else if ((string) $this->environment === 'prod') {
-                try {
-                    $translated = $this->googleTranslationCenter->translate($locale, $value);
-                } catch (\Exception $e) {
-                    $message = sprintf(
-                        'Translation for locale %s and value %s could not be translated by Yandex API',
+            } catch (\Exception $e) {
+                $message = sprintf(
+                    'Translation for locale %s and value %s could not be translated by Yandex API',
+                    $locale,
+                    $value
+                );
+
+                $this->logger->warning($message);
+
+                StaticAsyncHandler::sendSlackMessage(
+                    'app:send_slack_message',
+                    'Value could not be translated in Google Translation API',
+                    '#translations_api',
+                    sprintf(
+                        'Value \'%s\' could not be translated to locale \'%s\'. $entryId: %s, $identifier: %s, $identifier in cache: yes',
+                        $value,
                         $locale,
-                        $value
-                    );
+                        $entryId,
+                        $identifier
+                    )
+                );
 
-                    $this->logger->warning($message);
-
-                    $translated = $value;
-                }
+                return new Translation($value);
             }
 
             $translations->putTranslation(
@@ -143,22 +153,31 @@ class GoogleCacheableTranslationCenter implements TranslationCenterInterface
 
         $translations = $this->createTranslations();
 
-        if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
+        try {
             $translated = $this->googleTranslationCenter->translate($value, $locale);
-        } else if ((string) $this->environment === 'prod') {
-            try {
-                $translated = $this->googleTranslationCenter->translate($value, $locale);
-            } catch (\Exception $e) {
-                $message = sprintf(
-                    'Translation for locale %s and value %s could not be translated by Yandex api',
+        } catch (\Exception $e) {
+            $message = sprintf(
+                'Translation for locale %s and value %s could not be translated by Yandex api',
+                $locale,
+                $value
+            );
+
+            $this->logger->warning($message);
+
+            StaticAsyncHandler::sendSlackMessage(
+                'app:send_slack_message',
+                'Value could not be translated in Google Translation API',
+                '#translations_api',
+                sprintf(
+                    'Value \'%s\' could not be translated to locale \'%s\'. $entryId: %s, $identifier: %s, $identifier in cache: no',
+                    $value,
                     $locale,
-                    $value
-                );
+                    $entryId,
+                    $identifier
+                )
+            );
 
-                $this->logger->warning($message);
-
-                $translated = $value;
-            }
+            return new Translation($value);
         }
 
         $translations->putTranslation(

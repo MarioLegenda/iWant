@@ -5,6 +5,7 @@ namespace App\Translation;
 use App\Doctrine\Entity\TranslationCenterSwitch;
 use App\Doctrine\Repository\TranslationCenterSwitchRepository;
 use App\Library\Util\Environment;
+use App\Symfony\Async\StaticAsyncHandler;
 
 class TranslationCenterFactory
 {
@@ -58,6 +59,16 @@ class TranslationCenterFactory
             ]);
 
             if (empty($enabledCenter)) {
+                StaticAsyncHandler::sendSlackMessage(
+                    'app:send_slack_message',
+                    'Translation center does not exist',
+                    '#translations_api',
+                    sprintf(
+                        'Translation center has not been selected and NullTranslationCenter has been returned by the %s factory method. Correct this issue',
+                        get_class($this)
+                    )
+                );
+
                 return new NullTranslationCenter();
             }
 

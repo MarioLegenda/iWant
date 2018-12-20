@@ -38,7 +38,7 @@ class ItemTranslationCacheImplementation
     }
     /**
      * @param string $itemId
-     * @param array $translations
+     * @param array|iterable $translations
      * @return bool
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -83,7 +83,7 @@ class ItemTranslationCacheImplementation
     }
     /**
      * @param string $itemId
-     * @param array $translations
+     * @param array|iterable $translations
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
