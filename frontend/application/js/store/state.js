@@ -11,6 +11,7 @@ export const defaultFilters = {
     hideDuplicateItems: false,
     doubleLocaleSearch: false,
     fixedPrice: false,
+    brandSearch: true,
 };
 
 export const defaultSearchState = {

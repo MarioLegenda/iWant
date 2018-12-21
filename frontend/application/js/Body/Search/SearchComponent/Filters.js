@@ -1,5 +1,6 @@
 import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
 import {SAVED_STATE_MODE} from "../../../store/constants";
+import {BrandSearch} from "../Modifiers/BrandSearch";
 
 export const Filters = {
     data: function() {
@@ -57,6 +58,8 @@ export const Filters = {
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
                         <div class="GenericFiltersWrapper">
+                        
+                            <brand-search></brand-search>
                                                     
                             <h1 class="OrganisedFiltersSeparator">Price</h1>
                             
@@ -203,5 +206,6 @@ export const Filters = {
 
     components: {
         'single-add-filter': SingleAddFilter,
+        'brand-search': BrandSearch,
     }
 };

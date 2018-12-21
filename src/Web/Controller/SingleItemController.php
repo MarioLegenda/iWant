@@ -60,5 +60,7 @@ class SingleItemController
         $response->setCache([
             'max_age' => 60 * 60 * 24
         ]);
+
+        return $response;
     }
 }
