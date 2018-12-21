@@ -181,10 +181,10 @@ class AddBusinessEntity extends BaseCommand
         string $globalId
     ): EbayBusinessEntity {
         return new EbayBusinessEntity(
-            $userItem->getStoreName(),
+            $userItem->getUserId(),
             $globalId,
             jsonEncodeWithFix($userItem->toArray()),
-            $userItem->getUserId(),
+            $userItem->getStoreName(),
             $userItem->getSellerBusinessType()
         );
     }

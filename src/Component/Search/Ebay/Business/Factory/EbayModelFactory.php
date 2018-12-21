@@ -5,9 +5,10 @@ namespace App\Component\Search\Ebay\Business\Factory;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
+use App\Doctrine\Entity\EbayBusinessEntity;
+use App\Doctrine\Repository\EbayBusinessEntityRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
-use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsByKeywords;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
@@ -17,6 +18,19 @@ use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class EbayModelFactory
 {
+    /**
+     * @var EbayBusinessEntityRepository $ebayBusinessEntityRepository
+     */
+    private $ebayBusinessEntityRepository;
+    /**
+     * EbayModelFactory constructor.
+     * @param EbayBusinessEntityRepository $ebayBusinessEntityRepository
+     */
+    public function __construct(
+        EbayBusinessEntityRepository $ebayBusinessEntityRepository
+    ) {
+        $this->ebayBusinessEntityRepository = $ebayBusinessEntityRepository;
+    }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return FindingApiModel
@@ -30,11 +44,9 @@ class EbayModelFactory
         $queries = TypedArray::create('integer', Query::class);
 
         $this->createRequiredQueries($model, $queries);
-        $this->createRequiredItemFilters($itemFilters);
+        $this->createRequiredItemFilters($model, $itemFilters);
         $this->createModelSpecificItemFilters($model, $itemFilters);
         $this->createOutputSelector([
-            'SellerInfo',
-            'StoreInfo',
             'GalleryInfo',
             'PictureURLLarge',
             'PictureURLSuperSize',
@@ -111,12 +123,29 @@ class EbayModelFactory
         );
     }
     /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @param TypedArray $itemFilters
      */
     public function createRequiredItemFilters(
+        SearchModelInterface $model,
         TypedArray $itemFilters
     ) {
+        if ($model->isSearchStores()) {
+            $businessEntites = $this->ebayBusinessEntityRepository->findBusinessesByGlobalId($model->getGlobalId());
 
+            $businessNames = map_reduce($businessEntites, function(EbayBusinessEntity $businessEntity) {
+                return $businessEntity->getDisplayName();
+            });
+
+            $sellers = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::SELLER,
+                [$businessNames]
+            ));
+
+            $itemFilters[] = $sellers;
+        }
     }
     /**
      * @param array $selectors

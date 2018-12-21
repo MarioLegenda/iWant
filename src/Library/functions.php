@@ -18,6 +18,23 @@ function to_float($num) {
     );
 }
 
+function map_reduce(iterable $iterable, \Closure $callback): array
+{
+    $iterableGen = Util::createGenerator($iterable);
+
+    $result = [];
+    foreach ($iterableGen as $entry) {
+        $key = $entry['key'];
+        $item = $entry['item'];
+
+        $product = $callback->__invoke($item);
+
+        $result[] = $product;
+    }
+
+    return $result;
+}
+
 function advanced_array_filter(array $array, \Closure $callback): array
 {
     $retainedValues = [];

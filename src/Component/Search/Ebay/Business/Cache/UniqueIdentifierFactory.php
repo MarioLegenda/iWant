@@ -22,6 +22,7 @@ class UniqueIdentifierFactory
             'hideDuplicateItems' => $model->isHideDuplicateItems(),
             'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
             'fixedPrice' => $model->isFixedPriceOnly(),
+            'searchStores' => $model->isSearchStores(),
         ]));
     }
 }

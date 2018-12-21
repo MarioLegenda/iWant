@@ -83,6 +83,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $hideDuplicateItems
      * @param bool $doubleLocaleSearch
      * @param bool $fixedPriceOnly
+     * @param bool $searchStores
      */
     public function __construct(
         Language $keyword,
@@ -98,7 +99,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         Pagination $internalPagination,
         bool $hideDuplicateItems,
         bool $doubleLocaleSearch,
-        bool $fixedPriceOnly
+        bool $fixedPriceOnly,
+        bool $searchStores
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -114,6 +116,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->hideDuplicateItems = $hideDuplicateItems;
         $this->doubleLocaleSearch = $doubleLocaleSearch;
         $this->fixedPriceOnly = $fixedPriceOnly;
+        $this->searchStores = $searchStores;
     }
     /**
      * @return Language

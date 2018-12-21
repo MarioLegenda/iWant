@@ -31,6 +31,16 @@ class EbayBusinessEntityRepository extends ServiceEntityRepository
         return $ebayBusinessEntity;
     }
     /**
+     * @param string $globalId
+     * @return array
+     */
+    public function findBusinessesByGlobalId(string $globalId): array
+    {
+        return $this->findBy([
+            'globalId' => $globalId,
+        ]);
+    }
+    /**
      * @return EntityManager
      */
     public function getManager(): EntityManager
