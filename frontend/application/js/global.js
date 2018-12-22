@@ -15,6 +15,7 @@ import {actions} from "./store/actions";
 import {defaultFilters} from "./store/state";
 import {getters} from "./store/getters";
 import ToggleButton from 'vue-js-toggle-button'
+import {Navigation} from "./Navigation/Navigation";
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -242,6 +243,10 @@ export class Init {
                         <transition name="fade">
                             <div class="Global">
                                 <Header></Header>
+                                                                
+                                <navigation></navigation>
+                                
+                                <div class="ComponentBorderSeparator"></div>
                    
                                 <site-language-choice></site-language-choice>
 
@@ -252,6 +257,7 @@ export class Init {
                     components: {
                         Header,
                         'site-language-choice': SiteLanguageChoice,
+                        'navigation': Navigation,
                     }
                 });
             });

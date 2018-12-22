@@ -87,7 +87,7 @@ class SingleSearchFetcher implements FetcherInterface
     public function getResults(SearchModelInterface $model, array $replacementData = []): iterable
     {
         $model = $this->translateKeywordsToEnglishIfRequired($model);
-        
+
         $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {

@@ -1,0 +1,25 @@
+#navigation {
+  width: 100%;
+  float: left;
+
+  margin-bottom: 10px;
+}
+
+.NavigationWrapper {
+  width: 520px;
+  overflow: hidden;
+
+  margin: 0 auto;
+
+  .NavItem {
+    display: inline-block;
+    margin-right: 20px;
+    color: $textColor;
+
+    .NavActionItem {
+      &:hover {
+        color: $basicOrange;
+      }
+    }
+  }
+}
