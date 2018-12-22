@@ -93,16 +93,16 @@ class EbayBusinessEntity
         return $this->id;
     }
     /**
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(?string $name)
     {
         $this->name = $name;
     }

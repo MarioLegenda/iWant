@@ -168,7 +168,7 @@ class UserItem extends AbstractItem implements ArrayNotationInterface
      * @param null $default
      * @return string
      */
-    public function getStoreName($default = null): string
+    public function getStoreName($default = null): ?string
     {
         if ($this->storeName === null) {
             if (!empty($this->simpleXml->StoreName)) {

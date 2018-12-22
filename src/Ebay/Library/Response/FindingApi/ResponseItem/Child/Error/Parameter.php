@@ -2,7 +2,7 @@
 
 namespace App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Error;
 
-use App\Ebay\Library\Response\ResponseItem\AbstractItem;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\AbstractItem;
 
 class Parameter extends AbstractItem
 {

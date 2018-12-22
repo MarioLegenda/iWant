@@ -87,9 +87,7 @@ class SingleSearchFetcher implements FetcherInterface
     public function getResults(SearchModelInterface $model, array $replacementData = []): iterable
     {
         $model = $this->translateKeywordsToEnglishIfRequired($model);
-
-        $model = $this->makeKeywordExactSearch($model);
-
+        
         $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
         if ($this->searchResponseCacheImplementation->isStored($identifier)) {
@@ -207,23 +205,5 @@ class SingleSearchFetcher implements FetcherInterface
         );
 
         throw new \RuntimeException($message);
-    }
-
-    /**
-     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
-     * @param SearchModelInterface
-     * @return SearchModelInterface
-     */
-    private function makeKeywordExactSearch(SearchModelInterface $model): SearchModelInterface
-    {
-        if (!$model instanceof InternalSearchModel) {
-            $model = SearchModel::createInternalSearchModelFromSearchModel($model);
-        }
-
-        $exactSearchKeyword = $this->modifiedKeywordsImplementation->makeExactSearch($model->getKeyword());
-
-        $model->setKeyword(new Language($exactSearchKeyword));
-
-        return $model;
     }
 }

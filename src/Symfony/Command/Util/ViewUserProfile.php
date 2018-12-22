@@ -43,7 +43,11 @@ class ViewUserProfile extends BaseCommand
 
         $this->addArgument('store_name', InputArgument::REQUIRED, 'Store name');
     }
-
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int|void|null
+     */
     public function execute(InputInterface $input, OutputInterface $output)
     {
         $this->makeEasier($input, $output);
@@ -53,6 +57,17 @@ class ViewUserProfile extends BaseCommand
         /** @var GetUserProfileResponseInterface|ResponseModelInterface $response */
         $response = $this->finder->getUserProfile($shoppingApiModel);
 
+        if ($response->isErrorResponse()) {
+            $message = sprintf(
+                'Non success ack response. The entire dump of the xml is: %s',
+                $response->getRawResponse()
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        dump($response->getRawResponse());
+        die();
         $output->writeln(sprintf(
             '<info>Store name: %s</info>', $response->getUser()->getStoreName()
         ));
@@ -65,7 +80,9 @@ class ViewUserProfile extends BaseCommand
             );
         }
     }
-
+    /**
+     * @return ShoppingApiRequestModelInterface
+     */
     private function createFindingApiRequestModel(): ShoppingApiRequestModelInterface
     {
         $callnameQuery = new Query(

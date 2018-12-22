@@ -43,6 +43,102 @@ class BatchAddBusinessEntity extends BaseCommand
         [
             'name' => 'medimops',
             'globalId' => 'EBAY-DE',
+        ],
+        [
+            'name' => 'universalgadgets01',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'babztech',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'Thinkprice',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'lmelectrical',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'angling_warehouse',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'aceparts_uk',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'cheapest_electrical',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'hezhl2011',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'stella-comm',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'madaboutcostumes',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'bamford_trading',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'lcd-wall-brackets',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'ghostbikes_uk',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'fancy_dress_discount_store',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'cramptonandmoore',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'paulsanglingsupplies',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'qfished',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'stomp-group',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'bedroom_furniture_direct',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'belle-lingerie',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'prestige.fitness.direct',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'ukawesomestuff928',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'home-un-leisure',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'grt104',
+            'globalId' => 'EBAY-GB',
         ]
     ];
     /**
@@ -80,6 +176,7 @@ class BatchAddBusinessEntity extends BaseCommand
         $ebayBusinessEntitiesSeedDataGen = Util::createGenerator($this->ebayBusinessEntites);
 
         $this->output->writeln('<info>Starting batch adding ebay business entities');
+        $this->output->writeln('');
 
         foreach ($ebayBusinessEntitiesSeedDataGen as $entry) {
             $item = $entry['item'];
@@ -90,6 +187,7 @@ class BatchAddBusinessEntity extends BaseCommand
             );
         }
 
+        $this->output->writeln('');
         $this->output->writeln(sprintf(
             '<info>Finished processing. Command successful</info>'
         ));
@@ -118,6 +216,16 @@ class BatchAddBusinessEntity extends BaseCommand
             throw new \RuntimeException($message);
         }
 
+        if ($response->getUser()->getStatus() !== 'Confirmed') {
+            $this->output->writeln(sprintf(
+                '<error>The status of \'%s\' seller is not \'Confirmed\' but %s. Skipping</error>',
+                $response->getUser()->getUserId(),
+                $response->getUser()->getStatus()
+            ));
+
+            return;
+        }
+
         $ebayBusinessEntity = $this->createEbayBusinessEntity(
             $response->getUser(),
             $globalId
@@ -135,7 +243,9 @@ class BatchAddBusinessEntity extends BaseCommand
             $this->ebayBusinessEntityRepository->persistAndFlush($existingBusinessEntity);
 
             $this->output->writeln(sprintf(
-                '<comment>Updated %s business entity</comment>', $entityName
+                '<comment>Updated \'%s\' business entity. Memory usage: %s</comment>',
+                $entityName,
+                $this->getMBUsage()
             ));
 
             return;
@@ -144,8 +254,9 @@ class BatchAddBusinessEntity extends BaseCommand
         $this->ebayBusinessEntityRepository->persistAndFlush($ebayBusinessEntity);
 
         $this->output->writeln(sprintf(
-            '<info>Added %s</info>',
-            $entityName
+            '<info>Added \'%s\' business entity. Memory usage: %s</info>',
+            $entityName,
+            $this->getMBUsage()
         ));
     }
     /**
@@ -200,5 +311,12 @@ class BatchAddBusinessEntity extends BaseCommand
             $userItem->getStoreName(),
             $userItem->getSellerBusinessType()
         );
+    }
+    /**
+     * @return string
+     */
+    private function getMBUsage(): string
+    {
+        return sprintf('%.2f MB', memory_get_usage() / 1000 / 1000);
     }
 }

@@ -16,6 +16,8 @@ class EbayHttpException extends BaseEbayException implements HttpExceptionInterf
      */
     public function __construct(EbayExceptionInformation $ebayExceptionInformation)
     {
+        $this->ebayExceptionInformation = $ebayExceptionInformation;
+
         parent::__construct($ebayExceptionInformation->getResponse()->getBody());
     }
     /**
