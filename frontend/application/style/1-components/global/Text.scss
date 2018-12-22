@@ -1,0 +1,38 @@
+.TextPanel {
+  width: 960px;
+  font-size: 16px;
+  overflow: hidden;
+
+  margin: 0 auto;
+
+  .TextBlock {
+    p, h1, h3 {
+      font-size: 1.2em;
+      line-height: 1.6em;
+      word-spacing: 0.05em;
+    }
+
+    h3 {
+      font-style: italic;
+    }
+
+    h1 {
+      font-weight: bolder;
+    }
+
+    a {
+      color: $basicOrange;
+      font-weight: bold;
+      border-bottom: 1px dotted $basicOrange;
+
+      &:hover {
+        border-bottom: 1px solid $basicOrange;
+      }
+    }
+
+    .Highlight {
+      font-style: italic;
+      color: black;
+    }
+  }
+}

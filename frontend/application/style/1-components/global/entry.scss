@@ -1,1 +1,21 @@
 @import "modal";
+@import "Text";
+
+#IWouldLike {
+  display: inline-block;
+  font-family: $paytonOneFont;
+  font-size: 16px;
+  font-weight: bolder;
+
+  .i-part {
+    color: $darkBlue;
+  }
+
+  .would-part {
+    color: $basicGreen;
+  }
+
+  .like-part {
+    color: $basicOrange;
+  }
+}

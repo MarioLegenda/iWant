@@ -208,6 +208,52 @@ html {
   transform: scale(1.1);
 }
 
+.TextPanel {
+  width: 960px;
+  font-size: 16px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.TextPanel .TextBlock p, .TextPanel .TextBlock h1, .TextPanel .TextBlock h3 {
+  font-size: 1.2em;
+  line-height: 1.6em;
+  word-spacing: 0.05em;
+}
+.TextPanel .TextBlock h3 {
+  font-style: italic;
+}
+.TextPanel .TextBlock h1 {
+  font-weight: bolder;
+}
+.TextPanel .TextBlock a {
+  color: #eb1d25;
+  font-weight: bold;
+  border-bottom: 1px dotted #eb1d25;
+}
+.TextPanel .TextBlock a:hover {
+  border-bottom: 1px solid #eb1d25;
+}
+.TextPanel .TextBlock .Highlight {
+  font-style: italic;
+  color: black;
+}
+
+#IWouldLike {
+  display: inline-block;
+  font-family: "Paytone One", sans-serif;
+  font-size: 16px;
+  font-weight: bolder;
+}
+#IWouldLike .i-part {
+  color: #2E53F3;
+}
+#IWouldLike .would-part {
+  color: #15ba00;
+}
+#IWouldLike .like-part {
+  color: #eb1d25;
+}
+
 #navigation {
   width: 100%;
   float: left;
@@ -223,6 +269,9 @@ html {
   display: inline-block;
   margin-right: 20px;
   color: #5b5b5b;
+}
+.NavigationWrapper .NavItem .HighlightNavigation {
+  color: #eb1d25;
 }
 .NavigationWrapper .NavItem .NavActionItem:hover {
   color: #eb1d25;
@@ -381,74 +430,6 @@ html {
 #main_menu nav .menu-item a:hover {
   border-top: 2px solid #eb1d25;
   cursor: pointer;
-}
-
-.HomepageWrapper {
-  width: 100%;
-  height: 600px;
-  float: left;
-  background: no-repeat url("/images/background.jpg");
-  background-size: cover;
-  background-position: center;
-}
-
-.Homepage {
-  width: 100%;
-  float: left;
-  height: 600px;
-  background-color: rgba(255, 255, 255, 0.7);
-  font-weight: bold;
-  margin: 0 auto;
-  padding: 0 10px 0 10px;
-  position: relative;
-}
-.Homepage .OrangeHighlight {
-  color: #eb1d25;
-}
-.Homepage .BlueHighlight {
-  color: #2E53F3;
-}
-.Homepage .GreenHighlight {
-  color: #15ba00;
-}
-.Homepage .Row {
-  width: 100%;
-  float: left;
-  overflow: hidden;
-  margin: 0 auto;
-  margin-bottom: 40px;
-}
-.Homepage .Row .Advert {
-  width: 480px;
-  overflow: hidden;
-  margin: 0 auto;
-  font-size: 2em;
-  color: #5b5b5b;
-  padding: 20px;
-  text-align: center;
-}
-.Homepage .Row .HomepageRouter {
-  width: 480px;
-  overflow: hidden;
-  margin: 0 auto;
-  font-size: 1em;
-  color: #5b5b5b;
-}
-.Homepage .Row .HomepageRouter .RouterText {
-  font-weight: normal;
-  font-size: 1.4em;
-}
-.Homepage .Row .HomepageRouter .Link {
-  display: inline-block;
-  padding: 20px;
-  color: white;
-  background-color: #eb1d25;
-  font-weight: bold;
-  font-size: 1.5em;
-  border-radius: 50px;
-}
-.Homepage .LightFontWeight {
-  font-weight: normal;
 }
 
 .ItemList {

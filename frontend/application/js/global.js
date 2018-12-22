@@ -46,6 +46,15 @@ export class Init {
             return val === '' || val === null || typeof val === 'undefined';
         };
 
+        window.vueRouterLinkCreate = function(routeName) {
+            // method has to be bound to Vue this instance with the bind() method
+            // only to be used with native events
+            this.$router.push({
+                name: routeName,
+                params: { locale: this.$localeInfo.locale }
+            });
+        };
+
         window.getViewportDimensions = function() {
             const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);

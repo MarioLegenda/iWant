@@ -21,3 +21,9 @@ app_static_search:
     controller: App\Web\Controller\StaticController::getSearch
     defaults:
         _locale: '%kernel.default_locale%'
+
+app_static_generic_catch_all:
+    path: /{_locale}/{genericCatchAll}
+    controller: App\Web\Controller\StaticController::getGenericCatchAll
+    defaults:
+        _locale: '%kernel.default_locale%'
