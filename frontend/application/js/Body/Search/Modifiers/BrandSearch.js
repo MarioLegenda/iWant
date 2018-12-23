@@ -4,14 +4,12 @@ export const BrandSearch = {
     data: function() {
         return {
             isToggleOpen: false,
-            toggle: true,
+            toggle: false,
         }
     },
     created() {
         if (this.getCurrentSearchStateMode === SAVED_STATE_MODE) {
-            const filtersEvent = this.$store.state.filtersEvent;
-
-            if (filtersEvent.brandSearch === true) {
+            if (this.getFilters.brandSearch === true) {
                 this.toggle = true;
             }
         }
@@ -36,6 +34,10 @@ export const BrandSearch = {
     computed: {
         translationsMap: function() {
             return this.$store.state.translationsMap;
+        },
+
+        getFilters() {
+            return this.$store.getters.getFilters;
         },
 
         getCurrentSearchStateMode: function() {
