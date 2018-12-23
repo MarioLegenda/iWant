@@ -6,25 +6,6 @@ import {Price} from "../../../../services/util";
 import { SyncLoader } from '@saeris/vue-spinners'
 import { GridLoader } from '@saeris/vue-spinners'
 
-
-const SiteName = {
-    template: `<div class="SiteName">
-                   <img :src="decideImage()" />
-                   <h1>{{decideTitle()}}</h1>
-               </div>`,
-    props: ['siteInformation'],
-    methods: {
-        decideImage() {
-            const globalId = this.siteInformation.global_id;
-
-            return SUPPORTED_SITES.find(globalId).icon;
-        },
-        decideTitle() {
-            return this.siteInformation.site_name;
-        }
-    }
-};
-
 const ImageItem = {
     template: `
                <div class="Row ImageWrapper">
@@ -255,6 +236,88 @@ const QuickLook = {
     }
 };
 
+export const SortModal = {
+    data: function() {
+        return {
+            selected: 'bestMatch',
+            bestMatch: {
+                text: 'Best match',
+                name: 'bestMatch',
+            },
+            newlyListed: {
+                text: 'Newly listed',
+                name: 'newlyListed',
+            }
+        }
+    },
+    template: `<div class="SortingWrapper">
+                   <div class="SortingInfoWrapper" @click="showModal">
+                       <h1>Sort by: {{sortingMethod}} <i class="fas fa-chevron-down"></i></h1>
+                   </div>
+                   
+                   <modal name="sort-by-modal" :width="400" height="auto">
+                       <div class="SortingComponent"> 
+                           <h1>Sort by: <i class="fas fa-sort-amount-up"></i></h1>                          
+                           <div class="SortingChoiceWrapper">
+                               <p @click="changeSortMethod('bestMatch')">Best match</p>
+                               <p @click="changeSortMethod('newlyListed')">Newly listed</p>
+                           </div>
+                       </div>
+                   </modal>
+               </div>`,
+    computed: {
+        sortingMethod: function() {
+            return this[this.selected].text;
+        }
+    },
+    methods: {
+        showModal() {
+            this.$modal.show('sort-by-modal');
+        },
+        changeSortMethod(sortMethod) {
+            this.selected = this[sortMethod].name;
+
+            this.$emit('sorting-method-changed', this.selected);
+
+            this.$modal.hide('sort-by-modal');
+        }
+    }
+};
+
+const ListingAction = {
+    template: `
+            <div class="ListingActionWrapper">
+               <div class="SiteName">
+                   <img :src="decideImage()" />
+                   <h1>{{decideTitle()}}</h1>
+               </div>
+               
+               <sorting v-on:sorting-method-changed="sortingMethodChanged"></sorting>
+            </div>`,
+    props: ['siteInformation'],
+    methods: {
+        decideImage() {
+            const globalId = this.siteInformation.global_id;
+
+            return SUPPORTED_SITES.find(globalId).icon;
+        },
+
+        decideTitle() {
+            return this.siteInformation.site_name;
+        },
+
+        sortingMethodChanged(sortingMethod) {
+            let props = {};
+            props[sortingMethod] = true;
+
+            this.$store.commit('filtersEvent', props);
+        }
+    },
+    components: {
+        'sorting': SortModal,
+    }
+};
+
 export const EbayItems = {
     data: function() {
         return {
@@ -282,9 +345,9 @@ export const EbayItems = {
         });
     },
     template: `
-            <div class="EbayItemsWrapper">                                
+            <div class="EbayItemsWrapper">                        
                 <div v-if="isListingInitialised" class="EbayItems" id="EbayItemsId">
-                    <site-name v-bind:site-information="getSiteInformation"></site-name>
+                    <listing-action v-bind:site-information="getSiteInformation"></listing-action>
                     <div v-for="(item, index) in getTotalListings" :key="index" class="EbayItem SearchItem">
                         <image-item :url="item.image.url"></image-item>
                     
@@ -455,9 +518,10 @@ export const EbayItems = {
         'item': Item,
         'price': Price,
         'load-more': LoadMore,
-        'site-name': SiteName,
+        'listing-action': ListingAction,
         'image-item': ImageItem,
         'quick-look': QuickLook,
         'grid-loader': GridLoader,
+        'sort-modal': SortModal,
     }
 };

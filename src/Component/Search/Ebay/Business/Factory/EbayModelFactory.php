@@ -189,9 +189,20 @@ class EbayModelFactory
                 ));
             }
         }
+
+        if (!$model->isHighestPrice()) {
+            if ($model->isNewlyListed()) {
+                $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                    'name',
+                    'value',
+                    ItemFilterConstants::SORT_ORDER,
+                    ['StartTimeNewest']
+                ));
+            }
+        }
     }
     /**
-     * @param SearchModel|SearchModel|InternalSearchModel $model
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      */
     private function validateModel(SearchModelInterface $model)
     {

@@ -2,6 +2,7 @@ import {SAVED_STATE_MODE, RESTORING_STATE_MODE, STATE_RESTORE_MODE, SEARCH_TERM}
 
 export const defaultFilters = {
     bestMatch: true,
+    newlyListed: false,
     lowestPrice: false,
     highestPrice: false,
     highQuality: false,

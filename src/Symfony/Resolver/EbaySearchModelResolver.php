@@ -75,7 +75,8 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['hideDuplicateItems'],
             $filters['doubleLocaleSearch'],
             $filters['fixedPrice'],
-            $filters['brandSearch']
+            $filters['brandSearch'],
+            $filters['newlyListed']
         );
 
         return true;

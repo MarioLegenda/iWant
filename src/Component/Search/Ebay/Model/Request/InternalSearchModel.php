@@ -68,6 +68,10 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $searchStores = false;
     /**
+     * @var bool $newlyListed
+     */
+    private $newlyListed = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -84,6 +88,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param bool $doubleLocaleSearch
      * @param bool $fixedPriceOnly
      * @param bool $isSearchStores
+     * @param bool $newlyListed
      */
     public function __construct(
         Language $keyword,
@@ -100,7 +105,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         bool $hideDuplicateItems,
         bool $doubleLocaleSearch,
         bool $fixedPriceOnly,
-        bool $isSearchStores
+        bool $isSearchStores,
+        bool $newlyListed
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -117,6 +123,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->doubleLocaleSearch = $doubleLocaleSearch;
         $this->fixedPriceOnly = $fixedPriceOnly;
         $this->searchStores = $isSearchStores;
+        $this->newlyListed = $newlyListed;
     }
     /**
      * @return Language
@@ -328,6 +335,20 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     public function setSearchStores(bool $searchStores): void
     {
         $this->searchStores = $searchStores;
+    }
+    /**
+     * @return bool
+     */
+    public function isNewlyListed(): bool
+    {
+        return $this->newlyListed;
+    }
+    /**
+     * @param bool $newlyListed
+     */
+    public function setNewlyListed(bool $newlyListed): void
+    {
+        $this->newlyListed = $newlyListed;
     }
     /**
      * @return iterable

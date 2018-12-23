@@ -23,6 +23,7 @@ class UniqueIdentifierFactory
             'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
             'fixedPrice' => $model->isFixedPriceOnly(),
             'searchStores' => $model->isSearchStores(),
+            'newlyListed' => $model->isNewlyListed(),
         ]));
     }
 }

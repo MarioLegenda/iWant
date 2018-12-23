@@ -167,16 +167,19 @@
     margin: 50px auto 30px auto;
   }
 
-  .EbayItems {
+  .ListingActionWrapper {
+    width: 100%;
+    float: left;
+
+    margin: 50px 0 30px 0;
+
+    padding: 10px 10px 10px 0;
+
+    border-bottom: 1px solid $lightestGray;
+
     .SiteName {
-      width: 100%;
+      width: 200px;
       float: left;
-
-      margin: 50px 0 30px 0;
-
-      padding: 10px 10px 10px 0;
-
-      border-bottom: 1px solid $lightestGray;
 
       img {
         display: block;
@@ -191,6 +194,82 @@
         display: inline-block;
         float: left;
         margin-top: 5px;
+      }
+    }
+
+    .SortingWrapper {
+      width: 200px;
+      float: right;
+
+      .SortingInfoWrapper {
+        width: 100%;
+        float: left;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      .SortingInfoWrapper h1 {
+        position: relative;
+        width: 100%;
+        float: right;
+        text-align: left;
+
+        padding: 10px;
+
+        border: 1px solid $lightestGray;
+
+        border-radius: 20px;
+
+        i {
+          position: absolute;
+          top: 10px;
+          right: 12px;
+        }
+      }
+
+      .SortingComponent {
+        width: 100%;
+        float: left;
+
+        padding: 30px;
+
+        color: $textColor;
+
+        h1 {
+          position: relative;
+          width: 100%;
+          float: left;
+
+          padding-bottom: 10px;
+          border-bottom: 1px solid $basicOrange;
+
+          i {
+            position: absolute;
+            top: 5px;
+            right: 15px;
+          }
+        }
+
+        .SortingChoiceWrapper {
+          width: 100%;
+          float: left;
+
+          margin-top: 20px;
+
+          p {
+            padding: 10px;
+            margin-bottom: 10px;
+
+
+            &:hover {
+              cursor: pointer;
+              background-color: $basicOrange;
+              color: white;
+            }
+          }
+        }
       }
     }
   }

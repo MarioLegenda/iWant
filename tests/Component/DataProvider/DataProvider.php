@@ -39,6 +39,7 @@ class DataProvider
         $doubleLocaleSearch = (isset($data['doubleLocaleSearch'])) ? $data['doubleLocaleSearch'] : false;
         $fixedPriceOnly = (isset($data['fixedPriceOnly'])) ? $data['fixedPriceOnly'] : false;
         $searchStores = (isset($data['searchStores'])) ? $data['searchStores'] : false;
+        $newlyListed = (isset($data['newlyListed'])) ? $data['newlyListed'] : false;
 
         return new EbaySearchModel(
             $keyword,
@@ -55,7 +56,8 @@ class DataProvider
             $hideDuplicateItems,
             $doubleLocaleSearch,
             $fixedPriceOnly,
-            $searchStores
+            $searchStores,
+            $newlyListed
         );
     }
 }

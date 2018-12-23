@@ -1,5 +1,6 @@
 import Vuex from "vuex";
 import VueRouter from "vue-router";
+import vmodal from 'vue-js-modal'
 import {routes} from "./routes";
 import Vue from "vue";
 import {Header} from "./Header/Header";
@@ -231,6 +232,7 @@ export class Init {
                 });
 
                 Vue.use(ToggleButton);
+                Vue.use(vmodal);
 
                 new Vue({
                     el: '#vue_app',

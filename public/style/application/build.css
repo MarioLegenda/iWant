@@ -777,24 +777,85 @@ html {
   overflow: hidden;
   margin: 50px auto 30px auto;
 }
-.SearchItems .EbayItems .SiteName {
+.SearchItems .ListingActionWrapper {
   width: 100%;
   float: left;
   margin: 50px 0 30px 0;
   padding: 10px 10px 10px 0;
   border-bottom: 1px solid #d6d6d6;
 }
-.SearchItems .EbayItems .SiteName img {
+.SearchItems .ListingActionWrapper .SiteName {
+  width: 200px;
+  float: left;
+}
+.SearchItems .ListingActionWrapper .SiteName img {
   display: block;
   width: 30px;
   height: 30px;
   float: left;
   margin: 0 30px 0 0;
 }
-.SearchItems .EbayItems .SiteName h1 {
+.SearchItems .ListingActionWrapper .SiteName h1 {
   display: inline-block;
   float: left;
   margin-top: 5px;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper {
+  width: 200px;
+  float: right;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper {
+  width: 100%;
+  float: left;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper:hover {
+  cursor: pointer;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper h1 {
+  position: relative;
+  width: 100%;
+  float: right;
+  text-align: left;
+  padding: 10px;
+  border: 1px solid #d6d6d6;
+  border-radius: 20px;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper h1 i {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent {
+  width: 100%;
+  float: left;
+  padding: 30px;
+  color: #5b5b5b;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent h1 {
+  position: relative;
+  width: 100%;
+  float: left;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eb1d25;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent h1 i {
+  position: absolute;
+  top: 5px;
+  right: 15px;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent .SortingChoiceWrapper {
+  width: 100%;
+  float: left;
+  margin-top: 20px;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent .SortingChoiceWrapper p {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent .SortingChoiceWrapper p:hover {
+  cursor: pointer;
+  background-color: #eb1d25;
+  color: white;
 }
 
 .FullDetailsWrapper {
