@@ -250,9 +250,14 @@ export const SortModal = {
             }
         }
     },
+    created() {
+        const sortingMethod = this.getFilters.sortingMethod;
+
+        this.selected = this[sortingMethod].text;
+    },
     template: `<div class="SortingWrapper">
                    <div class="SortingInfoWrapper" @click="showModal">
-                       <h1>Sort by: {{sortingMethod}} <i class="fas fa-chevron-down"></i></h1>
+                       <h1>Sort by: {{selected}} <i class="fas fa-chevron-down"></i></h1>
                    </div>
                    
                    <modal name="sort-by-modal" :width="400" height="auto">
@@ -265,19 +270,25 @@ export const SortModal = {
                        </div>
                    </modal>
                </div>`,
+    watch: {
+        getFilters: (prev, next) => {}
+    },
+
     computed: {
-        sortingMethod: function() {
-            return this[this.selected].text;
+        getFilters: function() {
+            return this.$store.getters.getFilters;
         }
     },
+
     methods: {
         showModal() {
             this.$modal.show('sort-by-modal');
         },
-        changeSortMethod(sortMethod) {
-            this.selected = this[sortMethod].name;
 
-            this.$emit('sorting-method-changed', this.selected);
+        changeSortMethod(sortMethod) {
+            this.selected = this[sortMethod].text;
+
+            this.$emit('sorting-method-changed', sortMethod);
 
             this.$modal.hide('sort-by-modal');
         }
@@ -307,10 +318,7 @@ const ListingAction = {
         },
 
         sortingMethodChanged(sortingMethod) {
-            let props = {};
-            props[sortingMethod] = true;
-
-            this.$store.commit('filtersEvent', props);
+            this.$store.dispatch('changeSortingMethod', sortingMethod);
         }
     },
     components: {

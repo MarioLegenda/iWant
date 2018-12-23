@@ -267,4 +267,37 @@ class SearchComponentTest extends BasicSetup
         static::assertNotEmpty($products);
         static::assertInternalType('array', $products);
     }
+
+    public function test_sorting_methods()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'iphone 7',
+            'sortingMethod' => 'bestMatch',
+            'locale' => 'en',
+            'lowestPrice' => true,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-GB',
+            'internalPagination' => new Pagination(8, 1),
+            'pagination' => new Pagination(80, 1),
+            'doubleLocaleSearch' => false,
+            'fixedPriceOnly' => true,
+            'searchStores' => true,
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        static::assertNotEmpty($products);
+        static::assertInternalType('array', $products);
+    }
 }

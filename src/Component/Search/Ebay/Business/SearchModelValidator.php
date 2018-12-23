@@ -20,5 +20,26 @@ class SearchModelValidator
 
             throw new \RuntimeException($message);
         }
+
+        $validSortingMethods = ['bestMatch', 'newlyListed'];
+
+        if (in_array($model->getSortingMethod(), $validSortingMethods) === false) {
+            $message = sprintf(
+                'Invalid sorting method given. Expected %s, got %s',
+                implode(', ', $validSortingMethods),
+                $model->getSortingMethod()
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        if ($model->isNewlyListed() and $model->isBestMatch()) {
+            $message = sprintf(
+                'Invalid model. %s cannot have two sorting methods set to true',
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
     }
 }

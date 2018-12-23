@@ -65,7 +65,6 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['lowestPrice'],
             $filters['highestPrice'],
             $filters['highQuality'],
-            $filters['bestMatch'],
             $filters['shippingCountries'],
             $filters['taxonomies'],
             new Pagination($pagination['limit'], $pagination['page']),
@@ -76,7 +75,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['doubleLocaleSearch'],
             $filters['fixedPrice'],
             $filters['brandSearch'],
-            $filters['newlyListed']
+            $filters['sortingMethod']
         );
 
         return true;

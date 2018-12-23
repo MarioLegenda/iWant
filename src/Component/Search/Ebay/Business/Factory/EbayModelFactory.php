@@ -170,35 +170,22 @@ class EbayModelFactory
         SearchModelInterface $model,
         TypedArray $itemFilters
     ) {
-        if ($model->isHighestPrice()) {
+        if ($model->isBestMatch()) {
             $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
                 'name',
                 'value',
                 ItemFilterConstants::SORT_ORDER,
-                ['CurrentPriceHighest']
+                ['BestMatch']
             ));
         }
 
-        if (!$model->isHighestPrice()) {
-            if ($model->isBestMatch()) {
-                $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                    'name',
-                    'value',
-                    ItemFilterConstants::SORT_ORDER,
-                    ['BestMatch']
-                ));
-            }
-        }
-
-        if (!$model->isHighestPrice()) {
-            if ($model->isNewlyListed()) {
-                $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                    'name',
-                    'value',
-                    ItemFilterConstants::SORT_ORDER,
-                    ['StartTimeNewest']
-                ));
-            }
+        if ($model->isNewlyListed()) {
+            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::SORT_ORDER,
+                ['StartTimeNewest']
+            ));
         }
     }
     /**

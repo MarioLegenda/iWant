@@ -13,6 +13,18 @@ export const actions = {
         context.commit('translationsMap', translationsMap[locale.value]);
     },
 
+    changeSortingMethod(context, method) {
+        const sortingMethods = ['bestMatch', 'newlyListed'];
+
+        if (!sortingMethods.includes(method)) {
+            throw new Error(`Invalid sorting method given. Expected ${sortingMethods.join(',')}, got ${method}`);
+        }
+
+        context.commit('filtersEvent', {
+            sortingMethod: method
+        });
+    },
+
     saveSearchState(context) {
         context.commit('savedSearchStateMode', {
             savedStateMode: true,

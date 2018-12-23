@@ -20,10 +20,6 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     private $highestPrice;
     /**
-     * @var boolean $bestMatch
-     */
-    private $bestMatch;
-    /**
      * @var bool $highQuality
      */
     private $highQuality;
@@ -68,16 +64,15 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     private $searchStores = false;
     /**
-     * @var bool $newlyListed
+     * @var string $sortingMethod
      */
-    private $newlyListed = false;
+    private $sortingMethod = 'bestMatch';
     /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
      * @param bool $highestPrice
      * @param bool $highQuality
-     * @param bool $bestMatch
      * @param array $shippingCountries
      * @param array $taxonomies
      * @param Pagination $pagination
@@ -88,14 +83,13 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $doubleLocaleSearch
      * @param bool $fixedPriceOnly
      * @param bool $searchStores
-     * @param bool $newlyListed
+     * @param string $sortingMethod
      */
     public function __construct(
         Language $keyword,
         bool $lowestPrice,
         bool $highestPrice,
         bool $highQuality,
-        bool $bestMatch,
         array $shippingCountries,
         array $taxonomies,
         Pagination $pagination,
@@ -106,13 +100,12 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         bool $doubleLocaleSearch,
         bool $fixedPriceOnly,
         bool $searchStores,
-        bool $newlyListed
+        string $sortingMethod
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
         $this->highQuality = $highQuality;
         $this->highestPrice = $highestPrice;
-        $this->bestMatch = $bestMatch;
         $this->shippingCountries = $shippingCountries;
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
@@ -123,7 +116,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->doubleLocaleSearch = $doubleLocaleSearch;
         $this->fixedPriceOnly = $fixedPriceOnly;
         $this->searchStores = $searchStores;
-        $this->newlyListed = $newlyListed;
+        $this->sortingMethod = $sortingMethod;
     }
     /**
      * @return Language
@@ -151,7 +144,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     public function isNewlyListed(): bool
     {
-        return $this->newlyListed;
+        return $this->sortingMethod === 'newlyListed';
     }
     /**
      * @return bool
@@ -200,7 +193,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     public function isBestMatch(): bool
     {
-        return $this->bestMatch;
+        return $this->sortingMethod === 'bestMatch';
     }
     /**
      * @return string
@@ -238,13 +231,19 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->fixedPriceOnly;
     }
     /**
+     * @return string
+     */
+    public function getSortingMethod(): string
+    {
+        return $this->sortingMethod;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
     {
         return [
             'keyword' => $this->getKeyword(),
-            'bestMatch' => $this->isBestMatch(),
             'lowestPrice' => $this->isLowestPrice(),
             'highestPrice' => $this->isHighestPrice(),
             'highQuality' => $this->isHighQuality(),
@@ -258,7 +257,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
             'fixedPriceOnly' => $this->isFixedPriceOnly(),
             'searchStores' => $this->isSearchStores(),
-            'newlyListed' => $this->isNewlyListed(),
+            'sortingMethod' => $this->getSortingMethod(),
         ];
     }
     /**
@@ -271,7 +270,6 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $keyword = $model->getKeyword();
         $lowestPrice = $model->isLowestPrice();
         $highestPrice = $model->isHighestPrice();
-        $bestMatch = $model->isBestMatch();
         $highQuality = $model->isHighQuality();
         $shippingCountries = $model->getShippingCountries();
         $taxonomies = $model->getTaxonomies();
@@ -283,14 +281,13 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $doubleLocaleSearch = $model->isDoubleLocaleSearch();
         $fixedPriceOnly = $model->isFixedPriceOnly();
         $searchStores = $model->isSearchStores();
-        $newlyListed = $model->isNewlyListed();
+        $sortingMethod = $model->getSortingMethod();
 
         return new InternalSearchModel(
             $keyword,
             $lowestPrice,
             $highestPrice,
             $highQuality,
-            $bestMatch,
             $shippingCountries,
             $taxonomies,
             $pagination,
@@ -301,7 +298,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $doubleLocaleSearch,
             $fixedPriceOnly,
             $searchStores,
-            $newlyListed
+            $sortingMethod
         );
     }
 }

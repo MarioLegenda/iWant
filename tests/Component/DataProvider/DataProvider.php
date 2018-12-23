@@ -19,7 +19,6 @@ class DataProvider
     {
         $keyword = (isset($data['keyword'])) ? new Language($data['keyword']): new Language('harry potter book');
         $lowestPrice = (isset($data['lowestPrice'])) ? $data['lowestPrice']: true;
-        $bestMatch = (isset($data['bestMatch'])) ? $data['bestMatch'] : true;
         $highestPrice = (isset($data['highestPrice'])) ? $data['highestPrice']: false;
         $highQuality = (isset($data['highQuality'])) ? $data['highQuality']: false;
         $shippingCountries = (isset($data['shippingCountries'])) ? $data['shippingCountries']: [];
@@ -39,14 +38,14 @@ class DataProvider
         $doubleLocaleSearch = (isset($data['doubleLocaleSearch'])) ? $data['doubleLocaleSearch'] : false;
         $fixedPriceOnly = (isset($data['fixedPriceOnly'])) ? $data['fixedPriceOnly'] : false;
         $searchStores = (isset($data['searchStores'])) ? $data['searchStores'] : false;
-        $newlyListed = (isset($data['newlyListed'])) ? $data['newlyListed'] : false;
+
+        $sortingMethod = (isset($data['sortingMethod'])) ? $data['sortingMethod'] : 'bestMatch';
 
         return new EbaySearchModel(
             $keyword,
             $lowestPrice,
             $highestPrice,
             $highQuality,
-            $bestMatch,
             $shippingCountries,
             $taxonomies,
             $pagination,
@@ -57,7 +56,7 @@ class DataProvider
             $doubleLocaleSearch,
             $fixedPriceOnly,
             $searchStores,
-            $newlyListed
+            $sortingMethod
         );
     }
 }

@@ -1,7 +1,7 @@
 import {SAVED_STATE_MODE, RESTORING_STATE_MODE, STATE_RESTORE_MODE, SEARCH_TERM} from "./constants";
 
 export const defaultFilters = {
-    bestMatch: true,
+    sortingMethod: 'bestMatch',
     newlyListed: false,
     lowestPrice: false,
     highestPrice: false,
@@ -12,7 +12,7 @@ export const defaultFilters = {
     hideDuplicateItems: false,
     doubleLocaleSearch: false,
     fixedPrice: false,
-    brandSearch: true,
+    brandSearch: false,
 };
 
 export const defaultSearchState = {

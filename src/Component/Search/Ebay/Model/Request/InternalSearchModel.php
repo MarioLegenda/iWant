@@ -20,10 +20,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $highestPrice;
     /**
-     * @var boolean $bestMatch
-     */
-    private $bestMatch;
-    /**
      * @var bool $highQuality
      */
     private $highQuality;
@@ -68,16 +64,15 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $searchStores = false;
     /**
-     * @var bool $newlyListed
+     * @var string $sortingMethod
      */
-    private $newlyListed = false;
+    private $sortingMethod = 'bestMatch';
     /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
      * @param bool $highestPrice
      * @param bool $highQuality
-     * @param bool $bestMatch
      * @param array $shippingCountries
      * @param array $taxonomies
      * @param Pagination $pagination
@@ -88,14 +83,13 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param bool $doubleLocaleSearch
      * @param bool $fixedPriceOnly
      * @param bool $isSearchStores
-     * @param bool $newlyListed
+     * @param string $sortingMethod
      */
     public function __construct(
         Language $keyword,
         bool $lowestPrice,
         bool $highestPrice,
         bool $highQuality,
-        bool $bestMatch,
         array $shippingCountries,
         array $taxonomies,
         Pagination $pagination,
@@ -106,13 +100,12 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         bool $doubleLocaleSearch,
         bool $fixedPriceOnly,
         bool $isSearchStores,
-        bool $newlyListed
+        string $sortingMethod
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
         $this->highQuality = $highQuality;
         $this->highestPrice = $highestPrice;
-        $this->bestMatch = $bestMatch;
         $this->shippingCountries = $shippingCountries;
         $this->taxonomies = $taxonomies;
         $this->pagination = $pagination;
@@ -123,7 +116,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->doubleLocaleSearch = $doubleLocaleSearch;
         $this->fixedPriceOnly = $fixedPriceOnly;
         $this->searchStores = $isSearchStores;
-        $this->newlyListed = $newlyListed;
+        $this->sortingMethod = $sortingMethod;
     }
     /**
      * @return Language
@@ -172,14 +165,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     public function isBestMatch(): bool
     {
-        return $this->bestMatch;
-    }
-    /**
-     * @param bool $bestMatch
-     */
-    public function setBestMatch(bool $bestMatch): void
-    {
-        $this->bestMatch = $bestMatch;
+        return $this->sortingMethod === 'bestMatch';
     }
     /**
      * @return bool
@@ -341,14 +327,14 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     public function isNewlyListed(): bool
     {
-        return $this->newlyListed;
+        return $this->sortingMethod === 'newlyListed';
     }
     /**
-     * @param bool $newlyListed
+     * @return string
      */
-    public function setNewlyListed(bool $newlyListed): void
+    public function getSortingMethod(): string
     {
-        $this->newlyListed = $newlyListed;
+        return $this->sortingMethod;
     }
     /**
      * @return iterable
@@ -357,7 +343,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     {
         return [
             'keyword' => $this->getKeyword(),
-            'bestMatch' => $this->isBestMatch(),
             'lowestPrice' => $this->isLowestPrice(),
             'highestPrice' => $this->isHighestPrice(),
             'highQuality' => $this->isHighQuality(),
@@ -371,6 +356,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
             'isDoubleSearchLocale' => $this->isDoubleLocaleSearch(),
             'fixedPriceOnly' => $this->isFixedPriceOnly(),
             'searchStores' => $this->isSearchStores(),
+            'sortingMethod' => $this->getSortingMethod(),
         ];
     }
 }
