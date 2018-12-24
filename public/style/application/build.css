@@ -730,6 +730,14 @@ html {
   -moz-box-shadow: 2px 3px 9px -3px rgba(0, 0, 0, 0.75);
   box-shadow: 2px 3px 9px -3px rgba(0, 0, 0, 0.75);
 }
+.SearchItems .BusinessEntityWrapper {
+  display: inline-block;
+  font-weight: bolder;
+  padding: 5px;
+  margin-bottom: 15px;
+  border: 1px solid #d6d6d6;
+  border-radius: 40px;
+}
 .SearchItems .TitleWrapper {
   color: black;
 }

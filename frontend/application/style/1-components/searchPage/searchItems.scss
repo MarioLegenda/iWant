@@ -119,6 +119,17 @@
     }
   }
 
+  .BusinessEntityWrapper {
+    display: inline-block;
+
+    font-weight: bolder;
+    padding: 5px;
+    margin-bottom: 15px;
+    border: 1px solid $lightestGray;
+
+    border-radius: 40px;
+  }
+
   .TitleWrapper {
     color: black;
 

@@ -198,18 +198,6 @@ class Finder
         return $singleItemResponseModel;
     }
     /**
-     * @param string $itemId
-     * @return Translations
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    private function getTranslations(string $itemId): Translations
-    {
-        $itemTranslation = $this->itemTranslationCacheImplementation->getStored($itemId);
-
-        return new Translations(json_decode($itemTranslation->getTranslations(), true));
-    }
-    /**
      * @param array $singleItemArray
      * @return array
      */

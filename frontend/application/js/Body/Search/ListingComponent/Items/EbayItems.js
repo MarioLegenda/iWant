@@ -349,6 +349,14 @@ const LoadingText = {
     template: `<p>{{loadingText}}</p>`
 };
 
+const BusinessEntity = {
+    template: `
+                <p class="BusinessEntityWrapper">
+                    {{entityData.sellerUsername}}
+                </p>`,
+    props: ['entityData'],
+};
+
 export const EbayItems = {
     data: function() {
         return {
@@ -380,6 +388,9 @@ export const EbayItems = {
                 <div v-if="isListingInitialised" class="EbayItems" id="EbayItemsId">
                     <listing-action v-bind:site-information="getSiteInformation"></listing-action>
                     <div v-for="(item, index) in getTotalListings" :key="index" class="EbayItem SearchItem">
+                    
+                        <business-entity :entity-data="item.businessEntity"></business-entity>
+                        
                         <image-item :url="item.image.url"></image-item>
                     
                         <div class="Row TitleWrapper">
@@ -556,5 +567,6 @@ export const EbayItems = {
         'grid-loader': GridLoader,
         'sort-modal': SortModal,
         'loading-text': LoadingText,
+        'business-entity': BusinessEntity,
     }
 };
