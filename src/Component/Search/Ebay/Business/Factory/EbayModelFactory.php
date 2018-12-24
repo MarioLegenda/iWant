@@ -47,6 +47,8 @@ class EbayModelFactory
         $this->createRequiredItemFilters($model, $itemFilters);
         $this->createModelSpecificItemFilters($model, $itemFilters);
         $this->createOutputSelector([
+            'StoreInfo',
+            'SellerInfo',
             'GalleryInfo',
             'PictureURLLarge',
             'PictureURLSuperSize',

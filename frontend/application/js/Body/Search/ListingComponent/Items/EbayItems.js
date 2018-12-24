@@ -428,20 +428,15 @@ export const EbayItems = {
             `,
     props: ['classList'],
     watch: {
-        isListingInitialised: (prev, next) => {
-        },
+        isListingInitialised: (prev, next) => {},
 
-        getSiteInformation: (prev, next) => {
-        },
+        getSiteInformation: (prev, next) => {},
 
-        getTotalListings: (prev, next) => {
-        },
+        getTotalListings: (prev, next) => {},
 
-        getModel: (prev, next) => {
-        },
+        getModel: (prev, next) => {},
 
-        getFilters: (prev, next) => {
-        }
+        getFilters: (prev, next) => {},
     },
     computed: {
         getEbaySearchListingLoading() {

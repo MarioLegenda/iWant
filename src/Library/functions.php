@@ -111,3 +111,26 @@ function jsonEncodeWithFix($toEncode, $iterations = 1, $maxIterations = 5): ?str
 
     return $encodedSearchResponse;
 }
+
+function stringToBool($bool, bool $throwException = false): bool
+{
+    if (is_bool($bool)) {
+        return $bool;
+    }
+
+    if (is_string($bool)) {
+        if ($bool !== 'true' and $bool !== 'false') {
+            if ($throwException) {
+                $message = sprintf(
+                    'Non valid \'boolean\' value given. Value should be a string \'true\' or \'false\''
+                );
+
+                throw new \RuntimeException($message);
+            }
+
+            return false;
+        }
+    }
+
+    return ($bool === 'true') ? true : false;
+}

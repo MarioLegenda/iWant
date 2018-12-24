@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business\Factory;
 
+use App\Component\Search\Ebay\Model\Response\BusinessEntity;
 use App\Component\Search\Ebay\Model\Response\Image;
 use App\Component\Search\Ebay\Model\Response\Nan;
 use App\Component\Search\Ebay\Model\Response\Price;
@@ -49,17 +50,10 @@ class SearchResponseModelFactory
                 return Nan::fromValue();
             }));
 
-            $shopName = $item->dynamicSingleItemChoice(function(Item $item) {
-                if ($item->getStoreInfo() !== null) {
-                    return $item->getStoreInfo()->getStoreName();
-                }
-
-                if ($item->getSellerInfo() !== null) {
-                    return $item->getSellerInfo()->getSellerUsername();
-                }
-
-                return 'Unknown';
-            });
+            $businessEntity = new BusinessEntity(
+                $item->getStoreInfo(),
+                $item->getSellerInfo()
+            );
 
             $price = new Price(
                 $item->getSellingStatus()->getCurrentPrice()['currencyId'],
@@ -82,7 +76,7 @@ class SearchResponseModelFactory
                 $itemId,
                 $title,
                 $image,
-                $shopName,
+                $businessEntity,
                 $price,
                 $viewItemUrl,
                 $marketplaceType,

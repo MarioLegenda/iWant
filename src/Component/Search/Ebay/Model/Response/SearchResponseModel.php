@@ -32,9 +32,9 @@ class SearchResponseModel implements
      */
     private $image;
     /**
-     * @var string $shopName
+     * @var BusinessEntity $businessEntity
      */
-    private $shopName;
+    private $businessEntity;
     /**
      * @var Price $price
      */
@@ -74,7 +74,7 @@ class SearchResponseModel implements
      * @param string $globalId
      * @param Title $title
      * @param Image $image
-     * @param string $shopName
+     * @param BusinessEntity $businessEntity
      * @param Price $price
      * @param string $viewItemUrl
      * @param string $staticUrl
@@ -88,7 +88,7 @@ class SearchResponseModel implements
         string $itemId,
         Title $title,
         Image $image,
-        string $shopName,
+        BusinessEntity $businessEntity,
         Price $price,
         string $viewItemUrl,
         MarketplaceType $marketplace,
@@ -104,7 +104,7 @@ class SearchResponseModel implements
         $this->globalId = $globalId;
         $this->title = $title;
         $this->image = $image;
-        $this->shopName = $shopName;
+        $this->businessEntity = $businessEntity;
         $this->price = $price;
         $this->viewItemUrl = $viewItemUrl;
         $this->taxonomyName = $taxonomyName;
@@ -148,11 +148,11 @@ class SearchResponseModel implements
         return $this->image;
     }
     /**
-     * @return string
+     * @return BusinessEntity
      */
-    public function getShopName(): string
+    public function getBusinessEntity(): BusinessEntity
     {
-        return $this->shopName;
+        return $this->businessEntity;
     }
     /**
      * @return Price
@@ -235,7 +235,7 @@ class SearchResponseModel implements
             'globalId' => $this->getGlobalId(),
             'title' => $this->getTitle()->toArray(),
             'image' => $this->getImage()->toArray(),
-            'shopName' => $this->getShopName(),
+            'businessEntity' => $this->getBusinessEntity()->toArray(),
             'price' => $this->getPrice()->toArray(),
             'viewItemUrl' => $this->getViewItemUrl(),
             'marketplace' => (string) $this->getMarketplace(),
