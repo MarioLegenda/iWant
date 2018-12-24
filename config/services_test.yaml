@@ -30,7 +30,7 @@ parameters:
             global_id: GLOBAL-ID
         params:
             response_data_format: 'XML'
-            service_version: '1.0.0'
+            service_version: '1.13.0'
             rest_payload: null
             security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
     ebay_shopping_api_metadata:
