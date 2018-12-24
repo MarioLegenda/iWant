@@ -31,16 +31,19 @@ class CallTypeProcessor implements ProcessorInterface
      */
     public function process(): ProcessorInterface
     {
-        $queries = $this->callType->getQueries();
-
         $final = '';
-        /** @var Query $query */
-        foreach ($queries as $query) {
-            $final.=sprintf(
-                '%s=%s&',
-                $query->getName(),
-                $query->getValue()
-            );
+
+        if ($this->callType->hasQueries()) {
+
+            $queries = $this->callType->getQueries();
+            /** @var Query $query */
+            foreach ($queries as $query) {
+                $final.=sprintf(
+                    '%s=%s&',
+                    $query->getName(),
+                    $query->getValue()
+                );
+            }
         }
 
         $this->processed = rtrim($final, '&');
@@ -73,22 +76,5 @@ class CallTypeProcessor implements ProcessorInterface
         );
 
         throw new \RuntimeException($message);
-    }
-    /**
-     * @param $queryValues
-     * @return string
-     */
-    private function normalizeQueryValues(TypedArray $queryValues): string
-    {
-        $queryValues = (count($queryValues) === 1) ? $queryValues->toArray()[0] : $queryValues->toArray();
-
-        $normalized = null;
-        if (is_array($queryValues)) {
-            $normalized = implode(',', $queryValues);
-        } else if (is_string($queryValues)) {
-            $normalized = $queryValues;
-        }
-
-        return $normalized;
     }
 }

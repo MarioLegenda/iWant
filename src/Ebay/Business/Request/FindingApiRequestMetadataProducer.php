@@ -60,14 +60,18 @@ class FindingApiRequestMetadataProducer
         ]);
 
         $this->requestBaseProcessor->setOptions($userParams);
-        $itemFiltersProcessor = new ItemFiltersProcessor($this->createItemFilters($model));
-        $callTypeProcessor = new CallTypeProcessor($callType);
 
-        return TypedArray::create('integer', ProcessorInterface::class, [
-            $this->requestBaseProcessor,
-            $itemFiltersProcessor,
-            $callTypeProcessor
-        ]);
+        $processors = [];
+
+        $processors[] = $this->requestBaseProcessor;
+
+        if ($model->hasItemFilters()) {
+            $processors[] =  new ItemFiltersProcessor($this->createItemFilters($model));
+        }
+
+        $processors[] = new CallTypeProcessor($callType);
+
+        return TypedArray::create('integer', ProcessorInterface::class, $processors);
     }
     /**
      * @param FindingApiRequestModelInterface $model

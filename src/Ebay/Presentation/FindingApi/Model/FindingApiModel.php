@@ -19,11 +19,11 @@ class FindingApiModel implements FindingApiRequestModelInterface
     /**
      * FindingApiModel constructor.
      * @param CallTypeInterface $callType
-     * @param TypedArray $itemFilters
+     * @param TypedArray|iterable $itemFilters
      */
     public function __construct(
         CallTypeInterface $callType,
-        TypedArray $itemFilters
+        iterable $itemFilters
     ) {
         $this->callType = $callType;
         $this->itemFilters = $itemFilters;
@@ -37,10 +37,17 @@ class FindingApiModel implements FindingApiRequestModelInterface
         return $this->callType;
     }
     /**
-     * @return TypedArray
+     * @return TypedArray|iterable
      */
-    public function getItemFilters(): TypedArray
+    public function getItemFilters(): iterable
     {
         return $this->itemFilters;
+    }
+    /**
+     * @return bool
+     */
+    public function hasItemFilters(): bool
+    {
+        return !empty($this->itemFilters);
     }
 }

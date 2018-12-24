@@ -42,6 +42,13 @@ class FindItemsAdvanced implements CallTypeInterface
         return $this->queries;
     }
     /**
+     * @return bool
+     */
+    public function hasQueries(): bool
+    {
+        return $this->queries instanceof TypedArray;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable

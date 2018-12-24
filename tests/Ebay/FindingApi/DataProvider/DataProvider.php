@@ -7,6 +7,7 @@ use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsByKeywords;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsInEbayStores;
+use App\Ebay\Presentation\FindingApi\Model\GetVersion;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Presentation\Model\Query;
@@ -14,6 +15,16 @@ use App\Library\Infrastructure\Helper\TypedArray;
 
 class DataProvider
 {
+    /**
+     * @return FindingApiRequestModelInterface
+     */
+    public function getGetVersionModel(): FindingApiRequestModelInterface
+    {
+        $getVersion = new GetVersion();
+
+        return new FindingApiModel($getVersion, []);
+    }
+
     public function getFindItemsByKeywordsData(string $keywords): FindingApiRequestModelInterface
     {
         $query = new Query(

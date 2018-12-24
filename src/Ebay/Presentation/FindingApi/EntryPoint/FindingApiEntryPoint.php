@@ -52,4 +52,9 @@ class FindingApiEntryPoint
     {
         return $this->finder->findItemsInEbayStores($model);
     }
+
+    public function getVersion(FindingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        return $this->finder->getVersion($model);
+    }
 }

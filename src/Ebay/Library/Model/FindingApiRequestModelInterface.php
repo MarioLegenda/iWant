@@ -12,7 +12,11 @@ interface FindingApiRequestModelInterface
      */
     public function getCallType(): CallTypeInterface;
     /**
-     * @return TypedArray
+     * @return TypedArray|iterable
      */
-    public function getItemFilters(): TypedArray;
+    public function getItemFilters(): iterable;
+    /**
+     * @return bool
+     */
+    public function hasItemFilters(): bool;
 }

@@ -13,5 +13,6 @@ class OperationType extends BaseType
         'FindItemsByKeywords' => 'findItemsByKeywords',
         'FindItemsAdvanced' => 'findItemsAdvanced',
         'FindItemsInEbayStores' => 'findItemsIneBayStores',
+        'GetVersion' => 'getVersion',
     ];
 }

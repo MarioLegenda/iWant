@@ -1,31 +1,29 @@
 <?php
 
-namespace App\Ebay\Presentation\ShoppingApi\Model;
+namespace App\Ebay\Presentation\FindingApi\Model;
 
 use App\Ebay\Presentation\Model\CallTypeInterface;
-use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
-use App\Library\Util\TypedRecursion;
 
-class GetSingleItem implements CallTypeInterface, ArrayNotationInterface
+class GetVersion implements CallTypeInterface, ArrayNotationInterface
 {
+    /**
+     * @var TypedArray|null $queries
+     */
+    private $queries;
     /**
      * @var string $operationName
      */
     private $operationName;
     /**
-     * @var TypedArray|iterable|Query[]
-     */
-    private $queries;
-    /**
-     * FindItemsByKeywords constructor.
-     * @param TypedArray|iterable|Query[] $queries
+     * GetVersion constructor.
+     * @param TypedArray|null $queries
      */
     public function __construct(
-        TypedArray $queries
+        TypedArray $queries = null
     ) {
-        $this->operationName = 'GetSingleItem';
+        $this->operationName = 'getVersion';
         $this->queries = $queries;
     }
     /**
@@ -36,11 +34,17 @@ class GetSingleItem implements CallTypeInterface, ArrayNotationInterface
         return $this->operationName;
     }
     /**
-     * @return Query[]|TypedArray|iterable
+     * @return TypedArray
      */
     public function getQueries(): TypedArray
     {
-        return $this->queries;
+        $message = sprintf(
+            '%s::%s is not implemented and should not be used',
+            get_class($this),
+            __FUNCTION__
+        );
+
+        throw new \RuntimeException($message);
     }
     /**
      * @return bool
@@ -56,7 +60,7 @@ class GetSingleItem implements CallTypeInterface, ArrayNotationInterface
     {
         return [
             'operationName' => $this->getOperationName(),
-            'queries' => $this->queries->toArray(TypedRecursion::DO_NOT_RESPECT_ARRAY_NOTATION)
+            'queries' => [],
         ];
     }
 }

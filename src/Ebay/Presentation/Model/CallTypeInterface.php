@@ -14,4 +14,9 @@ interface CallTypeInterface
      * @return TypedArray
      */
     public function getQueries(): TypedArray;
+
+    /**
+     * @return bool
+     */
+    public function hasQueries(): bool;
 }

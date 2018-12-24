@@ -8,6 +8,7 @@ use App\Ebay\Business\Request\FindItemsInEbayStores;
 use App\Ebay\Business\Request\GetCategoryInfo;
 use App\Ebay\Business\Request\GetSingleItem;
 use App\Ebay\Business\Request\GetUserProfile;
+use App\Ebay\Business\Request\GetVersion;
 use App\Ebay\Library\Exception\EbayExceptionInformation;
 use App\Ebay\Library\Exception\EbayHttpException;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
@@ -52,6 +53,33 @@ class Finder
         $this->finderSource = $finderSource;
         $this->requestBase = $requestBase;
         $this->shoppingApiRequestBaseProcessor = $shoppingApiRequestBaseProcessor;
+    }
+
+    public function getVersion(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
+    {
+        $getVersion = new GetVersion(
+            $model,
+            $this->requestBase
+        );
+
+        /** @var Request $request */
+        $request = $getVersion->getRequest();
+
+        /** @var HttpResponseModel $response */
+        $response = $this->finderSource->getApiResource($request);
+
+        $responseModel = $this->createVersionResponseModel($response->getBody());
+
+        if (!$responseModel->getRoot()->isSuccess()) {
+            $this->handleError(
+                $request,
+                'findItemsByKeywords',
+                $response,
+                $responseModel
+            );
+        }
+
+        return $responseModel;
     }
 
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
@@ -254,5 +282,13 @@ class Finder
     private function createSingleItemResponse(string $resource): GetSingleItemResponse
     {
         return new GetSingleItemResponse($resource);
+    }
+    /**
+     * @param string $resource
+     * @return FindingApiResponseModelInterface
+     */
+    private function createVersionResponseModel(string $resource): FindingApiResponseModelInterface
+    {
+        return new XmlFindingApiResponseModel($resource);
     }
 }

@@ -100,6 +100,20 @@ class FindingApiTest extends BasicSetup
         $this->assertCategoryHistogramContainer($responseModel->getCategoryHistogramContainer());
         $this->assertSearchResultsContainer($responseModel->getSearchResults());
     }
+
+    public function test_get_version()
+    {
+        /** @var FindingApiEntryPoint $findingApiEntryPoint */
+        $findingApiEntryPoint = $this->locator->get(FindingApiEntryPoint::class);
+
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.finding_api');
+
+        $versionModel = $findingApiEntryPoint->getVersion($dataProvider->getGetVersionModel());
+
+        static::assertInstanceOf(FindingApiResponseModelInterface::class, $versionModel);
+        static::assertEquals('Success', $versionModel->getRoot()->getAck());
+    }
     /**
      * @param RootItem $rootItem
      */
