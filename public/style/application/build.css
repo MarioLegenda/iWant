@@ -209,7 +209,6 @@ html {
 }
 
 .TextPanel {
-  width: 960px;
   font-size: 16px;
   overflow: hidden;
   margin: 0 auto;
@@ -275,6 +274,23 @@ html {
 }
 .NavigationWrapper .NavItem .NavActionItem:hover {
   color: #eb1d25;
+}
+
+.Features {
+  width: 600px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.Features .TextBlock {
+  margin-bottom: 20px;
+}
+.Features .TextBlock h1 {
+  border-bottom: 1px solid #d6d6d6;
+  padding-bottom: 2px;
+  margin-top: 50px;
+}
+.Features .TextBlock p {
+  margin: 20px 0 20px 0;
 }
 
 #main_header {
@@ -402,34 +418,6 @@ html {
   margin: 0 0 3px 0;
   line-height: 1.2em;
   font-size: 0.8em;
-}
-
-#main_menu {
-  width: 100%;
-  float: left;
-  border-bottom: 1px solid #d6d6d6;
-}
-#main_menu nav {
-  width: 480px;
-  overflow: hidden;
-  margin: 0 auto;
-}
-#main_menu nav .menu-item {
-  float: left;
-  margin-left: 10px;
-}
-#main_menu nav .menu-item a {
-  display: inline-block;
-  width: 110px;
-  padding: 15px;
-  text-align: center;
-  font-size: 0.9em;
-  border-top: 2px solid white;
-  transition: border-top 0.5s;
-}
-#main_menu nav .menu-item a:hover {
-  border-top: 2px solid #eb1d25;
-  cursor: pointer;
 }
 
 .ItemList {
