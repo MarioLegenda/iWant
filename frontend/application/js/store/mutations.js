@@ -88,5 +88,13 @@ export const mutations = {
         }
 
         value.forEach((item) => state.totalListing.push(item));
+    },
+
+    preparingProductsLoading(state, value) {
+        this.state.preparingProductsLoading = value;
+    },
+
+    translatingProductsLoading(state, value) {
+        this.state.translatingProductsLoading = value;
     }
 };

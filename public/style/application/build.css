@@ -760,10 +760,21 @@ html {
   border-radius: 10px;
 }
 .SearchItems .EbayResultsLoading {
-  width: 100px;
-  height: 100px;
+  width: 300px;
+  height: 200px;
   overflow: hidden;
   margin: 50px auto 30px auto;
+}
+.SearchItems .EbayResultsLoading .GridLoader {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.SearchItems .EbayResultsLoading .TextLoader {
+  width: 100%;
+  margin-top: 10px;
+  font-size: 1.2em;
+  text-align: center;
 }
 .SearchItems .ListingActionWrapper {
   width: 100%;

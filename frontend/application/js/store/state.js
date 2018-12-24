@@ -38,6 +38,8 @@ export const defaultModel = {
 
 export const state = {
     ebaySearchListingLoading: false,
+    preparingProductsLoading: false,
+    translatingProductsLoading: false,
     ebaySearchListing: {
         siteInformation: null,
         items: null

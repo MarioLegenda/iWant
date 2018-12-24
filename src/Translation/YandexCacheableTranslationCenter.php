@@ -12,15 +12,14 @@ use App\Symfony\Async\StaticAsyncHandler;
 use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
-use App\Yandex\Presentation\EntryPoint\YandexEntryPoint;
 use Psr\Log\LoggerInterface;
 
 class YandexCacheableTranslationCenter implements TranslationCenterInterface
 {
     /**
-     * @var YandexEntryPoint $yandexEntryPoint
+     * @var YandexTranslationCenter $yandexTranslationCenter
      */
-    private $yandexEntryPoint;
+    private $yandexTranslationCenter;
     /**
      * @var ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      */
@@ -35,18 +34,18 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
     private $environment;
     /**
      * TranslationService constructor.
-     * @param YandexEntryPoint $yandexEntryPoint
+     * @param YandexTranslationCenter $yandexTranslationCenter
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param LoggerInterface $logger
      * @param Environment $environment
      */
     public function __construct(
-        YandexTranslationCenter $yandexEntryPoint,
+        YandexTranslationCenter $yandexTranslationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         LoggerInterface $logger,
         Environment $environment
     ) {
-        $this->yandexEntryPoint = $yandexEntryPoint;
+        $this->yandexTranslationCenter = $yandexTranslationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->logger = $logger;
         $this->environment = $environment;
@@ -59,7 +58,7 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
      */
     public function translateFromTo(Language $from, Language $to, string $text): Translation
     {
-        throw new \RuntimeException('Not yet implemented');
+        return $this->yandexTranslationCenter->translateFromTo($from, $to, $text);
     }
     /**
      * @param string $value
@@ -111,7 +110,7 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
             }
 
             try {
-                $translated = $this->yandexEntryPoint->translate($locale, $value);
+                $translated = $this->yandexTranslationCenter->translate($locale, $value);
             } catch (\Exception $e) {
                 $message = sprintf(
                     'Translation for locale %s and value %s could not be translated by Yandex API',
@@ -155,7 +154,7 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
         $translations = $this->createTranslations();
 
         try {
-            $translated = $this->yandexEntryPoint->translate($locale, $value);
+            $translated = $this->yandexTranslationCenter->translate($locale, $value);
         } catch (\Exception $e) {
             $message = sprintf(
                 'Translation for locale %s and value %s could not be translated by Yandex api',
@@ -279,10 +278,14 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
 
         return $item;
     }
-
+    /**
+     * @param string $text
+     * @return TranslatedEntryInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     */
     public function detectLanguage(string $text): TranslatedEntryInterface
     {
-        // TODO: Implement detectLanguage() method.
+        return $this->yandexTranslationCenter->detectLanguage($text);
     }
 
     /**

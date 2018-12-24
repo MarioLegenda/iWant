@@ -40,7 +40,7 @@ const LoadMore = {
                    <p
                         v-if="!currentlyLoading"
                         class="LoadMoreButton"
-                        @click="loadMore">Load more</i>
+                        @click="loadMore">Load more
                    </p>
                    
                    <sync-loader v-if="currentlyLoading" class="CurrentlyLoading" color="#f44d00" :size="10" siteUnit="px"></sync-loader>
@@ -326,6 +326,29 @@ const ListingAction = {
     }
 };
 
+const LoadingText = {
+    computed: {
+        preparingProductsLoading: function() {
+            return this.$store.state.preparingProductsLoading;
+        },
+
+        translatingProductsLoading: function() {
+            return this.$store.state.translatingProductsLoading;
+        },
+
+        loadingText: function() {
+            if (this.preparingProductsLoading) {
+                return 'Preparing products...';
+            }
+
+            if (this.translatingProductsLoading) {
+                return `Translating...`;
+            }
+        }
+    },
+    template: `<p>{{loadingText}}</p>`
+};
+
 export const EbayItems = {
     data: function() {
         return {
@@ -393,7 +416,13 @@ export const EbayItems = {
                 </div>
                 
                 <div v-if="getEbaySearchListingLoading" id="EbayResultsLoadingId" class="EbayResultsLoading">
-                    <grid-loader :size="20" sizeUnit="px" color="#f44d00"></grid-loader>
+                    <div class="GridLoader">
+                         <grid-loader :size="20" sizeUnit="px" color="#f44d00"></grid-loader>
+                    </div>
+                    
+                    <div class="TextLoader">
+                        <loading-text></loading-text>
+                    </div>
                 </div>
             </div>
             `,
@@ -531,5 +560,6 @@ export const EbayItems = {
         'quick-look': QuickLook,
         'grid-loader': GridLoader,
         'sort-modal': SortModal,
+        'loading-text': LoadingText,
     }
 };

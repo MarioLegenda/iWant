@@ -115,6 +115,7 @@ export const actions = {
         context.commit('totalListing', null);
         context.commit('ebaySearchListingLoading', true);
         context.commit('modelWasUpdated', model);
+        context.commit('preparingProductsLoading', true);
 
         searchRepo.optionsForProductListing(model, (r) => {
             const data = r.resource.data;
@@ -124,6 +125,9 @@ export const actions = {
                     searchRepo.postPrepareSearchProducts(JSON.stringify({
                         searchData: model,
                     })).then(() => {
+                        context.commit('preparingProductsLoading', false);
+                        context.commit('translatingProductsLoading', true);
+
                         searchRepo.getProducts(model).then((r) => {
                             context.commit('ebaySearchListing', r.collection.data);
                             context.commit('totalListing', r.collection.data.items);
@@ -136,11 +140,14 @@ export const actions = {
                             context.commit('listingInitialiseEvent', {
                                 initialised: true,
                             });
+                            context.commit('translatingProductsLoading', false);
                         });
                     });
 
                     break;
                 case 'GET':
+                    context.commit('translatingProductsLoading', true);
+
                     searchRepo.getProducts(model, (r) => {
                         context.commit('ebaySearchListing', r.collection.data);
                         context.commit('totalListing', r.collection.data.items);
@@ -149,6 +156,7 @@ export const actions = {
                         context.commit('listingInitialiseEvent', {
                             initialised: true,
                         });
+                        context.commit('translatingProductsLoading', false);
                     });
 
                     break;
@@ -168,9 +176,14 @@ export const actions = {
 
             switch (data.method) {
                 case 'POST':
+                    context.commit('preparingProductsLoading', true);
+
                     searchRepo.postPrepareSearchProducts(JSON.stringify({
                         searchData: model,
                     })).then(() => {
+                        context.commit('preparingProductsLoading', false);
+                        context.commit('translatingProductsLoading', true);
+
                         searchRepo.getProducts(model).then((r) => {
                             context.commit('ebaySearchListing', r.collection.data);
                             context.commit('totalListing', r.collection.data.items);
@@ -179,11 +192,14 @@ export const actions = {
                                 initialised: true,
                             });
                             context.commit('ebaySearchListingLoading', false);
+                            context.commit('translatingProductsLoading', false);
                         });
                     });
 
                     break;
                 case 'GET':
+                    context.commit('translatingProductsLoading', true);
+
                     searchRepo.getProducts(model, (r) => {
                         context.commit('ebaySearchListing', r.collection.data);
                         context.commit('totalListing', r.collection.data.items);
@@ -192,6 +208,7 @@ export const actions = {
                             initialised: true,
                         });
                         context.commit('ebaySearchListingLoading', false);
+                        context.commit('translatingProductsLoading', true);
                     });
 
                     break;
