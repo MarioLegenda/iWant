@@ -15,4 +15,8 @@ interface ShoppingApiRequestModelInterface
      * @return TypedArray
      */
     public function getItemFilters(): TypedArray;
+    /**
+     * @return bool
+     */
+    public function hasItemFilters(): bool;
 }

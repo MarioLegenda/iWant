@@ -8,6 +8,7 @@ use App\Ebay\Library\Processor\CallTypeProcessor;
 use App\Ebay\Library\Processor\ItemFiltersProcessor;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\RequestProducer;
+use App\Ebay\Presentation\Model\CallTypeInterface;
 use App\Library\Http\Request;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Processor\ProcessorInterface;
@@ -50,16 +51,24 @@ class ShoppingApiRequestMetadataProducer
      */
     protected function createProcessors(ShoppingApiRequestModelInterface $model): TypedArray
     {
+        /** @var CallTypeInterface $callType */
         $callType = $model->getCallType();
 
-        $itemFiltersProcessor = new ItemFiltersProcessor($this->createItemFilters($model));
-        $callTypeProcessor = new CallTypeProcessor($callType);
+        $processors = [];
 
-        return TypedArray::create('integer', ProcessorInterface::class, [
-            $this->requestBaseProcessor,
-            $itemFiltersProcessor,
-            $callTypeProcessor
-        ]);
+        $processors[] = $this->requestBaseProcessor;
+
+        if ($model->hasItemFilters()) {
+            $processors[] = new ItemFiltersProcessor($this->createItemFilters($model));
+        }
+
+        $processors[] = new CallTypeProcessor($callType);
+
+        return TypedArray::create(
+            'integer',
+            ProcessorInterface::class,
+            $processors
+        );
     }
     /**
      * @param ShoppingApiRequestModelInterface $model

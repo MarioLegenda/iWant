@@ -19,11 +19,11 @@ class ShoppingApiModel implements ShoppingApiRequestModelInterface
     /**
      * FindingApiModel constructor.
      * @param CallTypeInterface $callType
-     * @param TypedArray $itemFilters
+     * @param TypedArray|null $itemFilters
      */
     public function __construct(
         CallTypeInterface $callType,
-        TypedArray $itemFilters
+        TypedArray $itemFilters = null
     ) {
         $this->callType = $callType;
         $this->itemFilters = $itemFilters;
@@ -41,5 +41,12 @@ class ShoppingApiModel implements ShoppingApiRequestModelInterface
     public function getItemFilters(): TypedArray
     {
         return $this->itemFilters;
+    }
+    /**
+     * @return bool
+     */
+    public function hasItemFilters(): bool
+    {
+        return $this->itemFilters instanceof TypedArray;
     }
 }

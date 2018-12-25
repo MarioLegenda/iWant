@@ -4,6 +4,7 @@ namespace App\Tests\Ebay\ShoppingApi;
 
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
+use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\Categories;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\Category;
@@ -123,6 +124,19 @@ class ShoppingApiTest extends BasicSetup
         static::assertInstanceOf(SingleItem::class, $singleItem);
 
         $this->assertItem($singleItem);
+    }
+
+    public function test_get_shipping_costs()
+    {
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.shopping_api');
+        /** @var ShoppingApiEntryPoint $shoppingApiEntryPoint */
+        $shoppingApiEntryPoint = $this->locator->get(ShoppingApiEntryPoint::class);
+
+        /** @var GetShippingCostsResponse $responseModel */
+        $responseModel = $shoppingApiEntryPoint->getShippingCosts($dataProvider->createGetShippingCostsModel());
+
+        static::assertInstanceOf(GetShippingCostsResponse::class, $responseModel);
     }
     /**
      * @param SingleItem $singleItem

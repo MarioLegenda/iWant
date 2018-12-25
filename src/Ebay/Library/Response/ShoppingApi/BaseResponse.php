@@ -6,24 +6,22 @@ use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\RootItemInterface;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\RootItem;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SingleItem;
 
-class GetSingleItemResponse implements ResponseModelInterface
+class BaseResponse implements ResponseModelInterface
 {
     /**
      * @var string $xmlString
      */
-    private $xmlString;
+    protected $xmlString;
     /**
      * @var \SimpleXMLElement $simpleXmlBase
      */
-    private $simpleXmlBase;
+    protected $simpleXmlBase;
     /**
      * @var array $responseItems
      */
-    private $responseItems = array(
+    protected $responseItems = array(
         'rootItem' => null,
-        'singleItem' => null,
         'errorContainer' => null,
     );
     /**
@@ -59,21 +57,6 @@ class GetSingleItemResponse implements ResponseModelInterface
         return $this->responseItems['rootItem'];
     }
     /**
-     * @return SingleItem
-     */
-    public function getSingleItem(): SingleItem
-    {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['singleItem'] instanceof SingleItem) {
-            return $this->responseItems['singleItem'];
-        }
-
-        $this->responseItems['singleItem'] = new SingleItem($this->simpleXmlBase->Item);
-
-        return $this->responseItems['singleItem'];
-    }
-    /**
      * @param mixed $default
      * @return mixed|null
      */
@@ -105,29 +88,12 @@ class GetSingleItemResponse implements ResponseModelInterface
     /**
      * @param string $xmlString
      */
-    private function lazyLoadSimpleXml(string $xmlString)
+    protected function lazyLoadSimpleXml(string $xmlString)
     {
         if ($this->simpleXmlBase instanceof \SimpleXMLElement) {
             return;
         }
 
         $this->simpleXmlBase = simplexml_load_string($xmlString);
-    }
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $toArray = array();
-
-        $toArray['response'] = array(
-            'singleItem' => $this->getSingleItem()->toArray(),
-            'rootItem' => $this->getRoot()->toArray(),
-            'errors' => ($this->getErrors() instanceof ErrorContainer) ?
-                $this->getErrors()->toArray() :
-                null,
-        );
-
-        return $toArray;
     }
 }

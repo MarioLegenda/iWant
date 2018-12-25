@@ -6,6 +6,7 @@ use App\Ebay\Business\Request\FindItemsAdvanced;
 use App\Ebay\Business\Request\FindItemsByKeywords;
 use App\Ebay\Business\Request\FindItemsInEbayStores;
 use App\Ebay\Business\Request\GetCategoryInfo;
+use App\Ebay\Business\Request\GetShippingCosts;
 use App\Ebay\Business\Request\GetSingleItem;
 use App\Ebay\Business\Request\GetUserProfile;
 use App\Ebay\Business\Request\GetVersion;
@@ -15,8 +16,10 @@ use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
+use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingServiceCost;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
@@ -229,6 +232,30 @@ class Finder
 
         return $responseModel;
     }
+
+    public function getShippingCosts(ShoppingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        $getShippingCosts = new GetShippingCosts($model, $this->shoppingApiRequestBaseProcessor);
+
+        /** @var Request $request */
+        $request = $getShippingCosts->getRequest();
+
+        /** @var ResponseModelInterface $resource */
+        $response = $this->finderSource->getApiResource($request);
+
+        $responseModel = $this->createShippingCostsResponseModel($response->getBody());
+
+        if (!$responseModel->getRoot()->isSuccess()) {
+            $this->handleError(
+                $request,
+                'GetSingleItem',
+                $response,
+                $responseModel
+            );
+        }
+
+        return $responseModel;
+    }
     /**
      * @param HttpResponseModel $response
      * @param string $type
@@ -290,5 +317,13 @@ class Finder
     private function createVersionResponseModel(string $resource): FindingApiResponseModelInterface
     {
         return new XmlFindingApiResponseModel($resource);
+    }
+    /**
+     * @param string $resource
+     * @return GetShippingCostsResponse
+     */
+    private function createShippingCostsResponseModel(string  $resource): GetShippingCostsResponse
+    {
+        return new GetShippingCostsResponse($resource);
     }
 }

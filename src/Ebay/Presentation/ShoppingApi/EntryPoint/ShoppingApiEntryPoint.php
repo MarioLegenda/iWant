@@ -51,4 +51,14 @@ class ShoppingApiEntryPoint
     {
         return $this->finder->getSingleItem($model);
     }
+    /**
+     * @param ShoppingApiRequestModelInterface $model
+     * @return ResponseModelInterface
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \App\Symfony\Exception\HttpException
+     */
+    public function getShippingCosts(ShoppingApiRequestModelInterface $model): ResponseModelInterface
+    {
+        return $this->finder->getShippingCosts($model);
+    }
 }

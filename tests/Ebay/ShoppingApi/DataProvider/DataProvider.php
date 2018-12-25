@@ -8,6 +8,7 @@ use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\Model\GetCategoryInfo;
+use App\Ebay\Presentation\ShoppingApi\Model\GetShippingCosts;
 use App\Ebay\Presentation\ShoppingApi\Model\GetSingleItem;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
@@ -88,5 +89,42 @@ class DataProvider
         $itemFilters[] = $includeSelector;
 
         return new ShoppingApiModel($callType, $itemFilters);
+    }
+
+    /**
+     * @return ShoppingApiModel
+     */
+    public function createGetShippingCostsModel()
+    {
+        $callname = new Query(
+            'callname',
+            'GetShippingCosts'
+        );
+
+        $destinationCountryCode = new Query(
+            'DestinationCountryCode',
+            'IE'
+        );
+
+        $itemId = new Query(
+            'ItemID',
+            '132781940574'
+        );
+
+        $includeDetails = new Query(
+            'IncludeDetails',
+            'true'
+        );
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $callname;
+        $queries[] = $destinationCountryCode;
+        $queries[] = $itemId;
+        $queries[] = $includeDetails;
+
+        $callType = new GetShippingCosts($queries);
+
+        return new ShoppingApiModel($callType);
     }
 }
