@@ -2,7 +2,6 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi;
 
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BasePrice;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
@@ -20,6 +19,7 @@ class GetShippingCostsResponse extends BaseResponse
 
         $this->responseItems['shippingCostsSummary'] = null;
         $this->responseItems['importCharge'] = null;
+        $this->responseItems['eligibleForPickupInStore'] = null;
     }
     /**
      * @return ShippingCostSummary
@@ -35,6 +35,23 @@ class GetShippingCostsResponse extends BaseResponse
         $this->responseItems['shippingCostsSummary'] = new ShippingCostSummary($this->simpleXmlBase->ShippingCostSummary);
 
         return $this->responseItems['shippingCostsSummary'];
+    }
+    /**
+     * @return bool
+     */
+    public function isEligibleForPickupInStore(): ?bool
+    {
+        $this->lazyLoadSimpleXml($this->xmlString);
+
+        if (!is_null($this->responseItems['eligibleForPickupInStore'])) {
+            if (!empty($this->simpleXmlBase->PickUpInStoreDetails)) {
+                if (!empty($this->simpleXmlBase->PickUpInStoreDetails->EligibleForPickupInStore)) {
+                    $this->responseItems['eligibleForPickupInStore'] = stringToBool($this->simpleXmlBase->PickUpInStoreDetails->EligibleForPickupInStore);
+                }
+            }
+        }
+
+        return $this->responseItems['eligibleForPickupInStore'];
     }
     /**
      * @return array

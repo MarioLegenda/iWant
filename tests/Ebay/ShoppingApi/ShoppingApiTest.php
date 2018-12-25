@@ -146,6 +146,8 @@ class ShoppingApiTest extends BasicSetup
         static::assertInstanceOf(\App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary::class, $shippingCostsSummary);
 
         $this->assertShippingCostsSummary($shippingCostsSummary);
+
+        static::assertInternalTypeOrNull('bool', $responseModel->isEligibleForPickupInStore());
     }
     /**
      * @param \App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary
