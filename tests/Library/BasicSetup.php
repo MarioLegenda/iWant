@@ -46,6 +46,51 @@ class BasicSetup extends WebTestCase
             }
         }
     }
+
+    /**
+     * @param $expected
+     * @param $value
+     * @param string $message
+     */
+    protected function assertInstanceOfOrNull($expected, $value, $message = '')
+    {
+        if (!class_exists($expected)) {
+            $message = sprintf(
+                'Class %s does not exist in assertion method %s',
+                $expected,
+                __FUNCTION__
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        if (!is_object($value) and !is_null($value)) {
+            $message = sprintf(
+                'Value to be asserted is not an object and is not null in assertion method %s',
+                __FUNCTION__
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        if (is_null($value)) {
+            return;
+        }
+
+        $result = $expected === get_class($value);
+
+        if ($result === false) {
+            if (!is_null($value)) {
+                $message = sprintf(
+                    'Failed asserting that %s is of type %s or null',
+                    gettype($value),
+                    gettype($expected)
+                );
+
+                $this->fail($message);
+            }
+        }
+    }
     /**
      * @param $v1
      * @param $v2

@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi;
 
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BasePrice;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
@@ -18,6 +19,7 @@ class GetShippingCostsResponse extends BaseResponse
         parent::__construct($xmlString);
 
         $this->responseItems['shippingCostsSummary'] = null;
+        $this->responseItems['importCharge'] = null;
     }
     /**
      * @return ShippingCostSummary

@@ -3,6 +3,7 @@
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost;
 
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\AbstractItem;
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BasePrice;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
 class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
@@ -23,6 +24,18 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
      * @var string $shippingType
      */
     private $shippingType;
+    /**
+     * @var BasePrice $importCharge
+     */
+    private $importCharge;
+    /**
+     * @var BasePrice $insuranceCost
+     */
+    private $insuranceCost;
+    /**
+     * @var string $insuranceOption
+     */
+    private $insuranceOption;
     /**
      * @return ListedShippingServiceCost
      */
@@ -54,7 +67,6 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
      */
     public function getShippingServiceName(): string
     {
-
         if ($this->shippingServiceName === null) {
             if (!empty($this->simpleXml->ShippingServiceName)) {
                 $this->shippingServiceName = (string) $this->simpleXml->ShippingServiceName;
@@ -75,6 +87,45 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
         }
 
         return $this->shippingType;
+    }
+    /**
+     * @return BasePrice|null
+     */
+    public function getImportCharge(): ?BasePrice
+    {
+        if ($this->importCharge === null) {
+            if (!empty($this->simpleXml->ImportCharge)) {
+                $this->importCharge = new BasePrice($this->simpleXml->ImportCharge);
+            }
+        }
+
+        return $this->importCharge;
+    }
+    /**
+     * @return BasePrice|null
+     */
+    public function getInsuranceCost(): ?BasePrice
+    {
+        if ($this->insuranceCost === null) {
+            if (!empty($this->simpleXml->InsuranceCost)) {
+                $this->insuranceCost = new BasePrice($this->simpleXml->InsuranceCost);
+            }
+        }
+
+        return $this->insuranceCost;
+    }
+    /**
+     * @return string|null
+     */
+    public function getInsuranceOption(): ?string
+    {
+        if ($this->insuranceOption === null) {
+            if (!empty($this->simpleXml->InsuranceOption)) {
+                $this->insuranceOption = (string) $this->simpleXml->InsuranceOption;
+            }
+        }
+
+        return $this->insuranceOption;
     }
     /**
      * @return iterable
