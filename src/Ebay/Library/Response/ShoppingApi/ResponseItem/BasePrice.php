@@ -2,7 +2,9 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem;
 
-class BasePrice extends AbstractItem
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class BasePrice extends AbstractItem implements ArrayNotationInterface
 {
     /**
      * @var string $currencyId
@@ -47,5 +49,15 @@ class BasePrice extends AbstractItem
         }
 
         return $this->price;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'currency' => $this->getCurrencyId(),
+            'price' => $this->getPrice()
+        ];
     }
 }

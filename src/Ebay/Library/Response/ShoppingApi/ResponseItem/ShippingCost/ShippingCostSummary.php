@@ -2,7 +2,10 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost;
 
-class ShippingCostSummary
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\AbstractItem;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+
+class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
 {
     /**
      * @var ListedShippingServiceCost $listedShippingServiceCost
@@ -25,6 +28,12 @@ class ShippingCostSummary
      */
     public function getListedShippingServiceCost(): ListedShippingServiceCost
     {
+        if ($this->listedShippingServiceCost === null) {
+            if (!empty($this->simpleXml->ListedShippingServiceCost)) {
+                $this->listedShippingServiceCost = new ListedShippingServiceCost($this->simpleXml->ListedShippingServiceCost);
+            }
+        }
+
         return $this->listedShippingServiceCost;
     }
     /**
@@ -32,6 +41,12 @@ class ShippingCostSummary
      */
     public function getShippingServiceCost(): ShippingServiceCost
     {
+        if ($this->shippingServiceCost === null) {
+            if (!empty($this->simpleXml->ShippingServiceCost)) {
+                $this->shippingServiceCost = new ShippingServiceCost($this->simpleXml->ShippingServiceCost);
+            }
+        }
+
         return $this->shippingServiceCost;
     }
     /**
@@ -39,6 +54,13 @@ class ShippingCostSummary
      */
     public function getShippingServiceName(): string
     {
+
+        if ($this->shippingServiceName === null) {
+            if (!empty($this->simpleXml->ShippingServiceName)) {
+                $this->shippingServiceName = (string) $this->simpleXml->ShippingServiceName;
+            }
+        }
+
         return $this->shippingServiceName;
     }
     /**
@@ -46,6 +68,24 @@ class ShippingCostSummary
      */
     public function getShippingType(): string
     {
+        if ($this->shippingType === null) {
+            if (!empty($this->simpleXml->ShippingType)) {
+                $this->shippingType = (string) $this->simpleXml->ShippingType;
+            }
+        }
+
         return $this->shippingType;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'shippingServiceName' => $this->getShippingServiceName(),
+            'listedShippingServiceCost' => $this->getListedShippingServiceCost()->toArray(),
+            'shippingServiceCost' => $this->getShippingServiceCost()->toArray(),
+            'shippingType' => $this->getShippingType(),
+        ];
     }
 }

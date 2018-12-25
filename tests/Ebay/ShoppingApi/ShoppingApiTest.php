@@ -136,6 +136,8 @@ class ShoppingApiTest extends BasicSetup
         /** @var GetShippingCostsResponse $responseModel */
         $responseModel = $shoppingApiEntryPoint->getShippingCosts($dataProvider->createGetShippingCostsModel());
 
+        dump($responseModel->toArray());
+        die();
         static::assertInstanceOf(GetShippingCostsResponse::class, $responseModel);
     }
     /**
