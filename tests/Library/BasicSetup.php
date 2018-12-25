@@ -47,16 +47,11 @@ class BasicSetup extends WebTestCase
         }
     }
 
-    /**
-     * @param $expected
-     * @param $value
-     * @param string $message
-     */
-    protected function assertInstanceOfOrNull($expected, $value, $message = '')
+    protected function assertInstanceOfOrNull(string $expected, $value, $message = '')
     {
-        if (!class_exists($expected)) {
+        if (!class_exists($expected) and !interface_exists($expected)) {
             $message = sprintf(
-                'Class %s does not exist in assertion method %s',
+                'Class or interface %s does not exist in assertion method %s',
                 $expected,
                 __FUNCTION__
             );
@@ -77,14 +72,28 @@ class BasicSetup extends WebTestCase
             return;
         }
 
+        if ($this->isInterface($expected)) {
+            if (!array_key_exists($expected, class_implements($value))) {
+                $message = sprintf(
+                    'Failed asserting that %s is of type %s or null',
+                    (is_object($value)) ? get_class($value) : gettype($value),
+                    $expected
+                );
+
+                $this->fail($message);
+            }
+
+            return;
+        }
+
         $result = $expected === get_class($value);
 
         if ($result === false) {
             if (!is_null($value)) {
                 $message = sprintf(
                     'Failed asserting that %s is of type %s or null',
-                    gettype($value),
-                    gettype($expected)
+                    (is_object($value)) ? get_class($value) : gettype($value),
+                    $expected
                 );
 
                 $this->fail($message);
@@ -116,5 +125,16 @@ class BasicSetup extends WebTestCase
         }
 
         $this->fail(sprintf($message, $v1, $v2));
+    }
+    /**
+     * @param $value
+     * @return bool
+     * @throws \ReflectionException
+     */
+    private function isInterface($value): bool
+    {
+        $ref = new \ReflectionClass($value);
+
+        return $ref->isInterface();
     }
 }

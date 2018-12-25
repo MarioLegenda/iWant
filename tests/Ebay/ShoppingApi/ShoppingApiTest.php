@@ -17,6 +17,7 @@ use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SellerItem;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCostSummary;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SingleItem;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
+use App\Library\Infrastructure\Type\TypeInterface;
 use App\Tests\Ebay\ShoppingApi\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 
@@ -144,13 +145,20 @@ class ShoppingApiTest extends BasicSetup
 
         static::assertInstanceOf(\App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary::class, $shippingCostsSummary);
 
+        $this->assertShippingCostsSummary($shippingCostsSummary);
+    }
+    /**
+     * @param \App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary
+     */
+    private function assertShippingCostsSummary(\App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary)
+    {
         static::assertInternalType('string', $shippingCostsSummary->getShippingServiceName());
         static::assertInstanceOf(BasePrice::class, $shippingCostsSummary->getShippingServiceCost());
         static::assertInstanceOf(BasePrice::class, $shippingCostsSummary->getListedShippingServiceCost());
         static::assertInternalType('string', $shippingCostsSummary->getShippingType());
         static::assertInstanceOfOrNull(BasePrice::class, $shippingCostsSummary->getImportCharge());
         static::assertInstanceOfOrNull(BasePrice::class, $shippingCostsSummary->getInsuranceCost());
-        static::assertInternalTypeOrNull('string', $shippingCostsSummary->getInsuranceOption());
+        static::assertInstanceOfOrNull(TypeInterface::class, $shippingCostsSummary->getInsuranceOption());
     }
     /**
      * @param SingleItem $singleItem

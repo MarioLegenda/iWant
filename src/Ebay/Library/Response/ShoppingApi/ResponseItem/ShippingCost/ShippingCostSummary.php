@@ -5,6 +5,7 @@ namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\AbstractItem;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BasePrice;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Infrastructure\Type\TypeInterface;
 
 class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
 {
@@ -33,7 +34,7 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
      */
     private $insuranceCost;
     /**
-     * @var string $insuranceOption
+     * @var TypeInterface $insuranceOption
      */
     private $insuranceOption;
     /**
@@ -115,13 +116,15 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
         return $this->insuranceCost;
     }
     /**
-     * @return string|null
+     * @return TypeInterface|null
      */
-    public function getInsuranceOption(): ?string
+    public function getInsuranceOption(): ?TypeInterface
     {
         if ($this->insuranceOption === null) {
             if (!empty($this->simpleXml->InsuranceOption)) {
-                $this->insuranceOption = (string) $this->simpleXml->InsuranceOption;
+                $insuranceOption = (string) $this->simpleXml->InsuranceOption;
+
+                $this->insuranceOption = InsuranceOptionCodeType::fromValue($insuranceOption);
             }
         }
 
