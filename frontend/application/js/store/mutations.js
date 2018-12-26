@@ -96,5 +96,9 @@ export const mutations = {
 
     translatingProductsLoading(state, value) {
         this.state.translatingProductsLoading = value;
+    },
+
+    httpRequestFailed(state, value) {
+        this.state.httpRequestFailed = value;
     }
 };

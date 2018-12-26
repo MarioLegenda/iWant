@@ -17,6 +17,7 @@ import {defaultFilters} from "./store/state";
 import {getters} from "./store/getters";
 import ToggleButton from 'vue-js-toggle-button'
 import {Navigation} from "./Navigation/Navigation";
+import {GlobalErrorHandler} from "./global/GlobalErrorHandler";
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -199,14 +200,19 @@ export class Init {
         };
 
         const createVueApp = () => {
-            const appRepo = RepositoryFactory.create('app');
+            const repositoryFactory = new RepositoryFactory(null, (function(store) {
+                return function(errorData) {
+                    store.commit('httpRequestFailed', errorData);
+                }
+            }(store)));
 
-            appRepo.asyncGetEbayGlobalIdsInformation((response) => {
+            repositoryFactory.AppRepository.asyncGetEbayGlobalIdsInformation((response) => {
                 Vue.prototype.$globalIdInformation = new GlobalIdInformation(response.collection.data);
                 Vue.prototype.$localeInfo = new LocaleInfo('en', 'en');
                 Vue.prototype.$isMobile = false;
                 Vue.prototype.$viewportDimensions = getViewportDimensions();
                 Vue.prototype.$defaultFilters = defaultFilters;
+                Vue.prototype.$repository = repositoryFactory;
 
                 if (/Mobi|Android/i.test(navigator.userAgent)) {
                     console.log(`Is mobile with user agent: ${navigator.userAgent}`);
@@ -262,13 +268,15 @@ export class Init {
                                 <site-language-choice></site-language-choice>
 
                                 <router-view></router-view>
-                   
+                                
+                                <global-error-handler></global-error-handler>
                             </div>
                         </transition>`,
                     components: {
                         Header,
                         'site-language-choice': SiteLanguageChoice,
                         'navigation': Navigation,
+                        'global-error-handler': GlobalErrorHandler,
                     }
                 });
             });

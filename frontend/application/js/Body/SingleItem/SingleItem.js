@@ -1,4 +1,3 @@
-import {RepositoryFactory} from "../../services/repositoryFactory";
 import {Price} from "../../services/util";
 import {ActionNameValueContainer} from "./ActionNameValueContainer";
 import {NameValueContainer} from "./NameValueContainer";
@@ -107,13 +106,11 @@ export const SingleItem = {
                </div></transition>`,
     created() {
         if (this.item === null) {
-            const singleItemRepo = RepositoryFactory.create('single-item');
-
             const paths = window.location.pathname.split('/');
 
             const itemId = paths[4];
 
-            singleItemRepo.getSingleItem({
+            this.$repository.SingleItemRepository.getSingleItem({
                 locale: this.$localeInfo.locale,
                 itemId: itemId,
             }, (r) => {

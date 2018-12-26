@@ -37,9 +37,15 @@ export const defaultModel = {
 };
 
 export const state = {
+    // loading state
     ebaySearchListingLoading: false,
     preparingProductsLoading: false,
     translatingProductsLoading: false,
+
+    // errors
+
+    httpRequestFailed: false,
+
     ebaySearchListing: {
         siteInformation: null,
         items: null

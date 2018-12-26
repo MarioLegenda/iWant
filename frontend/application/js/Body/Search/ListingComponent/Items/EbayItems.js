@@ -374,7 +374,10 @@ export const EbayItems = {
                     model.pagination = { limit: 8, page: 1 };
                     model.internalPagination = { limit: 80, page: 1 };
 
-                    this.$store.dispatch('totalListingUpdate', model);
+                    this.$store.dispatch('totalListingUpdate', {
+                        model: model,
+                        searchRepo: this.$repository.SearchRepository
+                    });
 
                     const timeout = (this.$isMobile) ? 500 : 0;
 
@@ -486,7 +489,7 @@ export const EbayItems = {
         onLoadMore: function(model) {
             this.currentlyLoading = true;
 
-            const searchRepo = RepositoryFactory.create('search');
+            const searchRepo = this.$repository.SearchRepository;
 
             searchRepo.optionsForProductListing(model, (r) => {
                 const data = r.resource.data;

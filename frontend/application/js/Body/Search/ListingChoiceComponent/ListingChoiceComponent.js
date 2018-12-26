@@ -106,7 +106,10 @@ export const ListingChoiceComponent = {
 
             console.log(model.filters);
 
-            this.$store.dispatch('totalListingUpdate', model);
+            this.$store.dispatch('totalListingUpdate', {
+                model: model,
+                searchRepo: this.$repository.SearchRepository
+            });
 
             const timeout = (this.$isMobile) ? 500 : 0;
 

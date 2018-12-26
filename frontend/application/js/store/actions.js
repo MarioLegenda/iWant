@@ -100,8 +100,9 @@ export const actions = {
         context.commit('filtersEvent', defaultFilters);
     },
 
-    totalListingUpdate(context, model) {
-        const searchRepo = RepositoryFactory.create('search');
+    totalListingUpdate(context, config) {
+        const searchRepo = config.searchRepo;
+        const model = config.model;
 
         context.commit('listingInitialiseEvent', {
             initialised: false,

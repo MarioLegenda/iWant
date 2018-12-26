@@ -5,7 +5,9 @@ const requiredHeaders = {
     'HTTP-API-I-WOULD-LIKE': 'api',
 };
 
-class AppRepository {
+class Repository {}
+
+class AppRepository extends Repository {
     async asyncGetEbayGlobalIdsInformation(success) {
         const route = routes.app_get_ebay_global_id_information;
 
@@ -17,7 +19,7 @@ class AppRepository {
         success(await response.json());
     }
 
-    getCountries(data, success) {
+    getCountries(data, success, error) {
         const route = routes.app_get_countries;
 
         fetch(route, {
@@ -27,11 +29,12 @@ class AppRepository {
             .then(function(response) {
                 return response.json();
             })
-            .then(success);
+            .then(success)
+            .catch(error);
     }
 }
 
-class SearchRepository {
+class SearchRepository extends Repository {
     getProducts(data, success, error) {
         const route = routes.createRouteFromName('app_get_products_by_global_id', {
             searchData: JSON.stringify(data)
@@ -80,7 +83,7 @@ class SearchRepository {
     }
 }
 
-class SingleItemRepository {
+class SingleItemRepository extends Repository {
     checkSingleItem(data, success, error) {
         const route = routes.createRouteFromName('app_options_check_single_item', {
             locale: data.locale,
@@ -138,33 +141,35 @@ class SingleItemRepository {
     }
 }
 
-class Factory {
-    constructor() {
+export class RepositoryFactory {
+    constructor(successHandler, errorHandler) {
         this.repositores = {};
+
+        Repository.successHandler = successHandler;
+        Repository.errorHandler = errorHandler;
     }
 
-    create(repoName) {
-        switch (repoName) {
-            case 'single-item':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new SingleItemRepository();
-                }
-
-                return this.repositores[repoName];
-            case 'search':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new SearchRepository();
-                }
-
-                return this.repositores[repoName];
-            case 'app':
-                if (!this.repositores.hasOwnProperty(repoName)) {
-                    this.repositores[repoName] = new AppRepository();
-                }
-
-                return this.repositores[repoName];
+    get SingleItemRepository() {
+        if (!this.repositores.hasOwnProperty('single-item')) {
+            this.repositores['single-item'] = new SingleItemRepository();
         }
+
+        return this.repositores['single-item'];
+    }
+
+    get SearchRepository() {
+        if (!this.repositores.hasOwnProperty('search')) {
+            this.repositores['search'] = new SearchRepository();
+        }
+
+        return this.repositores['search'];
+    }
+
+    get AppRepository() {
+        if (!this.repositores.hasOwnProperty('app')) {
+            this.repositores['app'] = new AppRepository();
+        }
+
+        return this.repositores['app'];
     }
 }
-
-export const RepositoryFactory = new Factory();
