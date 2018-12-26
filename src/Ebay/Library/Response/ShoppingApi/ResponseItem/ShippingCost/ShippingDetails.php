@@ -50,6 +50,23 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     private $shippingServiceOption;
     /**
+     * @var TaxTable|null $taxTable
+     */
+    private $taxTable;
+    /**
+     * @return TaxTable|null
+     */
+    public function getTaxTable(): ?TaxTable
+    {
+        if ($this->taxTable === null) {
+            if (!empty($this->simpleXml->TaxTable)) {
+                $this->taxTable = new TaxTable($this->simpleXml->TaxTable);
+            }
+        }
+
+        return $this->taxTable;
+    }
+    /**
      * @return ShippingServiceOption|null
      */
     public function getShippingServiceOption(): ?ShippingServiceOption
