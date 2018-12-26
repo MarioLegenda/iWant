@@ -42,6 +42,10 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     private $salesTax;
     /**
+     * @var string|null
+     */
+    private $shippingRateErrorMessage;
+    /**
      * @return SalesTax|null
      */
     public function getSalesTax(): ?SalesTax
@@ -146,11 +150,24 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->cashOnDeliveryCost === null) {
             if (!empty($this->simpleXml->CODCost)) {
-                $this->cashOnDeliveryCost = (float) $this->CODCost;
+                $this->cashOnDeliveryCost = (float) $this->simpleXml->CODCost;
             }
         }
 
         return $this->cashOnDeliveryCost;
+    }
+    /**
+     * @return string|null
+     */
+    public function getShippingRateErrorMessage(): ?string
+    {
+        if ($this->shippingRateErrorMessage === null) {
+            if (!empty($this->simpleXml->ShippingRateErrorMessage)) {
+                $this->shippingRateErrorMessage = (float) $this->simpleXml->ShippingRateErrorMessage;
+            }
+        }
+
+        return $this->shippingRateErrorMessage;
     }
     /**
      * @return iterable
@@ -168,6 +185,7 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
                     return $item->toArray();
                 });
             })(),
+            'shippingRateErrorMessage' => $this->getShippingRateErrorMessage(),
             'salesTax' => ($this->getSalesTax() instanceof SalesTax) ? $this->getSalesTax()->toArray() : null,
             'internationalShippingServiceOption' => ($this->getInternationalShippingServiceOption() instanceof InternationalShippingServiceOption) ?
                 $this->getInternationalShippingServiceOption()->toArray() :
