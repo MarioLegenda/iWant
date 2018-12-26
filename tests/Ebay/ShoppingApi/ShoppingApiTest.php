@@ -14,6 +14,7 @@ use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ItemSpecifics;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\PriceInfo;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\RootItem;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SellerItem;
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingDetails;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCostSummary;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SingleItem;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
@@ -139,6 +140,7 @@ class ShoppingApiTest extends BasicSetup
         $responseModel = $shoppingApiEntryPoint->getShippingCosts($dataProvider->createGetShippingCostsModel());
 
         static::assertInstanceOf(GetShippingCostsResponse::class, $responseModel);
+        static::assertNotEmpty($responseModel->toArray());
 
         /** @var \App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary */
         $shippingCostsSummary = $responseModel->getShippingCostsSummary();
@@ -148,6 +150,17 @@ class ShoppingApiTest extends BasicSetup
         $this->assertShippingCostsSummary($shippingCostsSummary);
 
         static::assertInternalTypeOrNull('bool', $responseModel->isEligibleForPickupInStore());
+
+        static::assertInstanceOf(ShippingDetails::class, $responseModel->getShippingDetails());
+
+        $shippingDetails = $responseModel->getShippingDetails();
+
+        static::assertInternalTypeOrNull('float', $shippingDetails->getCashOnDeliveryCost());
+        static::assertInstanceOfOrNull(BasePrice::class, $shippingDetails->getInsuranceCost());
+        static::assertInternalTypeOrNull('array', $shippingDetails->getExcludeShipToLocations());
+        static::assertInstanceOfOrNull(TypeInterface::class, $shippingDetails->getInsuranceOption());
+        static::assertInstanceOfOrNull(BasePrice::class, $shippingDetails->getInternationalInsuranceCost());
+        static::assertInstanceOfOrNull(TypeInterface::class, $shippingDetails->getInternationalInsuranceOption());
     }
     /**
      * @param \App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary

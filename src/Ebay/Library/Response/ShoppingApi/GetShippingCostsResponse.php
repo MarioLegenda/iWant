@@ -4,6 +4,7 @@ namespace App\Ebay\Library\Response\ShoppingApi;
 
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary;
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingDetails;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
 class GetShippingCostsResponse extends BaseResponse
@@ -20,6 +21,22 @@ class GetShippingCostsResponse extends BaseResponse
         $this->responseItems['shippingCostsSummary'] = null;
         $this->responseItems['importCharge'] = null;
         $this->responseItems['eligibleForPickupInStore'] = null;
+        $this->responseItems['shippingDetails'] = null;
+    }
+    /**
+     * @return ShippingDetails|null
+     */
+    public function getShippingDetails(): ?ShippingDetails
+    {
+        $this->lazyLoadSimpleXml($this->xmlString);
+
+        if ($this->responseItems['shippingDetails'] instanceof ShippingDetails) {
+            return $this->responseItems['shippingDetails'];
+        }
+
+        $this->responseItems['shippingDetails'] = new ShippingDetails($this->simpleXmlBase->ShippingDetails);
+
+        return $this->responseItems['shippingDetails'];
     }
     /**
      * @return ShippingCostSummary
@@ -63,6 +80,7 @@ class GetShippingCostsResponse extends BaseResponse
         $toArray['response'] = [
             'rootItem' => $this->getRoot()->toArray(),
             'shippingCostsSummary' => $this->getShippingCostsSummary()->toArray(),
+            'shippingDetails' => $this->getShippingDetails()->toArray(),
             'errors' => ($this->getErrors() instanceof ErrorContainer) ?
                 $this->getErrors()->toArray() :
                 null,

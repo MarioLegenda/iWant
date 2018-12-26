@@ -134,3 +134,37 @@ function stringToBool($bool, bool $throwException = false): bool
 
     return ($bool === 'true') ? true : false;
 }
+
+function createObjectFromArrayArgs(array $args, string $objectString)
+{
+    return new $objectString(...$args);
+}
+
+function createBulkObjectFromArrayArgs(array $bulkArgs, string $objectString)
+{
+    $bulkArgsGen = (function(array $bulkArgs): \Generator {
+        foreach ($bulkArgs as $arg) {
+            yield [$arg];
+        }
+    })($bulkArgs);
+
+    $objects = [];
+    foreach ($bulkArgsGen as $item) {
+        $objects[] = new $objectString(...$item);
+    }
+
+    return $objects;
+}
+
+function wrapPossibleFatalError(\Closure $closure, array $args = null)
+{
+    try {
+        if (is_array($args)) {
+            return $closure->__invoke(...$args);
+        }
+
+        return $closure->__invoke();
+    } catch (Error $e) {
+        return null;
+    }
+}

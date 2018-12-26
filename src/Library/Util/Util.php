@@ -119,8 +119,6 @@ class Util
 
         return false;
     }
-
-
     /**
      * @param \DateTime|string|null $dateTime
      * @param string|null $format
