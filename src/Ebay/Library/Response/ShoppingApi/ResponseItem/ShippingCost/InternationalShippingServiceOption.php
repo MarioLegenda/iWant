@@ -6,7 +6,6 @@ use App\Ebay\Library\Response\ShoppingApi\ResponseItem\AbstractItem;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BasePrice;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BaseTime;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
-use App\Library\Util\Util;
 
 class InternationalShippingServiceOption extends AbstractItem implements ArrayNotationInterface
 {

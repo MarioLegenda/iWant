@@ -46,6 +46,23 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     private $shippingRateErrorMessage;
     /**
+     * @var ShippingServiceOption|null
+     */
+    private $shippingServiceOption;
+    /**
+     * @return ShippingServiceOption|null
+     */
+    public function getShippingServiceOption(): ?ShippingServiceOption
+    {
+        if ($this->shippingServiceOption === null) {
+            if (!empty($this->simpleXml->ShippingServiceOption)) {
+                $this->shippingServiceOption = new SalesTax($this->simpleXml->ShippingServiceOption);
+            }
+        }
+
+        return $this->shippingServiceOption;
+    }
+    /**
      * @return SalesTax|null
      */
     public function getSalesTax(): ?SalesTax
@@ -185,6 +202,7 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
                     return $item->toArray();
                 });
             })(),
+            'shippingServiceOption' => ($this->getShippingServiceOption() instanceof ShippingServiceOption) ? $this->getShippingServiceOption()->toArray() : null,
             'shippingRateErrorMessage' => $this->getShippingRateErrorMessage(),
             'salesTax' => ($this->getSalesTax() instanceof SalesTax) ? $this->getSalesTax()->toArray() : null,
             'internationalShippingServiceOption' => ($this->getInternationalShippingServiceOption() instanceof InternationalShippingServiceOption) ?
