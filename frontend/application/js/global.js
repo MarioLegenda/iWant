@@ -147,7 +147,7 @@ export class Init {
             state: state,
             mutations: mutations,
             actions: actions,
-            getters: getters
+            getters: getters,
         });
 
         const createVueRouter = () => {
@@ -201,8 +201,14 @@ export class Init {
 
         const createVueApp = () => {
             const repositoryFactory = new RepositoryFactory(null, (function(store) {
-                return function(errorData) {
-                    store.commit('httpRequestFailed', errorData);
+                return function(response) {
+                    if (!isEmpty(response) && response.hasOwnProperty('statusCode')) {
+                        if (response.statusCode === 503) {
+                            store.commit('httpRequestFailed', response);
+                        }
+                    }
+
+                    return response;
                 }
             }(store)));
 

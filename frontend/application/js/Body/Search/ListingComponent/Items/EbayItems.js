@@ -192,7 +192,7 @@ const QuickLook = {
             }
 
             if (this.item === null) {
-                const singleItemRepo = RepositoryFactory.create('single-item');
+                const singleItemRepo = this.$repository.SingleItemRepository;
 
                 singleItemRepo.checkSingleItem({
                     itemId: this.itemId,

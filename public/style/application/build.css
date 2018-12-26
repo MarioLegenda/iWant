@@ -237,6 +237,47 @@ html {
   color: black;
 }
 
+.GlobalErrorHandler {
+  width: 100%;
+  overflow: hidden;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorInfo {
+  padding: 50px;
+  background-color: #eb1d25;
+  color: white;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorInfo h1 {
+  position: relative;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorInfo h1 i {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  color: white;
+  top: -2px;
+  left: -35px;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorInfo p {
+  line-height: 1.5em;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorActions {
+  padding: 30px;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorActions .ErrorAction {
+  float: right;
+  display: inline-block;
+  padding: 15px;
+  margin-left: 10px;
+  color: white;
+  background-color: #eb1d25;
+}
+.GlobalErrorHandler .HttpRequestFailed .ErrorActions .ErrorAction:hover {
+  cursor: pointer;
+}
+
 #IWouldLike {
   display: inline-block;
   font-family: "Paytone One", sans-serif;

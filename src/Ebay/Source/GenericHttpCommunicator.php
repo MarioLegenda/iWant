@@ -117,8 +117,10 @@ class GenericHttpCommunicator implements GenericHttpCommunicatorInterface
             // implement response parsing on this side but only for the data
             // that the source component needs
 
-            if ($response->getStatusCode() >= 200 OR $response->getStatusCode() <= 299) {
-                return false;
+            if ($response instanceof Psr7Response) {
+                if ($response->getStatusCode() >= 200 OR $response->getStatusCode() <= 299) {
+                    return false;
+                }
             }
 
             $logger->warning(sprintf(

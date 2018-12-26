@@ -104,6 +104,16 @@ export const actions = {
         const searchRepo = config.searchRepo;
         const model = config.model;
 
+        const errorFunc = function(r) {
+            if (r.statusCode === 503) {
+                const error = new Error();
+
+                error.response = response;
+
+                throw error;
+            }
+        };
+
         context.commit('listingInitialiseEvent', {
             initialised: false,
         });
@@ -121,15 +131,21 @@ export const actions = {
         searchRepo.optionsForProductListing(model, (r) => {
             const data = r.resource.data;
 
+            errorFunc(r);
+
             switch (data.method) {
                 case 'POST':
                     searchRepo.postPrepareSearchProducts(JSON.stringify({
                         searchData: model,
-                    })).then(() => {
+                    }), (r) => {
+                        errorFunc(r);
+
                         context.commit('preparingProductsLoading', false);
                         context.commit('translatingProductsLoading', true);
 
                         searchRepo.getProducts(model).then((r) => {
+                            errorFunc(r);
+
                             context.commit('ebaySearchListing', r.collection.data);
                             context.commit('totalListing', r.collection.data.items);
                             context.commit('ebaySearchListingLoading', false);
@@ -150,6 +166,8 @@ export const actions = {
                     context.commit('translatingProductsLoading', true);
 
                     searchRepo.getProducts(model, (r) => {
+                        errorFunc(r);
+
                         context.commit('ebaySearchListing', r.collection.data);
                         context.commit('totalListing', r.collection.data.items);
                         context.commit('ebaySearchListingLoading', false);
@@ -167,6 +185,7 @@ export const actions = {
         });
     },
 
+    // CHECK IF THIS ACTION CAN BE DELETED IF IT IS NOT USED
     loadProductListing(context, model) {
         const searchRepo = RepositoryFactory.create('search');
 

@@ -1,0 +1,50 @@
+.GlobalErrorHandler {
+  width: 100%;
+  overflow: hidden;
+
+  .HttpRequestFailed {
+    .ErrorInfo {
+      padding: 50px;
+      background-color: $basicOrange;
+      color: white;
+
+      h1 {
+        position: relative;
+        font-size: 1.2em;
+        font-weight: bold;
+        margin-bottom: 30px;
+
+        i {
+          position: absolute;
+          width: 20px;
+          height: 20px;
+          color: white;
+          top: -2px;
+          left: -35px;
+        }
+      }
+
+      p {
+        line-height: 1.5em;
+      }
+    }
+
+    .ErrorActions {
+      padding: 30px;
+      .ErrorAction {
+        float: right;
+        display: inline-block;
+
+        padding: 15px;
+        margin-left: 10px;
+
+        color: white;
+        background-color: $basicOrange;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

@@ -5,6 +5,18 @@ const requiredHeaders = {
     'HTTP-API-I-WOULD-LIKE': 'api',
 };
 
+function checkStatus(response) {
+    if (response.status === 503) {
+        const error = new Error(response.statusText)
+
+        error.response = response;
+
+        throw error;
+    }
+
+    return response;
+}
+
 class Repository {}
 
 class AppRepository extends Repository {
@@ -44,11 +56,15 @@ class SearchRepository extends Repository {
             method: 'GET',
             headers: requiredHeaders,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json()
             })
             .then(success)
-            .catch(error);
+            .catch((error) => {
+                return error.response.json();
+            })
+            .then(Repository.errorHandler);
     }
 
     postPrepareSearchProducts(data, success, error) {
@@ -59,11 +75,15 @@ class SearchRepository extends Repository {
             headers: requiredHeaders,
             body: data,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json()
             })
             .then(success)
-            .catch(error);
+            .catch((error) => {
+                return error.response.json();
+            })
+            .then(Repository.errorHandler);
     }
 
     optionsForProductListing(data, success, error) {
@@ -75,11 +95,15 @@ class SearchRepository extends Repository {
             method: 'GET',
             headers: requiredHeaders,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json()
             })
             .then(success)
-            .catch(error);
+            .catch((error) => {
+                return error.response.json();
+            })
+            .then(Repository.errorHandler);
     }
 }
 
@@ -94,11 +118,12 @@ class SingleItemRepository extends Repository {
             method: 'GET',
             headers: requiredHeaders,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json()
             })
             .then(success)
-            .catch(error);
+            .catch(Repository.errorHandler);
     }
 
     putSingleItem(data, success, error) {
@@ -107,11 +132,12 @@ class SingleItemRepository extends Repository {
             body: JSON.stringify({itemId: data.itemId, locale: data.locale}),
             headers: requiredHeaders,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json()
             })
             .then(success)
-            .catch(error);
+            .catch(Repository.errorHandler);
     }
 
     getQuickLookSingleItem(data, success, error) {
@@ -119,11 +145,12 @@ class SingleItemRepository extends Repository {
             method: 'GET',
             headers: requiredHeaders,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json();
             })
             .then(success)
-            .catch(error);
+            .catch(Repository.errorHandler);
     }
 
     getSingleItem(data, success, error) {
@@ -133,11 +160,12 @@ class SingleItemRepository extends Repository {
             method: 'GET',
             headers: requiredHeaders,
         })
+            .then(checkStatus)
             .then((response) => {
                 return response.json();
             })
             .then(success)
-            .catch(error);
+            .catch(Repository.errorHandler);
     }
 }
 
