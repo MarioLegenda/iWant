@@ -39,9 +39,9 @@ class GetShippingCostsResponse extends BaseResponse
         return $this->responseItems['shippingDetails'];
     }
     /**
-     * @return ShippingCostSummary
+     * @return ShippingCostSummary|null
      */
-    public function getShippingCostsSummary(): ShippingCostSummary
+    public function getShippingCostsSummary(): ?ShippingCostSummary
     {
         $this->lazyLoadSimpleXml($this->xmlString);
 
@@ -49,7 +49,9 @@ class GetShippingCostsResponse extends BaseResponse
             return $this->responseItems['shippingCostsSummary'];
         }
 
-        $this->responseItems['shippingCostsSummary'] = new ShippingCostSummary($this->simpleXmlBase->ShippingCostSummary);
+        if (!empty($this->simpleXmlBase->ShippingCostSummary)) {
+            $this->responseItems['shippingCostsSummary'] = new ShippingCostSummary($this->simpleXmlBase->ShippingCostSummary);
+        }
 
         return $this->responseItems['shippingCostsSummary'];
     }
@@ -79,7 +81,7 @@ class GetShippingCostsResponse extends BaseResponse
 
         $toArray['response'] = [
             'rootItem' => $this->getRoot()->toArray(),
-            'shippingCostsSummary' => $this->getShippingCostsSummary()->toArray(),
+            'shippingCostsSummary' => ($this->getShippingCostsSummary() instanceof ShippingCostSummary) ? $this->getShippingCostsSummary()->toArray() : null,
             'shippingDetails' => $this->getShippingDetails()->toArray(),
             'errors' => ($this->getErrors() instanceof ErrorContainer) ?
                 $this->getErrors()->toArray() :

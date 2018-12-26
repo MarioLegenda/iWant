@@ -24,7 +24,10 @@ class DataProvider
 
         return new FindingApiModel($getVersion, []);
     }
-
+    /**
+     * @param string $keywords
+     * @return FindingApiRequestModelInterface
+     */
     public function getFindItemsByKeywordsData(string $keywords): FindingApiRequestModelInterface
     {
         $query = new Query(
@@ -50,7 +53,7 @@ class DataProvider
             'name',
             'value',
             'FreeShippingOnly',
-            [true]
+            [false]
         ));
 
         $listingType = new ItemFilter(new ItemFilterMetadata(
@@ -68,7 +71,9 @@ class DataProvider
 
         return $model;
     }
-
+    /**
+     * @return FindingApiModel
+     */
     public function getInvalidRequestAsModel()
     {
         $query = new Query(
@@ -145,7 +150,10 @@ class DataProvider
 
         return $model;
     }
-
+    /**
+     * @param $keyword
+     * @return FindingApiModel
+     */
     public function getFindItemsInEbayStores($keyword)
     {
         $keywordsQuery = new Query(

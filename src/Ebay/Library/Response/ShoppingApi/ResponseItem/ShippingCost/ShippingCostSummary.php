@@ -18,7 +18,7 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
      */
     private $shippingServiceCost;
     /**
-     * @var string $shippingServiceName
+     * @var string|null $shippingServiceName
      */
     private $shippingServiceName;
     /**
@@ -64,9 +64,9 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
         return $this->shippingServiceCost;
     }
     /**
-     * @return string
+     * @return string|null
      */
-    public function getShippingServiceName(): string
+    public function getShippingServiceName(): ?string
     {
         if ($this->shippingServiceName === null) {
             if (!empty($this->simpleXml->ShippingServiceName)) {
