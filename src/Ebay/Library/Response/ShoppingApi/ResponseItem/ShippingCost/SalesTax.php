@@ -4,8 +4,9 @@ namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost;
 
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\AbstractItem;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\BasePrice;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class SalesTax extends AbstractItem
+class SalesTax extends AbstractItem implements ArrayNotationInterface
 {
     /**
      * @var BasePrice|null $salesTaxAmount
@@ -76,5 +77,17 @@ class SalesTax extends AbstractItem
         }
 
         return $this->shippingIncludedInTax;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'salesTaxAmount' => $this->getSalesTaxAmount(),
+            'salesTaxPercent' => $this->getSalesTaxPercent(),
+            'salesTaxState' => $this->getSalesTaxState(),
+            'shippingIncludedInTax' => $this->getShippingIncludedInTax(),
+        ];
     }
 }

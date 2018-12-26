@@ -168,6 +168,7 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
                     return $item->toArray();
                 });
             })(),
+            'salesTax' => ($this->getSalesTax() instanceof SalesTax) ? $this->getSalesTax()->toArray() : null,
             'internationalShippingServiceOption' => ($this->getInternationalShippingServiceOption() instanceof InternationalShippingServiceOption) ?
                 $this->getInternationalShippingServiceOption()->toArray() :
                 null,
