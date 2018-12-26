@@ -38,6 +38,23 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     private $internationalShippingServiceOption;
     /**
+     * @var SalesTax $salesTax
+     */
+    private $salesTax;
+    /**
+     * @return SalesTax|null
+     */
+    public function getSalesTax(): ?SalesTax
+    {
+        if ($this->salesTax === null) {
+            if (!empty($this->simpleXml->SalesTax)) {
+                $this->salesTax = new SalesTax($this->simpleXml->SalesTax);
+            }
+        }
+
+        return $this->salesTax;
+    }
+    /**
      * @return InternationalShippingServiceOption|null
      */
     public function getInternationalShippingServiceOption(): ?InternationalShippingServiceOption

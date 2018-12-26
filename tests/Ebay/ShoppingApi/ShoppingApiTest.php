@@ -14,6 +14,7 @@ use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ItemSpecifics;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\PriceInfo;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\RootItem;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SellerItem;
+use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\InternationalShippingServiceOption;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingDetails;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCostSummary;
 use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SingleItem;
@@ -161,6 +162,7 @@ class ShoppingApiTest extends BasicSetup
         static::assertInstanceOfOrNull(TypeInterface::class, $shippingDetails->getInsuranceOption());
         static::assertInstanceOfOrNull(BasePrice::class, $shippingDetails->getInternationalInsuranceCost());
         static::assertInstanceOfOrNull(TypeInterface::class, $shippingDetails->getInternationalInsuranceOption());
+        static::assertInstanceOfOrNull(InternationalShippingServiceOption::class, $shippingDetails->getInternationalShippingServiceOption());
     }
     /**
      * @param \App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary
