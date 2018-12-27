@@ -48,7 +48,7 @@ class TranslationCenterFactory
      */
     public function createTranslationCenter(): TranslationCenterInterface
     {
-        if ((string) $this->environment === 'dev' OR (string) $this->environment === 'text') {
+        if ((string) $this->environment === 'dev' OR (string) $this->environment === 'test') {
             return new TranslationCenter($this->yandexCacheableTranslationCenter);
         }
 

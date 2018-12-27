@@ -18,6 +18,8 @@ use App\Library\Representation\MainLocaleRepresentation;
 use App\Library\Util\TypedRecursion;
 use App\Translation\Model\Language;
 use App\Translation\Model\Translation;
+use App\Translation\TranslationCenter;
+use App\Translation\YandexCacheableTranslationCenter;
 use App\Translation\YandexTranslationCenter;
 
 class SingleSearchFetcher implements FetcherInterface
@@ -35,9 +37,9 @@ class SingleSearchFetcher implements FetcherInterface
      */
     private $filterApplier;
     /**
-     * @var YandexTranslationCenter $yandexTranslationCenter
+     * @var TranslationCenter $translationCenter
      */
-    private $yandexTranslationCenter;
+    private $translationCenter;
     /**
      * @var MainLocaleRepresentation $mainLocaleRepresentation
      */
@@ -54,14 +56,14 @@ class SingleSearchFetcher implements FetcherInterface
      * ResultsFetcher constructor.
      * @param ResponseFetcher $responseFetcher
      * @param SearchResponseCacheImplementation $searchResponseCacheImplementation
-     * @param YandexTranslationCenter $yandexTranslationCenter
+     * @param TranslationCenter $translationCenter
      * @param MainLocaleRepresentation $mainLocaleRepresentation
      * @param KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation
      * @param ModifiedKeywordImplementation $modifiedKeywordImplementation
      */
     public function __construct(
         ResponseFetcher $responseFetcher,
-        YandexTranslationCenter $yandexTranslationCenter,
+        TranslationCenter $translationCenter,
         SearchResponseCacheImplementation $searchResponseCacheImplementation,
         MainLocaleRepresentation $mainLocaleRepresentation,
         KeywordTranslationCacheImplementation $keywordTranslationCacheImplementation,
@@ -69,7 +71,7 @@ class SingleSearchFetcher implements FetcherInterface
     ) {
         $this->responseFetcher = $responseFetcher;
         $this->searchResponseCacheImplementation = $searchResponseCacheImplementation;
-        $this->yandexTranslationCenter = $yandexTranslationCenter;
+        $this->translationCenter = $translationCenter;
         $this->mainLocaleRepresentation = $mainLocaleRepresentation;
         $this->keywordTranslationCacheImplementation = $keywordTranslationCacheImplementation;
         $this->modifiedKeywordsImplementation = $modifiedKeywordImplementation;
@@ -166,7 +168,10 @@ class SingleSearchFetcher implements FetcherInterface
         }
 
         /** @var Language $language */
-        $language = $this->yandexTranslationCenter->detectLanguage((string) $model->getKeyword());
+        $language = $this->translationCenter->detectLanguage(
+            (string) $model->getKeyword(),
+            $model->getLocale()
+        );
 
         if ($language->getEntry() === (string) $this->mainLocaleRepresentation) {
             $this->keywordTranslationCacheImplementation->upsert(
@@ -179,7 +184,7 @@ class SingleSearchFetcher implements FetcherInterface
 
         if ($language->getEntry() !== (string) $this->mainLocaleRepresentation) {
             /** @var Translation $translation */
-            $translation = $this->yandexTranslationCenter->translateFromTo(
+            $translation = $this->translationCenter->translateFromTo(
                 $language,
                 new Language((string) $this->mainLocaleRepresentation),
                 $model->getKeyword()

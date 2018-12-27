@@ -160,7 +160,7 @@ services:
             $googleTranslationApiId: '%google_translation_api_id%'
 
     App\Translation\TranslationCenter:
-        factory: 'App\Translation\TranslationCenterFactory::createTranslationCenter'
+        factory: 'App\Translation\TranslationCenterFactory:createTranslationCenter'
         arguments: ['@App\Translation\GoogleCacheableTranslationCenter', '@App\Translation\YandexCacheableTranslationCenter', '@App\Library\Util\Environment']
 
     App\Translation\TranslationCenterSwitcher:

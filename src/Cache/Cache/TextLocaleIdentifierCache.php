@@ -50,7 +50,7 @@ class TextLocaleIdentifierCache
     public function set(
         string $text,
         string $locale
-    ) {
+    ): void {
         $cache = $this->createTextLocaleIdentifierEntity(
             $text,
             $locale

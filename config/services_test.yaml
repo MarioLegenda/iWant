@@ -79,6 +79,11 @@ parameters:
     item_translation_cache_ttl: 86400
     keyword_translation_cache_ttl: 108000
 
+    browser_single_item_cache_ttl: 86400
+    browser_search_response_cache_ttl: 86400
+    browser_item_translation_cache_ttl: 86400
+    browser_keyword_translation_cache_ttl: 108000
+
 services:
     _defaults:
         autowire: true
@@ -113,6 +118,17 @@ services:
     App\Symfony\:
         resource: '../src/Symfony'
         exclude: '../src/Symfony/{Exception/*,Resolver/*}'
+
+    App\Web\:
+        resource: '../src/Web'
+        exclude: '../src/Web/{Model/*,Grouping/*}'
+
+    App\Web\Library\ResponseEnvironmentHandler:
+        arguments:
+            $browserSingleItemCacheTtl: '%browser_single_item_cache_ttl%'
+            $browserSearchResponseCacheTtl: '%browser_search_response_cache_ttl%'
+            $browserItemTranslationCacheTtl: '%browser_item_translation_cache_ttl%'
+            $browserKeywordTranslationCacheTtl: '%browser_keyword_translation_cache_ttl%'
 
   # COMPONENT SYSTEM
 
@@ -190,11 +206,6 @@ services:
         class: App\Tests\Yandex\DataProvider\DataProvider
 
     # SYMFONY
-
-    # CONTROLLER
-    App\Web\:
-        resource: '../src/Web'
-        exclude: '../src/Web/{Model/*}'
 
     # EVENT LISTENER
 

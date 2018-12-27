@@ -39,19 +39,31 @@ class TranslationCenter implements TranslationCenterInterface
     /**
      * @param array $item
      * @param array $keysToTranslate
+     * @param string|null $locale
+     * @param string|null $identifier
      * @return array
      */
-    public function translateArray(array $item, array $keysToTranslate): array
-    {
-        return $this->translateArray($item, $keysToTranslate);
+    public function translateArray(
+        array $item,
+        array $keysToTranslate,
+        string $locale = null,
+        string $identifier = null
+    ): array {
+        return $this->translationCenter->translateArray(
+            $item,
+            $keysToTranslate,
+            $locale,
+            $identifier
+        );
     }
     /**
      * @param string $text
+     * @param string|null $possibleLocale
      * @return TranslatedEntryInterface
      */
-    public function detectLanguage(string $text): TranslatedEntryInterface
+    public function detectLanguage(string $text, string $possibleLocale = null): TranslatedEntryInterface
     {
-        return $this->translationCenter->detectLanguage($text);
+        return $this->translationCenter->detectLanguage($text, $possibleLocale);
     }
     /**
      * @param Language $from

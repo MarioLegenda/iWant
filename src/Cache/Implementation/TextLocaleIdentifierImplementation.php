@@ -48,7 +48,7 @@ class TextLocaleIdentifierImplementation
     public function store(
         string $text,
         string $locale
-    ): bool {
+    ): void {
         $this->textLocaleIdentifierCache->set($text, $locale);
     }
     /**

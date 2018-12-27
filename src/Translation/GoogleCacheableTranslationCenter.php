@@ -4,8 +4,10 @@ namespace App\Translation;
 
 use App\Cache\Cache\ItemTranslationCache;
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
+use App\Cache\Implementation\TextLocaleIdentifierImplementation;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
+use App\Doctrine\Entity\TextLocaleIdentifier;
 use App\Library\Util\Environment;
 use App\Library\Util\Util;
 use App\Symfony\Async\StaticAsyncHandler;
@@ -33,22 +35,29 @@ class GoogleCacheableTranslationCenter implements TranslationCenterInterface
      */
     private $googleTranslationCenter;
     /**
+     * @var TextLocaleIdentifierImplementation $textLocaleIdentifierCacheImplementation
+     */
+    private $textLocaleIdentifierCacheImplementation;
+    /**
      * TranslationService constructor.
      * @param GoogleTranslationCenter $googleTranslationCenter
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param LoggerInterface $logger
+     * @param TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation
      * @param Environment $environment
      */
     public function __construct(
         GoogleTranslationCenter $googleTranslationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         LoggerInterface $logger,
-        Environment $environment
+        Environment $environment,
+        TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation
     ) {
         $this->googleTranslationCenter = $googleTranslationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->logger = $logger;
         $this->environment = $environment;
+        $this->textLocaleIdentifierCacheImplementation = $textLocaleIdentifierImplementation;
     }
     /**
      * @param Language $from
@@ -280,10 +289,25 @@ class GoogleCacheableTranslationCenter implements TranslationCenterInterface
     }
     /**
      * @param string $text
+     * @param string|null $possibleLocale
      * @return TranslatedEntryInterface
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function detectLanguage(string $text): TranslatedEntryInterface
+    public function detectLanguage(string $text, string $possibleLocale = null): TranslatedEntryInterface
     {
+        if (is_string($possibleLocale)) {
+            if ($this->textLocaleIdentifierCacheImplementation->isStored($text, $possibleLocale)) {
+                /** @var TextLocaleIdentifier $cacheDetectedLanguage */
+                $cacheDetectedLanguage = $this->textLocaleIdentifierCacheImplementation->getStored(
+                    $text,
+                    $possibleLocale
+                );
+
+                return new Language($cacheDetectedLanguage->getLocale());
+            }
+        }
+
         return $this->googleTranslationCenter->detectLanguage($text);
     }
 

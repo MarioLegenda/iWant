@@ -3,9 +3,11 @@
 namespace App\Translation;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
+use App\Cache\Implementation\TextLocaleIdentifierImplementation;
 use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Doctrine\Entity\ItemTranslationCache;
+use App\Doctrine\Entity\TextLocaleIdentifier;
 use App\Library\Util\Environment;
 use App\Library\Util\Util;
 use App\Symfony\Async\StaticAsyncHandler;
@@ -33,8 +35,13 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
      */
     private $environment;
     /**
+     * @var TextLocaleIdentifierImplementation $textLocaleIdentifierCacheImplementation
+     */
+    private $textLocaleIdentifierCacheImplementation;
+    /**
      * TranslationService constructor.
      * @param YandexTranslationCenter $yandexTranslationCenter
+     * @param TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param LoggerInterface $logger
      * @param Environment $environment
@@ -43,12 +50,14 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
         YandexTranslationCenter $yandexTranslationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         LoggerInterface $logger,
-        Environment $environment
+        Environment $environment,
+        TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation
     ) {
         $this->yandexTranslationCenter = $yandexTranslationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->logger = $logger;
         $this->environment = $environment;
+        $this->textLocaleIdentifierCacheImplementation = $textLocaleIdentifierImplementation;
     }
     /**
      * @param Language $from
@@ -280,12 +289,32 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
     }
     /**
      * @param string $text
+     * @param string|null $possibleLocale
      * @return TranslatedEntryInterface
      * @throws \App\Symfony\Exception\ExternalApiNativeException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function detectLanguage(string $text): TranslatedEntryInterface
+    public function detectLanguage(string $text, string $possibleLocale = null): TranslatedEntryInterface
     {
-        return $this->yandexTranslationCenter->detectLanguage($text);
+        if (is_string($possibleLocale)) {
+            if ($this->textLocaleIdentifierCacheImplementation->isStored($text, $possibleLocale)) {
+                /** @var TextLocaleIdentifier $cacheDetectedLanguage */
+                $cacheDetectedLanguage = $this->textLocaleIdentifierCacheImplementation->getStored(
+                    $text,
+                    $possibleLocale
+                );
+
+                return new Language($cacheDetectedLanguage->getLocale());
+            }
+        }
+
+        /** @var Language $language */
+        $language =  $this->yandexTranslationCenter->detectLanguage($text);
+
+        $this->textLocaleIdentifierCacheImplementation->store($text, (string) $language);
+
+        return $language;
     }
 
     /**

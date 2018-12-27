@@ -44,7 +44,7 @@ class KeywordTranslationCache
     public function get(
         string $original
     ): ?KeywordTranslationCacheEntity {
-        /** @var KeywordTranslationCacheEntity $itemTranslationCache */
+        /** @var KeywordTranslationCacheEntity $keywordTranslationEntity */
         $keywordTranslationEntity = $this->keywordTranslationCacheRepository->findOneBy([
             'original' => $original,
             'languageDirection' => (string) $this->mainLocaleRepresentation
@@ -72,7 +72,7 @@ class KeywordTranslationCache
      */
     public function getByTranslation(string $text): ?KeywordTranslationCacheEntity
     {
-        /** @var KeywordTranslationCacheEntity $itemTranslationCache */
+        /** @var KeywordTranslationCacheEntity $keywordTranslationEntity */
         $keywordTranslationEntity = $this->keywordTranslationCacheRepository->findOneBy([
             'translation' => $text,
         ]);
@@ -87,14 +87,14 @@ class KeywordTranslationCache
      */
     public function getWithoutExpireTime(string $original): ?KeywordTranslationCacheEntity
     {
-        /** @var KeywordTranslationCacheEntity $itemTranslationCache */
+        /** @var KeywordTranslationCacheEntity $keywordTranslationEntity */
         $keywordTranslationEntity = $this->keywordTranslationCacheRepository->findOneBy([
             'original' => $original,
             'languageDirection' => (string) $this->mainLocaleRepresentation
         ]);
 
         return ($keywordTranslationEntity instanceof KeywordTranslationCacheEntity) ?
-            $itemTranslationCache :
+            $keywordTranslationEntity :
             null;
     }
     /**

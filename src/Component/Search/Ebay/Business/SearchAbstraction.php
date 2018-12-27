@@ -4,6 +4,7 @@ namespace App\Component\Search\Ebay\Business;
 
 use App\Cache\Implementation\ItemTranslationCacheImplementation;
 use App\Component\Search\Ebay\Business\ResultsFetcher\FetcherFactory;
+use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
@@ -11,12 +12,14 @@ use App\Component\Search\Ebay\Model\Response\Title;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\TypedRecursion;
 use App\Library\Util\Util;
+use App\Translation\TranslationCenter;
+use App\Translation\TranslationCenterInterface;
 use App\Translation\YandexCacheableTranslationCenter;
 
 class SearchAbstraction
 {
     /**
-     * @var YandexCacheableTranslationCenter $translationCenter
+     * @var TranslationCenterInterface $translationCenter
      */
     private $translationCenter;
     /**
@@ -34,7 +37,7 @@ class SearchAbstraction
 
     public function __construct(
         FetcherFactory $fetcherFactory,
-        YandexCacheableTranslationCenter $translationCenter,
+        TranslationCenter $translationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         PaginationHandler $paginationHandler
     ) {
@@ -43,7 +46,6 @@ class SearchAbstraction
         $this->paginationHandler = $paginationHandler;
         $this->fetcherFactory = $fetcherFactory;
     }
-
     /**
      * @param SearchModelInterface|SearchModel $model
      * @return array
@@ -90,12 +92,20 @@ class SearchAbstraction
             'items' => $this->paginationHandler->paginateListing($listing, $model->getPagination())
         ];
     }
-
+    /**
+     * @param array $listing
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return iterable
+     */
     public function translateListing(array $listing, SearchModelInterface $model): iterable
     {
         return $this->translateSearchResults($listing, $model->getLocale());
     }
-
+    /**
+     * @param array $searchResults
+     * @param string $locale
+     * @return iterable
+     */
     private function translateSearchResults(
         array $searchResults,
         string $locale
