@@ -3,12 +3,11 @@
 namespace App\Web\Controller;
 
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
-use App\App\Presentation\EntryPoint\MarketplaceEntryPoint;
-use App\App\Presentation\EntryPoint\NativeTaxonomyEntryPoint;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
 use App\Library\Util\TypedRecursion;
 use App\Web\Model\Request\ActivityMessage;
@@ -31,10 +30,12 @@ class AppController
     }
     /**
      * @param CountryEntryPoint $countryEntryPoint
+     * @param Environment $environment
      * @return JsonResponse
      */
     public function getCountries(
-        CountryEntryPoint $countryEntryPoint
+        CountryEntryPoint $countryEntryPoint,
+        Environment $environment
     ) {
         /** @var TypedArray $countries */
         $countries = $countryEntryPoint->getCountries();
@@ -53,16 +54,21 @@ class AppController
             $responseData->getStatusCode()
         );
 
-        $response->setCache([
-            'max_age' => 60 * 60 * 24 * 30
-        ]);
+        if ((string) $environment === 'prod') {
+            $response->setCache([
+                'max_age' => 60 * 60 * 24 * 30
+            ]);
+        }
 
         return $response;
     }
     /**
+     * @param Environment $environment
      * @return JsonResponse
      */
-    public function getGlobalIdsInformation(): JsonResponse
+    public function getGlobalIdsInformation(
+        Environment $environment
+    ): JsonResponse
     {
         $globalIds = GlobalIdInformation::instance()->getAll();
 
@@ -80,9 +86,11 @@ class AppController
             $responseData->getStatusCode()
         );
 
-        $response->setCache([
-            'max_age' => 60 * 60 * 24 * 30
-        ]);
+        if ((string) $environment === 'prod') {
+            $response->setCache([
+                'max_age' => 60 * 60 * 24 * 30
+            ]);
+        }
 
         return $response;
     }

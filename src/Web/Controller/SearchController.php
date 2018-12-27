@@ -10,6 +10,7 @@ use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Component\Search\SearchComponent;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
+use App\Library\Util\Environment;
 use App\Web\Library\ApiResponseDataFactory;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,11 +35,13 @@ class SearchController
     /**
      * @param SearchModelInterface|SearchModel $model
      * @param SearchComponent $searchComponent
+     * @param Environment $environment
      * @return JsonResponse
      */
     public function prepareProducts(
         SearchModelInterface $model,
-        SearchComponent $searchComponent
+        SearchComponent $searchComponent,
+        Environment $environment
     ): JsonResponse {
         $searchComponent->saveProducts($model);
         /** @var ApiResponseData $apiResponseData */
@@ -51,15 +54,18 @@ class SearchController
             $apiResponseData->getStatusCode()
         );
 
-        $response->setCache([
-            'max_age' => 60 * 60 * 24
-        ]);
+        if ((string) $environment === 'prod') {
+            $response->setCache([
+                'max_age' => 60 * 60 * 24
+            ]);
+        }
 
         return $response;
     }
     /**
      * @param SearchModelInterface|SearchModel $model
      * @param SearchComponent $searchComponent
+     * @param Environment $environment
      * @return Response
      * @throws \App\Cache\Exception\CacheException
      * @throws \Doctrine\ORM\ORMException
@@ -67,7 +73,8 @@ class SearchController
      */
     public function getProducts(
         SearchModelInterface $model,
-        SearchComponent $searchComponent
+        SearchComponent $searchComponent,
+        Environment $environment
     ): Response {
         $listingInfo = $searchComponent->getProductPaginatedWithInformation($model);
 
@@ -85,9 +92,11 @@ class SearchController
 
         $response->headers->set('Content-Type', 'application/json');
 
-        $response->setCache([
-            'max_age' => 60 * 60 * 24
-        ]);
+        if ((string) $environment === 'prod') {
+            $response->setCache([
+                'max_age' => 60 * 60 * 24
+            ]);
+        }
 
         return $response;
     }
