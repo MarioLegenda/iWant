@@ -3,7 +3,7 @@ import { GridLoader } from '@saeris/vue-spinners'
 export const ItemLoader = {
     template: `
         <div class="ItemLoaderWrapper">
-            <grid-loader :size="30" sizeUnit="px" color="#f44d00"></grid-loader>
+            <grid-loader :size="30" sizeUnit="px" color="#eb1d25"></grid-loader>
         </div>
     `,
     computed: {

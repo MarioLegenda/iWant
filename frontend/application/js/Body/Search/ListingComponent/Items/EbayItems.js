@@ -431,7 +431,7 @@ export const EbayItems = {
                 
                 <div v-if="getEbaySearchListingLoading" id="EbayResultsLoadingId" class="EbayResultsLoading">
                     <div class="GridLoader">
-                         <grid-loader :size="20" sizeUnit="px" color="#f44d00"></grid-loader>
+                         <grid-loader :size="20" sizeUnit="px" color="#eb1d25"></grid-loader>
                     </div>
                     
                     <div class="TextLoader">
