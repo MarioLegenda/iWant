@@ -10,6 +10,7 @@ use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
 use App\Library\Util\TypedRecursion;
+use App\Web\Library\ResponseEnvironmentHandler;
 use App\Web\Model\Request\ActivityMessage;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -30,12 +31,12 @@ class AppController
     }
     /**
      * @param CountryEntryPoint $countryEntryPoint
-     * @param Environment $environment
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
      * @return JsonResponse
      */
     public function getCountries(
         CountryEntryPoint $countryEntryPoint,
-        Environment $environment
+        ResponseEnvironmentHandler $responseEnvironmentHandler
     ) {
         /** @var TypedArray $countries */
         $countries = $countryEntryPoint->getCountries();
@@ -54,22 +55,15 @@ class AppController
             $responseData->getStatusCode()
         );
 
-        if ((string) $environment === 'prod') {
-            $response->setCache([
-                'max_age' => 60 * 60 * 24 * 30
-            ]);
-        }
-
-        return $response;
+        return $responseEnvironmentHandler->handleGetCountries($response);
     }
     /**
-     * @param Environment $environment
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
      * @return JsonResponse
      */
     public function getGlobalIdsInformation(
-        Environment $environment
-    ): JsonResponse
-    {
+        ResponseEnvironmentHandler $responseEnvironmentHandler
+    ): JsonResponse {
         $globalIds = GlobalIdInformation::instance()->getAll();
 
         /** @var ApiResponseData $responseData */
@@ -86,13 +80,7 @@ class AppController
             $responseData->getStatusCode()
         );
 
-        if ((string) $environment === 'prod') {
-            $response->setCache([
-                'max_age' => 60 * 60 * 24 * 30
-            ]);
-        }
-
-        return $response;
+        return $responseEnvironmentHandler->handleGetGlobalIdsInformation($response);
     }
     /**
      * @param ActivityMessage $model

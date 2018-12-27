@@ -5,8 +5,8 @@ namespace App\Web\Controller;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Library\Http\Response\ApiResponseData;
-use App\Library\Util\Environment;
 use App\Web\Library\ApiResponseDataFactory;
+use App\Web\Library\ResponseEnvironmentHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class SingleItemController
@@ -27,7 +27,7 @@ class SingleItemController
     /**
      * @param SingleItemRequestModel $model
      * @param SingleItemEntryPoint $singleItemEntryPoint
-     * @param Environment $environment
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
      * @return JsonResponse
      * @throws \App\Cache\Exception\CacheException
      * @throws \App\Symfony\Exception\ExternalApiNativeException
@@ -38,7 +38,7 @@ class SingleItemController
     public function getSingleItem(
         SingleItemRequestModel $model,
         SingleItemEntryPoint $singleItemEntryPoint,
-        Environment $environment
+        ResponseEnvironmentHandler $responseEnvironmentHandler
     ) {
         $singleItemArray = $singleItemEntryPoint->getSingleItem($model);
 
@@ -60,12 +60,6 @@ class SingleItemController
             $singleItemResponseData->getStatusCode()
         );
 
-        if ((string) $environment === 'prod') {
-            $response->setCache([
-                'max_age' => 60 * 60 * 24
-            ]);
-        }
-
-        return $response;
+        return $responseEnvironmentHandler->handleSingleItemCache($response);
     }
 }

@@ -12,6 +12,7 @@ use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Util\Environment;
 use App\Web\Library\ApiResponseDataFactory;
+use App\Web\Library\ResponseEnvironmentHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -35,13 +36,13 @@ class SearchController
     /**
      * @param SearchModelInterface|SearchModel $model
      * @param SearchComponent $searchComponent
-     * @param Environment $environment
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
      * @return JsonResponse
      */
     public function prepareProducts(
         SearchModelInterface $model,
         SearchComponent $searchComponent,
-        Environment $environment
+        ResponseEnvironmentHandler $responseEnvironmentHandler
     ): JsonResponse {
         $searchComponent->saveProducts($model);
         /** @var ApiResponseData $apiResponseData */
@@ -54,27 +55,18 @@ class SearchController
             $apiResponseData->getStatusCode()
         );
 
-        if ((string) $environment === 'prod') {
-            $response->setCache([
-                'max_age' => 60 * 60 * 24
-            ]);
-        }
-
-        return $response;
+        return $responseEnvironmentHandler->handlePrepareProducts($response);
     }
     /**
-     * @param SearchModelInterface|SearchModel $model
+     * @param SearchModelInterface $model
      * @param SearchComponent $searchComponent
-     * @param Environment $environment
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
      * @return Response
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function getProducts(
         SearchModelInterface $model,
         SearchComponent $searchComponent,
-        Environment $environment
+        ResponseEnvironmentHandler $responseEnvironmentHandler
     ): Response {
         $listingInfo = $searchComponent->getProductPaginatedWithInformation($model);
 
@@ -90,15 +82,7 @@ class SearchController
             $apiResponseData->getStatusCode()
         );
 
-        $response->headers->set('Content-Type', 'application/json');
-
-        if ((string) $environment === 'prod') {
-            $response->setCache([
-                'max_age' => 60 * 60 * 24
-            ]);
-        }
-
-        return $response;
+        return $responseEnvironmentHandler->handleGetProducts($response);
     }
     /**
      * @param SearchModelInterface|SearchModel $model

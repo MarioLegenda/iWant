@@ -9,7 +9,9 @@ use App\App\Presentation\Model\Response\SingleItemOptionsResponse;
 use App\App\Presentation\Model\Response\SingleItemResponseModel;
 use App\Library\Util\Environment;
 use App\Web\Library\ApiResponseDataFactory;
+use App\Web\Library\ResponseEnvironmentHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuickLookSingleItemController
 {
@@ -73,11 +75,20 @@ class QuickLookSingleItemController
             $responseData->getStatusCode()
         );
     }
-
+    /**
+     * @param SingleItemRequestModel $singleItemRequestModel
+     * @param QuickLookEntryPoint $singleItemEntryPoint
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
+     * @return Response
+     * @throws \App\Cache\Exception\CacheException
+     * @throws \App\Symfony\Exception\HttpException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function getSingleItem(
         SingleItemRequestModel $singleItemRequestModel,
         QuickLookEntryPoint $singleItemEntryPoint,
-        Environment $environment
+        ResponseEnvironmentHandler $responseEnvironmentHandler
     ) {
         $singleItemResponseModel = $singleItemEntryPoint->getSingleItem($singleItemRequestModel);
 
@@ -90,10 +101,6 @@ class QuickLookSingleItemController
             $responseData->getStatusCode()
         );
 
-        if ((string) $environment === 'prod') {
-            $response->setCache([
-                'max_age' => 60 * 60 * 24
-            ]);
-        }
+        return $responseEnvironmentHandler->handleQuickLookGetSingleItem($response);
     }
 }
