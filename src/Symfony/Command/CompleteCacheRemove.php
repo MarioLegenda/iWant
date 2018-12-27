@@ -46,7 +46,6 @@ class CompleteCacheRemove extends BaseCommand
             'search_cache',
             'item_translation_cache',
             'single_product_item',
-            'keyword_translation_cache',
         ];
 
         $this->output->writeln('');

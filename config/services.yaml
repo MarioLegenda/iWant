@@ -334,6 +334,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\TextLocaleIdentifierRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:
