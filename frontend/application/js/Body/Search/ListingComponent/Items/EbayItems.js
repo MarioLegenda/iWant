@@ -564,6 +564,8 @@ export const EbayItems = {
             let resolvedCountry = country.name;
             if (country.name === 'United Kingdom of Great Britain and Northern Ireland') {
                 resolvedCountry = 'United Kingdom';
+            } else if (country.name === 'United States of America') {
+                resolvedCountry = 'USA';
             }
 
             return `From ${resolvedCountry}`;
