@@ -28,9 +28,13 @@ class Country implements ArrayNotationInterface
 
         $this->countryInfo = $countryInfo;
     }
-
+    /**
+     * @return iterable
+     */
     public function toArray(): iterable
     {
-        return (empty($this->countryInfo)) ? [] : $this->countryInfo;
+        return (empty($this->countryInfo)) ? ['isAvailable' => $this->isAvailable] : array_merge([
+            'isAvailable' => $this->isAvailable
+        ], $this->countryInfo);
     }
 }

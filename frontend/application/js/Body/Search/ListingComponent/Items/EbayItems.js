@@ -397,7 +397,11 @@ export const EbayItems = {
                         <image-item :url="item.image.url"></image-item>
                     
                         <div class="Row TitleWrapper">
-                            <h1>{{chooseTitle(item.title)}}</h1>
+                            <h1>{{_chooseTitle(item.title)}}</h1>
+                        </div>
+                        
+                        <div class="Row">
+                            <h1>{{_determineCountry(item.country)}}</h1>
                         </div>
                     
                         <div class="Row PriceWrapper">
@@ -517,18 +521,6 @@ export const EbayItems = {
             });
         },
 
-        _generateSingleItemLink: function(item) {
-            const urlify = urlifyFactory.create({
-                addEToUmlauts: true,
-                szToSs: true,
-                spaces: "-",
-                nonPrintable: "-",
-                trim: true
-            });
-
-            return `/${this.$localeInfo.locale}/item/${urlify(item.title.original)}/${item.itemId}`;
-        },
-
         goToSingleItem(item, $event) {
             const urlify = urlifyFactory.create({
                 addEToUmlauts: true,
@@ -552,13 +544,38 @@ export const EbayItems = {
             return false;
         },
 
-        chooseTitle(title) {
+        _generateSingleItemLink: function(item) {
+            const urlify = urlifyFactory.create({
+                addEToUmlauts: true,
+                szToSs: true,
+                spaces: "-",
+                nonPrintable: "-",
+                trim: true
+            });
+
+            return `/${this.$localeInfo.locale}/item/${urlify(item.title.original)}/${item.itemId}`;
+        },
+
+        _determineCountry(country) {
+            if (!country.isAvailable) {
+                return 'Country not specified';
+            }
+
+            let resolvedCountry = country.name;
+            if (country.name === 'United Kingdom of Great Britain and Northern Ireland') {
+                resolvedCountry = 'United Kingdom';
+            }
+
+            return `From ${resolvedCountry}`;
+        },
+
+        _chooseTitle(title) {
             if (this.$viewportDimensions.width < 480) {
                 return title.original;
             }
 
             return title.truncated;
-        }
+        },
     },
     components: {
         'item': Item,

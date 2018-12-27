@@ -60,17 +60,13 @@ class SearchResponseModel implements
      */
     private $shippingLocations;
     /**
-     * @var string|null $country
+     * @var Country|null $country
      */
     private $country;
     /**
      * @var bool $isTranslated
      */
     private $isTranslated = false;
-    /**
-     * @var array $translations
-     */
-    private $translations = [];
     /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
@@ -85,7 +81,7 @@ class SearchResponseModel implements
      * @param string $taxonomyName
      * @param array $shippingLocations
      * @param MarketplaceType|TypeInterface $marketplace
-     * @param string $country
+     * @param Country $country
      */
     public function __construct(
         string $uniqueName,
@@ -117,9 +113,9 @@ class SearchResponseModel implements
         $this->country = $country;
     }
     /**
-     * @return string|null
+     * @return Country|null
      */
-    public function getCountry(): ?string
+    public function getCountry(): ?Country
     {
         return $this->country;
     }
@@ -254,6 +250,7 @@ class SearchResponseModel implements
             'staticUrl' => $this->getStaticUrl(),
             'shippingLocations' => $this->getShippingLocations(),
             'isTranslated' => $this->isTranslated(),
+            'country' => $this->getCountry()->toArray(),
         ];
     }
 }
