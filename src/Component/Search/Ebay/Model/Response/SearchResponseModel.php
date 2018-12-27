@@ -60,6 +60,10 @@ class SearchResponseModel implements
      */
     private $shippingLocations;
     /**
+     * @var string|null $country
+     */
+    private $country;
+    /**
      * @var bool $isTranslated
      */
     private $isTranslated = false;
@@ -81,7 +85,7 @@ class SearchResponseModel implements
      * @param string $taxonomyName
      * @param array $shippingLocations
      * @param MarketplaceType|TypeInterface $marketplace
-     * @param array $translations
+     * @param string $country
      */
     public function __construct(
         string $uniqueName,
@@ -96,7 +100,7 @@ class SearchResponseModel implements
         string $taxonomyName,
         array $shippingLocations,
         string $globalId,
-        array $translations = []
+        ?Country $country
     ) {
         $this->uniqueName = $uniqueName;
         $this->itemId = $itemId;
@@ -110,7 +114,14 @@ class SearchResponseModel implements
         $this->taxonomyName = $taxonomyName;
         $this->marketplace = $marketplace;
         $this->shippingLocations = $shippingLocations;
-        $this->translations = $translations;
+        $this->country = $country;
+    }
+    /**
+     * @return string|null
+     */
+    public function getCountry(): ?string
+    {
+        return $this->country;
     }
     /**
      * @return string

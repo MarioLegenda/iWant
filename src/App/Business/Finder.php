@@ -75,6 +75,19 @@ class Finder
         $this->translationCenter = $translationCenter;
     }
     /**
+     * @param string $code
+     * @return Country|null
+     */
+    public function findByAlpha2Code(string $code): ?Country
+    {
+        /** @var Country|null $country */
+        $country = $this->countryRepository->findOneBy([
+            'alpha2Code' => $code,
+        ]);
+
+        return $country;
+    }
+    /**
      * @return TypedArray
      */
     public function getCountries(): TypedArray

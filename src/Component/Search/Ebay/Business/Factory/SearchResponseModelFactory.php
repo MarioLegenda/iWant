@@ -2,7 +2,9 @@
 
 namespace App\Component\Search\Ebay\Business\Factory;
 
+use App\App\Presentation\EntryPoint\CountryEntryPoint;
 use App\Component\Search\Ebay\Model\Response\BusinessEntity;
+use App\Component\Search\Ebay\Model\Response\Country;
 use App\Component\Search\Ebay\Model\Response\Image;
 use App\Component\Search\Ebay\Model\Response\Nan;
 use App\Component\Search\Ebay\Model\Response\Price;
@@ -12,9 +14,23 @@ use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
+use App\Doctrine\Entity\Country as CountryEntity;
 
 class SearchResponseModelFactory
 {
+    /**
+     * @var CountryEntryPoint $countryEntryPoint
+     */
+    private $countryEntryPoint;
+    /**
+     * SearchResponseModelFactory constructor.
+     * @param CountryEntryPoint $countryEntryPoint
+     */
+    public function __construct(
+        CountryEntryPoint $countryEntryPoint
+    ) {
+        $this->countryEntryPoint = $countryEntryPoint;
+    }
     /**
      * @param string $uniqueName
      * @param string $globalId
@@ -55,6 +71,8 @@ class SearchResponseModelFactory
                 $item->getSellerInfo()
             );
 
+            $country = $this->tryGetCountry($item);
+
             $price = new Price(
                 $item->getSellingStatus()->getCurrentPrice()['currencyId'],
                 $item->getSellingStatus()->getCurrentPrice()['currentPrice']
@@ -83,11 +101,30 @@ class SearchResponseModelFactory
                 $staticUrl,
                 $taxonomyName,
                 $shippingLocations,
-                $globalId
+                $globalId,
+                $country
             );
         }
 
         return $searchResponseModels;
+    }
+    /**
+     * @param Item $item
+     * @return Country|null
+     */
+    private function tryGetCountry(Item $item): ?Country
+    {
+        if (!is_string($item->getCountry())) {
+            return new Country();
+        }
+
+        $countryEntity = $this->countryEntryPoint->findByAlpha2Code($item->getCountry());
+
+        if (!$countryEntity instanceof CountryEntity) {
+            return new Country();
+        }
+
+        return new Country($countryEntity->toArray());
     }
     /**
      * @param string $uniqueName
