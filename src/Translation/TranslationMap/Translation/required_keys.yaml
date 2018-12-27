@@ -1,0 +1,15 @@
+keys:
+  - yes
+  - no
+  - languageChoiceExplanation
+  - searchInputPlaceholder
+  - searchingEbaySites
+  - searchInformation
+  - noItemsFound
+  - searchingEbaySite
+  - loadingSearchResults
+  - quickLook
+  - searchItem
+  - productPage
+  - chooseEbaySite
+  - filters
