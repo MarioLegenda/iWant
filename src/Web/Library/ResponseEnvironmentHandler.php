@@ -117,6 +117,8 @@ class ResponseEnvironmentHandler
             $response->setCache([
                 'max_age' => $this->browserSearchResponseCacheTtl,
             ]);
+
+            return $response;
         }
 
         return $this->addNoCacheIfDevEnv($response);
@@ -131,6 +133,8 @@ class ResponseEnvironmentHandler
             $response->setCache([
                 'max_age' => $this->browserSearchResponseCacheTtl,
             ]);
+
+            return $response;
         }
 
         return $this->addNoCacheIfDevEnv($response);
@@ -145,6 +149,8 @@ class ResponseEnvironmentHandler
             $response->setCache([
                 'max_age' => $this->browserSearchResponseCacheTtl,
             ]);
+
+            return $response;
         }
 
         return $this->addNoCacheIfDevEnv($response);
