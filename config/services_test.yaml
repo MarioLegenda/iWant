@@ -77,11 +77,13 @@ parameters:
     single_item_cache_ttl: 86400
     search_response_cache_ttl: 86400
     item_translation_cache_ttl: 86400
+    shipping_costs_cache_ttl: 86400
     keyword_translation_cache_ttl: 108000
 
     browser_single_item_cache_ttl: 86400
     browser_search_response_cache_ttl: 86400
     browser_item_translation_cache_ttl: 86400
+    browser_shipping_costs_cache_ttl: 86400
     browser_keyword_translation_cache_ttl: 108000
 
 services:
@@ -183,6 +185,10 @@ services:
     App\Cache\Cache\KeywordTranslationCache:
         arguments:
             $cacheTtl: '%keyword_translation_cache_ttl%'
+
+    App\Cache\Cache\ShippingCostsTranslationCache:
+        arguments:
+            $cacheTtl: '%shipping_costs_cache_ttl%'
 
     # DATA PROVIDERS
     App\Tests\Ebay\FindingApi\DataProvider\:

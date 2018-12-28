@@ -18,12 +18,12 @@ use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
 /**
  * @Entity @Table(
- *     name="item_translation_cache",
+ *     name="shipping_costs_translation_cache",
  *     indexes={ @Index(name="item_id_idx", columns={"item_id"}) }
  * )
  * @HasLifecycleCallbacks()
  **/
-class ItemTranslationCache implements ArrayNotationInterface
+class ShippingCostsTranslationCache implements ArrayNotationInterface
 {
     /**
      * @var int $id
