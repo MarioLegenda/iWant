@@ -19,7 +19,6 @@ use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingServiceCost;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
@@ -101,7 +100,7 @@ class Finder
         /** @var FindingApiResponseModelInterface $responseModel */
         $responseModel = $this->createKeywordsModelResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
                 'findItemsByKeywords',
@@ -125,7 +124,7 @@ class Finder
         /** @var FindingApiResponseModelInterface $responseModel */
         $responseModel = $this->createKeywordsModelResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
                 'findItemsAdvanced',
@@ -149,7 +148,7 @@ class Finder
         /** @var GetUserProfileResponse $responseModel */
         $responseModel = $this->createUserProfileResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
                 'GetUserProfile',
@@ -173,7 +172,7 @@ class Finder
         /** @var FindingApiResponseModelInterface $responseModel */
         $responseModel = $this->createKeywordsModelResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
                 'findItemsInEbayStores',
@@ -197,7 +196,7 @@ class Finder
         /** @var GetCategoryInfoResponse $responseModel */
         $responseModel = $this->createCategoryInfoResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
                 'GetCategoryInfo',
@@ -221,7 +220,7 @@ class Finder
         /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->createSingleItemResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
                 'GetSingleItem',
@@ -245,10 +244,10 @@ class Finder
 
         $responseModel = $this->createShippingCostsResponseModel($response->getBody());
 
-        if (!$responseModel->getRoot()->isSuccess()) {
+        if (!$responseModel->getRoot()->isValid()) {
             $this->handleError(
                 $request,
-                'GetSingleItem',
+                'GetShippingCosts',
                 $response,
                 $responseModel
             );

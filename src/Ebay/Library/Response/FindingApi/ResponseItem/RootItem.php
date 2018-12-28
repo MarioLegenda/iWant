@@ -96,6 +96,20 @@ class RootItem extends AbstractItem implements
         return strtolower($this->getAck()) === 'success';
     }
     /**
+     * @return bool
+     */
+    public function isWarning(): bool
+    {
+        return strtolower($this->getAck()) === 'warning';
+    }
+    /**
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return $this->isSuccess() or $this->isWarning();
+    }
+    /**
      * @return array
      */
     public function toArray(): array

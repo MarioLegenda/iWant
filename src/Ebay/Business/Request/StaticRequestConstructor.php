@@ -3,16 +3,13 @@
 namespace App\Ebay\Business\Request;
 
 use App\Ebay\Presentation\Model\Query as EbayQuery;
-use App\Etsy\Presentation\Model\Query as EtsyQuery;
-use App\Etsy\Library\Type\MethodType;
-use App\Etsy\Presentation\Model\EtsyApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Presentation\ShoppingApi\Model\GetSingleItem;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
-use App\Etsy\Presentation\Model\ItemFilterModel;
+use App\Ebay\Presentation\ShoppingApi\Model\GetShippingCosts;
 
 class StaticRequestConstructor
 {
@@ -53,27 +50,43 @@ class StaticRequestConstructor
         return new ShoppingApiModel($callType, $itemFilters);
     }
     /**
-     * @param string $listingId
-     * @return EtsyApiModel
+     * @param string $itemId
+     * @param string $destinationCountryCode
+     * @return ShoppingApiModel
      */
-    public static function createEtsySingleItemRequest(string $listingId)
-    {
-        $methodType = MethodType::fromKey('getListing');
-
-        $queries = TypedArray::create('integer', EtsyQuery::class);
-
-        $listingIdQuery = new EtsyQuery(sprintf('/listings/%s?', $listingId));
-
-        $queries[] = $listingIdQuery;
-
-        $itemFilters = TypedArray::create('integer', ItemFilterModel::class);
-
-        $model = new EtsyApiModel(
-            $methodType,
-            $itemFilters,
-            $queries
+    public static function createEbayShippingCostsItemRequest(
+        string $itemId,
+        string $destinationCountryCode
+    ): ShoppingApiModel {
+        $callname = new EbayQuery(
+            'callname',
+            'GetShippingCosts'
         );
 
-        return $model;
+        $itemId = new EbayQuery(
+            'ItemID',
+            $itemId
+        );
+
+        $destinationCountryCode = new EbayQuery(
+            'DestinationCountryCode',
+            $destinationCountryCode
+        );
+
+        $includeDetails = new EbayQuery(
+            'IncludeDetails',
+            'true'
+        );
+
+        $queries = TypedArray::create('integer', EbayQuery::class);
+
+        $queries[] = $callname;
+        $queries[] = $itemId;
+        $queries[] = $destinationCountryCode;
+        $queries[] = $includeDetails;
+
+        $getShippingCosts = new GetShippingCosts($queries);
+
+        return new ShoppingApiModel($getShippingCosts);
     }
 }

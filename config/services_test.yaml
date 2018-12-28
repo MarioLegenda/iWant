@@ -105,7 +105,7 @@ services:
 
     App\App\:
         resource: '../src/App/*'
-        exclude: '../src/App/{Presentation/Model/*}'
+        exclude: '../src/App/{Presentation/Model/*,Business/Middleware/MiddlewareResult.php}'
 
     App\App\Business\Finder:
         arguments:

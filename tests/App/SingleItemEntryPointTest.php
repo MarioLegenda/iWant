@@ -28,4 +28,22 @@ class SingleItemEntryPointTest extends BasicSetup
         static::assertNotEmpty($singleItemArray);
         static::assertInternalType('array', $singleItemArray);
     }
+
+    public function test_get_shipping_costs_for_item()
+    {
+        /** @var SingleItemEntryPoint $singleItemEntryPoint */
+        $singleItemEntryPoint = $this->locator->get(SingleItemEntryPoint::class);
+
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.app');
+
+        /** @var SingleItemRequestModel $singleItemRequestModel */
+        $singleItemRequestModel = $dataProvider->createItemShippingCostsRequestModel(
+            '264037155079',
+            'en',
+            'IE'
+        );
+
+        $singleItemEntryPoint->getShippingCostsForItem($singleItemRequestModel);
+    }
 }
