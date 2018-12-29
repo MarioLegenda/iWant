@@ -3,6 +3,7 @@ import {ActionNameValueContainer} from "./ActionNameValueContainer";
 import {NameValueContainer} from "./NameValueContainer";
 import {DescriptionContainer} from "./DescriptionContainer";
 import {ItemLoader} from "./ItemLoader";
+import {ShippingDetails} from "./ShippingDetails";
 
 
 export const SingleItem = {
@@ -16,7 +17,7 @@ export const SingleItem = {
                     <item-loader v-if="item === null"></item-loader>
                     
                     <div v-if="item" class="SingleItem">
-                    
+                                
                         <div class="Panel RightPanel">
                             <div class="Row TitleWrapper">
                                 <h1 class="Title">{{item.title}}</h1>
@@ -101,6 +102,8 @@ export const SingleItem = {
                             
                             <description-container v-bind:description="item.description"></description-container>
                         </div>
+                        
+                        <shipping-details :item-id="item.itemId"></shipping-details>
                     </div>
 
                </div></transition>`,
@@ -135,13 +138,7 @@ export const SingleItem = {
     },
     methods: {
         showShippingDetails() {
-            this.$repository.SingleItemRepository.getShippingCosts({
-                itemId: this.item.itemId,
-                locale: this.$localeInfo.locale,
-                destinationCountryCode: 'IE',
-            }, (r) => {
-                console.log(r);
-            });
+            this.$modal.show('shipping-details-modal');
         },
 
         parsePictureUrl(pictureUrl) {
@@ -170,5 +167,6 @@ export const SingleItem = {
         'name-value-container': NameValueContainer,
         'description-container': DescriptionContainer,
         'item-loader': ItemLoader,
+        'shipping-details': ShippingDetails,
     }
 };

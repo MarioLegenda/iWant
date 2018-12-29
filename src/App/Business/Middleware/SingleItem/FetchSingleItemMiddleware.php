@@ -60,7 +60,7 @@ class FetchSingleItemMiddleware implements MiddlewareEntryInterface
         array $parameters = null
     ): MiddlewareResultInterface {
         if ($middlewareResult->isFulfilled()) {
-            return new MiddlewareResult($middlewareResult->getResult(), false);
+            return new MiddlewareResult($middlewareResult->getResult(), true);
         }
 
         /** @var SingleItemRequestModel $model */
@@ -73,7 +73,7 @@ class FetchSingleItemMiddleware implements MiddlewareEntryInterface
         $responseModel = $this->shoppingApiEntryPoint->getSingleItem($requestModel);
 
         if (!$responseModel->getRoot()->isValid()) {
-            return null;
+            return new MiddlewareResult(null, false);
         }
 
         $singleItemArray = $responseModel->getSingleItem()->toArray();

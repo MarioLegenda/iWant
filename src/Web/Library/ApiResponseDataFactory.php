@@ -41,7 +41,10 @@ class ApiResponseDataFactory
             ->setStatusCode(404)
             ->build();
     }
-
+    /**
+     * @param array $data
+     * @return ApiResponseData
+     */
     public function createOptionsForProductsListing(array $data): ApiResponseData
     {
         return $this->apiSdk

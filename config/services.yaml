@@ -61,7 +61,7 @@ parameters:
             response_encoding: responseencoding
         params:
             app_id: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
-            version: "1063"
+            version: "1081"
             response_encoding: XML
 
     amazon_product_advertising_api_metadata:

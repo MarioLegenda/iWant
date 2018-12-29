@@ -6,9 +6,13 @@ use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Library\Http\Response\ApiResponseData;
+use App\Library\Result\EmptyResult;
+use App\Library\Result\NullResult;
+use App\Library\Result\ResultInterface;
 use App\Web\Library\ApiResponseDataFactory;
 use App\Web\Library\ResponseEnvironmentHandler;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class SingleItemController
 {
@@ -35,21 +39,22 @@ class SingleItemController
         SingleItemRequestModel $model,
         SingleItemEntryPoint $singleItemEntryPoint,
         ResponseEnvironmentHandler $responseEnvironmentHandler
-    ) {
-        $singleItemArray = $singleItemEntryPoint->getSingleItem($model);
+    ): Response {
+        /** @var ResultInterface $result */
+        $result = $singleItemEntryPoint->getSingleItem($model);
 
-        if (is_null($singleItemArray)) {
+        if ($result instanceof EmptyResult or $result instanceof NullResult) {
             /** @var ApiResponseData $response404 */
             $response404 = $this->apiResponseDataFactory->create404Response();
 
             return new JsonResponse(
-                $response404->getData(),
+                $response404->toArray(),
                 $response404->getStatusCode()
             );
         }
 
         /** @var ApiResponseData $singleItemResponseData */
-        $singleItemResponseData = $this->apiResponseDataFactory->createSingleItemGetResponseData($singleItemArray);
+        $singleItemResponseData = $this->apiResponseDataFactory->createSingleItemGetResponseData($result->getResult());
 
         $response = new JsonResponse(
             $singleItemResponseData->toArray(),
@@ -68,20 +73,21 @@ class SingleItemController
         ItemShippingCostsRequestModel $model,
         SingleItemEntryPoint $singleItemEntryPoint,
         ResponseEnvironmentHandler $responseEnvironmentHandler
-    ) {
-        $shippingCosts = $singleItemEntryPoint->getShippingCostsForItem($model);
+    ): Response {
+        /** @var ResultInterface $result */
+        $result = $singleItemEntryPoint->getShippingCostsForItem($model);
 
-        if (is_null($shippingCosts)) {
+        if ($result instanceof EmptyResult or $result instanceof NullResult) {
             /** @var ApiResponseData $response404 */
             $response404 = $this->apiResponseDataFactory->create404Response();
 
             return new JsonResponse(
-                $response404->getData(),
+                $response404->toArray(),
                 $response404->getStatusCode()
             );
         }
 
-        $shippingCostsResponseData = $this->apiResponseDataFactory->createShippingCostsResponseData($shippingCosts);
+        $shippingCostsResponseData = $this->apiResponseDataFactory->createShippingCostsResponseData($result->getResult());
 
         $response = new JsonResponse(
             $shippingCostsResponseData->toArray(),

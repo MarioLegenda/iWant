@@ -5,6 +5,8 @@ namespace App\Tests\App;
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
 use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
+use App\Library\Result\Result;
+use App\Library\Result\ResultInterface;
 use App\Tests\App\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
 
@@ -24,10 +26,11 @@ class SingleItemEntryPointTest extends BasicSetup
             'en'
         );
 
-        $singleItemArray = $singleItemEntryPoint->getSingleItem($singleItemRequestModel);
+        /** @var ResultInterface $result */
+        $result = $singleItemEntryPoint->getSingleItem($singleItemRequestModel);
 
-        static::assertNotEmpty($singleItemArray);
-        static::assertInternalType('array', $singleItemArray);
+        static::assertInstanceOf(Result::class, $result);
+        static::assertNotEmpty($result->getResult());
     }
 
     public function test_get_shipping_costs_for_item()
@@ -45,9 +48,9 @@ class SingleItemEntryPointTest extends BasicSetup
             'IE'
         );
 
-        $resultArray = $singleItemEntryPoint->getShippingCostsForItem($itemShippingCostsRequestModel);
+        $result = $singleItemEntryPoint->getShippingCostsForItem($itemShippingCostsRequestModel);
 
-        static::assertNotEmpty($resultArray);
-        static::assertInternalType('array', $resultArray);
+        static::assertInstanceOf(Result::class, $result);
+        static::assertNotEmpty($result->getResult());
     }
 }

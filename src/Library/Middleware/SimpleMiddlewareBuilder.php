@@ -2,6 +2,7 @@
 
 namespace App\Library\Middleware;
 
+use App\App\Business\Middleware\MiddlewareResult;
 use App\Library\Util\Util;
 
 class SimpleMiddlewareBuilder
@@ -49,7 +50,7 @@ class SimpleMiddlewareBuilder
     /**
      * @return array
      */
-    public function run(): array
+    public function run(): ?array
     {
         $stackGen = Util::createGenerator($this->stack);
 
@@ -63,8 +64,14 @@ class SimpleMiddlewareBuilder
             $previousResult = $item->handle($previousResult, $this->globalParameters);
         }
 
-        if ($previousResult === null) {
-            return [];
+        if (is_null($previousResult)) {
+            return null;
+        }
+
+        if ($previousResult instanceof MiddlewareResult) {
+            if (!$previousResult->isFulfilled()) {
+                return null;
+            }
         }
 
         return $previousResult->getResult();

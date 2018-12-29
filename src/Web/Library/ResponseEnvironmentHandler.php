@@ -51,7 +51,7 @@ class ResponseEnvironmentHandler
     }
     /**
      * @param Response $response
-     * @return Response
+     * @return Response|JsonResponse
      */
     public function handleShippingResponseCache(Response $response): Response
     {

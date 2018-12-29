@@ -1,0 +1,35 @@
+.ShippingDetailsImplementation {
+  width: 100%;
+  overflow: hidden;
+
+  padding: 30px;
+
+  .ActionContainer {
+    width: 100%;
+    overflow: hidden;
+
+    padding-bottom: 10px;
+
+    border-bottom: 1px solid $lightestGray;
+
+    .SelectCountryContainer {
+      .TextArea {
+        display: inline-block;
+        float: left;
+      }
+
+      .SelectArea {
+        width: 180px;
+        float: left;
+
+        margin-left: 20px;
+
+        font-family: $mainFont;
+        font-size: 1em;
+
+        background-color: white;
+        border: 1px solid $lightestGray;
+      }
+    }
+  }
+}

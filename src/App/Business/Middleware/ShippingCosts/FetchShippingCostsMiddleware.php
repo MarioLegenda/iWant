@@ -60,11 +60,11 @@ class FetchShippingCostsMiddleware implements MiddlewareEntryInterface
             $model->getDestinationCountryCode()
         );
 
-        /** @var GetShippingCostsResponse $getShippingCostsResponse */
-        $getShippingCostsResponse = $this->shoppingApiEntryPoint->getShippingCosts($shoppingApiModel);
-
-        if (!$getShippingCostsResponse->getRoot()->isValid()) {
-            return null;
+        try {
+            /** @var GetShippingCostsResponse $getShippingCostsResponse */
+            $getShippingCostsResponse = $this->shoppingApiEntryPoint->getShippingCosts($shoppingApiModel);
+        } catch (\Exception $e) {
+            return new MiddlewareResult(null, false);
         }
 
         $resultArray = [

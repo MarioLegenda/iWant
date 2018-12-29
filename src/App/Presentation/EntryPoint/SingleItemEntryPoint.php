@@ -7,6 +7,8 @@ use App\App\Business\Middleware\ShippingCosts\ResolvedMiddleware as ShippingCost
 use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Library\Middleware\SimpleMiddlewareBuilder;
+use App\Library\Result\ResultFactory;
+use App\Library\Result\ResultInterface;
 
 class SingleItemEntryPoint
 {
@@ -32,28 +34,32 @@ class SingleItemEntryPoint
     }
     /**
      * @param SingleItemRequestModel $model
-     * @return iterable
+     * @return ResultInterface
      */
-    public function getSingleItem(SingleItemRequestModel $model): iterable
+    public function getSingleItem(SingleItemRequestModel $model): ResultInterface
     {
         $parameters = ['model' => $model];
 
-        return SimpleMiddlewareBuilder::instance($parameters)
+        $result = SimpleMiddlewareBuilder::instance($parameters)
             ->add($this->singleItemResolvedMiddleware->getAlreadyCachedMiddleware())
             ->add($this->singleItemResolvedMiddleware->getFetchSingleItemMiddleware())
             ->run();
+
+        return ResultFactory::createResult($result);
     }
     /**
      * @param ItemShippingCostsRequestModel $itemShippingCostsRequestModel
-     * @return array
+     * @return ResultInterface
      */
-    public function getShippingCostsForItem(ItemShippingCostsRequestModel $itemShippingCostsRequestModel): iterable
+    public function getShippingCostsForItem(ItemShippingCostsRequestModel $itemShippingCostsRequestModel): ResultInterface
     {
         $parameters = ['model' => $itemShippingCostsRequestModel];
 
-        return SimpleMiddlewareBuilder::instance($parameters)
+        $result = SimpleMiddlewareBuilder::instance($parameters)
             ->add($this->shippingCostsResolvedMiddleware->getAlreadyCachedMiddleware())
             ->add($this->shippingCostsResolvedMiddleware->getFetchShippingCostsMiddleware())
             ->run();
+
+        return ResultFactory::createResult($result);
     }
 }
