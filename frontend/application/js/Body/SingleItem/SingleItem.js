@@ -39,7 +39,7 @@ export const SingleItem = {
                             </div>
                             
                             <div class="Row ShippingOptionsWrapper">
-                                <button>{{translationsMap.productPage.viewShippingDetails}}<i class="fas fa-truck"></i></button>
+                                <button @click="showShippingDetails">{{translationsMap.productPage.viewShippingDetails}}<i class="fas fa-truck"></i></button>
                             </div>
                             
                             <div class="CenterPanel Border"></div>
@@ -134,6 +134,16 @@ export const SingleItem = {
         }
     },
     methods: {
+        showShippingDetails() {
+            this.$repository.SingleItemRepository.getShippingCosts({
+                itemId: this.item.itemId,
+                locale: this.$localeInfo.locale,
+                destinationCountryCode: 'IE',
+            }, (r) => {
+                console.log(r);
+            });
+        },
+
         parsePictureUrl(pictureUrl) {
             if (pictureUrl !== null && typeof pictureUrl !== 'undefined') {
                 const regex = /\$_\d+/g;

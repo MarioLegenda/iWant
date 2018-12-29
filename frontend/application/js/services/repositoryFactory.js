@@ -167,6 +167,21 @@ class SingleItemRepository extends Repository {
             .then(success)
             .catch(Repository.errorHandler);
     }
+
+    getShippingCosts(data, success, error) {
+        const route = routes.createRouteFromName('app_get_shipping_costs', data);
+
+        return fetch(route, {
+            method: 'GET',
+            headers: requiredHeaders,
+        })
+            .then(checkStatus)
+            .then((response) => {
+                return response.json();
+            })
+            .then(success)
+            .catch(Repository.errorHandler);
+    }
 }
 
 export class RepositoryFactory {

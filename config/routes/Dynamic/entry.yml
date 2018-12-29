@@ -50,4 +50,5 @@ app_get_single_item:
 
 app_get_shipping_costs:
   path: /ebay/get-shipping-costs/{locale}/{itemId}/{destinationCountryCode}
-  controller:
+  controller: App\Web\Controller\SingleItemController:getShippingCosts
+  methods: [GET]
