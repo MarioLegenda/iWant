@@ -19,7 +19,6 @@ class GetShippingCostsResponse extends BaseResponse
         parent::__construct($xmlString);
 
         $this->responseItems['shippingCostsSummary'] = null;
-        $this->responseItems['importCharge'] = null;
         $this->responseItems['eligibleForPickupInStore'] = null;
         $this->responseItems['shippingDetails'] = null;
     }
@@ -83,6 +82,7 @@ class GetShippingCostsResponse extends BaseResponse
             'rootItem' => $this->getRoot()->toArray(),
             'shippingCostsSummary' => ($this->getShippingCostsSummary() instanceof ShippingCostSummary) ? $this->getShippingCostsSummary()->toArray() : null,
             'shippingDetails' => $this->getShippingDetails()->toArray(),
+            'eligibleForPickupInStore' => $this->isEligibleForPickupInStore(),
             'errors' => ($this->getErrors() instanceof ErrorContainer) ?
                 $this->getErrors()->toArray() :
                 null,

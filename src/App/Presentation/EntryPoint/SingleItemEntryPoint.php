@@ -2,27 +2,33 @@
 
 namespace App\App\Presentation\EntryPoint;
 
-use App\App\Business\Middleware\ResolvedMiddleware;
+use App\App\Business\Middleware\SingleItem\ResolvedMiddleware as SingleItemResolvedMiddleware;
+use App\App\Business\Middleware\ShippingCosts\ResolvedMiddleware as ShippingCostsResolvedMiddleware;
 use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
-use App\Ebay\Business\Request\StaticRequestConstructor;
-use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Library\Middleware\SimpleMiddlewareBuilder;
 
 class SingleItemEntryPoint
 {
     /**
-     * @var ResolvedMiddleware $resolvedMiddleware
+     * @var SingleItemResolvedMiddleware $singleItemResolvedMiddleware
      */
-    private $resolvedMiddleware;
+    private $singleItemResolvedMiddleware;
+    /**
+     * @var ShippingCostsResolvedMiddleware $shippingCostsResolvedMiddleware
+     */
+    private $shippingCostsResolvedMiddleware;
     /**
      * SingleItemEntryPoint constructor.
-     * @param ResolvedMiddleware $resolvedMiddleware
+     * @param SingleItemResolvedMiddleware $singleItemResolvedMiddleware
+     * @param ShippingCostsResolvedMiddleware $shippingCostsResolvedMiddleware
      */
     public function __construct(
-        ResolvedMiddleware $resolvedMiddleware
+        SingleItemResolvedMiddleware $singleItemResolvedMiddleware,
+        ShippingCostsResolvedMiddleware $shippingCostsResolvedMiddleware
     ) {
-        $this->resolvedMiddleware = $resolvedMiddleware;
+        $this->singleItemResolvedMiddleware = $singleItemResolvedMiddleware;
+        $this->shippingCostsResolvedMiddleware = $shippingCostsResolvedMiddleware;
     }
     /**
      * @param SingleItemRequestModel $model
@@ -33,21 +39,21 @@ class SingleItemEntryPoint
         $parameters = ['model' => $model];
 
         return SimpleMiddlewareBuilder::instance($parameters)
-            ->add($this->resolvedMiddleware->getAlreadyCachedMiddleware())
-            ->add($this->resolvedMiddleware->getFetchSingleItemMiddleware())
+            ->add($this->singleItemResolvedMiddleware->getAlreadyCachedMiddleware())
+            ->add($this->singleItemResolvedMiddleware->getFetchSingleItemMiddleware())
             ->run();
     }
-
-    public function getShippingCostsForItem(ItemShippingCostsRequestModel $singleItemRequestModel)
+    /**
+     * @param ItemShippingCostsRequestModel $itemShippingCostsRequestModel
+     * @return array
+     */
+    public function getShippingCostsForItem(ItemShippingCostsRequestModel $itemShippingCostsRequestModel): iterable
     {
-        $shoppingApiModel = StaticRequestConstructor::createEbayShippingCostsItemRequest(
-            $singleItemRequestModel->getItemId(),
-            $singleItemRequestModel->getDestinationCountryCode()
-        );
+        $parameters = ['model' => $itemShippingCostsRequestModel];
 
-        /** @var GetShippingCostsResponse $getShippingCostsResponse */
-        $getShippingCostsResponse = $this->shoppingApiEntryPoint->getShippingCosts($shoppingApiModel);
-
-
+        return SimpleMiddlewareBuilder::instance($parameters)
+            ->add($this->shippingCostsResolvedMiddleware->getAlreadyCachedMiddleware())
+            ->add($this->shippingCostsResolvedMiddleware->getFetchShippingCostsMiddleware())
+            ->run();
     }
 }

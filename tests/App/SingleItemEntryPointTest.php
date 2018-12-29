@@ -3,6 +3,7 @@
 namespace App\Tests\App;
 
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Tests\App\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
@@ -37,13 +38,16 @@ class SingleItemEntryPointTest extends BasicSetup
         /** @var DataProvider $dataProvider */
         $dataProvider = $this->locator->get('data_provider.app');
 
-        /** @var SingleItemRequestModel $singleItemRequestModel */
-        $singleItemRequestModel = $dataProvider->createItemShippingCostsRequestModel(
+        /** @var ItemShippingCostsRequestModel $singleItemRequestModel */
+        $itemShippingCostsRequestModel = $dataProvider->createItemShippingCostsRequestModel(
             '264037155079',
             'en',
             'IE'
         );
 
-        $singleItemEntryPoint->getShippingCostsForItem($singleItemRequestModel);
+        $resultArray = $singleItemEntryPoint->getShippingCostsForItem($itemShippingCostsRequestModel);
+
+        static::assertNotEmpty($resultArray);
+        static::assertInternalType('array', $resultArray);
     }
 }

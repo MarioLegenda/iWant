@@ -247,6 +247,10 @@ services:
         arguments:
             $cacheTtl: '%shipping_costs_cache_ttl%'
 
+    App\Cache\Cache\ShippingCostsCache:
+        arguments:
+            $cacheTtl: '%shipping_costs_cache_ttl%'
+
     # SYMFONY
 
     # UTIL
@@ -357,6 +361,10 @@ services:
             $registry: '@doctrine'
 
     App\Doctrine\Repository\ShippingCostsTranslationCacheRepository:
+        arguments:
+            $registry: '@doctrine'
+
+    App\Doctrine\Repository\ShippingCostsItemRepository:
         arguments:
             $registry: '@doctrine'
 

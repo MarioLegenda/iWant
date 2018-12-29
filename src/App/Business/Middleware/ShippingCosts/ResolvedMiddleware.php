@@ -1,10 +1,6 @@
 <?php
 
-namespace App\App\Business\Middleware;
-
-
-use App\App\Business\Middleware\SingleItem\AlreadyCachedMiddleware;
-use App\App\Business\Middleware\SingleItem\FetchSingleItemMiddleware;
+namespace App\App\Business\Middleware\ShippingCosts;
 
 class ResolvedMiddleware
 {
@@ -13,20 +9,20 @@ class ResolvedMiddleware
      */
     private $alreadyCachedMiddleware;
     /**
-     * @var FetchSingleItemMiddleware $fetchSingleItemMiddleware
+     * @var FetchShippingCostsMiddleware $fetchShippingCostsMiddleware
      */
-    private $fetchSingleItemMiddleware;
+    private $fetchShippingCostsMiddleware;
     /**
      * ResolvedMiddleware constructor.
      * @param AlreadyCachedMiddleware $alreadyCachedMiddleware
-     * @param FetchSingleItemMiddleware $fetchSingleItemMiddleware
+     * @param FetchShippingCostsMiddleware $fetchShippingCostsMiddleware
      */
     public function __construct(
         AlreadyCachedMiddleware $alreadyCachedMiddleware,
-        FetchSingleItemMiddleware $fetchSingleItemMiddleware
+        FetchShippingCostsMiddleware $fetchShippingCostsMiddleware
     ) {
         $this->alreadyCachedMiddleware = $alreadyCachedMiddleware;
-        $this->fetchSingleItemMiddleware = $fetchSingleItemMiddleware;
+        $this->fetchShippingCostsMiddleware = $fetchShippingCostsMiddleware;
     }
     /**
      * @return AlreadyCachedMiddleware
@@ -36,10 +32,10 @@ class ResolvedMiddleware
         return $this->alreadyCachedMiddleware;
     }
     /**
-     * @return FetchSingleItemMiddleware
+     * @return FetchShippingCostsMiddleware
      */
-    public function getFetchSingleItemMiddleware(): FetchSingleItemMiddleware
+    public function getFetchShippingCostsMiddleware(): FetchShippingCostsMiddleware
     {
-        return $this->fetchSingleItemMiddleware;
+        return $this->fetchShippingCostsMiddleware;
     }
 }

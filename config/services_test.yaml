@@ -190,6 +190,10 @@ services:
         arguments:
             $cacheTtl: '%shipping_costs_cache_ttl%'
 
+    App\Cache\Cache\ShippingCostsCache:
+        arguments:
+            $cacheTtl: '%shipping_costs_cache_ttl%'
+
     # DATA PROVIDERS
     App\Tests\Ebay\FindingApi\DataProvider\:
         resource: '../tests/Ebay/FindingApi/DataProvider'

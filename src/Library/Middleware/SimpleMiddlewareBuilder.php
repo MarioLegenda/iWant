@@ -7,10 +7,6 @@ use App\Library\Util\Util;
 class SimpleMiddlewareBuilder
 {
     /**
-     * @var SimpleMiddlewareBuilder $instance
-     */
-    private static $instance;
-    /**
      * @var array $stack
      */
     private $stack = [];
@@ -29,9 +25,7 @@ class SimpleMiddlewareBuilder
         array $globalParameters = null,
         bool $newInstance = false
     ): SimpleMiddlewareBuilder {
-        static::$instance = (static::$instance instanceof static) ? static::$instance : new static($globalParameters);
-
-        return static::$instance;
+        return new static($globalParameters);
     }
     /**
      * SimpleMiddlewareBuilder constructor.
