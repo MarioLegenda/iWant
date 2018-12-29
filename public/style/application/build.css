@@ -1625,6 +1625,14 @@ html {
   padding-bottom: 10px;
   border-bottom: 1px solid #d6d6d6;
 }
+.ShippingDetailsImplementation .ActionContainer .ExcludedShippingErrorMessage {
+  width: 100%;
+  float: left;
+  margin: 20px 0 20px 0;
+  padding: 15px;
+  color: #eb1d25;
+  background-color: #f9c7c7;
+}
 .ShippingDetailsImplementation .ActionContainer .SelectCountryContainer .TextArea {
   display: inline-block;
   float: left;

@@ -12,6 +12,16 @@
 
     border-bottom: 1px solid $lightestGray;
 
+    .ExcludedShippingErrorMessage {
+      width: 100%;
+      float: left;
+
+      margin: 20px 0 20px 0;
+      padding: 15px;
+      color: $basicOrange;
+      background-color: #f9c7c7;
+    }
+
     .SelectCountryContainer {
       .TextArea {
         display: inline-block;

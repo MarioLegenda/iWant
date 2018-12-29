@@ -166,6 +166,10 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      */
     private $autoPay;
     /**
+     * @var array|null $excludeShipsToLocations
+     */
+    private $excludeShipsToLocations;
+    /**
      * @return bool
      */
     public function isFixedPrice(): bool
@@ -821,6 +825,28 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
     }
     /**
      * @param null $default
+     * @return array
+     */
+    public function getExcludeShipsToLocations($default = null): array
+    {
+        if ($this->excludeShipsToLocations === null) {
+            if (!empty($this->simpleXml->ExcludeShipToLocation)) {
+                $shipToLocations = $this->simpleXml->ExcludeShipToLocation;
+
+                foreach ($shipToLocations as $location) {
+                    $this->excludeShipsToLocations[] = (string) $location;
+                }
+            }
+        }
+
+        if ($this->excludeShipsToLocations === null and $default !== null) {
+            return $default;
+        }
+
+        return $this->excludeShipsToLocations;
+    }
+    /**
+     * @param null $default
      * @return string
      */
     public function getSite($default = null): string
@@ -951,6 +977,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
             'seller' => $this->getSeller()->toArray(),
             'isFixedPrice' => $this->isFixedPrice(),
             'isAuction' => $this->isAuction(),
+            'excludeShipToLocations' => $this->getExcludeShipsToLocations(),
         ];
     }
 }

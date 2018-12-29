@@ -103,7 +103,11 @@ export const SingleItem = {
                             <description-container v-bind:description="item.description"></description-container>
                         </div>
                         
-                        <shipping-details :item-id="item.itemId"></shipping-details>
+                        <shipping-details 
+                            :item-id="item.itemId"
+                            :ships-to-locations="item.shipsToLocations"
+                            :exclude-ship-to-locations="item.excludeShipToLocations">
+                        </shipping-details>
                     </div>
 
                </div></transition>`,
