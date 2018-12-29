@@ -51,6 +51,22 @@ class ResponseEnvironmentHandler
     }
     /**
      * @param Response $response
+     * @return Response
+     */
+    public function handleShippingResponseCache(Response $response): Response
+    {
+        if ((string) $this->environment === 'prod') {
+            $response->setCache([
+                'max_age' => $this->browserSingleItemCacheTtl,
+            ]);
+
+            return $response;
+        }
+
+        return $this->addNoCacheIfDevEnv($response);
+    }
+    /**
+     * @param Response $response
      * @return Response|JsonResponse
      */
     public function handleSingleItemCache(Response $response): Response

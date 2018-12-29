@@ -283,7 +283,12 @@ services:
     app.symfony.resolver.single_item_request_model:
         class: 'App\Symfony\Resolver\SingleItemRequestModelResolver'
         tags:
-        - { name: controller.argument_value_resolver, priority: 50 }
+            - { name: controller.argument_value_resolver, priority: 50 }
+
+    app.symfony.resolver.shipping_costs_resolver:
+        class: 'App\Symfony\Resolver\ShippingCostsItemResolver'
+        tags:
+            - { name: controller.argument_value_resolver, priority: 50 }
 
     # CONTROLLER
 

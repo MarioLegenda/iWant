@@ -72,8 +72,7 @@ class FetchSingleItemMiddleware implements MiddlewareEntryInterface
         /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->shoppingApiEntryPoint->getSingleItem($requestModel);
 
-        // @TODO Handle the error response with the exception system (maybe)
-        if ($responseModel->isErrorResponse()) {
+        if (!$responseModel->getRoot()->isValid()) {
             return null;
         }
 

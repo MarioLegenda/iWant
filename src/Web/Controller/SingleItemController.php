@@ -3,6 +3,7 @@
 namespace App\Web\Controller;
 
 use App\App\Presentation\EntryPoint\SingleItemEntryPoint;
+use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\App\Presentation\Model\Request\SingleItemRequestModel;
 use App\Library\Http\Response\ApiResponseData;
 use App\Web\Library\ApiResponseDataFactory;
@@ -28,12 +29,7 @@ class SingleItemController
      * @param SingleItemRequestModel $model
      * @param SingleItemEntryPoint $singleItemEntryPoint
      * @param ResponseEnvironmentHandler $responseEnvironmentHandler
-     * @return JsonResponse
-     * @throws \App\Cache\Exception\CacheException
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
-     * @throws \App\Symfony\Exception\HttpException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return JsonResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function getSingleItem(
         SingleItemRequestModel $model,
@@ -61,5 +57,37 @@ class SingleItemController
         );
 
         return $responseEnvironmentHandler->handleSingleItemCache($response);
+    }
+    /**
+     * @param ItemShippingCostsRequestModel $model
+     * @param SingleItemEntryPoint $singleItemEntryPoint
+     * @param ResponseEnvironmentHandler $responseEnvironmentHandler
+     * @return JsonResponse
+     */
+    public function getShippingCosts(
+        ItemShippingCostsRequestModel $model,
+        SingleItemEntryPoint $singleItemEntryPoint,
+        ResponseEnvironmentHandler $responseEnvironmentHandler
+    ) {
+        $shippingCosts = $singleItemEntryPoint->getShippingCostsForItem($model);
+
+        if (is_null($shippingCosts)) {
+            /** @var ApiResponseData $response404 */
+            $response404 = $this->apiResponseDataFactory->create404Response();
+
+            return new JsonResponse(
+                $response404->getData(),
+                $response404->getStatusCode()
+            );
+        }
+
+        $shippingCostsResponseData = $this->apiResponseDataFactory->createShippingCostsResponseData($shippingCosts);
+
+        $response = new JsonResponse(
+            $shippingCostsResponseData->toArray(),
+            $shippingCostsResponseData->getStatusCode()
+        );
+
+        return $responseEnvironmentHandler->handleShippingResponseCache($response);
     }
 }

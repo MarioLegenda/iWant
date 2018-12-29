@@ -63,6 +63,10 @@ class FetchShippingCostsMiddleware implements MiddlewareEntryInterface
         /** @var GetShippingCostsResponse $getShippingCostsResponse */
         $getShippingCostsResponse = $this->shoppingApiEntryPoint->getShippingCosts($shoppingApiModel);
 
+        if (!$getShippingCostsResponse->getRoot()->isValid()) {
+            return null;
+        }
+
         $resultArray = [
             'itemId' => $model->getItemId(),
             'shippingCostsSummary' => $getShippingCostsResponse->getShippingCostsSummary()->toArray(),

@@ -164,4 +164,19 @@ class ApiResponseDataFactory
             ->setStatusCode(200)
             ->build();
     }
+    /**
+     * @param array $resource
+     * @return ApiResponseData
+     */
+    public function createShippingCostsResponseData(
+        array $resource
+    ) {
+        return $this->apiSdk
+            ->create($resource)
+            ->method('GET')
+            ->addMessage('Fetched a shipping costs')
+            ->isResource()
+            ->setStatusCode(200)
+            ->build();
+    }
 }
