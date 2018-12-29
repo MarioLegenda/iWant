@@ -13,16 +13,23 @@ class ResolvedMiddleware
      */
     private $fetchSingleItemMiddleware;
     /**
+     * @var ModifyResultMiddleware $modifyResultMiddleware
+     */
+    private $modifyResultMiddleware;
+    /**
      * ResolvedMiddleware constructor.
      * @param AlreadyCachedMiddleware $alreadyCachedMiddleware
      * @param FetchSingleItemMiddleware $fetchSingleItemMiddleware
+     * @param ModifyResultMiddleware $modifyResultMiddleware
      */
     public function __construct(
         AlreadyCachedMiddleware $alreadyCachedMiddleware,
-        FetchSingleItemMiddleware $fetchSingleItemMiddleware
+        FetchSingleItemMiddleware $fetchSingleItemMiddleware,
+        ModifyResultMiddleware $modifyResultMiddleware
     ) {
         $this->alreadyCachedMiddleware = $alreadyCachedMiddleware;
         $this->fetchSingleItemMiddleware = $fetchSingleItemMiddleware;
+        $this->modifyResultMiddleware = $modifyResultMiddleware;
     }
     /**
      * @return AlreadyCachedMiddleware
@@ -37,5 +44,12 @@ class ResolvedMiddleware
     public function getFetchSingleItemMiddleware(): FetchSingleItemMiddleware
     {
         return $this->fetchSingleItemMiddleware;
+    }
+    /**
+     * @return ModifyResultMiddleware
+     */
+    public function getModifyResultMiddleware(): ModifyResultMiddleware
+    {
+        return $this->modifyResultMiddleware;
     }
 }

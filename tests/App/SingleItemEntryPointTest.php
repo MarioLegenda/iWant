@@ -22,7 +22,7 @@ class SingleItemEntryPointTest extends BasicSetup
 
         /** @var SingleItemRequestModel $singleItemRequestModel */
         $singleItemRequestModel = $dataProvider->createSingleItemRequestModel(
-            '382619664080',
+            '352381131997',
             'en'
         );
 
@@ -43,7 +43,7 @@ class SingleItemEntryPointTest extends BasicSetup
 
         /** @var ItemShippingCostsRequestModel $singleItemRequestModel */
         $itemShippingCostsRequestModel = $dataProvider->createItemShippingCostsRequestModel(
-            '264037155079',
+            '352381131997',
             'en',
             'IE'
         );

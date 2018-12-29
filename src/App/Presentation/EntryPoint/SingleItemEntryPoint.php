@@ -43,6 +43,7 @@ class SingleItemEntryPoint
         $result = SimpleMiddlewareBuilder::instance($parameters)
             ->add($this->singleItemResolvedMiddleware->getAlreadyCachedMiddleware())
             ->add($this->singleItemResolvedMiddleware->getFetchSingleItemMiddleware())
+            ->add($this->singleItemResolvedMiddleware->getModifyResultMiddleware())
             ->run();
 
         return ResultFactory::createResult($result);

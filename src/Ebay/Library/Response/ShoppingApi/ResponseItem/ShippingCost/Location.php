@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost;
 
+use App\Ebay\Library\Information\EbayRegionInformation;
 use App\Ebay\Library\Information\ISO3166CountryCodeInformation;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
@@ -25,15 +26,11 @@ class Location implements ArrayNotationInterface
     private $isUndefined = false;
     /**
      * Location constructor.
-     * @param $location
+     * @param string $location
      */
-    public function __construct($location)
+    public function __construct(string $location)
     {
-        if (ISO3166CountryCodeInformation::instance()->has($location)) {
-            $this->isCountry = true;
-        } else {
-            $this->isUndefined = true;
-        }
+        $this->determineLocationType($location);
 
         $this->location = $location;
     }
@@ -55,5 +52,16 @@ class Location implements ArrayNotationInterface
     public function __toString()
     {
         return $this->location;
+    }
+
+    private function determineLocationType(string $location)
+    {
+        if (ISO3166CountryCodeInformation::instance()->has($location)) {
+            $this->isCountry = true;
+        } else if (EbayRegionInformation::instance()->has($location)) {
+            $this->isRegion = true;
+        } else {
+            $this->isUndefined = true;
+        }
     }
 }
