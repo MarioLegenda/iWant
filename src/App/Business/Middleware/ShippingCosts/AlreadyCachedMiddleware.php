@@ -2,6 +2,7 @@
 
 namespace App\App\Business\Middleware\ShippingCosts;
 
+use App\App\Business\Cache\UniqueShippingCostsIdentifierFactory;
 use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\Cache\Implementation\ShippingCostsCacheImplementation;
 use App\Doctrine\Entity\ShippingCostsItem;
@@ -38,9 +39,11 @@ class AlreadyCachedMiddleware implements MiddlewareEntryInterface
         /** @var ItemShippingCostsRequestModel $model */
         $model = $parameters['model'];
 
-        if ($this->shippingCostsCacheImplementation->isStored($model->getItemId())) {
+        $identifier = UniqueShippingCostsIdentifierFactory::createIdentifier($model);
+
+        if ($this->shippingCostsCacheImplementation->isStored($identifier)) {
             /** @var ShippingCostsItem $shippingCostsItem */
-            $shippingCostsItem = $this->shippingCostsCacheImplementation->getStored($model->getItemId());
+            $shippingCostsItem = $this->shippingCostsCacheImplementation->getStored($identifier);
 
             $shippingCostsArray = json_decode($shippingCostsItem->getResponse(), true);
 

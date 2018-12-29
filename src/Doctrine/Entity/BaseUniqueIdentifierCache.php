@@ -14,10 +14,10 @@ use Doctrine\ORM\Mapping\PreUpdate;
 class BaseUniqueIdentifierCache
 {
     /**
-     * @var string $itemId
+     * @var string $identifier
      * @Column(type="string")
      */
-    protected $itemId;
+    protected $identifier;
     /**
      * @var string $response
      * @Column(type="text")
@@ -45,22 +45,22 @@ class BaseUniqueIdentifierCache
     protected $updatedAt;
     /**
      * BaseUniqueIdentifierCache constructor.
-     * @param string $itemId
+     * @param string $identifier
      * @param string $response
      */
     public function __construct(
-        string $itemId,
+        string $identifier,
         string $response
     ) {
-        $this->itemId = $itemId;
+        $this->identifier = $identifier;
         $this->response = $response;
     }
     /**
      * @return string
      */
-    public function getItemId(): string
+    public function getIdentifier(): string
     {
-        return $this->itemId;
+        return $this->identifier;
     }
     /**
      * @return string

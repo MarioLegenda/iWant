@@ -21,19 +21,20 @@ class ShippingCostsCacheImplementation
         $this->shippingCostsCache = $shippingCostsCache;
     }
     /**
-     * @param string $itemId
+     * @param string $identifier
      * @return bool
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function isStored(string $itemId): bool
+    public function isStored(string $identifier): bool
     {
         /** @var ShippingCostsItem $shippingCostsItem */
-        $shippingCostsItem = $this->shippingCostsCache->get($itemId);
+        $shippingCostsItem = $this->shippingCostsCache->get($identifier);
 
         return $shippingCostsItem instanceof ShippingCostsItem;
     }
     /**
+     * @param string $identifier
      * @param string $itemId
      * @param string $response
      * @return bool
@@ -42,10 +43,12 @@ class ShippingCostsCacheImplementation
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function store(
+        string $identifier,
         string $itemId,
         string $response
     ): bool {
         $this->shippingCostsCache->set(
+            $identifier,
             $itemId,
             $response
         );

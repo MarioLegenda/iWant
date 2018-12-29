@@ -2,10 +2,10 @@
 
 namespace App\App\Business\Middleware\ShippingCosts;
 
+use App\App\Business\Cache\UniqueShippingCostsIdentifierFactory;
 use App\App\Business\Middleware\MiddlewareResult;
 use App\App\Presentation\Model\Request\ItemShippingCostsRequestModel;
 use App\Cache\Implementation\ShippingCostsCacheImplementation;
-use App\Cache\Implementation\ShippingCostsTranslationCacheImplementation;
 use App\Ebay\Business\Request\StaticRequestConstructor;
 use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Ebay\Presentation\ShoppingApi\EntryPoint\ShoppingApiEntryPoint;
@@ -75,6 +75,7 @@ class FetchShippingCostsMiddleware implements MiddlewareEntryInterface
         ];
 
         $this->shippingCostsCacheImplementation->store(
+            UniqueShippingCostsIdentifierFactory::createIdentifier($model),
             $model->getItemId(),
             jsonEncodeWithFix($resultArray)
         );

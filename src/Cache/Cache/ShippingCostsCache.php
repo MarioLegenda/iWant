@@ -30,19 +30,19 @@ class ShippingCostsCache
         $this->cacheTtl = $cacheTtl;
     }
     /**
-     * @param string $itemId
+     * @param string $identifier
      * @param null $default
      * @return ShippingCostsItem|null
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function get(
-        string $itemId,
+        string $identifier,
         $default = null
     ): ?ShippingCostsItem {
         /** @var ShippingCostsItem $shippingCostsItem */
         $shippingCostsItem = $this->shippingCostItemRepository->findOneBy([
-            'itemId' => $itemId
+            'identifier' => $identifier
         ]);
 
         if ($shippingCostsItem instanceof ShippingCostsItem) {
@@ -64,6 +64,7 @@ class ShippingCostsCache
             null;
     }
     /**
+     * @param string $identifier
      * @param string $itemId
      * @param string $response
      * @throws CacheException
@@ -71,10 +72,12 @@ class ShippingCostsCache
      * @throws \Doctrine\ORM\OptimisticLockException
      */
     public function set(
+        string $identifier,
         string $itemId,
         string $response
     ) {
         $cache = $this->createShippingCostsItem(
+            $identifier,
             $itemId,
             $response,
             Util::toDateTime()->getTimestamp() + $this->cacheTtl
@@ -84,16 +87,16 @@ class ShippingCostsCache
 
     }
     /**
-     * @param string $itemId
+     * @param string $identifier
      * @return bool
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function delete(string $itemId): bool
+    public function delete(string $identifier): bool
     {
         /** @var ShippingCostsItem $singleProductItem */
         $shippingCostsItem = $this->shippingCostItemRepository->findOneBy([
-            'itemId' => $itemId,
+            'identifier' => $identifier,
         ]);
 
         if ($shippingCostsItem instanceof ShippingCostsItem) {
@@ -119,17 +122,20 @@ class ShippingCostsCache
         return true;
     }
     /**
+     * @param string $identifier
      * @param string $itemId
      * @param string $response
      * @param int $expiresAt
      * @return ShippingCostsItem
      */
     private function createShippingCostsItem(
+        string $identifier,
         string $itemId,
         string $response,
         int $expiresAt
     ): ShippingCostsItem {
         return new ShippingCostsItem(
+            $identifier,
             $itemId,
             $response,
             $expiresAt

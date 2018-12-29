@@ -43,7 +43,7 @@ class SingleProductItemCache
     ): ?SingleProductItem {
         /** @var SingleProductItem $singleProductItem */
         $singleProductItem = $this->singleProductItemRepository->findOneBy([
-            'itemId' => $itemId
+            'identifier' => $itemId
         ]);
 
         if ($singleProductItem instanceof SingleProductItem) {
@@ -97,7 +97,7 @@ class SingleProductItemCache
     {
         /** @var SingleProductItem $singleProductItem */
         $singleProductItem = $this->singleProductItemRepository->findOneBy([
-            'itemId' => $itemId,
+            'identifier' => $itemId,
         ]);
 
         if ($singleProductItem instanceof SingleProductItem) {

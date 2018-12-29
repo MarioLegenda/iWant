@@ -11,10 +11,12 @@ use Doctrine\ORM\Mapping\HasLifecycleCallbacks;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\Table;
 use App\Library\Util\Util;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @Entity @Table(
- *     name="single_product_item"
+ *     name="single_product_item",
+ *     uniqueConstraints={ @UniqueConstraint(columns={"identifier"}) }
  * )
  * @HasLifecycleCallbacks()
  **/
@@ -33,18 +35,18 @@ class SingleProductItem extends BaseUniqueIdentifierCache implements ArrayNotati
     private $marketplace;
     /**
      * SingleProductItem constructor.
-     * @param string $itemId
+     * @param string $identifier
      * @param string $response
      * @param MarketplaceType $marketplace
      * @param int $expiresAt
      */
     public function __construct(
-        string $itemId,
+        string $identifier,
         string $response,
         MarketplaceType $marketplace,
         int $expiresAt
     ) {
-        parent::__construct($itemId, $response);
+        parent::__construct($identifier, $response);
 
         $this->marketplace = (string) $marketplace;
         $this->expiresAt = $expiresAt;
@@ -62,7 +64,8 @@ class SingleProductItem extends BaseUniqueIdentifierCache implements ArrayNotati
     public function toArray(): iterable
     {
         return [
-            'itemId' => $this->getItemId(),
+            'itemId' => $this->getIdentifier(),
+            'identifier' => $this->getIdentifier(),
             'response' => json_decode($this->getResponse(), true),
             'createdAt' => Util::formatFromDate($this->getCreatedAt()),
             'updatedAt' => Util::formatFromDate($this->getUpdatedAt()),
