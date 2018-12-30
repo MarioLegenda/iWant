@@ -73,7 +73,7 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->shippingServiceOption === null) {
             if (!empty($this->simpleXml->ShippingServiceOption)) {
-                $this->shippingServiceOption = new SalesTax($this->simpleXml->ShippingServiceOption);
+                $this->shippingServiceOption = new ShippingServiceOption($this->simpleXml->ShippingServiceOption);
             }
         }
 

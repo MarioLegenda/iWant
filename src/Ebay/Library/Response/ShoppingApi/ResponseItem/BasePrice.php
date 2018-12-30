@@ -16,7 +16,7 @@ class BasePrice extends AbstractItem implements ArrayNotationInterface
     protected $price;
     /**
      * @param null $default
-     * @return string
+     * @return float
      */
     public function getCurrencyId($default = null): string
     {
@@ -34,13 +34,13 @@ class BasePrice extends AbstractItem implements ArrayNotationInterface
     }
     /**
      * @param null $default
-     * @return string
+     * @return float
      */
-    public function getPrice($default = null): string
+    public function getPrice($default = null): float
     {
         if (is_null($this->price)) {
             if (!empty($this->simpleXml)) {
-                $this->price = (string) $this->simpleXml;
+                $this->price = to_float($this->simpleXml);
             }
         }
 

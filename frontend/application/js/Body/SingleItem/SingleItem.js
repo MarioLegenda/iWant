@@ -28,7 +28,7 @@ export const SingleItem = {
                             </div>
                             
                             <div class="Row PriceWrapper">
-                                <price 
+                                <price
                                     v-bind:currency="item.priceInfo.convertedCurrentPriceId"
                                     v-bind:price="item.priceInfo.convertedCurrentPrice" >
                                 </price>
@@ -45,43 +45,55 @@ export const SingleItem = {
                             
                             <div class="CenterPanel Border"></div>
                             
-                            <name-value-container
-                                v-bind:name="translationsMap.productPage.endsOn"
-                                v-bind:value="item.endTime | userFriendlyDate">
-                            </name-value-container>
+                            <div class="NameValueContainerWrapper">
+                                <name-value-container
+                                    v-bind:name="translationsMap.productPage.endsOn"
+                                    v-bind:value="item.endTime | userFriendlyDate">
+                                </name-value-container>
+                            </div>
                             
-                            <name-value-container
-                                v-bind:name="translationsMap.productPage.isAuction"
-                                v-bind:value="item.isAuction ? translationsMap.yes : translationsMap.no">
-                            </name-value-container>
+                            <div class="NameValueContainerWrapper">
+                                <name-value-container
+                                    v-bind:name="translationsMap.productPage.isAuction"
+                                    v-bind:value="item.isAuction ? translationsMap.yes : translationsMap.no">
+                                </name-value-container>
+                            </div>
                             
-                            <name-value-container
-                                v-bind:name="translationsMap.productPage.handlingTime"
-                                v-bind:value="translationsMap.productPage.handlingTimeDescription | replace(item.handlingTime)">
-                            </name-value-container>
+                            <div class="NameValueContainerWrapper">
+                                <name-value-container
+                                    v-bind:name="translationsMap.productPage.handlingTime"
+                                    v-bind:value="translationsMap.productPage.handlingTimeDescription | replace(item.handlingTime)">
+                                </name-value-container>
+                            </div>
                             
-                            <name-value-container
-                                v-bind:name="translationsMap.productPage.condition"
-                                v-bind:value="item.conditionDisplayName">
-                            </name-value-container>
+                            <div class="NameValueContainerWrapper">
+                                <name-value-container
+                                    v-bind:name="translationsMap.productPage.condition"
+                                    v-bind:value="item.conditionDisplayName">
+                                </name-value-container>
+                            </div>
                             
-                            <action-name-value-container 
-                                v-bind:name="translationsMap.productPage.requiresImmediatePayment"
-                                v-bind:value="(item.autoPay === true) ? translationsMap.yes : translationsMap.no"
-                                :description="translationsMap.productPage.requiresImmediatePaymentExplanation">
-                            </action-name-value-container>
+                            <div class="NameValueContainerWrapper">
+                                <action-name-value-container 
+                                    v-bind:name="translationsMap.productPage.requiresImmediatePayment"
+                                    v-bind:value="(item.autoPay === true) ? translationsMap.yes : translationsMap.no"
+                                    :description="translationsMap.productPage.requiresImmediatePaymentExplanation">
+                                </action-name-value-container>
+                            </div>
                             
-                            <action-name-value-container
-                                v-bind:name="translationsMap.productPage.bestOfferFeatureEnabled"
-                                v-bind:value="(item.bestOfferEnabled === true) ? translationsMap.yes : translationsMap.no"
-                                v-bind:description="false">
+                            <div class="NameValueContainerWrapper">
+                                <action-name-value-container
+                                    v-bind:name="translationsMap.productPage.bestOfferFeatureEnabled"
+                                    v-bind:value="(item.bestOfferEnabled === true) ? translationsMap.yes : translationsMap.no"
+                                    v-bind:description="false">
                                 
-                                <div slot="description">
-                                    <p class="NameValueDescription">{{translationsMap.productPage.bestOfferFeatureExplanation_1}}</p>
-                                    <p class="NameValueDescription">{{translationsMap.productPage.bestOfferFeatureExplanation_2}}</p>
-                                </div>
+                                    <div slot="description">
+                                        <p class="NameValueDescription">{{translationsMap.productPage.bestOfferFeatureExplanation_1}}</p>
+                                        <p class="NameValueDescription">{{translationsMap.productPage.bestOfferFeatureExplanation_2}}</p>
+                                    </div>
                                 
-                            </action-name-value-container>
+                                </action-name-value-container>
+                            </div>
                             
                             <div class="Row ViewOnEbayButtonWrapper">
                                 <a :href="item.viewItemUrlForNaturalSearch" target="_blank">{{translationsMap.productPage.viewOnEbay}}<i class="fas fa fa-link"></i></a>
@@ -102,15 +114,19 @@ export const SingleItem = {
                             
                             <description-container v-bind:description="item.description"></description-container>
                         </div>
-                        
-                        <shipping-details 
+
+                    </div>
+                    
+                        <shipping-details
+                            v-if="item"
+                            v-on:before-modal-close="onShippingDetailsClose"
                             :item-id="item.itemId"
                             :ships-to-locations="item.shipsToLocations"
                             :exclude-ship-to-locations="item.excludeShipToLocations">
                         </shipping-details>
-                    </div>
 
-               </div></transition>`,
+               </div>
+           </transition>`,
     created() {
         if (this.item === null) {
             const paths = window.location.pathname.split('/');
@@ -143,6 +159,10 @@ export const SingleItem = {
     methods: {
         showShippingDetails() {
             this.$modal.show('shipping-details-modal');
+        },
+
+        onShippingDetailsClose() {
+            this.toggleShowShippingDetails = false;
         },
 
         parsePictureUrl(pictureUrl) {

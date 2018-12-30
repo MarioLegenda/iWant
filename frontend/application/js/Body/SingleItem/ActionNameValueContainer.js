@@ -4,7 +4,7 @@ export const ActionNameValueContainer = {
             showDescription: false
         }
     },
-    template: `<div @click="onShowDescription" class="Row NameValueContainer IsHoverable">
+    template: `<div @click="onShowDescription" class="NameValueRow NameValueContainer IsHoverable">
                    <p class="Name">{{name}}</p>
                    <p class="Value">{{value}}</p>
                                 

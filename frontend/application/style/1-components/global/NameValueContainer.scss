@@ -1,0 +1,47 @@
+.NameValueContainer {
+  width: 100%;
+  float: left;
+
+  position: relative;
+
+  .Name {
+    width: 200px;
+    float: left;
+
+    line-height: 1.4em;
+  }
+
+  .Value {
+    width: 180px;
+    float: right;
+
+    color: black;
+
+    line-height: 1.4em;
+  }
+
+  .ActionIdentifier {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 4px;
+    color: $basicOrange;
+  }
+
+  .NameValueDescription {
+    width: 100%;
+    float: left;
+
+    padding: 0 0 0 20px;
+    margin: 20px 0 0 0;
+
+    line-height: 1.4em;
+
+    color: black;
+  }
+}
+
+.NameValueRow {
+  width: 100%;
+  float: left;
+}

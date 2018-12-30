@@ -45,7 +45,7 @@ class SingleItemEntryPointTest extends BasicSetup
         $itemShippingCostsRequestModel = $dataProvider->createItemShippingCostsRequestModel(
             '352381131997',
             'en',
-            'IE'
+            'US'
         );
 
         $result = $singleItemEntryPoint->getShippingCostsForItem($itemShippingCostsRequestModel);

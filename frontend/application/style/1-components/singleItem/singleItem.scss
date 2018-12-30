@@ -7,6 +7,12 @@
 
   margin: 0 auto;
 
+  .NameValueContainerWrapper {
+    width: 100%;
+    float: left;
+    margin-bottom: 30px;
+  }
+
   .IsHoverable {
     cursor: pointer;
   }
@@ -16,50 +22,6 @@
     height: 80px;
 
     margin: 70px auto 30px auto;
-  }
-
-  .NameValueContainer {
-    width: 100%;
-    float: left;
-
-    position: relative;
-
-    margin: 0 0 15px 0;
-    padding: 0 0 15px 0;
-
-    .Name {
-      width: 200px;
-      float: left;
-    }
-
-    .Value {
-      width: 180px;
-      float: right;
-
-      color: black;
-
-      line-height: 1.4em;
-    }
-
-    .ActionIdentifier {
-      display: block;
-      position: absolute;
-      right: 20px;
-      top: 4px;
-      color: $basicOrange;
-    }
-
-    .NameValueDescription {
-      width: 100%;
-      float: left;
-
-      padding: 0 0 0 20px;
-      margin: 20px 0 0 0;
-
-      line-height: 1.4em;
-
-      color: black;
-    }
   }
 
   .Border {
@@ -75,11 +37,6 @@
     float: left;
 
     margin-top: 50px;
-  }
-
-  .Row {
-    width: 100%;
-    float: left;
   }
 
   .CenterPanel {

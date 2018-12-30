@@ -278,6 +278,43 @@ html {
   cursor: pointer;
 }
 
+.NameValueContainer {
+  width: 100%;
+  float: left;
+  position: relative;
+}
+.NameValueContainer .Name {
+  width: 200px;
+  float: left;
+  line-height: 1.4em;
+}
+.NameValueContainer .Value {
+  width: 180px;
+  float: right;
+  color: black;
+  line-height: 1.4em;
+}
+.NameValueContainer .ActionIdentifier {
+  display: block;
+  position: absolute;
+  right: 20px;
+  top: 4px;
+  color: #eb1d25;
+}
+.NameValueContainer .NameValueDescription {
+  width: 100%;
+  float: left;
+  padding: 0 0 0 20px;
+  margin: 20px 0 0 0;
+  line-height: 1.4em;
+  color: black;
+}
+
+.NameValueRow {
+  width: 100%;
+  float: left;
+}
+
 #IWouldLike {
   display: inline-block;
   font-family: "Paytone One", sans-serif;
@@ -1617,7 +1654,7 @@ html {
 .ShippingDetailsImplementation {
   width: 100%;
   overflow: hidden;
-  padding: 30px;
+  padding: 50px;
 }
 .ShippingDetailsImplementation .ActionContainer {
   width: 100%;
@@ -1636,15 +1673,37 @@ html {
 .ShippingDetailsImplementation .ActionContainer .SelectCountryContainer .TextArea {
   display: inline-block;
   float: left;
+  font-size: 1.1em;
 }
 .ShippingDetailsImplementation .ActionContainer .SelectCountryContainer .SelectArea {
   width: 180px;
-  float: left;
+  float: right;
   margin-left: 20px;
   font-family: "Quicksand", sans-serif;
   font-size: 1em;
   background-color: white;
   border: 1px solid #d6d6d6;
+}
+.ShippingDetailsImplementation .InformationContainer {
+  width: 100%;
+  overflow: hidden;
+  padding-bottom: 10px;
+  margin: 50px 0 50px 0;
+}
+.ShippingDetailsImplementation .InformationContainer .DataRow h1 {
+  font-size: 1.2em;
+  border-bottom: 1px solid #d6d6d6;
+  padding-bottom: 10px;
+}
+.ShippingDetailsImplementation .InformationContainer .DataRow .DataContainer {
+  width: 95%;
+  float: left;
+  padding-left: 10px;
+  margin: 10px 0 10px 0;
+}
+.ShippingDetailsImplementation .InformationContainer .DataRow .DataContainer .Row, .ShippingDetailsImplementation .InformationContainer .DataRow .DataContainer .NameValueContainer {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .SingleItemWrapper {
@@ -1653,6 +1712,11 @@ html {
   overflow: hidden;
   margin: 0 auto;
 }
+.SingleItemWrapper .NameValueContainerWrapper {
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+}
 .SingleItemWrapper .IsHoverable {
   cursor: pointer;
 }
@@ -1660,38 +1724,6 @@ html {
   width: 50px;
   height: 80px;
   margin: 70px auto 30px auto;
-}
-.SingleItemWrapper .NameValueContainer {
-  width: 100%;
-  float: left;
-  position: relative;
-  margin: 0 0 15px 0;
-  padding: 0 0 15px 0;
-}
-.SingleItemWrapper .NameValueContainer .Name {
-  width: 200px;
-  float: left;
-}
-.SingleItemWrapper .NameValueContainer .Value {
-  width: 180px;
-  float: right;
-  color: black;
-  line-height: 1.4em;
-}
-.SingleItemWrapper .NameValueContainer .ActionIdentifier {
-  display: block;
-  position: absolute;
-  right: 20px;
-  top: 4px;
-  color: #eb1d25;
-}
-.SingleItemWrapper .NameValueContainer .NameValueDescription {
-  width: 100%;
-  float: left;
-  padding: 0 0 0 20px;
-  margin: 20px 0 0 0;
-  line-height: 1.4em;
-  color: black;
 }
 .SingleItemWrapper .Border {
   border-bottom: 1px solid #d6d6d6;
@@ -1703,10 +1735,6 @@ html {
   width: 100%;
   float: left;
   margin-top: 50px;
-}
-.SingleItemWrapper .Row {
-  width: 100%;
-  float: left;
 }
 .SingleItemWrapper .CenterPanel {
   width: 100%;
