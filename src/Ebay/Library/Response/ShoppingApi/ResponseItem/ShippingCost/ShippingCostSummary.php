@@ -140,6 +140,8 @@ class ShippingCostSummary extends AbstractItem implements ArrayNotationInterface
             'listedShippingServiceCost' => $this->getListedShippingServiceCost()->toArray(),
             'shippingServiceCost' => $this->getShippingServiceCost()->toArray(),
             'shippingType' => $this->getShippingType(),
+            'insuranceCost' => ($this->getInsuranceCost() instanceof BasePrice) ? $this->getInsuranceCost()->toArray() : null,
+            'insuranceOption' => ($this->getInsuranceOption() instanceof TypeInterface) ? (string) $this->getInsuranceOption() : null,
         ];
     }
 }

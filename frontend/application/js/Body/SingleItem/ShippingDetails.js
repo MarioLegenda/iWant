@@ -6,7 +6,8 @@ export const ShippingDetails = {
             countries: null,
             selectedIncluded: null,
             isCountryExcluded: false,
-            shippingInfo: null
+            shippingInfo: null,
+            selectedCountry: null,
         }
     },
     props: ['itemId', 'shipsToLocations', 'excludeShipToLocations'],
@@ -36,7 +37,9 @@ export const ShippingDetails = {
                        
                            <div class="InformationContainer" v-if="shippingInfo">
                                <div class="DataRow">
-                                   <h1>Summary</h1>
+                                   <h1>{{headerInfo}}</h1>
+                                   
+                                   <h2>Summary</h2>
                                    
                                    <div class="DataContainer">
                                        <div class="NameValueContainerWrapper">
@@ -59,6 +62,28 @@ export const ShippingDetails = {
                                                v-bind:value="viewPrice(shippingInfo.shippingCostsSummary.shippingServiceCost)">
                                            </name-value-container>
                                        </div>
+                                       
+                                       <div class="NameValueContainerWrapper" v-if="shippingInfo.shippingCostsSummary.importCharge">
+                                           <name-value-container
+                                               name="Import charge: "
+                                               v-bind:value="viewPrice(shippingInfo.shippingCostsSummary.importCharge)">
+                                           </name-value-container>
+                                       </div>
+                                       
+                                       <div class="NameValueContainerWrapper" v-if="shippingInfo.shippingCostsSummary.insuranceCost">
+                                           <name-value-container
+                                               name="Insurance cost: "
+                                               v-bind:value="viewPrice(shippingInfo.shippingCostsSummary.insuranceCost)">
+                                           </name-value-container>
+                                       </div>
+                                       
+                                       <!-- HANDLE INSURANCE OPTION AS A TRANSLATION ON THE FRONTEND -->
+                                       <div class="NameValueContainerWrapper" v-if="shippingInfo.shippingCostsSummary.insuranceOption">
+                                           <name-value-container
+                                               name="Insurance option: "
+                                               v-bind:value="shippingInfo.shippingCostsSummary.insuranceOption">
+                                           </name-value-container>
+                                       </div>
                                    </div>
                                </div>
                            </div>
@@ -70,6 +95,16 @@ export const ShippingDetails = {
             this.countries = r.collection.data;
             this.selectedIncluded = this.countries[0].alpha2Code;
         });
+    },
+
+    computed: {
+        headerInfo: function() {
+            if (this.selectedCountry !== null) {
+                return `Shipping information for ${this.selectedCountry.name}`;
+            }
+
+            return `Shipping information`
+        }
     },
 
     methods: {
@@ -91,7 +126,9 @@ export const ShippingDetails = {
                 if (r.statusCode === 404) {
                     this.isCountryExcluded = true;
                 } else if (r.statusCode === 200) {
+                    this.selectedCountry = this._findCountry(this.selectedIncluded);
                     this.shippingInfo = r.resource.data;
+                    console.log(this.shippingInfo);
                 }
             });
         },
@@ -102,7 +139,18 @@ export const ShippingDetails = {
             }
 
             return `${price.price} ${price.currency}`
+        },
+
+        _findCountry(alpha2Code) {
+            for (const c of this.countries) {
+                if (c.alpha2Code === alpha2Code) {
+                    return c;
+                }
+            }
+
+            return null;
         }
+
     },
 
     components: {
