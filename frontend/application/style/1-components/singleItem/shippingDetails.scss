@@ -77,6 +77,11 @@
   }
 
   .AutocompleteWrapper {
+    width: 100%;
+    float: left;
+
+    position: relative;
+
     .AutocompleteInput {
       font-size: 1.2em;
 
@@ -88,6 +93,14 @@
     .autocomplete {
       width: 100%;
       float: right;
+    }
+
+    i {
+      position: absolute;
+      color: $basicOrange;
+      z-index: 1001;
+
+      top: 14px; right: 50px;
     }
   }
 }

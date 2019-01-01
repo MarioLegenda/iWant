@@ -9,7 +9,7 @@ const reusableMethods = {
                 return 'Free';
             }
 
-            return `${price.price} ${price.currency}`
+            return `${price.price} ${price.currency}`;
         },
     }
 };
@@ -183,6 +183,7 @@ export const AutocompleteWrapper = {
             countries: [],
         }
     },
+    props: ['fetchingShippingInfo'],
     template: `<div class="AutocompleteWrapper">
                    <autocomplete
                        :source="countries"
@@ -190,6 +191,8 @@ export const AutocompleteWrapper = {
                        inputClass="AutocompleteInput"
                        v-on:selected="onCountrySelected">
                    </autocomplete>
+                   
+                   <i v-if="fetchingShippingInfo" class="fas fa-circle-notch fa-spin"></i>
                </div>`,
     created() {
         this.$repository.AppRepository.getCountries(null, (r) => {
@@ -217,6 +220,7 @@ export const ShippingDetails = {
             shippingInfo: null,
             selectedCountry: null,
             error: false,
+            fetchingShippingInfo: false,
         }
     },
     props: ['itemId', 'shipsToLocations', 'excludeShipToLocations'],
@@ -233,8 +237,8 @@ export const ShippingDetails = {
                            <div class="ActionContainer">
                                <div class="SelectCountryContainer">                                   
                                    <autocomplete-wrapper
-                                       v-on:selected-country="onSelectedCountry">
-                                       
+                                       v-on:selected-country="onSelectedCountry"
+                                       :fetching-shipping-info="fetchingShippingInfo">
                                    </autocomplete-wrapper>
                                    
                                    <div v-if="isCountryExcluded" class="ExcludedShippingErrorMessage">
@@ -282,11 +286,13 @@ export const ShippingDetails = {
         onSelectedCountry(country) {
             this.isCountryExcluded = false;
             this.error = false;
+            this.fetchingShippingInfo = true;
 
             if (Array.isArray(this.excludeShipToLocations)) {
                 if (this.excludeShipToLocations.includes(this.selectedIncluded)) {
                     setTimeout(() => {
                         this.isCountryExcluded = true;
+                        this.fetchingShippingInfo = false;
                     }, 500);
 
                     return null;
@@ -303,6 +309,7 @@ export const ShippingDetails = {
                 } else if (r.statusCode === 200) {
                     this.selectedCountry = country;
                     this.shippingInfo = r.resource.data;
+                    this.fetchingShippingInfo = false;
                 } else {
                     this.error = true;
                 }

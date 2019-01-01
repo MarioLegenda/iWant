@@ -1787,6 +1787,11 @@ html {
   margin: 0 !important;
   padding: 0 !important;
 }
+.ShippingDetailsImplementation .AutocompleteWrapper {
+  width: 100%;
+  float: left;
+  position: relative;
+}
 .ShippingDetailsImplementation .AutocompleteWrapper .AutocompleteInput {
   font-size: 1.2em;
   font-family: "Quicksand", sans-serif;
@@ -1795,6 +1800,13 @@ html {
 .ShippingDetailsImplementation .AutocompleteWrapper .autocomplete {
   width: 100%;
   float: right;
+}
+.ShippingDetailsImplementation .AutocompleteWrapper i {
+  position: absolute;
+  color: #eb1d25;
+  z-index: 1001;
+  top: 14px;
+  right: 50px;
 }
 
 .SingleItemWrapper {
