@@ -19,6 +19,10 @@
 
     margin-top: 33px;
 
+    &:hover {
+      cursor: pointer;
+    }
+
     .logo-part {
       display: block;
       width: 100%;

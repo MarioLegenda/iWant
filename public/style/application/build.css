@@ -408,6 +408,9 @@ html {
   padding: 10px 10px 10px 10px;
   margin-top: 33px;
 }
+#main_header .logo:hover {
+  cursor: pointer;
+}
 #main_header .logo .logo-part {
   display: block;
   width: 100%;
