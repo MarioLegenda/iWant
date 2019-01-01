@@ -162,7 +162,7 @@ class ShoppingApiTest extends BasicSetup
         static::assertInstanceOfOrNull(TypeInterface::class, $shippingDetails->getInsuranceOption());
         static::assertInstanceOfOrNull(BasePrice::class, $shippingDetails->getInternationalInsuranceCost());
         static::assertInstanceOfOrNull(TypeInterface::class, $shippingDetails->getInternationalInsuranceOption());
-        static::assertInstanceOfOrNull(InternationalShippingServiceOption::class, $shippingDetails->getInternationalShippingServiceOption());
+        static::assertInternalTypeOrNull('array', $shippingDetails->getInternationalShippingServiceOption());
     }
     /**
      * @param \App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary $shippingCostsSummary
