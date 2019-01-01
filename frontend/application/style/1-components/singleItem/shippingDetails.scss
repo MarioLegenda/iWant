@@ -2,9 +2,32 @@
   width: 100%;
   float: left;
 
+  position: relative;
+
   min-height: 400px;
 
   padding: 50px;
+
+  .CloseButton {
+    position: absolute;
+    top: 0; right: 0;
+
+    color: $lightestGray;
+
+    padding: 10px;
+
+    font-size: 1.2em;
+
+    transition: color 0.5s;
+    -webkit-transition: color 0.5s;
+    -moz-transition: color 0.5s;
+    -o-transition: color 0.5s;
+
+    &:hover {
+      color: $basicOrange;
+      cursor: pointer;
+    }
+  }
 
   .ActionContainer {
     width: 100%;

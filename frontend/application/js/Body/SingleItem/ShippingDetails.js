@@ -234,6 +234,7 @@ export const ShippingDetails = {
                        @before-close="onBeforeModalClose">
                        
                        <div class="ShippingDetailsImplementation">
+                           <i @click="closeModal" class="fas fa-times CloseButton"></i>
                            <div class="ActionContainer">
                                <div class="SelectCountryContainer">                                   
                                    <autocomplete-wrapper
@@ -314,6 +315,10 @@ export const ShippingDetails = {
                     this.error = true;
                 }
             });
+        },
+
+        closeModal() {
+            this.$modal.hide('shipping-details-modal');
         },
 
         onBeforeModalClose() {

@@ -1732,8 +1732,25 @@ html {
 .ShippingDetailsImplementation {
   width: 100%;
   float: left;
+  position: relative;
   min-height: 400px;
   padding: 50px;
+}
+.ShippingDetailsImplementation .CloseButton {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: #d6d6d6;
+  padding: 10px;
+  font-size: 1.2em;
+  transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
+}
+.ShippingDetailsImplementation .CloseButton:hover {
+  color: #eb1d25;
+  cursor: pointer;
 }
 .ShippingDetailsImplementation .ActionContainer {
   width: 100%;
