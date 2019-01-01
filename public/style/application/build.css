@@ -764,30 +764,30 @@ html {
   display: block;
   width: 100%;
   float: left;
-  padding: 0 0 8px 0;
-  border: none;
+  padding: 15px;
   font-family: "Quicksand", sans-serif;
-  font-size: 1.1em;
-  border-bottom: 1px solid #d6d6d6;
+  font-size: 1.2em;
+  border: 1px solid #d6d6d6;
 }
 #search_page .SearchBoxAdvanced .SearchBox_InputBox .Error {
   border-bottom: 1px solid #f41f1f;
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox {
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 55px;
   position: absolute;
   right: 0;
   bottom: 1px;
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox button {
   display: block;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 55px;
   float: left;
   border: none;
   color: white;
   background-color: #eb1d25;
+  font-size: 1.1em;
 }
 #search_page .SearchBoxAdvanced .SearchBox_SubmitBox button:hover {
   cursor: pointer;
@@ -1151,6 +1151,7 @@ html {
 .FiltersWrapper {
   font-size: 16px !important;
   position: relative;
+  margin-top: 21px;
   padding: 0 3px 3px 3px;
 }
 .FiltersWrapper .OrganisedFiltersSeparator {

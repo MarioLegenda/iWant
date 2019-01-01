@@ -4,6 +4,8 @@
 
   margin-top: 50px;
 
+
+
   .AdvancedSearch {
     width: 100%;
     float: left;
@@ -37,14 +39,12 @@
         width: 100%;
         float: left;
 
-        padding: 0 0 8px 0;
-
-        border: none;
+        padding: 15px;
 
         font-family: $mainFont;
-        font-size: 1.1em;
+        font-size: 1.2em;
 
-        border-bottom: 1px solid $lightestGray;
+        border: 1px solid $lightestGray;
       }
 
       .Error {
@@ -53,21 +53,23 @@
     }
 
     .SearchBox_SubmitBox {
-      width: 40px;
-      height: 40px;
+      width: 60px;
+      height: 55px;
       position: absolute;
       right: 0;
       bottom: 1px;
 
       button {
         display: block;
-        width: 40px;
-        height: 40px;
+        width: 60px;
+        height: 55px;
         float: left;
 
         border: none;
         color: white;
         background-color: $basicOrange;
+
+        font-size: 1.1em;
 
         &:hover {
           cursor: pointer;

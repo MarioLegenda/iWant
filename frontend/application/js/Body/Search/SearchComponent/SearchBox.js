@@ -32,7 +32,7 @@ export const SearchBox = {
                                     :placeholder="translationsMap.searchInputPlaceholder"/>
 
                                 <div class="SearchBox_SubmitBox">
-                                    <button @click="submit"><i class="fas fa-chevron-right"></i></button>
+                                    <button @click="submit"><i class="fas fa-search"></i></button>
                                 </div>
                            </div>
                                                       
