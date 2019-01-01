@@ -15,9 +15,14 @@ use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
+use App\Library\Util\TypedRecursion;
 
 class EbayModelFactory
 {
+    /**
+     * @var int $batchModels
+     */
+    private $batchModels;
     /**
      * @var EbayBusinessEntityRepository $ebayBusinessEntityRepository
      */
@@ -25,39 +30,49 @@ class EbayModelFactory
     /**
      * EbayModelFactory constructor.
      * @param EbayBusinessEntityRepository $ebayBusinessEntityRepository
+     * @param int $batchModels
      */
     public function __construct(
-        EbayBusinessEntityRepository $ebayBusinessEntityRepository
+        EbayBusinessEntityRepository $ebayBusinessEntityRepository,
+        int $batchModels
     ) {
         $this->ebayBusinessEntityRepository = $ebayBusinessEntityRepository;
+        $this->batchModels = $batchModels;
     }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
-     * @return FindingApiModel
+     * @return array|iterable
      */
     public function createFindItemsAdvancedModel(
         SearchModelInterface $model
-    ): FindingApiModel {
+    ): array {
         $this->validateModel($model);
 
-        $itemFilters = TypedArray::create('integer', ItemFilter::class);
-        $queries = TypedArray::create('integer', Query::class);
+        $findingApiModels = [];
 
-        $this->createRequiredQueries($model, $queries);
-        $this->createRequiredItemFilters($model, $itemFilters);
-        $this->createModelSpecificItemFilters($model, $itemFilters);
-        $this->createOutputSelector([
-            'StoreInfo',
-            'SellerInfo',
-            'GalleryInfo',
-            'PictureURLLarge',
-            'PictureURLSuperSize',
-        ], $itemFilters);
-        $this->createSortOrder($model, $itemFilters);
+        for ($i = 0; $i < $this->batchModels; $i++) {
+            $itemFilters = TypedArray::create('integer', ItemFilter::class);
+            $queries = TypedArray::create('integer', Query::class);
 
-        $findItemsInEbayStores = new FindItemsByKeywords($queries);
+            $this->createRequiredQueries($model, $queries);
+            $this->createPagination($model, $queries, ($i + 1));
+            $this->createRequiredItemFilters($model, $itemFilters);
+            $this->createModelSpecificItemFilters($model, $itemFilters);
+            $this->createOutputSelector([
+                'StoreInfo',
+                'SellerInfo',
+                'GalleryInfo',
+                'PictureURLLarge',
+                'PictureURLSuperSize',
+            ], $itemFilters);
+            $this->createSortOrder($model, $itemFilters);
 
-        return new FindingApiModel($findItemsInEbayStores, $itemFilters);
+            $findItemsInEbayStores = new FindItemsByKeywords($queries);
+
+            $findingApiModels[] = new FindingApiModel($findItemsInEbayStores, $itemFilters);
+        }
+
+        return $findingApiModels;
     }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
@@ -118,10 +133,20 @@ class EbayModelFactory
             'paginationInput.entriesPerPage',
             $model->getInternalPagination()->getLimit()
         );
-
+    }
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @param TypedArray $queries
+     * @param int $i
+     */
+    public function createPagination(
+        SearchModelInterface $model,
+        TypedArray $queries,
+        int $i
+    ): void {
         $queries[] = new Query(
             'paginationInput.pageNumber',
-            $model->getInternalPagination()->getPage()
+            $i
         );
     }
     /**

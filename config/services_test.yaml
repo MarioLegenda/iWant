@@ -89,6 +89,8 @@ parameters:
     browser_shipping_costs_cache_ttl: 86400
     browser_keyword_translation_cache_ttl: 108000
 
+    search_component_batch_requests_num: 1
+
 services:
     _defaults:
         autowire: true
@@ -144,6 +146,11 @@ services:
     App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher:
         arguments:
             $translationCenter: "@=container.getParameter('kernel.environment') === 'prod' ? service('App\\\\Translation\\\\GoogleTranslationCenter') : service('App\\\\Translation\\\\YandexTranslationCenter')"
+
+    App\Component\Search\Ebay\Business\Factory\EbayModelFactory:
+        arguments:
+            $batchModels: '%search_component_batch_requests_num%'
+
 
     # REQUEST BASE PROCESSORS
     App\Ebay\Library\Processor\FindingApiRequestBaseProcessor:

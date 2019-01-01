@@ -14,6 +14,8 @@ class SearchComponentTest extends BasicSetup
 {
     public function test_internal_pagination_flow()
     {
+        static::markTestSkipped();
+
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */

@@ -15,7 +15,6 @@ class UniqueIdentifierFactory
     {
         return md5(serialize([
             'keyword' => (string) $model->getKeyword(),
-            'page' => $model->getInternalPagination()->getPage(),
             'bestMatch' => $model->isBestMatch(),
             'highQuality' => $model->isHighQuality(),
             'globalId' => $model->getGlobalId(),

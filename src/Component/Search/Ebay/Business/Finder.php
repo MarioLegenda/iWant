@@ -9,6 +9,8 @@ use App\Component\Search\Ebay\Business\Factory\EbayModelFactory;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
+use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\TypedRecursion;
 
 class Finder
 {
@@ -34,15 +36,22 @@ class Finder
     }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
-     * @return ResponseModelInterface
+     * @return iterable
      * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
-    public function findEbayProductsAdvanced(SearchModelInterface $model): ResponseModelInterface
+    public function findEbayProductsAdvanced(SearchModelInterface $model): iterable
     {
-        /** @var FindingApiModel $findingApiModel */
-        $findingApiModel = $this->ebayModelFactory->createFindItemsAdvancedModel($model);
+        /** @var FindingApiModel[] $findingApiModel */
+        $findingApiModels = $this->ebayModelFactory->createFindItemsAdvancedModel($model);
 
-        return $this->findingApiEntryPoint->findItemsAdvanced($findingApiModel);
+        $responses = TypedArray::create('integer', ResponseModelInterface::class);
+
+        /** @var FindingApiModel $model */
+        foreach ($findingApiModels as $model) {
+            $responses[] = $this->findingApiEntryPoint->findItemsAdvanced($model);
+        }
+
+        return $responses;
     }
 }

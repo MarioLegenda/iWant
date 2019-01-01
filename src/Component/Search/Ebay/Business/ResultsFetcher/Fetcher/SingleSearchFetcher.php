@@ -135,12 +135,8 @@ class SingleSearchFetcher implements FetcherInterface
      */
     public function getFreshResults(SearchModelInterface $model, string $identifier = null)
     {
-        /** @var TypedArray $presentationResults */
-        $presentationResults = $this->responseFetcher->getResponse($model, $identifier);
-
-        $presentationResultsArray = $presentationResults->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
-
-        return $presentationResultsArray;
+        /** @var array $presentationResults */
+        return $this->responseFetcher->getResponse($model, $identifier);
     }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model

@@ -12,7 +12,9 @@ use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Response\ResponseModelInterface;
+use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Library\Util\TypedRecursion;
 
 class ResponseFetcher
 {
@@ -52,29 +54,37 @@ class ResponseFetcher
      */
     public function getResponse(SearchModelInterface $model, string $identifier = null): iterable
     {
-        /** @var XmlFindingApiResponseModel $findingApiResponse */
-        $findingApiResponse = $this->searchEbayAdvanced($model);
+        /** @var XmlFindingApiResponseModel[] $findingApiResponse */
+        $findingApiResponses = $this->searchEbayAdvanced($model);
 
-        $this->invalidResponseHandler->handleInvalidResponse($findingApiResponse);
+        $responseModels = [];
 
-        $searchResults = $findingApiResponse->getSearchResults();
+        /** @var ResponseModelInterface|XmlFindingApiResponseModel $findingApiResponse */
+        foreach ($findingApiResponses as $findingApiResponse) {
+            $this->invalidResponseHandler->handleInvalidResponse($findingApiResponse);
 
-        $identifier = (is_string($identifier)) ? $identifier : UniqueIdentifierFactory::createIdentifier($model);
+            $searchResults = $findingApiResponse->getSearchResults();
 
-        /** @var TypedArray $typedArrayResults */
-        return $this->searchResponseModelFactory->fromSearchResults(
-            $identifier,
-            $model->getGlobalId(),
-            $searchResults
-        );
+            $identifier = (is_string($identifier)) ? $identifier : UniqueIdentifierFactory::createIdentifier($model);
+
+            $responseModel = $this->searchResponseModelFactory->fromSearchResults(
+                $identifier,
+                $model->getGlobalId(),
+                $searchResults
+            )->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
+
+            $responseModels = array_merge($responseModels, $responseModel);
+        }
+
+        return $responseModels;
     }
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
-     * @return ResponseModelInterface
+     * @return iterable
      * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
-    private function searchEbayAdvanced(SearchModelInterface $model): ResponseModelInterface
+    private function searchEbayAdvanced(SearchModelInterface $model): iterable
     {
         return $this->finder->findEbayProductsAdvanced($model);
     }

@@ -74,24 +74,24 @@ const LoadMore = {
                 const totalItems = this.getPreparedSearchMetadata.totalItems;
                 const internalLimitIncrease = this.page * this.limit;
 
-                if (internalLimitIncrease >= totalItems) {
+/*                if (internalLimitIncrease >= totalItems) {
                     this._increasePagination(model);
 
                     this.$emit('load-more', model);
 
                     return;
-                }
+                }*/
             }
 
             const internalLimitIncrease = this.page * this.limit;
 
-            if (internalLimitIncrease >= this.internalLimit) {
+/*            if (internalLimitIncrease >= this.internalLimit) {
                 this._increasePagination(model);
 
                 this.$emit('load-more', model);
 
                 return;
-            }
+            }*/
 
             this.$emit('load-more', model);
         },
