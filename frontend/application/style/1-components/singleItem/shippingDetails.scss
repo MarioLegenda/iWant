@@ -1,16 +1,16 @@
 .ShippingDetailsImplementation {
   width: 100%;
-  overflow: hidden;
+  float: left;
+
+  min-height: 400px;
 
   padding: 50px;
 
   .ActionContainer {
     width: 100%;
-    overflow: hidden;
+    float: left;
 
     padding-bottom: 10px;
-
-    border-bottom: 1px solid $lightestGray;
 
     .ExcludedShippingErrorMessage {
       width: 100%;
@@ -18,52 +18,46 @@
 
       margin: 20px 0 20px 0;
       padding: 15px;
+      line-height: 1.4em;
       color: $basicOrange;
       background-color: #f9c7c7;
-    }
-
-    .SelectCountryContainer {
-      .TextArea {
-        display: inline-block;
-        float: left;
-        font-size: 1.1em;
-      }
-
-      .SelectArea {
-        width: 180px;
-        float: right;
-
-        margin-left: 20px;
-
-        font-family: $mainFont;
-        font-size: 1em;
-
-        background-color: white;
-        border: 1px solid $lightestGray;
-      }
     }
   }
 
   .InformationContainer {
     width: 100%;
-    overflow: hidden;
+    float: left;
 
     padding-bottom: 10px;
     margin: 50px 0 50px 0;
 
+    .InnerNameValueContainerWrapper {
+      width: 100%;
+      float: left;
+
+      margin-bottom: 30px;
+    }
+
     .DataRow {
       h1 {
+        width: 100%;
+        float: left;
         font-size: 1.2em;
         border-bottom: 1px solid $lightestGray;
         padding-bottom: 10px;
 
         margin-bottom: 30px;
         line-height: 1.4em;
+
+        font-weight: bold;
       }
 
       h2 {
+        width: 100%;
+        float: left;
         font-size: 1.2em;
         padding-bottom: 10px;
+        font-weight: bold;
       }
 
       .DataContainer {
@@ -79,6 +73,21 @@
           padding: 0 !important;
         }
       }
+    }
+  }
+
+  .AutocompleteWrapper {
+    .AutocompleteInput {
+      font-size: 1.2em;
+
+      font-family: $mainFont;
+
+      padding: 10px;
+    }
+
+    .autocomplete {
+      width: 100%;
+      float: right;
     }
   }
 }

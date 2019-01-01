@@ -192,7 +192,7 @@ class InternationalShippingServiceOption extends AbstractItem implements ArrayNo
             'estimatedDeliveryMinTime' => $this->getEstimatedDeliveryMinTime()->toArray(),
             'importCharge' => ($this->getImportCharge() instanceof BasePrice) ? $this->getImportCharge()->toArray() : null,
             'shippingInsuranceCost' => ($this->getShippingInsuranceCost() instanceof BasePrice) ? $this->getShippingInsuranceCost()->toArray() : null,
-            'shippingServiceAdditionalCost' => $this->getShippingServiceAdditionalCost()->toArray(),
+            'shippingServiceAdditionalCost' => ($this->getShippingServiceAdditionalCost() instanceof BasePrice) ? $this->getShippingServiceAdditionalCost()->toArray() : null,
             'shippingServiceCost' => $this->getShippingServiceCost()->toArray(),
             'shippingServiceCutOffTime' => ($this->getShippingServiceCutOffTime() instanceof BaseTime) ? $this->getShippingServiceCutOffTime()->toArray() : null,
             'shippingServiceName' => $this->getShippingServiceName(),

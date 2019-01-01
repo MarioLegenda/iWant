@@ -47,7 +47,10 @@ class AlreadyCachedMiddleware implements MiddlewareEntryInterface
 
             $shippingCostsArray = json_decode($shippingCostsItem->getResponse(), true);
 
-            return new MiddlewareResult($shippingCostsArray, true);
+            return new MiddlewareResult(
+                $shippingCostsArray,
+                true
+            );
         }
 
         return new MiddlewareResult(null, false);

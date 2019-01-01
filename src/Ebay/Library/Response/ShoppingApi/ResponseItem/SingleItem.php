@@ -827,7 +827,7 @@ class SingleItem extends AbstractItem implements ArrayNotationInterface
      * @param null $default
      * @return array
      */
-    public function getExcludeShipsToLocations($default = null): array
+    public function getExcludeShipsToLocations($default = null): ?array
     {
         if ($this->excludeShipsToLocations === null) {
             if (!empty($this->simpleXml->ExcludeShipToLocation)) {

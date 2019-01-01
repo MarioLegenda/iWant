@@ -34,7 +34,7 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     private $internationalInsuranceOption;
     /**
-     * @var InternationalShippingServiceOption $internationalShippingServiceOption
+     * @var InternationalShippingServiceOption[]|null|iterable $internationalShippingServiceOption
      */
     private $internationalShippingServiceOption;
     /**
@@ -46,7 +46,7 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     private $shippingRateErrorMessage;
     /**
-     * @var ShippingServiceOption|null
+     * @var ShippingServiceOption[]|iterable|null
      */
     private $shippingServiceOption;
     /**
@@ -67,13 +67,21 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
         return $this->taxTable;
     }
     /**
-     * @return ShippingServiceOption|null
+     * @return ShippingServiceOption[]|iterable|null
      */
-    public function getShippingServiceOption(): ?ShippingServiceOption
+    public function getShippingServiceOption(): ?iterable
     {
         if ($this->shippingServiceOption === null) {
             if (!empty($this->simpleXml->ShippingServiceOption)) {
-                $this->shippingServiceOption = new ShippingServiceOption($this->simpleXml->ShippingServiceOption);
+                $shippingServiceOption = $this->simpleXml->ShippingServiceOption;
+
+                if ($shippingServiceOption->count() === 1) {
+                    $this->shippingServiceOption[] = new ShippingServiceOption($this->simpleXml->ShippingServiceOption);
+                } else if ($shippingServiceOption->count() > 1) {
+                    foreach ($shippingServiceOption as $option) {
+                        $this->shippingServiceOption[] = new ShippingServiceOption($option);
+                    }
+                }
             }
         }
 
@@ -93,13 +101,21 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
         return $this->salesTax;
     }
     /**
-     * @return InternationalShippingServiceOption|null
+     * @return InternationalShippingServiceOption[]|iterable|null
      */
-    public function getInternationalShippingServiceOption(): ?InternationalShippingServiceOption
+    public function getInternationalShippingServiceOption(): ?iterable
     {
         if ($this->internationalShippingServiceOption === null) {
+            $internationalShippingServiceOptions = $this->simpleXml->InternationalShippingServiceOption;
+
             if (!empty($this->simpleXml->InternationalShippingServiceOption)) {
-                $this->internationalShippingServiceOption = new InternationalShippingServiceOption($this->simpleXml->InternationalShippingServiceOption);
+                if ($internationalShippingServiceOptions->count() === 1) {
+                    $this->internationalShippingServiceOption[] = new InternationalShippingServiceOption($this->simpleXml->InternationalShippingServiceOption);
+                } else if ($internationalShippingServiceOptions->count() > 1) {
+                    foreach ($internationalShippingServiceOptions as $option)  {
+                        $this->internationalShippingServiceOption[] = new InternationalShippingServiceOption($option);
+                    }
+                }
             }
         }
 
@@ -208,24 +224,46 @@ class ShippingDetails extends AbstractItem implements ArrayNotationInterface
      */
     public function toArray(): iterable
     {
+        $excludeShipToLocation = (function() {
+            if (!is_array($this->getExcludeShipToLocations())) {
+                return null;
+            }
+
+            return apply_on_iterable($this->getExcludeShipToLocations(), function(Location $item) {
+                return $item->toArray();
+            });
+        })();
+
+        $shippingServiceOption = (function() {
+            if (!is_array($this->getShippingServiceOption())) {
+                return null;
+            }
+
+            return apply_on_iterable($this->getShippingServiceOption(), function(ShippingServiceOption $item) {
+                return $item->toArray();
+            });
+        })();
+
+        $internationalShippingServiceOption = (function() {
+            if (!is_array($this->getInternationalShippingServiceOption())) {
+                return null;
+            }
+
+            return apply_on_iterable($this->getInternationalShippingServiceOption(), function(InternationalShippingServiceOption $item) {
+                return $item->toArray();
+            });
+        })();
+
         return [
             'cashOnDeliveryCost' => $this->getCashOnDeliveryCost(),
-            'excludeShipToLocation' => (function() {
-                if (!is_array($this->getExcludeShipToLocations())) {
-                    return null;
-                }
-
-                return apply_on_iterable($this->getExcludeShipToLocations(), function(Location $item) {
-                    return $item->toArray();
-                });
-            })(),
+            'insuranceCost' => ($this->getInsuranceCost() instanceof BasePrice) ? $this->getInsuranceCost()->toArray() : null,
+            'insuranceOption' => ($this->getInsuranceOption() instanceof BasePrice) ? (string) $this->getInsuranceOption() : null,
+            'excludeShipToLocation' => $excludeShipToLocation,
             'taxTable' => ($this->getTaxTable() instanceof TaxTable) ? $this->getTaxTable()->toArray() : null,
-            'shippingServiceOption' => ($this->getShippingServiceOption() instanceof ShippingServiceOption) ? $this->getShippingServiceOption()->toArray() : null,
+            'shippingServiceOption' => $shippingServiceOption,
             'shippingRateErrorMessage' => $this->getShippingRateErrorMessage(),
             'salesTax' => ($this->getSalesTax() instanceof SalesTax) ? $this->getSalesTax()->toArray() : null,
-            'internationalShippingServiceOption' => ($this->getInternationalShippingServiceOption() instanceof InternationalShippingServiceOption) ?
-                $this->getInternationalShippingServiceOption()->toArray() :
-                null,
+            'internationalShippingServiceOption' => $internationalShippingServiceOption,
         ];
     }
 }

@@ -78,6 +78,15 @@ export class Init {
             }, 1000);
         };
 
+        Array.prototype.filterInternal = function(callback) {
+            let res = [];
+            for (let i = 0; i < this.length; i++) {
+                res.push(callback(this[i]));
+            }
+
+            return res;
+        };
+
         window.scrollToElement = function(pageElement, increment) {
             var positionX = 0,
                 positionY = 0;

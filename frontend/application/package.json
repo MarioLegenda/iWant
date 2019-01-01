@@ -33,6 +33,7 @@
     "vue-select": "^2.5.1",
     "vue-style-loader": "^4.1.0",
     "vue-template-compiler": "^2.5.16",
+    "vuejs-auto-complete": "^0.9.0",
     "vuex": "^3.0.1",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8",

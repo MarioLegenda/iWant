@@ -25,6 +25,10 @@ class Location implements ArrayNotationInterface
      */
     private $isUndefined = false;
     /**
+     * @var bool $isWorldwide
+     */
+    private $isWorldwide = false;
+    /**
      * Location constructor.
      * @param string $location
      */
@@ -43,6 +47,7 @@ class Location implements ArrayNotationInterface
             'location' => $this->location,
             'isCountry' => $this->isCountry,
             'isUndefined' => $this->isUndefined,
+            'isWorldwide' => $this->isWorldwide,
             'isRegion' => $this->isRegion,
         ];
     }
@@ -53,13 +58,17 @@ class Location implements ArrayNotationInterface
     {
         return $this->location;
     }
-
-    private function determineLocationType(string $location)
+    /**
+     * @param string $location
+     */
+    private function determineLocationType(string $location): void
     {
         if (ISO3166CountryCodeInformation::instance()->has($location)) {
             $this->isCountry = true;
         } else if (EbayRegionInformation::instance()->has($location)) {
             $this->isRegion = true;
+        } else if ($location === 'Worldwide') {
+            $this->isWorldwide = true;
         } else {
             $this->isUndefined = true;
         }

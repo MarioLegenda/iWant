@@ -49,6 +49,17 @@ class FetchShippingCostsMiddleware implements MiddlewareEntryInterface
         array $parameters = null
     ): MiddlewareResultInterface {
         if ($middlewareResult->isFulfilled()) {
+            $result = $middlewareResult->getResult();
+
+            /*
+             * This is needed because the non existing shipping result can
+             * be cache as an empty array. In that case, the response should be
+             * 404 but the middleware result is fulfilled
+             */
+            if (is_array($result) and empty($result)) {
+                return new MiddlewareResult(null, false);
+            }
+
             return $middlewareResult;
         }
 
@@ -64,7 +75,13 @@ class FetchShippingCostsMiddleware implements MiddlewareEntryInterface
             /** @var GetShippingCostsResponse $getShippingCostsResponse */
             $getShippingCostsResponse = $this->shoppingApiEntryPoint->getShippingCosts($shoppingApiModel);
         } catch (\Exception $e) {
-            return new MiddlewareResult(null, false);
+            $this->shippingCostsCacheImplementation->store(
+                UniqueShippingCostsIdentifierFactory::createIdentifier($model),
+                $model->getItemId(),
+                jsonEncodeWithFix([])
+            );
+
+            return new MiddlewareResult([], false);
         }
 
         $resultArray = [

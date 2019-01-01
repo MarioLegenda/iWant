@@ -57,6 +57,22 @@ a {
   color: black;
 }
 
+.autocomplete__box {
+  position: relative;
+}
+
+.autocomplete__results {
+  position: absolute;
+  height: 200px;
+}
+.autocomplete__results .autocomplete__results__item {
+  padding: 10px;
+}
+.autocomplete__results .autocomplete__results__item:hover {
+  background-color: #eb1d25;
+  color: white;
+}
+
 body {
   max-width: 1280px;
   font-size: 16px;
@@ -285,6 +301,11 @@ html {
 }
 .NameValueContainer .Name {
   width: 200px;
+  float: left;
+  line-height: 1.4em;
+}
+.NameValueContainer .FullWidthName {
+  width: 95%;
   float: left;
   line-height: 1.4em;
 }
@@ -1653,53 +1674,51 @@ html {
 }
 .ShippingDetailsImplementation {
   width: 100%;
-  overflow: hidden;
+  float: left;
+  min-height: 400px;
   padding: 50px;
 }
 .ShippingDetailsImplementation .ActionContainer {
   width: 100%;
-  overflow: hidden;
+  float: left;
   padding-bottom: 10px;
-  border-bottom: 1px solid #d6d6d6;
 }
 .ShippingDetailsImplementation .ActionContainer .ExcludedShippingErrorMessage {
   width: 100%;
   float: left;
   margin: 20px 0 20px 0;
   padding: 15px;
+  line-height: 1.4em;
   color: #eb1d25;
   background-color: #f9c7c7;
 }
-.ShippingDetailsImplementation .ActionContainer .SelectCountryContainer .TextArea {
-  display: inline-block;
-  float: left;
-  font-size: 1.1em;
-}
-.ShippingDetailsImplementation .ActionContainer .SelectCountryContainer .SelectArea {
-  width: 180px;
-  float: right;
-  margin-left: 20px;
-  font-family: "Quicksand", sans-serif;
-  font-size: 1em;
-  background-color: white;
-  border: 1px solid #d6d6d6;
-}
 .ShippingDetailsImplementation .InformationContainer {
   width: 100%;
-  overflow: hidden;
+  float: left;
   padding-bottom: 10px;
   margin: 50px 0 50px 0;
 }
+.ShippingDetailsImplementation .InformationContainer .InnerNameValueContainerWrapper {
+  width: 100%;
+  float: left;
+  margin-bottom: 30px;
+}
 .ShippingDetailsImplementation .InformationContainer .DataRow h1 {
+  width: 100%;
+  float: left;
   font-size: 1.2em;
   border-bottom: 1px solid #d6d6d6;
   padding-bottom: 10px;
   margin-bottom: 30px;
   line-height: 1.4em;
+  font-weight: bold;
 }
 .ShippingDetailsImplementation .InformationContainer .DataRow h2 {
+  width: 100%;
+  float: left;
   font-size: 1.2em;
   padding-bottom: 10px;
+  font-weight: bold;
 }
 .ShippingDetailsImplementation .InformationContainer .DataRow .DataContainer {
   width: 95%;
@@ -1710,6 +1729,15 @@ html {
 .ShippingDetailsImplementation .InformationContainer .DataRow .DataContainer .Row, .ShippingDetailsImplementation .InformationContainer .DataRow .DataContainer .NameValueContainer {
   margin: 0 !important;
   padding: 0 !important;
+}
+.ShippingDetailsImplementation .AutocompleteWrapper .AutocompleteInput {
+  font-size: 1.2em;
+  font-family: "Quicksand", sans-serif;
+  padding: 10px;
+}
+.ShippingDetailsImplementation .AutocompleteWrapper .autocomplete {
+  width: 100%;
+  float: right;
 }
 
 .SingleItemWrapper {

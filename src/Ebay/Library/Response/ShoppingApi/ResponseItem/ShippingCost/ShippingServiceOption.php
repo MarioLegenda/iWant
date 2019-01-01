@@ -255,6 +255,16 @@ class ShippingServiceOption extends AbstractItem implements ArrayNotationInterfa
      */
     public function toArray(): iterable
     {
+        $shipsTo = (function() {
+            if (!is_array($this->getShipsTo())) {
+                return null;
+            }
+
+            return apply_on_iterable($this->getShipsTo(), function(Location $item) {
+                return $item->toArray();
+            });
+        })();
+
         return [
             'estimatedDeliveryMaxTime' => $this->getEstimatedDeliveryMaxTime(),
             'estimatedDeliveryMinTime' => $this->getEstimatedDeliveryMinTime(),
@@ -269,15 +279,7 @@ class ShippingServiceOption extends AbstractItem implements ArrayNotationInterfa
             'shippingSurcharge' => ($this->getShippingSurcharge() instanceof BasePrice) ? $this->getShippingSurcharge()->toArray() : null,
             'shippingTimeMax' => $this->getShippingTimeMax(),
             'shippingTimeMin' => $this->getShippingTimeMin(),
-            'shipsTo' => (function() {
-                if (!is_array($this->getShipsTo())) {
-                    return null;
-                }
-
-                return apply_on_iterable($this->getShipsTo(), function(Location $item) {
-                    return $item->toArray();
-                });
-            })(),
+            'shipsTo' => $shipsTo,
         ];
     }
 }

@@ -10,6 +10,7 @@ export const SingleItem = {
     data: function() {
         return {
             item: null,
+            toggleShowShippingDetails: false
         }
     },
     template: `<transition name="fade"><div class="SingleItemWrapper">
@@ -118,7 +119,7 @@ export const SingleItem = {
                     </div>
                     
                         <shipping-details
-                            v-if="item"
+                            v-if="item && toggleShowShippingDetails"
                             v-on:before-modal-close="onShippingDetailsClose"
                             :item-id="item.itemId"
                             :ships-to-locations="item.shipsToLocations"
@@ -158,7 +159,11 @@ export const SingleItem = {
     },
     methods: {
         showShippingDetails() {
-            this.$modal.show('shipping-details-modal');
+            this.toggleShowShippingDetails = true;
+
+            setTimeout(() => {
+                this.$modal.show('shipping-details-modal');
+            }, 500);
         },
 
         onShippingDetailsClose() {

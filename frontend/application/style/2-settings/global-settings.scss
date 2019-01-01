@@ -18,6 +18,24 @@ $basicGreen: #15ba00;
 
 $errorColor: #f41f1f;
 
+.autocomplete__box {
+  position: relative;
+}
+
+.autocomplete__results {
+  position: absolute;
+  height: 200px;
+
+  .autocomplete__results__item {
+    padding: 10px;
+  }
+
+  .autocomplete__results__item:hover {
+    background-color: $basicOrange;
+    color: white;
+  }
+}
+
 body {
   max-width: 1280px;
   font-size: 16px;
