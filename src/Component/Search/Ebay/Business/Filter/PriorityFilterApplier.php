@@ -27,6 +27,12 @@ class PriorityFilterApplier implements FilterApplierInterface
             /** @var FilterInterface $filter */
             $filter = $entry['item']->getFilter();
 
+            if (!empty($filteredEntries)) {
+                $filteredEntries = $filter->filter($filteredEntries);
+
+                continue;
+            }
+
             $filteredEntries = $filter->filter($entries);
         }
 

@@ -64,6 +64,10 @@ class SearchResponseModel implements
      */
     private $country;
     /**
+     * @var array $listingInfo
+     */
+    private $listingInfo;
+    /**
      * @var bool $isTranslated
      */
     private $isTranslated = false;
@@ -82,6 +86,7 @@ class SearchResponseModel implements
      * @param array $shippingLocations
      * @param MarketplaceType|TypeInterface $marketplace
      * @param Country $country
+     * @param array $listingInfo
      */
     public function __construct(
         string $uniqueName,
@@ -96,7 +101,8 @@ class SearchResponseModel implements
         string $taxonomyName,
         array $shippingLocations,
         string $globalId,
-        ?Country $country
+        ?Country $country,
+        ?array $listingInfo
     ) {
         $this->uniqueName = $uniqueName;
         $this->itemId = $itemId;
@@ -111,6 +117,7 @@ class SearchResponseModel implements
         $this->marketplace = $marketplace;
         $this->shippingLocations = $shippingLocations;
         $this->country = $country;
+        $this->listingInfo = $listingInfo;
     }
     /**
      * @return Country|null
@@ -148,11 +155,35 @@ class SearchResponseModel implements
         $this->title = new Title($title);
     }
     /**
+     * @return bool
+     */
+    public function isFixedPrice(): bool
+    {
+        $infoTypes = ['FixedPrice', ['StoreInventory']];
+        $listingType = $this->getListingInfo()['listingType'];
+
+        return in_array($listingType, $infoTypes) === true;
+    }
+    /**
+     * @return bool
+     */
+    public function isAuction(): bool
+    {
+        return $this->isFixedPrice() === false;
+    }
+    /**
      * @return Image
      */
     public function getImage(): Image
     {
         return $this->image;
+    }
+    /**
+     * @return array|null
+     */
+    public function getListingInfo(): ?array
+    {
+        return $this->listingInfo;
     }
     /**
      * @return BusinessEntity
@@ -251,6 +282,9 @@ class SearchResponseModel implements
             'shippingLocations' => $this->getShippingLocations(),
             'isTranslated' => $this->isTranslated(),
             'country' => $this->getCountry()->toArray(),
+            'listingInfo' => $this->getListingInfo(),
+            'isFixedPrice' => $this->isFixedPrice(),
+            'isAuction' => $this->isAuction(),
         ];
     }
 }

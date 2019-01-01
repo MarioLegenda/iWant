@@ -82,15 +82,6 @@ class EbayModelFactory
         SearchModelInterface $model,
         TypedArray $itemFilters
     ) {
-        if ($model->isFixedPriceOnly()) {
-            $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
-                'name',
-                'value',
-                ItemFilterConstants::LISTING_TYPE,
-                ['FixedPrice']
-            ));
-        }
-
         if ($model->isHighQuality()) {
             $itemFilters[] = new ItemFilter(new ItemFilterMetadata(
                 'name',

@@ -26,7 +26,7 @@ class DataProvider
         $globalIds = $data['globalId'];
         $pagination = (isset($data['pagination']) and $data['pagination'] instanceof EbayPagination)
             ? $data['pagination']
-            : new EbayPagination(4, 1);
+            : new EbayPagination(8, 1);
 
         $internalPagination = (isset($data['internalPagination']) and $data['internalPagination'] instanceof EbayPagination)
             ? $data['internalPagination']
@@ -36,7 +36,7 @@ class DataProvider
 
         $hideDuplicateItems = (isset($data['hideDuplicateItems'])) ? $data['hideDuplicateItems'] : false;
         $doubleLocaleSearch = (isset($data['doubleLocaleSearch'])) ? $data['doubleLocaleSearch'] : false;
-        $fixedPriceOnly = (isset($data['fixedPriceOnly'])) ? $data['fixedPriceOnly'] : false;
+        $fixedPriceOnly = (isset($data['fixedPrice'])) ? $data['fixedPrice'] : false;
         $searchStores = (isset($data['searchStores'])) ? $data['searchStores'] : false;
 
         $sortingMethod = (isset($data['sortingMethod'])) ? $data['sortingMethod'] : 'bestMatch';

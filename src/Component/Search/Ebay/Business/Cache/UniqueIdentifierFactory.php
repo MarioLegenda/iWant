@@ -20,7 +20,6 @@ class UniqueIdentifierFactory
             'globalId' => $model->getGlobalId(),
             'hideDuplicateItems' => $model->isHideDuplicateItems(),
             'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
-            'fixedPrice' => $model->isFixedPriceOnly(),
             'searchStores' => $model->isSearchStores(),
             'newlyListed' => $model->isNewlyListed(),
         ]));

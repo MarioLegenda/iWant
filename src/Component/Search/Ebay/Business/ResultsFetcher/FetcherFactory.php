@@ -3,6 +3,7 @@
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
+use App\Component\Search\Ebay\Business\Filter\FixedPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher;
@@ -49,11 +50,15 @@ class FetcherFactory
         $chosenFetcher = ($model->isDoubleLocaleSearch()) ? $this->doubleLocaleSearchFetcher : $this->singleResultFetcher;
 
         if ($model->isLowestPrice()) {
-            $this->filterApplier->add(new LowestPriceFilter());
+            $this->filterApplier->add(new LowestPriceFilter(), 2);
         }
 
         if ($model->isHighestPrice()) {
-            $this->filterApplier->add(new HighestPriceFilter());
+            $this->filterApplier->add(new HighestPriceFilter(), 1);
+        }
+
+        if ($model->isFixedPriceOnly()) {
+            $this->filterApplier->add(new FixedPriceFilter(), 1);
         }
 
         if ($this->filterApplier->hasFilters()) {

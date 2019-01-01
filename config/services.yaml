@@ -96,7 +96,7 @@ parameters:
 
     locale: 'en'
 
-    search_component_batch_requests_num: 1
+    search_component_batch_requests_num: 3
 
     single_item_cache_ttl: 86400
     search_response_cache_ttl: 86400

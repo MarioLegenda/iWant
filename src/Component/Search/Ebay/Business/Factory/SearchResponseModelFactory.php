@@ -11,6 +11,7 @@ use App\Component\Search\Ebay\Model\Response\Price;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\Ebay\Model\Response\Title;
 use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
+use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\ListingInfo;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
@@ -102,7 +103,8 @@ class SearchResponseModelFactory
                 $taxonomyName,
                 $shippingLocations,
                 $globalId,
-                $country
+                $country,
+                ($item->getListingInfo() instanceof ListingInfo) ? $item->getListingInfo()->toArray() : null
             );
         }
 

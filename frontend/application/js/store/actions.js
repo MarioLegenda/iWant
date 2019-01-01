@@ -126,7 +126,6 @@ export const actions = {
         context.commit('totalListing', null);
         context.commit('ebaySearchListingLoading', true);
         context.commit('modelWasUpdated', model);
-        context.commit('preparingProductsLoading', true);
 
         searchRepo.optionsForProductListing(model, (r) => {
             const data = r.resource.data;
@@ -135,6 +134,8 @@ export const actions = {
 
             switch (data.method) {
                 case 'POST':
+                    context.commit('preparingProductsLoading', true);
+
                     searchRepo.postPrepareSearchProducts(JSON.stringify({
                         searchData: model,
                     }), (r) => {

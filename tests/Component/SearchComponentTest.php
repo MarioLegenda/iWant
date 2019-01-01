@@ -71,6 +71,41 @@ class SearchComponentTest extends BasicSetup
         static::assertEquals(count($totalProducts), $maxProducts);
     }
 
+    public function test_generic_testing()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'iphone 7',
+            'locale' => 'en',
+            'lowestPrice' => true,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-DE',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
+            'hideDuplicateItems' => false,
+            'doubleLocaleSearch' => false,
+            'fixedPrice' => true,
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        foreach ($products as $product) {
+            static::assertTrue($product['isFixedPrice']);
+        }
+
+        static::assertEquals(count($products), $model->getPagination()->getLimit());
+    }
+
     public function test_lowest_price_filtered_result()
     {
         /** @var SearchComponent $searchComponent */
@@ -86,9 +121,10 @@ class SearchComponentTest extends BasicSetup
             'highestPrice' => false,
             'globalId' => 'EBAY-GB',
             'internalPagination' => new Pagination(80, 1),
-            'pagination' => new Pagination(8, 1),
-            'hideDuplicateItems' => false,
+            'pagination' => new Pagination(8, 2),
+            'hideDuplicateItems' => true,
             'doubleLocaleSearch' => false,
+            'fixedPrice' => true,
         ];
 
         /** @var SearchModel $model */
@@ -187,12 +223,13 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'garden hose',
             'locale' => 'en',
-            'lowestPrice' => false,
+            'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-ES',
-            'internalPagination' => new Pagination(8, 1),
-            'pagination' => new Pagination(80, 1),
+            'fixedPrice' => true,
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
             'doubleLocaleSearch' => true,
         ];
 
@@ -221,10 +258,10 @@ class SearchComponentTest extends BasicSetup
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-ES',
-            'internalPagination' => new Pagination(8, 1),
-            'pagination' => new Pagination(80, 1),
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
             'doubleLocaleSearch' => false,
-            'fixedPriceOnly' => true,
+            'fixedPrice' => true,
         ];
 
         /** @var SearchModel $model */
@@ -233,6 +270,10 @@ class SearchComponentTest extends BasicSetup
         $searchComponent->saveProducts($model);
 
         $products = $searchComponent->getProductsPaginated($model);
+
+        foreach ($products as $product) {
+            static::assertTrue($product['isFixedPrice']);
+        }
 
         static::assertNotEmpty($products);
         static::assertInternalType('array', $products);

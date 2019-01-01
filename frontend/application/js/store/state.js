@@ -8,7 +8,6 @@ export const defaultFilters = {
     highQuality: false,
     shippingCountries: [],
     taxonomies: [],
-    // this needs to be removed
     globalIds: [],
     hideDuplicateItems: false,
     doubleLocaleSearch: false,

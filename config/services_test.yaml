@@ -89,7 +89,7 @@ parameters:
     browser_shipping_costs_cache_ttl: 86400
     browser_keyword_translation_cache_ttl: 108000
 
-    search_component_batch_requests_num: 1
+    search_component_batch_requests_num: 3
 
 services:
     _defaults:
