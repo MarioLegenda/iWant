@@ -4,8 +4,7 @@ export const SiteLanguageChoice = {
     data: function() {
         return {
             selected: { label: 'English (default)', value: 'en', icon: '/images/country_icons/ebay-gb.svg' },
-            placeholder: "Select a language",
-            options: [
+            languages: [
                 { label: 'English (default)', value: 'en', icon: SUPPORTED_SITES.find('ebay-gb').icon },
                 { label: 'German', value: 'de', icon: SUPPORTED_SITES.find('ebay-de').icon },
                 { label: 'Spanish', value: 'es', icon: SUPPORTED_SITES.find('ebay-es').icon },
@@ -14,7 +13,7 @@ export const SiteLanguageChoice = {
                 { label: 'Irish', value: 'ga', icon: SUPPORTED_SITES.find('ebay-ie').icon },
                 { label: 'Polish', value: 'pl', icon: SUPPORTED_SITES.find('ebay-pl').icon },
                 { label: 'Czech', value: 'cs', icon: SUPPORTED_SITES.findAny('czech').icon },
-                { label: 'Slovakian', value: 'sk', icon: SUPPORTED_SITES.findAny('slovakia').icon },
+                { label: 'Slovak', value: 'sk', icon: SUPPORTED_SITES.findAny('slovakia').icon },
             ]
         }
     },
@@ -39,33 +38,39 @@ export const SiteLanguageChoice = {
     },
     template: `
             <div class="SiteLanguageChoice">
-                <span class="Title">{{translationsMap.languageChoiceExplanation}}</span>
-                <v-select
-                    :value="selected"
-                    :options="options"
-                    @input="onInputChange"
-                    label="label"
-                    :placeholder="placeholder">
+                <modal
+                    name="site-language-choice-modal"
+                    height="auto">
                     
-                    <template slot="option" slot-scope="option">
-                        <img :src="option.icon" class="LanguageImage">
-                        {{option.label}}
-                    </template>
-                </v-select>
+                    <div class="LanguageChoiceModalWrapper">
+                        <p 
+                            class="LanguageChoice"
+                            v-for="item in languages" 
+                            :key="item.value" 
+                            @click="onSiteLanguageChosen(item.value)">
+                            {{item.label}}
+                            
+                            <img :src="item.icon" />
+                        </p>
+                    </div>
+                </modal>
+                
+                <span class="Explanation">{{translationsMap.languageChoiceExplanation}}</span>
+                <p @click="openLanguageModal" class="SelectedLanguage">{{selected.label}}<img :src="selected.icon" /></p>
             </div>`,
     methods: {
-        onInputChange(locale) {
-            if (locale.value === this.selected.value) {
-                return;
-            }
+        openLanguageModal() {
+            this.$modal.show('site-language-choice-modal');
+        },
 
+        onSiteLanguageChosen(locale) {
             this.refresh(locale);
         },
 
         selectLocale(locale) {
-            for (let i = 0; i < this.options.length; i++) {
-                if (this.options[i].value === locale) {
-                    this.selected = this.options[i];
+            for (let i = 0; i < this.languages.length; i++) {
+                if (this.languages[i].value === locale) {
+                    this.selected = this.languages[i];
 
                     break;
                 }
@@ -75,7 +80,7 @@ export const SiteLanguageChoice = {
         refresh(locale) {
             const paths = location.pathname.split('/').splice(2);
 
-            paths.unshift(locale.value);
+            paths.unshift(locale);
 
             const path = `/${paths.join('/')}`;
 

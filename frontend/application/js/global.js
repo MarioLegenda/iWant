@@ -280,16 +280,13 @@ export class Init {
                                 
                                 <div class="ComponentBorderSeparator"></div>
                    
-                                <site-language-choice></site-language-choice>
-
                                 <router-view></router-view>
                                 
                                 <global-error-handler></global-error-handler>
                             </div>
                         </transition>`,
                     components: {
-                        Header,
-                        'site-language-choice': SiteLanguageChoice,
+                        'Header': Header,
                         'navigation': Navigation,
                         'global-error-handler': GlobalErrorHandler,
                     }

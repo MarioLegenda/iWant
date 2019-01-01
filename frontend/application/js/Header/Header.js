@@ -1,3 +1,5 @@
+import {SiteLanguageChoice} from "./SiteLanguageChoice";
+
 export const Header = {
     template: `<div id="main_header">
                    <header>
@@ -8,5 +10,11 @@ export const Header = {
                            <span class="logo-part version-part">Beta version</span>
                        </router-link>
                    </header>
+                   
+                   <site-language-choice></site-language-choice>
+
                </div>`,
+    components: {
+        'site-language-choice': SiteLanguageChoice,
+    }
 };
