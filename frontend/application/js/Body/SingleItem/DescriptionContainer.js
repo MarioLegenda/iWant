@@ -33,7 +33,7 @@ export const DescriptionContainer = {
                 return this.description;
             }
 
-            return this.translationsMap.noDescription;
+            return this.translationsMap.productPage.noDescription;
         },
         translationsMap: function() {
             return this.$store.state.translationsMap;
