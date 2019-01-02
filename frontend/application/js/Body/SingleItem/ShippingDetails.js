@@ -227,7 +227,7 @@ export const ShippingDetails = {
     template: `<div class="ShippingDetailsWrapper">
                    <modal 
                        name="shipping-details-modal"
-                       width="70%"
+                       width="95%"
                        height="auto"
                        :minHeight="500"
                        :scrollable="true"

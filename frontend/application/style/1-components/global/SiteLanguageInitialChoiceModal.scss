@@ -1,0 +1,89 @@
+.SiteLanguageInitialChoiceWrapper {
+  width: 95%;
+
+  .SiteLanguageChoiceModal {
+    padding: 30px;
+  }
+
+  .ChoiceInformation {
+    line-height: 1.4em;
+  }
+
+  .LanguageChoiceModalWrapper {
+    width: 100%;
+    float: left;
+  }
+
+  .LanguageChoice {
+    width: 100%;
+    float: left;
+
+    position: relative;
+
+    padding: 15px;
+
+    margin: 0 0 10px 0;
+
+    border-left: 1px solid $lightestGray;
+
+    transition: background-color 0.5s;
+    -webkit-transition: background-color 0.5s;
+    -o-transition: background-color 0.5s;
+    -moz-transition: background-color 0.5s;
+
+    img {
+      position: absolute;
+      display: block;
+      width: 30px;
+      height: 30px;
+
+      right: 8px;
+      top: 8px;
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      background-color: $basicOrange;
+      border-left: 1px solid $basicOrange;
+      color: white;
+    }
+  }
+
+  .ChosenLanguage {
+    background-color: $basicOrange;
+    border-left: 1px solid $basicOrange;
+    color: white;
+  }
+
+  .ActionContainer {
+    width: 100%;
+    float: left;
+
+    button {
+      width: 100px;
+      float: right;
+      font-size: 1.2em;
+      border: none;
+      background: none;
+      font-family: $mainFont;
+
+      color: $textColor;
+      padding: 10px;
+      border: 1px solid $lightestGray;
+
+      transition: background-color 0.5s;
+      -moz-transition: background-color 0.5s;
+      -webkit-transition: background-color 0.5s;
+      -o-transition: background-color 0.5s;
+
+      margin-bottom: 30px;
+
+      &:hover {
+        color: white;
+        cursor: pointer;
+        background-color: $basicOrange;
+      }
+    }
+  }
+}

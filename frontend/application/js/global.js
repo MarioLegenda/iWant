@@ -17,6 +17,7 @@ import {getters} from "./store/getters";
 import ToggleButton from 'vue-js-toggle-button'
 import {Navigation} from "./Navigation/Navigation";
 import {GlobalErrorHandler} from "./global/GlobalErrorHandler";
+import {SiteLanguageInitialChoiceModal} from "./global/SiteLanguageInitialChoiceModal";
 
 export class Init {
     static registerWindowPrototypeMethods() {
@@ -262,18 +263,17 @@ export class Init {
                     el: '#vue_app',
                     store,
                     router: createVueRouter(),
-                    created() {
-                        let locale = location.pathname.split('/')[1];
 
-                        if (locale === null || typeof locale === 'undefined' || locale.length === 0) {
-                            locale = 'en';
-                        }
+                    created() {
+                        this._showSiteLanguageChoiceModalIfNecessary();
+                        const locale = this._determineLocale();
 
                         this.$store.dispatch('localeChangedAction', {
                             value: locale,
-                            origin: 'Root'
+                            origin: 'Root',
                         });
                     },
+
                     template: `
                         <transition name="fade">
                             <div class="Global">
@@ -286,10 +286,42 @@ export class Init {
                                 <router-view></router-view>
                                 
                                 <global-error-handler></global-error-handler>
+                                
+                                <site-language-modal></site-language-modal>
                             </div>
                         </transition>`,
+                    methods: {
+                        _showSiteLanguageChoiceModalIfNecessary() {
+                            const cookieHandler = window.CookieHandler;
+
+                            if (!cookieHandler.readCookie('SiteLanguage')) {
+                                setTimeout(() => {
+                                    this.$modal.show('site-language-initial-choice-modal');
+                                }, 2000);
+                            }
+                        },
+
+                        _determineLocale() {
+                            const cookieHandler = window.CookieHandler;
+
+                            if (cookieHandler.readCookie('SiteLanguage')) {
+                                return cookieHandler.readCookie('SiteLanguage');
+
+                                return;
+                            }
+
+                            let locale = location.pathname.split('/')[1];
+
+                            if (locale === null || typeof locale === 'undefined' || locale.length === 0) {
+                                locale = 'en';
+                            }
+
+                            return locale;
+                        }
+                    },
                     components: {
                         'Header': Header,
+                        'site-language-modal': SiteLanguageInitialChoiceModal,
                         'navigation': Navigation,
                         'global-error-handler': GlobalErrorHandler,
                     }

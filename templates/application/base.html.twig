@@ -25,7 +25,9 @@
                 var currentVersion = 'iUVbPeJwnbCgDHrGANqezXyviE7vUcLvuQarf';
                 var src = '/js/dist/build.js';
 
-                function createCookie(name, value, days) {
+                window.CookieHandler = {};
+
+                window.CookieHandler.createCookie = function createCookie(name, value, days) {
                     var expires;
 
                     if (days) {
@@ -38,9 +40,9 @@
                     }
 
                     document.cookie = name+"="+value+expires+"; path=/";
-                }
+                };
 
-                function readCookie(name) {
+                window.CookieHandler.readCookie = function readCookie(name) {
                     var nameEQ = name + "=";
 
                     var ca = document.cookie.split(';');
@@ -58,11 +60,12 @@
                     }
 
                     return null;
-                }
+                };
 
-                function eraseCookie(name) {
-                    createCookie(name,"",-1);
-                }
+                window.CookieHandler.eraseCookie = function eraseCookie(name) {
+                    window.CookieHandler.createCookie(name,"",-1);
+                };
+
 
                 function addScript(src) {
                     var s = document.createElement( 'script' );
@@ -71,16 +74,16 @@
                 }
 
                 function handleProdBuild() {
-                    if (readCookie('version') === null) {
-                        createCookie('version', currentVersion, 30);
+                    if (window.CookieHandler.readCookie('version') === null) {
+                        window.CookieHandler.createCookie('version', currentVersion, 30);
 
                         addScript(src + '?v=' + currentVersion);
 
                         return false;
                     }
 
-                    if (readCookie('version') !== null) {
-                        var version = readCookie('version');
+                    if (window.CookieHandler.readCookie('version') !== null) {
+                        var version = window.CookieHandler.readCookie('version');
 
                         if (version !== currentVersion) {
                             addScript(src + '?v=' + currentVersion);
