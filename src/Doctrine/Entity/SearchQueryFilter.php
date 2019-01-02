@@ -12,10 +12,12 @@ use Doctrine\ORM\Mapping\PrePersist;
 use Doctrine\ORM\Mapping\PreUpdate;
 use Doctrine\ORM\Mapping\Table;
 use App\Library\Util\Util;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * @Entity @Table(
- *     name="search_query_filters"
+ *     name="search_query_filters",
+ *     uniqueConstraints={ @UniqueConstraint(columns={"reference"}) },
  * )
  * @HasLifecycleCallbacks()
  **/
@@ -34,7 +36,7 @@ class SearchQueryFilter implements ArrayNotationInterface
     private $reference;
     /**
      * @var string $values
-     * @Column(type="text")
+     * @Column(type="text", name="filterable_values")
      */
     private $values;
     /**

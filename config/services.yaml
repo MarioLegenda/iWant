@@ -420,3 +420,9 @@ services:
             $translationCenters: '%translation_centers%'
         tags:
             - { name: 'console.command' }
+
+    App\Symfony\Command\BatchAddSearchQueryFilters:
+        arguments:
+            $searchQueryFilterRepository: '@App\Doctrine\Repository\SearchQueryFilterRepository'
+        tags:
+            - { name: 'console.command' }
