@@ -379,6 +379,10 @@ services:
         arguments:
             $registry: '@doctrine'
 
+    App\Doctrine\Repository\SearchQueryFilterRepository:
+        arguments:
+            $registry: '@doctrine'
+
     # COMMANDS
 
     App\Symfony\Command\PopulateCountries:

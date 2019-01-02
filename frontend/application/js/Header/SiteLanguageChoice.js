@@ -38,8 +38,8 @@ export const SiteLanguageChoice = {
                     <div class="LanguageChoiceModalWrapper">
                         <p 
                             class="LanguageChoice"
-                            v-for="item in languages" 
-                            :key="item.value" 
+                            v-for="item in languages"
+                            :key="item.value"
                             @click="onSiteLanguageChosen(item.value)">
                             {{item.label}}
                             
