@@ -155,9 +155,11 @@ export const actions = {
                                 pagination: r.collection.pagination,
                                 totalItems: r.collection.data.totalItems,
                             });
+
                             context.commit('listingInitialiseEvent', {
                                 initialised: true,
                             });
+
                             context.commit('translatingProductsLoading', false);
                         });
                     });

@@ -7,7 +7,6 @@ import {Header} from "./Header/Header";
 import {routes as apiRoutes} from "./apiRoutes";
 import {RepositoryFactory} from "./services/repositoryFactory";
 import {GlobalIdInformation} from "./services/globalIdInformation";
-import {SiteLanguageChoice} from "./Header/SiteLanguageChoice";
 import {LocaleInfo} from "./services/localeInfo";
 
 import {state} from "./store/state";
@@ -168,7 +167,9 @@ export class Init {
 
         const createErrorHandlers = () => {
             Vue.config.errorHandler = function(err, vm, info) {
-                console.error(err, info, err.stack);
+                if (window.IWL_ENVIRONMENT === 'dev') {
+                    console.error(err, info, err.stack);
+                }
 
                 fetch(apiRoutes.app_post_activity_message, {
                     method: 'POST',
@@ -187,7 +188,9 @@ export class Init {
             };
 
             window.onerror = function(message, source, lineno, colno, error) {
-                console.error(message, source, lineno, colno, error);
+                if (window.IWL_ENVIRONMENT === 'dev') {
+                    console.error(message, source, lineno, colno, error);
+                }
 
                 fetch(apiRoutes.app_post_activity_message, {
                     method: 'POST',

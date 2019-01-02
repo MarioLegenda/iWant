@@ -21,7 +21,7 @@
 
         {% block javascripts %}
             <script>
-                var env = 'dev';
+                window.IWL_ENVIRONMENT = 'dev';
                 var currentVersion = 'iUVbPeJwnbCgDHrGANqezXyviE7vUcLvuQarf';
                 var src = '/js/dist/build.js';
 
@@ -90,9 +90,9 @@
                     }
                 }
 
-                if (env === 'prod') {
+                if (window.IWL_ENVIRONMENT === 'prod') {
                     handleProdBuild();
-                } else if (env === 'dev') {
+                } else if (window.IWL_ENVIRONMENT === 'dev') {
                     addScript(src + '?v=' + currentVersion + Math.floor(Math.random() * Math.floor(999999999)));
                 }
 

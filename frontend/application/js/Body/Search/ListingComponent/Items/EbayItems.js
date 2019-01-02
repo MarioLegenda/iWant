@@ -250,6 +250,7 @@ export const SortModal = {
             }
         }
     },
+
     created() {
         const sortingMethod = this.getFilters.sortingMethod;
 
@@ -270,6 +271,7 @@ export const SortModal = {
                        </div>
                    </modal>
                </div>`,
+
     watch: {
         getFilters: (prev, next) => {}
     },
@@ -319,7 +321,7 @@ const ListingAction = {
 
         sortingMethodChanged(sortingMethod) {
             this.$store.dispatch('changeSortingMethod', sortingMethod);
-        }
+        },
     },
     components: {
         'sorting': SortModal,
