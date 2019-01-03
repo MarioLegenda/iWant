@@ -48,6 +48,8 @@ export const translationsMap = {
         chooseEbaySite: 'Choose eBay site',
         filters: {
             title: 'Sort your search results',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Lowest price',
             highestPriceFilter: 'Highest price',
@@ -112,6 +114,8 @@ export const translationsMap = {
         chooseEbaySite: 'Elija el sitio de eBay',
         filters: {
             title: 'Ordena tus resultados de búsqueda',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'El precio más bajo',
             highestPriceFilter: 'Precio más alto',
@@ -176,6 +180,8 @@ export const translationsMap = {
         chooseEbaySite: 'Choisissez le site eBay',
         filters: {
             title: 'Trier vos résultats de recherche',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Prix ​​le plus bas',
             highestPriceFilter: 'Le prix le plus élevé',
@@ -240,6 +246,8 @@ export const translationsMap = {
         chooseEbaySite: 'Scegli il sito eBay',
         filters: {
             title: 'Ordina i risultati della tua ricerca',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Prezzo più basso',
             highestPriceFilter: 'Il prezzo più alto',
@@ -304,6 +312,8 @@ export const translationsMap = {
         chooseEbaySite: 'Roghnaigh suíomh eBay',
         filters: {
             title: 'Sórtáil do thorthaí cuardaigh',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             lowestPriceFilter: 'Praghas is ísle',
             fixedPriceFilter: 'Fixed price',
             highestPriceFilter: 'An praghas is airde',
@@ -368,6 +378,8 @@ export const translationsMap = {
         chooseEbaySite: 'Wybierz stronę eBay',
         filters: {
             title: 'Sortuj swoje wyniki wyszukiwania',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Najniższa cena',
             highestPriceFilter: 'Wyzsza cena',
@@ -432,6 +444,8 @@ export const translationsMap = {
         chooseEbaySite: 'Wählen Sie die eBay-Site',
         filters: {
             title: 'Sortieren Sie Ihre Suchergebnisse',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Geringster Preis',
             highestPriceFilter: 'Höchster Preis',
@@ -496,6 +510,8 @@ export const translationsMap = {
         chooseEbaySite: 'Vyberte si stránku eBay',
         filters: {
             title: 'Zoradiť výsledky vyhľadávania',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Najnižšia cena',
             highestPriceFilter: 'Najvyššia cena',
@@ -560,6 +576,8 @@ export const translationsMap = {
         chooseEbaySite: 'Zvolte stránky eBay',
         filters: {
             title: 'Řazení výsledků vyhledávání',
+            sqfOn: 'SQF on',
+            sqfOff: 'SQF off',
             fixedPriceFilter: 'Fixed price',
             lowestPriceFilter: 'Nejnižší cena',
             highestPriceFilter: 'Nejvyšší cena',
