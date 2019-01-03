@@ -35,49 +35,77 @@ class BatchAddSearchQueryFilters extends BaseCommand
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
             [
                 'reference' => 'samsung',
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
             [
                 'reference' => 'huawei',
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
             [
                 'reference' => 'zte',
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
             [
                 'reference' => 'google pixel',
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
             [
                 'reference' => 'xiaomi',
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
             [
                 'reference' => 'oppo',
                 'values' => [
                     'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
                     'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
-                ]
+                    'de' => ['maske', 'hülle', 'hulle', 'schützend', 'schutzend', 'schutz', 'beschützend', 'beschutzend', 'klingelzeichen', 'fassung', 'halter', 'abdeckung', 'deckel', 'umschlag', 'geldborse', 'geldbeutel', 'handtasche', 'Berührungsempfindlicher Bildschirm', 'beruhrungsempfindlicher bildschirm', 'schutz', 'beschützer', 'beschutzer', 'bildschirm', 'schirm', 'schale', 'hülle', 'hulle'],
+                    'es' => ['máscara', 'mascara', 'mascarilla', 'careta', 'caja', 'protector', 'anillo', 'aro', 'soporte', 'cubrir', 'tapar', 'encubrir', 'bolso', 'pantalla táctil', 'pantalla tactil', 'lcd', 'pantalla', 'cáscara', 'cascara', 'funda', 'carcasa'],
+                    'it' => ['custodia', 'maschera', 'cassa', 'protettivo', 'ring', 'supporto', 'ricoprire', 'borsa', 'borsetta', 'protettore', 'lcd', 'schermo', 'paravento', 'guscio'],
+                    'pl' => ['maska', 'etui', 'skrzynka', 'ochronny', 'zabezpieczający', 'opiekuńczy', 'opiekunczy', 'pierścionek', 'pierscionek', 'uchwyt', 'podstawka', 'pokrywa', 'osłona', 'oslona', 'portmonetka', 'kiesa', 'torba', 'torebka', 'ekran dotykowy', 'protektor', 'lcd', 'ekran', 'powłoka', 'powloka'],
+                ],
             ],
         ];
     }
