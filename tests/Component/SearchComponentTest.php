@@ -353,10 +353,10 @@ class SearchComponentTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.component');
 
         $modelArray = [
-            'keyword' => 'iphone 7',
+            'keyword' => 'iphone 7 mask',
             'sortingMethod' => 'bestMatch',
             'locale' => 'en',
-            'lowestPrice' => false,
+            'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-FR',

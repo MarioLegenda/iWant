@@ -56,6 +56,34 @@ function advanced_array_filter(array $array, \Closure $callback): array
     return $result;
 }
 
+function utf8_clean_array_merge(...$arrays): array
+{
+    $arrayGen = Util::createGenerator($arrays);
+
+    $newArray = [];
+    foreach ($arrayGen as $entry) {
+        $itemArray = $entry['item'];
+
+        if (!is_array($itemArray)) {
+            $message = sprintf(
+                'The only argument passed to this function must be an array with every entry an array'
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        $itemArrayGen = Util::createGenerator($itemArray);
+
+        foreach ($itemArrayGen as $itemEntry) {
+            $itemArrayItem = $itemEntry['item'];
+
+            $newArray[] = $itemArrayItem;
+        }
+    }
+
+    return $newArray;
+}
+
 function apply_on_iterable(iterable $iterable, \Closure $callback)
 {
     $newResult = [];

@@ -13,6 +13,14 @@ class SearchQueryRegexFilter implements FilterInterface
      */
     private $searchQueryFilterRepository;
     /**
+     * @var string $locale
+     */
+    private $locale;
+    /**
+     * @var string $keyword
+     */
+    private $keyword;
+    /**
      * SearchQueryRegexFilter constructor.
      * @param SearchQueryFilterRepository $searchQueryFilterRepository
      */
@@ -31,6 +39,16 @@ class SearchQueryRegexFilter implements FilterInterface
         $searchQueryFilters = $this->resolveSearchQueryFilters();
         $queryFilterProcessor = $this->createQueryFilterProcessor($searchQueryFilters);
 
+        if ($queryFilterProcessor->hasReference($this->keyword)) {
+            $values = $queryFilterProcessor->getFoundValues($this->keyword, $this->locale);
+
+            foreach ($values as $marker) {
+                if (preg_match(sprintf('#%s#i', strtolower($marker)), strtolower($this->keyword)) === 1) {
+                    return $entries;
+                }
+            }
+        }
+
         $filtered = [];
         foreach ($entriesGen as $entry) {
             $item = $entry['item'];
@@ -38,7 +56,7 @@ class SearchQueryRegexFilter implements FilterInterface
             $title = $item['title']['original'];
 
             if ($queryFilterProcessor->hasReference($title)) {
-                $values = $queryFilterProcessor->getFoundValues($title);
+                $values = $queryFilterProcessor->getFoundValues($title, $this->locale);
 
                 $found = false;
                 foreach ($values as $marker) {
@@ -58,6 +76,20 @@ class SearchQueryRegexFilter implements FilterInterface
         }
 
         return $filtered;
+    }
+    /**
+     * @param string $locale
+     */
+    public function setLocale(string $locale): void
+    {
+        $this->locale = $locale;
+    }
+    /**
+     * @param string $keyword
+     */
+    public function setSearchKeyword(string $keyword): void
+    {
+        $this->keyword = $keyword;
     }
     /**
      * @return array
@@ -133,9 +165,10 @@ class SearchQueryRegexFilter implements FilterInterface
             }
             /**
              * @param string $query
+             * @param string $locale
              * @return array
              */
-            public function getFoundValues(string $query): ?array
+            public function getFoundValues(string $query, string $locale): ?array
             {
                 $referencesGen = Util::createGenerator($this->referencesOnly);
 
@@ -144,7 +177,7 @@ class SearchQueryRegexFilter implements FilterInterface
                     $item = $entry['item'];
 
                     if (preg_match(sprintf('#%s#i', $item), $query) === 1) {
-                        $values = array_replace_recursive($values, $this->findByReference($item));
+                        $values = utf8_clean_array_merge($values, $this->findByReference($item, $locale));
                     }
                 }
 
@@ -161,13 +194,20 @@ class SearchQueryRegexFilter implements FilterInterface
             }
             /**
              * @param string $reference
+             * @param string $locale
              * @return array|null
              */
-            public function findByReference(string $reference): array
+            public function findByReference(string $reference, string $locale): array
             {
                 foreach ($this->searchQueryFilters as $searchQueryFilter) {
                     if ($reference === $searchQueryFilter['reference']) {
-                        return $searchQueryFilter['values'];
+                        $values = $searchQueryFilter['values'];
+
+                        if (!array_key_exists($locale, $values)) {
+                            return $values['en'];
+                        }
+
+                        return utf8_clean_array_merge($values[$locale], $values['en']);
                     }
                 }
 

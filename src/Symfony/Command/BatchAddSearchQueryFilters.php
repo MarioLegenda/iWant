@@ -32,31 +32,52 @@ class BatchAddSearchQueryFilters extends BaseCommand
         $this->entries = [
             [
                 'reference' => 'iphone',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
             [
                 'reference' => 'samsung',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
             [
                 'reference' => 'huawei',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
             [
                 'reference' => 'zte',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
             [
                 'reference' => 'google pixel',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
             [
                 'reference' => 'xiaomi',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
             [
                 'reference' => 'oppo',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => [
+                    'en' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell'],
+                    'fr' => ['housse', 'masque', 'étui', 'etui', 'protecteur', 'bague', 'anneau', 'titulaire', 'détenteur', 'detenteur', 'recouvrir', 'sac à main', 'sac a main', 'écran tactile', 'ecran tactile', 'protecteur', 'lcd', 'écran', 'ecran', 'coquille'],
+                ]
             ],
         ];
     }

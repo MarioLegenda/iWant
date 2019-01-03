@@ -118,6 +118,10 @@ services:
         arguments:
             $router: '@router'
 
+    App\App\Library\Representation\SiteLocaleMappingRepresentation:
+        arguments:
+            $mapping: '%ebay_site_lang_locale_mapping%'
+
     App\Library\:
         resource: '../src/Library'
         exclude: '../src/Library'
