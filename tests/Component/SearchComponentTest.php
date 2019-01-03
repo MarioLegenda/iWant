@@ -2,6 +2,7 @@
 
 namespace App\Tests\Component;
 
+use App\Component\Search\Ebay\Business\SearchAbstraction;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
@@ -293,8 +294,8 @@ class SearchComponentTest extends BasicSetup
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-GB',
-            'internalPagination' => new Pagination(8, 1),
-            'pagination' => new Pagination(80, 1),
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
             'doubleLocaleSearch' => false,
             'fixedPriceOnly' => true,
             'searchStores' => true,
@@ -326,10 +327,10 @@ class SearchComponentTest extends BasicSetup
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-GB',
-            'internalPagination' => new Pagination(8, 1),
-            'pagination' => new Pagination(80, 1),
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
             'doubleLocaleSearch' => false,
-            'fixedPriceOnly' => true,
+            'fixedPrice' => true,
             'searchStores' => true,
         ];
 
@@ -342,5 +343,39 @@ class SearchComponentTest extends BasicSetup
 
         static::assertNotEmpty($products);
         static::assertInternalType('array', $products);
+    }
+
+    public function test_sqf()
+    {
+        /** @var SearchAbstraction $searchAbstraction */
+        $searchAbstraction = $this->locator->get(SearchAbstraction::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'iphone 7',
+            'sortingMethod' => 'bestMatch',
+            'locale' => 'en',
+            'lowestPrice' => false,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-FR',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
+            'doubleLocaleSearch' => false,
+            'fixedPrice' => true,
+            'searchStores' => false,
+            'searchQueryFilter' => true,
+            'hideDuplicateItems' => true,
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $products = $searchAbstraction->getProducts($model);
+
+        $batchRequestsNum = $this->locator->getParameter('search_component_batch_requests_num');
+
+        static::assertLessThan($batchRequestsNum * 80, count($products));
     }
 }

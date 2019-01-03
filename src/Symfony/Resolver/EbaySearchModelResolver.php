@@ -75,7 +75,8 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['doubleLocaleSearch'],
             $filters['fixedPrice'],
             $filters['brandSearch'],
-            $filters['sortingMethod']
+            $filters['sortingMethod'],
+            $filters['searchQueryFilter']
         );
 
         return true;

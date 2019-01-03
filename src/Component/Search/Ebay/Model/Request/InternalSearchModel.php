@@ -68,6 +68,10 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $sortingMethod = 'bestMatch';
     /**
+     * @var bool $searchQueryFilter
+     */
+    private $searchQueryFilter;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -84,6 +88,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param bool $fixedPriceOnly
      * @param bool $isSearchStores
      * @param string $sortingMethod
+     * @param bool $searchQueryFilter
      */
     public function __construct(
         Language $keyword,
@@ -100,7 +105,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         bool $doubleLocaleSearch,
         bool $fixedPriceOnly,
         bool $isSearchStores,
-        string $sortingMethod
+        string $sortingMethod,
+        bool $searchQueryFilter
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -117,6 +123,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->fixedPriceOnly = $fixedPriceOnly;
         $this->searchStores = $isSearchStores;
         $this->sortingMethod = $sortingMethod;
+        $this->searchQueryFilter = $searchQueryFilter;
     }
     /**
      * @return Language
@@ -337,6 +344,13 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         return $this->sortingMethod;
     }
     /**
+     * @return bool
+     */
+    public function isSearchQueryFilter(): bool
+    {
+        return $this->searchQueryFilter;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -357,6 +371,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
             'fixedPriceOnly' => $this->isFixedPriceOnly(),
             'searchStores' => $this->isSearchStores(),
             'sortingMethod' => $this->getSortingMethod(),
+            'searchQueryFilter' => $this->isSearchQueryFilter(),
         ];
     }
 }

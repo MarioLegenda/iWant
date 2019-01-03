@@ -3,9 +3,7 @@
 namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
-use App\Component\Search\Ebay\Business\Filter\FixedPriceFilter;
-use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
-use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
+use App\Component\Search\Ebay\Business\FilterResolver;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\FetcherInterface;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\SingleSearchFetcher;
@@ -27,19 +25,26 @@ class FetcherFactory
      */
     private $doubleLocaleSearchFetcher;
     /**
+     * @var FilterResolver $filterResolver
+     */
+    private $filterResolver;
+    /**
      * FetcherFactory constructor.
      * @param SingleSearchFetcher $singleResultFetcher
      * @param FilterApplierInterface $filterApplier
      * @param DoubleLocaleSearchFetcher $doubleLocaleSearchFetcher
+     * @param FilterResolver $filterResolver
      */
     public function __construct(
         SingleSearchFetcher $singleResultFetcher,
         DoubleLocaleSearchFetcher $doubleLocaleSearchFetcher,
-        FilterApplierInterface $filterApplier
+        FilterApplierInterface $filterApplier,
+        FilterResolver $filterResolver
     ) {
         $this->singleResultFetcher = $singleResultFetcher;
         $this->filterApplier = $filterApplier;
         $this->doubleLocaleSearchFetcher = $doubleLocaleSearchFetcher;
+        $this->filterResolver = $filterResolver;
     }
     /**
      * @param SearchModel|SearchModelInterface $model
@@ -49,16 +54,31 @@ class FetcherFactory
     {
         $chosenFetcher = ($model->isDoubleLocaleSearch()) ? $this->doubleLocaleSearchFetcher : $this->singleResultFetcher;
 
+        if ($model->isSearchQueryFilter()) {
+            $this->filterApplier->add(
+                $this->filterResolver->getSearchQueryRegexFilter(),
+                1
+            );
+        }
+
         if ($model->isLowestPrice()) {
-            $this->filterApplier->add(new LowestPriceFilter(), 2);
+            $this->filterApplier->add(
+                $this->filterResolver->getLowestPriceFilter(),
+                3
+            );
         }
 
         if ($model->isHighestPrice()) {
-            $this->filterApplier->add(new HighestPriceFilter(), 1);
+            $this->filterApplier->add(
+                $this->filterResolver->getHighestPriceFilter()
+                , 3
+            );
         }
 
         if ($model->isFixedPriceOnly()) {
-            $this->filterApplier->add(new FixedPriceFilter(), 1);
+            $this->filterApplier->add(
+                $this->filterResolver->getFixedPriceFilter(),
+                2);
         }
 
         if ($this->filterApplier->hasFilters()) {

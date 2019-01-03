@@ -38,6 +38,7 @@ class DataProvider
         $doubleLocaleSearch = (isset($data['doubleLocaleSearch'])) ? $data['doubleLocaleSearch'] : false;
         $fixedPriceOnly = (isset($data['fixedPrice'])) ? $data['fixedPrice'] : false;
         $searchStores = (isset($data['searchStores'])) ? $data['searchStores'] : false;
+        $searchQueryFilter = (isset($data['searchQueryFilter'])) ? $data['searchQueryFilter'] : false;
 
         $sortingMethod = (isset($data['sortingMethod'])) ? $data['sortingMethod'] : 'bestMatch';
 
@@ -56,7 +57,8 @@ class DataProvider
             $doubleLocaleSearch,
             $fixedPriceOnly,
             $searchStores,
-            $sortingMethod
+            $sortingMethod,
+            $searchQueryFilter
         );
     }
 }

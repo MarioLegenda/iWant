@@ -13,6 +13,7 @@ export const defaultFilters = {
     doubleLocaleSearch: false,
     fixedPrice: false,
     brandSearch: false,
+    searchQueryFilter: true,
 };
 
 export const defaultSearchState = {

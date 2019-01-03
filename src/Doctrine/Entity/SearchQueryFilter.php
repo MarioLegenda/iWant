@@ -83,6 +83,13 @@ class SearchQueryFilter implements ArrayNotationInterface
         return $this->values;
     }
     /**
+     * @param string $values
+     */
+    public function setValues(string $values)
+    {
+        $this->values = $values;
+    }
+    /**
      * @return array
      */
     public function getValuesAsArray(): array

@@ -32,7 +32,7 @@ class BatchAddSearchQueryFilters extends BaseCommand
         $this->entries = [
             [
                 'reference' => 'iphone',
-                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag']
+                'values' => ['mask', 'case', 'protective', 'ring', 'holder', 'cover', 'purse', 'handbag', 'touch screen', 'protector', 'lcd', 'screen', 'shell']
             ],
             [
                 'reference' => 'samsung',
@@ -86,18 +86,17 @@ class BatchAddSearchQueryFilters extends BaseCommand
         foreach ($entries as $entry) {
             $item = $entry['item'];
 
-            $existingSearchQueryFilter = $this->searchQueryFilterRepository->findBy([
+            /** @var SearchQueryFilter $existingSearchQueryFilter */
+            $existingSearchQueryFilter = $this->searchQueryFilterRepository->findOneBy([
                 'reference' => $item['reference'],
             ]);
 
             if (!empty($existingSearchQueryFilter)) {
-                $message = sprintf(
-                    '%s already exists with reference %s',
-                    get_class($this),
-                    $item['reference']
-                );
+                $existingSearchQueryFilter->setValues(jsonEncodeWithFix($item['values']));
 
-                throw new \RuntimeException($message);
+                $this->searchQueryFilterRepository->persistAndFlush($existingSearchQueryFilter);
+
+                continue;
             }
 
             $searchQueryFilter = new SearchQueryFilter(

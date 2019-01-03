@@ -68,6 +68,10 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     private $sortingMethod = 'bestMatch';
     /**
+     * @var bool $searchQueryFilter
+     */
+    private $searchQueryFilter = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -84,6 +88,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $fixedPriceOnly
      * @param bool $searchStores
      * @param string $sortingMethod
+     * @param bool $searchQueryFilter
      */
     public function __construct(
         Language $keyword,
@@ -100,7 +105,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         bool $doubleLocaleSearch,
         bool $fixedPriceOnly,
         bool $searchStores,
-        string $sortingMethod
+        string $sortingMethod,
+        bool $searchQueryFilter
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -117,6 +123,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->fixedPriceOnly = $fixedPriceOnly;
         $this->searchStores = $searchStores;
         $this->sortingMethod = $sortingMethod;
+        $this->searchQueryFilter = $searchQueryFilter;
     }
     /**
      * @return Language
@@ -238,6 +245,13 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         return $this->sortingMethod;
     }
     /**
+     * @return bool
+     */
+    public function isSearchQueryFilter(): bool
+    {
+        return $this->searchQueryFilter;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -258,6 +272,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'fixedPriceOnly' => $this->isFixedPriceOnly(),
             'searchStores' => $this->isSearchStores(),
             'sortingMethod' => $this->getSortingMethod(),
+            'searchQueryFilter' => $this->isSearchQueryFilter(),
         ];
     }
     /**
@@ -282,6 +297,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $fixedPriceOnly = $model->isFixedPriceOnly();
         $searchStores = $model->isSearchStores();
         $sortingMethod = $model->getSortingMethod();
+        $searchQueryFilter = $model->isSearchQueryFilter();
 
         return new InternalSearchModel(
             $keyword,
@@ -298,7 +314,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $doubleLocaleSearch,
             $fixedPriceOnly,
             $searchStores,
-            $sortingMethod
+            $sortingMethod,
+            $searchQueryFilter
         );
     }
 }
