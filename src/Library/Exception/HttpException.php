@@ -8,7 +8,6 @@ class HttpException extends \Exception implements HttpExceptionInterface
      * @var HttpExceptionInformationWrapper $httpInformation
      */
     private $httpInformation;
-
     /**
      * HttpException constructor.
      * @param HttpExceptionInformationWrapper $httpExceptionInformationWrapper

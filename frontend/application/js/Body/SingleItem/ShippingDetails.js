@@ -115,6 +115,40 @@ const AdditionalShippingDetails = {
                           </div>
                       </action-name-value-container>
                   </div>
+                  
+                    <div v-if="shippingDetails.salesTax">
+                          <h2>Sales tax</h2>
+                      
+                          <div class="DataContainer">
+                                  <div class="InnerNameValueContainerWrapper" v-if="shippingDetails.salesTax.salesTaxAmount">
+                                      <name-value-container
+                                          name="Amount: "
+                                          v-bind:value="viewPrice(shippingDetails.salesTax.salesTaxAmount)">
+                                      </name-value-container>
+                                  </div>
+                                  
+                                  <div class="InnerNameValueContainerWrapper" v-if="shippingDetails.salesTax.salesTaxPercent">
+                                      <name-value-container
+                                          name="Percent: "
+                                          v-bind:value="shippingDetails.salesTax.salesTaxPercent">
+                                      </name-value-container>
+                                  </div>
+                                  
+                                  <div class="InnerNameValueContainerWrapper" v-if="shippingDetails.salesTax.salesTaxState">
+                                      <name-value-container
+                                          name="State: "
+                                          v-bind:value="shippingDetails.salesTax.salesTaxState">
+                                      </name-value-container>
+                                  </div>
+                                  
+                                  <div class="InnerNameValueContainerWrapper" v-if="shippingDetails.salesTax.salesTaxState">
+                                      <name-value-container
+                                          name="Is shipping included in tax: "
+                                          v-bind:value="(shippingDetails.salesTax.shippingIncludedInTax) ? 'Yes' : 'No'">
+                                      </name-value-container>
+                                  </div>
+                          </div>
+                      </div>
                   </div>
                   
                </div>

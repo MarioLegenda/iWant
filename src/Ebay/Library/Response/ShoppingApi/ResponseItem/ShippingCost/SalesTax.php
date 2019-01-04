@@ -72,7 +72,7 @@ class SalesTax extends AbstractItem implements ArrayNotationInterface
     {
         if ($this->shippingIncludedInTax === null) {
             if (!empty($this->simpleXml->ShippingIncludedInTax)) {
-                $this->shippingIncludedInTax = $this->simpleXml->ShippingIncludedInTax;
+                $this->shippingIncludedInTax = stringToBool($this->simpleXml->ShippingIncludedInTax);
             }
         }
 

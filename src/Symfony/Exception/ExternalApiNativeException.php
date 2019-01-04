@@ -17,9 +17,12 @@ class ExternalApiNativeException extends \Exception implements ImplementsExcepti
      */
     public function __construct(ArrayNotationInterface $body)
     {
+        parent::__construct(jsonEncodeWithFix($body->toArray()));
+
         if ($body instanceof NetworkExceptionBody) {
             $this->message = json_encode($body->toArray());
         }
+
         $this->body = $body;
     }
     /**

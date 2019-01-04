@@ -10,11 +10,35 @@ function checkStatus(response) {
         const error = new Error(response.statusText)
 
         error.response = response;
+        error.type = 'application';
+
+        throw error;
+    }
+
+    if (response.status === 500) {
+        const error = new Error(response.statusText);
+
+        error.response = response;
+        error.type = 'server';
 
         throw error;
     }
 
     return response;
+}
+
+function errorHandler(error) {
+    if (error.type === 'application') {
+        return error.response.json();
+    }
+
+    if (error.type === 'server') {
+        console.log(error);
+        return {
+            statusCode: error.response.status,
+            response: error.response.json(),
+        }
+    }
 }
 
 class Repository {}
@@ -61,9 +85,7 @@ class SearchRepository extends Repository {
                 return response.json()
             })
             .then(success)
-            .catch((error) => {
-                return error.response.json();
-            })
+            .catch(errorHandler)
             .then(Repository.errorHandler);
     }
 
@@ -80,9 +102,7 @@ class SearchRepository extends Repository {
                 return response.json()
             })
             .then(success)
-            .catch((error) => {
-                return error.response.json();
-            })
+            .catch(errorHandler)
             .then(Repository.errorHandler);
     }
 
@@ -100,9 +120,7 @@ class SearchRepository extends Repository {
                 return response.json()
             })
             .then(success)
-            .catch((error) => {
-                return error.response.json();
-            })
+            .catch(errorHandler)
             .then(Repository.errorHandler);
     }
 }
@@ -123,7 +141,8 @@ class SingleItemRepository extends Repository {
                 return response.json()
             })
             .then(success)
-            .catch(Repository.errorHandler);
+            .catch(errorHandler)
+            .then(Repository.errorHandler);
     }
 
     putSingleItem(data, success, error) {
@@ -137,7 +156,8 @@ class SingleItemRepository extends Repository {
                 return response.json()
             })
             .then(success)
-            .catch(Repository.errorHandler);
+            .catch(errorHandler)
+            .then(Repository.errorHandler);
     }
 
     getQuickLookSingleItem(data, success, error) {
@@ -150,7 +170,8 @@ class SingleItemRepository extends Repository {
                 return response.json();
             })
             .then(success)
-            .catch(Repository.errorHandler);
+            .catch(errorHandler)
+            .then(Repository.errorHandler);
     }
 
     getSingleItem(data, success, error) {
@@ -165,7 +186,8 @@ class SingleItemRepository extends Repository {
                 return response.json();
             })
             .then(success)
-            .catch(Repository.errorHandler);
+            .catch(errorHandler)
+            .then(Repository.errorHandler);
     }
 
     getShippingCosts(data, success, error) {
@@ -177,10 +199,11 @@ class SingleItemRepository extends Repository {
         })
             .then(checkStatus)
             .then((response) => {
-                return response.json();
+                return response.json()
             })
             .then(success)
-            .catch(Repository.errorHandler);
+            .catch(errorHandler)
+            .then(Repository.errorHandler);
     }
 }
 

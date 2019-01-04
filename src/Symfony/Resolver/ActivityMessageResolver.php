@@ -48,8 +48,8 @@ class ActivityMessageResolver implements ArgumentValueResolverInterface
         $message = $message['activityMessage'];
 
         $this->model = new ActivityMessage(
-            $message['message'],
-            json_encode($message['additionalData'])
+            (is_string($message['message'])) ? $message['message'] : jsonEncodeWithFix($message['message']),
+            jsonEncodeWithFix($message['additionalData'])
         );
 
         return true;

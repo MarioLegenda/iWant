@@ -219,6 +219,10 @@ export class Init {
                         if (response.statusCode === 503) {
                             store.commit('httpRequestFailed', response);
                         }
+
+                        if (response.statusCode === 500) {
+                            store.commit('httpRequestFailed', response);
+                        }
                     }
 
                     return response;
