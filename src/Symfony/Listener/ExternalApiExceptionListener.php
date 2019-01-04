@@ -4,6 +4,8 @@ namespace App\Symfony\Listener;
 
 use App\Library\Exception\HttpTransferException;
 use App\Library\Exception\TransferExceptionInformationWrapper;
+use App\Library\Slack\Metadata;
+use App\Library\Util\ExceptionCatchWrapper;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
@@ -12,6 +14,7 @@ class ExternalApiExceptionListener extends BaseHttpResponseListener
     /**
      * @param GetResponseForExceptionEvent $event
      * @return void|null
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
@@ -42,10 +45,20 @@ class ExternalApiExceptionListener extends BaseHttpResponseListener
             $exceptionInformation->getBody()
         );
 
+        $data = $this->createDataForEnvironment($exceptionInformation, $logMessage);
+
         $this->logger->critical($logMessage);
 
+        ExceptionCatchWrapper::run(function() use ($data) {
+            $this->slackClient->send(new Metadata(
+                sprintf('An unhandled system exception has been caught by the %s', get_class($this)),
+                '#app_activity',
+                [jsonEncodeWithFix($data)]
+            ));
+        });
+
         $builtData = $this->apiSdk
-            ->create($this->createDataForEnvironment($exceptionInformation, $logMessage))
+            ->create($data)
             ->isError()
             ->method('GET')
             ->setStatusCode(503)

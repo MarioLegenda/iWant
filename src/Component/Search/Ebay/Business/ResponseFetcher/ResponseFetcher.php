@@ -46,10 +46,9 @@ class ResponseFetcher
         $this->searchResponseModelFactory = $searchResponseModelFactory;
     }
     /**
-     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @param SearchModelInterface $model
      * @param string|null $identifier
      * @return iterable
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
     public function getResponse(SearchModelInterface $model, string $identifier = null): iterable

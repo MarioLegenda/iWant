@@ -7,7 +7,7 @@ use App\Doctrine\Repository\CountryRepository;
 use App\Library\Http\HttpCommunicator;
 use App\Library\Http\Request;
 use App\Library\Util\Util;
-use App\Symfony\Exception\ExternalApiNativeException;
+use App\Library\Exception\ExternalApiNativeException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 

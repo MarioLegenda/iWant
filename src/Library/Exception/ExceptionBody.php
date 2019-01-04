@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Symfony\Exception;
+namespace App\Library\Exception;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 

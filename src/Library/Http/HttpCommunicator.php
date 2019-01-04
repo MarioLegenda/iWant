@@ -2,9 +2,9 @@
 
 namespace App\Library\Http;
 
-
+use App\Library\Exception\ExternalApiNativeException;
+use App\Library\Exception\NetworkExceptionBody;
 use App\Library\Http\Response\ResponseModelInterface;
-use App\Symfony\Exception\ExternalApiNativeException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\Exception\ClientException;
@@ -40,13 +40,26 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
         SeekException |
         TooManyRedirectsException |
         TransferException $e) {
+            $networkExceptionBody = new NetworkExceptionBody(
+                $e->getResponse()->getStatusCode(),
+                [(string) $e->getResponse()->getBody()]
+            );
 
-            throw new ExternalApiNativeException($e);
+            throw new ExternalApiNativeException($networkExceptionBody);
         } catch (\Exception $e) {
-            throw new ExternalApiNativeException($e);
+            $networkExceptionBody = new NetworkExceptionBody(
+                500,
+                [$e->getMessage()]
+            );
+
+            throw new ExternalApiNativeException($networkExceptionBody);
         }
     }
-
+    /**
+     * @param Request $request
+     * @return ResponseModelInterface
+     * @throws ExternalApiNativeException
+     */
     public function post(Request $request): ResponseModelInterface
     {
         try {
@@ -69,10 +82,19 @@ class HttpCommunicator implements GenericHttpCommunicatorInterface
         SeekException |
         TooManyRedirectsException |
         TransferException $e) {
+            $networkExceptionBody = new NetworkExceptionBody(
+                $e->getResponse()->getStatusCode(),
+                [(string) $e->getResponse()->getBody()]
+            );
 
-            throw new ExternalApiNativeException($e);
+            throw new ExternalApiNativeException($networkExceptionBody);
         } catch (\Exception $e) {
-            throw new ExternalApiNativeException($e);
+            $networkExceptionBody = new NetworkExceptionBody(
+                500,
+                [$e->getMessage()]
+            );
+
+            throw new ExternalApiNativeException($networkExceptionBody);
         }
     }
     /**

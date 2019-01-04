@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Symfony\Exception;
-
+namespace App\Library\Exception;
 
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
-class ExternalApiNativeException extends \Exception implements ImplementsExceptionBodyInterface
+class ExternalApiNativeException extends \Exception
 {
     /**
      * @var ExceptionBody $body

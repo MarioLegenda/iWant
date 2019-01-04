@@ -3,49 +3,12 @@
 namespace App\Symfony\Listener;
 
 use App\Library\Exception\HttpException;
-use App\Library\Http\Response\ApiSDK;
-use App\Library\Util\Environment;
-use App\Library\Util\SlackImplementation;
-use Psr\Log\LoggerInterface;
+use App\Library\Slack\Metadata;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 
-class SystemExceptionListener
+class SystemExceptionListener extends BaseHttpResponseListener
 {
-    /**
-     * @var Environment $environment
-     */
-    private $environment;
-    /**
-     * @var ApiSDK $apiSdk
-     */
-    private $apiSdk;
-    /**
-     * @var LoggerInterface $logger
-     */
-    private $logger;
-    /**
-     * @var SlackImplementation $slackImplementation
-     */
-    private $slackImplementation;
-    /**
-     * SystemExceptionListener constructor.
-     * @param Environment $environment
-     * @param LoggerInterface $logger
-     * @param ApiSDK $apiSDK
-     * @param SlackImplementation $slackImplementation
-     */
-    public function __construct(
-        Environment $environment,
-        LoggerInterface $logger,
-        ApiSDK $apiSDK,
-        SlackImplementation $slackImplementation
-    ) {
-        $this->logger = $logger;
-        $this->apiSdk = $apiSDK;
-        $this->environment = $environment;
-        $this->slackImplementation = $slackImplementation;
-    }
     /**
      * @param GetResponseForExceptionEvent $event
      * @return JsonResponse|null
@@ -70,14 +33,22 @@ class SystemExceptionListener
 
         $this->logger->critical($logMessage);
 
+        $data = [
+            'type' => $httpInformation->getType(),
+            'message' => $logMessage,
+            'url' => $httpInformation->getRequest()->getBaseUrl(),
+            'external_api' => $httpInformation->getType(),
+            'environment' => (string) $this->environment,
+        ];
+
+        $this->slackClient->send(new Metadata(
+            sprintf('An unhandled system exception has been caught by the %s', get_class($this)),
+            '#app_activity',
+            [jsonEncodeWithFix($data)]
+        ));
+
         $builtData = $this->apiSdk
-            ->create([
-                'type' => $httpInformation->getType(),
-                'message' => $logMessage,
-                'url' => $httpInformation->getRequest()->getBaseUrl(),
-                'external_api' => $httpInformation->getType(),
-                'environment' => (string) $this->environment,
-            ])
+            ->create($data)
             ->isError()
             ->method('GET')
             ->setStatusCode(503)
