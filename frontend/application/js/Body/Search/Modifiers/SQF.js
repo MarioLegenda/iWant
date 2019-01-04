@@ -27,7 +27,16 @@ export const SQF = {
                     :height="25">
                 </toggle-button>
                 
-                <div class="fas fa-question TooltipContentButton"></div>
+                    <v-popover class="TooltipContent">
+                        <div class="fas fa-question TooltipContentButton"></div>
+                    
+                        <template slot="popover">
+                            <div class="TooltipContent">
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam varius tincidunt eros. Suspendisse euismod sit amet purus mollis condimentum. Proin in porttitor purus. Morbi at elit non magna gravida molestie vitae sed felis. Sed blandit quam efficitur, rutrum lacus vitae, interdum tellus. Vivamus vehicula tincidunt tincidunt
+                            </div>
+                        
+                        </template>
+                    </v-popover>
             </div>
         </div>
     `,
