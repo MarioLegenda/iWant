@@ -27,7 +27,10 @@ class SlackClient
         $this->httpCommunicator = $httpCommunicator;
         $this->config = $config;
     }
-
+    /**
+     * @param Metadata $metadata
+     * @throws \App\Symfony\Exception\ExternalApiNativeException
+     */
     public function send(Metadata $metadata): void
     {
         $request = new Request(

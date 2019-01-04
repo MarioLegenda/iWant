@@ -2,7 +2,7 @@
 
 namespace App\Library\Exception;
 
-class UnhandledSystemExceptionWrapper
+class UnhandledSystemExceptionInformation
 {
     /**
      * @var string $body
@@ -14,11 +14,11 @@ class UnhandledSystemExceptionWrapper
     private $type;
     /**
      * UnhandledSystemExceptionWrapper constructor.
-     * @param string $type
+     * @param int $type
      * @param string $body
      */
     public function __construct(
-        string $type,
+        int $type,
         string $body
     ) {
         $this->body = $body;
@@ -32,9 +32,9 @@ class UnhandledSystemExceptionWrapper
         return $this->body;
     }
     /**
-     * @return string
+     * @return int
      */
-    public function getType(): string
+    public function getType(): int
     {
         return $this->type;
     }

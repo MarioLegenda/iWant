@@ -5,23 +5,23 @@ namespace App\Library\Exception;
 class UnhandledSystemException extends \Exception implements HttpExceptionInterface
 {
     /**
-     * @var UnhandledSystemExceptionWrapper $unhandledSystemExceptionWrapper
+     * @var UnhandledSystemExceptionInformation $unhandledSystemExceptionWrapper
      */
     private $unhandledSystemExceptionWrapper;
     /**
      * UnhandledSystemException constructor.
-     * @param UnhandledSystemExceptionWrapper $unhandledSystemExceptionWrapper
+     * @param UnhandledSystemExceptionInformation $unhandledSystemExceptionWrapper
      */
-    public function __construct(UnhandledSystemExceptionWrapper $unhandledSystemExceptionWrapper)
+    public function __construct(UnhandledSystemExceptionInformation $unhandledSystemExceptionWrapper)
     {
         parent::__construct($unhandledSystemExceptionWrapper->getBody());
 
         $this->unhandledSystemExceptionWrapper->getBody();
     }
     /**
-     * @return UnhandledSystemExceptionWrapper
+     * @return UnhandledSystemExceptionInformation
      */
-    public function getUnhandledSystemExceptionWrapper(): UnhandledSystemExceptionWrapper
+    public function getUnhandledSystemExceptionWrapper(): UnhandledSystemExceptionInformation
     {
         return $this->unhandledSystemExceptionWrapper;
     }

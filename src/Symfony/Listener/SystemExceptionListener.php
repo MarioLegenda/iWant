@@ -68,6 +68,8 @@ class SystemExceptionListener
             $httpInformation->getBody()
         );
 
+        $this->logger->critical($logMessage);
+
         $builtData = $this->apiSdk
             ->create([
                 'type' => $httpInformation->getType(),
