@@ -14,10 +14,6 @@ export const Navigation = {
                        </div>
                        
                        <div class="NavItem">
-                           <router-link to="" v-on:click.native="_pushRoute('Brands', $event)" class="NavActionItem">BRANDS /</router-link>
-                       </div>
-                       
-                       <div class="NavItem">
                            <router-link to="" v-on:click.native="_pushRoute('ForYou', $event)" class="NavActionItem">for You /</router-link>
                        </div>
                    </div>
@@ -25,7 +21,7 @@ export const Navigation = {
     methods: {
         _pushRoute(routeName, $event) {
             {
-                const target = $event.target;
+/*                const target = $event.target;
                 const toggleHighlight = function() {
                     const navItems = document.getElementById('navigation').getElementsByTagName('a');
 
@@ -36,7 +32,7 @@ export const Navigation = {
                     target.classList.add('HighlightNavigation');
                 };
 
-                toggleHighlight();
+                toggleHighlight();*/
             }
 
             vueRouterLinkCreate.bind(this)(routeName);
