@@ -3,11 +3,12 @@
 namespace App\Web\Controller;
 
 use App\App\Presentation\EntryPoint\CountryEntryPoint;
+use App\App\Presentation\EntryPoint\MessagingEntryPoint;
+use App\App\Presentation\Model\Request\Message;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Library\Http\Response\ApiResponseData;
 use App\Library\Http\Response\ApiSDK;
 use App\Library\Infrastructure\Helper\TypedArray;
-use App\Library\Util\Environment;
 use App\Library\Util\SlackImplementation;
 use App\Library\Util\TypedRecursion;
 use App\Web\Library\ResponseEnvironmentHandler;
@@ -102,5 +103,32 @@ class AppController
         return new JsonResponse(
             200
         );
+    }
+    /**
+     * @param Message $message
+     * @param MessagingEntryPoint $messagingEntryPoint
+     * @return JsonResponse
+     */
+    public function sendContactMessage(
+        Message $message,
+        MessagingEntryPoint $messagingEntryPoint
+    ): JsonResponse {
+        $messagingEntryPoint->sendMessageToSlack($message);
+
+        /** @var ApiResponseData $responseData */
+        $responseData = $this->apiSdk
+            ->create([])
+            ->method('POST')
+            ->addMessage('Contact message sent')
+            ->isResource()
+            ->setStatusCode(200)
+            ->build();
+
+        $response = new JsonResponse(
+            $responseData->toArray(),
+            $responseData->getStatusCode()
+        );
+
+        return $response;
     }
 }

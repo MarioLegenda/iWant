@@ -68,6 +68,22 @@ class AppRepository extends Repository {
             .then(success)
             .catch(error);
     }
+
+    postSendContactMessage(data, success, error) {
+        const route = routes.app_post_contact_message;
+
+        return fetch(route, {
+            method: 'POST',
+            headers: requiredHeaders,
+            body: data,
+        })
+            .then(checkStatus)
+            .then((response) => {
+                return response.json()
+            })
+            .then(success)
+            .catch(error);
+    }
 }
 
 class SearchRepository extends Repository {

@@ -11,6 +11,7 @@ export const routes = {
     app_options_products_listing: '/api/v1/ebay/get-product-listing-options/:searchData',
     app_options_check_single_item: '/api/v1/ebay/check-single-item/:locale/:itemId',
     app_get_shipping_costs: '/api/v1/ebay/get-shipping-costs/:locale/:itemId/:destinationCountryCode',
+    app_post_contact_message: '/api/v1/contact-message',
 
     createRouteFromName: function(routeName, params) {
         if (this.hasOwnProperty(routeName)) {

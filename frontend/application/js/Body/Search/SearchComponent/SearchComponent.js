@@ -26,13 +26,13 @@ export const SearchComponent = {
                     
                     <div class="GlobalTopSpacing"></div>
                                                  
-                    <transition name="fade">
+<!--                    <transition name="fade">
                         <sentence
                            v-if="showSentence"
                            v-bind:sentenceData="sentenceData"
                            v-bind:showSentence="showSentence">
                         </sentence>
-                    </transition>
+                    </transition>-->
                     
                     <div class="GlobalTopSpacing"></div>
                     <div class="GlobalBottomSpacing"></div>

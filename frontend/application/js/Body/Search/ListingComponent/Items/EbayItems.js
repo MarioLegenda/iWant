@@ -1,6 +1,5 @@
 import {Item} from "../../../Listing/components/Item";
 import {SUPPORTED_SITES} from "../../../../supportedSites";
-import {RepositoryFactory} from "../../../../services/repositoryFactory";
 import urlifyFactory from 'urlify';
 import {Price} from "../../../../services/util";
 import { SyncLoader } from '@saeris/vue-spinners'
@@ -340,11 +339,11 @@ const LoadingText = {
 
         loadingText: function() {
             if (this.preparingProductsLoading) {
-                return 'Preparing products...';
+                return '... Preparing products. This may take some time ...';
             }
 
             if (this.translatingProductsLoading) {
-                return `Translating...`;
+                return `Translating ...`;
             }
         }
     },

@@ -74,11 +74,9 @@ export const ListingChoiceComponent = {
         </div>
     `,
     watch: {
-        getModel: (prev, next) => {
-        },
+        getModel: (prev, next) => {},
 
-        getFilters: (prev, next) => {
-        }
+        getFilters: (prev, next) => {}
     },
     computed: {
         translationsMap: function() {
@@ -103,8 +101,6 @@ export const ListingChoiceComponent = {
 
             model.filters = this.getFilters;
             model.globalId = globalId;
-
-            console.log(model.filters);
 
             this.$store.dispatch('totalListingUpdate', {
                 model: model,

@@ -58,8 +58,6 @@ export const Filters = {
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
                         <div class="GenericFiltersWrapper">
-                        
-                            <brand-search></brand-search>
                                                     
                             <h1 class="OrganisedFiltersSeparator">{{translationsMap.filters.priceTitle}}</h1>
                             

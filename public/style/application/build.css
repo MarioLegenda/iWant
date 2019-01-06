@@ -445,36 +445,36 @@ html {
   color: #eb1d25;
 }
 
-.Features, .Guide {
+.Features, .Guide, .Progress, .ForYou {
   width: 600px;
   overflow: hidden;
   margin: 0 auto;
 }
-.Features .TextBlock, .Guide .TextBlock {
+.Features .TextBlock, .Guide .TextBlock, .Progress .TextBlock, .ForYou .TextBlock {
   margin-bottom: 20px;
 }
-.Features .TextBlock h1, .Guide .TextBlock h1 {
+.Features .TextBlock h1, .Guide .TextBlock h1, .Progress .TextBlock h1, .ForYou .TextBlock h1 {
   border-bottom: 1px solid #d6d6d6;
   padding-bottom: 2px;
   margin-top: 50px;
 }
-.Features .TextBlock h2, .Guide .TextBlock h2 {
+.Features .TextBlock h2, .Guide .TextBlock h2, .Progress .TextBlock h2, .ForYou .TextBlock h2 {
   border-bottom: 1px solid #d6d6d6;
   padding-bottom: 2px;
 }
-.Features .TextBlock p, .Guide .TextBlock p {
+.Features .TextBlock p, .Guide .TextBlock p, .Progress .TextBlock p, .ForYou .TextBlock p {
   margin: 20px 0 20px 0;
 }
-.Features .TextBlock .InnerEntry, .Guide .TextBlock .InnerEntry {
+.Features .TextBlock .InnerEntry, .Guide .TextBlock .InnerEntry, .Progress .TextBlock .InnerEntry, .ForYou .TextBlock .InnerEntry {
   width: 570px;
   float: right;
 }
-.Features .TextBlock .DisplayImage, .Guide .TextBlock .DisplayImage {
+.Features .TextBlock .DisplayImage, .Guide .TextBlock .DisplayImage, .Progress .TextBlock .DisplayImage, .ForYou .TextBlock .DisplayImage {
   width: 100%;
   float: left;
   margin: 40px 0 40px 0;
 }
-.Features .TextBlock .DisplayImage img, .Guide .TextBlock .DisplayImage img {
+.Features .TextBlock .DisplayImage img, .Guide .TextBlock .DisplayImage img, .Progress .TextBlock .DisplayImage img, .ForYou .TextBlock .DisplayImage img {
   display: block;
   margin: 0 auto;
 }
@@ -2140,6 +2140,79 @@ html {
   -webkit-transition: color 0.5s;
   -o-transition: color 0.5s;
   -moz-transition: color 0.5s;
+}
+
+.ContactForm {
+  width: 100%;
+  float: left;
+  margin: 30px 0 30px 0;
+}
+.ContactForm .Error {
+  width: 100%;
+  float: left;
+  margin: 10px 0 30px 0;
+  background-color: #eb1d25;
+  color: white;
+  padding: 10px;
+  font-size: 1.2em;
+  line-height: 1.4em;
+}
+.ContactForm .Success {
+  width: 100%;
+  float: left;
+  margin: 10px 0 30px 0;
+  background-color: #15ba00;
+  color: white;
+  padding: 10px;
+  font-size: 1.2em;
+  line-height: 1.4em;
+}
+.ContactForm .FormRow {
+  width: 100%;
+  float: left;
+  margin-bottom: 20px;
+}
+.ContactForm input, .ContactForm label {
+  display: block;
+  width: 100%;
+}
+.ContactForm input {
+  font-size: 1.2em;
+  padding: 5px;
+  border: 1px solid #d6d6d6;
+  font-family: "Quicksand", sans-serif;
+}
+.ContactForm textarea {
+  width: 100%;
+  height: 200px;
+  resize: none;
+  font-size: 1.2em;
+  font-family: "Quicksand", sans-serif;
+  border: 1px solid #d6d6d6;
+  padding: 5px;
+}
+.ContactForm label {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+.ContactForm button {
+  width: 100px;
+  display: block;
+  float: right;
+  font-family: "Quicksand", sans-serif;
+  font-size: 1.2em;
+  border: 1px solid #d6d6d6;
+  padding: 10px;
+  transition: background-color 0.5s;
+  -webkit-transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
+  -o-transition: background-color 0.5s;
+}
+.ContactForm button:hover {
+  cursor: pointer;
+  background-color: #eb1d25;
+  color: white;
+  border: 1px solid #eb1d25;
 }
 
 .v-select {
