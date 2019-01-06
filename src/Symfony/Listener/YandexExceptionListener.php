@@ -3,6 +3,8 @@
 namespace App\Symfony\Listener;
 
 use App\Library\Http\Response\ResponseModelInterface;
+use App\Library\Slack\Metadata;
+use App\Library\Util\ExceptionCatchWrapper;
 use App\Yandex\Library\Exception\ExceptionInformationWrapper;
 use App\Yandex\Library\Exception\YandexBaseException;
 use App\Yandex\Library\Exception\YandexException;
@@ -39,8 +41,18 @@ class YandexExceptionListener extends BaseHttpResponseListener
 
         $this->logger->critical($logMessage);
 
+        $data = $this->createDataForEnvironment($logMessage, $exceptionInformationWrapper);
+
+        ExceptionCatchWrapper::run(function() use ($data) {
+            $this->slackClient->send(new Metadata(
+                'Yandex exception occurred',
+                '#translations_api',
+                [jsonEncodeWithFix($data)]
+            ));
+        });
+
         $builtData = $this->apiSdk
-            ->create($this->createDataForEnvironment($logMessage, $exceptionInformationWrapper))
+            ->create($data)
             ->isError()
             ->method('GET')
             ->setStatusCode(503)

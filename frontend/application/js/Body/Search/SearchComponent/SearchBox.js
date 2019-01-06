@@ -37,7 +37,7 @@ export const SearchBox = {
                                 </div>
                            </div>
                                                       
-                           <p v-if="enterToSearch" class="SearchBoxAdvanced-enter-to-search">* Press Enter to search</p>
+                           <p v-if="enterToSearch && !$isMobile" class="SearchBoxAdvanced-enter-to-search">* Press Enter to search</p>
                            
                            <div class="ModifiersWrapper">
                                <hide-duplicate-items-modifier></hide-duplicate-items-modifier>

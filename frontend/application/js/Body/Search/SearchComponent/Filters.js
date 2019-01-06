@@ -61,7 +61,7 @@ export const Filters = {
                         
                             <brand-search></brand-search>
                                                     
-                            <h1 class="OrganisedFiltersSeparator">Price</h1>
+                            <h1 class="OrganisedFiltersSeparator">{{translationsMap.filters.priceTitle}}</h1>
                             
                             <single-add-filter
                                 v-on:add-lowest-price="addLowestPrice"
@@ -81,7 +81,7 @@ export const Filters = {
                                 :filter-text="translationsMap.filters.fixedPriceFilter">
                             </single-add-filter>
                         
-                            <h1 class="OrganisedFiltersSeparator">Quality</h1>
+                            <h1 class="OrganisedFiltersSeparator">{{translationsMap.filters.qualityTitle}}</h1>
 
                             <single-add-filter
                                 v-on:add-high-quality="addHighQuality"

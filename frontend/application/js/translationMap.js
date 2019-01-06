@@ -47,6 +47,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Choose eBay site',
         filters: {
+            priceTitle: 'Price',
+            qualityTitle: 'Quality',
             title: 'Sort your search results',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -113,6 +115,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Elija el sitio de eBay',
         filters: {
+            priceTitle: 'Precio',
+            qualityTitle: 'Calidad',
             title: 'Ordena tus resultados de búsqueda',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -125,9 +129,9 @@ export const translationsMap = {
             hideDuplicateItemsShow: 'Mostrar duplicados',
             hideDuplicateItemsHide: 'Ocultar duplicados',
             hideDuplicateItemsExplanation: 'Muchos vendedores suben el mismo producto varias veces, por lo que podría haber más posibilidades de que aparezca en la lista de búsqueda. Esta opción está habilitada de forma predeterminada, pero puede deshabilitarla haciendo clic en el botón \'Mostrar duplicados\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Idioma del sitio de búsqueda',
+            doubleLocaleSearchHide: 'Solo inglés',
+            doubleLocaleSearchExplanation: 'La mayoría de los sitios de eBay están localizados en el idioma del sitio. Por ejemplo, ebay.de está en alemán. Muchos vendedores solo cargan productos solo en el idioma del sitio específico, lo que significa que, si busca un sitio en inglés, solo obtendrá listados de artículos cuyos títulos están en inglés. Cuando está activado, este filtro traduce la palabra clave de búsqueda al inglés y al idioma del sitio que le brinda productos que no obtendría si solo buscara en inglés.',
         }
     },
 
@@ -179,6 +183,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Choisissez le site eBay',
         filters: {
+            priceTitle: 'Prix',
+            qualityTitle: 'Qualité',
             title: 'Trier vos résultats de recherche',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -191,9 +197,9 @@ export const translationsMap = {
             brandSearchShow: 'Brand search',
             brandSearchHide: 'All eBay',
             hideDuplicateItemsExplanation: 'De nombreux vendeurs téléchargent plusieurs fois le même produit, ce qui leur donne plus de chance de figurer dans la liste de recherche. Cette option est activée par défaut mais vous pouvez la désactiver en cliquant sur le bouton \'Afficher les doublons\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Recherche dans la langue du site',
+            doubleLocaleSearchHide: 'Seulement anglais',
+            doubleLocaleSearchExplanation: 'La plupart des sites eBay sont localisés dans la langue du site. Par exemple, ebay.de est en allemand. De nombreux vendeurs ne téléchargent des produits que dans la langue spécifique du site, ce qui signifie que, si vous effectuez une recherche sur un site en anglais, vous obtiendrez uniquement les listes des éléments dont le titre est en anglais. Lorsqu\'il est activé, ce filtre traduit le mot clé de recherche en anglais et la langue du site vous donnant des produits que vous ne pourriez obtenir si vous recherchiez en anglais uniquement.',
         }
     },
 
@@ -245,6 +251,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Scegli il sito eBay',
         filters: {
+            priceTitle: 'Prezzo',
+            qualityTitle: 'Qualità',
             title: 'Ordina i risultati della tua ricerca',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -257,9 +265,9 @@ export const translationsMap = {
             brandSearchHide: 'All eBay',
             highQualityFilter: 'Alta qualità',
             hideDuplicateItemsExplanation: 'Molti venditori caricano lo stesso prodotto più volte, quindi potrebbero esserci più possibilità che compaia nell\'elenco di ricerca. Questa opzione è abilitata per impostazione predefinita, ma puoi disabilitarla facendo clic sul pulsante \'Mostra duplicati\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Cerca nella lingua del sito',
+            doubleLocaleSearchHide: 'Solo inglese',
+            doubleLocaleSearchExplanation: 'La maggior parte dei siti eBay è localizzata nella lingua dei siti. Ad esempio, ebay.de è in tedesco. Molti venditori caricano i prodotti solo nella lingua dei siti specifici, il che significa che, se cerchi un sito in inglese, riceverai solo annunci di articoli i cui titoli sono in inglese. Quando attivato, questo filtro traduce la parola chiave di ricerca in inglese e la lingua dei siti che ti dà prodotti che non avresti ricevuto se avessi cercato solo in inglese',
         }
     },
 
@@ -311,6 +319,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Roghnaigh suíomh eBay',
         filters: {
+            priceTitle: 'Praghas',
+            qualityTitle: 'Caighdeán',
             title: 'Sórtáil do thorthaí cuardaigh',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -325,7 +335,7 @@ export const translationsMap = {
             hideDuplicateItemsExplanation: 'Uaslódáil go leor díoltóirí ar an táirge céanna i gcónaí agus mar sin d\'fhéadfadh go mbeadh seans níos mó ann a léiríonn sé sa liosta cuardaigh. Cumasaítear an rogha seo de réir réamhshocraithe ach is féidir leat é a dhíchumasú trí chliceáil ar an gcnaipe \'Taispeáin dúbailt\'',
             doubleLocaleSearchShow: 'Search site language',
             doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchExplanation: 'Tá formhór na suíomhanna eBay lonnaithe i dteanga na suíomhanna. Mar shampla, tá ebay.de sa Ghearmáinis. Ní mór go leor díoltóirí ach táirgí a uaslódáil ach amháin i dteanga na suíomhanna ar leith, rud a chiallaíonn go ndéanann tú liostaí de na míreanna a bhfuil a dteidil i nGaeilge ach má chuireann tú cuardach ar shuíomh Gaeilge. Nuair a dhéantar é a aistriú, aistríonn an scagaire an t-eochairfhocal cuardaigh go Béarla agus do na suíomhanna teanga a thugann tú táirgí nach bhfaighidh tú má chuardach tú i nGaeilge amháin',
         }
     },
 
@@ -377,6 +387,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Wybierz stronę eBay',
         filters: {
+            priceTitle: 'Cena',
+            qualityTitle: 'Jakość',
             title: 'Sortuj swoje wyniki wyszukiwania',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -389,9 +401,9 @@ export const translationsMap = {
             brandSearchHide: 'All eBay',
             highQualityFilter: 'Wysoka jakość',
             hideDuplicateItemsExplanation: 'Wielu sprzedawców przesyła ten sam produkt wiele razy, więc może być większa szansa, że ​​pojawi się w liście wyszukiwania. Ta opcja jest domyślnie włączona, ale możesz ją wyłączyć, klikając przycisk \'Pokaż duplikaty\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Wyszukaj język strony',
+            doubleLocaleSearchHide: 'Tylko angielski',
+            doubleLocaleSearchExplanation: 'Większość witryn eBay jest zlokalizowanych w języku witryn. Na przykład ebay.de jest w języku niemieckim. Wielu sprzedawców przesyła produkty tylko w określonych witrynach, co oznacza, że ​​jeśli przeszukasz witrynę w języku angielskim, otrzymasz tylko aukcje przedmiotów, których tytuły są w języku angielskim. Po włączeniu ten filtr tłumaczy słowo kluczowe wyszukiwania na angielski, a język witryn zapewnia produkty, których nie uzyskałbyś, gdybyś szukał tylko w języku angielskim',
         }
     },
 
@@ -443,6 +455,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Wählen Sie die eBay-Site',
         filters: {
+            priceTitle: 'Preis',
+            qualityTitle: 'Qualität',
             title: 'Sortieren Sie Ihre Suchergebnisse',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -455,9 +469,9 @@ export const translationsMap = {
             brandSearchHide: 'All eBay',
             highQualityFilter: 'Gute Qualität',
             hideDuplicateItemsExplanation: 'Viele Verkäufer laden ein und dasselbe Produkt mehrmals hoch, sodass die Wahrscheinlichkeit erhöht wird, dass es im Sucheintrag angezeigt wird. Diese Option ist standardmäßig aktiviert. Sie können sie jedoch deaktivieren, indem Sie auf die Schaltfläche \'Duplikate anzeigen\' klicken',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Sprache der Website durchsuchen',
+            doubleLocaleSearchHide: 'Nur Englisch',
+            doubleLocaleSearchExplanation: 'Die meisten eBay-Websites sind in der jeweiligen Landessprache lokalisiert. Zum Beispiel ist ebay.de in deutsch. Viele Verkäufer laden Produkte nur in der jeweiligen Website-Sprache hoch. Wenn Sie also eine Website in Englisch suchen, erhalten Sie nur Listen mit Artikeln, deren Titel in Englisch sind. Wenn dieser Filter aktiviert ist, wird der Suchbegriff in Englisch und in die Sprache der Websites angezeigt, sodass Sie Produkte erhalten, die Sie nicht erhalten würden, wenn Sie nur in Englisch suchen',
         }
     },
 
@@ -509,6 +523,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Vyberte si stránku eBay',
         filters: {
+            priceTitle: 'Cena',
+            qualityTitle: 'Kvalita',
             title: 'Zoradiť výsledky vyhľadávania',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -521,9 +537,9 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Skryť duplikáty',
             highQualityFilter: 'Vysoká kvalita',
             hideDuplicateItemsExplanation: 'Mnohí predajcovia nahrávajú ten istý produkt viackrát, takže by sa mohlo vyskytnúť väčšia šanca, že sa zobrazí v zozname vyhľadávania. Táto možnosť je predvolene povolená, ale môžete ju zakázať kliknutím na tlačidlo \'Zobraziť duplikáty\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Hľadať jazyk stránky',
+            doubleLocaleSearchHide: 'Iba anglicky',
+            doubleLocaleSearchExplanation: 'Väčšina stránok eBay je lokalizovaná v jazyku stránok. Napríklad ebay.de je v nemčine. Mnohí predajcovia nahrávajú iba produkty iba v jazyku konkrétnych stránok, čo znamená, že ak vyhľadávate na stránkach v angličtine, dostanete len zoznamy položiek, ktorých názvy sú v anglickom jazyku. Po zapnutí tento filter prekladá kľúčové slovo vyhľadávania na anglický jazyk a jazyk stránok a poskytuje vám produkty, ktoré by ste nedostali, ak ste hľadali iba v angličtine',
         }
     },
 
@@ -575,6 +591,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Zvolte stránky eBay',
         filters: {
+            priceTitle: 'Cena',
+            qualityTitle: 'Kvalitní',
             title: 'Řazení výsledků vyhledávání',
             sqfOn: 'SQF on',
             sqfOff: 'SQF off',
@@ -587,9 +605,9 @@ export const translationsMap = {
             brandSearchShow: 'Brand search',
             brandSearchHide: 'All eBay',
             hideDuplicateItemsExplanation: 'Mnoho prodejců nahrát tentýž produkt několikrát, takže by mohlo být větší šance, že se objeví ve výpisu vyhledávání. Tato možnost je ve výchozím nastavení povolena, ale můžete ji deaktivovat klepnutím na tlačítko \'Zobrazit duplikáty\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
-            doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+            doubleLocaleSearchShow: 'Hledat jazyk webu',
+            doubleLocaleSearchHide: 'Pouze anglicky',
+            doubleLocaleSearchExplanation: 'Většina webů eBay je lokalizována do jazyka stránek. Například ebay.de je v němčině. Mnoho prodejců nahrávají pouze produkty pouze v jazyce specifických stránek, což znamená, že pokud vyhledáváte stránky v angličtině, získáte pouze seznamy položek, jejichž názvy jsou v angličtině. Po zapnutí tento filtr přeloží klíčové slovo pro vyhledávání do angličtiny a jazyk stránek vám dává výrobky, které byste nezískali, pokud jste hledali pouze v angličtině',
         }
     },
 };

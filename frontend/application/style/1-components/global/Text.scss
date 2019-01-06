@@ -5,7 +5,7 @@
   margin: 0 auto;
 
   .TextBlock {
-    p, h1, h3 {
+    p, h1, h2, h3 {
       font-size: 1.2em;
       line-height: 1.6em;
       word-spacing: 0.05em;
@@ -15,7 +15,7 @@
       font-style: italic;
     }
 
-    h1 {
+    h1, h2 {
       font-weight: bolder;
     }
 
