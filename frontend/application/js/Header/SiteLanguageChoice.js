@@ -36,15 +36,22 @@ export const SiteLanguageChoice = {
                     height="auto">
                     
                     <div class="LanguageChoiceModalWrapper">
-                        <p 
-                            class="LanguageChoice"
-                            v-for="item in languages"
-                            :key="item.value"
-                            @click="onSiteLanguageChosen(item.value)">
-                            {{item.label}}
+                        <i @click="closeModal" class="CloseModal fas fa-times"></i>
+
+                        <div class="LanguageChoiceInner">
+
+                             <p 
+                                class="LanguageChoice"
+                                v-for="item in languages"
+                                :key="item.value"
+                                @click="onSiteLanguageChosen(item.value)">
+                                {{item.label}}
                             
-                            <img :src="item.icon" />
-                        </p>
+                                <img :src="item.icon" />
+                            </p>
+                            
+                        </div>
+                        
                     </div>
                 </modal>
                 
@@ -78,9 +85,11 @@ export const SiteLanguageChoice = {
 
             paths.unshift(locale);
 
-            const path = `/${paths.join('/')}`;
+            location.href = `/${paths.join('/')}`;
+        },
 
-            location.href = path;
+        closeModal() {
+            this.$modal.hide('site-language-choice-modal');
         }
     },
 };

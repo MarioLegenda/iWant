@@ -51,7 +51,39 @@
 }
 
 .LanguageChoiceModalWrapper {
-  padding: 30px;
+  position: relative;
+
+  .CloseModal {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    font-size: 1.2em;
+    color: $lightestGray;
+
+    transition: color 0.5s;
+    -webkit-transition: color 0.5s;
+    -moz-transition: color 0.5s;
+    -o-transition: color 0.5s;
+
+    z-index: 1000;
+
+    &:hover {
+      cursor: pointer;
+      color: $basicOrange;
+    }
+  }
+
+  .LanguageChoiceInner {
+    width: 100%;
+    float: left;
+
+    position: relative;
+
+    margin: 30px 0 20px 0;
+
+    padding: 30px;
+  }
 
   .LanguageChoice {
     width: 100%;
@@ -63,7 +95,8 @@
 
     margin: 0 0 10px 0;
 
-    border-left: 1px solid $lightestGray;
+    border: 1px solid $lightestGray;
+    border-radius: 30px;
 
     transition: background-color 0.5s;
     -webkit-transition: background-color 0.5s;
@@ -84,7 +117,7 @@
       cursor: pointer;
 
       background-color: $basicOrange;
-      border-left: 1px solid $basicOrange;
+      border: 1px solid $basicOrange;
       color: white;
     }
   }

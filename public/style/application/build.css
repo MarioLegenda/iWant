@@ -634,6 +634,29 @@ html {
 }
 
 .LanguageChoiceModalWrapper {
+  position: relative;
+}
+.LanguageChoiceModalWrapper .CloseModal {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 1.2em;
+  color: #d6d6d6;
+  transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
+  z-index: 1000;
+}
+.LanguageChoiceModalWrapper .CloseModal:hover {
+  cursor: pointer;
+  color: #eb1d25;
+}
+.LanguageChoiceModalWrapper .LanguageChoiceInner {
+  width: 100%;
+  float: left;
+  position: relative;
+  margin: 30px 0 20px 0;
   padding: 30px;
 }
 .LanguageChoiceModalWrapper .LanguageChoice {
@@ -642,7 +665,8 @@ html {
   position: relative;
   padding: 15px;
   margin: 0 0 10px 0;
-  border-left: 1px solid #d6d6d6;
+  border: 1px solid #d6d6d6;
+  border-radius: 30px;
   transition: background-color 0.5s;
   -webkit-transition: background-color 0.5s;
   -o-transition: background-color 0.5s;
@@ -659,7 +683,7 @@ html {
 .LanguageChoiceModalWrapper .LanguageChoice:hover {
   cursor: pointer;
   background-color: #eb1d25;
-  border-left: 1px solid #eb1d25;
+  border: 1px solid #eb1d25;
   color: white;
 }
 
@@ -1055,6 +1079,22 @@ html {
 .SearchItems .ListingActionWrapper .SortingWrapper {
   width: 200px;
   float: right;
+  position: relative;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .CloseSortingModal {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #d6d6d6;
+  font-size: 1.2em;
+  transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -o-transition: color 0.5s;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .CloseSortingModal:hover {
+  cursor: pointer;
+  color: #eb1d25;
 }
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper {
   width: 100%;
@@ -1071,11 +1111,25 @@ html {
   padding: 10px;
   border: 1px solid #d6d6d6;
   border-radius: 20px;
+  transition: border 0.5s;
+  -webkit-transition: border 0.5s;
+  -moz-transition: border 0.5s;
+  -o-transition: border 0.5s;
 }
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper h1 i {
   position: absolute;
   top: 10px;
   right: 12px;
+  transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper h1:hover {
+  border: 1px solid #eb1d25;
+}
+.SearchItems .ListingActionWrapper .SortingWrapper .SortingInfoWrapper h1:hover i {
+  color: #eb1d25;
 }
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent {
   width: 100%;
@@ -1093,7 +1147,7 @@ html {
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent h1 i {
   position: absolute;
   top: 5px;
-  right: 15px;
+  right: 5px;
 }
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent .SortingChoiceWrapper {
   width: 100%;
@@ -1101,12 +1155,19 @@ html {
   margin-top: 20px;
 }
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent .SortingChoiceWrapper p {
-  padding: 10px;
+  padding: 15px;
   margin-bottom: 10px;
+  border-radius: 30px;
+  border: 1px solid #d6d6d6;
+  transition: background-color 0.5s;
+  -webkit-transition: background-color 0.5s;
+  -o-transition: background-color 0.5s;
+  -moz-transition: background-color 0.5s;
 }
 .SearchItems .ListingActionWrapper .SortingWrapper .SortingComponent .SortingChoiceWrapper p:hover {
   cursor: pointer;
   background-color: #eb1d25;
+  border: 1px solid #eb1d25;
   color: white;
 }
 

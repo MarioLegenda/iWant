@@ -261,12 +261,17 @@ export const SortModal = {
                    </div>
                    
                    <modal name="sort-by-modal" :width="400" height="auto">
-                       <div class="SortingComponent"> 
-                           <h1>Sort by: <i class="fas fa-sort-amount-up"></i></h1>                          
+                       <div class="SortingComponent">
+                       
+                           <i @click="closeModal" class="CloseSortingModal fas fa-times"></i>
+                           
+                           <h1>Sort by: <i class="fas fa-sort-amount-up"></i></h1>  
+                                                   
                            <div class="SortingChoiceWrapper">
                                <p @click="changeSortMethod('bestMatch')">Best match</p>
                                <p @click="changeSortMethod('newlyListed')">Newly listed</p>
                            </div>
+                           
                        </div>
                    </modal>
                </div>`,
@@ -291,6 +296,10 @@ export const SortModal = {
 
             this.$emit('sorting-method-changed', sortMethod);
 
+            this.$modal.hide('sort-by-modal');
+        },
+
+        closeModal() {
             this.$modal.hide('sort-by-modal');
         }
     }
@@ -390,7 +399,9 @@ export const EbayItems = {
     template: `
             <div class="EbayItemsWrapper">                        
                 <div v-if="isListingInitialised" class="EbayItems" id="EbayItemsId">
+                
                     <listing-action v-bind:site-information="getSiteInformation"></listing-action>
+                    
                     <div v-for="(item, index) in getTotalListings" :key="index" class="EbayItem SearchItem">
                     
                         <business-entity :entity-data="item.businessEntity"></business-entity>
