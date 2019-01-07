@@ -221,7 +221,7 @@ export const AutocompleteWrapper = {
     template: `<div class="AutocompleteWrapper">
                    <autocomplete
                        :source="countries"
-                       placeholder="Select a country"
+                       :placeholder="translationsMap.shippingDetails.autocomplete.placeholder"
                        inputClass="AutocompleteInput"
                        v-on:selected="onCountrySelected">
                    </autocomplete>
@@ -235,11 +235,19 @@ export const AutocompleteWrapper = {
             });
         });
     },
+
     methods: {
         onCountrySelected(s) {
             this.$emit('selected-country', s.selectedObject);
         }
     },
+
+    computed: {
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        }
+    },
+
     components: {
         'autocomplete': Autocomplete,
     }
@@ -304,16 +312,18 @@ export const ShippingDetails = {
                        </div>
                    </modal>
                </div>`,
-    created() {
-    },
 
     computed: {
         headerInfo: function() {
             if (this.selectedCountry !== null) {
-                return `Shipping information for ${this.selectedCountry.name}`;
+                return `${this.translationsMap.shippingDetails.headerInfoTitleWithCountry} ${this.selectedCountry.name}`;
             }
 
-            return `Shipping information`
+            return this.shippingInfo.shippingInfoTitle;
+        },
+
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
         }
     },
 

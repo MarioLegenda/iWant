@@ -32,7 +32,7 @@ export const SQF = {
                     
                         <template slot="popover">
                             <div class="TooltipContent">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam varius tincidunt eros. Suspendisse euismod sit amet purus mollis condimentum. Proin in porttitor purus. Morbi at elit non magna gravida molestie vitae sed felis. Sed blandit quam efficitur, rutrum lacus vitae, interdum tellus. Vivamus vehicula tincidunt tincidunt
+                                {{translationsMap.filters.sqfInformation}}
                             </div>
                         
                         </template>

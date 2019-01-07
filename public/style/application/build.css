@@ -75,6 +75,7 @@ a {
 
 body {
   max-width: 1280px;
+  min-width: 480px;
   font-size: 16px;
   font-family: "Quicksand", sans-serif;
   color: #5b5b5b;
@@ -246,6 +247,14 @@ html {
   border-bottom: 1px dotted #eb1d25;
 }
 .TextPanel .TextBlock a:hover {
+  border-bottom: 1px solid #eb1d25;
+}
+.TextPanel .TextBlock .LinkHighlight {
+  color: #eb1d25;
+  font-weight: bold;
+  border-bottom: 1px dotted #eb1d25;
+}
+.TextPanel .TextBlock .LinkHighlight:hover {
   border-bottom: 1px solid #eb1d25;
 }
 .TextPanel .TextBlock .Highlight {
@@ -1786,6 +1795,18 @@ html {
     margin: 0 auto;
     margin-bottom: 30px;
   }
+
+  .ModifiersWrapper {
+    width: 100%;
+    float: left;
+  }
+
+  .ModifierWrapper {
+    margin: 0 auto !important;
+    float: none !important;
+    overflow: hidden !important;
+    margin-bottom: 10px !important;
+  }
 }
 @media only screen and (max-width: 480px) {
   .SiteLanguageChoice {
@@ -1876,6 +1897,23 @@ html {
     margin: 0 auto;
     color: black;
     font-weight: bold;
+  }
+
+  .ModifiersWrapper {
+    width: 100%;
+    float: left;
+  }
+
+  .ModifierWrapper {
+    margin: 0 auto !important;
+    float: none !important;
+    overflow: hidden !important;
+    margin-bottom: 10px !important;
+  }
+
+  .NavItem {
+    width: 100%;
+    padding: 10px;
   }
 }
 .ShippingDetailsImplementation {

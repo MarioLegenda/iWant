@@ -54,25 +54,7 @@ export const Features = {
                            will detect the language as spanish, translate it to english and then 
                            conduct the search.</p>
                        </div>
-                       
-                       <div class="TextBlock">
-                           <h1>Brand search</h1>
-                           
-                           <p>Brand search searches eBay for only hand picked, top eBay sellers and 
-                           shops that ship items worldwide and with affordable prices. This search 
-                           allows you to search for everything from electronics and gadgets to 
-                           musical instruments and antiques. You can checkout the full list of all 
-                           shops and sellers in the <a href="#">Brands</a> section.</p>
-                           
-                           <p>For example, when you search for an <span class="Highlight">iphone 7</span>, what 
-                           you actually want is an <span class="Highlight">Apple Iphone 7 smartphone</span>. If 
-                           you search the entire eBay, the search might give you iphone 7 masks, holders or 
-                           pendants; things that you don't actually want.</p>
-                           
-                           <p>With brand search enabled, you get what you actually want and what you 
-                           actually searched for.</p>
-                       </div>
-                       
+
                        <div class="TextBlock">
                            <h1>Hiding duplicates</h1>
                            
@@ -95,6 +77,34 @@ export const Features = {
                            and filter them by lowest price, you will get the lowest price of best matched items. That will
                            create a listing can actually displays the lowest price of all the <span class="Highlight">Iphone 7 smartphones</span>
                            and minimizes the redundant unwanted listing results like iphone masks or cases.</p>
+                       </div>
+                       
+                       <div class="TextBlock">
+                           <h1>Modifiers</h1>
+                           
+                           <p>
+                               Modifiers are designed to modify the search results with certain custom functionality.
+                               Hiding duplicates is one of them and it is already explained above. There is also the
+                               <span class="Highlight">double language search</span> and <span class="Highlight">SQF (Search query filter)</span>
+                           </p>
+                           
+                           <p>
+                               <span class="Highlight">Double locale search</span> is designed to search for items in both english
+                               and the site native language. The problem that I wanted to solve with this feature is that some sellers
+                               upload items in the native language of the site that they are using while others upload it on
+                               english. The consequence of that is that when you are searching, for example eBay Spain, you search
+                               it on english and list only items that were uploaded on english. If you tried the same search for the same
+                               item on spanish, it would give results that wouldn't give you on english.
+                           </p>
+                           
+                           <p>
+                               For that reason, this feature translates your search query to the native language of the site that
+                               you are searching and searches eBay both on that language and english. For example, is you search for
+                               a <span class="Highlight">pocket watch</span> on eBay Spain, <i-would-like /> will translate that term
+                               to <span class="Highlight">reloj de bolsillo</span> and search eBay Spain with that query. After that, it
+                               will search the same site on english and present the final result to you. That broadens the amount of items
+                               that you can find with just one search
+                           </p>
                        </div>
                        
                        <div class="TextBlock">

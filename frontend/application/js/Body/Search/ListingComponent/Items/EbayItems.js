@@ -240,11 +240,11 @@ export const SortModal = {
         return {
             selected: 'bestMatch',
             bestMatch: {
-                text: 'Best match',
+                text: '',
                 name: 'bestMatch',
             },
             newlyListed: {
-                text: 'Newly listed',
+                text: '',
                 name: 'newlyListed',
             }
         }
@@ -253,11 +253,14 @@ export const SortModal = {
     created() {
         const sortingMethod = this.getFilters.sortingMethod;
 
+        this.bestMatch.text = this.translationsMap.sorting.bestMatchTitle;
+        this.newlyListed.text = this.translationsMap.sorting.newlyListedTitle;
+
         this.selected = this[sortingMethod].text;
     },
     template: `<div class="SortingWrapper">
                    <div class="SortingInfoWrapper" @click="showModal">
-                       <h1>Sort by: {{selected}} <i class="fas fa-chevron-down"></i></h1>
+                       <h1>{{translationsMap.sorting.sortByTitle}}: {{selected}} <i class="fas fa-chevron-down"></i></h1>
                    </div>
                    
                    <modal name="sort-by-modal" :width="400" height="auto">
@@ -265,11 +268,11 @@ export const SortModal = {
                        
                            <i @click="closeModal" class="CloseSortingModal fas fa-times"></i>
                            
-                           <h1>Sort by: <i class="fas fa-sort-amount-up"></i></h1>  
+                           <h1>{{translationsMap.sorting.sortByTitle}}: <i class="fas fa-sort-amount-up"></i></h1>  
                                                    
                            <div class="SortingChoiceWrapper">
-                               <p @click="changeSortMethod('bestMatch')">Best match</p>
-                               <p @click="changeSortMethod('newlyListed')">Newly listed</p>
+                               <p @click="changeSortMethod('bestMatch')">{{translationsMap.sorting.bestMatchTitle}}</p>
+                               <p @click="changeSortMethod('newlyListed')">{{translationsMap.sorting.newlyListedTitle}}</p>
                            </div>
                            
                        </div>
@@ -281,6 +284,10 @@ export const SortModal = {
     },
 
     computed: {
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        },
+
         getFilters: function() {
             return this.$store.getters.getFilters;
         }
@@ -348,13 +355,17 @@ const LoadingText = {
 
         loadingText: function() {
             if (this.preparingProductsLoading) {
-                return '... Preparing products. This may take some time ...';
+                return this.translationsMap.loading.itemsLoadingText;
             }
 
             if (this.translatingProductsLoading) {
-                return `Translating ...`;
+                return this.translationsMap.loading.itemsTranslatingText;
             }
-        }
+        },
+
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        },
     },
     template: `<p>{{loadingText}}</p>`
 };
@@ -580,7 +591,7 @@ export const EbayItems = {
                 resolvedCountry = 'USA';
             }
 
-            return `From ${resolvedCountry}`;
+            return `${this.getTranslationsMap.searchItem.fromTitle} ${resolvedCountry}`;
         },
 
         _chooseTitle(title) {

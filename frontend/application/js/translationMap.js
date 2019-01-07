@@ -23,6 +23,7 @@ export const translationsMap = {
             quickLookTitle: 'Quick look',
             fullDetailsTitle: 'Full details',
             viewOnEbay: 'View on eBay',
+            fromTitle: 'From',
         },
         productPage: {
             endsOn: 'Ends on: ',
@@ -47,6 +48,7 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Choose eBay site',
         filters: {
+            sqfInformation: 'SQF (Search query filter) is a feature that makes custom filtering for certain words in your search. For example, if you search for an \'iphone 7\', SQF will remove items with words like \'mask\', \'masks\', \'cell\', \'case\' and others. Currently, it only supports smartphones. If you would like to know more, checkout the Guide section to find out more.',
             priceTitle: 'Price',
             qualityTitle: 'Quality',
             title: 'Sort your search results',
@@ -64,6 +66,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Search site language',
             doubleLocaleSearchHide: 'Only english',
             doubleLocaleSearchExplanation: 'Most of eBay sites are localised to the sites language. For example, ebay.de is in german. Many sellers only upload products only in the specific sites language which means that, if you search a site in english, you will only get listings of items whose titles are in english. When turned on, this filter translates the search keyword to english and the sites language giving you products that you would not get if you searched in english only',
+        },
+        navigation: {
+            guideTitle: 'GUIDE',
+            featuresTitle: 'FEATURES',
+            progressTitle: 'PROGRESS',
+            forYouTitle: 'for You',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Sort by',
+            bestMatchTitle: 'Best match',
+            newlyListedTitle: 'Newly listed',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -91,6 +118,7 @@ export const translationsMap = {
             quickLookTitle: 'Vistazo rápido',
             fullDetailsTitle: 'Todos los detalles',
             viewOnEbay: 'Ver en eBay',
+            fromTitle: 'Desde',
         },
         productPage: {
             endsOn: 'Termina en: ',
@@ -115,12 +143,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Elija el sitio de eBay',
         filters: {
+            sqfInformation: 'SQF (filtro de consulta de búsqueda) es una función que realiza el filtrado personalizado de ciertas palabras en su búsqueda. Por ejemplo, si busca un \'iphone 7\', SQF eliminará elementos con palabras como \'máscara\', \'máscaras\', \'celda\', \'estuche\' y otros. Actualmente, solo soporta smartphones. Si desea saber más, consulte la sección Guía para obtener más información.',
             priceTitle: 'Precio',
             qualityTitle: 'Calidad',
             title: 'Ordena tus resultados de búsqueda',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF encendido',
+            sqfOff: 'SQF apagado',
+            fixedPriceFilter: 'Precio fijo',
             lowestPriceFilter: 'El precio más bajo',
             highestPriceFilter: 'Precio más alto',
             highQualityFilter: 'Alta calidad',
@@ -132,6 +161,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Idioma del sitio de búsqueda',
             doubleLocaleSearchHide: 'Solo inglés',
             doubleLocaleSearchExplanation: 'La mayoría de los sitios de eBay están localizados en el idioma del sitio. Por ejemplo, ebay.de está en alemán. Muchos vendedores solo cargan productos solo en el idioma del sitio específico, lo que significa que, si busca un sitio en inglés, solo obtendrá listados de artículos cuyos títulos están en inglés. Cuando está activado, este filtro traduce la palabra clave de búsqueda al inglés y al idioma del sitio que le brinda productos que no obtendría si solo buscara en inglés.',
+        },
+        navigation: {
+            guideTitle: 'GUÍA',
+            featuresTitle: 'CARACTERISTICAS',
+            progressTitle: 'PROGRESO',
+            forYouTitle: 'para ti',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Ordenar por',
+            bestMatchTitle: 'Mejor partido',
+            newlyListedTitle: 'Cotizada recientemente',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -159,6 +213,7 @@ export const translationsMap = {
             quickLookTitle: 'Coup d\'oeil',
             fullDetailsTitle: 'Tous les détails',
             viewOnEbay: 'Voir sur eBay',
+            fromTitle: 'De',
         },
         productPage: {
             endsOn: 'Se termine sur: ',
@@ -183,12 +238,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Choisissez le site eBay',
         filters: {
+            sqfInformation: 'SQF (Filtre de requête de recherche) est une fonctionnalité permettant de filtrer de manière personnalisée certains mots de votre recherche. Par exemple, si vous recherchez un "iphone 7", SQF supprimera les éléments contenant des mots tels que "masque", "masques", "cellule", "coque" et autres. Actuellement, il ne supporte que les smartphones. Si vous souhaitez en savoir plus, consultez la section Guide pour en savoir plus.',
             priceTitle: 'Prix',
             qualityTitle: 'Qualité',
             title: 'Trier vos résultats de recherche',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF allumé',
+            sqfOff: 'SQF éteindre',
+            fixedPriceFilter: 'Prix ​​fixe',
             lowestPriceFilter: 'Prix ​​le plus bas',
             highestPriceFilter: 'Le prix le plus élevé',
             hideDuplicateItemsShow: 'Afficher les doublons',
@@ -200,6 +256,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Recherche dans la langue du site',
             doubleLocaleSearchHide: 'Seulement anglais',
             doubleLocaleSearchExplanation: 'La plupart des sites eBay sont localisés dans la langue du site. Par exemple, ebay.de est en allemand. De nombreux vendeurs ne téléchargent des produits que dans la langue spécifique du site, ce qui signifie que, si vous effectuez une recherche sur un site en anglais, vous obtiendrez uniquement les listes des éléments dont le titre est en anglais. Lorsqu\'il est activé, ce filtre traduit le mot clé de recherche en anglais et la langue du site vous donnant des produits que vous ne pourriez obtenir si vous recherchiez en anglais uniquement.',
+        },
+        navigation: {
+            guideTitle: 'GUIDER',
+            featuresTitle: 'FONCTIONNALITÉS',
+            progressTitle: 'LE PROGRÈS',
+            forYouTitle: 'pour vous',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Trier par',
+            bestMatchTitle: 'Meilleure correspondance',
+            newlyListedTitle: 'Nouvellement listé',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -227,6 +308,7 @@ export const translationsMap = {
             quickLookTitle: 'Sguardo veloce',
             fullDetailsTitle: 'Tutti i dettagli',
             viewOnEbay: 'Visualizza su eBay',
+            fromTitle: 'A partire dal',
         },
         productPage: {
             endsOn: 'Finisce: ',
@@ -251,12 +333,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Scegli il sito eBay',
         filters: {
+            sqfInformation: 'SQF (filtro delle query di ricerca) è una funzionalità che consente il filtraggio personalizzato per determinate parole nella ricerca. Ad esempio, se cerchi un \'iphone 7\', SQF rimuoverà elementi con parole come \'maschera\', \'maschere\', \'cella\', \'caso\' e altri. Attualmente supporta solo gli smartphone. Se vuoi saperne di più, consulta la sezione Guide per saperne di più.',
             priceTitle: 'Prezzo',
             qualityTitle: 'Qualità',
             title: 'Ordina i risultati della tua ricerca',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF acceso',
+            sqfOff: 'SQF spento',
+            fixedPriceFilter: 'Prezzo fisso',
             lowestPriceFilter: 'Prezzo più basso',
             highestPriceFilter: 'Il prezzo più alto',
             hideDuplicateItemsShow: 'Mostra duplicati',
@@ -268,6 +351,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Cerca nella lingua del sito',
             doubleLocaleSearchHide: 'Solo inglese',
             doubleLocaleSearchExplanation: 'La maggior parte dei siti eBay è localizzata nella lingua dei siti. Ad esempio, ebay.de è in tedesco. Molti venditori caricano i prodotti solo nella lingua dei siti specifici, il che significa che, se cerchi un sito in inglese, riceverai solo annunci di articoli i cui titoli sono in inglese. Quando attivato, questo filtro traduce la parola chiave di ricerca in inglese e la lingua dei siti che ti dà prodotti che non avresti ricevuto se avessi cercato solo in inglese',
+        },
+        navigation: {
+            guideTitle: 'GUIDA',
+            featuresTitle: 'CARATTERISTICHE',
+            progressTitle: 'PROGRESSO',
+            forYouTitle: 'per te',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Ordina per',
+            bestMatchTitle: 'Migliore corrispondenza',
+            newlyListedTitle: 'Recentemente quotate in borsa',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -295,6 +403,7 @@ export const translationsMap = {
             quickLookTitle: 'Féach go tapa',
             fullDetailsTitle: 'Sonraí iomlána',
             viewOnEbay: 'Féach ar eBay',
+            fromTitle: 'Ó',
         },
         productPage: {
             endsOn: 'Críochnaíonn: ',
@@ -319,13 +428,14 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Roghnaigh suíomh eBay',
         filters: {
+            sqfInformation: 'Gné a dhéanann scagadh saincheaptha le haghaidh focail áirithe i do chuardach atá SQF (scagaire ceist Cuardaigh). Mar shampla, má dhéanann tú cuardach ar \'iphone 7\', bainfidh SQF míreanna le focail cosúil le \'masc\', \'masks\', \'cell\', \'case\' agus daoine eile. Faoi láthair, ní thacaíonn sé ach le clisteanna cliste. Más mian leat tuilleadh eolais a fháil, féach ar an rannóg Treoir chun tuilleadh eolais a fháil.',
             priceTitle: 'Praghas',
             qualityTitle: 'Caighdeán',
             title: 'Sórtáil do thorthaí cuardaigh',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
+            sqfOn: 'SQF ar siúl',
+            sqfOff: 'SQF múchta',
             lowestPriceFilter: 'Praghas is ísle',
-            fixedPriceFilter: 'Fixed price',
+            fixedPriceFilter: 'Praghas seasta',
             highestPriceFilter: 'An praghas is airde',
             hideDuplicateItemsShow: 'Taispeáin dúbailt',
             brandSearchShow: 'Brand search',
@@ -333,9 +443,24 @@ export const translationsMap = {
             hideDuplicateItemsHide: 'Folaigh dúbailt',
             highQualityFilter: 'Ardchaighdeáin',
             hideDuplicateItemsExplanation: 'Uaslódáil go leor díoltóirí ar an táirge céanna i gcónaí agus mar sin d\'fhéadfadh go mbeadh seans níos mó ann a léiríonn sé sa liosta cuardaigh. Cumasaítear an rogha seo de réir réamhshocraithe ach is féidir leat é a dhíchumasú trí chliceáil ar an gcnaipe \'Taispeáin dúbailt\'',
-            doubleLocaleSearchShow: 'Search site language',
-            doubleLocaleSearchHide: 'Only english',
+            doubleLocaleSearchShow: 'Cuardaigh teanga láithreán',
+            doubleLocaleSearchHide: 'Béarla amháin',
             doubleLocaleSearchExplanation: 'Tá formhór na suíomhanna eBay lonnaithe i dteanga na suíomhanna. Mar shampla, tá ebay.de sa Ghearmáinis. Ní mór go leor díoltóirí ach táirgí a uaslódáil ach amháin i dteanga na suíomhanna ar leith, rud a chiallaíonn go ndéanann tú liostaí de na míreanna a bhfuil a dteidil i nGaeilge ach má chuireann tú cuardach ar shuíomh Gaeilge. Nuair a dhéantar é a aistriú, aistríonn an scagaire an t-eochairfhocal cuardaigh go Béarla agus do na suíomhanna teanga a thugann tú táirgí nach bhfaighidh tú má chuardach tú i nGaeilge amháin',
+        },
+        navigation: {
+            guideTitle: 'TREOIR',
+            featuresTitle: 'GNÉITHE',
+            progressTitle: 'DUL CHUN CINN',
+            forYouTitle: 'ar do shon',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Sórtáil de réir',
+            bestMatchTitle: 'An cluiche is fearr',
+            newlyListedTitle: 'Liostaithe nua',
         }
     },
 
@@ -363,6 +488,7 @@ export const translationsMap = {
             quickLookTitle: 'Szybkie spojrzenie',
             fullDetailsTitle: 'Pełne szczegóły',
             viewOnEbay: 'Wyświetl w serwisie eBay',
+            fromTitle: 'Z',
         },
         productPage: {
             endsOn: 'Kończy się: ',
@@ -387,12 +513,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Wybierz stronę eBay',
         filters: {
+            sqfInformation: 'SQF (Filtr kwerend wyszukiwania) to funkcja, która umożliwia niestandardowe filtrowanie określonych słów w wyszukiwaniu. Na przykład, jeśli szukasz "iphone 7", SQF usunie elementy ze słowami takimi jak "maska", "maski", "komórka", "case" i inne. Obecnie obsługuje tylko smartfony. Jeśli chcesz dowiedzieć się więcej, odwiedź sekcję Przewodnika, aby dowiedzieć się więcej.',
             priceTitle: 'Cena',
             qualityTitle: 'Jakość',
             title: 'Sortuj swoje wyniki wyszukiwania',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF włączone',
+            sqfOff: 'SQF wyłączony',
+            fixedPriceFilter: 'Stała cena',
             lowestPriceFilter: 'Najniższa cena',
             highestPriceFilter: 'Wyzsza cena',
             hideDuplicateItemsShow: 'Pokaż duplikaty',
@@ -404,6 +531,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Wyszukaj język strony',
             doubleLocaleSearchHide: 'Tylko angielski',
             doubleLocaleSearchExplanation: 'Większość witryn eBay jest zlokalizowanych w języku witryn. Na przykład ebay.de jest w języku niemieckim. Wielu sprzedawców przesyła produkty tylko w określonych witrynach, co oznacza, że ​​jeśli przeszukasz witrynę w języku angielskim, otrzymasz tylko aukcje przedmiotów, których tytuły są w języku angielskim. Po włączeniu ten filtr tłumaczy słowo kluczowe wyszukiwania na angielski, a język witryn zapewnia produkty, których nie uzyskałbyś, gdybyś szukał tylko w języku angielskim',
+        },
+        navigation: {
+            guideTitle: 'PRZEWODNIK',
+            featuresTitle: 'FUNKCJE',
+            progressTitle: 'POSTĘP',
+            forYouTitle: 'dla Was',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Sortuj według',
+            bestMatchTitle: 'Najlepszy mecz',
+            newlyListedTitle: 'Nowo wystawione',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -431,6 +583,7 @@ export const translationsMap = {
             quickLookTitle: 'Schneller Blick',
             fullDetailsTitle: 'Alle Einzelheiten',
             viewOnEbay: 'Bei eBay anzeigen',
+            fromTitle: 'Von',
         },
         productPage: {
             endsOn: 'Endet am: ',
@@ -455,12 +608,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Wählen Sie die eBay-Site',
         filters: {
+            sqfInformation: 'SQF (Suchabfragefilter) ist eine Funktion, mit der benutzerdefinierte Wörter nach bestimmten Wörtern in Ihrer Suche gefiltert werden. Wenn Sie beispielsweise nach einem \'iphone 7\' suchen, entfernt SQF Elemente mit Wörtern wie \'Maske\', \'Masken\', \'Zelle\', \'Fall\' und andere. Derzeit werden nur Smartphones unterstützt. Wenn Sie mehr erfahren möchten, lesen Sie den Abschnitt "Reiseführer", um mehr zu erfahren.',
             priceTitle: 'Preis',
             qualityTitle: 'Qualität',
             title: 'Sortieren Sie Ihre Suchergebnisse',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF eingeschaltet',
+            sqfOff: 'SQF ausgeschaltet',
+            fixedPriceFilter: 'Festpreis',
             lowestPriceFilter: 'Geringster Preis',
             highestPriceFilter: 'Höchster Preis',
             hideDuplicateItemsShow: 'Duplikate anzeigen',
@@ -472,6 +626,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Sprache der Website durchsuchen',
             doubleLocaleSearchHide: 'Nur Englisch',
             doubleLocaleSearchExplanation: 'Die meisten eBay-Websites sind in der jeweiligen Landessprache lokalisiert. Zum Beispiel ist ebay.de in deutsch. Viele Verkäufer laden Produkte nur in der jeweiligen Website-Sprache hoch. Wenn Sie also eine Website in Englisch suchen, erhalten Sie nur Listen mit Artikeln, deren Titel in Englisch sind. Wenn dieser Filter aktiviert ist, wird der Suchbegriff in Englisch und in die Sprache der Websites angezeigt, sodass Sie Produkte erhalten, die Sie nicht erhalten würden, wenn Sie nur in Englisch suchen',
+        },
+        navigation: {
+            guideTitle: 'FÜHREN',
+            featuresTitle: 'EIGENSCHAFTEN',
+            progressTitle: 'FORTSCHRITT',
+            forYouTitle: 'für dich',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Sortiere nach',
+            bestMatchTitle: 'Bester Treffer',
+            newlyListedTitle: 'Neu eingestellt',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -499,6 +678,7 @@ export const translationsMap = {
             quickLookTitle: 'Rýchly vzhľad',
             fullDetailsTitle: 'Úplné podrobnosti',
             viewOnEbay: 'Zobraziť na eBay',
+            fromTitle: 'z',
         },
         productPage: {
             endsOn: 'Ends on: ',
@@ -523,12 +703,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Vyberte si stránku eBay',
         filters: {
+            sqfInformation: 'SQF (filter vyhľadávacích dopytov) je funkcia, ktorá umožňuje vlastné filtrovanie určitých slov vo vašom vyhľadávaní. Napríklad, ak hľadáte \'iphone 7\', SQF odstráni položky pomocou slov \'mask\', \'masks\', \'cell\', \'case\' a ďalšie. V súčasnosti podporuje iba smartphony. Ak by ste sa chceli dozvedieť viac, skontrolujte sekciu Sprievodca a zistite viac.',
             priceTitle: 'Cena',
             qualityTitle: 'Kvalita',
             title: 'Zoradiť výsledky vyhľadávania',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF zapnutý',
+            sqfOff: 'SQF vypnutý',
+            fixedPriceFilter: 'Pevná cena',
             lowestPriceFilter: 'Najnižšia cena',
             highestPriceFilter: 'Najvyššia cena',
             hideDuplicateItemsShow: 'Zobraziť duplikáty',
@@ -540,6 +721,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Hľadať jazyk stránky',
             doubleLocaleSearchHide: 'Iba anglicky',
             doubleLocaleSearchExplanation: 'Väčšina stránok eBay je lokalizovaná v jazyku stránok. Napríklad ebay.de je v nemčine. Mnohí predajcovia nahrávajú iba produkty iba v jazyku konkrétnych stránok, čo znamená, že ak vyhľadávate na stránkach v angličtine, dostanete len zoznamy položiek, ktorých názvy sú v anglickom jazyku. Po zapnutí tento filter prekladá kľúčové slovo vyhľadávania na anglický jazyk a jazyk stránok a poskytuje vám produkty, ktoré by ste nedostali, ak ste hľadali iba v angličtine',
+        },
+        navigation: {
+            guideTitle: 'GUIDE',
+            featuresTitle: 'VLASTNOSTI',
+            progressTitle: 'PROGRESS',
+            forYouTitle: 'pre teba',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Triediť podľa',
+            bestMatchTitle: 'Najlepší zápas',
+            newlyListedTitle: 'Novo uvedené',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 
@@ -567,6 +773,7 @@ export const translationsMap = {
             quickLookTitle: 'Rychlý pohled',
             fullDetailsTitle: 'Všechny podrobnosti',
             viewOnEbay: 'Zobrazit na eBay',
+            fromTitle: 'Z',
         },
         productPage: {
             endsOn: 'Končí: ',
@@ -591,12 +798,13 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Zvolte stránky eBay',
         filters: {
+            sqfInformation: 'SQF (vyhledávací dotazový filtr) je funkce, která umožňuje vlastní filtrování určitých slov ve vašem hledání. Například pokud hledáte \'iphone 7\', SQF odstraní položky se slovy jako \'mask\', \'masks\', \'cell\', \'case\' a další. V současné době podporuje pouze smartphony. Pokud byste se chtěli dozvědět více, podívejte se na sekci Průvodce a dozvíte se více.',
             priceTitle: 'Cena',
             qualityTitle: 'Kvalitní',
             title: 'Řazení výsledků vyhledávání',
-            sqfOn: 'SQF on',
-            sqfOff: 'SQF off',
-            fixedPriceFilter: 'Fixed price',
+            sqfOn: 'SQF zapnuto',
+            sqfOff: 'SQF vypnutý',
+            fixedPriceFilter: 'Pevná cena',
             lowestPriceFilter: 'Nejnižší cena',
             highestPriceFilter: 'Nejvyšší cena',
             hideDuplicateItemsShow: 'Zobrazit duplikáty',
@@ -608,6 +816,31 @@ export const translationsMap = {
             doubleLocaleSearchShow: 'Hledat jazyk webu',
             doubleLocaleSearchHide: 'Pouze anglicky',
             doubleLocaleSearchExplanation: 'Většina webů eBay je lokalizována do jazyka stránek. Například ebay.de je v němčině. Mnoho prodejců nahrávají pouze produkty pouze v jazyce specifických stránek, což znamená, že pokud vyhledáváte stránky v angličtině, získáte pouze seznamy položek, jejichž názvy jsou v angličtině. Po zapnutí tento filtr přeloží klíčové slovo pro vyhledávání do angličtiny a jazyk stránek vám dává výrobky, které byste nezískali, pokud jste hledali pouze v angličtině',
+        },
+        navigation: {
+            guideTitle: 'PRŮVODCE',
+            featuresTitle: 'FUNKCE',
+            progressTitle: 'POKROK',
+            forYouTitle: 'pro tebe',
+        },
+        loading: {
+            itemsLoadingText: '... Preparing products. This may take some time ...',
+            itemsTranslatingText: '... Translating ...'
+        },
+        sorting: {
+            sortByTitle: 'Seřazeno podle',
+            bestMatchTitle: 'Nejlepší shoda',
+            newlyListedTitle: 'Nově uvedené',
+        },
+        shippingDetails: {
+            autocomplete: {
+                placeholder: 'Select a country',
+            },
+            noShippingCountryInfo: 'This item does not ship to selected country',
+            shippingDetailsError: 'There has been an error. I am working on it. Please, try reloading the page and try again.',
+            summary: 'Summary',
+            headerInfoTitleWithCountry: 'Shipping information for',
+            shippingInfoTitle: 'Shipping information',
         }
     },
 };

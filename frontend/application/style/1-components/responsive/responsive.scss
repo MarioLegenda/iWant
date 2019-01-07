@@ -107,6 +107,19 @@
       margin-bottom: 30px;
     }
   }
+
+  .ModifiersWrapper {
+    width: 100%;
+    float: left;
+  }
+
+  .ModifierWrapper {
+    margin: 0 auto !important;
+    float: none !important;
+    overflow: hidden !important;
+
+    margin-bottom: 10px !important;
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -238,5 +251,23 @@
         font-weight: bold;
       }
     }
+  }
+
+  .ModifiersWrapper {
+    width: 100%;
+    float: left;
+  }
+
+  .ModifierWrapper {
+    margin: 0 auto !important;
+    float: none !important;
+    overflow: hidden !important;
+
+    margin-bottom: 10px !important;
+  }
+
+  .NavItem {
+    width: 100%;
+    padding: 10px;
   }
 }

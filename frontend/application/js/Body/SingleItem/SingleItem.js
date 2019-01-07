@@ -78,7 +78,12 @@ export const SingleItem = {
                                 <action-name-value-container 
                                     v-bind:name="translationsMap.productPage.requiresImmediatePayment"
                                     v-bind:value="(item.autoPay === true) ? translationsMap.yes : translationsMap.no"
-                                    :description="translationsMap.productPage.requiresImmediatePaymentExplanation">
+                                    :description="false">
+                                    
+                                    <div slot="description">
+                                        <p class="NameValueDescription">{{translationsMap.productPage.requiresImmediatePaymentExplanation}}</p>
+                                    </div>
+                                    
                                 </action-name-value-container>
                             </div>
                             
@@ -153,6 +158,7 @@ export const SingleItem = {
 
             return feedbackPercent;
         },
+
         translationsMap: function() {
             return this.$store.state.translationsMap;
         }
