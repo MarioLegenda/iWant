@@ -6,7 +6,12 @@
   }
 
   .ChoiceInformation {
+    width: 100%;
+    float: left;
+
     line-height: 1.4em;
+
+    margin-bottom: 30px;
   }
 
   .LanguageChoiceModalWrapper {
@@ -59,6 +64,8 @@
   .ActionContainer {
     width: 100%;
     float: left;
+
+    margin-top: 20px;
 
     button {
       width: 100px;

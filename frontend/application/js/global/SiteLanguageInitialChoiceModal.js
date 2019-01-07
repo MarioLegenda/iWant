@@ -4,6 +4,7 @@ export const SiteLanguageInitialChoiceModal = {
     mixins: [supportedLanguages],
     data: function() {
         return {
+            defaultLocale: 'en',
             chosenLanguage: null,
         }
     },
@@ -63,12 +64,24 @@ export const SiteLanguageInitialChoiceModal = {
         },
 
         onAfterChosen() {
+            if (isEmpty(this.chosenLanguage)) {
+                this._addLocaleCookie(this.defaultLocale);
+
+                this._refresh(this.defaultLocale);
+
+                return;
+            }
+
+            this._addLocaleCookie(this.chosenLanguage);
+
+            this._refresh(this.chosenLanguage);
+        },
+
+        _addLocaleCookie(locale) {
             const cookieHandler = window.CookieHandler;
 
             cookieHandler.eraseCookie('SiteLanguage');
-            cookieHandler.createCookie('SiteLanguage', this.chosenLanguage);
-
-            this._refresh(this.chosenLanguage);
+            cookieHandler.createCookie('SiteLanguage', locale);
         },
 
         _refresh(locale) {

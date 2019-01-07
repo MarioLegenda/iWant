@@ -41,7 +41,6 @@ class RequestListener
         $request = $event->getRequest();
 
         if ($event->getRequest()->isXmlHttpRequest()) {
-
             if ($request->headers->has(HttpHeader::HTTP_API_HEADER)) {
                 $httpHeader = $request->headers->get(HttpHeader::HTTP_API_HEADER);
                 if ($httpHeader !== 'api') {
