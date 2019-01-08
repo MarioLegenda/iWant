@@ -120,6 +120,12 @@
 
     margin-bottom: 10px !important;
   }
+
+  .Features, .Guide, .Progress, .ForYou {
+    width: 480px;
+
+    padding: 10px;
+  }
 }
 
 @media only screen and (max-width: 480px) {
@@ -268,6 +274,12 @@
 
   .NavItem {
     width: 100%;
+    padding: 10px;
+  }
+
+  .Features, .Guide, .Progress, .ForYou {
+    width: 480px;
+
     padding: 10px;
   }
 }
