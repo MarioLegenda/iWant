@@ -120,7 +120,7 @@ class SearchComponentTest extends BasicSetup
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
-            'globalId' => 'EBAY-GB',
+            'globalId' => 'EBAY-FR',
             'internalPagination' => new Pagination(80, 1),
             'pagination' => new Pagination(8, 2),
             'hideDuplicateItems' => true,

@@ -8,13 +8,16 @@ use App\Component\Search\Ebay\Model\Request\Model\TranslationEntry;
 use App\Component\Search\Ebay\Model\Request\Model\Translations;
 use App\Doctrine\Entity\ItemTranslationCache;
 use App\Doctrine\Entity\TextLocaleIdentifier;
+use App\Library\Slack\SlackClient;
 use App\Library\Util\Environment;
+use App\Library\Util\ExceptionCatchWrapper;
 use App\Library\Util\Util;
 use App\Symfony\Async\StaticAsyncHandler;
 use App\Translation\Model\Language;
 use App\Translation\Model\TranslatedEntryInterface;
 use App\Translation\Model\Translation;
 use Psr\Log\LoggerInterface;
+use App\Library\Slack\Metadata;
 
 class YandexCacheableTranslationCenter implements TranslationCenterInterface
 {
@@ -39,25 +42,32 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
      */
     private $textLocaleIdentifierCacheImplementation;
     /**
+     * @var SlackClient $slackClient
+     */
+    private $slackClient;
+    /**
      * TranslationService constructor.
      * @param YandexTranslationCenter $yandexTranslationCenter
      * @param TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation
      * @param ItemTranslationCacheImplementation $itemTranslationCacheImplementation
      * @param LoggerInterface $logger
      * @param Environment $environment
+     * @param SlackClient $slackClient
      */
     public function __construct(
         YandexTranslationCenter $yandexTranslationCenter,
         ItemTranslationCacheImplementation $itemTranslationCacheImplementation,
         LoggerInterface $logger,
         Environment $environment,
-        TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation
+        TextLocaleIdentifierImplementation $textLocaleIdentifierImplementation,
+        SlackClient $slackClient
     ) {
         $this->yandexTranslationCenter = $yandexTranslationCenter;
         $this->itemTranslationCacheImplementation = $itemTranslationCacheImplementation;
         $this->logger = $logger;
         $this->environment = $environment;
         $this->textLocaleIdentifierCacheImplementation = $textLocaleIdentifierImplementation;
+        $this->slackClient = $slackClient;
     }
     /**
      * @param Language $from
@@ -129,18 +139,19 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
 
                 $this->logger->warning($message);
 
-                StaticAsyncHandler::sendSlackMessage(
-                    'app:send_slack_message',
-                    'Value could not be translated in Yandex Translation API',
-                    '#translations_api',
-                    sprintf(
-                        'Value \'%s\' could not be translated to locale \'%s\'. $entryId: %s, $identifier: %s, $identifier in cache: yes',
-                        $value,
-                        $locale,
-                        $entryId,
-                        $identifier
-                    )
-                );
+                ExceptionCatchWrapper::run(function() use ($value, $locale, $entryId, $identifier) {
+                    $this->slackClient->send(new Metadata(
+                        'Value could not be translated in Yandex Translation API',
+                        '#translations_api',
+                        [sprintf(
+                            'Value \'%s\' could not be translated to locale \'%s\'. $entryId: %s, $identifier: %s, $identifier in cache: yes',
+                            $value,
+                            $locale,
+                            $entryId,
+                            $identifier
+                        )]
+                    ));
+                });
 
                 return new Translation($value);
             }
@@ -173,18 +184,19 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
 
             $this->logger->warning($message);
 
-            StaticAsyncHandler::sendSlackMessage(
-                'app:send_slack_message',
-                'Value could not be translated in Yandex Translation API',
-                '#translations_api',
-                sprintf(
-                    'Value \'%s\' could not be translated to locale \'%s\'. $entryId: %s, $identifier: %s, $identifier in cache: no',
-                    $value,
-                    $locale,
-                    $entryId,
-                    $identifier
-                )
-            );
+            ExceptionCatchWrapper::run(function() use ($value, $locale, $entryId, $identifier) {
+                $this->slackClient->send(new Metadata(
+                    'Value could not be translated in Yandex Translation API',
+                    '#translations_api',
+                    [sprintf(
+                        'Value \'%s\' could not be translated to locale \'%s\'. $entryId: %s, $identifier: %s, $identifier in cache: no',
+                        $value,
+                        $locale,
+                        $entryId,
+                        $identifier
+                    )]
+                ));
+            });
 
             return new Translation($value);
         }

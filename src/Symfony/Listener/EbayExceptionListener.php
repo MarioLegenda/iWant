@@ -10,6 +10,7 @@ use App\Library\Http\Response\ApiSDK;
 use App\Library\Slack\Metadata;
 use App\Library\Slack\SlackClient;
 use App\Library\Util\Environment;
+use App\Library\Util\ExceptionCatchWrapper;
 use App\Symfony\Async\StaticAsyncHandler;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,11 +56,13 @@ class EbayExceptionListener extends BaseHttpResponseListener
             ->isResource()
             ->build();
 
-        $this->slackClient->send(new Metadata(
-            sprintf('Ebay HTTP exception occurred of type %s', $exceptionInformation->getType()),
-            '#http_exceptions',
-            [jsonEncodeWithFix($data)]
-        ));
+        ExceptionCatchWrapper::run(function() use ($exceptionInformation, $data) {
+            $this->slackClient->send(new Metadata(
+                sprintf('Ebay HTTP exception occurred of type %s', $exceptionInformation->getType()),
+                '#http_exceptions',
+                [jsonEncodeWithFix($data)]
+            ));
+        });
 
         $event->setResponse(new JsonResponse(
             $builtData->toArray(),
