@@ -1,6 +1,7 @@
 import {SingleAddFilter} from "../Filters/Choosing/SingleAddFilter";
 import {SAVED_STATE_MODE} from "../../../store/constants";
 import {BrandSearch} from "../Modifiers/BrandSearch";
+import {ShippingCountryFilter} from "../Filters/Choosing/ShippingCountryFilter";
 
 export const Filters = {
     data: function() {
@@ -10,6 +11,7 @@ export const Filters = {
             highestPrice: false,
             highQuality: false,
             fixedPrice: false,
+            shippingCountry: false,
             errors: [],
         }
     },
@@ -58,6 +60,14 @@ export const Filters = {
                         <p class="Error" v-for="error in errors">{{error}}</p>
                         
                         <div class="GenericFiltersWrapper">
+                        
+                            <h1 class="OrganisedFiltersSeparator">{{translationsMap.filters.locationFiltersTitle}}</h1>
+                            
+                            <shipping-country-filter
+                                v-on:add-shipping-country="addShippingCountry"
+                                event-name="add-shipping-country"
+                                :filter-text="translationsMap.filters.shippingCountryFilterTitle">
+                            </shipping-country-filter>
                                                     
                             <h1 class="OrganisedFiltersSeparator">{{translationsMap.filters.priceTitle}}</h1>
                             
@@ -110,6 +120,17 @@ export const Filters = {
             } else {
                 event.target.parentNode.classList.add('ClickableFilterMenuOpener');
             }
+        },
+
+        addShippingCountry(country) {
+            this.errors = [];
+
+            let shippingCountries = [];
+            shippingCountries.push(country.alpha2Code);
+
+            this.$store.commit('filtersEvent', {
+                shippingCountries: shippingCountries,
+            });
         },
 
         addFixedPrice() {
@@ -205,5 +226,6 @@ export const Filters = {
     components: {
         'single-add-filter': SingleAddFilter,
         'brand-search': BrandSearch,
+        'shipping-country-filter': ShippingCountryFilter,
     }
 };

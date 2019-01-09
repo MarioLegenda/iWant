@@ -39,6 +39,7 @@ class SearchComponentTest extends BasicSetup
             'pagination' => new Pagination($limit, $page),
             'hideDuplicateItems' => true,
             'doubleLocaleSearch' => false,
+            'shippingCountries' => [],
         ];
 
         /** @var SearchModel $model */
@@ -91,6 +92,7 @@ class SearchComponentTest extends BasicSetup
             'hideDuplicateItems' => false,
             'doubleLocaleSearch' => false,
             'fixedPrice' => true,
+            'shippingCountries' => ['IE'],
         ];
 
         /** @var SearchModel $model */

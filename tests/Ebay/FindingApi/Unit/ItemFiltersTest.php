@@ -112,7 +112,7 @@ class ItemFiltersTest extends TestCase
         $codes = ISO3166CountryCodeInformation::instance()->getAll();
 
         foreach ($codes as $code) {
-            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::AVAILABLE_TO, [$code['alpha2']]);
+            $dynamicMetadata = $this->getDynamicMetadata(ItemFilter::AVAILABLE_TO, [[$code['alpha2']]]);
 
             $availableTo = new AvailableTo(
                 $dynamicMetadata,

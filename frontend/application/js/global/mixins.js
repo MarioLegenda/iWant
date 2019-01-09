@@ -15,5 +15,5 @@ export const supportedLanguages = {
                 { label: 'Slovak', value: 'sk', icon: SUPPORTED_SITES.findAny('slovakia').icon },
             ],
         }
-    }
+    },
 };

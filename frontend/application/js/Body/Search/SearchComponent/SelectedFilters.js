@@ -7,7 +7,7 @@ export const SelectedFilters = {
                         v-if="filtersEvent.lowestPrice"
                         class="SelectedFilter">{{translationsMap.filters.lowestPriceFilter}} <i @click="removeFilter('lowestPrice')" class="fas fa-times"></i>
                     </div>
-                </transition>         
+                </transition>
                    
                 <transition name="fade">
                     <div
@@ -29,12 +29,20 @@ export const SelectedFilters = {
                         class="SelectedFilter">{{translationsMap.filters.fixedPriceFilter}} <i @click="removeFilter('fixedPrice')" class="fas fa-times"></i>
                    </div>
                 </transition>
+                
+                <transition name="fade">
+                    <div
+                        v-if="hasShippingCountry(filtersEvent.shippingCountries)"
+                        class="SelectedFilter">{{shippingCountryTitle}} <i @click="removeFilter('shippingCountries')" class="fas fa-times"></i>
+                   </div>
+                </transition>
              </div>
         </transition>`,
     computed: {
         filtersEvent: function() {
             return this.$store.state.filtersEvent;
         },
+
         areFiltersSelected: function() {
             const filtersEvent = this.filtersEvent;
 
@@ -49,20 +57,48 @@ export const SelectedFilters = {
                     if (isBoolean(filtersEvent[evn]) && filtersEvent[evn] === true) {
                         return true;
                     }
+
+                    if (evn === 'shippingCountries') {
+                        if (!isEmpty(filtersEvent[evn])) {
+                            return true;
+                        }
+                    }
                 }
             }
 
             return false;
         },
+
+        shippingCountryTitle: function() {
+            const shippingCountry = this.filtersEvent.shippingCountries;
+            const country = this.$countries.find(function(element) {
+                if (shippingCountry[0] === element.alpha2Code) {
+                    return true;
+                }
+
+                return false;
+            });
+
+            return `${this.translationsMap.filters.shippingCountryFilterTitle} ${country.name}`
+        },
+
         translationsMap: function() {
             return this.$store.state.translationsMap;
         },
     },
     methods: {
+        hasShippingCountry: function(shippingCountries) {
+            return !isEmpty(shippingCountries);
+        },
+
         removeFilter(name) {
             let toRemove = {};
 
-            toRemove[name] = false;
+            if (name === 'shippingCountries') {
+                toRemove[name] = [];
+            } else {
+                toRemove[name] = false;
+            }
 
             this.$store.commit('filtersEvent', toRemove);
         }

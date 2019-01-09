@@ -4,7 +4,6 @@ namespace App\Tests\Component\DataProvider;
 
 use App\Component\Search\Ebay\Model\Request\Pagination as EbayPagination;
 use App\Component\Search\Ebay\Model\Request\SearchModel as EbaySearchModel;
-use App\Library\MarketplaceType;
 use App\Tests\Library\FakerTrait;
 use App\Translation\Model\Language;
 

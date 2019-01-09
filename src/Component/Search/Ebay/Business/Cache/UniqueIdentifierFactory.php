@@ -16,6 +16,7 @@ class UniqueIdentifierFactory
         return md5(serialize([
             'keyword' => (string) $model->getKeyword(),
             'bestMatch' => $model->isBestMatch(),
+            'shippingCountries' => $model->getShippingCountries(),
             'highQuality' => $model->isHighQuality(),
             'globalId' => $model->getGlobalId(),
             'hideDuplicateItems' => $model->isHideDuplicateItems(),

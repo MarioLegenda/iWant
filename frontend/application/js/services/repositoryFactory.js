@@ -55,6 +55,17 @@ class AppRepository extends Repository {
         success(await response.json());
     }
 
+    async asyncGetCountries(success) {
+        const route = routes.app_get_countries;
+
+        const response = await fetch(route,{
+            method: 'GET',
+            headers: requiredHeaders,
+        });
+
+        success(await response.json());
+    }
+
     getCountries(data, success, error) {
         const route = routes.app_get_countries;
 

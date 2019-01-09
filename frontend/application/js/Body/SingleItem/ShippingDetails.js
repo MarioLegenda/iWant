@@ -229,10 +229,8 @@ export const AutocompleteWrapper = {
                    <i v-if="fetchingShippingInfo" class="fas fa-circle-notch fa-spin"></i>
                </div>`,
     created() {
-        this.$repository.AppRepository.getCountries(null, (r) => {
-            this.countries = r.collection.data.filterInternal((c) => {
-                return {id: c.id, name: c.name, alpha2Code: c.alpha2Code};
-            });
+        this.countries = this.$countries.filterInternal((c) => {
+            return {id: c.id, name: c.name, alpha2Code: c.alpha2Code};
         });
     },
 

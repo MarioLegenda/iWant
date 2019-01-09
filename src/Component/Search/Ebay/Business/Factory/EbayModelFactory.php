@@ -164,6 +164,17 @@ class EbayModelFactory
 
             $itemFilters[] = $sellers;
         }
+
+        if (!empty($model->getShippingCountries())) {
+            $shippingCountries = new ItemFilter(new ItemFilterMetadata(
+                'name',
+                'value',
+                ItemFilterConstants::AVAILABLE_TO,
+                [$model->getShippingCountries()]
+            ));
+
+            $itemFilters[] = $shippingCountries;
+        }
     }
     /**
      * @param array $selectors

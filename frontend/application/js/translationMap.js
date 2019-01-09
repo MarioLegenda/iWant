@@ -48,6 +48,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Choose eBay site',
         filters: {
+            locationFiltersTitle: 'Location filters',
+            shippingCountryFilterTitle: 'Ships to ',
             sqfInformation: 'SQF (Search query filter) is a feature that makes custom filtering for certain words in your search. For example, if you search for an \'iphone 7\', SQF will remove items with words like \'mask\', \'masks\', \'cell\', \'case\' and others. Currently, it only supports smartphones. If you would like to know more, checkout the Guide section to find out more.',
             priceTitle: 'Price',
             qualityTitle: 'Quality',
@@ -143,6 +145,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Elija el sitio de eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (filtro de consulta de búsqueda) es una función que realiza el filtrado personalizado de ciertas palabras en su búsqueda. Por ejemplo, si busca un \'iphone 7\', SQF eliminará elementos con palabras como \'máscara\', \'máscaras\', \'celda\', \'estuche\' y otros. Actualmente, solo soporta smartphones. Si desea saber más, consulte la sección Guía para obtener más información.',
             priceTitle: 'Precio',
             qualityTitle: 'Calidad',
@@ -238,6 +242,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Choisissez le site eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (Filtre de requête de recherche) est une fonctionnalité permettant de filtrer de manière personnalisée certains mots de votre recherche. Par exemple, si vous recherchez un "iphone 7", SQF supprimera les éléments contenant des mots tels que "masque", "masques", "cellule", "coque" et autres. Actuellement, il ne supporte que les smartphones. Si vous souhaitez en savoir plus, consultez la section Guide pour en savoir plus.',
             priceTitle: 'Prix',
             qualityTitle: 'Qualité',
@@ -333,6 +339,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Scegli il sito eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (filtro delle query di ricerca) è una funzionalità che consente il filtraggio personalizzato per determinate parole nella ricerca. Ad esempio, se cerchi un \'iphone 7\', SQF rimuoverà elementi con parole come \'maschera\', \'maschere\', \'cella\', \'caso\' e altri. Attualmente supporta solo gli smartphone. Se vuoi saperne di più, consulta la sezione Guide per saperne di più.',
             priceTitle: 'Prezzo',
             qualityTitle: 'Qualità',
@@ -428,6 +436,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Roghnaigh suíomh eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'Gné a dhéanann scagadh saincheaptha le haghaidh focail áirithe i do chuardach atá SQF (scagaire ceist Cuardaigh). Mar shampla, má dhéanann tú cuardach ar \'iphone 7\', bainfidh SQF míreanna le focail cosúil le \'masc\', \'masks\', \'cell\', \'case\' agus daoine eile. Faoi láthair, ní thacaíonn sé ach le clisteanna cliste. Más mian leat tuilleadh eolais a fháil, féach ar an rannóg Treoir chun tuilleadh eolais a fháil.',
             priceTitle: 'Praghas',
             qualityTitle: 'Caighdeán',
@@ -513,6 +523,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Wybierz stronę eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (Filtr kwerend wyszukiwania) to funkcja, która umożliwia niestandardowe filtrowanie określonych słów w wyszukiwaniu. Na przykład, jeśli szukasz "iphone 7", SQF usunie elementy ze słowami takimi jak "maska", "maski", "komórka", "case" i inne. Obecnie obsługuje tylko smartfony. Jeśli chcesz dowiedzieć się więcej, odwiedź sekcję Przewodnika, aby dowiedzieć się więcej.',
             priceTitle: 'Cena',
             qualityTitle: 'Jakość',
@@ -608,6 +620,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Wählen Sie die eBay-Site',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (Suchabfragefilter) ist eine Funktion, mit der benutzerdefinierte Wörter nach bestimmten Wörtern in Ihrer Suche gefiltert werden. Wenn Sie beispielsweise nach einem \'iphone 7\' suchen, entfernt SQF Elemente mit Wörtern wie \'Maske\', \'Masken\', \'Zelle\', \'Fall\' und andere. Derzeit werden nur Smartphones unterstützt. Wenn Sie mehr erfahren möchten, lesen Sie den Abschnitt "Reiseführer", um mehr zu erfahren.',
             priceTitle: 'Preis',
             qualityTitle: 'Qualität',
@@ -703,6 +717,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Vyberte si stránku eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (filter vyhľadávacích dopytov) je funkcia, ktorá umožňuje vlastné filtrovanie určitých slov vo vašom vyhľadávaní. Napríklad, ak hľadáte \'iphone 7\', SQF odstráni položky pomocou slov \'mask\', \'masks\', \'cell\', \'case\' a ďalšie. V súčasnosti podporuje iba smartphony. Ak by ste sa chceli dozvedieť viac, skontrolujte sekciu Sprievodca a zistite viac.',
             priceTitle: 'Cena',
             qualityTitle: 'Kvalita',
@@ -798,6 +814,8 @@ export const translationsMap = {
         },
         chooseEbaySite: 'Zvolte stránky eBay',
         filters: {
+            shippingCountryFilterTitle: 'Ships to ',
+            locationFiltersTitle: 'Location filters',
             sqfInformation: 'SQF (vyhledávací dotazový filtr) je funkce, která umožňuje vlastní filtrování určitých slov ve vašem hledání. Například pokud hledáte \'iphone 7\', SQF odstraní položky se slovy jako \'mask\', \'masks\', \'cell\', \'case\' a další. V současné době podporuje pouze smartphony. Pokud byste se chtěli dozvědět více, podívejte se na sekci Průvodce a dozvíte se více.',
             priceTitle: 'Cena',
             qualityTitle: 'Kvalitní',

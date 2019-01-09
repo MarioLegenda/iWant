@@ -18,9 +18,12 @@ import ToggleButton from 'vue-js-toggle-button'
 import {Navigation} from "./Navigation/Navigation";
 import {GlobalErrorHandler} from "./global/GlobalErrorHandler";
 import {SiteLanguageInitialChoiceModal} from "./global/SiteLanguageInitialChoiceModal";
+import {addArrayFind} from "./global/polyfill";
 
 export class Init {
     static registerWindowPrototypeMethods() {
+        addArrayFind();
+
         ['Arguments', 'Function', 'String', 'Number', 'Date', 'RegExp', 'Boolean'].forEach(
             function(name) {
                 window['is' + name] = function(obj) {
@@ -236,6 +239,10 @@ export class Init {
                 Vue.prototype.$viewportDimensions = getViewportDimensions();
                 Vue.prototype.$defaultFilters = defaultFilters;
                 Vue.prototype.$repository = repositoryFactory;
+
+                repositoryFactory.AppRepository.getCountries(null,(r) => {
+                    Vue.prototype.$countries = r.collection.data;
+                });
 
                 if (/Mobi|Android/i.test(navigator.userAgent)) {
                     console.log(`Is mobile with user agent: ${navigator.userAgent}`);

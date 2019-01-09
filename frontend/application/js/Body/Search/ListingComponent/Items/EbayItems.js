@@ -50,13 +50,16 @@ const LoadMore = {
 
             return newVal;
         },
+
         getFilters: (prev, next) => {},
+
         getPreparedSearchMetadata(prev, next) {}
     },
     computed: {
         getFilters: function() {
             this.resetPagination();
         },
+
         getPreparedSearchMetadata() {
             return this.$store.getters.getPreparedSearchMetadata;
         }
@@ -389,8 +392,10 @@ export const EbayItems = {
             if (mutation.type === 'filtersEvent') {
                 if (this.isListingInitialised) {
                     let model = Object.assign({}, this.getModel, {
-                        filters: this.getFilters,
+                        filters: state.filtersEvent,
                     });
+
+                    console.log(model);
 
                     model.pagination = { limit: 8, page: 1 };
                     model.internalPagination = { limit: 80, page: 1 };
