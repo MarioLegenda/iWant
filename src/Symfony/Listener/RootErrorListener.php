@@ -40,7 +40,11 @@ class RootErrorListener
                 $exception->getMessage()
             );
 
-            throw new UnhandledSystemException($unhandledSystemException);
+            $exception = new UnhandledSystemException($unhandledSystemException);
+
+            $event->setException($exception);
+
+            return null;
         }
 
         if ($exception instanceof \Error) {

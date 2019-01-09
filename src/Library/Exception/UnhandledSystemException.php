@@ -16,7 +16,7 @@ class UnhandledSystemException extends \Exception implements HttpExceptionInterf
     {
         parent::__construct($unhandledSystemExceptionWrapper->getBody());
 
-        $this->unhandledSystemExceptionWrapper->getBody();
+        $this->unhandledSystemExceptionWrapper = $unhandledSystemExceptionWrapper;
     }
     /**
      * @return UnhandledSystemExceptionInformation

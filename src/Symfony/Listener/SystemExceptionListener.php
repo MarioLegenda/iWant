@@ -3,6 +3,7 @@
 namespace App\Symfony\Listener;
 
 use App\Library\Exception\HttpException;
+use App\Library\Exception\UnhandledSystemException;
 use App\Library\Slack\Metadata;
 use App\Library\Util\ExceptionCatchWrapper;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,26 +20,28 @@ class SystemExceptionListener extends BaseHttpResponseListener
         /** @var HttpException $exception */
         $exception = $event->getException();
 
-        if (!$exception instanceof HttpException) {
+        if (!$exception instanceof UnhandledSystemException) {
             $event->setException($exception);
 
             return null;
         }
 
-        $httpInformation = $exception->getHttpInformation();
+        $message = $exception->getMessage();
+        $traceAsString = $exception->getTraceAsString();
 
         $logMessage = sprintf(
-            'An unhandled HTTP error occurred with message %s',
-            $httpInformation->getBody()
+            'An unhandled HTTP error occurred with message %s with trace %s',
+            $message,
+            $traceAsString
         );
 
         $this->logger->critical($logMessage);
 
         $data = [
-            'type' => $httpInformation->getType(),
+            'type' => 'SYSTEM_EXCEPTION',
             'message' => $logMessage,
-            'url' => $httpInformation->getRequest()->getBaseUrl(),
-            'external_api' => $httpInformation->getType(),
+            'url' => '',
+            'external_api' => '',
             'environment' => (string) $this->environment,
         ];
 
