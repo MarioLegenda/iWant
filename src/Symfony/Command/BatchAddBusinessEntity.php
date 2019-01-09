@@ -139,6 +139,50 @@ class BatchAddBusinessEntity extends BaseCommand
         [
             'name' => 'grt104',
             'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'get_importcds',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'discover-books',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'ppretail',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'jewelryfindingshop',
+            'globalId' => 'EBAY-AU',
+        ],
+        [
+            'name' => 'blowitoutahere',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'argos',
+            'globalId' => 'EBAY-GB',
+        ],
+        [
+            'name' => 'ecop!',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'ebayshippingsupplies',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'comc_consignment',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'partscontainer',
+            'globalId' => 'EBAY-US',
+        ],
+        [
+            'name' => 'hausundgarten',
+            'globalId' => 'EBAY-DE',
         ]
     ];
     /**
