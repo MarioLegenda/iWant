@@ -54,6 +54,8 @@ class RequestListener
                     throw new \RuntimeException('Unauthorised access');
                 }
 
+                $this->saveVisitorIp($request);
+
                 return;
             }
 
@@ -69,7 +71,11 @@ class RequestListener
 
         $this->saveVisitorIp($request);
     }
-
+    /**
+     * @param Request $request
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     private function saveVisitorIp(Request $request)
     {
         $ipAddress = (string) $request->getClientIp();
