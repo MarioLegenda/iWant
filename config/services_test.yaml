@@ -96,10 +96,6 @@ services:
         autowire: true
         public: true
 
-    BlueDot\BlueDot:
-        factory: 'App\Symfony\BlueDot\BlueDotFactory:createBlueDot'
-        arguments: ['%kernel.project_dir%', '@doctrine']
-
     # APPLICATION
 
     App\Ebay\:
