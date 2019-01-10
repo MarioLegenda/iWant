@@ -72,8 +72,12 @@ class ResponseFetcher
                 $searchResults
             )->toArray(TypedRecursion::RESPECT_ARRAY_NOTATION);
 
+            unset($searchResults);
+
             $responseModels = array_merge($responseModels, $responseModel);
         }
+
+        unset($findingApiResponses);
 
         return $responseModels;
     }
