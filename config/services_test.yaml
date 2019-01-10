@@ -83,6 +83,8 @@ parameters:
     shipping_costs_cache_ttl: 86400
     keyword_translation_cache_ttl: 108000
 
+    added_something: 1000
+
     browser_single_item_cache_ttl: 86400
     browser_search_response_cache_ttl: 86400
     browser_item_translation_cache_ttl: 86400
