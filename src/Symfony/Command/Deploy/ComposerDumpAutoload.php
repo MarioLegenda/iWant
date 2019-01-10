@@ -19,11 +19,11 @@ class ComposerDumpAutoload extends AbstractComposerTask
 
     public function execute()
     {
-        $options = $this->getComposerOptions();
+        $options = $this->getOptions();
         $cmd = sprintf('%s dump-autoload --optimize --no-dev --classmap-authoritative', $options['path']);
 
         /** @var Process $process */
-        $process = $this->runtime->runRemoteCommand($cmd, false);
+        $process = $this->runtime->runLocalCommand($cmd, false);
 
         return $process->isSuccessful();
     }
