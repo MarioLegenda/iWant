@@ -38,6 +38,8 @@ class RequestListener
      */
     public function onKernelRequest(GetResponseEvent $event)
     {
+        gc_enable();
+
         $request = $event->getRequest();
 
         if ($event->getRequest()->isXmlHttpRequest()) {

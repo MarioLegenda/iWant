@@ -15,4 +15,6 @@ magephp:
       pre-deploy:
           - 'App\Symfony\Command\Deploy\GitUpdate': { branch: 'dev' }
           - composer/install: { timeout: 3600 }
-          - composer/dump-autoload
+      post-deploy:
+          - 'App\Symfony\Command\Deploy\ComposerDumpAutoload'
+          - 'App\Symfony\Command\Deploy\OpCacheReset'

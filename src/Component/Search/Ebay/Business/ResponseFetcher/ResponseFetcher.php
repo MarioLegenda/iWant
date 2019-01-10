@@ -79,6 +79,8 @@ class ResponseFetcher
 
         unset($findingApiResponses);
 
+        gc_collect_cycles();
+
         return $responseModels;
     }
     /**
