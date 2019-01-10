@@ -19,24 +19,12 @@ class ComposerDumpAutoload extends AbstractComposerTask
 
     public function execute()
     {
-        $options = $this->getOptions();
+        $options = $this->getComposerOptions();
         $cmd = sprintf('%s dump-autoload --optimize --no-dev --classmap-authoritative', $options['path']);
 
-
         /** @var Process $process */
-        $process = $this->runtime->runLocalCommand($cmd);
+        $process = $this->runtime->runRemoteCommand($cmd, false);
 
         return $process->isSuccessful();
-    }
-
-    protected function getOptions()
-    {
-        $branch = $this->runtime->getEnvOption('branch', 'master');
-        $options = array_merge(
-            ['path' => 'git', 'branch' => $branch],
-            $this->options
-        );
-
-        return $options;
     }
 }
