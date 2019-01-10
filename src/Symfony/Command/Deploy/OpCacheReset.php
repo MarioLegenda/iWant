@@ -5,7 +5,7 @@ namespace App\Symfony\Command\Deploy;
 use Mage\Task\AbstractTask;
 use Symfony\Component\Process\Process;
 
-class OpCacheRes extends AbstractTask
+class OpCacheReset extends AbstractTask
 {
     public function getName()
     {
