@@ -108,8 +108,6 @@ class SearchResponseModelFactory
             unset($item);
         }
 
-        gc_collect_cycles();
-
         return $searchResponseModels;
     }
     /**
