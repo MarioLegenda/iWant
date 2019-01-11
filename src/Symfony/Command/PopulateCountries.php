@@ -94,6 +94,8 @@ class PopulateCountries extends BaseCommand
                         $item['alpha3Code'],
                         $item['flag'],
                         $item['alpha2Code'],
+                        $item['region'],
+                        $item['subregion'],
                         $item['currencyCode']
                     )
                 );
@@ -113,9 +115,11 @@ class PopulateCountries extends BaseCommand
     /**
      * @param string $name
      * @param string $alpha3Code
-     * @param string $alpha2Code
-     * @param string $currencyCode|null
      * @param string $flag
+     * @param string $alpha2Code
+     * @param string $region
+     * @param string $subRegion
+     * @param string|null $currencyCode
      * @return Country
      */
     private function createCountryEntity(
@@ -123,6 +127,8 @@ class PopulateCountries extends BaseCommand
         string $alpha3Code,
         string $flag,
         string $alpha2Code,
+        string $region,
+        string $subRegion,
         string $currencyCode = null
     ): Country {
         return new Country(
@@ -130,6 +136,8 @@ class PopulateCountries extends BaseCommand
             $alpha3Code,
             $alpha2Code,
             $flag,
+            $region,
+            $subRegion,
             $currencyCode
         );
     }
@@ -167,6 +175,8 @@ class PopulateCountries extends BaseCommand
                 'currencyCode' => $currencyCode,
                 'flag' => $item['flag'],
                 'alpha2Code' => $item['alpha2Code'],
+                'region' => $item['region'],
+                'subregion' => $item['subregion'],
             ];
         }
 

@@ -29,7 +29,7 @@ parameters:
             service_version: SERVICE-VERSION
             global_id: GLOBAL-ID
         params:
-            response_data_format: 'XML'
+            response_data_format: 'JSON'
             service_version: '1.13.0'
             rest_payload: null
             security_appname: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
@@ -44,7 +44,7 @@ parameters:
         params:
             app_id: MarioSkr-iwant-PRD-aed62ccbf-6c03b3f4
             version: "1081"
-            response_encoding: XML
+            response_encoding: JSON
             site_id: "0"
 
     amazon_product_advertising_api_metadata:
@@ -125,6 +125,10 @@ services:
     App\Symfony\:
         resource: '../src/Symfony'
         exclude: '../src/Symfony/{Exception/*,Resolver/*}'
+
+    App\Symfony\Facade\CountryRepresentation:
+        tags:
+            - { name: 'indragunawan.facade'}
 
     App\Web\:
         resource: '../src/Web'

@@ -14,6 +14,7 @@ use App\Ebay\Library\Exception\EbayExceptionInformation;
 use App\Ebay\Library\Exception\EbayHttpException;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Processor\ShoppingApiRequestBaseProcessor;
+use App\Ebay\Library\Response\FindingApi\JsonFindingApiResponseModel;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
@@ -21,7 +22,6 @@ use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
-use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Library\Processor\FindingApiRequestBaseProcessor;
 use App\Ebay\Source\FinderSource;
@@ -70,7 +70,7 @@ class Finder
         /** @var HttpResponseModel $response */
         $response = $this->finderSource->getApiResource($request);
 
-        $responseModel = $this->createVersionResponseModel($response->getBody());
+        $responseModel = $this->createVersionResponseModel('getVersionResponse', $response->getBody());
 
         if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
@@ -93,14 +93,16 @@ class Finder
 
         /** @var Request $request */
         $request = $findItemsByKeywords->getRequest();
-
         /** @var HttpResponseModel $resource */
         $response = $this->finderSource->getApiResource($request);
 
         /** @var FindingApiResponseModelInterface $responseModel */
-        $responseModel = $this->createKeywordsModelResponse($response->getBody());
+        $responseModel = $this->createKeywordsModelResponse(
+            'findItemsByKeywordsResponse',
+            $response->getBody()
+        );
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
                 $request,
                 'findItemsByKeywords',
@@ -108,6 +110,8 @@ class Finder
                 $responseModel
             );
         }
+
+        unset($response);
 
         return $responseModel;
     }
@@ -122,9 +126,12 @@ class Finder
         /** @var ResponseModelInterface $resource */
         $response = $this->finderSource->getApiResource($request);
         /** @var FindingApiResponseModelInterface $responseModel */
-        $responseModel = $this->createKeywordsModelResponse($response->getBody());
+        $responseModel = $this->createKeywordsModelResponse(
+            'findItemsAdvancedResponse',
+            $response->getBody()
+        );
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
                 $request,
                 'findItemsAdvanced',
@@ -148,7 +155,7 @@ class Finder
         /** @var GetUserProfileResponse $responseModel */
         $responseModel = $this->createUserProfileResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
                 $request,
                 'GetUserProfile',
@@ -170,9 +177,12 @@ class Finder
         /** @var ResponseModelInterface $resource */
         $response = $this->finderSource->getApiResource($request);
         /** @var FindingApiResponseModelInterface $responseModel */
-        $responseModel = $this->createKeywordsModelResponse($response->getBody());
+        $responseModel = $this->createKeywordsModelResponse(
+            'findItemsIneBayStoresResponse',
+            $response->getBody()
+        );
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
                 $request,
                 'findItemsInEbayStores',
@@ -217,10 +227,11 @@ class Finder
 
         /** @var ResponseModelInterface $resource */
         $response = $this->finderSource->getApiResource($request);
+
         /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->createSingleItemResponse($response->getBody());
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
                 $request,
                 'GetSingleItem',
@@ -242,9 +253,10 @@ class Finder
         /** @var ResponseModelInterface $resource */
         $response = $this->finderSource->getApiResource($request);
 
+        /** @var GetShippingCostsResponse $responseModel */
         $responseModel = $this->createShippingCostsResponseModel($response->getBody());
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if (!$responseModel->getRoot()->isSuccess()) {
             $this->handleError(
                 $request,
                 'GetShippingCosts',
@@ -278,12 +290,14 @@ class Finder
         );
     }
     /**
+     * @param string $type
+     *
      * @param string $resource
      * @return FindingApiResponseModelInterface
      */
-    private function createKeywordsModelResponse(string $resource): FindingApiResponseModelInterface
+    private function createKeywordsModelResponse(string $type, string $resource): FindingApiResponseModelInterface
     {
-        return new XmlFindingApiResponseModel($resource);
+        return new JsonFindingApiResponseModel($type, json_decode($resource, true));
     }
     /**
      * @param string $resource
@@ -307,15 +321,16 @@ class Finder
      */
     private function createSingleItemResponse(string $resource): GetSingleItemResponse
     {
-        return new GetSingleItemResponse($resource);
+        return new GetSingleItemResponse(json_decode($resource, true));
     }
     /**
+     * @param string $type
      * @param string $resource
      * @return FindingApiResponseModelInterface
      */
-    private function createVersionResponseModel(string $resource): FindingApiResponseModelInterface
+    private function createVersionResponseModel(string $type, string $resource): FindingApiResponseModelInterface
     {
-        return new XmlFindingApiResponseModel($resource);
+        return new JsonFindingApiResponseModel($type, json_decode($resource, true));
     }
     /**
      * @param string $resource
@@ -323,6 +338,6 @@ class Finder
      */
     private function createShippingCostsResponseModel(string  $resource): GetShippingCostsResponse
     {
-        return new GetShippingCostsResponse($resource);
+        return new GetShippingCostsResponse(json_decode($resource, true));
     }
 }

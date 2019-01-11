@@ -35,6 +35,11 @@ function map_reduce(iterable $iterable, \Closure $callback): array
     return $result;
 }
 
+function get_value_or_null(array $item, $key)
+{
+    return (isset($item[$key])) ? $item[$key] : null;
+}
+
 function advanced_array_filter(array $array, \Closure $callback): array
 {
     $retainedValues = [];

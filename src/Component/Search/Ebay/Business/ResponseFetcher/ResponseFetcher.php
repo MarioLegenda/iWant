@@ -10,6 +10,7 @@ use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
+use App\Ebay\Library\Response\FindingApi\JsonFindingApiResponseModel;
 use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
@@ -53,16 +54,17 @@ class ResponseFetcher
      */
     public function getResponse(SearchModelInterface $model, string $identifier = null): iterable
     {
-        /** @var XmlFindingApiResponseModel[] $findingApiResponse */
+        /** @var JsonFindingApiResponseModel[] $findingApiResponse */
         $findingApiResponses = $this->searchEbayAdvanced($model);
 
         $responseModels = [];
 
-        /** @var ResponseModelInterface|XmlFindingApiResponseModel $findingApiResponse */
+        /** @var ResponseModelInterface|JsonFindingApiResponseModel $findingApiResponse */
         foreach ($findingApiResponses as $findingApiResponse) {
             $this->invalidResponseHandler->handleInvalidResponse($findingApiResponse);
 
-            $searchResults = $findingApiResponse->getSearchResults();
+            /** @var \Generator $searchResults */
+            $searchResults = $findingApiResponse->getSearchResults(null, true);
 
             $identifier = (is_string($identifier)) ? $identifier : UniqueIdentifierFactory::createIdentifier($model);
 

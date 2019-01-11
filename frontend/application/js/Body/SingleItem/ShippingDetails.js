@@ -5,7 +5,7 @@ import Autocomplete from 'vuejs-auto-complete';
 const reusableMethods = {
     methods: {
         viewPrice(price) {
-            if (price.price === 0) {
+            if (isEmpty(price)) {
                 return 'Free';
             }
 
@@ -28,10 +28,10 @@ const AdditionalShippingDetails = {
                           </name-value-container>
                       </div>
                       
-                      <div class="NameValueContainerWrapper" v-if="shippingDetails.cashOnDeliveryCost">
+                      <div class="NameValueContainerWrapper" v-if="shippingDetails.codCost">
                           <action-name-value-container
                               name="Cash-on-delivery cost: "
-                              v-bind:value="viewPrice(shippingDetails.cashOnDeliveryCost)"
+                              v-bind:value="viewPrice(shippingDetails.codCost)"
                               v-bind:description="false">
                                 
                               <div slot="description">
@@ -60,7 +60,7 @@ const AdditionalShippingDetails = {
                   
                   <div class="DataContainer">
                       <action-name-value-container
-                          v-for="item in shippingDetails.internationalShippingServiceOption"
+                          v-for="item in shippingDetails.internationalShippingServiceOptions"
                           :key="item.shippingServiceName"
                           v-bind:value="item.shippingServiceName"
                           :description="false">
@@ -79,14 +79,14 @@ const AdditionalShippingDetails = {
                                   <div class="InnerNameValueContainerWrapper">
                                       <name-value-container
                                           name="Maximum delivery date: "
-                                          v-bind:value="item.estimatedDeliveryMaxTime.dateTime">
+                                          v-bind:value="item.estimatedDeliveryMaxTime">
                                       </name-value-container>
                                   </div>
                       
                                   <div class="InnerNameValueContainerWrapper">
                                       <name-value-container
                                           name="Minimum delivery date: "
-                                          v-bind:value="item.estimatedDeliveryMinTime.dateTime">
+                                          v-bind:value="item.estimatedDeliveryMinTime">
                                       </name-value-container>
                                   </div>
                                   

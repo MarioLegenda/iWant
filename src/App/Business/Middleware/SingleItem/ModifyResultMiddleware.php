@@ -23,15 +23,15 @@ class ModifyResultMiddleware implements MiddlewareEntryInterface
 
         $result = $middlewareResult->getResult();
 
-        if (count($result['shipsToLocations']) === 1 and $result['shipsToLocations'][0] === 'Worldwide') {
+        if (count($result['shipToLocations']) === 1 and $result['shipToLocations'][0] === 'Worldwide') {
             $result['shipsToLocations'] = [
                 'isWorldwide' => true,
                 'locations' => ['Worldwide'],
             ];
-        } else if (count($result['shipsToLocations']) > 1) {
-            $result['shipsToLocations'] = [
+        } else if (count($result['shipToLocations']) > 1) {
+            $result['shipToLocations'] = [
                 'isWorldwide' => false,
-                'locations' => $result['shipsToLocations'],
+                'locations' => $result['shipToLocations'],
             ];
         }
 

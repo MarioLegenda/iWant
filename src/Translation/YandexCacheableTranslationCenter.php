@@ -269,10 +269,32 @@ class YandexCacheableTranslationCenter implements TranslationCenterInterface
                     $identifier
                 );
 
-                $item[$translationConfig->getKey()] = $translationConfig->getPostTranslationEvent()->__invoke(
+                /** @var string|array $postTranslationMetadata */
+                $postTranslationMetadata = $translationConfig->getPostTranslationEvent()->__invoke(
                     $translationConfig->getKey(),
-                    $translated->getEntry()
+                    $translated->getEntry(),
+                    $item
                 );
+
+                if (is_string($postTranslationMetadata)) {
+                    $item[$translationConfig->getKey()] = $translationConfig->getPostTranslationEvent()->__invoke(
+                        $translationConfig->getKey(),
+                        $translated->getEntry(),
+                        $item
+                    );
+                }
+
+                if (is_array($postTranslationMetadata)) {
+                    if (!isset($postTranslationMetadata['key']) and !isset($postTranslationMetadata['item'])) {
+                        $message = sprintf(
+                            'If post_translate event returns an array, the array has to have keys \'key\' and \'item\''
+                        );
+
+                        throw new \RuntimeException($message);
+                    }
+
+                    $item[$postTranslationMetadata['key']] = $postTranslationMetadata['value'];
+                }
             }
 
             if (!$translationConfig->isEventTranslation()) {

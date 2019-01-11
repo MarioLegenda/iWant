@@ -2,6 +2,7 @@
 
 namespace App\Ebay\Library\Information;
 
+use App\Library\Util\Util;
 use Symfony\Component\Yaml\Yaml;
 
 class ISO3166CountryCodeInformation
@@ -35,7 +36,11 @@ class ISO3166CountryCodeInformation
             return null;
         }
 
-        foreach ($this->countryCodes as $codes) {
+        $countryCodeGen = Util::createGenerator($this->countryCodes);
+
+        foreach ($countryCodeGen as $entry) {
+            $codes = $entry['item'];
+
             foreach ($codes as $key => $c) {
                 if ($c === strtoupper($code)) {
                     return $codes;

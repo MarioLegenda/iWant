@@ -9,17 +9,9 @@ interface ResponseModelInterface
     /**
      * @return RootItemInterface
      */
-    public function getRoot() : RootItemInterface;
+    public function getRoot();
     /**
      * @return ArrayNotationInterface
      */
     public function getErrors();
-    /**
-     * @return bool
-     */
-    public function isErrorResponse() : bool;
-    /**
-     * @return string
-     */
-    public function getRawResponse() : string;
 }

@@ -2,6 +2,7 @@
 
 namespace App\Tests\Ebay\FindingApi\DataProvider;
 
+use App\Ebay\Library\ItemFilter\OutputSelector;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
@@ -12,6 +13,7 @@ use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
 use App\Ebay\Presentation\Model\Query;
 use App\Library\Infrastructure\Helper\TypedArray;
+use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class DataProvider
 {
@@ -56,6 +58,19 @@ class DataProvider
             [false]
         ));
 
+        $outputSelector = new ItemFilter(new ItemFilterMetadata(
+            'name',
+            'value',
+            ItemFilterConstants::OUTPUT_SELECTOR,
+            [[
+                'StoreInfo',
+                'SellerInfo',
+                'GalleryInfo',
+                'PictureURLLarge',
+                'PictureURLSuperSize',
+            ]]
+        ));
+
         $listingType = new ItemFilter(new ItemFilterMetadata(
             'name',
             'value',
@@ -66,6 +81,7 @@ class DataProvider
         $itemFilters[] = $maxPrice;
         $itemFilters[] = $freeShippingOnly;
         $itemFilters[] = $listingType;
+        $itemFilters[] = $outputSelector;
 
         $model = new FindingApiModel($findItemsByKeywords, $itemFilters);
 

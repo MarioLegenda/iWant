@@ -115,7 +115,7 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
-            'lowestPrice' => true,
+            'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
             'globalId' => 'EBAY-DE',
@@ -123,8 +123,8 @@ class SearchComponentTest extends BasicSetup
             'pagination' => new Pagination(8, 1),
             'hideDuplicateItems' => false,
             'doubleLocaleSearch' => false,
-            'fixedPrice' => true,
-            'shippingCountries' => ['IE'],
+            'fixedPrice' => false,
+            'shippingCountries' => [],
         ];
 
         /** @var SearchModel $model */
@@ -133,10 +133,6 @@ class SearchComponentTest extends BasicSetup
         $searchComponent->saveProducts($model);
 
         $products = $searchComponent->getProductsPaginated($model);
-
-        foreach ($products as $product) {
-            static::assertTrue($product['isFixedPrice']);
-        }
 
         static::assertEquals(count($products), $model->getPagination()->getLimit());
     }

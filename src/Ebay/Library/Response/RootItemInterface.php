@@ -7,15 +7,15 @@ interface RootItemInterface
     /**
      * @return string
      */
-    public function getNamespace(): string;
+    public function getVersion(): string;
     /**
-     * @return mixed
+     * @return string
      */
-    public function getVersion();
+    public function getTimestamp(): string;
     /**
-     * @return mixed
+     * @return \DateTime
      */
-    public function getTimestamp();
+    public function getTimestampAsObject(): \DateTime;
     /**
      * @return string
      */

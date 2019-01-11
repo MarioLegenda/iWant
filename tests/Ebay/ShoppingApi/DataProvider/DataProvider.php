@@ -67,7 +67,7 @@ class DataProvider
 
         $itemId = new Query(
             'ItemID',
-            '302230240168'
+            '132439067288'
         );
 
         $queries = TypedArray::create('integer', Query::class);
@@ -108,7 +108,7 @@ class DataProvider
 
         $itemId = new Query(
             'ItemID',
-            '264037155079'
+            '292423663330'
         );
 
         $includeDetails = new Query(

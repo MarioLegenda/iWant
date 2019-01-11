@@ -53,6 +53,16 @@ class Country implements ArrayNotationInterface
      */
     private $flag;
     /**
+     * @var string $region
+     * @Column(type="string")
+     */
+    private $region;
+    /**
+     * @var string $subRegion
+     * @Column(type="string")
+     */
+    private $subRegion;
+    /**
      * @var \DateTime $createdAt
      * @Column(type="datetime")
      */
@@ -68,6 +78,8 @@ class Country implements ArrayNotationInterface
         string $alpha3Code,
         string $alpha2Code,
         string $flag,
+        string $region,
+        string $subRegion,
         string $currencyCode = null
     ) {
         $this->name = $name;
@@ -75,6 +87,8 @@ class Country implements ArrayNotationInterface
         $this->flag = $flag;
         $this->currencyCode = $currencyCode;
         $this->alpha2Code = $alpha2Code;
+        $this->region = $region;
+        $this->subRegion = $subRegion;
     }
 
     /**
@@ -83,6 +97,20 @@ class Country implements ArrayNotationInterface
     public function getId(): int
     {
         return $this->id;
+    }
+    /**
+     * @return string
+     */
+    public function getRegion(): string
+    {
+        return $this->region;
+    }
+    /**
+     * @return string
+     */
+    public function getSubRegion()
+    {
+        return $this->subRegion;
     }
     /**
      * @return string
@@ -201,6 +229,8 @@ class Country implements ArrayNotationInterface
             'alpha3Code' => $this->getAlpha3Code(),
             'flag' => $this->getFlag(),
             'currencyCode' => $this->getCurrencyCode(),
+            'region' => $this->getRegion(),
+            'subRegion' => $this->getSubRegion(),
         ];
     }
 }

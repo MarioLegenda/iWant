@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Model\Response;
 
+use App\Ebay\Library\Response\FindingApi\Json\Result\ListingInfo;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Library\Infrastructure\Type\TypeInterface;
 use App\Library\MarketplaceType;

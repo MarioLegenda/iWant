@@ -10,8 +10,8 @@ use App\Component\Search\Ebay\Model\Response\Nan;
 use App\Component\Search\Ebay\Model\Response\Price;
 use App\Component\Search\Ebay\Model\Response\SearchResponseModel;
 use App\Component\Search\Ebay\Model\Response\Title;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\ListingInfo;
+use App\Ebay\Library\Response\FindingApi\Json\Result\ListingInfo;
+use App\Ebay\Library\Response\FindingApi\Json\SearchResult;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\MarketplaceType;
 use App\Library\Util\Util;
@@ -35,26 +35,24 @@ class SearchResponseModelFactory
     /**
      * @param string $uniqueName
      * @param string $globalId
-     * @param iterable $searchResults
+     * @param \Generator $searchResults
      * @return TypedArray
      */
     public function fromSearchResults(
         string $uniqueName,
         string $globalId,
-        iterable $searchResults
+        \Generator $searchResults
     ): TypedArray {
         $searchResponseModels = TypedArray::create('integer', SearchResponseModel::class);
 
-        $searchResultsGen = Util::createGenerator($searchResults);
-
-        foreach ($searchResultsGen as $entry) {
-            /** @var Item $item */
-            $item = $entry['item'];
+        foreach ($searchResults as $entry) {
+            /** @var SearchResult $item */
+            $item = SearchResult::createFromResponseArray($entry['item']);
 
             $itemId = $item->getItemId();
             $title = new Title($item->getTitle());
-            $image = new Image($item->dynamicSingleItemChoice(function(Item $item) {
-                $methods = ['getPictureURLSuperSize', 'getPictureURLLarge', 'getGalleryPlusPictureURL', 'getGalleryUrl'];
+            $image = new Image((function(SearchResult $item) {
+                $methods = ['getPictureUrlSuperSize', 'getPictureUrlLarge', 'getGalleryUrl'];
 
                 foreach ($methods as $method) {
                     $image = $item->{$method}();
@@ -65,7 +63,7 @@ class SearchResponseModelFactory
                 }
 
                 return Nan::fromValue();
-            }));
+            })($item));
 
             $businessEntity = new BusinessEntity(
                 $item->getStoreInfo(),
@@ -75,8 +73,8 @@ class SearchResponseModelFactory
             $country = $this->tryGetCountry($item);
 
             $price = new Price(
-                $item->getSellingStatus()->getCurrentPrice()['currencyId'],
-                $item->getSellingStatus()->getCurrentPrice()['currentPrice']
+                $item->getSellingStatus()->getCurrentPrice()->getCurrency(),
+                $item->getSellingStatus()->getCurrentPrice()->getPrice()
             );
 
             $viewItemUrl = $item->getViewItemUrl();
@@ -106,15 +104,19 @@ class SearchResponseModelFactory
                 $country,
                 ($item->getListingInfo() instanceof ListingInfo) ? $item->getListingInfo()->toArray() : null
             );
+
+            unset($item);
         }
+
+        gc_collect_cycles();
 
         return $searchResponseModels;
     }
     /**
-     * @param Item $item
+     * @param SearchResult $item
      * @return Country|null
      */
-    private function tryGetCountry(Item $item): ?Country
+    private function tryGetCountry(SearchResult $item): ?Country
     {
         if (!is_string($item->getCountry())) {
             return new Country();

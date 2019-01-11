@@ -72,7 +72,7 @@ class FetchSingleItemMiddleware implements MiddlewareEntryInterface
         /** @var GetSingleItemResponse $responseModel */
         $responseModel = $this->shoppingApiEntryPoint->getSingleItem($requestModel);
 
-        if (!$responseModel->getRoot()->isValid()) {
+        if ($responseModel->getRoot()->isFailure()) {
             return new MiddlewareResult(null, false);
         }
 
@@ -83,7 +83,44 @@ class FetchSingleItemMiddleware implements MiddlewareEntryInterface
             [
                 'title',
                 'description',
-                'conditionDisplayName',
+                'conditionDisplayName' => [
+                    'pre_translate' => function(string $key, array $item) {
+                        if ($key === 'conditionDisplayName') {
+                            return $item['condition']['conditionDisplayName'];
+                        }
+                    },
+                    'post_translate' => function(string $key, string $translated, array $item) {
+                        if ($key === 'conditionDisplayName') {
+                            $condition = $item['condition'];
+
+                            $condition['conditionDisplayName'] = $translated;
+
+                            return [
+                                'key' => 'condition',
+                                'value' => $condition
+                            ];
+                        }
+                    }
+                ],
+                'conditionDescription' => [
+                    'pre_translate' => function(string $key, array $item) {
+                        if ($key === 'conditionDescription') {
+                            return $item['condition']['conditionDescription'];
+                        }
+                    },
+                    'post_translate' => function(string $key, string $translated, array $item) {
+                        if ($key === 'conditionDescription') {
+                            $condition = $item['condition'];
+
+                            $condition['conditionDescription'] = $translated;
+
+                            return [
+                                'key' => 'condition',
+                                'value' => $condition
+                            ];
+                        }
+                    }
+                ]
             ],
             $model->getLocale(),
             $model->getItemId()

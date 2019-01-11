@@ -154,10 +154,18 @@
   }
 
   .ThumbnailImageWrapper {
+    width: 300px;
+    height: 300px;
+
+    float: left;
+
     .Image {
       display: block;
       overflow: hidden;
       float: left;
+
+      width: 300px;
+      height: 300px;
 
       border-radius: 10px;
     }

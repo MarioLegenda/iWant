@@ -30,13 +30,13 @@ export const SingleItem = {
                             
                             <div class="Row PriceWrapper">
                                 <price
-                                    v-bind:currency="item.priceInfo.convertedCurrentPriceId"
-                                    v-bind:price="item.priceInfo.convertedCurrentPrice" >
+                                    v-bind:currency="item.convertedCurrentPrice.currency"
+                                    v-bind:price="item.convertedCurrentPrice.price" >
                                 </price>
                                 
                                 <price
-                                    v-bind:currency="item.priceInfo.currentPriceId"
-                                    v-bind:price="item.priceInfo.currentPrice" >
+                                    v-bind:currency="item.currentPrice.currency"
+                                    v-bind:price="item.currentPrice.price" >
                                 </price>
                             </div>
                             
@@ -70,7 +70,7 @@ export const SingleItem = {
                             <div class="NameValueContainerWrapper">
                                 <name-value-container
                                     v-bind:name="translationsMap.productPage.condition"
-                                    v-bind:value="item.conditionDisplayName">
+                                    v-bind:value="item.condition.conditionDisplayName">
                                 </name-value-container>
                             </div>
                             
@@ -102,14 +102,14 @@ export const SingleItem = {
                             </div>
                             
                             <div class="Row ViewOnEbayButtonWrapper">
-                                <a :href="item.viewItemUrlForNaturalSearch" target="_blank">{{translationsMap.productPage.viewOnEbay}}<i class="fas fa fa-link"></i></a>
+                                <a :href="item.viewItemUrl" target="_blank">{{translationsMap.productPage.viewOnEbay}}<i class="fas fa fa-link"></i></a>
                             </div>
                            
                         </div>
                         
                         <div class="Panel LeftPanel">
                             <div class="Row Seller">
-                                <h1>{{item.seller.userId}}</h1>
+                                <h1>{{item.seller.sellerId}}</h1>
                                 <span>({{item.seller.feedbackScore}})</span>
                                 <p>{{translationsMap.productPage.positiveFeedbackScore}}<span>{{sellerFeedbackPercent}}%</span></p>
                             </div>
@@ -178,9 +178,7 @@ export const SingleItem = {
 
         parsePictureUrl(pictureUrl) {
             if (pictureUrl !== null && typeof pictureUrl !== 'undefined') {
-                const regex = /\$_\d+/g;
-
-                return pictureUrl.replace(regex, '$_1');
+                return pictureUrl[0];
             }
         },
     },

@@ -3,22 +3,17 @@
 namespace App\Tests\Ebay\FindingApi;
 
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\AspectHistogramContainer;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\CategoryHistogramContainer;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\ConditionHistogram\ConditionHistogram;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Category;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Condition;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\Item;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\SellingStatus;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\ShippingInfo;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\ConditionHistogramContainer;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\PaginationOutput;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\RootItem;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\SearchResultsContainer;
-use App\Ebay\Library\Response\FindingApi\XmlFindingApiResponseModel;
+use App\Ebay\Library\Response\FindingApi\Json\PaginationOutput;
+use App\Ebay\Library\Response\FindingApi\Json\Result\Condition;
+use App\Ebay\Library\Response\FindingApi\Json\Result\ListingInfo;
+use App\Ebay\Library\Response\FindingApi\Json\Result\SellingStatus;
+use App\Ebay\Library\Response\FindingApi\Json\Result\ShippingInfo;
+use App\Ebay\Library\Response\FindingApi\Json\Root;
+use App\Ebay\Library\Response\FindingApi\Json\SearchResult;
+use App\Ebay\Library\Response\FindingApi\JsonFindingApiResponseModel;
 use App\Ebay\Presentation\FindingApi\EntryPoint\FindingApiEntryPoint;
-use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 use App\Tests\Library\BasicSetup;
+use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 
 class FindingApiTest extends BasicSetup
 {
@@ -31,20 +26,18 @@ class FindingApiTest extends BasicSetup
 
         $model = $dataProvider->getFindItemsByKeywordsData('boots for mountain');
 
+        /** @var JsonFindingApiResponseModel $responseModel */
         $responseModel = $findingApiEntryPoint->findItemsByKeywords($model);
 
         static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
 
         $rootItem = $responseModel->getRoot();
 
-        static::assertInstanceOf(RootItem::class, $rootItem);
+        static::assertInstanceOf(Root::class, $rootItem);
 
         $this->assertRootItem($rootItem);
-        $this->assertAspectHistogramContainer($responseModel->getAspectHistogramContainer());
-        $this->assertConditionHistogramContainer($responseModel->getConditionHistogramContainer());
         $this->assertPaginationOutput($responseModel->getPaginationOutput());
-        $this->assertCategoryHistogramContainer($responseModel->getCategoryHistogramContainer());
-        $this->assertSearchResultsContainer($responseModel->getSearchResults());
+        $this->assertSearchResults($responseModel->getSearchResults());
     }
 
     public function test_finding_api_find_items_advanced()
@@ -58,21 +51,18 @@ class FindingApiTest extends BasicSetup
             'Lady gaga'
         );
 
-        /** @var XmlFindingApiResponseModel $responseModel */
+        /** @var JsonFindingApiResponseModel $responseModel */
         $responseModel = $findingApiEntryPoint->findItemsAdvanced($model);
 
         static::assertInstanceOf(FindingApiResponseModelInterface::class, $responseModel);
 
         $rootItem = $responseModel->getRoot();
 
-        static::assertInstanceOf(RootItem::class, $rootItem);
+        static::assertInstanceOf(Root::class, $rootItem);
 
         $this->assertRootItem($rootItem);
-        $this->assertAspectHistogramContainer($responseModel->getAspectHistogramContainer());
-        $this->assertConditionHistogramContainer($responseModel->getConditionHistogramContainer());
         $this->assertPaginationOutput($responseModel->getPaginationOutput());
-        $this->assertCategoryHistogramContainer($responseModel->getCategoryHistogramContainer());
-        $this->assertSearchResultsContainer($responseModel->getSearchResults());
+        $this->assertSearchResults($responseModel->getSearchResults());
     }
 
     public function test_find_items_in_ebay_stores()
@@ -86,19 +76,16 @@ class FindingApiTest extends BasicSetup
             urlencode('lady gaga')
         );
 
-        /** @var XmlFindingApiResponseModel $responseModel */
+        /** @var JsonFindingApiResponseModel $responseModel */
         $responseModel = $findingApiEntryPoint->findItemsInEbayStores($model);
 
         $rootItem = $responseModel->getRoot();
 
-        static::assertInstanceOf(RootItem::class, $rootItem);
+        static::assertInstanceOf(Root::class, $rootItem);
 
         $this->assertRootItem($rootItem);
-        $this->assertAspectHistogramContainer($responseModel->getAspectHistogramContainer());
-        $this->assertConditionHistogramContainer($responseModel->getConditionHistogramContainer());
         $this->assertPaginationOutput($responseModel->getPaginationOutput());
-        $this->assertCategoryHistogramContainer($responseModel->getCategoryHistogramContainer());
-        $this->assertSearchResultsContainer($responseModel->getSearchResults());
+        $this->assertSearchResults($responseModel->getSearchResults());
     }
 
     public function test_get_version()
@@ -115,15 +102,13 @@ class FindingApiTest extends BasicSetup
         static::assertEquals('Success', $versionModel->getRoot()->getAck());
     }
     /**
-     * @param RootItem $rootItem
+     * @param Root $rootItem
      */
-    private function assertRootItem(RootItem $rootItem)
+    private function assertRootItem(Root $rootItem)
     {
         static::assertInternalType('string', $rootItem->getVersion());
         static::assertInternalType('string', $rootItem->getTimestamp());
         static::assertInternalType('string', $rootItem->getAck());
-        static::assertInternalType('string', $rootItem->getNamespace());
-        static::assertInternalType('int', $rootItem->getSearchResultsCount());
     }
     /**
      * @param AspectHistogramContainer|null $aspectHistogramContainer
@@ -173,17 +158,15 @@ class FindingApiTest extends BasicSetup
         }
     }
     /**
-     * @param SearchResultsContainer|null $searchResultsContainer
+     * @param array|null $searchResultsContainer
      */
-    private function assertSearchResultsContainer(SearchResultsContainer $searchResultsContainer = null)
+    private function assertSearchResults(array $searchResultsContainer = null)
     {
-        static::assertInstanceOf(SearchResultsContainer::class, $searchResultsContainer);
-        static::assertFalse($searchResultsContainer->isEmpty());
         static::assertGreaterThan(0, count($searchResultsContainer));
 
-        /** @var Item $item */
+        /** @var SearchResult $item */
         foreach ($searchResultsContainer as $item) {
-            static::assertInstanceOf(Item::class, $item);
+            static::assertInstanceOf(SearchResult::class, $item);
 
             static::assertInternalType('string', $item->getItemId());
             static::assertInternalType('string', $item->getTitle());
@@ -192,17 +175,14 @@ class FindingApiTest extends BasicSetup
                 static::assertInternalType('string', $item->getGalleryUrl());
             }
 
-            static::assertInternalType('string', $item->getViewItemUrl());
-
-            static::assertInstanceOf(Category::class, $item->getPrimaryCategory());
-
-            $primaryCategory = $item->getPrimaryCategory();
-
-            static::assertInternalType('string', $primaryCategory->getCategoryId());
-            static::assertInternalType('string', $primaryCategory->getCategoryName());
-
             static::assertInstanceOf(ShippingInfo::class, $item->getShippingInfo());
             static::assertInstanceOf(SellingStatus::class, $item->getSellingStatus());
+            static::assertInstanceOf(ListingInfo::class, $item->getListingInfo());
+
+            static::assertInstanceOf(\DateTime::class, $item->getListingInfo()->getEndTimeAsObject());
+            static::assertInstanceOf(\DateTime::class, $item->getListingInfo()->getStartTimeAsObject());
+            static::assertInternalType('string', $item->getViewItemUrl());
+
 
             if (!is_null($item->getCondition())) {
                 static::assertInstanceOf(Condition::class, $item->getCondition());

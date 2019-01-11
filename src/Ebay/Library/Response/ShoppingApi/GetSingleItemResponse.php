@@ -3,131 +3,150 @@
 namespace App\Ebay\Library\Response\ShoppingApi;
 
 use App\Ebay\Library\Response\ResponseModelInterface;
-use App\Ebay\Library\Response\RootItemInterface;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\RootItem;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\SingleItem;
+use App\Ebay\Library\Response\ShoppingApi\Json\Error;
+use App\Ebay\Library\Response\ShoppingApi\Json\Item;
+use App\Ebay\Library\Response\ShoppingApi\Json\Root;
+use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Util\Util;
+use App\Symfony\Facade\CountryRepresentation;
 
-class GetSingleItemResponse implements ResponseModelInterface
+class GetSingleItemResponse implements ResponseModelInterface, ArrayNotationInterface
 {
     /**
-     * @var string $xmlString
+     * @var Root $root
      */
-    private $xmlString;
+    private $root;
     /**
-     * @var \SimpleXMLElement $simpleXmlBase
+     * @var Item $item
      */
-    private $simpleXmlBase;
+    private $item;
     /**
-     * @var array $responseItems
+     * @var array
      */
-    private $responseItems = array(
-        'rootItem' => null,
-        'singleItem' => null,
-        'errorContainer' => null,
-    );
+    private $errors = [];
+    /**
+     * @var array $response
+     */
+    private $response;
     /**
      * Response constructor.
-     * @param string $xmlString
+     * @param array $response
      */
-    public function __construct(string $xmlString)
+    public function __construct(array $response)
     {
-        $this->xmlString = $xmlString;
+        $this->response = $response;
     }
     /**
-     * @return bool
+     * @return Root
      */
-    public function isErrorResponse(): bool
+    public function getRoot(): Root
     {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        return $this->getRoot()->getAck() === 'Failure';
-    }
-    /**
-     * @return RootItem
-     */
-    public function getRoot(): RootItemInterface
-    {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['rootItem'] instanceof RootItem) {
-            return $this->responseItems['rootItem'];
+        if ($this->root instanceof Root) {
+            return $this->root;
         }
 
-        $this->responseItems['rootItem'] = new RootItem($this->simpleXmlBase);
+        $this->root = new Root(
+            $this->response['Ack'],
+            $this->response['Timestamp'],
+            $this->response['Version']
+        );
 
-        return $this->responseItems['rootItem'];
+        unset($this->response['Ack']);
+        unset($this->response['Timestamp']);
+        unset($this->response['Version']);
+
+        return $this->root;
     }
     /**
-     * @return SingleItem
+     * @return Item
      */
-    public function getSingleItem(): SingleItem
+    public function getSingleItem(): Item
     {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['singleItem'] instanceof SingleItem) {
-            return $this->responseItems['singleItem'];
+        if ($this->item instanceof Item) {
+            return $this->item;
         }
 
-        $this->responseItems['singleItem'] = new SingleItem($this->simpleXmlBase->Item);
+        $item = $this->response['Item'];
 
-        return $this->responseItems['singleItem'];
+        $this->item = new Item(
+            $item['ItemID'],
+            $item['Title'],
+            $item['Description'],
+            CountryRepresentation::getByAlpha2Code($item['Country']),
+            $item['StartTime'],
+            $item['EndTime'],
+            $item['ViewItemURLForNaturalSearch'],
+            $item['ListingType'],
+            $item['Location'],
+            get_value_or_null($item, 'PaymentMethods'),
+            get_value_or_null($item, 'GalleryURL'),
+            get_value_or_null($item, 'PictureURL'),
+            get_value_or_null($item, 'Quantity'),
+            get_value_or_null($item, 'Seller'),
+            get_value_or_null($item, 'BidCount'),
+            get_value_or_null($item, 'ConvertedCurrentPrice'),
+            $item['CurrentPrice'],
+            $item['ListingStatus'],
+            get_value_or_null($item, 'QuantitySold'),
+            get_value_or_null($item, 'ShipToLocations'),
+            get_value_or_null($item, 'HitCount'),
+            get_value_or_null($item, 'AutoPay'),
+            get_value_or_null($item, 'HandlingTime'),
+            (function(array $item) {
+                if (!isset($item['ConditionID']) and !isset($item['ConditionDisplayName']) and !isset($item['ConditionDescription'])) {
+                    return null;
+                }
+
+                return [
+                    'ConditionId' => isset($item['ConditionID']) ? $item['ConditionID'] : null,
+                    'ConditionDisplayName' => isset($item['ConditionDisplayName']) ? $item['ConditionDisplayName'] : null,
+                    'ConditionDescription' => isset($item['ConditionDescription']) ? $item['ConditionDescription'] : null,
+                ];
+            })($item),
+            get_value_or_null($item, 'GlobalShipping'),
+            get_value_or_null($item, 'AvailableForPickupDropOff'),
+            get_value_or_null($item, 'EligibleForPickupDropOff'),
+            get_value_or_null($item, 'BestOfferEnabled'),
+            get_value_or_null($item, 'BuyItNowAvailable'),
+            get_value_or_null($item, 'Storefront')
+        );
+
+        unset($this->response['Item']);
+
+        return $this->item;
     }
     /**
      * @param mixed $default
-     * @return mixed|null
-     */
-    public function getErrors($default = null): ?ErrorContainer
-    {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['errorContainer'] instanceof ErrorContainer) {
-            return $this->responseItems['errorContainer'];
-        }
-
-        if (!empty($this->simpleXmlBase->errorMessage)) {
-            $this->responseItems['errorContainer'] = new ErrorContainer($this->simpleXmlBase->errorMessage);
-        }
-
-        if (!$this->responseItems['errorContainer'] instanceof ErrorContainer and $default !== null) {
-            return $default;
-        }
-
-        return $this->responseItems['errorContainer'];
-    }
-    /**
-     * @return string
-     */
-    public function getRawResponse(): string
-    {
-        return $this->xmlString;
-    }
-    /**
-     * @param string $xmlString
-     */
-    private function lazyLoadSimpleXml(string $xmlString)
-    {
-        if ($this->simpleXmlBase instanceof \SimpleXMLElement) {
-            return;
-        }
-
-        $this->simpleXmlBase = simplexml_load_string($xmlString);
-    }
-    /**
      * @return array
      */
-    public function toArray(): array
+    public function getErrors($default = null)
     {
-        $toArray = array();
+        $errors = Util::createGenerator($this->response['Errors']);
 
-        $toArray['response'] = array(
-            'singleItem' => $this->getSingleItem()->toArray(),
-            'rootItem' => $this->getRoot()->toArray(),
-            'errors' => ($this->getErrors() instanceof ErrorContainer) ?
-                $this->getErrors()->toArray() :
-                null,
-        );
+        foreach ($errors as $entry) {
+            $item = $entry['item'];
 
-        return $toArray;
+            $this->errors[] = new Error(
+                $item['ShortMessage'],
+                $item['LongMessage'],
+                $item['ErrorCode'],
+                $item['SeverityCode'],
+                $item['ErrorClassification']
+            );
+        }
+
+        unset($this->response['Errors']);
+
+        return $this->errors;
+    }
+    /**
+     * @return iterable
+     */
+    public function toArray(): iterable
+    {
+        return [
+            'root' => $this->getRoot()->toArray(),
+            'singleItem'  => $this->getSingleItem()->toArray(),
+        ];
     }
 }

@@ -37,7 +37,6 @@ class Finder
     /**
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return iterable
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
     public function findEbayProductsAdvanced(SearchModelInterface $model): iterable
@@ -49,7 +48,7 @@ class Finder
 
         /** @var FindingApiModel $model */
         foreach ($findingApiModels as $model) {
-            $responses[] = $this->findingApiEntryPoint->findItemsAdvanced($model);
+            $responses[] = $this->findingApiEntryPoint->findItemsByKeywords($model);
         }
 
         return $responses;

@@ -129,7 +129,10 @@ class SearchAbstraction
                             if ($key === 'title') {
                                 $title = new Title($translated);
 
-                                return $title->toArray();
+                                return [
+                                    'key' => 'title',
+                                    'value' => $title->toArray(),
+                                ];
                             }
                         }
                     ]

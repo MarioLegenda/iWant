@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "125865922cbc33a0d8ae74020232dfc7",
+    "content-hash": "801483b05495c09e4c1037b72a6c252e",
     "packages": [
         {
             "name": "andres-montanez/magallanes",
@@ -2147,6 +2147,51 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "indragunawan/facade-bundle",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/IndraGunawan/facade-bundle.git",
+                "reference": "5fc5015915d952c23bdba7f2bea1c0dba19b6a66"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/IndraGunawan/facade-bundle/zipball/5fc5015915d952c23bdba7f2bea1c0dba19b6a66",
+                "reference": "5fc5015915d952c23bdba7f2bea1c0dba19b6a66",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "psr/container": "^1.0",
+                "symfony/framework-bundle": "^3.3 || ^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Indragunawan\\FacadeBundle\\": ""
+                },
+                "exclude-from-classmap": [
+                    "Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Indra Gunawan",
+                    "email": "hello@indra.my.id",
+                    "homepage": "https://github.com/IndraGunawan"
+                }
+            ],
+            "description": "Support Facades for Symfony service.",
+            "time": "2018-01-16T08:24:02+00:00"
         },
         {
             "name": "jbroadway/urlify",

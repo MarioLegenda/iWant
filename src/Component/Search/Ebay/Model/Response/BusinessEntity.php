@@ -2,8 +2,8 @@
 
 namespace App\Component\Search\Ebay\Model\Response;
 
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\SellerInfo;
-use App\Ebay\Library\Response\FindingApi\ResponseItem\Child\Item\StoreInfo;
+use App\Ebay\Library\Response\FindingApi\Json\Result\SellerInfo;
+use App\Ebay\Library\Response\FindingApi\Json\Result\StoreInfo;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 
 class BusinessEntity implements ArrayNotationInterface
@@ -65,7 +65,7 @@ class BusinessEntity implements ArrayNotationInterface
             $this->positiveFeedbackPercent = $sellerInfo->getPositiveFeedbackPercent();
             $this->feedbackScore = $sellerInfo->getFeedbackScore();
             $this->feedbackRatingStar = $sellerInfo->getFeedbackRatingStar();
-            $this->topRatedSeller = stringToBool($sellerInfo->getTopRatedSeller(), true);
+            $this->topRatedSeller = stringToBool($sellerInfo->isTopRatedSeller(), true);
 
             $this->isDataIncomplete = false;
         }

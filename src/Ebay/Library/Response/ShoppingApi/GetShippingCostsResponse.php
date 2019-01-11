@@ -2,92 +2,138 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi;
 
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingCostSummary;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ShippingCost\ShippingDetails;
+use App\Ebay\Library\Response\ShoppingApi\Json\Root;
+use App\Ebay\Library\Response\ShoppingApi\Json\Shipping\ShippingSummary;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Ebay\Library\Response\ShoppingApi\Json\Shipping\ShippingDetails;
 
-class GetShippingCostsResponse extends BaseResponse
-    implements GetShippingCostsInterface, ArrayNotationInterface
+class GetShippingCostsResponse implements GetShippingCostsInterface, ArrayNotationInterface
 {
     /**
-     * GetShippingCostsResponse constructor.
-     * @param string $xmlString
+     * @var array $response
      */
-    public function __construct(string $xmlString)
+    private $response;
+    /**
+     * @var array
+     */
+    private $shippingSummary;
+    /**
+     * @var array
+     */
+    private $root;
+    /**
+     * @var array
+     */
+    private $shippingDetails;
+    /**
+     * GetShippingCostsResponse constructor.
+     * @param array $response
+     */
+    public function __construct(array $response)
     {
-        parent::__construct($xmlString);
-
-        $this->responseItems['shippingCostsSummary'] = null;
-        $this->responseItems['eligibleForPickupInStore'] = null;
-        $this->responseItems['shippingDetails'] = null;
+        $this->response = $response;
     }
     /**
      * @return ShippingDetails|null
      */
     public function getShippingDetails(): ?ShippingDetails
     {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['shippingDetails'] instanceof ShippingDetails) {
-            return $this->responseItems['shippingDetails'];
+        if ($this->shippingDetails instanceof ShippingDetails) {
+            return $this->shippingDetails;
         }
 
-        $this->responseItems['shippingDetails'] = new ShippingDetails($this->simpleXmlBase->ShippingDetails);
+        if (!isset($this->response['ShippingDetails'])) {
+            return null;
+        }
 
-        return $this->responseItems['shippingDetails'];
+        $shippingDetails = $this->response['ShippingDetails'];
+
+        $this->shippingDetails = new ShippingDetails(
+            get_value_or_null($shippingDetails, 'ShippingRateErrorMessage'),
+            get_value_or_null($shippingDetails, 'ShippingServiceOption'),
+            get_value_or_null($shippingDetails, 'CODCost'),
+            get_value_or_null($shippingDetails, 'ExcludeShipToLocation'),
+            get_value_or_null($shippingDetails, 'InsuranceCost'),
+            get_value_or_null($shippingDetails, 'InsuranceOption'),
+            get_value_or_null($shippingDetails, 'InternationalInsuranceCost'),
+            get_value_or_null($shippingDetails, 'InternationalInsuranceOption'),
+            get_value_or_null($shippingDetails, 'InternationalShippingServiceOption')
+        );
+
+        return $this->shippingDetails;
     }
     /**
-     * @return ShippingCostSummary|null
+     * @return ShippingSummary|null
      */
-    public function getShippingCostsSummary(): ?ShippingCostSummary
+    public function getShippingCostsSummary(): ?ShippingSummary
     {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['shippingCostsSummary'] instanceof ShippingCostSummary) {
-            return $this->responseItems['shippingCostsSummary'];
+        if ($this->shippingSummary instanceof ShippingSummary) {
+            return $this->shippingSummary;
         }
 
-        if (!empty($this->simpleXmlBase->ShippingCostSummary)) {
-            $this->responseItems['shippingCostsSummary'] = new ShippingCostSummary($this->simpleXmlBase->ShippingCostSummary);
-        }
+        $shippingSummary = $this->response['ShippingCostSummary'];
 
-        return $this->responseItems['shippingCostsSummary'];
+        $this->shippingSummary = new ShippingSummary(
+            $shippingSummary['ShippingServiceName'],
+            $shippingSummary['ShippingServiceCost'],
+            $shippingSummary['ShippingType'],
+            $shippingSummary['InsuranceOption'],
+            $shippingSummary['ListedShippingServiceCost']
+        );
+
+        unset($shippingSummary);
+        unset($this->response['ShippingCostSummary']);
+
+        return $this->shippingSummary;
     }
     /**
      * @return bool
      */
     public function isEligibleForPickupInStore(): ?bool
     {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if (!is_null($this->responseItems['eligibleForPickupInStore'])) {
-            if (!empty($this->simpleXmlBase->PickUpInStoreDetails)) {
-                if (!empty($this->simpleXmlBase->PickUpInStoreDetails->EligibleForPickupInStore)) {
-                    $this->responseItems['eligibleForPickupInStore'] = stringToBool($this->simpleXmlBase->PickUpInStoreDetails->EligibleForPickupInStore);
-                }
-            }
+        if (!isset($this->response['PickUpInStoreDetails'])) {
+            return null;
         }
 
-        return $this->responseItems['eligibleForPickupInStore'];
+        stringToBool($this->response['PickUpInStoreDetails']['EligibleForPickupInStore']);
+    }
+    /**
+     * @return ArrayNotationInterface|void
+     */
+    public function getErrors()
+    {
+        // TODO: Implement getErrors() method.
+    }
+    /**
+     * @return Root
+     */
+    public function getRoot(): Root
+    {
+        if ($this->root instanceof Root) {
+            return $this->root;
+        }
+
+        $this->root = new Root(
+            $this->response['Ack'],
+            $this->response['Timestamp'],
+            $this->response['Version']
+        );
+
+        unset($this->response['Ack']);
+        unset($this->response['Timestamp']);
+        unset($this->response['Version']);
+
+        return $this->root;
     }
     /**
      * @return array
      */
     public function toArray(): array
     {
-        $toArray = [];
-
-        $toArray['response'] = [
-            'rootItem' => $this->getRoot()->toArray(),
-            'shippingCostsSummary' => ($this->getShippingCostsSummary() instanceof ShippingCostSummary) ? $this->getShippingCostsSummary()->toArray() : null,
-            'shippingDetails' => $this->getShippingDetails()->toArray(),
-            'eligibleForPickupInStore' => $this->isEligibleForPickupInStore(),
-            'errors' => ($this->getErrors() instanceof ErrorContainer) ?
-                $this->getErrors()->toArray() :
-                null,
+        return [
+            'root' => $this->getRoot()->toArray(),
+            'shippingSummary' => $this->getShippingCostsSummary()->toArray(),
+            'shippingDetails' => ($this->getShippingDetails() instanceof ShippingDetails) ? $this->getShippingDetails()->toArray() : null,
         ];
-
-        return $toArray;
     }
 }

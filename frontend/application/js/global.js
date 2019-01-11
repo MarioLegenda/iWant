@@ -218,6 +218,10 @@ export class Init {
         const createVueApp = () => {
             const repositoryFactory = new RepositoryFactory(null, (function(store) {
                 return function(response) {
+                    if (window.IWL_ENVIRONMENT === 'dev') {
+                        return response;
+                    }
+
                     if (!isEmpty(response) && response.hasOwnProperty('statusCode')) {
                         if (response.statusCode === 503) {
                             store.commit('httpRequestFailed', response);

@@ -30,6 +30,16 @@ class Util
         return gmdate('Y-m-d\TH:i:s.', $dateTime->getTimestamp()).substr($dateTime->getTimestamp(), 0, 3).'Z';
     }
     /**
+     * @param string $timestamp
+     * @return \DateTime
+     */
+    public static function toGMDateEbayFromStringTimestamp(string $timestamp): \DateTime
+    {
+        $date = gmdate('Y-m-d\TH:i:s.', $timestamp).substr($timestamp, 0, 3).'Z';
+
+        return Util::toDateTime($date, Util::getDateTimeApplicationFormat());
+    }
+    /**
      * @param $float1
      * @param $float2
      * @param string $operator
