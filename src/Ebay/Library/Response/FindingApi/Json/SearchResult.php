@@ -31,7 +31,7 @@ class SearchResult implements ArrayNotationInterface
      */
     private $globalId;
     /**
-     * @var string
+     * @var string|null
      */
     private $galleryUrl;
     /**
@@ -130,7 +130,7 @@ class SearchResult implements ArrayNotationInterface
         string $itemId,
         string $title,
         string $globalId,
-        string $galleryURL,
+        ?string $galleryURL,
         string $viewItemURL,
         ?array $paymentMethod,
         bool $autoPay,
@@ -368,9 +368,9 @@ class SearchResult implements ArrayNotationInterface
         return $this->globalId;
     }
     /**
-     * @return string
+     * @return string|null
      */
-    public function getGalleryUrl(): string
+    public function getGalleryUrl(): ?string
     {
         return $this->galleryUrl;
     }
@@ -435,7 +435,7 @@ class SearchResult implements ArrayNotationInterface
             $item['itemId'][0],
             $item['title'][0],
             $item['globalId'][0],
-            $item['galleryURL'][0],
+            (isset($item['galleryURL'])) ? $item['galleryURL'][0] : null,
             $item['viewItemURL'][0],
             (isset($item['paymentMethod'])) ? $item['paymentMethod'] : null,
             stringToBool($item['autoPay'][0]),
