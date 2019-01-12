@@ -51,9 +51,10 @@ export const ListingChoiceComponent = {
         }
     },
     template: `
-        <div
-            class="ListingChoiceComponent" id="ListingChoiceComponentId">
-
+        <div class="ListingChoiceComponent" id="ListingChoiceComponentId">
+        
+            <transition name="fade"><div v-if="ebaySearchListingLoading" class="ComponentHider"></div></transition>
+            
             <div class="ListingChoiceWrapper">
                 <h1 class="Title">{{translationsMap.chooseEbaySite}}</h1>
 
@@ -93,6 +94,10 @@ export const ListingChoiceComponent = {
 
         getFilters: function() {
             return this.$store.getters.getFilters;
+        },
+
+        ebaySearchListingLoading: function() {
+            return this.$store.state.ebaySearchListingLoading;
         }
     },
     methods: {
