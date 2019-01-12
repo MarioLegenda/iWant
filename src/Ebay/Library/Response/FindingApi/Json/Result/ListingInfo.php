@@ -127,7 +127,7 @@ class ListingInfo implements ArrayNotationInterface
         return Util::toDateTime($this->getEndTime(), Util::getDateTimeApplicationFormat());
     }
     /**
-     * @return iterable
+     * @return iterable|array
      */
     public function toArray(): iterable
     {

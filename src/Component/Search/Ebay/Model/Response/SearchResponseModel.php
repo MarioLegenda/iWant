@@ -45,22 +45,6 @@ class SearchResponseModel implements
      */
     private $viewItemUrl;
     /**
-     * @var MarketplaceType $marketplace
-     */
-    private $marketplace;
-    /**
-     * @var string $staticUrl
-     */
-    private $staticUrl;
-    /**
-     * @var string $taxonomyName
-     */
-    private $taxonomyName;
-    /**
-     * @var array $shippingLocations
-     */
-    private $shippingLocations;
-    /**
      * @var Country|null $country
      */
     private $country;
@@ -82,10 +66,6 @@ class SearchResponseModel implements
      * @param BusinessEntity $businessEntity
      * @param Price $price
      * @param string $viewItemUrl
-     * @param string $staticUrl
-     * @param string $taxonomyName
-     * @param array $shippingLocations
-     * @param MarketplaceType|TypeInterface $marketplace
      * @param Country $country
      * @param array $listingInfo
      */
@@ -97,26 +77,18 @@ class SearchResponseModel implements
         BusinessEntity $businessEntity,
         Price $price,
         string $viewItemUrl,
-        MarketplaceType $marketplace,
-        string $staticUrl,
-        string $taxonomyName,
-        array $shippingLocations,
         string $globalId,
         ?Country $country,
         ?array $listingInfo
     ) {
         $this->uniqueName = $uniqueName;
         $this->itemId = $itemId;
-        $this->staticUrl = $staticUrl;
         $this->globalId = $globalId;
         $this->title = $title;
         $this->image = $image;
         $this->businessEntity = $businessEntity;
         $this->price = $price;
         $this->viewItemUrl = $viewItemUrl;
-        $this->taxonomyName = $taxonomyName;
-        $this->marketplace = $marketplace;
-        $this->shippingLocations = $shippingLocations;
         $this->country = $country;
         $this->listingInfo = $listingInfo;
     }
@@ -208,39 +180,11 @@ class SearchResponseModel implements
         return $this->viewItemUrl;
     }
     /**
-     * @return MarketplaceType
-     */
-    public function getMarketplace(): MarketplaceType
-    {
-        return $this->marketplace;
-    }
-    /**
      * @return string|null
      */
     public function getGlobalId(): ?string
     {
         return $this->globalId;
-    }
-    /**
-     * @return string
-     */
-    public function getStaticUrl(): string
-    {
-        return $this->staticUrl;
-    }
-    /**
-     * @return string
-     */
-    public function getTaxonomyName(): string
-    {
-        return $this->taxonomyName;
-    }
-    /**
-     * @return array
-     */
-    public function getShippingLocations(): array
-    {
-        return $this->shippingLocations;
     }
     /**
      * @param bool $isTranslated
@@ -277,10 +221,6 @@ class SearchResponseModel implements
             'businessEntity' => $this->getBusinessEntity()->toArray(),
             'price' => $this->getPrice()->toArray(),
             'viewItemUrl' => $this->getViewItemUrl(),
-            'marketplace' => (string) $this->getMarketplace(),
-            'taxonomyName' => $this->getTaxonomyName(),
-            'staticUrl' => $this->getStaticUrl(),
-            'shippingLocations' => $this->getShippingLocations(),
             'isTranslated' => $this->isTranslated(),
             'country' => $this->getCountry()->toArray(),
             'listingInfo' => $this->getListingInfo(),
