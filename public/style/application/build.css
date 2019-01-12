@@ -75,7 +75,6 @@ a {
 
 body {
   max-width: 1280px;
-  min-width: 480px;
   font-size: 16px;
   font-family: "Quicksand", sans-serif;
   color: #5b5b5b;
@@ -442,7 +441,7 @@ html {
 }
 
 .NavigationWrapper {
-  width: 520px;
+  width: 620px;
   overflow: hidden;
   margin: 0 auto;
 }
@@ -1885,6 +1884,31 @@ html {
     padding: 10px;
   }
 }
+@media only screen and (max-width: 620px) {
+  .NavItem {
+    width: 100%;
+  }
+
+  .NavActionItem i {
+    display: none !important;
+  }
+
+  .NavActionItem {
+    border-bottom: 1px solid #d6d6d6;
+    padding: 15px !important;
+    transition: background-color 0.5s, color 0.5s;
+    -webkit-transition: background-color 0.5s, color 0.5s;
+    -moz-transition: background-color 0.5s, color 0.5s;
+    -o-transition: background-color 0.5s, color 0.5s;
+  }
+  .NavActionItem:hover {
+    background-color: #eb1d25;
+    color: white !important;
+  }
+  .NavActionItem:last-child {
+    border: none;
+  }
+}
 @media only screen and (max-width: 480px) {
   .SiteLanguageChoice {
     right: 45px;
@@ -1993,7 +2017,7 @@ html {
   }
 
   .NavActionItem i {
-    display: none;
+    display: none !important;
   }
 
   .NavActionItem {

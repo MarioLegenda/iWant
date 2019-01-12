@@ -2,6 +2,13 @@ export const Navigation = {
     template: `<div id="navigation">
                    <div class="NavigationWrapper">
                        <div class="NavItem">
+                           <router-link to="" v-on:click.native="_pushRoute('Home', $event)" class="NavActionItem">
+                               {{translationsMap.navigation.searchTitle}}
+                               <i class="fas fa-search"></i>
+                           </router-link>
+                       </div>
+                       
+                       <div class="NavItem">
                            <router-link to="" v-on:click.native="_pushRoute('Guide', $event)" class="NavActionItem">
                                {{translationsMap.navigation.guideTitle}}
                                <i class="fas fa-book-open"></i>

@@ -128,6 +128,36 @@
   }
 }
 
+@media only screen and (max-width: 620px) {
+  .NavItem {
+    width: 100%;
+  }
+
+  .NavActionItem i {
+    display: none !important;
+  }
+
+  .NavActionItem {
+    border-bottom: 1px solid $lightestGray;
+
+    padding: 15px !important;
+
+    transition: background-color 0.5s, color 0.5s;
+    -webkit-transition: background-color 0.5s, color 0.5s;
+    -moz-transition: background-color 0.5s, color 0.5s;
+    -o-transition: background-color 0.5s, color 0.5s;
+
+    &:hover {
+      background-color: $basicOrange;
+      color: white !important;
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
 @media only screen and (max-width: 480px) {
   .SiteLanguageChoice {
     right: 45px;
@@ -277,7 +307,7 @@
   }
 
   .NavActionItem i {
-    display: none;
+    display: none !important;
   }
 
   .NavActionItem {

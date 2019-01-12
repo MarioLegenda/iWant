@@ -76,6 +76,7 @@ export const translationsMap = {
             guideTitle: 'GUIDE',
             featuresTitle: 'FEATURES',
             progressTitle: 'PROGRESS',
+            searchTitle: 'SEARCH',
             forYouTitle: 'for You',
         },
         loading: {
@@ -176,6 +177,7 @@ export const translationsMap = {
             guideTitle: 'GUÍA',
             featuresTitle: 'CARACTERISTICAS',
             progressTitle: 'PROGRESO',
+            searchTitle: 'BUSCAR',
             forYouTitle: 'para ti',
         },
         loading: {
@@ -276,6 +278,7 @@ export const translationsMap = {
             guideTitle: 'GUIDER',
             featuresTitle: 'FONCTIONNALITÉS',
             progressTitle: 'LE PROGRÈS',
+            searchTitle: 'CHERCHER',
             forYouTitle: 'pour vous',
         },
         loading: {
@@ -376,6 +379,7 @@ export const translationsMap = {
             guideTitle: 'GUIDA',
             featuresTitle: 'CARATTERISTICHE',
             progressTitle: 'PROGRESSO',
+            searchTitle: 'RICERCA',
             forYouTitle: 'per te',
         },
         loading: {
@@ -476,6 +480,7 @@ export const translationsMap = {
             guideTitle: 'TREOIR',
             featuresTitle: 'GNÉITHE',
             progressTitle: 'DUL CHUN CINN',
+            searchTitle: 'CUARDACH',
             forYouTitle: 'ar do shon',
         },
         loading: {
@@ -576,6 +581,7 @@ export const translationsMap = {
             guideTitle: 'PRZEWODNIK',
             featuresTitle: 'FUNKCJE',
             progressTitle: 'POSTĘP',
+            searchTitle: 'SZUKAJ',
             forYouTitle: 'dla Was',
         },
         loading: {
@@ -676,6 +682,7 @@ export const translationsMap = {
             guideTitle: 'FÜHREN',
             featuresTitle: 'EIGENSCHAFTEN',
             progressTitle: 'FORTSCHRITT',
+            searchTitle: 'SUCHE',
             forYouTitle: 'für dich',
         },
         loading: {
@@ -776,6 +783,7 @@ export const translationsMap = {
             guideTitle: 'GUIDE',
             featuresTitle: 'VLASTNOSTI',
             progressTitle: 'PROGRESS',
+            searchTitle: 'VYHĽADÁVANIE',
             forYouTitle: 'pre teba',
         },
         loading: {
@@ -876,6 +884,7 @@ export const translationsMap = {
             guideTitle: 'PRŮVODCE',
             featuresTitle: 'FUNKCE',
             progressTitle: 'POKROK',
+            searchTitle: 'VYHLEDÁVÁNÍ',
             forYouTitle: 'pro tebe',
         },
         loading: {
