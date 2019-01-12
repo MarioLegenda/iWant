@@ -7,6 +7,7 @@ use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
+use App\Component\Search\Ebay\Library\Exception\EbayEmptyResultException;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
@@ -77,7 +78,7 @@ class SingleSearchFetcher implements FetcherInterface
         $this->modifiedKeywordsImplementation = $modifiedKeywordImplementation;
     }
     /**
-     * @param SearchModelInterface $model
+     * @param SearchModelInterface|SearchModel $model
      * @param array $replacementData
      * @return iterable
      * @throws \App\Cache\Exception\CacheException
@@ -97,6 +98,10 @@ class SingleSearchFetcher implements FetcherInterface
 
             $presentationResultsArray =  json_decode($presentationResults->getProductsResponse(), true);
 
+            if (empty($presentationResultsArray)) {
+                throw new EbayEmptyResultException($model);
+            }
+
             if ($this->filterApplier instanceof FilterApplierInterface) {
                 return $this->filterApplier->apply($presentationResultsArray);
             }
@@ -111,6 +116,10 @@ class SingleSearchFetcher implements FetcherInterface
             jsonEncodeWithFix($presentationResultsArray),
             count($presentationResultsArray)
         );
+
+        if (empty($presentationResultsArray)) {
+            throw new EbayEmptyResultException($model);
+        }
 
         if ($this->filterApplier instanceof FilterApplierInterface) {
             return $this->filterApplier->apply($presentationResultsArray);
@@ -132,7 +141,7 @@ class SingleSearchFetcher implements FetcherInterface
      * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
-    public function getFreshResults(SearchModelInterface $model, string $identifier = null)
+    public function getFreshResults(SearchModelInterface $model, string $identifier = null): array
     {
         /** @var array $presentationResults */
         return $this->responseFetcher->getResponse($model, $identifier);

@@ -61,10 +61,12 @@ class ResponseFetcher
 
         /** @var ResponseModelInterface|JsonFindingApiResponseModel $findingApiResponse */
         foreach ($findingApiResponses as $findingApiResponse) {
-            $this->invalidResponseHandler->handleInvalidResponse($findingApiResponse);
-
             /** @var \Generator $searchResults */
             $searchResults = $findingApiResponse->getSearchResults(null, true);
+
+            if (empty($searchResults)) {
+                continue;
+            }
 
             $identifier = (is_string($identifier)) ? $identifier : UniqueIdentifierFactory::createIdentifier($model);
 

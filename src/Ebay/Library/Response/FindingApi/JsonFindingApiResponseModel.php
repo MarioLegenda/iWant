@@ -33,6 +33,10 @@ class JsonFindingApiResponseModel implements FindingApiResponseModelInterface
      */
     private $searchResultsGen;
     /**
+     * @var int
+     */
+    private $searchResultsCount;
+    /**
      * JsonFindingApiResponseModel constructor.
      * @param $type
      * @param array $response
@@ -44,7 +48,16 @@ class JsonFindingApiResponseModel implements FindingApiResponseModelInterface
         $this->response = $response[$type][0];
 
         if ($this->getRoot()->isSuccess() and isset($this->response['searchResult'])) {
+            $count = (int) $this->response['searchResult'][0]['@count'];
+
+            if ($count === 0) {
+                $this->searchResultsCount = $count;
+                return;
+            }
+
+
             $this->searchResultsGen = Util::createGenerator($this->response['searchResult'][0]['item']);
+            $this->searchResultsCount = (int) $this->response['searchResult'][0]['@count'];
 
             unset($this->response['searchResult']);
         }
@@ -107,6 +120,10 @@ class JsonFindingApiResponseModel implements FindingApiResponseModelInterface
         $default = null,
         bool $returnGenerator = false
     ) {
+        if ($this->searchResultsCount === 0) {
+            return [];
+        }
+
         if (!empty($this->searchResults)) {
             return $this->searchResults;
         }

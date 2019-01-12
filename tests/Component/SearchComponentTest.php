@@ -3,6 +3,7 @@
 namespace App\Tests\Component;
 
 use App\Component\Search\Ebay\Business\SearchAbstraction;
+use App\Component\Search\Ebay\Library\Exception\EbayEmptyResultException;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
@@ -113,7 +114,7 @@ class SearchComponentTest extends BasicSetup
         $dataProvider = $this->locator->get('data_provider.component');
 
         $modelArray = [
-            'keyword' => 's',
+            'keyword' => 'ssgdfhdsfg',
             'locale' => 'en',
             'lowestPrice' => false,
             'highQuality' => false,
@@ -130,43 +131,14 @@ class SearchComponentTest extends BasicSetup
         /** @var SearchModel $model */
         $model = $dataProvider->createEbaySearchRequestModel($modelArray);
 
-        $searchComponent->saveProducts($model);
+        $entersException = false;
+        try {
+            $searchComponent->saveProducts($model);
+        } catch (EbayEmptyResultException $e) {
+            $entersException = true;
+        }
 
-        $products = $searchComponent->getProductsPaginated($model);
-
-        static::assertEquals(count($products), $model->getPagination()->getLimit());
-    }
-
-    public function test_invalid_input()
-    {
-        /** @var SearchComponent $searchComponent */
-        $searchComponent = $this->locator->get(SearchComponent::class);
-        /** @var DataProvider $dataProvider */
-        $dataProvider = $this->locator->get('data_provider.component');
-
-        $modelArray = [
-            'keyword' => 's',
-            'locale' => 'en',
-            'lowestPrice' => false,
-            'highQuality' => false,
-            'highestPrice' => false,
-            'globalId' => 'EBAY-DE',
-            'internalPagination' => new Pagination(80, 1),
-            'pagination' => new Pagination(8, 1),
-            'hideDuplicateItems' => false,
-            'doubleLocaleSearch' => false,
-            'fixedPrice' => false,
-            'shippingCountries' => [],
-        ];
-
-        /** @var SearchModel $model */
-        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
-
-        $searchComponent->saveProducts($model);
-
-        $products = $searchComponent->getProductsPaginated($model);
-
-        static::assertEquals(count($products), $model->getPagination()->getLimit());
+        static::assertTrue($entersException);
     }
 
     public function test_generic_testing()
@@ -376,6 +348,8 @@ class SearchComponentTest extends BasicSetup
 
     public function test_store_search()
     {
+        static::markTestSkipped();
+
         /** @var SearchComponent $searchComponent */
         $searchComponent = $this->locator->get(SearchComponent::class);
         /** @var DataProvider $dataProvider */
@@ -425,7 +399,7 @@ class SearchComponentTest extends BasicSetup
             'pagination' => new Pagination(8, 1),
             'doubleLocaleSearch' => false,
             'fixedPrice' => true,
-            'searchStores' => true,
+            'searchStores' => false,
         ];
 
         /** @var SearchModel $model */

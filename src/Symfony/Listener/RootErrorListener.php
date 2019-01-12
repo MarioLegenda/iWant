@@ -2,6 +2,7 @@
 
 namespace App\Symfony\Listener;
 
+use App\Component\Search\Ebay\Library\Exception\EbayEmptyResultException;
 use App\Ebay\Library\Exception\BaseEbayException;
 use App\Library\Exception\ExceptionCode;
 use App\Library\Exception\HttpTransferException;
@@ -29,6 +30,12 @@ class RootErrorListener
         }
 
         if ($exception instanceof YandexBaseException) {
+            $event->setException($exception);
+
+            return null;
+        }
+
+        if ($exception instanceof EbayEmptyResultException) {
             $event->setException($exception);
 
             return null;

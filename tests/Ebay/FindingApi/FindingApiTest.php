@@ -17,6 +17,51 @@ use App\Tests\Ebay\FindingApi\DataProvider\DataProvider;
 
 class FindingApiTest extends BasicSetup
 {
+    public function test_empty_result()
+    {
+        /** @var FindingApiEntryPoint $findingApiEntryPoint */
+        $findingApiEntryPoint = $this->locator->get(FindingApiEntryPoint::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.finding_api');
+
+        $model = $dataProvider->getFindItemsByKeywordsData('b');
+
+        $entersException = false;
+        try {
+            $findingApiEntryPoint->findItemsByKeywords($model);
+        } catch (\RuntimeException $e) {
+            $entersException = true;
+        }
+
+        static::assertTrue($entersException);
+
+        $model = $dataProvider->getFindItemsAdvanced(
+            ''
+        );
+
+        $entersException = false;
+        try {
+            $findingApiEntryPoint->findItemsAdvanced($model);
+        } catch (\RuntimeException $e) {
+            $entersException = true;
+        }
+
+        static::assertTrue($entersException);
+
+        $model = $dataProvider->getFindItemsInEbayStores(
+            ''
+        );
+
+        $entersException = false;
+        try {
+            $findingApiEntryPoint->findItemsInEbayStores($model);
+        } catch (\RuntimeException $e) {
+            $entersException = true;
+        }
+
+        static::assertTrue($entersException);
+    }
+
     public function test_finding_api_find_items_by_keywords()
     {
         /** @var FindingApiEntryPoint $findingApiEntryPoint */

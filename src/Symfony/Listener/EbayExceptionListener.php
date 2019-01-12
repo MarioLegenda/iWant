@@ -21,7 +21,6 @@ class EbayExceptionListener extends BaseHttpResponseListener
     /**
      * @param GetResponseForExceptionEvent $event
      * @return |null
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
