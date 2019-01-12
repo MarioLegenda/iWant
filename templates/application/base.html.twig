@@ -12,7 +12,8 @@
         <link rel="stylesheet" href="{{ asset("style/application/build.css?v="~cache) }}" />
         {% endblock %}
 
-        <link href="https://fonts.googleapis.com/css?family=Paytone+One|Quicksand:400,500,700|Taviraj:400,600,600i&amp;subset=latin-ext,thai,vietnamese" rel="stylesheet">        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Paytone+One|Quicksand:400,500,700|Taviraj:400,600,600i&amp;subset=latin-ext,thai,vietnamese" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     </head>
 
     <body>
@@ -25,7 +26,7 @@
                 window.ENV_DEV = 'dev';
                 window.ENV_PROD = 'prod';
 
-                window.IWL_ENVIRONMENT = ENV_PROD;
+                window.IWL_ENVIRONMENT = ENV_DEV;
                 var currentVersion = 'xMuwhZCAvkBDCvHStns2c5LtwTRudDscaHij8H2C';
                 var src = '/js/dist/build.js';
 

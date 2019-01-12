@@ -274,7 +274,30 @@
 
   .NavItem {
     width: 100%;
-    padding: 10px;
+  }
+
+  .NavActionItem i {
+    display: none;
+  }
+
+  .NavActionItem {
+    border-bottom: 1px solid $lightestGray;
+
+    padding: 15px !important;
+
+    transition: background-color 0.5s, color 0.5s;
+    -webkit-transition: background-color 0.5s, color 0.5s;
+    -moz-transition: background-color 0.5s, color 0.5s;
+    -o-transition: background-color 0.5s, color 0.5s;
+
+    &:hover {
+      background-color: $basicOrange;
+      color: white !important;
+    }
+
+    &:last-child {
+      border: none;
+    }
   }
 
   .Features, .Guide, .Progress, .ForYou {
