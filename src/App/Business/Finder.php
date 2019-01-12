@@ -123,7 +123,25 @@ class Finder
             [
                 'title',
                 'description',
-                'conditionDisplayName',
+                'conditionDisplayName' => [
+                    'pre_translate' => function(string $key, array $item) {
+                        if ($key === 'conditionDisplayName') {
+                            return $item['condition']['conditionDisplayName'];
+                        }
+                    },
+                    'post_translate' => function(string $key, string $translated, array $item) {
+                        if ($key === 'conditionDisplayName') {
+                            $condition = $item['condition'];
+
+                            $condition['conditionDisplayName'] = $translated;
+
+                            return [
+                                'key' => 'condition',
+                                'value' => $condition
+                            ];
+                        }
+                    }
+                ],
             ],
             $model->getLocale(),
             $model->getItemId()
@@ -191,7 +209,25 @@ class Finder
             [
                 'title',
                 'description',
-                'conditionDisplayName',
+                'conditionDisplayName' => [
+                    'pre_translate' => function(string $key, array $item) {
+                        if ($key === 'conditionDisplayName') {
+                            return $item['condition']['conditionDisplayName'];
+                        }
+                    },
+                    'post_translate' => function(string $key, string $translated, array $item) {
+                        if ($key === 'conditionDisplayName') {
+                            $condition = $item['condition'];
+
+                            $condition['conditionDisplayName'] = $translated;
+
+                            return [
+                                'key' => 'condition',
+                                'value' => $condition
+                            ];
+                        }
+                    }
+                ],
             ],
             $model->getLocale(),
             $model->getItemId()

@@ -10,6 +10,22 @@ const ImageItem = {
                <div class="Row ImageWrapper">
                    <img class="Image" :src="determineImage()" />
                </div>`,
+    mounted() {
+        const img = this.$el.getElementsByTagName('img')[0];
+        applyImageGeometry(this.url, function() {
+            const geo = { width: this.naturalWidth, height: this.naturalHeight };
+
+            if (geo.width > 240 || geo.height > 240) {
+                img.style.width = `240px`;
+                img.style.height = `240px`;
+
+                return null;
+            }
+
+            img.style.width = `${geo.width}px`;
+            img.style.height = `${geo.height}px`;
+        });
+    },
     props: ['url'],
     methods: {
         determineImage() {
@@ -127,7 +143,7 @@ const QuickLook = {
     template: `
                    <div class="QuickLookWrapper">
                        <v-popover :open="showPopover" offset="16">
-                           <button :class="popoverButtonOptions.className" @click="loadItem">{{popoverButtonOptions.title}}<i v-if="popoverButtonOptions.includeIcon" class="fas fa-caret-right"></i></button>
+                           <button :class="popoverButtonOptions.className" @click="loadItem">{{popoverButtonOptions.title}}<i v-if="popoverButtonOptions.includeIcon" class="fas fa-eye"></i></button>
 
                            <template slot="popover">
                                <div v-close-popover class="Close">
@@ -439,36 +455,35 @@ export const EbayItems = {
                     
                     <div v-for="(item, index) in getTotalListings" :key="index" class="EbayItem SearchItem">
                     
-                        <business-entity :entity-data="item.businessEntity"></business-entity>
+                        <div class="ItemLeftPanel">
+                            <image-item :url="item.image.url"></image-item>
+                        </div>
+                       
+                        <div class="ItemRightPanel">
+                            <business-entity :entity-data="item.businessEntity"></business-entity>
+
+                            <div class="Row TitleWrapper">
+                                <h1>{{item.title.original}}</h1>
+                            </div>
                         
-                        <image-item :url="item.image.url"></image-item>
+                            <div class="Row CountryOfOrigin">
+                                <h1>{{_determineCountry(item.country)}}</h1>
+                            </div>
                     
-                        <div class="Row TitleWrapper">
-                            <h1>{{_chooseTitle(item.title)}}</h1>
-                        </div>
-                        
-                        <div class="Row">
-                            <h1>{{_determineCountry(item.country)}}</h1>
-                        </div>
+                            <div class="Row PriceWrapper">
+                                <price
+                                    v-bind:price="item.price.price"
+                                    v-bind:currency="item.price.currency">
+                                </price>
+                            </div>
+                            
+                            <div class="Row FullDetailsWrapper">
+                                <a :href="_generateSingleItemLink(item)" class="FullDetailsButton" @click="goToSingleItem(item, $event)">{{getTranslationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-info"></i></a>
+                            </div>
                     
-                        <div class="Row PriceWrapper">
-                            <price
-                                v-bind:price="item.price.price"
-                                v-bind:currency="item.price.currency">
-                            </price>
-                        </div>
-                    
-                        <quick-look
-                            :item-id="item.itemId"
-                            :popover-button-options="{className: 'tooltip-target b3 PopoverButton', title: getTranslationsMap.searchItem.quickLookTitle, includeIcon: true}">
-                        </quick-look>
-                    
-                        <div class="Row FullDetailsWrapper">
-                            <a :href="_generateSingleItemLink(item)" class="FullDetailsButton" @click="goToSingleItem(item, $event)">{{getTranslationsMap.searchItem.fullDetailsTitle}}<i class="fas fa-caret-right"></i></a>
-                        </div>
-                    
-                        <div class="Row MarketplaceWrapper">
-                            <a :href="item.viewItemUrl" target="_blank">{{getTranslationsMap.searchItem.viewOnEbay}}</a>
+                            <div class="Row MarketplaceWrapper">
+                                <a :href="item.viewItemUrl" target="_blank">{{getTranslationsMap.searchItem.viewOnEbay}}</a>
+                            </div>
                         </div>
                     </div>
                 
@@ -627,14 +642,6 @@ export const EbayItems = {
 
             return `${this.getTranslationsMap.searchItem.fromTitle} ${resolvedCountry}`;
         },
-
-        _chooseTitle(title) {
-            if (this.$viewportDimensions.width < 480) {
-                return title.original;
-            }
-
-            return title.truncated;
-        },
     },
     components: {
         'item': Item,
@@ -642,7 +649,6 @@ export const EbayItems = {
         'load-more': LoadMore,
         'listing-action': ListingAction,
         'image-item': ImageItem,
-        'quick-look': QuickLook,
         'grid-loader': GridLoader,
         'sort-modal': SortModal,
         'loading-text': LoadingText,

@@ -949,6 +949,15 @@ html {
   float: left;
   margin: 0 0 50px 0;
 }
+.SearchItems .ItemLeftPanel {
+  width: 250px;
+  float: left;
+}
+.SearchItems .ItemRightPanel {
+  width: 460px;
+  float: left;
+  margin-left: 20px;
+}
 .SearchItems .LoadMoreWrapper {
   width: 100%;
   float: left;
@@ -1013,7 +1022,6 @@ html {
 }
 .SearchItems .FullDetailsWrapper button:hover {
   cursor: pointer;
-  border: 1px solid #eb1d25;
 }
 .SearchItems .FullDetailsWrapper button i {
   position: absolute;
@@ -1022,31 +1030,29 @@ html {
   font-size: 1.4em;
 }
 .SearchItems .SearchItem {
-  width: 210px;
+  width: 100%;
   float: left;
-  margin: 0 14px 14px 0;
+  margin: 0 0 30px 0;
   padding: 10px;
   border-bottom: 1px solid #d6d6d6;
-  transition: box-shadow 0.5s;
-  -webkit-transition: box-shadow 0.5s;
-  -moz-transition: box-shadow 0.5s;
-  -o-transition: box-shadow 0.5s;
-}
-.SearchItems .SearchItem:hover {
-  -webkit-box-shadow: 2px 3px 9px -3px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 2px 3px 9px -3px rgba(0, 0, 0, 0.75);
-  box-shadow: 2px 3px 9px -3px rgba(0, 0, 0, 0.75);
 }
 .SearchItems .BusinessEntityWrapper {
   display: inline-block;
   font-weight: bolder;
   padding: 5px;
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   border: 1px solid #d6d6d6;
   border-radius: 40px;
 }
+.SearchItems .CountryOfOrigin {
+  margin-bottom: 30px;
+}
 .SearchItems .TitleWrapper {
   color: black;
+  float: right;
+  line-height: 1.4em;
+  font-weight: bold;
+  margin-bottom: 30px;
 }
 .SearchItems .TitleWrapper .TitlePopoverButton {
   font-family: "Quicksand", sans-serif;
@@ -1059,6 +1065,7 @@ html {
 }
 .SearchItems .PriceWrapper {
   color: black;
+  margin-bottom: 30px;
 }
 .SearchItems .MarketplaceWrapper a {
   display: block;
@@ -1067,11 +1074,12 @@ html {
 }
 .SearchItems .ImageWrapper {
   width: 100%;
+  float: left;
 }
 .SearchItems .ImageWrapper img {
   display: block;
-  width: 100%;
-  height: 120px;
+  width: 240px;
+  height: 240px;
   border-radius: 10px;
 }
 .SearchItems .EbayResultsLoading, .SearchItems .NoItemsFound {
@@ -1235,13 +1243,20 @@ html {
 }
 .FullDetailsWrapper .FullDetailsButton:hover {
   cursor: pointer;
-  border: 1px solid #eb1d25;
+}
+.FullDetailsWrapper .FullDetailsButton:hover i {
+  color: #eb1d25;
 }
 .FullDetailsWrapper .FullDetailsButton i {
   position: absolute;
-  right: 10px;
-  color: #eb1d25;
+  right: 18px;
+  top: 6px;
+  color: #d6d6d6;
   font-size: 1.4em;
+  transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
 }
 
 .QuickLookWrapper {
@@ -1261,13 +1276,19 @@ html {
 }
 .QuickLookWrapper .PopoverButton:hover {
   cursor: pointer;
-  border: 1px solid #eb1d25;
+}
+.QuickLookWrapper .PopoverButton:hover i {
+  color: #eb1d25;
 }
 .QuickLookWrapper .PopoverButton i {
   position: absolute;
   right: 10px;
-  color: #eb1d25;
+  color: #d6d6d6;
   font-size: 1.4em;
+  transition: color 0.5s;
+  -webkit-transition: color 0.5s;
+  -moz-transition: color 0.5s;
+  -o-transition: color 0.5s;
 }
 
 .Close {

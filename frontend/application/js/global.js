@@ -108,12 +108,21 @@ export class Init {
             }
         };
 
+        window.applyImageGeometry = function(url, onLoad) {
+            const img = new Image();
+
+            img.addEventListener("load", onLoad);
+
+            img.src = url;
+        };
+
         window.getElementGeometry = function getOffset( el ) {
             let _x = 0, _y = 0, _w = 0, _h = 0, temp = el;
+            let elCopy = el;
 
             while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
                 _x += el.offsetLeft - el.scrollLeft;
-                _y += el.offsetTop - el.scrollTop;
+                _y += elCopy.offsetTop - el.scrollTop;
                 el = el.offsetParent;
             }
 
@@ -122,8 +131,8 @@ export class Init {
                 offsetLeft: _x,
                 width: temp.offsetWidth,
                 height: temp.offsetHeight,
-                scrollLeft: el.scrollLeft,
-                scrollTop: el.scrollTop,
+                scrollLeft: elCopy.scrollLeft,
+                scrollTop: elCopy.scrollTop,
             };
         };
 

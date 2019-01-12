@@ -69,4 +69,14 @@ class Image implements ArrayNotationInterface
             'height' => $this->getHeight(),
         ];
     }
+
+    private function makeImageSize(): void
+    {
+        // NEVER USE THIS FUNCTION
+        list($width, $height) = getimagesize($this->getUrl());
+        $size = array('height' => $height, 'width' => $width );
+
+        $this->width = $size['width'];
+        $this->height = $size['height'];
+    }
 }
