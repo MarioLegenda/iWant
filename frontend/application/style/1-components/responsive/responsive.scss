@@ -129,7 +129,12 @@
 }
 
 @media only screen and (max-width: 620px) {
+  .NavigationWrapper {
+    width: 100% !important;
+  }
+
   .NavItem {
+    float: left;
     width: 100%;
   }
 
@@ -170,10 +175,14 @@
   }
 
   .ListingChoiceComponent {
-    width: 97%;
+    width: 100%;
+    float:left;
   }
 
   #search_page {
+    width: 100%;
+    float: left;
+
     .Sentence {
       width: 97%;
     }
@@ -264,29 +273,6 @@
 
   .v-select {
     width: 200px !important;
-  }
-
-  .QuickLookWindow {
-    width: 100%;
-
-    .Row {
-      .desc-left {
-        width: 250px;
-        float: left;
-
-        margin-bottom: 10px;
-      }
-
-      .desc-right {
-        width: 100%;
-        overflow: hidden;
-
-        margin: 0 auto;
-
-        color: black;
-        font-weight: bold;
-      }
-    }
   }
 
   .ModifiersWrapper {
