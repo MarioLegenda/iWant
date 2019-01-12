@@ -2,6 +2,7 @@
 
 namespace App\Symfony\Listener;
 
+use App\Component\Search\Ebay\Library\Exception\EbayEmptyResultException;
 use App\Library\Slack\Metadata;
 use App\Library\Util\ExceptionCatchWrapper;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +28,7 @@ class EmptyEbayResultException extends BaseHttpResponseListener
         /** @var EmptyEbayResultException|\Exception $exception */
         $exception = $event->getException();
 
-        if (!$exception instanceof EmptyEbayResultException) {
+        if (!$exception instanceof EbayEmptyResultException) {
             $event->setException($exception);
 
             return null;
@@ -55,7 +56,7 @@ class EmptyEbayResultException extends BaseHttpResponseListener
             ->create($data)
             ->isError()
             ->method('GET')
-            ->setStatusCode(503)
+            ->setStatusCode(404)
             ->isResource()
             ->build();
 

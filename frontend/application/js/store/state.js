@@ -42,6 +42,7 @@ export const state = {
     ebaySearchListingLoading: false,
     preparingProductsLoading: false,
     translatingProductsLoading: false,
+    ebay404EmptyResult: false,
 
     // errors
 

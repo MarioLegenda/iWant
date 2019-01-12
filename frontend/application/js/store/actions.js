@@ -39,6 +39,8 @@ export const actions = {
             initialised: false,
         });
 
+        context.commit('ebay404EmptyResult', false);
+
         context.commit('ebaySearchListingLoading', false);
     },
 
@@ -83,6 +85,8 @@ export const actions = {
             initialised: false,
         });
 
+        context.commit('ebay404EmptyResult', false);
+
         context.commit('ebaySearchListing', {
             siteInformation: null,
             items: null,
@@ -123,6 +127,8 @@ export const actions = {
             items: null,
         });
 
+        context.commit('ebay404EmptyResult', false);
+
         context.commit('totalListing', null);
         context.commit('ebaySearchListingLoading', true);
         context.commit('modelWasUpdated', model);
@@ -140,6 +146,13 @@ export const actions = {
                         searchData: model,
                     }), (r) => {
                         errorFunc(r);
+
+                        if (r.statusCode === 404) {
+                            context.commit('ebaySearchListingLoading', false);
+                            context.commit('ebay404EmptyResult', true);
+
+                            return;
+                        }
 
                         context.commit('preparingProductsLoading', false);
                         context.commit('translatingProductsLoading', true);
@@ -170,6 +183,13 @@ export const actions = {
 
                     searchRepo.getProducts(model, (r) => {
                         errorFunc(r);
+
+                        if (r.statusCode === 404) {
+                            context.commit('ebaySearchListingLoading', false);
+                            context.commit('ebay404EmptyResult', true);
+
+                            return;
+                        }
 
                         context.commit('ebaySearchListing', r.collection.data);
                         context.commit('totalListing', r.collection.data.items);

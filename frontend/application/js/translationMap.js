@@ -5,6 +5,7 @@ export const translationsMap = {
         error: {
             invalidInput: 'Search query must contain more than one character',
         },
+        noItemsFound: '... no items found ...',
         languageChoiceExplanation: 'All products searched will be translated to the language you select',
         searchInputPlaceholder: 'what would you like?',
         searchingEbaySites: 'Searching eBay sites',
@@ -13,7 +14,6 @@ export const translationsMap = {
             ebaySitesSearched: 'eBay sites searched: ',
             failedSearches: 'Failed searches: ',
         },
-        noItemsFound: 'No items found',
         searchingEbaySite: 'Searching eBay sites',
         loadingSearchResults: '... Loading search results ...',
         quickLook: {

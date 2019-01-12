@@ -373,6 +373,25 @@ const LoadingText = {
     template: `<p>{{loadingText}}</p>`
 };
 
+const NoItemsFound = {
+    computed: {
+        ebay404EmptyResult: function() {
+            return this.$store.state.ebay404EmptyResult;
+        },
+
+        text: function() {
+            if (this.ebay404EmptyResult) {
+                return this.translationsMap.noItemsFound;
+            }
+        },
+
+        translationsMap: function() {
+            return this.$store.state.translationsMap;
+        },
+    },
+    template: `<p>{{text}}</p>`
+};
+
 const BusinessEntity = {
     template: `
                 <p class="BusinessEntityWrapper">
@@ -470,6 +489,12 @@ export const EbayItems = {
                         <loading-text></loading-text>
                     </div>
                 </div>
+                
+                <div v-if="ebay404EmptyResult" class="NoItemsFound">
+                    <div class="TextLoader">
+                        <no-items-found></no-items-found>
+                    </div>
+                </div>
             </div>
             `,
     props: ['classList'],
@@ -487,6 +512,10 @@ export const EbayItems = {
     computed: {
         getEbaySearchListingLoading() {
             return this.$store.state.ebaySearchListingLoading;
+        },
+
+        ebay404EmptyResult: function() {
+            return this.$store.state.ebay404EmptyResult;
         },
 
         getTotalListings: function() {
@@ -618,5 +647,6 @@ export const EbayItems = {
         'sort-modal': SortModal,
         'loading-text': LoadingText,
         'business-entity': BusinessEntity,
+        'no-items-found': NoItemsFound,
     }
 };

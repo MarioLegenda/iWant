@@ -1056,24 +1056,31 @@ html {
   height: 120px;
   border-radius: 10px;
 }
-.SearchItems .EbayResultsLoading {
+.SearchItems .EbayResultsLoading, .SearchItems .NoItemsFound {
   width: 300px;
   height: 200px;
   overflow: hidden;
   margin: 50px auto 30px auto;
 }
-.SearchItems .EbayResultsLoading .GridLoader {
+.SearchItems .EbayResultsLoading .GridLoader, .SearchItems .NoItemsFound .GridLoader {
   width: 80px;
   height: 80px;
   margin: 0 auto;
 }
-.SearchItems .EbayResultsLoading .TextLoader {
+.SearchItems .EbayResultsLoading .TextLoader, .SearchItems .NoItemsFound .TextLoader {
   width: 100%;
   margin-top: 10px;
   font-size: 1.2em;
   text-align: center;
   font-weight: bolder;
+  line-height: 1.4em;
   color: #eb1d25;
+}
+.SearchItems .NoItemsFound {
+  margin: 100px auto 30px auto;
+}
+.SearchItems .NoItemsFound .TextLoader {
+  font-size: 1.7em;
 }
 .SearchItems .ListingActionWrapper {
   width: 100%;

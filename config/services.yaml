@@ -348,6 +348,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 999 }
 
+    App\Symfony\Listener\EmptyEbayResultException:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
     App\Symfony\Listener\RequestListener:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

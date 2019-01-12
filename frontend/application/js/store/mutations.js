@@ -100,5 +100,9 @@ export const mutations = {
 
     httpRequestFailed(state, value) {
         this.state.httpRequestFailed = value;
+    },
+
+    ebay404EmptyResult(state, value) {
+        this.state.ebay404EmptyResult = value;
     }
 };
