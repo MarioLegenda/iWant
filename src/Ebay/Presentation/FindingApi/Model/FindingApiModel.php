@@ -28,7 +28,6 @@ class FindingApiModel implements FindingApiRequestModelInterface
         $this->callType = $callType;
         $this->itemFilters = $itemFilters;
     }
-
     /**
      * @return CallTypeInterface
      */

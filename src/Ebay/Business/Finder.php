@@ -20,6 +20,7 @@ use App\Ebay\Library\Response\ShoppingApi\GetCategoryInfoResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
+use App\Ebay\Presentation\Model\Query;
 use App\Library\Http\Request;
 use App\Ebay\Library\Response\FindingApi\FindingApiResponseModelInterface;
 use App\Ebay\Library\Model\FindingApiRequestModelInterface;
@@ -86,6 +87,8 @@ class Finder
 
     public function findItemsByKeywords(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
+        $this->createModelValidator($model)->validate();
+
         $findItemsByKeywords = new FindItemsByKeywords(
             $model,
             $this->requestBase
@@ -118,6 +121,8 @@ class Finder
 
     public function findItemsAdvanced(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
+        $this->createModelValidator($model)->validate();
+
         $findItemsAdvanced = new FindItemsAdvanced($model, $this->requestBase);
 
         /** @var Request $request */
@@ -169,6 +174,8 @@ class Finder
 
     public function findItemsInEbayStores(FindingApiRequestModelInterface $model): FindingApiResponseModelInterface
     {
+        $this->createModelValidator($model)->validate();
+
         $findItemsInEbayStores = new FindItemsInEbayStores($model, $this->requestBase);
 
         /** @var Request $request */
@@ -339,5 +346,64 @@ class Finder
     private function createShippingCostsResponseModel(string  $resource): GetShippingCostsResponse
     {
         return new GetShippingCostsResponse(json_decode($resource, true));
+    }
+    /**
+     * @param $model
+     * @return __anonymous@11918
+     */
+    private function createModelValidator($model): object
+    {
+        if (!$model instanceof FindingApiRequestModelInterface) {
+            $message = sprintf(
+                'This model validator only supports %s models. Create code for additional validator',
+                FindingApiRequestModelInterface::class
+            );
+
+            throw new \RuntimeException($message);
+        }
+
+        return new class($model) {
+            /**
+             * @var FindingApiRequestModelInterface
+             */
+            private $model;
+            /**
+             *  constructor.
+             * @param FindingApiRequestModelInterface $model
+             */
+            public function __construct(FindingApiRequestModelInterface $model)
+            {
+                $this->model = $model;
+            }
+            /**
+             * @throws \RuntimeException
+             */
+            public function validate(): void
+            {
+                $this->validateQueries();
+            }
+            /**
+             * @throws \RuntimeException
+             */
+            private function validateQueries(): void
+            {
+                $queries = $this->model->getCallType()->getQueries();
+
+                /** @var Query $query */
+                foreach ($queries as $query) {
+                    if ($query->getName() === 'keywords') {
+                        $value = $query->getValue();
+
+                        if (strlen($value) <= 1) {
+                            $message = sprintf(
+                                '\'keywords\' query has to have more than one character length'
+                            );
+
+                            throw new \RuntimeException($message);
+                        }
+                    }
+                }
+            }
+        };
     }
 }
