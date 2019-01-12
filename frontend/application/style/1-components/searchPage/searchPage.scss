@@ -19,6 +19,17 @@
 
     border: 1px solid white;
 
+    .InvalidInput {
+      width: 100%;
+      float:left;
+
+      padding: 10px;
+      margin: 30px 0 0 0;
+      line-height: 1.4em;
+      color: $basicOrange;
+      background-color: #f9c7c7;
+    }
+
     .SearchBoxAdvanced-enter-to-search {
       width: 100%;
       float: left;

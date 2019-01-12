@@ -2,6 +2,9 @@ export const translationsMap = {
     en: {
         yes: 'Yes',
         no: 'No',
+        error: {
+            invalidInput: 'Search query must contain more than one character',
+        },
         languageChoiceExplanation: 'All products searched will be translated to the language you select',
         searchInputPlaceholder: 'what would you like?',
         searchingEbaySites: 'Searching eBay sites',
@@ -99,6 +102,9 @@ export const translationsMap = {
     es: {
         yes: 'Sí',
         no: 'No',
+        error: {
+            invalidInput: 'La consulta de búsqueda debe contener más de un carácter',
+        },
         languageChoiceExplanation: 'Todos los productos buscados se traducirán al idioma que seleccione',
         searchInputPlaceholder: 'qué te gustaría?',
         searchingEbaySites: 'Buscando en los sitios de eBay',
@@ -196,6 +202,9 @@ export const translationsMap = {
     fr: {
         yes: 'Oui',
         no: 'Non',
+        error: {
+            invalidInput: 'La requête de recherche doit contenir plusieurs caractères',
+        },
         languageChoiceExplanation: 'Tous les produits recherchés seront traduits dans la langue choisie',
         searchInputPlaceholder: 'que désirez-vous?',
         searchingEbaySites: 'Recherche de sites eBay',
@@ -293,6 +302,9 @@ export const translationsMap = {
     it: {
         yes: 'Sì',
         no: 'No',
+        error: {
+            invalidInput: 'La query di ricerca deve contenere più di un carattere',
+        },
         languageChoiceExplanation: 'Tutti i prodotti cercati saranno tradotti nella lingua selezionata',
         searchInputPlaceholder: 'cosa vorresti?',
         searchingEbaySites: 'Ricerca nei siti eBay',
@@ -390,6 +402,9 @@ export const translationsMap = {
     ga: {
         yes: 'Tá',
         no: 'Uimh',
+        error: {
+            invalidInput: 'Caithfidh níos mó ná carachtar amháin a bheith i gceist le cuardach',
+        },
         languageChoiceExplanation: 'Déanfar gach táirge a chuardach a aistriú chuig an teanga a roghnaíonn tú',
         searchInputPlaceholder: 'cad ba mhaith leat?',
         searchingEbaySites: 'Cuardach suímh eBay',
@@ -487,6 +502,9 @@ export const translationsMap = {
     pl: {
         yes: 'Tak',
         no: 'Nie',
+        error: {
+            invalidInput: 'Zapytanie wyszukiwania musi zawierać więcej niż jeden znak',
+        },
         languageChoiceExplanation: 'Wszystkie wyszukane produkty zostaną przetłumaczone na wybrany język',
         searchInputPlaceholder: 'co byś chciał?',
         searchingEbaySites: 'Wyszukiwanie witryn serwisu eBay',
@@ -584,6 +602,9 @@ export const translationsMap = {
     de: {
         yes: 'Ja',
         no: 'Nein',
+        error: {
+            invalidInput: 'Die Suchanfrage muss mehr als ein Zeichen enthalten',
+        },
         languageChoiceExplanation: 'Alle gesuchten Produkte werden in die von Ihnen ausgewählte Sprache übersetzt',
         searchInputPlaceholder: 'was möchten Sie gerne?',
         searchingEbaySites: 'eBay-Websites durchsuchen',
@@ -681,6 +702,9 @@ export const translationsMap = {
     sk: {
         yes: 'Áno',
         no: 'Žiadny',
+        error: {
+            invalidInput: 'Vyhľadávací dopyt musí obsahovať viac ako jeden znak',
+        },
         languageChoiceExplanation: 'Všetky vyhľadávané produkty budú preložené do vybratého jazyka',
         searchInputPlaceholder: 'čo by si rád?',
         searchingEbaySites: 'Vyhľadávanie stránok eBay',
@@ -778,6 +802,9 @@ export const translationsMap = {
     cs: {
         yes: 'Ano',
         no: 'Ne',
+        error: {
+            invalidInput: 'Vyhledávací dotaz musí obsahovat více než jeden znak',
+        },
         languageChoiceExplanation: 'Všechny vyhledané produkty budou přeloženy do zvoleného jazyka',
         searchInputPlaceholder: 'co bys rád?',
         searchingEbaySites: 'Vyhledávání stránek eBay',

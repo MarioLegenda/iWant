@@ -105,6 +105,38 @@ class SearchComponentTest extends BasicSetup
         static::assertNotEmpty($products);
     }
 
+    public function test_empty_result()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 's',
+            'locale' => 'en',
+            'lowestPrice' => false,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-DE',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 1),
+            'hideDuplicateItems' => false,
+            'doubleLocaleSearch' => false,
+            'fixedPrice' => false,
+            'shippingCountries' => [],
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        static::assertEquals(count($products), $model->getPagination()->getLimit());
+    }
+
     public function test_generic_testing()
     {
         /** @var SearchComponent $searchComponent */

@@ -11,6 +11,7 @@ export const SearchBox = {
             isError: false,
             activeClass: 'InputBox',
             errorClass: '',
+            invalidInput: false,
         }
     },
 
@@ -39,6 +40,8 @@ export const SearchBox = {
                                                       
                            <p v-if="enterToSearch && !$isMobile" class="SearchBoxAdvanced-enter-to-search">* Press Enter to search</p>
                            
+                           <p v-if="invalidInput" class="InvalidInput">{{translationsMap.error.invalidInput}}</p>
+                           
                            <div class="ModifiersWrapper">
                                <hide-duplicate-items-modifier></hide-duplicate-items-modifier>
                                <double-locale-search-modifier></double-locale-search-modifier>
@@ -66,6 +69,14 @@ export const SearchBox = {
                 this.errorClass = '';
 
                 this.isError = false;
+            }
+
+            if (this.text.length === 1) {
+                this.invalidInput = true;
+
+                return;
+            } else if (this.text.length > 1) {
+                this.invalidInput = false;
             }
 
             this.$emit('submit', this.text);

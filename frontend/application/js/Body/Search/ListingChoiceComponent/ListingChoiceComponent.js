@@ -33,6 +33,7 @@ export const ListingChoiceComponent = {
             supportedSites: SUPPORTED_SITES
         }
     },
+
     created() {
         if (this.resolvedSites === null) {
             this.resolvedSites = {};
@@ -50,6 +51,7 @@ export const ListingChoiceComponent = {
             }
         }
     },
+
     template: `
         <div class="ListingChoiceComponent" id="ListingChoiceComponentId">
         
@@ -74,11 +76,13 @@ export const ListingChoiceComponent = {
             </div>
         </div>
     `,
+
     watch: {
         getModel: (prev, next) => {},
 
         getFilters: (prev, next) => {}
     },
+
     computed: {
         translationsMap: function() {
             return this.$store.state.translationsMap;
@@ -100,6 +104,7 @@ export const ListingChoiceComponent = {
             return this.$store.state.ebaySearchListingLoading;
         }
     },
+
     methods: {
         onEbaySiteChoice: function (globalId) {
             let model = Object.assign({}, this.getModel);
@@ -117,6 +122,7 @@ export const ListingChoiceComponent = {
             setTimeout(() => scrollToElement(document.getElementById('EbayResultsLoadingId'), 200), timeout);
         }
     },
+
     components: {
         'listing-choice': ListingChoice,
         'no-items': NoItems,

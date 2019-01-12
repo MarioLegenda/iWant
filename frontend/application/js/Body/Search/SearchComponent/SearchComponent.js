@@ -19,13 +19,9 @@ export const SearchComponent = {
                         v-on:submit="submit"
                         v-on:on-search-term-change="onSearchTermChange">
                     </search-box>
-                    
-                    <div class="GlobalTopSpacing"></div>
-                    
+                                        
                     <selected-filters v-if="areSingleAddFiltersSelected"></selected-filters>
-                    
-                    <div class="GlobalTopSpacing"></div>
-                                                 
+                                                                     
 <!--                    <transition name="fade">
                         <sentence
                            v-if="showSentence"
@@ -33,9 +29,6 @@ export const SearchComponent = {
                            v-bind:showSentence="showSentence">
                         </sentence>
                     </transition>-->
-                    
-                    <div class="GlobalTopSpacing"></div>
-                    <div class="GlobalBottomSpacing"></div>
                     
                </div>`,
     computed: {
