@@ -16,7 +16,7 @@ export const Guide = {
                             as it works, check out the <router-link :to="createStaticUrl('features')">Features
                             </router-link> section.
                             And as with all guides, this one will be interesting but also boring 
-                            in some parts but it is very important that you read it because it may
+                            in some parts, but it is very important that you read it because it may
                             help you a lot in finding what you want in eBay. 
                         </p>
                         
@@ -32,7 +32,7 @@ export const Guide = {
                             eBay site at a time. As explained in the <router-link :to="createStaticUrl('features')">Features
                             </router-link> section, this is not just a copy of eBay search; it's an extension
                             of it. Therefor, I have implemented features that eBay does not have and more
-                            of them is coming in the future.
+                            of them are coming in the future.
                         </p>
                         
                         <p>
@@ -40,7 +40,8 @@ export const Guide = {
                             examples by yourself and maybe find some things that the application can do that even
                             I don't know about. At the end of this guide, you can check out the 
                             <router-link :to="createStaticUrl('for-you')">for You</router-link> section
-                            to see what new features are awaiting for you in the future.
+                            to see what new features are awaiting for you in the future. Also, there is a proof of concept
+                            and the end of this guide that proves that certain features work as this guide says.
                         </p>
                     </div>
                                         
@@ -57,7 +58,8 @@ export const Guide = {
                             the relevant results that you actually want and not the ones that you don't want.
                             For example, if you search for an <span class="Highlight">iphone 7</span> on eBay and sort it
                             by lowest price, the first results will be iPhone masks or other utilities, and it could also
-                            include auction listings which is not everybodies desire. If you sort by lowest price on 
+                            include auction listings which is not everybodies desire. What you actually want is a list
+                            of Apple Iphone 7 smartphones. If you sort by lowest price on 
                             <i-would-like />, it will try to sort the results and give the lowest price of the actual
                             <span class="Highlight">iphone 7</span> and ignore the rest. It may not always work the way you
                             expect but there are other features that you can use to sort the results even more and get
@@ -66,7 +68,8 @@ export const Guide = {
                         
                         <p>
                             Sorting by highest price works the same way as sorting by lowest price. Sorting by fixed price
-                            tries to filter out only the items that have a fixed price (items that are not auctions). The last
+                            tries to filter out only the items that have a fixed price (items that are not auctions). This feature
+                            is also one of the features that is not supported by eBay. The last
                             way you can sort is by high quality. The reason why I putted only one quality sort is that
                             the condition of the item combined with the aspects of the item can be a very powerful way of finding the
                             exact items that you are looking for. For that reason, I will wait for you to tell me your wishes about this
@@ -95,7 +98,8 @@ export const Guide = {
                             for the end user, but also for other sellers and resellers is that they have to sim trough a lot
                             of items before they find the one(s) they are looking for. If you click on the 
                             <span class="Highlight">Show duplicates</span>, that will turn on the duplicates hiding, the
-                            listing will reload and the duplicates will disappear.
+                            listing will reload and the duplicates will disappear. This is also one of the features that
+                            eBay does not provide.
                         </p>
                         
                         <h2 class="InnerEntry">Including eBay site native language items</h2>
@@ -103,7 +107,7 @@ export const Guide = {
                         <p class="InnerEntry">
                             If you try searching items on eBay Germany, you will see that the site is in german including
                             the item listings. But if you try to search it on english, there are some items that are found.
-                            That is because some seller put items on german language only, some on english only and some on both.
+                            That is because some sellers put items on german language only, some on english only and some on both.
                             Because of that, your search query might not return all the relevant results. If you tick the 
                             <span class="Highlight">Only english</span> button, searching both english and the language of the
                             site will be turned on.
@@ -121,13 +125,13 @@ export const Guide = {
                             NOTE: <span class="Highlight">This feature is still experimental and I still haven't decided is it actually
                             useful for you. It also takes a really long time since the application has to do multiple queries for each
                             query translation. Please, don't hesitate to check out the 
-                            <router-link :to="createStaticUrl('for-you')">For you</router-link> section and tell me what you think
+                            <router-link :to="createStaticUrl('for-you')">For you</router-link> section and tell me what you think.
                             </span>
                         </p>
                         
                         <h2 class="InnerEntry">SQF or Search query filter</h2>
                             
-                        <p>
+                        <p class="InnerEntry">
                             If you tried the above example with <span class="Highlight">iphone 7</span> sorted by lowest price,
                             you have noticed that the final search result still has some items that are not an actual iPhone 7 smartphone.
                             The reason for that is of technical nature. When the application asks for every iPhone 7 smartphone, eBay
@@ -136,7 +140,7 @@ export const Guide = {
                             protective cases, earpieces or similar items. 
                         </p>
                         
-                        <p>
+                        <p class="InnerEntry">
                             Because of that reason, I have a list of common phrases that are not valid for a search for iphone smartphones.
                             One of them is the word <span class="Highlight">mask or masks (plural)</span>. When you search for an iPhone,
                             the title of each found item is searched for that word and excluded from the final search result. Other phrases include
@@ -145,7 +149,7 @@ export const Guide = {
                             Huawei, ZTE and others. 
                         </p>
                         
-                        <p>
+                        <p class="InnerEntry">
                             But that doesn't mean that you cannot search for an actual <span class="Highlight">iphone 7 mask</span>. If the application
                             determines that there is a word in the search query that has also been excluded, it does not implement SQF on
                             it. 
@@ -194,7 +198,7 @@ export const Guide = {
                         </p>
                         
                         <p>
-                            <span class="Highlight">I would like an iphone 7 with a fixed price sorted by lowest price first.</span>
+                            <span class="Highlight">"I would like an iphone 7 with a fixed price sorted by lowest price first."</span>
                         </p>
                         
                         <p>

@@ -13,9 +13,10 @@ export const Features = {
                                and using eBay easier, informative, user focused and accessible to everyone, no
                                matter the language they speak. Entire website and every eBay listing can
                                be translated to multiple languages so it is no longer necessary for you to
-                               know english in order to use eBay. It also offers search
+                               know english in order to use eBay or to know spanish to use eBay Spain.
+                               It also offers search
                                features that eBay does not offer but also expands on existing ones. 
-                               In that respect, <i-would-like></i-would-like> is always growing. Here, you will find 
+                               For that respect, <i-would-like></i-would-like> is always growing. Here, you will find 
                                descriptions of visible and automatic features. Visible are the ones 
                                that you see on the search page and can control. Automatic ones are 
                                the ones that are applied automatically and you cannot control them 
@@ -40,8 +41,8 @@ export const Features = {
                            features.</p>
                            
                            <p><span class="Highlight">Visible</span> features are the ones that 
-                           you see on the search page like <span class="Highlight"></span> or 
-                           <span class="Highlight">brand search</span>. They are self explanatory and I 
+                           you see on the search page like <span class="Highlight">Price filters</span>.
+                            They are self explanatory and I 
                            will not dive into them right now. If you wish to know how to use them efficiently, 
                            checkout out the <a href="#">Guide</a> section for more information</p>
                            
