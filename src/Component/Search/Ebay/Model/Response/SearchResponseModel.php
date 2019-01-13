@@ -57,6 +57,10 @@ class SearchResponseModel implements
      */
     private $isTranslated = false;
     /**
+     * @var Title|null
+     */
+    private $subtitle;
+    /**
      * TodayProductRequestModel constructor.
      * @param string $itemId
      * @param string $uniqueName
@@ -68,11 +72,13 @@ class SearchResponseModel implements
      * @param string $viewItemUrl
      * @param Country $country
      * @param array $listingInfo
+     * @param Title|null $subtitle
      */
     public function __construct(
         string $uniqueName,
         string $itemId,
         Title $title,
+        ?Title $subtitle,
         Image $image,
         BusinessEntity $businessEntity,
         Price $price,
@@ -91,6 +97,7 @@ class SearchResponseModel implements
         $this->viewItemUrl = $viewItemUrl;
         $this->country = $country;
         $this->listingInfo = $listingInfo;
+        $this->subtitle = $subtitle;
     }
     /**
      * @return Country|null
@@ -208,6 +215,13 @@ class SearchResponseModel implements
         return (float) $this->getPrice()->getPrice();
     }
     /**
+     * @return Title|null
+     */
+    public function getSubtitle(): ?Title
+    {
+        return $this->subtitle;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -216,6 +230,7 @@ class SearchResponseModel implements
             'uniqueName' => $this->getUniqueName(),
             'itemId' => $this->getItemId(),
             'globalId' => $this->getGlobalId(),
+            'subtitle' => ($this->getSubtitle() instanceof Title) ? $this->getSubtitle()->toArray() : null,
             'title' => $this->getTitle()->toArray(),
             'image' => $this->getImage()->toArray(),
             'businessEntity' => $this->getBusinessEntity()->toArray(),

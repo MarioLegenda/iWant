@@ -51,6 +51,7 @@ class SearchResponseModelFactory
 
             $itemId = $item->getItemId();
             $title = new Title($item->getTitle());
+            $subtitle = (is_string($item->getSubtitle()) and !empty($item->getSubtitle())) ? new Title($item->getSubtitle()) : null;
             $image = new Image((function(SearchResult $item) {
                 $methods = ['getPictureUrlSuperSize', 'getPictureUrlLarge', 'getGalleryUrl'];
 
@@ -83,6 +84,7 @@ class SearchResponseModelFactory
                 $uniqueName,
                 $itemId,
                 $title,
+                $subtitle,
                 $image,
                 $businessEntity,
                 $price,

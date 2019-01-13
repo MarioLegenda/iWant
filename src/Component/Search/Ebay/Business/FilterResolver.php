@@ -6,7 +6,6 @@ use App\Component\Search\Ebay\Business\Filter\FixedPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\SearchQueryRegexFilter;
-use App\Component\Search\Ebay\Business\Filter\ShipsToExcludedFilter;
 
 class FilterResolver
 {

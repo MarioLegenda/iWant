@@ -17,7 +17,6 @@ import {getters} from "./store/getters";
 import ToggleButton from 'vue-js-toggle-button'
 import {Navigation} from "./Navigation/Navigation";
 import {GlobalErrorHandler} from "./global/GlobalErrorHandler";
-import {SiteLanguageInitialChoiceModal} from "./global/SiteLanguageInitialChoiceModal";
 import {addArrayFind} from "./global/polyfill";
 
 export class Init {
@@ -289,7 +288,6 @@ export class Init {
                     router: createVueRouter(),
 
                     created() {
-                        this._showSiteLanguageChoiceModalIfNecessary();
                         const locale = this._determineLocale();
 
                         this.$store.dispatch('localeChangedAction', {
@@ -310,8 +308,6 @@ export class Init {
                                 <router-view></router-view>
                                 
                                 <global-error-handler></global-error-handler>
-                                
-                                <site-language-modal></site-language-modal>
                             </div>
                         </transition>`,
                     methods: {
@@ -345,7 +341,6 @@ export class Init {
                     },
                     components: {
                         'Header': Header,
-                        'site-language-modal': SiteLanguageInitialChoiceModal,
                         'navigation': Navigation,
                         'global-error-handler': GlobalErrorHandler,
                     }

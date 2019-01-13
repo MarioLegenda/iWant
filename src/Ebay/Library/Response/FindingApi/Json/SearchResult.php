@@ -103,6 +103,10 @@ class SearchResult implements ArrayNotationInterface
      */
     private $sellerInfo;
     /**
+     * @var string|null
+     */
+    private $subtitle;
+    /**
      * SearchResult constructor.
      * @param string $itemId
      * @param string $title
@@ -125,10 +129,12 @@ class SearchResult implements ArrayNotationInterface
      * @param null|string $pictureUrlLarge
      * @param null|string $pictureUrlSuperSize
      * @param null|array $sellerInfo
+     * @param string|null $subtitle
      */
     public function __construct(
         string $itemId,
         string $title,
+        ?string $subtitle,
         string $globalId,
         ?string $galleryURL,
         string $viewItemURL,
@@ -170,6 +176,7 @@ class SearchResult implements ArrayNotationInterface
         $this->pictureUrlLarge = $pictureUrlLarge;
         $this->pictureUrlSuperSize = $pictureUrlSuperSize;
         $this->sellerInfo = $sellerInfo;
+        $this->subtitle = $subtitle;
     }
     /**
      * @return array|null
@@ -396,6 +403,13 @@ class SearchResult implements ArrayNotationInterface
         return $this->pictureUrlSuperSize;
     }
     /**
+     * @return string|null
+     */
+    public function getSubtitle(): ?string
+    {
+        return $this->subtitle;
+    }
+    /**
      * @return iterable
      */
     public function toArray(): iterable
@@ -405,6 +419,7 @@ class SearchResult implements ArrayNotationInterface
         return [
             'itemId' => $this->getItemId(),
             'title' => $this->getTitle(),
+            'subtitle' => $this->getSubtitle(),
             'globalId' => $this->getGlobalId(),
             'galleryUrl' => $this->getGalleryUrl(),
             'viewItemUrl' => $this->getViewItemUrl(),
@@ -434,6 +449,7 @@ class SearchResult implements ArrayNotationInterface
         return new SearchResult(
             $item['itemId'][0],
             $item['title'][0],
+            (isset($item['subtitle'])) ? $item['subtitle'][0] : null,
             $item['globalId'][0],
             (isset($item['galleryURL'])) ? $item['galleryURL'][0] : null,
             $item['viewItemURL'][0],

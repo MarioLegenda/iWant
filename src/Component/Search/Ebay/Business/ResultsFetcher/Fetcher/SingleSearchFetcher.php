@@ -78,9 +78,10 @@ class SingleSearchFetcher implements FetcherInterface
         $this->modifiedKeywordsImplementation = $modifiedKeywordImplementation;
     }
     /**
-     * @param SearchModelInterface|SearchModel $model
+     * @param SearchModelInterface $model
      * @param array $replacementData
      * @return iterable
+     * @throws EbayEmptyResultException
      * @throws \App\Cache\Exception\CacheException
      * @throws \App\Symfony\Exception\HttpException
      * @throws \Doctrine\ORM\ORMException
@@ -138,7 +139,6 @@ class SingleSearchFetcher implements FetcherInterface
      * @param SearchModelInterface $model
      * @param string|null $identifier
      * @return iterable
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
     public function getFreshResults(SearchModelInterface $model, string $identifier = null): array
