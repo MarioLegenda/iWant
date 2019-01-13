@@ -10,12 +10,42 @@ use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\Model\GetCategoryInfo;
 use App\Ebay\Presentation\ShoppingApi\Model\GetShippingCosts;
 use App\Ebay\Presentation\ShoppingApi\Model\GetSingleItem;
+use App\Ebay\Presentation\ShoppingApi\Model\GetUserProfile;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
 use App\Library\Infrastructure\Helper\TypedArray;
 use App\Ebay\Library\ItemFilter\ItemFilter as ItemFilterConstants;
 
 class DataProvider
 {
+    public function createGetUserProfileModel(string $userId)
+    {
+        $callnameQuery = new Query(
+            'callname',
+            'GetUserProfile'
+        );
+
+        $userIdQuery = new Query(
+            'UserId',
+            $userId
+        );
+
+        $includeSelectorQuery = new Query(
+            'IncludeSelector',
+            'Details'
+        );
+
+        $queries = TypedArray::create('integer', Query::class);
+
+        $queries[] = $callnameQuery;
+        $queries[] = $userIdQuery;
+        $queries[] = $includeSelectorQuery;
+
+        $callType = new GetUserProfile($queries);
+
+        $itemFilters = TypedArray::create('integer', ItemFilter::class);
+
+        return new ShoppingApiModel($callType, $itemFilters);
+    }
     /**
      * @param string $globalId
      * @return ShoppingApiRequestModelInterface

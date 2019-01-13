@@ -4,6 +4,7 @@ namespace App\Tests\Ebay\ShoppingApi;
 
 use App\Ebay\Library\Response\ShoppingApi\GetShippingCostsResponse;
 use App\Ebay\Library\Response\ShoppingApi\GetSingleItemResponse;
+use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponse;
 use App\Ebay\Library\Response\ShoppingApi\Json\Item;
 use App\Ebay\Library\Response\ShoppingApi\Json\Root;
 use App\Ebay\Library\Response\ShoppingApi\Json\SellerInfo;
@@ -15,6 +16,26 @@ use App\Tests\Library\BasicSetup;
 
 class ShoppingApiTest extends BasicSetup
 {
+    public function test_get_user_profile()
+    {
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.shopping_api');
+        /** @var ShoppingApiEntryPoint $shoppingApiEntryPoint */
+        $shoppingApiEntryPoint = $this->locator->get(ShoppingApiEntryPoint::class);
+
+        /** @var GetUserProfileResponse $responseModel */
+        $responseModel = $shoppingApiEntryPoint->getUserProfile($dataProvider->createGetUserProfileModel('paulsanglingsupplies'));
+
+        static::assertInstanceOf(GetUserProfileResponse::class, $responseModel);
+        static::assertNotEmpty($responseModel->toArray());
+        static::assertInternalType('array', $responseModel->toArray());
+
+        /** @var Root $rootItem */
+        $rootItem = $responseModel->getRoot();
+
+        $this->assertRootItem($rootItem);
+    }
+
     public function test_single_item()
     {
         /** @var DataProvider $dataProvider */
@@ -91,14 +112,6 @@ class ShoppingApiTest extends BasicSetup
         static::assertInternalType('string', $singleItem->getTitle());
     }
     /**
-     * @param CategoryRootItem $rootItem
-     */
-    private function assertCategoryRootItem(CategoryRootItem $rootItem)
-    {
-        static::assertInternalType('int', $rootItem->getCategoryCount());
-        static::assertInternalType('string', $rootItem->getCategoryVersion());
-    }
-    /**
      * @param Root $rootItem
      */
     private function assertRootItem(Root $rootItem)
@@ -106,18 +119,5 @@ class ShoppingApiTest extends BasicSetup
         static::assertInternalType('string', $rootItem->getVersion());
         static::assertInternalType('string', $rootItem->getTimestamp());
         static::assertInternalType('string', $rootItem->getAck());
-    }
-    /**
-     * @param Category $category
-     */
-    private function assertCategory(Category $category)
-    {
-        static::assertInternalType('string', $category->getCategoryId());
-        static::assertInternalType('string', $category->getCategoryIdPath());
-        static::assertInternalType('string', $category->getCategoryName());
-        static::assertInternalType('string', $category->getCategoryNamePath());
-        static::assertInternalType('string', $category->getCategoryParentId());
-        static::assertInternalType('int', $category->getCategoryLevel());
-        static::assertInternalType('bool', $category->getLeafCategory());
     }
 }

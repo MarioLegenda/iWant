@@ -312,7 +312,7 @@ class Finder
      */
     private function createUserProfileResponse(string $resource): GetUserProfileResponse
     {
-        return new GetUserProfileResponse($resource);
+        return new GetUserProfileResponse(json_decode($resource, true));
     }
     /**
      * @param string $resource

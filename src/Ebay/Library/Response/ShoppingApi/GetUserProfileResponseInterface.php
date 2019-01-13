@@ -2,12 +2,13 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi;
 
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\UserItem;
+use App\Ebay\Library\Response\ResponseModelInterface;
+use App\Ebay\Library\Response\ShoppingApi\Json\User\User;
 
-interface GetUserProfileResponseInterface
+interface GetUserProfileResponseInterface extends ResponseModelInterface
 {
     /**
-     * @return UserItem
+     * @return User
      */
-    public function getUser(): UserItem;
+    public function getUser(): User;
 }

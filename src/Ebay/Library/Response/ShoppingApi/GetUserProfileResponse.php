@@ -2,63 +2,125 @@
 
 namespace App\Ebay\Library\Response\ShoppingApi;
 
-use App\Ebay\Library\Response\ResponseModelInterface;
-use App\Ebay\Library\Response\RootItemInterface;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\ErrorContainer;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\RootItem;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\UserItem;
+use App\Ebay\Library\Response\ShoppingApi\Json\Root;
+use App\Ebay\Library\Response\ShoppingApi\Json\User\User;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
+use App\Library\Util\Util;
+use App\Ebay\Library\Response\ShoppingApi\Json\Error;
 
-class GetUserProfileResponse extends BaseResponse implements
-    GetUserProfileResponseInterface,
-    ArrayNotationInterface
+class GetUserProfileResponse implements GetUserProfileResponseInterface, ArrayNotationInterface
 {
     /**
-     * Response constructor.
-     * @param string $xmlString
+     * @var array
      */
-    public function __construct(string $xmlString)
+    private $errors;
+    /**
+     * @var array
+     */
+    private $user;
+    /**
+     * @var array
+     */
+    private $root;
+    /**
+     * @var array
+     */
+    private $response;
+    /**
+     * GetUserProfileResponse constructor.
+     * @param array $response
+     */
+    public function __construct(array $response)
     {
-        parent::__construct($xmlString);
-
-        $this->responseItems['user'] = null;
+        $this->response = $response;
     }
     /**
-     * @return UserItem
+     * @return Root
      */
-    public function getUser(): UserItem
+    public function getRoot(): Root
     {
-        $this->lazyLoadSimpleXml($this->xmlString);
-
-        if ($this->responseItems['user'] instanceof UserItem) {
-            return $this->responseItems['user'];
+        if ($this->root instanceof Root) {
+            return $this->root;
         }
 
-        $this->responseItems['user'] = new UserItem($this->simpleXmlBase->User);
-
-        return $this->responseItems['user'];
-    }
-    /**
-     * @return array
-     */
-    public function toArray(): array
-    {
-        $toArray = array();
-
-        $toArray['response'] = array(
-            'rootItem' => $this->getRoot()->toArray(),
-            'errors' => ($this->getErrors() instanceof ErrorContainer) ?
-                $this->getErrors()->toArray() :
-                null,
+        $this->root = new Root(
+            $this->response['Ack'],
+            $this->response['Timestamp'],
+            $this->response['Version']
         );
 
-        return $toArray;
+        unset($this->response['Ack']);
+        unset($this->response['Timestamp']);
+        unset($this->response['Version']);
+
+        return $this->root;
     }
+    /**
+     * @return User
+     */
+    public function getUser(): User
+    {
+        if ($this->user instanceof User) {
+            return $this->user;
+        }
+
+        $userResponse = $this->response['User'];
+
+        $this->user = new User(
+            $userResponse['UserID'],
+            stringToBool($userResponse['FeedbackPrivate']),
+            $userResponse['FeedbackRatingStar'],
+            (int) $userResponse['FeedbackScore'],
+            stringToBool($userResponse['NewUser']),
+            $userResponse['RegistrationDate'],
+            $userResponse['RegistrationSite'],
+            $userResponse['Status'],
+            $userResponse['SellerBusinessType'],
+            get_value_or_null($userResponse, 'StoreURL'),
+            get_value_or_null($userResponse, 'StoreName'),
+            $userResponse['SellerItemsURL'],
+            get_value_or_null($userResponse, 'AboutMeURL'),
+            get_value_or_null($userResponse, 'MyWorldURL'),
+            get_value_or_null($userResponse, 'PositiveFeedbackPercent')
+        );
+
+        unset($this->response['User']);
+
+        return $this->user;
+    }
+    /**
+     * @param mixed $default
+     * @return array
+     */
+    public function getErrors($default = null)
+    {
+        $errors = Util::createGenerator($this->response['Errors']);
+
+        foreach ($errors as $entry) {
+            $item = $entry['item'];
+
+            $this->errors[] = new Error(
+                $item['ShortMessage'],
+                $item['LongMessage'],
+                $item['ErrorCode'],
+                $item['SeverityCode'],
+                $item['ErrorClassification']
+            );
+        }
+
+        unset($this->response['Errors']);
+
+        return $this->errors;
+    }
+
     /**
      * @return array
      */
-    public function jsonSerialize()
+    public function toArray(): iterable
     {
-        return $this->toArray();
+        return [
+            'root' => $this->getRoot()->toArray(),
+            'user' => $this->getUser()->toArray()
+        ];
     }
 }
