@@ -281,11 +281,16 @@
   }
 
   .ModifierWrapper {
+    width: 320px !important;
     margin: 0 auto !important;
     float: none !important;
     overflow: hidden !important;
 
     margin-bottom: 10px !important;
+
+    .v-switch-label {
+      font-size: 1.2em;
+    }
   }
 
   .NavItem {

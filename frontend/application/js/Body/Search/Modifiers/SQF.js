@@ -1,6 +1,8 @@
 import {SAVED_STATE_MODE} from "../../../store/constants";
+import {toggleButtonMixin} from "./mixins";
 
 export const SQF = {
+    mixins: [toggleButtonMixin],
     data: function() {
         return {
             isToggleOpen: false,
@@ -23,8 +25,8 @@ export const SQF = {
                     :sync="true"
                     @change="onChange"
                     :labels="{checked: translationsMap.filters.sqfOn, unchecked: translationsMap.filters.sqfOff}"
-                    :width="170"
-                    :height="25">
+                    :width="toggleButtonWidth"
+                    :height="toggleButtonHeight">
                 </toggle-button>
                 
                     <v-popover class="TooltipContent">

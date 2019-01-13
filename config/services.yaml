@@ -18,6 +18,7 @@ parameters:
             - { channel: '#shopping_api_limit', webhook: 'https://hooks.slack.com/services/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' }
             - { channel: '#translations_api', webhook: 'https://hooks.slack.com/services/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' }
             - { channel: '#messages', webhook: 'https://hooks.slack.com/services/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' }
+            - { channel: '#cron_jobs', webhook: 'https://hooks.slack.com/services/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' }
 
     ebay_pagination_limit: 80
 
@@ -451,5 +452,13 @@ services:
     App\Symfony\Command\BatchAddSearchQueryFilters:
         arguments:
             $searchQueryFilterRepository: '@App\Doctrine\Repository\SearchQueryFilterRepository'
+        tags:
+            - { name: 'console.command' }
+
+    # CRON
+
+    App\Symfony\Command\Cron\RemoveOutdatedCache:
+        arguments:
+            $searchCacheRepository: '@App\Doctrine\Repository\SearchCacheRepository'
         tags:
             - { name: 'console.command' }

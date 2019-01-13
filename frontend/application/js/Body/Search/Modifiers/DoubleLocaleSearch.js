@@ -1,6 +1,8 @@
 import {SAVED_STATE_MODE} from "../../../store/constants";
+import {toggleButtonMixin} from "./mixins";
 
 export const DoubleLocaleSearch = {
+    mixins: [toggleButtonMixin],
     data: function() {
         return {
             isToggleOpen: false,
@@ -25,8 +27,8 @@ export const DoubleLocaleSearch = {
                     :sync="true"
                     @change="onChange"
                     :labels="{checked: translationsMap.filters.doubleLocaleSearchShow, unchecked: translationsMap.filters.doubleLocaleSearchHide}"
-                    :width="170"
-                    :height="25">
+                    :width="toggleButtonWidth"
+                    :height="toggleButtonHeight">
                 </toggle-button>
                 
                     <v-popover class="TooltipContent">
