@@ -2,6 +2,7 @@
 
 namespace App\Component\Search\Ebay\Business;
 
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 
@@ -21,7 +22,12 @@ class SearchModelValidator
             throw new \RuntimeException($message);
         }
 
-        $validSortingMethods = ['bestMatch', 'newlyListed'];
+        $validSortingMethods = [
+            SortingMethod::BEST_MATCH,
+            SortingMethod::NEWLY_LISTED,
+            SortingMethod::WATCH_COUNT_INCREASE,
+            SortingMethod::WATCH_COUNT_DECREASE
+        ];
 
         if (in_array($model->getSortingMethod(), $validSortingMethods) === false) {
             $message = sprintf(
@@ -36,15 +42,6 @@ class SearchModelValidator
         if ($model->isNewlyListed() and $model->isBestMatch()) {
             $message = sprintf(
                 'Invalid model. %s cannot have two sorting methods set to true',
-                get_class($this)
-            );
-
-            throw new \RuntimeException($message);
-        }
-
-        if ($model->isWatchCountIncrease() and $model->isWatchCountDecrease()) {
-            $message = sprintf(
-                'Invalid model. %s cannot have both properties watchCountIncrease and watchCountDecrease set to true',
                 get_class($this)
             );
 

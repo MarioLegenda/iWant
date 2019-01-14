@@ -143,7 +143,15 @@ export const SortModal = {
             newlyListed: {
                 text: '',
                 name: 'newlyListed',
-            }
+            },
+            watchCountIncrease: {
+                text: '',
+                name: 'watchCountIncrease',
+            },
+            watchCountDecrease: {
+                text: '',
+                name: 'watchCountDecrease',
+            },
         }
     },
 
@@ -152,6 +160,8 @@ export const SortModal = {
 
         this.bestMatch.text = this.translationsMap.sorting.bestMatchTitle;
         this.newlyListed.text = this.translationsMap.sorting.newlyListedTitle;
+        this.watchCountIncrease.text = this.translationsMap.sorting.watchCountIncrease;
+        this.watchCountDecrease.text = this.translationsMap.sorting.watchCountDecrease;
 
         this.selected = this[sortingMethod].text;
     },
@@ -170,6 +180,8 @@ export const SortModal = {
                            <div class="SortingChoiceWrapper">
                                <p @click="changeSortMethod('bestMatch')">{{translationsMap.sorting.bestMatchTitle}}</p>
                                <p @click="changeSortMethod('newlyListed')">{{translationsMap.sorting.newlyListedTitle}}</p>
+                               <p @click="changeSortMethod('watchCountIncrease')">{{translationsMap.sorting.watchCountIncrease}}</p>
+                               <p @click="changeSortMethod('watchCountDecrease')">{{translationsMap.sorting.watchCountDecrease}}</p>
                            </div>
                            
                        </div>
@@ -347,6 +359,10 @@ export const EbayItems = {
                             <div class="Row CountryOfOrigin">
                                 <h1>{{_determineCountry(item.country)}}</h1>
                             </div>
+                            
+                            <div class="Row WatchCount">
+                                <h1><i v-if="item.listingInfo.watchCount > 1500" class="fas fa-fire"></i><span :class="determineWatchCountClass(item.listingInfo.watchCount)">{{ item.listingInfo.watchCount }} </span> {{getTranslationsMap.searchItem.watchCountText}}</h1>
+                            </div>
                     
                             <div class="Row PriceWrapper">
                                 <price
@@ -520,6 +536,12 @@ export const EbayItems = {
 
             return `${this.getTranslationsMap.searchItem.fromTitle} ${resolvedCountry}`;
         },
+
+        determineWatchCountClass(watchCount) {
+            if (watchCount > 1500) {
+                return 'WatchCountHighlight WatchCountCountText';
+            }
+        }
     },
     components: {
         'item': Item,

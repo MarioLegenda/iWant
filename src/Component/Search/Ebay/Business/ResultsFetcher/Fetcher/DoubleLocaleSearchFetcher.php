@@ -212,7 +212,6 @@ class DoubleLocaleSearchFetcher implements FetcherInterface
      * @param SearchModel $model
      * @param string $keyword
      * @return iterable
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \App\Symfony\Exception\HttpException
      */
     private function getResultsWithTranslatedKeyword(

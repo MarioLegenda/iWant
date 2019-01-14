@@ -5,6 +5,7 @@ namespace App\Component\Search\Ebay\Business\ResultsFetcher;
 use App\App\Library\Representation\SiteLocaleMappingRepresentation;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
 use App\Component\Search\Ebay\Business\Filter\SearchQueryRegexFilter;
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Component\Search\Ebay\Business\FilterResolver;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\DoubleLocaleSearchFetcher;
 use App\Component\Search\Ebay\Business\ResultsFetcher\Fetcher\FetcherInterface;
@@ -63,12 +64,12 @@ class FetcherFactory
     {
         $chosenFetcher = ($model->isDoubleLocaleSearch()) ? $this->doubleLocaleSearchFetcher : $this->singleResultFetcher;
 
-        if ($model->isWatchCountIncrease()) {
-            $this->filterApplier->add($this->filterResolver->getWatchCountIncreaseFilter(), 1);
+        if ($model->getSortingMethod() === SortingMethod::WATCH_COUNT_INCREASE) {
+            $this->filterApplier->add($this->filterResolver->getWatchCountIncreaseFilter());
         }
 
-        if ($model->isWatchCountDecrease()) {
-            $this->filterApplier->add($this->filterResolver->getWatchCountDecreaseFilter(), 1);
+        if ($model->getSortingMethod() === SortingMethod::WATCH_COUNT_DECREASE) {
+            $this->filterApplier->add($this->filterResolver->getWatchCountDecreaseFilter());
         }
 
         if ($model->isSearchQueryFilter()) {

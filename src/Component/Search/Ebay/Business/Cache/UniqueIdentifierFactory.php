@@ -13,8 +13,6 @@ class UniqueIdentifierFactory
      */
     public static function createIdentifier(SearchModelInterface $model): string
     {
-        $watchCount = ($model->isWatchCountDecrease() or $model->isWatchCountIncrease()) ? true : false;
-
         return md5(serialize([
             'keyword' => (string) $model->getKeyword(),
             'bestMatch' => $model->isBestMatch(),
@@ -25,7 +23,6 @@ class UniqueIdentifierFactory
             'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
             'searchStores' => $model->isSearchStores(),
             'newlyListed' => $model->isNewlyListed(),
-            'watchCount' => $watchCount,
         ]));
     }
 }

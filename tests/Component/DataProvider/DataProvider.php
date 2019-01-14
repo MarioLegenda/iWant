@@ -40,10 +40,13 @@ class DataProvider
         $searchQueryFilter = (isset($data['searchQueryFilter'])) ? $data['searchQueryFilter'] : false;
 
         $sortingMethod = (isset($data['sortingMethod'])) ? $data['sortingMethod'] : 'bestMatch';
-        $watchCountIncrease = (isset($data['watchCountIncrease'])) ? $data['watchCountIncrease'] : false;
-        $watchCountDecrease = (isset($data['watchCountDecrease'])) ? $data['watchCountDecrease'] : false;
+
+        $bestMatch = (isset($data['bestMatch'])) ? $data['bestMatch'] : true;
+        $newlyListed = (isset($data['newlyListed'])) ? $data['newlyListed'] : false;
 
         return new EbaySearchModel(
+            $bestMatch,
+            $newlyListed,
             $keyword,
             $lowestPrice,
             $highestPrice,
@@ -59,9 +62,7 @@ class DataProvider
             $fixedPriceOnly,
             $searchStores,
             $sortingMethod,
-            $searchQueryFilter,
-            $watchCountIncrease,
-            $watchCountDecrease
+            $searchQueryFilter
         );
     }
 }

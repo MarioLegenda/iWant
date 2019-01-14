@@ -2,10 +2,10 @@
 
 namespace App\Tests\Component;
 
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Component\Search\Ebay\Business\SearchAbstraction;
 use App\Component\Search\Ebay\Library\Exception\EbayEmptyResultException;
 use App\Component\Search\Ebay\Model\Request\Pagination;
-use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
 use App\Component\Search\SearchComponent;
 use App\Library\Util\Util;
@@ -32,6 +32,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'harry potter',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -84,6 +86,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
@@ -116,6 +120,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'ssgdfhdsfg',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
@@ -151,6 +157,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
@@ -184,6 +192,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -238,6 +248,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
@@ -247,8 +259,7 @@ class SearchComponentTest extends BasicSetup
             'hideDuplicateItems' => false,
             'doubleLocaleSearch' => false,
             'fixedPrice' => false,
-            'watchCountIncrease' => true,
-            'watchCountDecrease' => false,
+            'sortingMethod' => SortingMethod::WATCH_COUNT_INCREASE,
         ];
 
         /** @var SearchModel $model */
@@ -294,6 +305,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => false,
@@ -303,8 +316,7 @@ class SearchComponentTest extends BasicSetup
             'hideDuplicateItems' => false,
             'doubleLocaleSearch' => false,
             'fixedPrice' => false,
-            'watchCountIncrease' => false,
-            'watchCountDecrease' => true,
+            'sortingMethod' => SortingMethod::WATCH_COUNT_DECREASE,
         ];
 
         /** @var SearchModel $model */
@@ -350,6 +362,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'harry potter',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => false,
             'highQuality' => false,
             'highestPrice' => true,
@@ -403,6 +417,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'garden hose',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -434,6 +450,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'maceta de jardín',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -471,6 +489,8 @@ class SearchComponentTest extends BasicSetup
         $modelArray = [
             'keyword' => 'iphone 7',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -502,8 +522,9 @@ class SearchComponentTest extends BasicSetup
 
         $modelArray = [
             'keyword' => 'iphone 7',
-            'sortingMethod' => 'bestMatch',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,
@@ -535,8 +556,9 @@ class SearchComponentTest extends BasicSetup
 
         $modelArray = [
             'keyword' => 'iphone 7 mask',
-            'sortingMethod' => 'bestMatch',
             'locale' => 'en',
+            'bestMatch' => true,
+            'newlyListed' => false,
             'lowestPrice' => true,
             'highQuality' => false,
             'highestPrice' => false,

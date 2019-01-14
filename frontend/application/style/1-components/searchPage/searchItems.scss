@@ -134,6 +134,33 @@
     margin-bottom: 30px;
   }
 
+  .WatchCount {
+    margin-bottom: 30px;
+    position: relative;
+
+    .WatchCountCountText {
+      display:block;
+      float:left;
+      margin-left: 25px;
+      margin-right: 6px;
+    }
+
+    .WatchCountHighlight {
+      font-weight: bold;
+      color: $basicOrange;
+    }
+
+    i {
+      position: absolute;
+      margin-right: 5px;
+      color: $basicOrange;
+      top: -3px;
+      left: 0;
+
+      font-size: 1.4em;
+    }
+  }
+
   .TitleWrapper {
     color: black;
     float: right;
@@ -294,6 +321,8 @@
         -webkit-transition: border 0.5s;
         -moz-transition: border 0.5s;
         -o-transition: border 0.5s;
+
+        line-height: 1.4em;
 
         i {
           position: absolute;

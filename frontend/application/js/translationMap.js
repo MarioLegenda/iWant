@@ -27,6 +27,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Full details',
             viewOnEbay: 'View on eBay',
             fromTitle: 'From',
+            watchCountText: 'people are watching this item',
         },
         productPage: {
             endsOn: 'Ends on: ',
@@ -87,6 +88,8 @@ export const translationsMap = {
             sortByTitle: 'Sort by',
             bestMatchTitle: 'Best match',
             newlyListedTitle: 'Newly listed',
+            watchCountIncrease: 'Watch count ascending',
+            watchCountDecrease: 'Watch count descending',
         },
         shippingDetails: {
             autocomplete: {
@@ -128,6 +131,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Todos los detalles',
             viewOnEbay: 'Ver en eBay',
             fromTitle: 'Desde',
+            watchCountText: 'personas mirando este artículo',
         },
         productPage: {
             endsOn: 'Termina en: ',
@@ -188,6 +192,8 @@ export const translationsMap = {
             sortByTitle: 'Ordenar por',
             bestMatchTitle: 'Mejor partido',
             newlyListedTitle: 'Cotizada recientemente',
+            watchCountIncrease: 'Cuenta de relojes ascendente',
+            watchCountDecrease: 'Disminución de conteo de relojes',
         },
         shippingDetails: {
             autocomplete: {
@@ -229,6 +235,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Tous les détails',
             viewOnEbay: 'Voir sur eBay',
             fromTitle: 'De',
+            watchCountText: 'personnes regardent cet article',
         },
         productPage: {
             endsOn: 'Se termine sur: ',
@@ -289,6 +296,8 @@ export const translationsMap = {
             sortByTitle: 'Trier par',
             bestMatchTitle: 'Meilleure correspondance',
             newlyListedTitle: 'Nouvellement listé',
+            watchCountIncrease: 'Regarder le nombre croissant',
+            watchCountDecrease: 'Regarder le nombre décroissant',
         },
         shippingDetails: {
             autocomplete: {
@@ -330,6 +339,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Tutti i dettagli',
             viewOnEbay: 'Visualizza su eBay',
             fromTitle: 'A partire dal',
+            watchCountText: 'persone stanno guardando questo articolo',
         },
         productPage: {
             endsOn: 'Finisce: ',
@@ -390,6 +400,8 @@ export const translationsMap = {
             sortByTitle: 'Ordina per',
             bestMatchTitle: 'Migliore corrispondenza',
             newlyListedTitle: 'Recentemente quotate in borsa',
+            watchCountIncrease: 'Guarda il conteggio in ordine crescente',
+            watchCountDecrease: 'Il conteggio degli orologi scende',
         },
         shippingDetails: {
             autocomplete: {
@@ -431,6 +443,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Sonraí iomlána',
             viewOnEbay: 'Féach ar eBay',
             fromTitle: 'Ó',
+            watchCountText: 'duine ag breathnú ar an mír seo',
         },
         productPage: {
             endsOn: 'Críochnaíonn: ',
@@ -491,6 +504,8 @@ export const translationsMap = {
             sortByTitle: 'Sórtáil de réir',
             bestMatchTitle: 'An cluiche is fearr',
             newlyListedTitle: 'Liostaithe nua',
+            watchCountIncrease: 'Féach ar chomhaireamh ardaitheach',
+            watchCountDecrease: 'Féach ar chomhaireamh síos',
         },
         shippingDetails: {
             autocomplete: {
@@ -532,6 +547,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Pełne szczegóły',
             viewOnEbay: 'Wyświetl w serwisie eBay',
             fromTitle: 'Z',
+            watchCountText: 'osób ogląda ten produkt',
         },
         productPage: {
             endsOn: 'Kończy się: ',
@@ -592,6 +608,8 @@ export const translationsMap = {
             sortByTitle: 'Sortuj według',
             bestMatchTitle: 'Najlepszy mecz',
             newlyListedTitle: 'Nowo wystawione',
+            watchCountIncrease: 'Liczenie obserwuj rosnąco',
+            watchCountDecrease: 'Liczba zegarków maleje',
         },
         shippingDetails: {
             autocomplete: {
@@ -633,6 +651,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Alle Einzelheiten',
             viewOnEbay: 'Bei eBay anzeigen',
             fromTitle: 'Von',
+            watchCountText: 'Leute beobachten diesen Artikel',
         },
         productPage: {
             endsOn: 'Endet am: ',
@@ -693,6 +712,8 @@ export const translationsMap = {
             sortByTitle: 'Sortiere nach',
             bestMatchTitle: 'Bester Treffer',
             newlyListedTitle: 'Neu eingestellt',
+            watchCountIncrease: 'Zählen Sie aufsteigend',
+            watchCountDecrease: 'Zählen Sie absteigend',
         },
         shippingDetails: {
             autocomplete: {
@@ -734,6 +755,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Úplné podrobnosti',
             viewOnEbay: 'Zobraziť na eBay',
             fromTitle: 'z',
+            watchCountText: 'ľudí sleduje túto položku',
         },
         productPage: {
             endsOn: 'Ends on: ',
@@ -794,6 +816,8 @@ export const translationsMap = {
             sortByTitle: 'Triediť podľa',
             bestMatchTitle: 'Najlepší zápas',
             newlyListedTitle: 'Novo uvedené',
+            watchCountIncrease: 'Sledovanie počtu stúpajúcich',
+            watchCountDecrease: 'Počet sledovaní klesá',
         },
         shippingDetails: {
             autocomplete: {
@@ -835,6 +859,7 @@ export const translationsMap = {
             fullDetailsTitle: 'Všechny podrobnosti',
             viewOnEbay: 'Zobrazit na eBay',
             fromTitle: 'Z',
+            watchCountText: 'lidí tuto položku sleduje',
         },
         productPage: {
             endsOn: 'Končí: ',
@@ -895,6 +920,8 @@ export const translationsMap = {
             sortByTitle: 'Seřazeno podle',
             bestMatchTitle: 'Nejlepší shoda',
             newlyListedTitle: 'Nově uvedené',
+            watchCountIncrease: 'Počet hodin sledování vzestupně',
+            watchCountDecrease: 'Sledujte počet sestupů',
         },
         shippingDetails: {
             autocomplete: {

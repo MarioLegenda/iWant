@@ -2,11 +2,20 @@
 
 namespace App\Component\Search\Ebay\Model\Request;
 
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Translation\Model\Language;
 
 class InternalSearchModel implements SearchModelInterface, ArrayNotationInterface
 {
+    /**
+     * @var bool
+     */
+    private $newlyListed;
+    /**
+     * @var bool
+     */
+    private $bestMatch;
     /**
      * @var string $keyword
      */
@@ -72,14 +81,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      */
     private $searchQueryFilter;
     /**
-     * @var bool
-     */
-    private $watchCountIncrease;
-    /**
-     * @var bool
-     */
-    private $watchCountDecrease;
-    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -97,10 +98,12 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param bool $isSearchStores
      * @param string $sortingMethod
      * @param bool $searchQueryFilter
-     * @param bool $watchCountDecrease
-     * @param bool $watchCountIncrease
+     * @param bool $bestMatch
+     * @param bool $newlyListed
      */
     public function __construct(
+        bool $bestMatch,
+        bool $newlyListed,
         Language $keyword,
         bool $lowestPrice,
         bool $highestPrice,
@@ -116,9 +119,7 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         bool $fixedPriceOnly,
         bool $isSearchStores,
         string $sortingMethod,
-        bool $searchQueryFilter,
-        bool $watchCountIncrease,
-        bool $watchCountDecrease
+        bool $searchQueryFilter
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -136,22 +137,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->searchStores = $isSearchStores;
         $this->sortingMethod = $sortingMethod;
         $this->searchQueryFilter = $searchQueryFilter;
-        $this->watchCountDecrease = $watchCountDecrease;
-        $this->watchCountIncrease = $watchCountIncrease;
-    }
-    /**
-     * @return bool
-     */
-    public function isWatchCountIncrease(): bool
-    {
-        return $this->watchCountIncrease;
-    }
-    /**
-     * @return bool
-     */
-    public function isWatchCountDecrease(): bool
-    {
-        return $this->watchCountDecrease;
+        $this->bestMatch = $bestMatch;
+        $this->newlyListed = $newlyListed;
     }
     /**
      * @param string $sortingMethod
@@ -198,6 +185,34 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     /**
      * @return bool
      */
+    public function isNewlyListed(): bool
+    {
+        return $this->newlyListed;
+    }
+    /**
+     * @param bool $newlyListed
+     */
+    public function setNewlyListed(bool $newlyListed): void
+    {
+        $this->newlyListed = $newlyListed;
+    }
+    /**
+     * @return bool
+     */
+    public function isBestMatch(): bool
+    {
+        return $this->bestMatch;
+    }
+    /**
+     * @param bool $bestMatch
+     */
+    public function setBestMatch(bool $bestMatch): void
+    {
+        $this->bestMatch = $bestMatch;
+    }
+    /**
+     * @return bool
+     */
     public function isHighestPrice(): bool
     {
         return $this->highestPrice;
@@ -208,13 +223,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     public function setHighestPrice(bool $highestPrice): void
     {
         $this->highestPrice = $highestPrice;
-    }
-    /**
-     * @return bool
-     */
-    public function isBestMatch(): bool
-    {
-        return $this->sortingMethod === 'bestMatch';
     }
     /**
      * @return bool
@@ -372,13 +380,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->searchStores = $searchStores;
     }
     /**
-     * @return bool
-     */
-    public function isNewlyListed(): bool
-    {
-        return $this->sortingMethod === 'newlyListed';
-    }
-    /**
      * @return string
      */
     public function getSortingMethod(): string
@@ -398,8 +399,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     public function toArray(): iterable
     {
         return [
-            'watchCountIncrease' => $this->isWatchCountIncrease(),
-            'watchCountDecrease' => $this->isWatchCountDecrease(),
+            'bestMatch' => $this->isBestMatch(),
+            'newlyListed' => $this->isNewlyListed(),
             'keyword' => $this->getKeyword(),
             'lowestPrice' => $this->isLowestPrice(),
             'highestPrice' => $this->isHighestPrice(),

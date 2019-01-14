@@ -2,11 +2,20 @@
 
 namespace App\Component\Search\Ebay\Model\Request;
 
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Library\Infrastructure\Notation\ArrayNotationInterface;
 use App\Translation\Model\Language;
 
 class SearchModel implements SearchModelInterface, ArrayNotationInterface
 {
+    /**
+     * @var bool
+     */
+    private $bestMatch;
+    /**
+     * @var bool
+     */
+    private $newlyListed;
     /**
      * @var string $keyword
      */
@@ -66,19 +75,11 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     /**
      * @var string $sortingMethod
      */
-    private $sortingMethod = 'bestMatch';
+    private $sortingMethod = SortingMethod::BEST_MATCH;
     /**
      * @var bool $searchQueryFilter
      */
     private $searchQueryFilter = false;
-    /**
-     * @var bool
-     */
-    private $watchCountIncrease = false;
-    /**
-     * @var bool
-     */
-    private $watchCountDecrease = false;
     /**
      * SearchModel constructor.
      * @param Language $keyword
@@ -97,10 +98,12 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $searchStores
      * @param string $sortingMethod
      * @param bool $searchQueryFilter
-     * @param bool $watchCountIncrease
-     * @param bool $watchCountDecrease
+     * @param bool $bestMatch
+     * @param bool $newlyListed
      */
     public function __construct(
+        bool $bestMatch,
+        bool $newlyListed,
         Language $keyword,
         bool $lowestPrice,
         bool $highestPrice,
@@ -116,9 +119,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         bool $fixedPriceOnly,
         bool $searchStores,
         string $sortingMethod,
-        bool $searchQueryFilter,
-        bool $watchCountIncrease,
-        bool $watchCountDecrease
+        bool $searchQueryFilter
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -136,22 +137,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->searchStores = $searchStores;
         $this->sortingMethod = $sortingMethod;
         $this->searchQueryFilter = $searchQueryFilter;
-        $this->watchCountIncrease = $watchCountIncrease;
-        $this->watchCountDecrease = $watchCountDecrease;
-    }
-    /**
-     * @return bool
-     */
-    public function isWatchCountIncrease(): bool
-    {
-        return $this->watchCountIncrease;
-    }
-    /**
-     * @return bool
-     */
-    public function isWatchCountDecrease(): bool
-    {
-        return $this->watchCountDecrease;
+        $this->bestMatch = $bestMatch;
+        $this->newlyListed = $newlyListed;
     }
     /**
      * @return Language
@@ -179,7 +166,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     public function isNewlyListed(): bool
     {
-        return $this->sortingMethod === 'newlyListed';
+        return $this->newlyListed;
     }
     /**
      * @return bool
@@ -228,7 +215,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     public function isBestMatch(): bool
     {
-        return $this->sortingMethod === 'bestMatch';
+        return $this->bestMatch;
     }
     /**
      * @return string
@@ -285,8 +272,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     public function toArray(): iterable
     {
         return [
-            'watchCountIncrease' => $this->isWatchCountIncrease(),
-            'watchCountDecrease' => $this->isWatchCountDecrease(),
+            'bestMatch' => $this->isBestMatch(),
+            'newlyListed' => $this->isNewlyListed(),
             'keyword' => $this->getKeyword(),
             'lowestPrice' => $this->isLowestPrice(),
             'highestPrice' => $this->isHighestPrice(),
@@ -303,15 +290,14 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'searchStores' => $this->isSearchStores(),
             'sortingMethod' => $this->getSortingMethod(),
             'searchQueryFilter' => $this->isSearchQueryFilter(),
-            'watchCount' => $this->isWatchCount(),
         ];
     }
     /**
-     * @param SearchModel $model
-     * @return SearchModelInterface
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return SearchModelInterface|InternalSearchModel
      */
     public static function createInternalSearchModelFromSearchModel(
-        SearchModel $model
+        SearchModelInterface $model
     ): SearchModelInterface {
         $keyword = $model->getKeyword();
         $lowestPrice = $model->isLowestPrice();
@@ -329,10 +315,12 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $searchStores = $model->isSearchStores();
         $sortingMethod = $model->getSortingMethod();
         $searchQueryFilter = $model->isSearchQueryFilter();
-        $watchCountDecrease = $model->isWatchCountDecrease();
-        $watchCountIncrease = $model->isWatchCountIncrease();
+        $bestMatch = $model->isBestMatch();
+        $newlyListed = $model->isNewlyListed();
 
         return new InternalSearchModel(
+            $bestMatch,
+            $newlyListed,
             $keyword,
             $lowestPrice,
             $highestPrice,
@@ -348,9 +336,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $fixedPriceOnly,
             $searchStores,
             $sortingMethod,
-            $searchQueryFilter,
-            $watchCountIncrease,
-            $watchCountDecrease
+            $searchQueryFilter
         );
     }
 }

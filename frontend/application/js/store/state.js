@@ -14,8 +14,6 @@ export const defaultFilters = {
     fixedPrice: false,
     brandSearch: false,
     searchQueryFilter: false,
-    watchCountIncrease: false,
-    watchCountDecrease: false,
 };
 
 export const defaultSearchState = {

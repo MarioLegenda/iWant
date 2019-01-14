@@ -2,6 +2,8 @@
 
 namespace App\Symfony\Resolver;
 
+use App\Amazon\Library\ItemFilter\Sort;
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Component\Search\Ebay\Model\Request\Pagination;
 use App\Component\Search\Ebay\Model\Request\Range;
 use App\Component\Search\Ebay\Model\Request\SearchModel;
@@ -59,8 +61,12 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
         $globalId = $searchData['globalId'];
         $locale = $searchData['locale'];
         $internalPagination = $searchData['internalPagination'];
+        $bestMatch = $filters['sortingMethod'] === SortingMethod::BEST_MATCH;
+        $newlyListed = $filters['sortingMethod'] === SortingMethod::NEWLY_LISTED;
 
         $this->model = new SearchModel(
+            $bestMatch,
+            $newlyListed,
             new Language($keyword),
             $filters['lowestPrice'],
             $filters['highestPrice'],
@@ -76,8 +82,7 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['fixedPrice'],
             $filters['brandSearch'],
             $filters['sortingMethod'],
-            $filters['searchQueryFilter'],
-            $filters['watchCount']
+            $filters['searchQueryFilter']
         );
 
         return true;

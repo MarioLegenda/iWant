@@ -3,6 +3,7 @@ import {translationsMap} from "../translationMap";
 import {RepositoryFactory} from "../services/repositoryFactory";
 import {defaultFilters} from "./state";
 import {RESTORING_STATE_MODE, SAVED_STATE_MODE, STATE_RESTORE_MODE} from "./constants";
+import {sortingMethods, BEST_MATCH, NEWLY_LISTED} from "../Body/Search/SortingMethods";
 
 export const actions = {
     localeChangedAction(context, locale) {
@@ -14,8 +15,6 @@ export const actions = {
     },
 
     changeSortingMethod(context, method) {
-        const sortingMethods = ['bestMatch', 'newlyListed'];
-
         if (!sortingMethods.includes(method)) {
             throw new Error(`Invalid sorting method given. Expected ${sortingMethods.join(',')}, got ${method}`);
         }

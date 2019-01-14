@@ -6,6 +6,7 @@ use App\Cache\Implementation\KeywordTranslationCacheImplementation;
 use App\Cache\Implementation\SearchResponseCacheImplementation;
 use App\Component\Search\Ebay\Business\Cache\UniqueIdentifierFactory;
 use App\Component\Search\Ebay\Business\Filter\FilterApplierInterface;
+use App\Component\Search\Ebay\Business\Filter\SortingMethod;
 use App\Component\Search\Ebay\Business\ResponseFetcher\ResponseFetcher;
 use App\Component\Search\Ebay\Library\Exception\EbayEmptyResultException;
 use App\Component\Search\Ebay\Model\Request\InternalSearchModel;
@@ -14,14 +15,10 @@ use App\Component\Search\Ebay\Model\Request\SearchModelInterface;
 use App\Doctrine\Entity\KeywordTranslationCache;
 use App\Doctrine\Entity\SearchCache;
 use App\Ebay\Library\Component\ModifiedKeywordImplementation;
-use App\Library\Infrastructure\Helper\TypedArray;
 use App\Library\Representation\MainLocaleRepresentation;
-use App\Library\Util\TypedRecursion;
 use App\Translation\Model\Language;
 use App\Translation\Model\Translation;
 use App\Translation\TranslationCenter;
-use App\Translation\YandexCacheableTranslationCenter;
-use App\Translation\YandexTranslationCenter;
 
 class SingleSearchFetcher implements FetcherInterface
 {
@@ -90,6 +87,7 @@ class SingleSearchFetcher implements FetcherInterface
     public function getResults(SearchModelInterface $model, array $replacementData = []): iterable
     {
         $model = $this->translateKeywordsToEnglishIfRequired($model);
+        $model = $this->transformModelIfRequired($model);
 
         $identifier = UniqueIdentifierFactory::createIdentifier($model);
 
@@ -215,5 +213,26 @@ class SingleSearchFetcher implements FetcherInterface
         }
 
         return $presentationResults;
+    }
+
+    /**
+     * @param SearchModelInterface|SearchModel|InternalSearchModel $model
+     * @return SearchModelInterface
+     */
+    private function transformModelIfRequired(SearchModelInterface $model): SearchModelInterface
+    {
+        if (
+            $model->getSortingMethod() === SortingMethod::WATCH_COUNT_DECREASE or
+            $model->getSortingMethod() === SortingMethod::WATCH_COUNT_INCREASE
+        ) {
+            /** @var InternalSearchModel $internalSearchModel */
+            $internalSearchModel = SearchModel::createInternalSearchModelFromSearchModel($model);
+
+            $internalSearchModel->setBestMatch(true);
+
+            return $internalSearchModel;
+        }
+
+        return $model;
     }
 }
