@@ -2005,6 +2005,11 @@ html {
   .SearchItems .LoadMoreWrapper .LoadMoreButton {
     width: 97%;
   }
+  .SearchItems .SortingWrapper {
+    width: 100% !important;
+    float: left !important;
+    margin: 30px 0 30px 0;
+  }
 
   .tooltip .tooltip-inner {
     width: 97% !important;
