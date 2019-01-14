@@ -183,6 +183,10 @@ class BatchAddBusinessEntity extends BaseCommand
         [
             'name' => 'hausundgarten',
             'globalId' => 'EBAY-DE',
+        ],
+        [
+            'name' => 'cooperativeelectrical',
+            'globalId' => 'EBAY-GB',
         ]
     ];
     /**

@@ -9,7 +9,7 @@ use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Library\Model\ShoppingApiRequestModelInterface;
 use App\Ebay\Library\Response\ResponseModelInterface;
 use App\Ebay\Library\Response\ShoppingApi\GetUserProfileResponseInterface;
-use App\Ebay\Library\Response\ShoppingApi\ResponseItem\UserItem;
+use App\Ebay\Library\Response\ShoppingApi\Json\User\User;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\Query;
 use App\Ebay\Presentation\ShoppingApi\Model\ShoppingApiModel;
@@ -76,7 +76,7 @@ class AddBusinessEntity extends BaseCommand
         /** @var GetUserProfileResponseInterface|ResponseModelInterface $response */
         $response = $this->finder->getUserProfile($shoppingApiModel);
 
-        if ($response->isErrorResponse()) {
+        if (!$response->getRoot()->isSuccess()) {
             $message = sprintf(
                 '<error>Request failed with response %s</error>',
                 $response->getRawResponse()
@@ -172,12 +172,12 @@ class AddBusinessEntity extends BaseCommand
         }
     }
     /**
-     * @param UserItem $userItem
+     * @param User $userItem
      * @param string $globalId
      * @return EbayBusinessEntity
      */
     private function createEbayBusinessEntity(
-        UserItem $userItem,
+        User $userItem,
         string $globalId
     ): EbayBusinessEntity {
         return new EbayBusinessEntity(
