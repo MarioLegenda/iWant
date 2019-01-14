@@ -9,6 +9,7 @@ use App\Doctrine\Entity\EbayBusinessEntity;
 use App\Doctrine\Repository\EbayBusinessEntityRepository;
 use App\Ebay\Library\Information\GlobalIdInformation;
 use App\Ebay\Presentation\FindingApi\Model\FindingApiModel;
+use App\Ebay\Presentation\FindingApi\Model\FindItemsAdvanced;
 use App\Ebay\Presentation\FindingApi\Model\FindItemsByKeywords;
 use App\Ebay\Presentation\Model\ItemFilter;
 use App\Ebay\Presentation\Model\ItemFilterMetadata;
@@ -67,7 +68,7 @@ class EbayModelFactory
             ], $itemFilters);
             $this->createSortOrder($model, $itemFilters);
 
-            $findItemsInEbayStores = new FindItemsByKeywords($queries);
+            $findItemsInEbayStores = new FindItemsAdvanced($queries);
 
             $findingApiModels[] = new FindingApiModel($findItemsInEbayStores, $itemFilters);
         }

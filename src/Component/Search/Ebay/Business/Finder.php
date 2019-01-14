@@ -48,7 +48,7 @@ class Finder
 
         /** @var FindingApiModel $model */
         foreach ($findingApiModels as $model) {
-            $responses[] = $this->findingApiEntryPoint->findItemsByKeywords($model);
+            $responses[] = $this->findingApiEntryPoint->findItemsAdvanced($model);
         }
 
         return $responses;

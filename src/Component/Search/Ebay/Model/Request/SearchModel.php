@@ -72,6 +72,10 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      */
     private $searchQueryFilter = false;
     /**
+     * @var bool
+     */
+    private $watchCount = false;
+    /**
      * SearchModel constructor.
      * @param Language $keyword
      * @param bool $lowestPrice
@@ -89,6 +93,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $searchStores
      * @param string $sortingMethod
      * @param bool $searchQueryFilter
+     * @param bool $watchCount
      */
     public function __construct(
         Language $keyword,
@@ -106,7 +111,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         bool $fixedPriceOnly,
         bool $searchStores,
         string $sortingMethod,
-        bool $searchQueryFilter
+        bool $searchQueryFilter,
+        bool $watchCount
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -124,6 +130,14 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->searchStores = $searchStores;
         $this->sortingMethod = $sortingMethod;
         $this->searchQueryFilter = $searchQueryFilter;
+        $this->watchCount = $watchCount;
+    }
+    /**
+     * @return bool
+     */
+    public function isWatchCount(): bool
+    {
+        return $this->watchCount;
     }
     /**
      * @return Language
@@ -273,6 +287,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             'searchStores' => $this->isSearchStores(),
             'sortingMethod' => $this->getSortingMethod(),
             'searchQueryFilter' => $this->isSearchQueryFilter(),
+            'watchCount' => $this->isWatchCount(),
         ];
     }
     /**
@@ -298,6 +313,7 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $searchStores = $model->isSearchStores();
         $sortingMethod = $model->getSortingMethod();
         $searchQueryFilter = $model->isSearchQueryFilter();
+        $watchCount = $model->isWatchCount();
 
         return new InternalSearchModel(
             $keyword,
@@ -315,7 +331,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $fixedPriceOnly,
             $searchStores,
             $sortingMethod,
-            $searchQueryFilter
+            $searchQueryFilter,
+            $watchCount
         );
     }
 }

@@ -76,7 +76,8 @@ class EbaySearchModelResolver implements ArgumentValueResolverInterface
             $filters['fixedPrice'],
             $filters['brandSearch'],
             $filters['sortingMethod'],
-            $filters['searchQueryFilter']
+            $filters['searchQueryFilter'],
+            $filters['watchCount']
         );
 
         return true;

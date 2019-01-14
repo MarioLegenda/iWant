@@ -63,6 +63,10 @@ class FetcherFactory
     {
         $chosenFetcher = ($model->isDoubleLocaleSearch()) ? $this->doubleLocaleSearchFetcher : $this->singleResultFetcher;
 
+        if ($model->isWatchCount()) {
+            $this->filterApplier->add($this->filterResolver->getWatchCountFilter());
+        }
+
         if ($model->isSearchQueryFilter()) {
             $searchQueryRegexFilter = $this->filterResolver->getSearchQueryRegexFilter();
 

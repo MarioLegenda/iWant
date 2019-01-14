@@ -23,6 +23,7 @@ class UniqueIdentifierFactory
             'doubleLocaleSearch' => $model->isDoubleLocaleSearch(),
             'searchStores' => $model->isSearchStores(),
             'newlyListed' => $model->isNewlyListed(),
+            'watchCount' => $model->isWatchCount(),
         ]));
     }
 }

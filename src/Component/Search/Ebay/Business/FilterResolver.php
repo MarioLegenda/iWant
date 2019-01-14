@@ -6,6 +6,7 @@ use App\Component\Search\Ebay\Business\Filter\FixedPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\SearchQueryRegexFilter;
+use App\Component\Search\Ebay\Business\Filter\WatchCountFilter;
 
 class FilterResolver
 {
@@ -26,22 +27,36 @@ class FilterResolver
      */
     private $searchQueryRegexFilter;
     /**
+     * @var WatchCountFilter $watchCountFilter
+     */
+    private $watchCountFilter;
+    /**
      * FilterResolver constructor.
      * @param HighestPriceFilter $highestPriceFilter
      * @param LowestPriceFilter $lowestPriceFilter
      * @param SearchQueryRegexFilter $searchQueryRegexFilter
      * @param FixedPriceFilter $fixedPriceFilter
+     * @param WatchCountFilter $watchCountFilter
      */
     public function __construct(
         HighestPriceFilter $highestPriceFilter,
         LowestPriceFilter $lowestPriceFilter,
         SearchQueryRegexFilter $searchQueryRegexFilter,
-        FixedPriceFilter $fixedPriceFilter
+        FixedPriceFilter $fixedPriceFilter,
+        WatchCountFilter $watchCountFilter
     ) {
         $this->highestPriceFilter = $highestPriceFilter;
         $this->lowestPriceFilter = $lowestPriceFilter;
         $this->searchQueryRegexFilter = $searchQueryRegexFilter;
         $this->fixedPriceFilter = $fixedPriceFilter;
+        $this->watchCountFilter = $watchCountFilter;
+    }
+    /**
+     * @return WatchCountFilter
+     */
+    public function getWatchCountFilter(): WatchCountFilter
+    {
+        return $this->watchCountFilter;
     }
     /**
      * @return HighestPriceFilter

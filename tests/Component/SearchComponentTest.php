@@ -161,6 +161,7 @@ class SearchComponentTest extends BasicSetup
             'doubleLocaleSearch' => false,
             'fixedPrice' => false,
             'shippingCountries' => [],
+            'watchCount' => true,
         ];
 
         /** @var SearchModel $model */
@@ -218,6 +219,61 @@ class SearchComponentTest extends BasicSetup
             }
 
             if ($previous > $current) {
+                throw new \RuntimeException(sprintf(
+                    'Failed asserting that %f is less or equal to %f',
+                    $previous,
+                    $current
+                ));
+            }
+        }
+    }
+
+    public function test_watch_count_filter()
+    {
+        /** @var SearchComponent $searchComponent */
+        $searchComponent = $this->locator->get(SearchComponent::class);
+        /** @var DataProvider $dataProvider */
+        $dataProvider = $this->locator->get('data_provider.component');
+
+        $modelArray = [
+            'keyword' => 'iphone 7',
+            'locale' => 'en',
+            'lowestPrice' => false,
+            'highQuality' => false,
+            'highestPrice' => false,
+            'globalId' => 'EBAY-FR',
+            'internalPagination' => new Pagination(80, 1),
+            'pagination' => new Pagination(8, 2),
+            'hideDuplicateItems' => false,
+            'doubleLocaleSearch' => false,
+            'fixedPrice' => false,
+            'watchCount' => true,
+        ];
+
+        /** @var SearchModel $model */
+        $model = $dataProvider->createEbaySearchRequestModel($modelArray);
+
+        $searchComponent->saveProducts($model);
+
+        $products = $searchComponent->getProductsPaginated($model);
+
+        static::assertEquals(count($products), $model->getPagination()->getLimit());
+
+        $productsGen = Util::createGenerator($products);
+
+        $previous = null;
+        foreach ($productsGen as $entry) {
+            $item = $entry['item'];
+            $key = $entry['key'];
+            $current = (float) $item['listingInfo']['watchCount'];
+
+            if ($key === 0) {
+                $previous = (float) $item['listingInfo']['watchCount'];
+
+                continue;
+            }
+
+            if ($previous < $current) {
                 throw new \RuntimeException(sprintf(
                     'Failed asserting that %f is less or equal to %f',
                     $previous,
