@@ -40,7 +40,8 @@ class DataProvider
         $searchQueryFilter = (isset($data['searchQueryFilter'])) ? $data['searchQueryFilter'] : false;
 
         $sortingMethod = (isset($data['sortingMethod'])) ? $data['sortingMethod'] : 'bestMatch';
-        $watchCount = (isset($data['watchCount'])) ? $data['watchCount'] : false;
+        $watchCountIncrease = (isset($data['watchCountIncrease'])) ? $data['watchCountIncrease'] : false;
+        $watchCountDecrease = (isset($data['watchCountDecrease'])) ? $data['watchCountDecrease'] : false;
 
         return new EbaySearchModel(
             $keyword,
@@ -59,7 +60,8 @@ class DataProvider
             $searchStores,
             $sortingMethod,
             $searchQueryFilter,
-            $watchCount
+            $watchCountIncrease,
+            $watchCountDecrease
         );
     }
 }

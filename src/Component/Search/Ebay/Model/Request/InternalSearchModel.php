@@ -74,7 +74,11 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     /**
      * @var bool
      */
-    private $watchCount;
+    private $watchCountIncrease;
+    /**
+     * @var bool
+     */
+    private $watchCountDecrease;
     /**
      * SearchModel constructor.
      * @param Language $keyword
@@ -93,7 +97,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
      * @param bool $isSearchStores
      * @param string $sortingMethod
      * @param bool $searchQueryFilter
-     * @param bool $watchCount
+     * @param bool $watchCountDecrease
+     * @param bool $watchCountIncrease
      */
     public function __construct(
         Language $keyword,
@@ -112,7 +117,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         bool $isSearchStores,
         string $sortingMethod,
         bool $searchQueryFilter,
-        bool $watchCount
+        bool $watchCountIncrease,
+        bool $watchCountDecrease
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -130,7 +136,22 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
         $this->searchStores = $isSearchStores;
         $this->sortingMethod = $sortingMethod;
         $this->searchQueryFilter = $searchQueryFilter;
-        $this->watchCount = $watchCount;
+        $this->watchCountDecrease = $watchCountDecrease;
+        $this->watchCountIncrease = $watchCountIncrease;
+    }
+    /**
+     * @return bool
+     */
+    public function isWatchCountIncrease(): bool
+    {
+        return $this->watchCountIncrease;
+    }
+    /**
+     * @return bool
+     */
+    public function isWatchCountDecrease(): bool
+    {
+        return $this->watchCountDecrease;
     }
     /**
      * @param string $sortingMethod
@@ -145,20 +166,6 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     public function setSearchQueryFilter(bool $searchQueryFilter): void
     {
         $this->searchQueryFilter = $searchQueryFilter;
-    }
-    /**
-     * @param bool $watchCount
-     */
-    public function setWatchCount(bool $watchCount): void
-    {
-        $this->watchCount = $watchCount;
-    }
-    /**
-     * @return bool
-     */
-    public function isWatchCount(): bool
-    {
-        return $this->watchCount;
     }
     /**
      * @return Language
@@ -391,6 +398,8 @@ class InternalSearchModel implements SearchModelInterface, ArrayNotationInterfac
     public function toArray(): iterable
     {
         return [
+            'watchCountIncrease' => $this->isWatchCountIncrease(),
+            'watchCountDecrease' => $this->isWatchCountDecrease(),
             'keyword' => $this->getKeyword(),
             'lowestPrice' => $this->isLowestPrice(),
             'highestPrice' => $this->isHighestPrice(),

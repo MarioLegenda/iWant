@@ -99,15 +99,7 @@ class SingleSearchFetcher implements FetcherInterface
 
             $presentationResultsArray =  json_decode($presentationResults->getProductsResponse(), true);
 
-            if (empty($presentationResultsArray)) {
-                throw new EbayEmptyResultException($model);
-            }
-
-            if ($this->filterApplier instanceof FilterApplierInterface) {
-                return $this->filterApplier->apply($presentationResultsArray);
-            }
-
-            return $presentationResultsArray;
+            return $this->makeFinalProcessing($presentationResultsArray, $model);
         }
 
         $presentationResultsArray = $this->getFreshResults($model, $identifier);
@@ -118,15 +110,7 @@ class SingleSearchFetcher implements FetcherInterface
             count($presentationResultsArray)
         );
 
-        if (empty($presentationResultsArray)) {
-            throw new EbayEmptyResultException($model);
-        }
-
-        if ($this->filterApplier instanceof FilterApplierInterface) {
-            return $this->filterApplier->apply($presentationResultsArray);
-        }
-
-        return $presentationResultsArray;
+        return $this->makeFinalProcessing($presentationResultsArray, $model);
     }
     /**
      * @param FilterApplierInterface $filterApplier
@@ -150,7 +134,6 @@ class SingleSearchFetcher implements FetcherInterface
      * @param SearchModelInterface|SearchModel|InternalSearchModel $model
      * @return SearchModelInterface
      * @throws \App\Cache\Exception\CacheException
-     * @throws \App\Symfony\Exception\ExternalApiNativeException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -214,5 +197,23 @@ class SingleSearchFetcher implements FetcherInterface
         );
 
         throw new \RuntimeException($message);
+    }
+    /**
+     * @param array $presentationResults
+     * @param SearchModelInterface $model
+     * @return array
+     * @throws EbayEmptyResultException
+     */
+    private function makeFinalProcessing(array $presentationResults, SearchModelInterface $model): array
+    {
+        if (empty($presentationResults)) {
+            throw new EbayEmptyResultException($model);
+        }
+
+        if ($this->filterApplier instanceof FilterApplierInterface) {
+            return $this->filterApplier->apply($presentationResults);
+        }
+
+        return $presentationResults;
     }
 }

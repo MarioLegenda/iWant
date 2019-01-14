@@ -41,5 +41,14 @@ class SearchModelValidator
 
             throw new \RuntimeException($message);
         }
+
+        if ($model->isWatchCountIncrease() and $model->isWatchCountDecrease()) {
+            $message = sprintf(
+                'Invalid model. %s cannot have both properties watchCountIncrease and watchCountDecrease set to true',
+                get_class($this)
+            );
+
+            throw new \RuntimeException($message);
+        }
     }
 }

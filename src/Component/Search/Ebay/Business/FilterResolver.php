@@ -6,7 +6,9 @@ use App\Component\Search\Ebay\Business\Filter\FixedPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\HighestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\LowestPriceFilter;
 use App\Component\Search\Ebay\Business\Filter\SearchQueryRegexFilter;
+use App\Component\Search\Ebay\Business\Filter\WatchCountDecreaseFilter;
 use App\Component\Search\Ebay\Business\Filter\WatchCountFilter;
+use App\Component\Search\Ebay\Business\Filter\WatchCountIncreaseFilter;
 
 class FilterResolver
 {
@@ -27,36 +29,50 @@ class FilterResolver
      */
     private $searchQueryRegexFilter;
     /**
-     * @var WatchCountFilter $watchCountFilter
+     * @var WatchCountIncreaseFilter $watchCountIncreaseFilter
      */
-    private $watchCountFilter;
+    private $watchCountIncreaseFilter;
+    /**
+     * @var WatchCountDecreaseFilter $watchCountDecreaseFilter
+     */
+    private $watchCountDecreaseFilter;
     /**
      * FilterResolver constructor.
      * @param HighestPriceFilter $highestPriceFilter
      * @param LowestPriceFilter $lowestPriceFilter
      * @param SearchQueryRegexFilter $searchQueryRegexFilter
      * @param FixedPriceFilter $fixedPriceFilter
-     * @param WatchCountFilter $watchCountFilter
+     * @param WatchCountIncreaseFilter $watchCountIncreaseFilter
+     * @param WatchCountDecreaseFilter $watchCountDecreaseFilter
      */
     public function __construct(
         HighestPriceFilter $highestPriceFilter,
         LowestPriceFilter $lowestPriceFilter,
         SearchQueryRegexFilter $searchQueryRegexFilter,
         FixedPriceFilter $fixedPriceFilter,
-        WatchCountFilter $watchCountFilter
+        WatchCountIncreaseFilter $watchCountIncreaseFilter,
+        WatchCountDecreaseFilter $watchCountDecreaseFilter
     ) {
         $this->highestPriceFilter = $highestPriceFilter;
         $this->lowestPriceFilter = $lowestPriceFilter;
         $this->searchQueryRegexFilter = $searchQueryRegexFilter;
         $this->fixedPriceFilter = $fixedPriceFilter;
-        $this->watchCountFilter = $watchCountFilter;
+        $this->watchCountIncreaseFilter = $watchCountIncreaseFilter;
+        $this->watchCountDecreaseFilter = $watchCountDecreaseFilter;
     }
     /**
-     * @return WatchCountFilter
+     * @return WatchCountIncreaseFilter
      */
-    public function getWatchCountFilter(): WatchCountFilter
+    public function getWatchCountIncreaseFilter(): WatchCountIncreaseFilter
     {
-        return $this->watchCountFilter;
+        return $this->watchCountIncreaseFilter;
+    }
+    /**
+     * @return WatchCountDecreaseFilter
+     */
+    public function getWatchCountDecreaseFilter(): WatchCountDecreaseFilter
+    {
+        return $this->watchCountDecreaseFilter;
     }
     /**
      * @return HighestPriceFilter

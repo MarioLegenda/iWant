@@ -74,7 +74,11 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     /**
      * @var bool
      */
-    private $watchCount = false;
+    private $watchCountIncrease = false;
+    /**
+     * @var bool
+     */
+    private $watchCountDecrease = false;
     /**
      * SearchModel constructor.
      * @param Language $keyword
@@ -93,7 +97,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
      * @param bool $searchStores
      * @param string $sortingMethod
      * @param bool $searchQueryFilter
-     * @param bool $watchCount
+     * @param bool $watchCountIncrease
+     * @param bool $watchCountDecrease
      */
     public function __construct(
         Language $keyword,
@@ -112,7 +117,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         bool $searchStores,
         string $sortingMethod,
         bool $searchQueryFilter,
-        bool $watchCount
+        bool $watchCountIncrease,
+        bool $watchCountDecrease
     ) {
         $this->keyword = $keyword;
         $this->lowestPrice = $lowestPrice;
@@ -130,14 +136,22 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $this->searchStores = $searchStores;
         $this->sortingMethod = $sortingMethod;
         $this->searchQueryFilter = $searchQueryFilter;
-        $this->watchCount = $watchCount;
+        $this->watchCountIncrease = $watchCountIncrease;
+        $this->watchCountDecrease = $watchCountDecrease;
     }
     /**
      * @return bool
      */
-    public function isWatchCount(): bool
+    public function isWatchCountIncrease(): bool
     {
-        return $this->watchCount;
+        return $this->watchCountIncrease;
+    }
+    /**
+     * @return bool
+     */
+    public function isWatchCountDecrease(): bool
+    {
+        return $this->watchCountDecrease;
     }
     /**
      * @return Language
@@ -271,6 +285,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
     public function toArray(): iterable
     {
         return [
+            'watchCountIncrease' => $this->isWatchCountIncrease(),
+            'watchCountDecrease' => $this->isWatchCountDecrease(),
             'keyword' => $this->getKeyword(),
             'lowestPrice' => $this->isLowestPrice(),
             'highestPrice' => $this->isHighestPrice(),
@@ -313,7 +329,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
         $searchStores = $model->isSearchStores();
         $sortingMethod = $model->getSortingMethod();
         $searchQueryFilter = $model->isSearchQueryFilter();
-        $watchCount = $model->isWatchCount();
+        $watchCountDecrease = $model->isWatchCountDecrease();
+        $watchCountIncrease = $model->isWatchCountIncrease();
 
         return new InternalSearchModel(
             $keyword,
@@ -332,7 +349,8 @@ class SearchModel implements SearchModelInterface, ArrayNotationInterface
             $searchStores,
             $sortingMethod,
             $searchQueryFilter,
-            $watchCount
+            $watchCountIncrease,
+            $watchCountDecrease
         );
     }
 }
