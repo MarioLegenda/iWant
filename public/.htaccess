@@ -66,3 +66,6 @@ DirectoryIndex index.php
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
+
+Header set X-XSS-Protection "1"
+Header set X-Content-Type-Options "nosniff"

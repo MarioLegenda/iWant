@@ -3,6 +3,7 @@ import {routes} from "../apiRoutes";
 const requiredHeaders = {
     'X-Requested-With': 'XMLHttpRequest',
     'HTTP-API-I-WOULD-LIKE': 'api',
+    'X-Frame-Options': 'deny',
 };
 
 function checkStatus(response) {
