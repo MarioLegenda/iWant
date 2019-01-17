@@ -253,10 +253,10 @@
     border-bottom: 1px solid $lightestGray;
 
     .SiteName {
-      width: 200px;
+      width: 400px;
       float: left;
 
-      img {
+      .CountryIcon {
         display: block;
         width: 30px;
         height: 30px;
@@ -265,10 +265,17 @@
         margin: 0 30px 0 0;
       }
 
-      h1 {
+      .GlobalIdTitle {
         display: inline-block;
         float: left;
         margin-top: 5px;
+      }
+
+      .RightNowOnEbayImage {
+        display: inline-block;
+        float: left;
+        margin-top: 5px;
+        margin-left: 20px;
       }
     }
 

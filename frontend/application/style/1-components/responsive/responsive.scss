@@ -74,7 +74,7 @@
 
     .SingleItem {
       .RightPanel, .LeftPanel {
-        width: 480;
+        width: 480px;
         float: none;
         overflow: hidden;
         margin: 0 auto;
@@ -92,6 +92,13 @@
 
       margin: 0 auto;
     }
+  }
+
+  .SortingWrapper {
+    width: 100% !important;
+    float: left !important;
+
+    margin: 30px 0 30px 0;
   }
 }
 

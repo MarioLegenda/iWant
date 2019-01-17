@@ -225,8 +225,10 @@ const ListingAction = {
     template: `
             <div class="ListingActionWrapper">
                <div class="SiteName">
-                   <img :src="decideImage()" />
-                   <h1>{{decideTitle()}}</h1>
+                   <img class="CountryIcon" :src="decideImage()" />
+                   <h1 class="GlobalIdTitle">{{decideTitle()}}</h1>
+                   
+                   <img class="RightNowOnEbayImage" :src="decideEbayImage()" />
                </div>
                
                <sorting v-on:sorting-method-changed="sortingMethodChanged"></sorting>
@@ -246,6 +248,23 @@ const ListingAction = {
         sortingMethodChanged(sortingMethod) {
             this.$store.dispatch('changeSortingMethod', sortingMethod);
         },
+
+        decideEbayImage() {
+            const supportedImgs = ['en', 'fr', 'it', 'de', 'es'];
+            const locale = this.$localeInfo.locale;
+
+            if (!supportedImgs.includes(locale)) {
+                return `/images/ebay/right_now_on_ebay/en/main_image.gif`;
+            }
+
+            if (locale === 'es') {
+                return `/images/ebay/right_now_on_ebay/${locale}/main_image.png`;
+            }
+
+            if (supportedImgs.includes(locale)) {
+                return `/images/ebay/right_now_on_ebay/${locale}/main_image.gif`;
+            }
+        }
     },
     components: {
         'sorting': SortModal,
