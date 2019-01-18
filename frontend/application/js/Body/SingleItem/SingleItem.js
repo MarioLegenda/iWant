@@ -63,7 +63,7 @@ export const SingleItem = {
                             <div class="NameValueContainerWrapper">
                                 <name-value-container
                                     v-bind:name="translationsMap.productPage.handlingTime"
-                                    v-bind:value="translationsMap.productPage.handlingTimeDescription | replace(item.handlingTime)">
+                                    v-bind:value="decideHandlingTimeDesc(item.handlingTime) | replace(item.handlingTime)">
                                 </name-value-container>
                             </div>
                             
@@ -181,6 +181,20 @@ export const SingleItem = {
                 return pictureUrl[0];
             }
         },
+
+        decideHandlingTimeDesc(handlingTime) {
+            if (isNumber(handlingTime)) {
+                if (handlingTime !== 0) {
+                    return this.translationsMap.productPage.handlingTimeDescription
+                }
+
+                if (handlingTime === 0) {
+                    return this.translationsMap.productPage.handlingTimeImmediately;
+                }
+            }
+
+            return this.translationsMap.productPage.handlingTimeUndefined;
+        }
     },
     filters: {
         replace: function(messageString, ...replacements) {

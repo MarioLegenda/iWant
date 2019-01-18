@@ -315,9 +315,9 @@ class Item implements ArrayNotationInterface
 
         $this->seller = new SellerInfo(
             $this->seller['UserID'],
-            $this->seller['FeedbackRatingStar'],
             $this->seller['FeedbackScore'],
             $this->seller['PositiveFeedbackPercent'],
+            $this->seller['FeedbackRatingStar'],
             null
         );
 
@@ -533,6 +533,7 @@ class Item implements ArrayNotationInterface
             'seller' => ($this->getSeller() instanceof SellerInfo) ? $this->getSeller()->toArray() : null,
             'bidCount' => $this->getBidCount(),
             'shipToLocations' => $this->getShipsToLocations(),
+            'handlingTime' => $this->getHandlingTime(),
         ];
     }
 }
